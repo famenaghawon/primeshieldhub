@@ -1,0 +1,2513 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-theme="quantum-dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="Quantum Checkout â€” Secure payment gateway with Paystack integration">
+    <meta name="theme-color" content="#030305">
+    <title>Quantum Checkout | PrimeShieldHub</title>
+    <link rel="canonical" href="https://primeshieldhub.com/checkout">
+    <link rel="icon" href="/company_logo.png">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================================================================ */
+        /* QUANTUM CHECKOUT - ULTRA MODERN DESIGN                          */
+        /* ================================================================ */
+
+        :root {
+            --bg-deep: #020203;
+            --bg-primary: #050508;
+            --bg-elevated: #0a0a10;
+            --bg-card: #0e0e17;
+            --bg-card-hover: #151520;
+            --bg-input: #09090f;
+            --bg-glass: rgba(14, 14, 23, 0.85);
+            
+            --gold-soft: #b8943e;
+            --gold-core: #d4af37;
+            --gold-bright: #f0d268;
+            --gold-light: #fae9a0;
+            
+            --gold-glow-subtle: rgba(212, 175, 55, 0.04);
+            --gold-glow-medium: rgba(212, 175, 55, 0.15);
+            --gold-glow-strong: rgba(212, 175, 55, 0.25);
+            --gold-border-subtle: rgba(212, 175, 55, 0.1);
+            --gold-border: rgba(212, 175, 55, 0.22);
+            --gold-border-bright: rgba(212, 175, 55, 0.4);
+            
+            --success: #00f0a0;
+            --success-glow: rgba(0, 240, 160, 0.18);
+            --warning: #ffb347;
+            --danger: #ff3860;
+            --danger-glow: rgba(255, 56, 96, 0.18);
+            --info: #5d8aff;
+            --info-glow: rgba(93, 138, 255, 0.18);
+            --purple: #a855f7;
+            --purple-glow: rgba(168, 85, 247, 0.18);
+            --cyan: #22d3ee;
+            --cyan-glow: rgba(34, 211, 238, 0.18);
+            
+            --text-primary: #f5f4ea;
+            --text-secondary: #b8b7ad;
+            --text-muted: #7a7970;
+            --text-inverse: #020203;
+            
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            
+            --radius-xs: 8px;
+            --radius-sm: 14px;
+            --radius-md: 20px;
+            --radius-lg: 28px;
+            --radius-xl: 36px;
+            --radius-full: 50%;
+            
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration-fast: 0.28s;
+            --duration-medium: 0.45s;
+            --duration-slow: 0.6s;
+            
+            --header-height: 72px;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: 
+                radial-gradient(ellipse 70% 45% at 5% 0%, rgba(212, 175, 55, 0.04) 0%, transparent 60%),
+                radial-gradient(ellipse 55% 35% at 95% 100%, rgba(212, 175, 55, 0.03) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: 
+                radial-gradient(rgba(212, 175, 55, 0.025) 1px, transparent 1px);
+            background-size: 44px 44px;
+            pointer-events: none;
+            z-index: -1;
+            mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 12%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 12%, transparent 70%);
+        }
+
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--gold-soft), var(--gold-bright)); border-radius: 4px; }
+        ::selection { background: var(--gold-glow-strong); color: var(--text-primary); }
+
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+        .section { padding: 60px 0; }
+        .gold-gradient { background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .flex { display: flex; }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
+        .gap-2 { gap: 8px; }
+        .gap-4 { gap: 16px; }
+        .gap-6 { gap: 24px; }
+        .mt-4 { margin-top: 16px; }
+        .mb-4 { margin-bottom: 16px; }
+        .mb-6 { margin-bottom: 24px; }
+        .w-full { width: 100%; }
+        .text-center { text-align: center; }
+        .text-muted { color: var(--text-muted); }
+        .relative { position: relative; }
+
+        .page-header {
+            padding: 16px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            background: rgba(5, 5, 8, 0.92);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            height: var(--header-height);
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+            flex-wrap: wrap;
+            gap: 16px;
+            height: 100%;
+        }
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+            filter: drop-shadow(0 0 12px var(--gold-glow-medium));
+        }
+        .header-brand img {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gold-border);
+            transition: transform var(--duration-fast) var(--ease-out-expo);
+        }
+        .header-brand:hover img { transform: scale(1.05) rotate(-2deg); }
+        .header-brand-text {
+            font-family: var(--font-mono);
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            letter-spacing: 0.05em;
+        }
+        .header-brand-text span { color: var(--gold-core); }
+        .header-nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .header-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.78rem;
+            font-family: var(--font-mono);
+            font-weight: 500;
+            transition: all var(--duration-fast);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            border-radius: var(--radius-sm);
+            position: relative;
+        }
+        .header-link:hover,
+        .header-link.active {
+            color: var(--gold-core);
+            background: var(--gold-glow-subtle);
+        }
+        .header-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 12px;
+            right: 12px;
+            height: 2px;
+            background: var(--gold-core);
+            border-radius: 2px;
+        }
+
+        .header-actions { display: flex; align-items: center; gap: 16px; }
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-full);
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-inverse);
+            transition: all var(--duration-fast);
+            border: 2px solid var(--gold-border);
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+        .user-avatar:hover { transform: scale(1.05); border-color: var(--gold-border-bright); box-shadow: 0 0 20px var(--gold-glow-medium); }
+
+        .dropdown-menu {
+            position: absolute;
+            right: 0;
+            top: 50px;
+            background: var(--bg-card);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-md);
+            padding: 8px 0;
+            min-width: 200px;
+            display: none;
+            z-index: 101;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+        .dropdown-menu.open { display: block; animation: fadeSlideDown 0.3s var(--ease-out-expo); }
+        @keyframes fadeSlideDown { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+
+        .dropdown-menu .dropdown-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 20px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all var(--duration-fast);
+            background: none;
+            border: none;
+            width: 100%;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            text-align: left;
+        }
+        .dropdown-menu .dropdown-item:hover { background: var(--gold-glow-subtle); color: var(--gold-core); }
+        .dropdown-menu .dropdown-item i { width: 18px; color: var(--gold-core); }
+        .dropdown-menu .divider { height: 1px; background: rgba(255,255,255,0.05); margin: 4px 0; }
+        .dropdown-menu .dropdown-item.danger { color: var(--danger); }
+        .dropdown-menu .dropdown-item.danger:hover { background: var(--danger-glow); color: var(--danger); }
+        .dropdown-menu .dropdown-item.danger i { color: var(--danger); }
+
+        .user-menu { position: relative; cursor: pointer; }
+
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1.4fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        .card-static {
+            background: var(--bg-glass);
+            border: 1px solid var(--gold-border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.6), inset 0 1px 0 rgba(255,255,255,0.03);
+            position: relative;
+            overflow: hidden;
+        }
+        .card-static::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-core), transparent);
+            opacity: 0.3;
+        }
+
+        .form-group { margin-bottom: 18px; position: relative; }
+        .form-label {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-family: var(--font-mono);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .form-input, .form-textarea, .form-select {
+            width: 100%;
+            padding: 12px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--gold-border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            transition: all 0.3s var(--ease-out-expo);
+            font-family: var(--font-sans);
+            box-shadow: inset 0 2px 8px rgba(0,0,0,0.4);
+        }
+        .form-input:focus, .form-textarea:focus, .form-select:focus {
+            border-color: var(--gold-border-bright);
+            box-shadow: 0 0 0 4px var(--gold-glow-subtle), 0 0 25px rgba(212, 175, 55, 0.1);
+            background: #0c0c14;
+        }
+        .form-textarea { resize: vertical; min-height: 80px; }
+
+        /* ===== TOGGLE ROW ===== */
+        .toggle-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .toggle-row:last-child { border-bottom: none; }
+        .toggle-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .toggle-label i { color: var(--gold-core); }
+        .toggle-sublabel {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 44px;
+            height: 24px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: var(--bg-input);
+            border: 1px solid var(--gold-border-subtle);
+            border-radius: 24px;
+            transition: 0.3s;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 2px;
+            bottom: 2px;
+            background: var(--text-muted);
+            border-radius: 50%;
+            transition: 0.3s;
+        }
+        input:checked + .slider {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: var(--gold-core);
+        }
+        input:checked + .slider:before {
+            transform: translateX(20px);
+            background: var(--gold-core);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .order-item:last-child { border-bottom: none; }
+        .order-item .item-name { font-size: 0.85rem; }
+        .order-item .item-price { font-family: var(--font-mono); color: var(--gold-core); }
+        .order-item .item-qty {
+            color: var(--text-muted);
+            font-size: 0.7rem;
+            font-family: var(--font-mono);
+        }
+        .order-item .item-wholesale {
+            font-size: 0.65rem;
+            color: var(--success);
+            background: var(--success-glow);
+            padding: 2px 8px;
+            border-radius: 10px;
+        }
+        .order-subtotal {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0 8px;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .order-total {
+            display: flex;
+            justify-content: space-between;
+            padding: 16px 0 8px;
+            border-top: 2px solid var(--gold-border);
+            margin-top: 8px;
+        }
+        .order-total .total-label {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+        .order-total .total-amount {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--gold-core);
+            font-family: var(--font-mono);
+        }
+        .order-discount {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: var(--success);
+            font-size: 0.85rem;
+        }
+        .order-savings {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            color: var(--warning);
+            font-size: 0.85rem;
+        }
+        .order-shipping-label {
+            display: flex;
+            justify-content: space-between;
+            padding: 4px 0;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+        }
+
+        .message {
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            margin-bottom: 18px;
+            display: none;
+            font-size: 0.85rem;
+            font-weight: 500;
+            backdrop-filter: blur(10px);
+            letter-spacing: 0.01em;
+            white-space: pre-line;
+        }
+        .message.error {
+            background: var(--danger-glow);
+            border: 1px solid rgba(255, 56, 96, 0.25);
+            color: #ff8a9a;
+            display: block;
+        }
+        .message.success {
+            background: var(--success-glow);
+            border: 1px solid rgba(0, 240, 160, 0.25);
+            color: #80ffd0;
+            display: block;
+        }
+        .message.info {
+            background: var(--info-glow);
+            border: 1px solid rgba(93, 138, 255, 0.25);
+            color: #8ab4ff;
+            display: block;
+        }
+        .message.warning {
+            background: rgba(255, 179, 71, 0.12);
+            border: 1px solid rgba(255, 179, 71, 0.2);
+            color: var(--warning);
+            display: block;
+        }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 14px 32px;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            color: var(--text-inverse);
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            font-family: var(--font-mono);
+            transition: all 0.35s var(--ease-out-expo);
+            border: none;
+            cursor: pointer;
+            letter-spacing: 0.03em;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+            width: 100%;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 18px 40px var(--gold-glow-medium);
+            filter: brightness(1.1);
+        }
+        .btn-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+            transform: none !important;
+        }
+        .btn-primary .spinner {
+            display: inline-block;
+            width: 18px;
+            height: 18px;
+            border: 2px solid rgba(255,255,255,0.2);
+            border-top-color: #fff;
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 12px 28px;
+            background: transparent;
+            color: var(--gold-core);
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.82rem;
+            font-family: var(--font-mono);
+            border: 1px solid var(--gold-border);
+            transition: all 0.35s var(--ease-out-expo);
+            cursor: pointer;
+            letter-spacing: 0.03em;
+        }
+        .btn-secondary:hover {
+            background: var(--gold-glow-subtle);
+            transform: translateY(-3px);
+            border-color: var(--gold-border-bright);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        .loading-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(2, 2, 3, 0.9);
+            backdrop-filter: blur(15px);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .loading-overlay.active { display: flex; }
+        .loader {
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--gold-border-subtle);
+            border-top-color: var(--gold-bright);
+            border-radius: 50%;
+            animation: quantumSpin 0.7s linear infinite;
+            box-shadow: 0 0 30px var(--gold-glow-medium);
+        }
+        @keyframes quantumSpin { to { transform: rotate(360deg); } }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            background: rgba(14, 14, 23, 0.95);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-md);
+            padding: 16px 24px;
+            font-family: var(--font-mono);
+            font-size: 0.82rem;
+            color: var(--text-primary);
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 30px rgba(212, 175, 55, 0.1);
+            transform: translateY(130px);
+            opacity: 0;
+            transition: all 0.4s var(--ease-out-expo);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(20px);
+            max-width: 400px;
+            white-space: pre-line;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.success { border-color: var(--success); box-shadow: 0 0 30px var(--success-glow); }
+        .toast.error { border-color: var(--danger); box-shadow: 0 0 30px var(--danger-glow); }
+        .toast.info { border-color: var(--info); box-shadow: 0 0 30px var(--info-glow); }
+
+        .payment-methods {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 12px;
+            margin: 16px 0;
+        }
+        .payment-method {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid var(--gold-border-subtle);
+            border-radius: var(--radius-sm);
+            background: rgba(255,255,255,0.02);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .payment-method:hover {
+            border-color: var(--gold-border);
+            background: var(--gold-glow-subtle);
+        }
+        .payment-method.selected {
+            border-color: var(--gold-core);
+            background: var(--gold-glow-medium);
+        }
+        .payment-method.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            pointer-events: none;
+        }
+        .payment-method .pm-icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 4px;
+        }
+        .payment-method .pm-name {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            font-family: var(--font-mono);
+        }
+
+        .pod-notice {
+            background: rgba(255, 179, 71, 0.08);
+            border: 1px solid rgba(255, 179, 71, 0.2);
+            border-radius: var(--radius-sm);
+            padding: 10px 14px;
+            font-size: 0.75rem;
+            color: var(--warning);
+            margin-top: 8px;
+            display: none;
+        }
+        .pod-notice.show { display: block; }
+
+        .discount-pill {
+            background: rgba(212,175,55,0.1);
+            border: 1px solid rgba(212,175,55,0.2);
+            border-radius: 20px;
+            padding: 4px 12px;
+            font-size: 0.7rem;
+            color: var(--gold-core);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .discount-pill:hover {
+            background: rgba(212,175,55,0.2);
+            transform: translateY(-1px);
+        }
+        .discount-pill .pill-badge {
+            font-size: 0.6rem;
+            background: var(--gold-core);
+            color: #000;
+            border-radius: 10px;
+            padding: 0 6px;
+            margin-left: 4px;
+        }
+
+        .wholesale-section {
+            background: rgba(0, 240, 160, 0.05);
+            border: 1px solid rgba(0, 240, 160, 0.15);
+            border-radius: var(--radius-sm);
+            padding: 16px;
+            margin: 16px 0;
+        }
+        .wholesale-section .wholesale-label {
+            color: var(--success);
+            font-size: 0.75rem;
+            font-weight: 600;
+            font-family: var(--font-mono);
+        }
+
+        /* ===== SOUND TOGGLE ===== */
+        .sound-toggle-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 12px;
+            background: rgba(214,178,94,0.08);
+            border: 1px solid rgba(214,178,94,0.15);
+            border-radius: 20px;
+            color: #d6b25e;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            -webkit-appearance: none;
+            min-height: 32px;
+            white-space: nowrap;
+        }
+        .sound-toggle-btn:hover {
+            background: rgba(214,178,94,0.15);
+            border-color: rgba(214,178,94,0.3);
+        }
+        .sound-toggle-btn.muted {
+            opacity: 0.5;
+            border-color: rgba(255,255,255,0.1);
+        }
+        .sound-toggle-btn .sound-on { display: inline; }
+        .sound-toggle-btn .sound-off { display: none; }
+        .sound-toggle-btn.muted .sound-on { display: none; }
+        .sound-toggle-btn.muted .sound-off { display: inline; }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width: 992px) {
+            .checkout-grid { grid-template-columns: 1fr; }
+            .payment-methods { grid-template-columns: repeat(4, 1fr); }
+        }
+
+        @media(max-width: 768px) {
+            .container { padding: 0 16px; }
+            .section { padding: 40px 0; }
+            .card-static { padding: 20px; }
+            .payment-methods { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .payment-method { padding: 8px; }
+            .order-total .total-amount { font-size: 1.2rem; }
+            .header-nav { gap: 4px; }
+            .header-link { font-size: 0.65rem; padding: 4px 8px; }
+            .header-link span { display: none; }
+        }
+
+        @media(max-width: 480px) {
+            .payment-methods { grid-template-columns: 1fr 1fr; }
+            .order-total .total-amount { font-size: 1rem; }
+            .toast {
+                left: 16px;
+                right: 16px;
+                bottom: 16px;
+                max-width: none;
+                font-size: 0.75rem;
+                padding: 14px 18px;
+            }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- ===== LOADING OVERLAY ===== -->
+<div class="loading-overlay" id="loadingOverlay">
+    <div class="loader"></div>
+    <span style="font-family:var(--font-mono); color:var(--gold-core); font-size:0.8rem; letter-spacing:2px;">PROCESSING SECURE PAYMENT...</span>
+</div>
+
+<!-- ===== TOAST ===== -->
+<div class="toast" id="toast"></div>
+
+<!-- ===== HEADER ===== -->
+<header class="page-header">
+    <div class="header-inner">
+        <a href="/" class="header-brand">
+            <img src="/company_logo.png" alt="PrimeShieldHub">
+            <span class="header-brand-text"><span>PRIME</span>SHIELDHUB</span>
+        </a>
+        <nav class="header-nav">
+            <a href="/" class="header-link"><i class="fas fa-home"></i> <span>Home</span></a>
+            <a href="/products" class="header-link"><i class="fas fa-box"></i> <span>Products</span></a>
+            <a href="/cart" class="header-link"><i class="fas fa-shopping-cart"></i> <span>Cart</span></a>
+            <a href="/dashboard" class="header-link"><i class="fas fa-chart-pie"></i> <span>Dashboard</span></a>
+            <a href="/profile" class="header-link"><i class="fas fa-user-circle"></i> <span>Profile</span></a>
+            <a href="/account" class="header-link"><i class="fas fa-cog"></i> <span>Account</span></a>
+            <a href="/orders" class="header-link"><i class="fas fa-receipt"></i> <span>Orders</span></a>
+            <a href="/wishlist" class="header-link"><i class="fas fa-heart"></i> <span>Wishlist</span></a>
+            <a href="/addresses" class="header-link"><i class="fas fa-map-marker-alt"></i> <span>Addresses</span></a>
+            <a href="/invoice" class="header-link"><i class="fas fa-file-invoice"></i> <span>Invoices</span></a>
+            <a href="/support" class="header-link"><i class="fas fa-headset"></i> <span>Support</span></a>
+            <a href="/reseller-dashboard" class="header-link"><i class="fas fa-user-tie"></i> <span>Reseller</span></a>
+            <!-- ===== SOUND TOGGLE ===== -->
+            <button class="sound-toggle-btn" id="soundToggleDesktop" title="Toggle notification sounds">
+                <i class="fas fa-volume-up sound-on"></i>
+                <i class="fas fa-volume-mute sound-off"></i>
+            </button>
+        </nav>
+        <div class="header-actions">
+            <div class="user-menu" id="userMenu">
+                <div class="user-avatar" id="userAvatar">U</div>
+                <div class="dropdown-menu" id="userDropdown">
+                    <a href="/dashboard" class="dropdown-item"><i class="fas fa-chart-pie"></i> Dashboard</a>
+                    <a href="/profile" class="dropdown-item"><i class="fas fa-user-circle"></i> My Profile</a>
+                    <a href="/account" class="dropdown-item"><i class="fas fa-cog"></i> Account Settings</a>
+                    <a href="/orders" class="dropdown-item"><i class="fas fa-receipt"></i> My Orders</a>
+                    <a href="/wishlist" class="dropdown-item"><i class="fas fa-heart"></i> Wishlist</a>
+                    <a href="/addresses" class="dropdown-item"><i class="fas fa-map-marker-alt"></i> Addresses</a>
+                    <a href="/invoice" class="dropdown-item"><i class="fas fa-file-invoice"></i> Invoices</a>
+                    <a href="/support" class="dropdown-item"><i class="fas fa-headset"></i> Support Center</a>
+                    <a href="/reseller-dashboard" class="dropdown-item"><i class="fas fa-user-tie"></i> Reseller Dashboard</a>
+                    <div class="divider"></div>
+                    <button class="dropdown-item danger" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ===== MAIN CONTENT ===== -->
+<main>
+    <section class="section">
+        <div class="container">
+            <h1 style="font-family:var(--font-serif); font-size:2.2rem; margin-bottom:32px;">
+                <span class="gold-gradient">Secure Checkout</span>
+            </h1>
+
+            <div class="checkout-grid">
+
+                <!-- ===== LEFT: BILLING DETAILS ===== -->
+                <div class="card-static">
+                    <h3 style="font-family:var(--font-mono); font-size:0.8rem; color:var(--gold-core); margin-bottom:20px;">
+                        <i class="fas fa-address-card"></i> Billing Details
+                    </h3>
+
+                    <div class="message" id="checkoutMessage"></div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" class="form-input" id="customerName" placeholder="Enter your full name" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" class="form-input" id="customerEmail" placeholder="your@email.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" class="form-input" id="customerPhone" placeholder="+234 800 000 0000" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-map-marker-alt"></i> Delivery Address</label>
+                        <textarea class="form-textarea" id="deliveryAddress" placeholder="Street, City, State" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-city"></i> City</label>
+                        <input type="text" class="form-input" id="deliveryCity" placeholder="Benin City" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label"><i class="fas fa-map"></i> State</label>
+                        <select class="form-select" id="deliveryState" required>
+                            <option value="">Select State</option>
+                            <option value="Edo">Edo</option>
+                            <option value="Delta">Delta</option>
+                            <option value="Lagos">Lagos</option>
+                            <option value="Ogun">Ogun</option>
+                            <option value="Oyo">Oyo</option>
+                            <option value="Osun">Osun</option>
+                            <option value="Ondo">Ondo</option>
+                            <option value="Ekiti">Ekiti</option>
+                            <option value="Rivers">Rivers</option>
+                            <option value="Bayelsa">Bayelsa</option>
+                            <option value="Akwa Ibom">Akwa Ibom</option>
+                            <option value="Cross River">Cross River</option>
+                            <option value="Anambra">Anambra</option>
+                            <option value="Imo">Imo</option>
+                            <option value="Abia">Abia</option>
+                            <option value="Enugu">Enugu</option>
+                            <option value="Ebonyi">Ebonyi</option>
+                            <option value="Abuja FCT">Abuja FCT</option>
+                            <option value="Kwara">Kwara</option>
+                            <option value="Kogi">Kogi</option>
+                            <option value="Nasarawa">Nasarawa</option>
+                            <option value="Niger">Niger</option>
+                            <option value="Plateau">Plateau</option>
+                            <option value="Benue">Benue</option>
+                            <option value="Kaduna">Kaduna</option>
+                            <option value="Kano">Kano</option>
+                            <option value="Katsina">Katsina</option>
+                            <option value="Sokoto">Sokoto</option>
+                            <option value="Zamfara">Zamfara</option>
+                            <option value="Kebbi">Kebbi</option>
+                            <option value="Jigawa">Jigawa</option>
+                            <option value="Adamawa">Adamawa</option>
+                            <option value="Bauchi">Bauchi</option>
+                            <option value="Borno">Borno</option>
+                            <option value="Gombe">Gombe</option>
+                            <option value="Taraba">Taraba</option>
+                            <option value="Yobe">Yobe</option>
+                        </select>
+                    </div>
+
+                    <!-- ===== EXPRESS DELIVERY TOGGLE ===== -->
+                    <div class="toggle-row">
+                        <div>
+                            <div class="toggle-label"><i class="fas fa-bolt"></i> Express Delivery</div>
+                            <div class="toggle-sublabel">1.5x base rate â€” faster shipping</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="expressDelivery">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- ===== BENIN CITY PICKUP TOGGLE ===== -->
+                    <div class="toggle-row" id="pickupRow" style="display:none;">
+                        <div>
+                            <div class="toggle-label"><i class="fas fa-store"></i> Benin City Pickup</div>
+                            <div class="toggle-sublabel">Free â€” collect from our store</div>
+                        </div>
+                        <label class="switch">
+                            <input type="checkbox" id="beninPickup">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+
+                    <!-- ================================================================ -->
+                    <!-- ðŸ”¥ DISCOUNT CODE SECTION - UPDATED WITH NEW CODES               -->
+                    <!-- ================================================================ -->
+                    <div class="form-group" style="margin-top:16px;">
+                        <label class="form-label"><i class="fas fa-tag"></i> Promo Code</label>
+                        <div style="display:flex; gap:8px; align-items:center; flex-wrap:wrap;">
+                            <input type="text" class="form-input" id="discountCode" placeholder="Enter promo code" style="flex:1; min-width:120px;">
+                            <button class="btn-secondary" id="applyDiscountBtn" style="padding:10px 20px; white-space:nowrap;">
+                                <i class="fas fa-check"></i> Apply
+                            </button>
+                            <button class="btn-secondary" id="removeDiscountBtn" style="padding:10px 20px; white-space:nowrap; display:none;">
+                                <i class="fas fa-times"></i> Remove
+                            </button>
+                        </div>
+                        <!-- UPDATED: New discount codes -->
+                        <div style="display:flex; flex-wrap:wrap; gap:6px; margin-top:10px;">
+                            <span class="discount-pill" data-code="NEW5" style="border-color:rgba(0,240,160,0.3);">
+                                NEW5 <span class="pill-badge">5%</span>
+                            </span>
+                            <span class="discount-pill" data-code="SAVE10" style="border-color:rgba(93,138,255,0.3);">
+                                SAVE10 <span class="pill-badge">10%</span>
+                            </span>
+                            <span class="discount-pill" data-code="BULK15" style="border-color:rgba(255,179,71,0.3);">
+                                BULK15 <span class="pill-badge">15%</span>
+                            </span>
+                            <span class="discount-pill" data-code="FREESHIP" style="border-color:rgba(212,175,55,0.3);">
+                                FREESHIP <span class="pill-badge">FREE</span>
+                            </span>
+                            <span class="discount-pill" data-code="ACCESSORY5" style="border-color:rgba(168,85,247,0.3);">
+                                ACCESSORY5 <span class="pill-badge">5%</span>
+                            </span>
+                        </div>
+                        <div id="discountMessage" style="font-size:0.75rem; margin-top:6px; color:var(--success); display:none;"></div>
+                        <div style="font-size:0.65rem; color:var(--text-muted); margin-top:4px;">
+                            <i class="fas fa-info-circle"></i> 
+                            NEW5: 5% off first order (max â‚¦5,000) | 
+                            SAVE10: 10% off orders over â‚¦500,000 | 
+                            BULK15: 15% off B2B orders over â‚¦1,000,000 | 
+                            FREESHIP: Free shipping over â‚¦500,000
+                        </div>
+                    </div>
+
+                    <!-- ===== RESELLER REFERRAL CODE ===== -->
+                    <div class="form-group" style="margin-top:16px;">
+                        <label class="form-label"><i class="fas fa-user-tie"></i> Reseller Referral Code <span style="color:var(--text-muted); text-transform:none; letter-spacing:0;">(optional)</span></label>
+                        <input type="text" class="form-input" id="resellerCode" placeholder="Enter reseller's code (e.g. PSH-ABC123)">
+                        <div id="resellerCodeMessage" style="font-size:0.75rem; margin-top:6px; display:none;"></div>
+                        <div style="font-size:0.65rem; color:var(--text-muted); margin-top:4px;">
+                            <i class="fas fa-info-circle"></i> Got this code from a PrimeShieldHub reseller? Enter it to support them.
+                        </div>
+                    </div>
+
+                    <!-- ================================================================ -->
+                    <!-- ðŸ”¥ WHOLESALE/RESELLER SECTION - VERIFICATION REQUIRED             -->
+                    <!-- ================================================================ -->
+                    <div class="wholesale-section" id="wholesaleSection">
+                        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
+                            <div>
+                                <div class="wholesale-label"><i class="fas fa-gem"></i> Wholesale / Reseller</div>
+                                <div style="font-size:0.7rem; color:var(--text-muted);">Enter your wholesale/reseller code for special pricing</div>
+                            </div>
+                            <button class="btn-secondary" id="toggleWholesaleBtn" style="padding:6px 16px; font-size:0.7rem;">
+                                <i class="fas fa-chevron-down"></i> Show
+                            </button>
+                        </div>
+                        <div id="wholesaleInputArea" style="display:none; margin-top:12px;">
+                            <div style="display:flex; gap:8px; flex-wrap:wrap;">
+                                <input type="text" class="form-input" id="wholesaleCode" placeholder="Enter wholesale/reseller code" style="flex:1; min-width:120px; padding:10px 14px; font-size:0.85rem;">
+                                <button class="btn-secondary" id="verifyWholesaleBtn" style="padding:10px 20px; white-space:nowrap; font-size:0.78rem;">
+                                    <i class="fas fa-shield-alt"></i> Verify
+                                </button>
+                            </div>
+                            <div id="wholesaleStatus" style="font-size:0.75rem; margin-top:6px; display:none;"></div>
+                            <div style="font-size:0.65rem; color:var(--text-muted); margin-top:4px;">
+                                <i class="fas fa-info-circle"></i> Wholesale codes are issued to verified businesses only
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ===== PAYMENT METHODS ===== -->
+                    <div style="margin: 20px 0;">
+                        <label class="form-label"><i class="fas fa-credit-card"></i> Payment Method</label>
+                        <div class="payment-methods">
+                            <div class="payment-method selected" data-method="paystack" onclick="selectPaymentMethod(this)">
+                                <span class="pm-icon">ðŸ’³</span>
+                                <span class="pm-name">Card</span>
+                            </div>
+                            <div class="payment-method" data-method="bank" onclick="selectPaymentMethod(this)">
+                                <span class="pm-icon">ðŸ¦</span>
+                                <span class="pm-name">Bank Transfer</span>
+                            </div>
+                            <div class="payment-method" data-method="whatsapp" onclick="selectPaymentMethod(this)">
+                                <span class="pm-icon">ðŸ’¬</span>
+                                <span class="pm-name">WhatsApp</span>
+                            </div>
+                            <div class="payment-method" data-method="pod" onclick="selectPaymentMethod(this)">
+                                <span class="pm-icon">ðŸšš</span>
+                                <span class="pm-name">Pay on Delivery</span>
+                            </div>
+                        </div>
+                        <input type="hidden" id="selectedPaymentMethod" value="paystack">
+                        
+                        <!-- POD Notice -->
+                        <div class="pod-notice" id="podNotice">
+                            <i class="fas fa-info-circle"></i> 
+                            Pay on Delivery is only available in South & South-South zones. 
+                            Minimum order: <span id="podMinDisplay">â‚¦20,000</span>
+                        </div>
+                    </div>
+
+                    <button class="btn-primary" id="checkoutBtn">
+                        <i class="fas fa-lock"></i> Place Order & Pay
+                    </button>
+                </div>
+
+                <!-- ===== RIGHT: ORDER SUMMARY ===== -->
+                <div class="card-static" style="position:sticky; top:calc(var(--header-height) + 20px);">
+                    <h3 style="font-family:var(--font-mono); font-size:0.8rem; color:var(--gold-core); margin-bottom:20px;">
+                        <i class="fas fa-shopping-bag"></i> Order Summary
+                    </h3>
+
+                    <div id="orderItems">
+                        <div style="text-align:center; padding:20px; color:var(--text-muted);">
+                            <i class="fas fa-spinner fa-spin"></i> Loading cart items...
+                        </div>
+                    </div>
+
+                    <hr style="border-color:rgba(255,255,255,0.04); margin:12px 0;">
+
+                    <div class="order-subtotal">
+                        <span style="color:var(--text-muted); font-size:0.85rem;">Subtotal</span>
+                        <span style="font-family:var(--font-mono); font-size:0.9rem;" id="orderSubtotal">â‚¦0</span>
+                    </div>
+
+                    <div class="order-shipping-label">
+                        <span id="shippingLabel">Standard Shipping</span>
+                        <span id="shippingDays">2-5 days</span>
+                    </div>
+
+                    <div class="order-subtotal" style="border-bottom: none; padding:4px 0;">
+                        <span style="color:var(--text-muted); font-size:0.85rem;">Shipping</span>
+                        <span style="font-family:var(--font-mono); font-size:0.9rem;" id="orderShipping">â‚¦0</span>
+                    </div>
+
+                    <div class="order-discount" id="orderDiscountRow" style="display:none;">
+                        <span style="color:var(--success); font-size:0.85rem;"><i class="fas fa-tag"></i> Promo Discount</span>
+                        <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--success);" id="orderDiscount">-â‚¦0</span>
+                    </div>
+
+                    <div class="order-savings" id="orderSavingsRow" style="display:none;">
+                        <span style="color:var(--warning); font-size:0.85rem;"><i class="fas fa-gem"></i> Wholesale Savings</span>
+                        <span style="font-family:var(--font-mono); font-size:0.9rem; color:var(--warning);" id="orderSavings">-â‚¦0</span>
+                    </div>
+
+                    <div class="order-subtotal" style="border-bottom: none; padding:4px 0;">
+                        <span style="color:var(--text-muted); font-size:0.85rem;">VAT (7.5%)</span>
+                        <span style="font-family:var(--font-mono); font-size:0.9rem;" id="orderVat">â‚¦0</span>
+                    </div>
+
+                    <div class="order-total">
+                        <span class="total-label">Total</span>
+                        <span class="total-amount" id="orderTotal">â‚¦0.00</span>
+                    </div>
+
+                    <!-- ===== LOYALTY POINTS INDICATOR ===== -->
+                    <div id="loyaltyPointsDisplay" style="margin-top:12px; padding:10px; background:rgba(212,175,55,0.06); border:1px solid rgba(212,175,55,0.1); border-radius:var(--radius-sm); display:none;">
+                        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.75rem; font-family:var(--font-mono);">
+                            <span style="color:var(--gold-core);">
+                                <i class="fas fa-star"></i> Loyalty Points
+                            </span>
+                            <span id="pointsEarned" style="color:var(--gold-core);">+0 pts</span>
+                        </div>
+                        <div style="font-size:0.65rem; color:var(--text-muted); margin-top:4px;">
+                            You'll earn <span id="pointsMultiplierDisplay">1x</span> points on this purchase
+                        </div>
+                    </div>
+
+                    <div style="margin-top:16px; font-size:0.7rem; color:var(--text-muted); text-align:center; font-family:var(--font-mono);">
+                        <i class="fas fa-shield-alt" style="color:var(--success);"></i>
+                        Secured with quantum-grade encryption
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ===== FOOTER ===== -->
+<footer style="background:var(--bg-elevated); border-top:1px solid rgba(255,255,255,0.03); padding:40px 0 20px; margin-top:auto;">
+    <div class="container">
+        <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
+            <div style="color:var(--text-muted); font-size:0.72rem; font-family:var(--font-mono);">
+                Â© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954
+            </div>
+            <div style="display:flex; gap:20px;">
+                <a href="/privacy" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem; font-family:var(--font-mono);">Privacy</a>
+                <a href="/terms" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem; font-family:var(--font-mono);">Terms</a>
+                <a href="/returns" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem; font-family:var(--font-mono);">Returns</a>
+                <a href="/account" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem; font-family:var(--font-mono);">Account</a>
+                <a href="/profile" style="color:var(--text-muted); text-decoration:none; font-size:0.72rem; font-family:var(--font-mono);">Profile</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- ================================================================ -->
+<!-- SCRIPTS - COMPLETE CHECKOUT WITH SOUND INTEGRATION               -->
+<!-- ================================================================ -->
+
+<!-- Load Paystack Inline SDK -->
+<script src="https://js.paystack.co/v1/inline.js"></script>
+
+<script>
+    (function() {
+        'use strict';
+
+        // ================================================================
+        // 0. PREMIUM NOTIFICATION SOUND ENGINE (Checkout)
+        // ================================================================
+        
+        class PremiumNotificationSound {
+            constructor() {
+                this.audioContext = null;
+                this.buffer = null;
+                this.isInitialized = false;
+                this.isMuted = false;
+            }
+
+            async init() {
+                if (this.isInitialized) return;
+                try {
+                    this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    this.buffer = await this.generateSound();
+                    this.isInitialized = true;
+                    console.log('ðŸ”Š Premium notification sound initialized (Checkout)');
+                } catch (e) {
+                    console.warn('âš ï¸ Audio initialization failed:', e);
+                }
+            }
+
+            async generateSound() {
+                const sampleRate = 44100;
+                const duration = 0.3;
+                const numSamples = Math.floor(sampleRate * duration);
+                const buffer = this.audioContext.createBuffer(1, numSamples, sampleRate);
+                const data = buffer.getChannelData(0);
+
+                for (let i = 0; i < numSamples; i++) {
+                    const t = i / sampleRate;
+                    let sample = 0;
+
+                    // Primary tone: A5 (880Hz) with soft attack
+                    const freq1 = 880;
+                    const attack1 = t < 0.02 ? Math.sin(t / 0.02 * Math.PI / 2) : 1;
+                    const decay1 = t > 0.12 ? 1 - (t - 0.12) / 0.18 : 1;
+                    sample += Math.sin(2 * Math.PI * freq1 * t) * 0.7 * attack1 * Math.min(1, decay1);
+
+                    // Secondary tone: E5 (659.25Hz) with delay
+                    const freq2 = 659.25;
+                    if (t > 0.04 && t < 0.22) {
+                        const env = Math.sin((t - 0.04) / 0.18 * Math.PI);
+                        sample += Math.sin(2 * Math.PI * freq2 * t + 0.5) * 0.5 * env;
+                    }
+
+                    // Harmonic enhancement: C#6 (1108.73Hz)
+                    const freq3 = 1108.73;
+                    if (t > 0.01 && t < 0.1) {
+                        const env = Math.sin(t / 0.09 * Math.PI);
+                        sample += Math.sin(2 * Math.PI * freq3 * t + 0.3) * 0.25 * env;
+                    }
+
+                    // Final fade out
+                    if (t > 0.22) {
+                        const fade = (t - 0.22) / 0.08;
+                        sample *= Math.max(0, 1 - fade);
+                    }
+
+                    // Soft clipping
+                    if (Math.abs(sample) > 0.95) {
+                        const overshoot = Math.abs(sample) - 0.95;
+                        sample = Math.sign(sample) * (0.95 + overshoot / (1 + overshoot * 3));
+                    }
+
+                    data[i] = sample;
+                }
+
+                return buffer;
+            }
+
+            async play() {
+                if (this.isMuted) return;
+                if (!this.isInitialized) {
+                    await this.init();
+                }
+                if (!this.isInitialized || !this.buffer) return;
+
+                try {
+                    if (this.audioContext.state === 'suspended') {
+                        await this.audioContext.resume();
+                    }
+                    const source = this.audioContext.createBufferSource();
+                    source.buffer = this.buffer;
+                    source.connect(this.audioContext.destination);
+                    source.start();
+                } catch (e) {
+                    console.debug('ðŸ”‡ Sound playback failed:', e);
+                }
+            }
+
+            toggle() {
+                this.isMuted = !this.isMuted;
+                const soundToggles = document.querySelectorAll('.sound-toggle-btn');
+                soundToggles.forEach(btn => {
+                    btn.classList.toggle('muted', this.isMuted);
+                });
+                try {
+                    localStorage.setItem('psh_checkout_sound_muted', String(this.isMuted));
+                } catch(e) {}
+                return this.isMuted;
+            }
+
+            setMuted(muted) {
+                this.isMuted = muted;
+                const soundToggles = document.querySelectorAll('.sound-toggle-btn');
+                soundToggles.forEach(btn => {
+                    btn.classList.toggle('muted', muted);
+                });
+            }
+        }
+
+        // Initialize global sound
+        window.notificationSound = new PremiumNotificationSound();
+
+        // Initialize on user interaction
+        document.addEventListener('click', function initSound() {
+            if (!window.notificationSound.isInitialized) {
+                window.notificationSound.init().catch(() => {});
+            }
+            document.removeEventListener('click', initSound);
+        }, { once: true });
+
+        document.addEventListener('touchstart', function initSoundTouch() {
+            if (!window.notificationSound.isInitialized) {
+                window.notificationSound.init().catch(() => {});
+            }
+            document.removeEventListener('touchstart', initSoundTouch);
+        }, { once: true });
+
+        // ================================================================
+        // 1. CONFIG BLOCK - UPDATED WITH NEW THRESHOLDS
+        // ================================================================
+
+        const API_BASE = 'https://api.primeshieldhub.com/api';
+        const SITE_URL = 'https://primeshieldhub.com';
+        
+        // UPDATED: Free shipping threshold raised to â‚¦500,000
+        const FREE_SHIPPING_THRESHOLD = 500000;
+        // NEW: Mid-tier shipping thresholds
+        const MID_SHIPPING_THRESHOLD = 50000;
+        const MID_SHIPPING_MAX = 300000;
+        
+        const WHOLESALE_MIN_QUANTITY = 10;
+        const VAT_RATE = 0.075;
+        const POD_MINIMUM = 20000;
+        const POD_ALLOWED_ZONES = ['z1', 'z2', 'z3', 'z4'];
+
+        // ===== SHIPPING ZONES (synced with D1 delivery_regions table) =====
+        const SHIPPING_ZONES = {
+            'Edo':          { zoneId: 'z1', base: 2000,  days: '1',   region: 'Home' },
+            'Delta':        { zoneId: 'z2', base: 2500,  days: '1-2', region: 'Neighbor' },
+            'Lagos':        { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Ogun':         { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Oyo':          { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Osun':         { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Ondo':         { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Ekiti':        { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Rivers':       { zoneId: 'z4', base: 5000,  days: '2-3', region: 'South-South' },
+            'Bayelsa':      { zoneId: 'z4', base: 5000,  days: '2-3', region: 'South-South' },
+            'Akwa Ibom':    { zoneId: 'z4', base: 5000,  days: '2-3', region: 'South-South' },
+            'Cross River':  { zoneId: 'z4', base: 5000,  days: '2-3', region: 'South-South' },
+            'Anambra':      { zoneId: 'z5', base: 5500,  days: '2-3', region: 'South-East' },
+            'Imo':          { zoneId: 'z5', base: 5500,  days: '2-3', region: 'South-East' },
+            'Abia':         { zoneId: 'z5', base: 5500,  days: '2-3', region: 'South-East' },
+            'Enugu':        { zoneId: 'z5', base: 5500,  days: '2-3', region: 'South-East' },
+            'Ebonyi':       { zoneId: 'z5', base: 5500,  days: '2-3', region: 'South-East' },
+            'Abuja FCT':    { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Kwara':        { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Kogi':         { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Nasarawa':     { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Niger':        { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Plateau':      { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Benue':        { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Kaduna':       { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Kano':         { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Katsina':      { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Sokoto':       { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Zamfara':      { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Kebbi':        { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Jigawa':       { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Adamawa':      { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' },
+            'Bauchi':       { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' },
+            'Borno':        { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' },
+            'Gombe':        { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' },
+            'Taraba':       { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' },
+            'Yobe':         { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' }
+        };
+
+        // ===== UPDATED: PUBLIC DISCOUNT CODES =====
+        const PUBLIC_DISCOUNTS = {
+            'NEW5':        { type: 'percentage', value: 5,  minAmount: 50000,   maxUses: 1,  description: '5% off first order (max â‚¦5,000)', maxDiscount: 5000 },
+            'SAVE10':      { type: 'percentage', value: 10, minAmount: 500000,  maxUses: 1,  description: '10% off orders over â‚¦500,000' },
+            'BULK15':      { type: 'percentage', value: 15, minAmount: 1000000, maxUses: null, description: '15% off B2B orders over â‚¦1,000,000' },
+            'FREESHIP':    { type: 'shipping',   value: 0,  minAmount: 500000,  maxUses: null, description: 'Free shipping on orders over â‚¦500,000' },
+            'ACCESSORY5':  { type: 'percentage', value: 5,  minAmount: 10000,   maxUses: null, description: '5% off accessories', category: 'accessories' }
+        };
+
+        // ================================================================
+        // 2. DOM REFS
+        // ================================================================
+
+        const loadingOverlay = document.getElementById('loadingOverlay');
+        const toast = document.getElementById('toast');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const checkoutMessage = document.getElementById('checkoutMessage');
+        const customerName = document.getElementById('customerName');
+        const customerEmail = document.getElementById('customerEmail');
+        const customerPhone = document.getElementById('customerPhone');
+        const deliveryAddress = document.getElementById('deliveryAddress');
+        const deliveryCity = document.getElementById('deliveryCity');
+        const deliveryState = document.getElementById('deliveryState');
+        const expressDelivery = document.getElementById('expressDelivery');
+        const beninPickup = document.getElementById('beninPickup');
+        const pickupRow = document.getElementById('pickupRow');
+        const podNotice = document.getElementById('podNotice');
+        const orderItems = document.getElementById('orderItems');
+        const orderSubtotal = document.getElementById('orderSubtotal');
+        const orderShipping = document.getElementById('orderShipping');
+        const orderTotal = document.getElementById('orderTotal');
+        const orderVat = document.getElementById('orderVat');
+        const orderDiscount = document.getElementById('orderDiscount');
+        const orderDiscountRow = document.getElementById('orderDiscountRow');
+        const orderSavings = document.getElementById('orderSavings');
+        const orderSavingsRow = document.getElementById('orderSavingsRow');
+        const shippingLabel = document.getElementById('shippingLabel');
+        const shippingDays = document.getElementById('shippingDays');
+        const selectedPaymentMethod = document.getElementById('selectedPaymentMethod');
+        const discountCodeInput = document.getElementById('discountCode');
+        const applyDiscountBtn = document.getElementById('applyDiscountBtn');
+        const removeDiscountBtn = document.getElementById('removeDiscountBtn');
+        const discountMessage = document.getElementById('discountMessage');
+        const wholesaleCodeInput = document.getElementById('wholesaleCode');
+        const verifyWholesaleBtn = document.getElementById('verifyWholesaleBtn');
+        const wholesaleStatus = document.getElementById('wholesaleStatus');
+        const wholesaleSection = document.getElementById('wholesaleSection');
+        const toggleWholesaleBtn = document.getElementById('toggleWholesaleBtn');
+        const wholesaleInputArea = document.getElementById('wholesaleInputArea');
+        const loyaltyPointsDisplay = document.getElementById('loyaltyPointsDisplay');
+        const pointsEarned = document.getElementById('pointsEarned');
+        const pointsMultiplierDisplay = document.getElementById('pointsMultiplierDisplay');
+
+        let cartItems = [];
+        let cartTotal = 0;
+        let isProcessing = false;
+        let paystackPublicKey = null;
+        let appliedDiscount = null;
+        let wholesaleSavings = 0;
+        let isWholesaleEligible = false;
+        let isWholesaleVerified = false;
+        let wholesaleTier = null;
+        let userTier = null; // For loyalty points
+
+        // ================================================================
+        // 3. SHIPPING ENGINE - UPDATED WITH NEW THRESHOLDS
+        // ================================================================
+
+        function getWeightMultiplier(totalWeightKg) {
+            if (totalWeightKg > 10) return 2.5;
+            if (totalWeightKg > 5)  return 1.8;
+            if (totalWeightKg > 2)  return 1.3;
+            return 1;
+        }
+
+        function calculateZoneShipping(state, subtotal, totalWeightKg, express, pickup) {
+            if (pickup && state === 'Edo') {
+                return { cost: 0, label: 'Benin City Pickup', days: 'Same day', zoneId: 'z1' };
+            }
+
+            const zone = SHIPPING_ZONES[state];
+
+            // UPDATED: Free shipping only above â‚¦500,000
+            if (subtotal >= FREE_SHIPPING_THRESHOLD) {
+                return {
+                    cost: 0,
+                    label: 'Free Shipping',
+                    days: zone ? zone.days : '1-6',
+                    zoneId: zone ? zone.zoneId : null
+                };
+            }
+
+            // NEW: Mid-tier shipping - â‚¦1,000 flat for â‚¦50K-â‚¦300K
+            if (subtotal >= MID_SHIPPING_THRESHOLD && subtotal <= MID_SHIPPING_MAX) {
+                return {
+                    cost: 1000,
+                    label: 'Subsidized Shipping (â‚¦1,000)',
+                    days: zone ? zone.days : '2-5',
+                    zoneId: zone ? zone.zoneId : null
+                };
+            }
+
+            // NEW: 50% off shipping for â‚¦300K-â‚¦500K
+            if (subtotal > MID_SHIPPING_MAX && subtotal < FREE_SHIPPING_THRESHOLD) {
+                if (!zone) {
+                    return { cost: Math.round(8500 * 0.5), label: '50% Off Shipping', days: '3-6', zoneId: 'z7' };
+                }
+                let cost = Math.round(zone.base * getWeightMultiplier(totalWeightKg) * 0.5);
+                return {
+                    cost: Math.max(1000, cost),
+                    label: '50% Off Shipping',
+                    days: zone.days,
+                    zoneId: zone.zoneId
+                };
+            }
+
+            if (!zone) {
+                return { cost: 8500, label: 'Standard Shipping', days: '3-6', zoneId: 'z7' };
+            }
+
+            let cost = Math.round(zone.base * getWeightMultiplier(totalWeightKg));
+
+            if (express) {
+                cost = Math.round(cost * 1.5);
+                return { cost: cost, label: 'Express Delivery', days: '1-2', zoneId: zone.zoneId };
+            }
+
+            return { cost: cost, label: 'Standard Shipping', days: zone.days, zoneId: zone.zoneId };
+        }
+
+        // ================================================================
+        // 4. PRICING ENGINE - UPDATED WITH POINTS CALCULATION
+        // ================================================================
+
+        function calculateLoyaltyTier(totalSpent) {
+            if (totalSpent >= 5000000) return { tier: 'Platinum', multiplier: 10 };
+            if (totalSpent >= 1000000) return { tier: 'Gold', multiplier: 5 };
+            if (totalSpent >= 250000) return { tier: 'Silver', multiplier: 3 };
+            return { tier: 'Bronze', multiplier: 1 };
+        }
+
+        function calculatePointsEarned(orderTotal, tierMultiplier) {
+            const basePoints = Math.floor(orderTotal / 100);
+            return basePoints * (tierMultiplier || 1);
+        }
+
+        function calculateTotals(items, discountCode, wholesaleTier, state, express, pickup, userTotalSpent) {
+            discountCode = discountCode || null;
+            wholesaleTier = wholesaleTier || null;
+            state = state || 'Edo';
+            express = express || false;
+            pickup = pickup || false;
+            userTotalSpent = userTotalSpent || 0;
+
+            let retailSubtotal = 0;
+            let wholesaleSavingsTotal = 0;
+            let isWholesale = false;
+            let totalItems = 0;
+            let totalWeight = 0;
+            let hasAccessories = false;
+
+            for (let i = 0; i < items.length; i++) {
+                const item = items[i];
+                const price = parseFloat(item.price) || 0;
+                const qty = parseInt(item.quantity) || 1;
+                const itemWholesalePrice = parseFloat(item.wholesalePrice) || parseFloat(item.wholesale_price) || null;
+                const weight = parseFloat(item.weightKg) || parseFloat(item.weight_kg) || 0.5;
+                const category = item.category || '';
+
+                if (category === 'accessories' || category === 'Accessories') {
+                    hasAccessories = true;
+                }
+
+                retailSubtotal += price * qty;
+                totalItems += qty;
+                totalWeight += weight * qty;
+
+                if (qty >= WHOLESALE_MIN_QUANTITY && wholesaleTier) {
+                    if (itemWholesalePrice && itemWholesalePrice > 0 && itemWholesalePrice < price) {
+                        wholesaleSavingsTotal += (price - itemWholesalePrice) * qty;
+                    } else {
+                        const rate = wholesaleTier === 'wholesale' ? 0.15 : 0.10;
+                        wholesaleSavingsTotal += (price * rate) * qty;
+                    }
+                    isWholesale = true;
+                }
+            }
+
+            const adjustedSubtotal = retailSubtotal - wholesaleSavingsTotal;
+            const shipping = calculateZoneShipping(state, adjustedSubtotal, totalWeight, express, pickup);
+            let discountAmount = 0;
+            let displayDiscount = 0;
+            let discountMaxReached = false;
+
+            if (discountCode) {
+                const discount = PUBLIC_DISCOUNTS[discountCode.toUpperCase()];
+                if (discount && adjustedSubtotal >= discount.minAmount) {
+                    if (discount.type === 'percentage') {
+                        discountAmount = Math.round(adjustedSubtotal * (discount.value / 100));
+                        // Apply max discount cap for NEW5
+                        if (discount.maxDiscount && discountAmount > discount.maxDiscount) {
+                            discountAmount = discount.maxDiscount;
+                            discountMaxReached = true;
+                        }
+                        displayDiscount = discountAmount;
+                    } else if (discount.type === 'shipping') {
+                        displayDiscount = shipping.cost;
+                        shipping.cost = 0;
+                        shipping.label = 'Free Shipping (Promo)';
+                    }
+                }
+            }
+
+            // Apply ACCESSORY5 discount if applicable
+            if (discountCode && discountCode.toUpperCase() === 'ACCESSORY5' && hasAccessories) {
+                // Calculate accessories subtotal
+                let accessoriesSubtotal = 0;
+                for (let i = 0; i < items.length; i++) {
+                    const item = items[i];
+                    const category = item.category || '';
+                    if (category === 'accessories' || category === 'Accessories') {
+                        accessoriesSubtotal += (parseFloat(item.price) || 0) * (parseInt(item.quantity) || 1);
+                    }
+                }
+                const accessoryDiscount = Math.round(accessoriesSubtotal * 0.05);
+                discountAmount += accessoryDiscount;
+                displayDiscount += accessoryDiscount;
+            }
+
+            const taxableAmount = Math.max(0, adjustedSubtotal - discountAmount);
+            const vat = Math.round(taxableAmount * VAT_RATE);
+            const total = taxableAmount + shipping.cost + vat;
+
+            // Calculate loyalty points
+            const tier = calculateLoyaltyTier(userTotalSpent);
+            const points = calculatePointsEarned(total, tier.multiplier);
+
+            return {
+                retailSubtotal: Math.round(retailSubtotal),
+                adjustedSubtotal: Math.round(adjustedSubtotal),
+                wholesaleSavings: Math.round(wholesaleSavingsTotal),
+                isWholesale: isWholesale,
+                shippingCost: Math.round(shipping.cost),
+                shippingLabel: shipping.label,
+                shippingDays: shipping.days,
+                shippingZoneId: shipping.zoneId,
+                vat: Math.round(vat),
+                discountAmount: Math.round(displayDiscount),
+                discountMaxReached: discountMaxReached,
+                total: Math.round(total),
+                totalItems: totalItems,
+                totalWeight: totalWeight,
+                freeShipping: adjustedSubtotal >= FREE_SHIPPING_THRESHOLD,
+                loyaltyPoints: points,
+                loyaltyTier: tier.tier,
+                loyaltyMultiplier: tier.multiplier
+            };
+        }
+
+        // ================================================================
+        // 5. UI STATE MANAGEMENT
+        // ================================================================
+
+        function updatePodVisibility() {
+            const state = deliveryState.value;
+            const zone = SHIPPING_ZONES[state];
+            const zoneId = zone ? zone.zoneId : 'z7';
+            const podAllowed = POD_ALLOWED_ZONES.indexOf(zoneId) !== -1;
+
+            const podMethod = document.querySelector('[data-method="pod"]');
+            if (podAllowed) {
+                podMethod.classList.remove('disabled');
+                podNotice.classList.remove('show');
+            } else {
+                podMethod.classList.add('disabled');
+                podNotice.classList.add('show');
+                if (selectedPaymentMethod.value === 'pod') {
+                    document.querySelector('[data-method="paystack"]').click();
+                }
+            }
+        }
+
+        function updatePickupVisibility() {
+            const state = deliveryState.value;
+            const city = (deliveryCity.value || '').toLowerCase();
+            if (state === 'Edo' && city.includes('benin')) {
+                pickupRow.style.display = 'flex';
+            } else {
+                pickupRow.style.display = 'none';
+                beninPickup.checked = false;
+            }
+        }
+
+        // ================================================================
+        // 6. HELPERS
+        // ================================================================
+
+        window.selectPaymentMethod = function(el) {
+            document.querySelectorAll('.payment-method').forEach(function(m) {
+                m.classList.remove('selected');
+            });
+            el.classList.add('selected');
+            selectedPaymentMethod.value = el.dataset.method;
+        };
+
+        function showToast(message, type) {
+            type = type || 'info';
+            
+            if ((type === 'success' || type === 'info') && window.notificationSound) {
+                window.notificationSound.play();
+            }
+            
+            const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle', warning: 'fa-exclamation-triangle' };
+            toast.innerHTML = '<i class="fas ' + (icons[type] || icons.info) + '"></i> ' + message;
+            toast.className = 'toast ' + type + ' show';
+            clearTimeout(toast._timeout);
+            toast._timeout = setTimeout(function() {
+                toast.classList.remove('show');
+            }, 4000);
+        }
+
+        function showMessage(el, msg, type) {
+            type = type || 'error';
+            if (!el) return;
+            
+            if ((type === 'success' || type === 'info') && window.notificationSound) {
+                window.notificationSound.play();
+            }
+            
+            el.textContent = msg;
+            el.className = 'message ' + type;
+            el.style.display = 'block';
+            clearTimeout(el._timeout);
+            el._timeout = setTimeout(function() {
+                el.style.display = 'none';
+            }, 8000);
+        }
+
+        function showLoading(show) {
+            loadingOverlay.classList.toggle('active', show);
+        }
+
+        function formatCurrency(amount) {
+            return 'â‚¦' + Number(amount).toLocaleString('en-NG');
+        }
+
+        function getCartItems() {
+            try {
+                const cart = localStorage.getItem('psh_cart') || '[]';
+                return JSON.parse(cart);
+            } catch (e) {
+                return [];
+            }
+        }
+
+        async function fetchPaystackKey() {
+            try {
+                const response = await fetch(API_BASE + '/config/paystack');
+                const data = await response.json();
+                if (data && data.publicKey) {
+                    paystackPublicKey = data.publicKey;
+                    return paystackPublicKey;
+                }
+            } catch (e) {
+                console.warn('Could not fetch Paystack key, using fallback');
+            }
+            return localStorage.getItem('psh_paystack_key') || 'pk_test_...';
+        }
+
+        async function apiCall(endpoint, method, body) {
+            method = method || 'GET';
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            };
+
+            const token = localStorage.getItem('psh_auth_token');
+            if (token) headers['Authorization'] = 'Bearer ' + token;
+
+            const options = { method, headers, credentials: 'include' };
+            if (body) options.body = JSON.stringify(body);
+
+            try {
+                const response = await fetch(API_BASE + endpoint, options);
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || data.message || 'Request failed');
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // ================================================================
+        // 7. LOAD CART ITEMS - UPDATED WITH POINTS DISPLAY
+        // ================================================================
+
+        function loadCartItems() {
+            cartItems = getCartItems();
+            const state = deliveryState.value || 'Edo';
+            const express = expressDelivery.checked;
+            const pickup = beninPickup.checked;
+
+            // Get user's total spend for loyalty tier
+            let userTotalSpent = 0;
+            try {
+                const user = JSON.parse(localStorage.getItem('psh_user') || 'null');
+                if (user && user.total_spent) userTotalSpent = user.total_spent;
+                if (user && user.wholesale_tier && user.wholesale_tier !== 'standard') {
+                    wholesaleTier = user.wholesale_tier;
+                }
+            } catch (e) {}
+
+            if (!cartItems || cartItems.length === 0) {
+                orderItems.innerHTML = `
+                    <div style="text-align:center; padding:20px; color:var(--text-muted);">
+                        <i class="fas fa-shopping-cart" style="font-size:2rem; display:block; margin-bottom:12px;"></i>
+                        Your cart is empty.
+                        <br>
+                        <a href="/products" style="color:var(--gold-core);">Continue Shopping</a>
+                    </div>
+                `;
+                checkoutBtn.disabled = true;
+                orderTotal.textContent = formatCurrency(0);
+                loyaltyPointsDisplay.style.display = 'none';
+                return;
+            }
+
+            const savedDiscount = localStorage.getItem('psh_cart_discount');
+            if (savedDiscount) {
+                try {
+                    const parsed = JSON.parse(savedDiscount);
+                    if (parsed && parsed.code && PUBLIC_DISCOUNTS[parsed.code]) {
+                        appliedDiscount = parsed;
+                        discountCodeInput.value = parsed.code;
+                        removeDiscountBtn.style.display = 'inline-flex';
+                        applyDiscountBtn.style.display = 'none';
+                    }
+                } catch (e) {}
+            }
+
+            const totals = calculateTotals(
+                cartItems,
+                appliedDiscount ? appliedDiscount.code : null,
+                wholesaleTier,
+                state,
+                express,
+                pickup,
+                userTotalSpent
+            );
+
+            let html = '';
+            cartItems.forEach(function(item) {
+                const price = parseFloat(item.price) || 0;
+                const qty = parseInt(item.quantity) || 1;
+                const itemWholesalePrice = parseFloat(item.wholesalePrice) || parseFloat(item.wholesale_price) || null;
+                const isWholesaleItem = qty >= WHOLESALE_MIN_QUANTITY && wholesaleTier;
+
+                let itemTotal = price * qty;
+                if (isWholesaleItem) {
+                    if (itemWholesalePrice && itemWholesalePrice > 0 && itemWholesalePrice < price) {
+                        itemTotal = itemWholesalePrice * qty;
+                    } else {
+                        const rate = wholesaleTier === 'wholesale' ? 0.15 : 0.10;
+                        itemTotal = Math.round(price * (1 - rate) * qty);
+                    }
+                }
+
+                html += `
+                    <div class="order-item">
+                        <div>
+                            <div class="item-name">${item.name || 'Product'} ${isWholesaleItem ? '<span class="item-wholesale">Wholesale</span>' : ''}</div>
+                            <span class="item-qty">Qty: ${qty}</span>
+                        </div>
+                        <div class="item-price">${formatCurrency(itemTotal)}</div>
+                    </div>
+                `;
+            });
+
+            if (totals.isWholesale) {
+                html += `
+                    <div style="text-align:center; padding:10px; background:rgba(255,179,71,0.08); border-radius:var(--radius-sm); margin-top:8px; font-size:0.75rem; color:var(--warning);">
+                        <i class="fas fa-gem"></i> Wholesale pricing applied (${WHOLESALE_MIN_QUANTITY}+ units)
+                    </div>
+                `;
+            }
+
+            // UPDATED: Show free shipping threshold
+            if (totals.freeShipping) {
+                html += `
+                    <div style="text-align:center; padding:8px; background:rgba(0,240,160,0.08); border-radius:var(--radius-sm); margin-top:6px; font-size:0.7rem; color:var(--success);">
+                        <i class="fas fa-truck"></i> Free shipping on orders over ${formatCurrency(FREE_SHIPPING_THRESHOLD)}
+                    </div>
+                `;
+            } else if (totals.shippingCost === 1000 && totals.adjustedSubtotal >= MID_SHIPPING_THRESHOLD) {
+                html += `
+                    <div style="text-align:center; padding:8px; background:rgba(93,138,255,0.08); border-radius:var(--radius-sm); margin-top:6px; font-size:0.7rem; color:var(--info);">
+                        <i class="fas fa-arrow-down"></i> Subsidized shipping (â‚¦1,000) for orders â‚¦50K-â‚¦300K
+                    </div>
+                `;
+            }
+
+            if (totals.shippingLabel === 'Express Delivery') {
+                html += `
+                    <div style="text-align:center; padding:8px; background:rgba(93,138,255,0.08); border-radius:var(--radius-sm); margin-top:6px; font-size:0.7rem; color:var(--info);">
+                        <i class="fas fa-bolt"></i> Express delivery â€” estimated ${totals.shippingDays} days
+                    </div>
+                `;
+            }
+
+            orderItems.innerHTML = html;
+
+            orderSubtotal.textContent = formatCurrency(totals.adjustedSubtotal);
+            orderShipping.textContent = formatCurrency(totals.shippingCost);
+            orderVat.textContent = formatCurrency(totals.vat);
+            shippingLabel.textContent = totals.shippingLabel;
+            shippingDays.textContent = totals.shippingDays + ' days';
+
+            if (totals.wholesaleSavings > 0) {
+                orderSavingsRow.style.display = 'flex';
+                orderSavings.textContent = '-' + formatCurrency(totals.wholesaleSavings);
+            } else {
+                orderSavingsRow.style.display = 'none';
+            }
+
+            if (totals.discountAmount > 0) {
+                orderDiscountRow.style.display = 'flex';
+                let discountLabel = 'Promo Discount';
+                if (totals.discountMaxReached) discountLabel += ' (max reached)';
+                document.querySelector('#orderDiscountRow span:first-child').innerHTML = '<i class="fas fa-tag"></i> ' + discountLabel;
+                orderDiscount.textContent = '-' + formatCurrency(totals.discountAmount);
+            } else {
+                orderDiscountRow.style.display = 'none';
+            }
+
+            // Show loyalty points
+            if (totals.loyaltyPoints > 0) {
+                loyaltyPointsDisplay.style.display = 'block';
+                pointsEarned.textContent = '+' + totals.loyaltyPoints + ' pts';
+                pointsMultiplierDisplay.textContent = totals.loyaltyMultiplier + 'x (' + totals.loyaltyTier + ' tier)';
+            } else {
+                loyaltyPointsDisplay.style.display = 'none';
+            }
+
+            cartTotal = totals.total;
+            orderTotal.textContent = formatCurrency(totals.total);
+            checkoutBtn.disabled = false;
+
+            window._checkoutTotals = totals;
+        }
+
+        // ================================================================
+        // 8. DISCOUNT CODE HANDLING - UPDATED
+        // ================================================================
+
+        function applyDiscountCode(code) {
+            if (!code) {
+                showMessage(checkoutMessage, 'Please enter a promo code', 'error');
+                return;
+            }
+
+            const discount = PUBLIC_DISCOUNTS[code.toUpperCase()];
+            if (!discount) {
+                showMessage(checkoutMessage, 'Invalid promo code. Try: NEW5, SAVE10, BULK15, FREESHIP, or ACCESSORY5', 'error');
+                return;
+            }
+
+            const totals = window._checkoutTotals || calculateTotals(cartItems);
+            if (totals.adjustedSubtotal < discount.minAmount) {
+                showMessage(checkoutMessage, 'Minimum order of ' + formatCurrency(discount.minAmount) + ' required for this code', 'error');
+                return;
+            }
+
+            // NEW5: Check if user is new
+            if (code.toUpperCase() === 'NEW5') {
+                try {
+                    const user = JSON.parse(localStorage.getItem('psh_user') || 'null');
+                    if (user && user.total_orders && user.total_orders > 0) {
+                        showMessage(checkoutMessage, 'NEW5 is for first-time customers only. You\'ve already placed orders.', 'error');
+                        return;
+                    }
+                } catch (e) {}
+            }
+
+            appliedDiscount = { code: code.toUpperCase() };
+            localStorage.setItem('psh_cart_discount', JSON.stringify(appliedDiscount));
+            
+            discountMessage.style.display = 'block';
+            let msg = 'âœ“ ' + discount.description + ' applied!';
+            if (discount.maxDiscount) msg += ' (max â‚¦' + discount.maxDiscount.toLocaleString() + ')';
+            discountMessage.textContent = msg;
+            discountMessage.style.color = 'var(--success)';
+            
+            removeDiscountBtn.style.display = 'inline-flex';
+            applyDiscountBtn.style.display = 'none';
+
+            loadCartItems();
+            showToast('Promo code applied!', 'success');
+        }
+
+        function removeDiscountCode() {
+            appliedDiscount = null;
+            localStorage.removeItem('psh_cart_discount');
+            discountCodeInput.value = '';
+            discountMessage.style.display = 'none';
+            removeDiscountBtn.style.display = 'none';
+            applyDiscountBtn.style.display = 'inline-flex';
+            loadCartItems();
+            showToast('Promo code removed', 'info');
+        }
+
+        // ================================================================
+        // 9. WHOLESALE VERIFICATION
+        // ================================================================
+
+        async function verifyWholesaleCode() {
+            const code = wholesaleCodeInput.value.trim();
+            if (!code) {
+                wholesaleStatus.textContent = 'âš ï¸ Please enter a wholesale/reseller code';
+                wholesaleStatus.style.color = 'var(--warning)';
+                wholesaleStatus.style.display = 'block';
+                return;
+            }
+
+            wholesaleStatus.textContent = 'â³ Verifying code...';
+            wholesaleStatus.style.color = 'var(--info)';
+            wholesaleStatus.style.display = 'block';
+
+            try {
+                const response = await fetch(API_BASE + '/wholesale/verify-code', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ code: code })
+                });
+
+                const data = await response.json();
+
+                if (data.success && data.verified) {
+                    isWholesaleVerified = true;
+                    wholesaleTier = data.tier || 'wholesale';
+                    
+                    wholesaleStatus.textContent = 'âœ… Verified! ' + wholesaleTier.toUpperCase() + ' tier activated';
+                    wholesaleStatus.style.color = 'var(--success)';
+                    
+                    verifyWholesaleBtn.textContent = 'âœ“ Verified';
+                    verifyWholesaleBtn.disabled = true;
+                    wholesaleCodeInput.disabled = true;
+
+                    try {
+                        const user = JSON.parse(localStorage.getItem('psh_user') || '{}');
+                        user.wholesale_tier = wholesaleTier;
+                        localStorage.setItem('psh_user', JSON.stringify(user));
+                    } catch (e) {}
+
+                    showToast('Wholesale tier activated!', 'success');
+                    loadCartItems();
+                } else {
+                    wholesaleStatus.textContent = 'âŒ ' + (data.message || 'Invalid code. Please check and try again.');
+                    wholesaleStatus.style.color = 'var(--danger)';
+                    showToast('Invalid wholesale code', 'error');
+                }
+            } catch (error) {
+                console.error('Wholesale verification error:', error);
+                wholesaleStatus.textContent = 'âŒ Error verifying code. Please try again.';
+                wholesaleStatus.style.color = 'var(--danger)';
+                showToast('Verification failed', 'error');
+            }
+        }
+
+        // ================================================================
+        // 10. CHECKOUT - UPDATED WITH POINTS
+        // ================================================================
+
+        checkoutBtn.addEventListener('click', async function() {
+            if (isProcessing) return;
+
+            const token = localStorage.getItem('psh_auth_token');
+            const user = JSON.parse(localStorage.getItem('psh_user') || 'null');
+            
+            if (!token || !user) {
+                showToast('Please log in before making a payment', 'warning');
+                showMessage(checkoutMessage, 'âš ï¸ You need to log in to complete your purchase. Your cart will be saved.', 'warning');
+                localStorage.setItem('psh_checkout_redirect', 'true');
+                setTimeout(function() {
+                    window.location.href = '/login?redirect=checkout';
+                }, 1500);
+                return;
+            }
+
+            const name = customerName.value.trim();
+            const email = customerEmail.value.trim();
+            const phone = customerPhone.value.trim();
+            const address = deliveryAddress.value.trim();
+            const city = deliveryCity.value.trim();
+            const state = deliveryState.value;
+
+            if (!name) { showMessage(checkoutMessage, 'Please enter your full name', 'error'); customerName.focus(); return; }
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                showMessage(checkoutMessage, 'Please enter a valid email address', 'error');
+                customerEmail.focus();
+                return;
+            }
+            if (!phone) { showMessage(checkoutMessage, 'Please enter your phone number', 'error'); customerPhone.focus(); return; }
+            if (!address) { showMessage(checkoutMessage, 'Please enter your delivery address', 'error'); deliveryAddress.focus(); return; }
+            if (!city) { showMessage(checkoutMessage, 'Please enter your city', 'error'); deliveryCity.focus(); return; }
+            if (!state) { showMessage(checkoutMessage, 'Please select your state', 'error'); deliveryState.focus(); return; }
+
+            cartItems = getCartItems();
+            if (!cartItems || cartItems.length === 0) {
+                showMessage(checkoutMessage, 'Your cart is empty. Please add items before checking out.', 'error');
+                return;
+            }
+
+            const paymentMethod = selectedPaymentMethod.value;
+            const totals = window._checkoutTotals || calculateTotals(
+                cartItems,
+                appliedDiscount ? appliedDiscount.code : null,
+                wholesaleTier,
+                state,
+                expressDelivery.checked,
+                beninPickup.checked,
+                user.total_spent || 0
+            );
+
+            if (paymentMethod === 'pod') {
+                const zone = SHIPPING_ZONES[state];
+                const zoneId = zone ? zone.zoneId : 'z7';
+                if (POD_ALLOWED_ZONES.indexOf(zoneId) === -1) {
+                    showMessage(checkoutMessage, 'Pay on Delivery is not available in your region. Please choose Card or Bank Transfer.', 'error');
+                    return;
+                }
+                if (totals.total < POD_MINIMUM) {
+                    showMessage(checkoutMessage, 'Pay on Delivery requires a minimum order of ' + formatCurrency(POD_MINIMUM), 'error');
+                    return;
+                }
+            }
+
+            isProcessing = true;
+            checkoutBtn.disabled = true;
+            checkoutBtn.innerHTML = '<span class="spinner"></span> Processing Order...';
+            showLoading(true);
+            showMessage(checkoutMessage, 'Creating your order...', 'info');
+
+            try {
+                const reference = 'ORD-' + Date.now() + '-' + Math.random().toString(36).substring(2, 8).toUpperCase();
+
+                const orderData = {
+                    items: cartItems.map(function(item) {
+                        return {
+                            product_id: item.id || item.product_id || 'unknown',
+                            name: item.name || 'Product',
+                            quantity: item.quantity || 1,
+                            price: item.price || 0,
+                            wholesalePrice: item.wholesalePrice || item.wholesale_price || null,
+                            weight_kg: item.weightKg || item.weight_kg || 0.5,
+                            category: item.category || ''
+                        };
+                    }),
+                    customerName: name,
+                    customerEmail: email,
+                    customerPhone: phone,
+                    deliveryAddress: address,
+                    city: city,
+                    state: state,
+                    expressDelivery: expressDelivery.checked,
+                    beninPickup: beninPickup.checked,
+                    shipping_zone: totals.shippingZoneId,
+                    estimated_days: totals.shippingDays,
+                    subtotal: totals.retailSubtotal,
+                    adjustedSubtotal: totals.adjustedSubtotal,
+                    shipping_cost: totals.shippingCost,
+                    shipping_label: totals.shippingLabel,
+                    vat: totals.vat,
+                    discountCode: appliedDiscount ? appliedDiscount.code : null,
+                    resellerCode: (document.getElementById('resellerCode')?.value || '').trim().toUpperCase() || null,
+                    wholesaleSavings: totals.wholesaleSavings,
+                    wholesaleTier: wholesaleTier || null,
+                    total: totals.total,
+                    paymentMethod: paymentMethod,
+                    reference: reference,
+                    status: paymentMethod === 'paystack' ? 'pending' : 'pending_payment',
+                    loyaltyPoints: totals.loyaltyPoints,
+                    loyaltyTier: totals.loyaltyTier
+                };
+
+                const orderResponse = await apiCall('/orders', 'POST', orderData);
+
+                if (!orderResponse || !orderResponse.orderId) {
+                    throw new Error('Failed to create order');
+                }
+
+                const orderId = orderResponse.orderId;
+
+                if (paymentMethod === 'paystack') {
+                    const amountInKobo = Math.round(totals.total * 100);
+
+                    try {
+                        const paymentData = {
+                            orderId: orderId,
+                            reference: reference,
+                            amount: totals.total,
+                            email: email,
+                            customerName: name,
+                            phone: phone
+                        };
+
+                        const paymentResponse = await apiCall('/payment/simple/initiate', 'POST', paymentData);
+
+                        if (paymentResponse && paymentResponse.authorization_url) {
+                            showToast('Redirecting to payment gateway...', 'info');
+                            setTimeout(function() {
+                                window.location.href = paymentResponse.authorization_url;
+                            }, 500);
+                            return;
+                        }
+                    } catch (paymentInitError) {
+                        console.warn('Backend payment init failed, using inline Paystack:', paymentInitError.message);
+                    }
+
+                    if (typeof PaystackPop !== 'undefined' && paystackPublicKey) {
+                        const handler = PaystackPop.setup({
+                            key: paystackPublicKey,
+                            email: email,
+                            amount: amountInKobo,
+                            currency: 'NGN',
+                            ref: reference,
+                            metadata: {
+                                custom_fields: [
+                                    { display_name: "Order ID", variable_name: "order_id", value: orderId },
+                                    { display_name: "Customer Name", variable_name: "customer_name", value: name },
+                                    { display_name: "Phone", variable_name: "phone", value: phone }
+                                ]
+                            },
+                            callback: function(response) {
+                                verifyPayment(response.reference, orderId);
+                            },
+                            onClose: function() {
+                                showLoading(false);
+                                isProcessing = false;
+                                checkoutBtn.disabled = false;
+                                checkoutBtn.innerHTML = '<i class="fas fa-lock"></i> Place Order & Pay';
+                                showMessage(checkoutMessage, 'Payment was cancelled. You can try again.', 'warning');
+                                showToast('Payment cancelled', 'warning');
+                            }
+                        });
+                        handler.openIframe();
+                        return;
+                    } else {
+                        const paystackUrl = 'https://paystack.com/pay/primeshieldhub?ref=' + reference + '&amount=' + amountInKobo + '&email=' + encodeURIComponent(email);
+                        showToast('Opening payment gateway...', 'info');
+                        window.open(paystackUrl, '_blank');
+                        showLoading(false);
+                        isProcessing = false;
+                        checkoutBtn.disabled = false;
+                        checkoutBtn.innerHTML = '<i class="fas fa-lock"></i> Place Order & Pay';
+                        showMessage(checkoutMessage, 'Payment window opened. Complete your payment.', 'info');
+                        return;
+                    }
+                }
+
+                if (paymentMethod === 'bank') {
+                    showLoading(false);
+                    isProcessing = false;
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.innerHTML = '<i class="fas fa-lock"></i> Place Order & Pay';
+                    
+                    showMessage(checkoutMessage, 
+                        'âœ… Order created! Please transfer the total amount to:\n\n' +
+                        'ðŸ¦ Bank: Access Bank\n' +
+                        'ðŸ“‹ Account: 1968779160\n' +
+                        'ðŸ¢ Name: PrimeShieldHub Gadgets Limited\n' +
+                        'ðŸ’° Amount: ' + formatCurrency(totals.total) + '\n\n' +
+                        'ðŸ“ Reference: ' + reference + '\n\n' +
+                        'ðŸ“ž After payment, confirm via WhatsApp or email.\n' +
+                        'ðŸ“§ primeshieldhub@gmail.com | ðŸ“± +234 810 353 5978',
+                        'info'
+                    );
+                    showToast('Bank transfer details sent', 'success');
+                    localStorage.removeItem('psh_cart');
+                    localStorage.removeItem('psh_saved_items');
+                    return;
+                }
+
+                if (paymentMethod === 'whatsapp') {
+                    showLoading(false);
+                    isProcessing = false;
+                    checkoutBtn.disabled = false;
+                    checkoutBtn.innerHTML = '<i class="fas fa-lock"></i> Place Order & Pay';
+                    
+                    const message = encodeURIComponent(
+                        'Hello PrimeShieldHub,\n\n' +
+                        'ðŸ›’ I want to place an order:\n' +
+                        'ðŸ“ Order Reference: ' + reference + '\n' +
+                        'ðŸ’° Total: ' + formatCurrency(totals.total) + '\n' +
+                        'ðŸ‘¤ Name: ' + name + '\n' +
+                        'ðŸ“± Phone: ' + phone + '\n' +
+                        'ðŸ“ Address: ' + address + ', ' + city + ', ' + state + '\n' +
+                        (appliedDiscount ? 'ðŸ·ï¸ Promo: ' + appliedDiscount.code + '\n' : '') +
+                        (totals.wholesaleSavings > 0 ? 'ðŸ’Ž Wholesale Savings: ' + formatCurrency(totals.wholesaleSavings) + '\n' : '') +
+                        (totals.loyaltyPoints > 0 ? 'â­ Points Earned: ' + totals.loyaltyPoints + ' (' + totals.loyaltyTier + ' tier)\n' : '') +
+                        '\nPlease confirm my order. ðŸ™'
+                    );
+                    
+                    window.open('https://wa.me/2348103535978?text=' + message, '_blank');
+                    showToast('WhatsApp opened. Complete your order via chat.', 'success');
+                    showMessage(checkoutMessage, 'WhatsApp opened. Send the message to confirm your order.', 'info');
+                    localStorage.removeItem('psh_cart');
+                    localStorage.removeItem('psh_saved_items');
+                    return;
+                }
+
+                if (paymentMethod === 'pod') {
+                    showLoading(false);
+                    isProcessing = false;
+                    checkoutBtn.disabled = true;
+                    checkoutBtn.innerHTML = '<i class="fas fa-check-circle"></i> Order Placed!';
+                    
+                    showMessage(checkoutMessage, 
+                        'âœ… Order confirmed for Pay on Delivery!\n\n' +
+                        'ðŸ“¦ We\'ll deliver to:\n' +
+                        address + ', ' + city + ', ' + state + '\n\n' +
+                        'ðŸšš Delivery: ' + totals.shippingLabel + ' (' + totals.shippingDays + ' days)\n' +
+                        'ðŸ’° Total: ' + formatCurrency(totals.total) + ' (pay on delivery)\n\n' +
+                        'ðŸ“ Reference: ' + reference + '\n\n' +
+                        (totals.loyaltyPoints > 0 ? 'â­ You\'ll earn ' + totals.loyaltyPoints + ' loyalty points (' + totals.loyaltyTier + ' tier)\n\n' : '') +
+                        'ðŸ“ž We\'ll contact you before delivery.\n' +
+                        'ðŸ“± +234 810 353 5978',
+                        'success'
+                    );
+                    showToast('Order placed! Pay on delivery.', 'success');
+                    localStorage.removeItem('psh_cart');
+                    localStorage.removeItem('psh_saved_items');
+                    return;
+                }
+
+                localStorage.removeItem('psh_cart');
+                localStorage.removeItem('psh_saved_items');
+                showToast('Order placed successfully!', 'success');
+                showMessage(checkoutMessage, 'âœ… Order placed successfully!', 'success');
+                checkoutBtn.innerHTML = '<i class="fas fa-check-circle"></i> Order Placed!';
+                checkoutBtn.disabled = true;
+
+                setTimeout(function() {
+                    window.location.href = '/payment-success.html?ref=' + reference;
+                }, 3000);
+
+            } catch (error) {
+                console.error('Checkout error:', error);
+                showMessage(checkoutMessage, 'Error: ' + (error.message || 'Failed to process order'), 'error');
+                showToast('Checkout failed: ' + error.message, 'error');
+                isProcessing = false;
+                checkoutBtn.disabled = false;
+                checkoutBtn.innerHTML = '<i class="fas fa-lock"></i> Place Order & Pay';
+                showLoading(false);
+            }
+        });
+
+        // ================================================================
+        // 11. VERIFY PAYMENT
+        // ================================================================
+
+        async function verifyPayment(reference, orderId) {
+            showLoading(true);
+            showMessage(checkoutMessage, 'Verifying your payment...', 'info');
+            
+            for (let attempt = 0; attempt < 3; attempt++) {
+                try {
+                    const response = await apiCall('/payment/verify?reference=' + reference, 'GET');
+                    
+                    const isSuccess = response?.success === true || 
+                                     response?.data?.status === 'success' ||
+                                     response?.status === 'success';
+                    
+                    if (isSuccess) {
+                        localStorage.removeItem('psh_cart');
+                        localStorage.removeItem('psh_saved_items');
+                        localStorage.removeItem('psh_cart_items');
+                        
+                        showToast('Payment successful! ðŸŽ‰', 'success');
+                        showMessage(checkoutMessage, 'âœ… Payment verified! Redirecting to confirmation...', 'success');
+                        checkoutBtn.innerHTML = '<i class="fas fa-check-circle"></i> Payment Successful!';
+                        checkoutBtn.disabled = true;
+                        
+                        setTimeout(function() {
+                            window.location.href = '/payment-success.html?ref=' + reference + '&status=success&order=' + (orderId || '');
+                        }, 1500);
+                        return;
+                    }
+                    
+                    if (attempt < 2) {
+                        showMessage(checkoutMessage, `â³ Waiting for confirmation (attempt ${attempt + 1}/3)...`, 'info');
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                    }
+                } catch (error) {
+                    console.warn('Verification attempt ' + (attempt + 1) + ' failed:', error.message);
+                    if (attempt < 2) {
+                        await new Promise(resolve => setTimeout(resolve, 2000));
+                    }
+                }
+            }
+            
+            localStorage.removeItem('psh_cart');
+            localStorage.removeItem('psh_saved_items');
+            localStorage.removeItem('psh_cart_items');
+            
+            showToast('Payment received! Order is being processed.', 'success');
+            showMessage(checkoutMessage, 'âœ… Payment confirmed by Paystack. Your order will be processed shortly.', 'success');
+            checkoutBtn.innerHTML = '<i class="fas fa-check-circle"></i> Order Placed!';
+            checkoutBtn.disabled = true;
+            
+            setTimeout(function() {
+                window.location.href = '/payment-success.html?ref=' + reference + '&status=processing&order=' + (orderId || '');
+            }, 2000);
+        }
+
+        // ================================================================
+        // 12. EVENT BINDING
+        // ================================================================
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const soundToggle = document.getElementById('soundToggleDesktop');
+            if (soundToggle) {
+                try {
+                    const savedState = localStorage.getItem('psh_checkout_sound_muted');
+                    if (savedState === 'true') {
+                        window.notificationSound.setMuted(true);
+                    }
+                } catch(e) {}
+
+                soundToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const muted = window.notificationSound.toggle();
+                    showToast(muted ? 'ðŸ”‡ Sound muted' : 'ðŸ”Š Sound enabled', 'info');
+                });
+            }
+        });
+
+        document.querySelectorAll('.discount-pill').forEach(function(pill) {
+            pill.addEventListener('click', function() {
+                const code = this.dataset.code;
+                discountCodeInput.value = code;
+                applyDiscountCode(code);
+            });
+        });
+
+        applyDiscountBtn.addEventListener('click', function() {
+            const code = discountCodeInput.value.trim();
+            applyDiscountCode(code);
+        });
+
+        removeDiscountBtn.addEventListener('click', removeDiscountCode);
+
+        discountCodeInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                applyDiscountBtn.click();
+            }
+        });
+
+        verifyWholesaleBtn.addEventListener('click', verifyWholesaleCode);
+
+        wholesaleCodeInput.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyWholesaleBtn.click();
+            }
+        });
+
+        toggleWholesaleBtn.addEventListener('click', function() {
+            const isHidden = wholesaleInputArea.style.display === 'none';
+            wholesaleInputArea.style.display = isHidden ? 'block' : 'none';
+            this.innerHTML = isHidden ? '<i class="fas fa-chevron-up"></i> Hide' : '<i class="fas fa-chevron-down"></i> Show';
+        });
+
+        deliveryState.addEventListener('change', function() {
+            updatePodVisibility();
+            updatePickupVisibility();
+            loadCartItems();
+        });
+
+        deliveryCity.addEventListener('input', function() {
+            updatePickupVisibility();
+            loadCartItems();
+        });
+
+        expressDelivery.addEventListener('change', function() {
+            loadCartItems();
+        });
+
+        beninPickup.addEventListener('change', function() {
+            loadCartItems();
+        });
+
+        // ================================================================
+        // 13. INITIALIZATION
+        // ================================================================
+
+        async function init() {
+            await fetchPaystackKey();
+
+            try {
+                const user = JSON.parse(localStorage.getItem('psh_user') || 'null');
+                if (user) {
+                    customerName.value = user.name || '';
+                    customerEmail.value = user.email || '';
+                    customerPhone.value = user.phone || '';
+                    
+                    const profile = JSON.parse(localStorage.getItem('psh_user_profile') || '{}');
+                    if (profile.address) deliveryAddress.value = profile.address;
+                    if (profile.city) deliveryCity.value = profile.city;
+                    if (profile.state) deliveryState.value = profile.state;
+                }
+            } catch (e) {}
+
+            if (!deliveryState.value) {
+                deliveryState.value = 'Edo';
+            }
+
+            updatePodVisibility();
+            updatePickupVisibility();
+            loadCartItems();
+            document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+            console.log('ðŸš€ Quantum Checkout v7.0 â€” With New Rewards Structure');
+            console.log('âœ… Free shipping threshold: â‚¦' + FREE_SHIPPING_THRESHOLD.toLocaleString());
+            console.log('âœ… Mid shipping: â‚¦' + MID_SHIPPING_THRESHOLD.toLocaleString() + ' - â‚¦' + MID_SHIPPING_MAX.toLocaleString());
+            console.log('âœ… Wholesale min quantity: ' + WHOLESALE_MIN_QUANTITY);
+            console.log('âœ… POD minimum: â‚¦' + POD_MINIMUM.toLocaleString());
+            console.log('âœ… POD zones: ' + POD_ALLOWED_ZONES.join(', '));
+            console.log('âœ… Public promo codes: NEW5, SAVE10, BULK15, FREESHIP, ACCESSORY5');
+            console.log('âœ… Loyalty tiers: Bronze(1x), Silver(3x), Gold(5x), Platinum(10x)');
+            console.log('ðŸ”Š Premium notification sound loaded');
+        }
+
+        document.addEventListener('DOMContentLoaded', init);
+        
+        if (document.readyState === 'complete' || document.readyState === 'interactive') {
+            init();
+        }
+
+    })();
+</script>
+
+</body>
+</html>

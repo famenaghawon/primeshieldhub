@@ -1,0 +1,1259 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-theme="quantum-gold" data-version="2.0.0">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="PrimeShieldHub AI Analytics Dashboard - Real-time sentiment analysis, conversation metrics, and AI performance tracking">
+    <meta name="theme-color" content="#060608">
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}">
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+    
+    <link rel="canonical" href="https://primeshieldhub.com/admin/analytics">
+    <link rel="icon" href="/company_logo.png">
+    <title>ðŸ“Š Conversation Analytics | PrimeShieldHub â€¢ Quantum Insights</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+    
+    <style>
+        :root {
+            --bg-deep: #050308;
+            --bg-primary: #08080d;
+            --bg-sidebar: #0a0a10;
+            --bg-elevated: #0d0d16;
+            --bg-card: rgba(16, 16, 24, 0.75);
+            --bg-input: rgba(20, 20, 30, 0.6);
+            --gold-soft: #c4a04a;
+            --gold-core: #d6b25e;
+            --gold-bright: #e8c97a;
+            --gold-light: #f3dba0;
+            --gold-glow: rgba(214, 178, 94, 0.08);
+            --gold-border: rgba(214, 178, 94, 0.15);
+            --gold-border-bright: rgba(214, 178, 94, 0.3);
+            --accent-success: #33ffaa;
+            --accent-danger: #ff3366;
+            --accent-warning: #ffaa33;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #b388ff;
+            --text-primary: #f0efe8;
+            --text-secondary: #b0ada5;
+            --text-muted: #6a6870;
+            --text-inverse: #08080d;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --radius-xs: 6px;
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            --shadow-card: 0 20px 60px rgba(0,0,0,0.4);
+            --shadow-gold: 0 0 40px rgba(214,178,94,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Background */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background: 
+                radial-gradient(ellipse 60% 40% at 20% 0%, rgba(214,178,94,0.04) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 35% at 80% 100%, rgba(180,130,255,0.03) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 30% at 50% 50%, rgba(0,212,255,0.02) 0%, transparent 60%);
+            pointer-events: none; z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: radial-gradient(rgba(214,178,94,0.015) 1px, transparent 1px);
+            background-size: 35px 35px;
+            pointer-events: none; z-index: -1;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 10%, transparent 55%);
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: fixed;
+            border-radius: 50%;
+            filter: blur(65px);
+            pointer-events: none;
+            z-index: -1;
+            animation: orbFloat 20s ease-in-out infinite alternate;
+        }
+        .orb-1 {
+            width: 45vw; height: 45vw;
+            background: radial-gradient(circle, rgba(214,178,94,0.10), transparent);
+            top: -20vh; right: -15vw;
+        }
+        .orb-2 {
+            width: 35vw; height: 35vw;
+            background: radial-gradient(circle, rgba(0,212,255,0.06), transparent);
+            bottom: -15vh; left: -12vw;
+            animation-duration: 25s;
+        }
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(3%, -4%) scale(1.1); opacity: 0.5; }
+            100% { transform: translate(-2%, 2%) scale(0.95); opacity: 0.35; }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: var(--gold-core); border-radius: 3px; }
+        ::selection { background: rgba(214,178,94,0.3); color: var(--text-primary); }
+
+        /* ===== HEADER ===== */
+        .analytics-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+            background: rgba(8, 12, 25, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gold-border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .header-left .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, rgba(214,178,94,0.2), rgba(214,178,94,0.05));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--gold-core);
+            border: 1px solid rgba(214,178,94,0.15);
+        }
+
+        .header-left h1 {
+            font-size: 1.2rem;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-family: var(--font-display);
+        }
+
+        .header-left .badge {
+            font-size: 0.55rem;
+            background: rgba(51, 255, 170, 0.15);
+            color: var(--accent-success);
+            padding: 2px 10px;
+            border-radius: 20px;
+            border: 1px solid rgba(51, 255, 170, 0.2);
+            font-family: var(--font-mono);
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        .live-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            background: rgba(51, 255, 170, 0.1);
+            border: 1px solid rgba(51, 255, 170, 0.3);
+            color: var(--accent-success);
+        }
+
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(51,255,170,0.4); }
+            50% { opacity: 0.4; box-shadow: 0 0 0 8px rgba(51,255,170,0); }
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 0.5rem 1.2rem;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.75rem;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            color: #000;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(214,178,94,0.4); }
+
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright));
+            color: #000;
+        }
+        .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(214,178,94,0.4); }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gold-border);
+            color: var(--gold-core);
+        }
+        .btn-outline:hover { background: rgba(214,178,94,0.08); border-color: var(--gold-core); }
+
+        .btn-cyan {
+            background: rgba(0, 212, 255, 0.15);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--accent-cyan);
+        }
+        .btn-cyan:hover { background: var(--accent-cyan); color: #000; }
+
+        .btn-danger {
+            background: rgba(255, 51, 102, 0.15);
+            border: 1px solid rgba(255, 51, 102, 0.3);
+            color: var(--accent-danger);
+        }
+        .btn-danger:hover { background: var(--accent-danger); color: white; }
+
+        .btn-sm { padding: 0.3rem 0.8rem; font-size: 0.65rem; }
+
+        /* ===== QUICK LINKS BAR ===== */
+        .quick-links-bar {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            padding: 0.8rem 1.2rem;
+            background: rgba(8, 12, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-md);
+            margin: 1rem 1.2rem 0 1.2rem;
+            align-items: center;
+        }
+
+        .quick-links-bar .label {
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .quick-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.75rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .quick-link:hover {
+            color: var(--gold-core);
+            background: rgba(214,178,94,0.08);
+        }
+
+        .quick-link.active {
+            color: var(--gold-core);
+            background: rgba(214,178,94,0.12);
+            border: 1px solid rgba(214,178,94,0.2);
+        }
+
+        /* ===== CONTAINER ===== */
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 1.2rem;
+        }
+
+        /* ===== STATS GRID ===== */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .stat-card {
+            background: rgba(8, 12, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            transition: var(--transition-smooth);
+        }
+
+        .stat-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-gold);
+        }
+
+        .stat-card .stat-icon {
+            font-size: 1.2rem;
+            color: var(--gold-core);
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-card .stat-value {
+            font-size: 1.6rem;
+            font-weight: 800;
+            font-family: var(--font-display);
+            background: linear-gradient(135deg, #fff, var(--gold-light));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .stat-card .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .stat-card .stat-change {
+            font-size: 0.7rem;
+            margin-top: 0.3rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .stat-card .stat-change.positive { color: var(--accent-success); }
+        .stat-card .stat-change.negative { color: var(--accent-danger); }
+        .stat-card .stat-change.neutral { color: var(--accent-warning); }
+
+        /* ===== CHARTS GRID ===== */
+        .charts-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
+            gap: 0.8rem;
+            margin-bottom: 1.2rem;
+        }
+
+        .chart-card {
+            background: rgba(8, 12, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+        }
+
+        .chart-card .chart-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+
+        .chart-card .chart-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: var(--font-display);
+            color: var(--gold-core);
+        }
+
+        .chart-card .chart-subtitle {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+
+        .chart-card canvas {
+            max-height: 260px;
+            width: 100%;
+        }
+
+        /* ===== SENTIMENT BREAKDOWN ===== */
+        .sentiment-breakdown {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 6px;
+            margin-top: 0.8rem;
+        }
+
+        .sentiment-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 0.6rem 0.8rem;
+            border-radius: var(--radius-sm);
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .sentiment-item .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .sentiment-item .dot.positive { background: var(--accent-success); }
+        .sentiment-item .dot.negative { background: var(--accent-danger); }
+        .sentiment-item .dot.neutral { background: var(--accent-warning); }
+
+        .sentiment-item .value {
+            font-weight: 700;
+            font-size: 0.85rem;
+            margin-left: auto;
+            color: var(--text-primary);
+        }
+
+        /* ===== TABLE SECTION ===== */
+        .table-section {
+            background: rgba(8, 12, 25, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-md);
+            padding: 1.2rem;
+            overflow-x: auto;
+        }
+
+        .table-section .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .table-section .table-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            font-family: var(--font-display);
+            color: var(--gold-core);
+        }
+
+        .table-section .table-controls {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .table-section .table-controls select {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-sm);
+            padding: 4px 10px;
+            color: var(--text-secondary);
+            font-size: 0.7rem;
+            cursor: pointer;
+            font-family: var(--font-sans);
+        }
+
+        .table-section .table-controls select:focus {
+            outline: none;
+            border-color: var(--gold-core);
+        }
+
+        .table-section table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.75rem;
+        }
+
+        .table-section th {
+            text-align: left;
+            padding: 0.6rem 0.8rem;
+            color: var(--gold-core);
+            font-weight: 600;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .table-section td {
+            padding: 0.6rem 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+        }
+
+        .table-section tr:hover td {
+            background: rgba(214,178,94,0.03);
+        }
+
+        .sentiment-badge {
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
+        .sentiment-badge.positive {
+            background: rgba(51, 255, 170, 0.15);
+            color: var(--accent-success);
+        }
+        .sentiment-badge.negative {
+            background: rgba(255, 51, 102, 0.15);
+            color: var(--accent-danger);
+        }
+        .sentiment-badge.neutral {
+            background: rgba(255, 170, 51, 0.15);
+            color: var(--accent-warning);
+        }
+
+        .urgency-badge {
+            padding: 2px 10px;
+            border-radius: 20px;
+            font-size: 0.6rem;
+            font-weight: 600;
+        }
+
+        .urgency-badge.urgent {
+            background: rgba(255, 51, 102, 0.2);
+            color: var(--accent-danger);
+        }
+
+        .urgency-badge.normal {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-muted);
+        }
+
+        .message-preview {
+            max-width: 200px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        /* ===== LOADING ===== */
+        .loading-overlay {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid rgba(214,178,94,0.2);
+            border-top-color: var(--gold-core);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        /* ===== EMPTY STATE ===== */
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .empty-state .icon {
+            font-size: 3rem;
+            opacity: 0.2;
+            margin-bottom: 0.8rem;
+            color: var(--gold-core);
+        }
+
+        .empty-state h3 {
+            color: var(--text-secondary);
+            margin-bottom: 0.3rem;
+        }
+
+        .empty-state p {
+            font-size: 0.8rem;
+        }
+
+        /* ===== TOAST ===== */
+        .toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        .toast {
+            padding: 0.8rem 1.5rem;
+            border-radius: 1rem;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+            animation: toastSlide 0.3s ease;
+            max-width: 400px;
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .toast-success { background: rgba(51, 255, 170, 0.9); color: #000; border-color: rgba(51,255,170,0.3); }
+        .toast-error { background: rgba(255, 51, 102, 0.9); border-color: rgba(255,51,102,0.3); }
+        .toast-info { background: rgba(0, 212, 255, 0.9); color: #000; border-color: rgba(0,212,255,0.3); }
+        .toast-warning { background: rgba(255, 170, 51, 0.9); color: #000; border-color: rgba(255,170,51,0.3); }
+
+        @keyframes toastSlide {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .charts-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .analytics-header { padding: 0.8rem 1rem; flex-wrap: wrap; gap: 8px; }
+            .container { padding: 0.8rem; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .header-left h1 { font-size: 1rem; }
+            .header-left .badge { display: none; }
+            .quick-links-bar { margin: 0.8rem 0.8rem 0 0.8rem; flex-wrap: wrap; }
+            .quick-links-bar .label { width: 100%; }
+            .sentiment-breakdown { grid-template-columns: 1fr; }
+            .table-section .table-header { flex-direction: column; align-items: stretch; }
+            .table-section .table-controls { flex-wrap: wrap; }
+        }
+
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .header-right .btn span { display: none; }
+            .live-indicator span { display: none; }
+            .header-right { gap: 4px; }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient Orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- HEADER -->
+<header class="analytics-header">
+    <div class="header-left">
+        <div class="logo-icon"><i class="fas fa-chart-bar"></i></div>
+        <div>
+            <h1>Conversation Analytics <span class="badge">Live</span></h1>
+        </div>
+    </div>
+    <div class="header-right">
+        <div class="live-indicator">
+            <span class="live-dot"></span>
+            <span>Real-time</span>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="refreshDashboard()" id="refreshBtn">
+            <i class="fas fa-sync-alt"></i> <span>Refresh</span>
+        </button>
+        <button class="btn btn-gold btn-sm" onclick="exportData()" id="exportBtn">
+            <i class="fas fa-download"></i> <span>Export</span>
+        </button>
+        <a href="/admin/ai-dashboard.html" class="btn btn-primary btn-sm" title="Go to AI Dashboard">
+            <i class="fas fa-brain"></i> <span>AI Dashboard</span>
+        </a>
+        <button class="btn btn-danger btn-sm" onclick="logout()" title="Logout">
+            <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+        </button>
+    </div>
+</header>
+
+<!-- QUICK LINKS BAR -->
+<div class="quick-links-bar">
+    <span class="label"><i class="fas fa-compass"></i> Quick Navigation</span>
+    <a href="/admin/ai-dashboard.html" class="quick-link"><i class="fas fa-brain"></i> AI Dashboard</a>
+    <a href="/admin/analytics.html" class="quick-link active"><i class="fas fa-chart-bar"></i> Conversation Analytics</a>
+    <a href="/admin/index.html" class="quick-link"><i class="fas fa-tachometer-alt"></i> Admin Panel</a>
+    <a href="/assistant" class="quick-link"><i class="fas fa-robot"></i> AI Assistant</a>
+    <a href="/" class="quick-link"><i class="fas fa-home"></i> Storefront</a>
+    <span style="margin-left:auto;font-size:0.6rem;color:var(--text-muted);">
+        <i class="fas fa-clock"></i> <span id="lastUpdateLabel">Last update: â€”</span>
+    </span>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container" id="mainContent">
+    <div class="loading-overlay" id="loadingSpinner">
+        <div class="spinner"></div>
+    </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+    // ============================================
+    // CONVERSATION ANALYTICS DASHBOARD v2.0
+    // Real-time data from D1 database
+    // ============================================
+
+    const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+    let refreshInterval = null;
+    let charts = {};
+    let currentData = null;
+
+    // ========== FETCH ANALYTICS DATA ==========
+    async function fetchAnalytics() {
+        try {
+            const fingerprint = await getFingerprint();
+            const token = localStorage.getItem('psh_auth_token') || '';
+
+            const response = await fetch(`${API_BASE}/admin/analytics`, {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-device-fingerprint': fingerprint,
+                    'Authorization': token ? `Bearer ${token}` : ''
+                }
+            });
+
+            if (response.status === 401) {
+                window.location.href = '/admin-login.html';
+                throw new Error('Session expired');
+            }
+
+            if (!response.ok) throw new Error(`HTTP ${response.status}`);
+            const data = await response.json();
+            return data;
+        } catch (error) {
+            console.error('Fetch error:', error);
+            return null;
+        }
+    }
+
+    // ========== FINGERPRINT ==========
+    async function getFingerprint() {
+        try {
+            const comp = [
+                navigator.userAgent,
+                navigator.language,
+                screen.width,
+                screen.height,
+                new Date().getTimezoneOffset()
+            ].join('|');
+            const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(comp));
+            return Array.from(new Uint8Array(hash))
+                .map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+        } catch {
+            return 'fp_' + Date.now();
+        }
+    }
+
+    // ========== TOAST ==========
+    function showToast(message, type = 'info', duration = 4000) {
+        const container = document.getElementById('toastContainer');
+        const toast = document.createElement('div');
+        toast.className = `toast toast-${type}`;
+        
+        const icons = {
+            success: 'fa-check-circle',
+            error: 'fa-exclamation-circle',
+            warning: 'fa-exclamation-triangle',
+            info: 'fa-info-circle'
+        };
+        
+        toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${message}`;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100px)';
+            toast.style.transition = 'all 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+    }
+
+    // ========== RENDER STATS ==========
+    function renderStats(stats) {
+        if (!stats) return;
+
+        document.getElementById('totalQueries').textContent = stats.totalQueries?.toLocaleString() || '0';
+        document.getElementById('positiveSentiment').textContent = stats.positivePercentage?.toFixed(1) + '%' || '0%';
+        document.getElementById('urgentQueries').textContent = stats.urgentQueries?.toLocaleString() || '0';
+        document.getElementById('uniqueUsers').textContent = stats.uniqueUsers?.toLocaleString() || '0';
+
+        // Changes
+        if (stats.queryChange !== undefined) {
+            const change = document.getElementById('queryChange');
+            change.textContent = (stats.queryChange > 0 ? '+' : '') + stats.queryChange.toFixed(1) + '%';
+            change.className = 'stat-change ' + (stats.queryChange > 0 ? 'positive' : stats.queryChange < 0 ? 'negative' : 'neutral');
+        }
+
+        if (stats.sentimentChange !== undefined) {
+            const change = document.getElementById('sentimentChange');
+            change.textContent = (stats.sentimentChange > 0 ? '+' : '') + stats.sentimentChange.toFixed(1) + '%';
+            change.className = 'stat-change ' + (stats.sentimentChange > 0 ? 'positive' : stats.sentimentChange < 0 ? 'negative' : 'neutral');
+        }
+
+        if (stats.urgentChange !== undefined) {
+            const change = document.getElementById('urgentChange');
+            change.textContent = (stats.urgentChange > 0 ? '+' : '') + stats.urgentChange.toFixed(1) + '%';
+            change.className = 'stat-change ' + (stats.urgentChange > 0 ? 'positive' : stats.urgentChange < 0 ? 'negative' : 'neutral');
+        }
+
+        if (stats.userChange !== undefined) {
+            const change = document.getElementById('userChange');
+            change.textContent = (stats.userChange > 0 ? '+' : '') + stats.userChange.toFixed(1) + '%';
+            change.className = 'stat-change ' + (stats.userChange > 0 ? 'positive' : stats.userChange < 0 ? 'negative' : 'neutral');
+        }
+    }
+
+    // ========== RENDER CHARTS ==========
+    function renderCharts(data) {
+        if (!data) return;
+
+        const ctxSentiment = document.getElementById('sentimentChart')?.getContext('2d');
+        const ctxUsage = document.getElementById('usageChart')?.getContext('2d');
+        const ctxModel = document.getElementById('modelChart')?.getContext('2d');
+
+        // Destroy existing charts
+        if (charts.sentiment) { charts.sentiment.destroy(); delete charts.sentiment; }
+        if (charts.usage) { charts.usage.destroy(); delete charts.usage; }
+        if (charts.model) { charts.model.destroy(); delete charts.model; }
+
+        // Sentiment Chart
+        if (ctxSentiment && data.sentimentTrend) {
+            const labels = data.sentimentTrend.map(d => d.date) || [];
+            const positiveData = data.sentimentTrend.map(d => d.positive) || [];
+            const negativeData = data.sentimentTrend.map(d => d.negative) || [];
+            const neutralData = data.sentimentTrend.map(d => d.neutral) || [];
+
+            charts.sentiment = new Chart(ctxSentiment, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [
+                        {
+                            label: 'Positive',
+                            data: positiveData,
+                            backgroundColor: 'rgba(51, 255, 170, 0.6)',
+                            borderColor: '#33ffaa',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Neutral',
+                            data: neutralData,
+                            backgroundColor: 'rgba(255, 170, 51, 0.6)',
+                            borderColor: '#ffaa33',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        },
+                        {
+                            label: 'Negative',
+                            data: negativeData,
+                            backgroundColor: 'rgba(255, 51, 102, 0.6)',
+                            borderColor: '#ff3366',
+                            borderWidth: 1,
+                            borderRadius: 4
+                        }
+                    ]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#b0ada5' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#6a6870' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#6a6870', stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Usage Chart
+        if (ctxUsage && data.usageTrend) {
+            const labels = data.usageTrend.map(d => d.date) || [];
+            const values = data.usageTrend.map(d => d.count) || [];
+
+            charts.usage = new Chart(ctxUsage, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Queries',
+                        data: values,
+                        borderColor: '#d6b25e',
+                        backgroundColor: 'rgba(214, 178, 94, 0.08)',
+                        fill: true,
+                        tension: 0.4,
+                        pointRadius: 3,
+                        pointBackgroundColor: '#d6b25e',
+                        pointBorderColor: 'rgba(8,12,25,0.8)',
+                        pointBorderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            labels: { color: '#b0ada5' }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#6a6870' }
+                        },
+                        y: {
+                            grid: { color: 'rgba(255,255,255,0.05)' },
+                            ticks: { color: '#6a6870', stepSize: 1 }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Model Chart
+        if (ctxModel && data.modelDistribution) {
+            const labels = data.modelDistribution.map(d => d.model || 'Unknown');
+            const values = data.modelDistribution.map(d => d.count);
+            const colors = ['#d6b25e', '#33ffaa', '#00d4ff', '#b388ff', '#ffaa33', '#ff3366'];
+
+            charts.model = new Chart(ctxModel, {
+                type: 'doughnut',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        data: values,
+                        backgroundColor: colors.slice(0, values.length),
+                        borderColor: 'rgba(8,12,25,0.8)',
+                        borderWidth: 2
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#b0ada5',
+                                padding: 12,
+                                font: { size: 10 }
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        // Sentiment Breakdown
+        renderSentimentBreakdown(data.sentimentBreakdown);
+    }
+
+    // ========== RENDER SENTIMENT BREAKDOWN ==========
+    function renderSentimentBreakdown(breakdown) {
+        const container = document.getElementById('sentimentBreakdown');
+        if (!breakdown || breakdown.length === 0) {
+            container.innerHTML = '<div class="empty-state"><p>No sentiment data available</p></div>';
+            return;
+        }
+
+        const total = breakdown.reduce((sum, d) => sum + d.count, 0);
+        const emojis = {
+            positive: 'ðŸ˜Š',
+            negative: 'ðŸ˜Ÿ',
+            neutral: 'ðŸ˜'
+        };
+
+        container.innerHTML = breakdown.map(d => `
+            <div class="sentiment-item">
+                <span class="dot ${d.sentiment}"></span>
+                <span>${emojis[d.sentiment] || d.sentiment} ${d.sentiment}</span>
+                <span class="value">${((d.count / total) * 100).toFixed(1)}%</span>
+                <span style="font-size:0.6rem;color:var(--text-muted);">(${d.count})</span>
+            </div>
+        `).join('');
+
+        // Add total
+        const totalEl = document.createElement('div');
+        totalEl.style.cssText = 'margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);font-size:0.65rem;color:var(--text-muted);text-align:center;';
+        totalEl.textContent = `Total analyzed: ${total} conversations`;
+        container.appendChild(totalEl);
+    }
+
+    // ========== RENDER CONVERSATIONS TABLE ==========
+    function renderConversations(conversations) {
+        const container = document.getElementById('conversationsContainer');
+
+        if (!conversations || conversations.length === 0) {
+            container.innerHTML = `
+                <div class="empty-state">
+                    <div class="icon"><i class="fas fa-comments"></i></div>
+                    <h3>No conversations yet</h3>
+                    <p>Start using the AI Assistant to see data here.</p>
+                </div>
+            `;
+            return;
+        }
+
+        let html = `
+            <table>
+                <thead>
+                    <tr>
+                        <th>User</th>
+                        <th>Message</th>
+                        <th>Sentiment</th>
+                        <th>Urgency</th>
+                        <th>Model</th>
+                        <th>Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+        `;
+
+        conversations.forEach(conv => {
+            const sentimentClass = conv.sentiment || 'neutral';
+            const urgencyClass = conv.urgency ? 'urgent' : 'normal';
+            const urgencyLabel = conv.urgency ? 'âš¡ Urgent' : 'Normal';
+            const userLabel = conv.user_id || (conv.fingerprint ? conv.fingerprint.slice(0, 8) : 'Guest');
+
+            html += `
+                <tr>
+                    <td>${escapeHtml(userLabel)}</td>
+                    <td class="message-preview">${escapeHtml(conv.user_message || '(empty)')}</td>
+                    <td><span class="sentiment-badge ${sentimentClass}">${sentimentClass}</span></td>
+                    <td><span class="urgency-badge ${urgencyClass}">${urgencyLabel}</span></td>
+                    <td>${conv.model || 'unknown'}</td>
+                    <td style="font-size:0.65rem;color:var(--text-muted);">${conv.created_at ? new Date(conv.created_at).toLocaleString() : 'â€”'}</td>
+                </tr>
+            `;
+        });
+
+        html += `
+                </tbody>
+            </table>
+            <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.05);font-size:0.65rem;color:var(--text-muted);text-align:center;">
+                Showing ${conversations.length} recent conversations
+            </div>
+        `;
+
+        container.innerHTML = html;
+    }
+
+    function escapeHtml(text) {
+        if (!text) return '';
+        const div = document.createElement('div');
+        div.textContent = text;
+        return div.innerHTML;
+    }
+
+    // ========== FILTER CONVERSATIONS ==========
+    async function filterConversations() {
+        const sentiment = document.getElementById('sentimentFilter').value;
+        const urgency = document.getElementById('urgencyFilter').value;
+
+        try {
+            const fingerprint = await getFingerprint();
+            const token = localStorage.getItem('psh_auth_token') || '';
+            const response = await fetch(`${API_BASE}/admin/analytics/conversations?sentiment=${sentiment}&urgency=${urgency}`, {
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'x-device-fingerprint': fingerprint,
+                    'Authorization': token ? `Bearer ${token}` : ''
+                }
+            });
+
+            if (response.ok) {
+                const data = await response.json();
+                renderConversations(data.conversations || []);
+                showToast('Filter applied', 'info', 1500);
+            }
+        } catch (error) {
+            console.error('Filter error:', error);
+            showToast('Failed to apply filter', 'error');
+        }
+    }
+
+    // ========== EXPORT DATA ==========
+    function exportData() {
+        if (!currentData) {
+            showToast('No data to export', 'warning');
+            return;
+        }
+
+        const data = currentData;
+        let csv = 'Date,Total Queries,Positive %,Urgent,Unique Users\n';
+        if (data.stats) {
+            csv += `${new Date().toISOString().slice(0,10)},${data.stats.totalQueries || 0},${data.stats.positivePercentage || 0},${data.stats.urgentQueries || 0},${data.stats.uniqueUsers || 0}\n`;
+        }
+        csv += '\nSentiment Breakdown\n';
+        csv += 'Sentiment,Count,Percentage\n';
+        if (data.charts?.sentimentBreakdown) {
+            const total = data.charts.sentimentBreakdown.reduce((s, d) => s + d.count, 0);
+            data.charts.sentimentBreakdown.forEach(d => {
+                csv += `${d.sentiment || 'unknown'},${d.count},${((d.count/total)*100).toFixed(1)}%\n`;
+            });
+        }
+
+        const blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `conversation-analytics-${new Date().toISOString().slice(0,10)}.csv`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('âœ… Data exported as CSV', 'success');
+    }
+
+    // ========== LOAD ALL DATA ==========
+    async function loadDashboard() {
+        const refreshIcon = document.getElementById('refreshBtn')?.querySelector('i');
+        if (refreshIcon) refreshIcon.classList.add('fa-spin');
+
+        const loadingSpinner = document.getElementById('loadingSpinner');
+        loadingSpinner.style.display = 'flex';
+
+        try {
+            const result = await fetchAnalytics();
+
+            if (!result || !result.success) {
+                console.error('Failed to load data:', result?.error);
+                document.getElementById('conversationsContainer').innerHTML = `
+                    <div class="empty-state">
+                        <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <h3 style="color:var(--accent-danger);">Error loading data</h3>
+                        <p>${result?.error || 'Please check your connection and try again.'}</p>
+                        <button onclick="loadDashboard()" style="margin-top:16px;background:var(--gold-core);border:none;padding:8px 20px;border-radius:30px;color:var(--text-inverse);font-weight:600;cursor:pointer;">
+                            <i class="fas fa-redo"></i> Retry
+                        </button>
+                    </div>
+                `;
+                return;
+            }
+
+            const { stats, charts: chartData, conversations } = result.data || result;
+
+            // Store current data for export
+            currentData = result.data || result;
+
+            renderStats(stats);
+            renderCharts(chartData);
+            renderConversations(conversations);
+
+            // Update last update time
+            document.getElementById('lastUpdateLabel').textContent = 'Last update: ' + new Date().toLocaleString();
+
+        } catch (error) {
+            console.error('Dashboard error:', error);
+            document.getElementById('conversationsContainer').innerHTML = `
+                <div class="empty-state">
+                    <div class="icon"><i class="fas fa-exclamation-triangle"></i></div>
+                    <h3 style="color:var(--accent-danger);">Connection Error</h3>
+                    <p>${error.message || 'Please check your internet connection.'}</p>
+                </div>
+            `;
+            showToast('âŒ Failed to load dashboard', 'error');
+        } finally {
+            loadingSpinner.style.display = 'none';
+            if (refreshIcon) refreshIcon.classList.remove('fa-spin');
+        }
+    }
+
+    // ========== LOGOUT ==========
+    function logout() {
+        localStorage.removeItem('psh_auth_token');
+        localStorage.removeItem('psh_user');
+        window.location.href = '/admin-login.html';
+    }
+
+    // ========== INIT ==========
+    document.getElementById('refreshBtn')?.addEventListener('click', loadDashboard);
+    document.getElementById('sentimentFilter')?.addEventListener('change', filterConversations);
+    document.getElementById('urgencyFilter')?.addEventListener('change', filterConversations);
+    document.getElementById('exportBtn')?.addEventListener('click', exportData);
+
+    // Keyboard shortcuts
+    document.addEventListener('keydown', (e) => {
+        if (e.ctrlKey && e.key === 'r') {
+            e.preventDefault();
+            loadDashboard();
+        }
+        if (e.ctrlKey && e.shiftKey && (e.key === 'e' || e.key === 'E')) {
+            e.preventDefault();
+            exportData();
+        }
+        if (e.ctrlKey && e.shiftKey && (e.key === 'd' || e.key === 'D')) {
+            e.preventDefault();
+            window.location.href = '/admin/ai-dashboard.html';
+        }
+    });
+
+    // Initial load
+    loadDashboard();
+
+    // Auto-refresh every 60 seconds
+    setInterval(loadDashboard, 60000);
+
+    console.log('ðŸ“Š Conversation Analytics Dashboard v2.0 initialized');
+    console.log('âŒ¨ï¸  Ctrl+R to refresh | Ctrl+Shift+E to export | Ctrl+Shift+D for AI Dashboard');
+    console.log('ðŸ”„ Auto-refresh every 60 seconds');
+</script>
+</body>
+</html>
+

@@ -1,0 +1,106 @@
+﻿{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+
+  "name": "primeshieldhub-production",
+
+  // ===== THIS =====
+  "main": "src/index.js",
+  // =======================
+
+  "compatibility_date": "2026-05-11",
+
+  "compatibility_flags": [
+    "nodejs_compat"
+  ],
+
+  "workers_dev": false,
+
+  "observability": {
+    "enabled": true
+  },
+
+  "routes": [
+    {
+      "pattern": "api.primeshieldhub.com/*",
+      "zone_name": "primeshieldhub.com"
+    },
+    {
+      "pattern": "primeshieldhub.com/franchise/*",
+      "zone_name": "primeshieldhub.com"
+    },
+    {
+      "pattern": "primeshieldhub.com/api/franchise/*",
+      "zone_name": "primeshieldhub.com"
+    }
+  ],
+
+  // ======================================================================
+  // ✅ CRON TRIGGERS FOR SCHEDULED JOBS
+  // ======================================================================
+  "triggers": {
+    "crons": ["0 */6 * * *"]
+  },
+  // ======================================================================
+
+  // ======================================================================
+  // ✅ DURABLE OBJECTS FOR REAL-TIME CHAT
+  // ======================================================================
+  "durable_objects": {
+    "bindings": [
+      {
+        "name": "CHAT_ROOM",
+        "class_name": "ChatRoom"
+      }
+    ]
+  },
+
+  "migrations": [
+    {
+      "tag": "v1",
+      "new_sqlite_classes": ["ChatRoom"]
+    }
+  ],
+  // ======================================================================
+
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "primeshieldhub-db",
+      "database_id": "73add641-4a4b-4e7a-bda3-078a14b6240e"
+    },
+    {
+      "binding": "PAYMENT_LOGS_DB",
+      "database_name": "payment-logs",
+      "database_id": "c21ccc3f-f2a6-41a8-ae15-41603238d0ca"
+    }
+  ],
+
+  "kv_namespaces": [
+    {
+      "binding": "RATE_LIMITER",
+      "id": "e15e113991624d888474c049afba868c"
+    },
+    {
+      "binding": "RATE_LIMITER_BACKUP",
+      "id": "79e1f1544ede456ea7c31ebb796dea1b"
+    },
+    {
+      "binding": "PRODUCTS_CACHE",
+      "id": "59a3a93c2664494681c3fb9ba949e904"
+    }
+  ],
+
+  "r2_buckets": [
+    {
+      "binding": "STORAGE",
+      "bucket_name": "primeshieldhub-storage"
+    }
+  ],
+
+  "vars": {
+    "ENVIRONMENT": "production",
+    "APP_URL": "https://primeshieldhub.com",
+    "SITE_URL": "https://primeshieldhub.com",
+    "ALLOWED_ORIGINS": "https://primeshieldhub.com,https://www.primeshieldhub.com,https://primeshieldhub.pages.dev"
+  }
+}

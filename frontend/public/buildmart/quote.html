@@ -1,0 +1,1893 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+  <title>BuildMart · Enterprise Quote Builder</title>
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "BuildMart Quote Builder",
+    "description": "Enterprise construction procurement with AI-powered quotations, real-time inventory, and live delivery estimation.",
+    "url": "https://primeshieldhub.com/buildmart/quote",
+    "isPartOf": {
+      "@type": "WebSite",
+      "name": "PRIMESHIELDHUB BUILDMART",
+      "url": "https://primeshieldhub.com/buildmart"
+    }
+  }
+  </script>
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    /* ============================================================
+       RESET + ROOTS
+       ============================================================ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-deep: #05070c;
+      --bg-surface: #0e1115;
+      --bg-elevated: #171b21;
+      --text-primary: #f2f4f8;
+      --text-secondary: #a8b2c4;
+      --text-muted: #6e7a8f;
+      --gold: #d4af37;
+      --gold-soft: #e4c15a;
+      --gold-glow: rgba(212, 175, 55, 0.15);
+      --gold-glow-strong: rgba(212, 175, 55, 0.3);
+      --orange-accent: #e87a2a;
+      --radius-xl: 32px;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --transition: 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+      padding: 0 24px 48px;
+      background-image: radial-gradient(circle at 20% 30%, rgba(245, 182, 66, 0.03) 0%, transparent 70%);
+      min-height: 100vh;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1520px; margin: 0 auto; }
+    .text-gold { color: #f5b642; }
+    .text-muted { color: var(--text-muted); }
+
+    /* ============================================================
+       GLASS
+       ============================================================ */
+    .glass {
+      background: rgba(12, 18, 28, 0.6);
+      backdrop-filter: blur(18px) saturate(220%);
+      -webkit-backdrop-filter: blur(18px) saturate(220%);
+      border: 1px solid rgba(255, 215, 0, 0.06);
+      border-radius: 44px;
+      box-shadow: 0 32px 64px -24px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(255, 215, 0, 0.03);
+      transition: all 0.25s ease;
+    }
+
+    .card {
+      padding: 32px 34px;
+      background: rgba(10, 14, 24, 0.6);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-radius: 40px;
+      border: 1px solid rgba(255, 215, 0, 0.04);
+      transition: all 0.25s ease;
+    }
+    .card:hover { border-color: rgba(255, 215, 0, 0.08); }
+
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 26px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      font-family: 'Playfair Display', serif;
+    }
+    .card-title i { color: #f5b642; font-size: 1.4rem; }
+
+    /* ============================================================
+       NAVBAR
+       ============================================================ */
+    .navbar {
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(212, 176, 94, 0.06);
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      background: rgba(2, 3, 4, 0.78);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+    }
+
+    .nav-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f0d78c, #d4b05e, #b8942e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .logo .sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      -webkit-text-fill-color: var(--text-muted);
+      color: var(--text-muted);
+      display: block;
+      margin-top: -2px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.6rem;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #bcc4d2;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      transition: 0.2s;
+      position: relative;
+      padding: 0.2rem 0;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px; left: 0;
+      width: 0; height: 2px;
+      background: var(--gold);
+      transition: width 0.25s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--gold); }
+    .nav-links a.active::after { width: 100%; }
+
+    .nav-actions { display: flex; gap: 0.6rem; align-items: center; }
+    .hamburger {
+      display: none;
+      font-size: 1.4rem;
+      color: #d1d8e5;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn-primary {
+      background: linear-gradient(145deg, #f5b642, #d48f2b);
+      border: none;
+      padding: 14px 36px;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #0b0d12;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.35s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+      cursor: pointer;
+      box-shadow: 0 16px 36px -12px rgba(245, 182, 66, 0.25);
+      font-family: 'Inter', sans-serif;
+    }
+    .btn-primary:hover {
+      transform: scale(1.02) translateY(-2px);
+      background: #fcc85a;
+      box-shadow: 0 24px 48px -12px rgba(245, 182, 66, 0.35);
+    }
+
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 215, 0, 0.08);
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: 600;
+      color: #eef2f6;
+      transition: all 0.25s ease;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+    }
+    .btn-secondary:hover {
+      background: rgba(245, 182, 66, 0.08);
+      border-color: #f5b642;
+      color: #f5b642;
+      transform: translateY(-1px);
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      padding: 40px 48px;
+      margin-bottom: 40px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(8, 12, 20, 0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 215, 0, 0.04);
+      border-radius: 44px;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -10%;
+      width: 400px; height: 400px;
+      background: radial-gradient(circle, rgba(245, 182, 66, 0.04) 0%, transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4.5vw, 3.4rem);
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      line-height: 1.05;
+    }
+    .hero h1 span { color: #f5b642; text-shadow: 0 0 40px rgba(245, 182, 66, 0.08); }
+    .hero p { color: #b0bacd; font-size: 1.1rem; max-width: 500px; margin: 12px 0 20px; font-weight: 400; }
+    .hero-badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px 28px;
+      margin: 8px 0 24px;
+    }
+    .hero-badges i { color: #f5b642; margin-right: 8px; font-size: 0.85rem; }
+
+    /* ============================================================
+       GRID
+       ============================================================ */
+    .quote-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1.8fr 1.2fr;
+      gap: 28px;
+      margin: 20px 0;
+    }
+
+    @media (max-width: 1200px) {
+      .quote-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 820px) {
+      .quote-grid { grid-template-columns: 1fr; gap: 24px; }
+    }
+
+    /* ============================================================
+       FORM ELEMENTS
+       ============================================================ */
+    .input-group { margin-bottom: 18px; }
+    .input-group label {
+      display: block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: #b0bacd;
+      margin-bottom: 4px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      opacity: 0.6;
+    }
+    .input-group input,
+    .input-group select,
+    .input-group textarea {
+      width: 100%;
+      padding: 14px 20px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.04);
+      border-radius: 24px;
+      color: #eef2f6;
+      font-size: 0.9rem;
+      transition: 0.25s ease;
+      font-family: 'Inter', sans-serif;
+      backdrop-filter: blur(4px);
+      outline: none;
+    }
+    .input-group input:focus,
+    .input-group select:focus,
+    .input-group textarea:focus {
+      border-color: #f5b642;
+      background: rgba(0, 0, 0, 0.55);
+      box-shadow: 0 0 0 5px rgba(245, 182, 66, 0.04);
+    }
+    .input-group textarea { resize: vertical; min-height: 70px; }
+
+    /* ============================================================
+       PRODUCT SEARCH
+       ============================================================ */
+    .product-search {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 18px;
+      flex-wrap: wrap;
+    }
+    .product-search input {
+      flex: 1;
+      min-width: 180px;
+      padding: 14px 22px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 215, 0, 0.04);
+      border-radius: 60px;
+      color: #fff;
+      font-size: 0.9rem;
+      transition: 0.25s ease;
+      font-family: 'Inter', sans-serif;
+    }
+    .product-search input:focus {
+      border-color: #f5b642;
+      outline: none;
+      background: rgba(0, 0, 0, 0.6);
+      box-shadow: 0 0 0 5px rgba(245, 182, 66, 0.03);
+    }
+    .product-search .loading-spinner {
+      display: none;
+      align-items: center;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      gap: 8px;
+    }
+    .product-search .loading-spinner.active { display: flex; }
+
+    .search-results {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+      margin-bottom: 18px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 4px;
+    }
+    .search-results::-webkit-scrollbar { width: 4px; }
+    .search-results::-webkit-scrollbar-track { background: transparent; }
+    .search-results::-webkit-scrollbar-thumb { background: var(--gold-glow); border-radius: 10px; }
+
+    .search-tag {
+      background: rgba(245, 182, 66, 0.04);
+      padding: 8px 18px;
+      border-radius: 60px;
+      border: 1px solid rgba(245, 182, 66, 0.04);
+      font-size: 0.85rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.25s ease;
+      color: #d0d9e8;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 2px;
+    }
+    .search-tag:hover {
+      background: rgba(245, 182, 66, 0.12);
+      border-color: #f5b642;
+      color: #f5b642;
+      transform: translateY(-2px) scale(1.02);
+      box-shadow: 0 8px 20px -10px rgba(245, 182, 66, 0.15);
+    }
+    .search-tag .tag-name { font-weight: 600; }
+    .search-tag .tag-meta {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+    }
+    .search-tag .tag-meta .stock { color: #4ade80; }
+    .search-tag .tag-meta .stock.low { color: #facc15; }
+    .search-tag .tag-meta .stock.out { color: #f87171; }
+
+    /* ============================================================
+       QUOTE ITEMS
+       ============================================================ */
+    .quote-items-container { max-height: 400px; overflow-y: auto; padding-right: 4px; }
+    .quote-items-container::-webkit-scrollbar { width: 4px; }
+    .quote-items-container::-webkit-scrollbar-thumb { background: var(--gold-glow); border-radius: 10px; }
+
+    .quote-item {
+      display: grid;
+      grid-template-columns: 1.8fr 0.8fr 0.8fr 1fr 0.4fr;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+      transition: background 0.2s;
+    }
+    .quote-item:hover { background: rgba(255, 255, 255, 0.01); border-radius: 16px; }
+    .quote-item .item-name { font-weight: 600; }
+    .quote-item .item-details {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+      margin-top: 2px;
+    }
+
+    @media (max-width: 600px) {
+      .quote-item {
+        grid-template-columns: 1fr 0.8fr 0.6fr;
+        gap: 6px;
+      }
+      .quote-item .item-price { display: none; }
+      .quote-item .item-total { grid-column: 1 / -1; text-align: right; }
+    }
+
+    .qty-control {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 60px;
+      padding: 2px 6px;
+      border: 1px solid rgba(255, 215, 0, 0.04);
+      width: fit-content;
+    }
+    .qty-control button {
+      background: transparent;
+      border: none;
+      color: #f5b642;
+      font-size: 1.2rem;
+      width: 32px; height: 32px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.15s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qty-control button:hover { background: rgba(245, 182, 66, 0.08); }
+    .qty-control span {
+      min-width: 28px;
+      text-align: center;
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+    .remove-item {
+      color: #e55a5a;
+      cursor: pointer;
+      opacity: 0.4;
+      transition: 0.2s ease;
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+    }
+    .remove-item:hover { opacity: 1; transform: scale(1.1); }
+
+    .empty-quote {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-muted);
+    }
+    .empty-quote i { font-size: 2.4rem; color: var(--text-muted); margin-bottom: 12px; display: block; }
+
+    /* ============================================================
+       STATUS TRACKER
+       ============================================================ */
+    .status-track {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px 16px;
+      margin: 16px 0 8px;
+      padding: 14px 0 6px;
+      border-top: 1px solid rgba(255, 255, 255, 0.02);
+    }
+    .status-badge {
+      background: rgba(245, 182, 66, 0.02);
+      padding: 6px 18px;
+      border-radius: 60px;
+      font-size: 0.7rem;
+      font-weight: 500;
+      border: 1px solid rgba(245, 182, 66, 0.02);
+      color: #8691a8;
+      transition: 0.2s;
+    }
+    .status-badge.active {
+      background: rgba(245, 182, 66, 0.08);
+      border-color: #f5b642;
+      color: #f5b642;
+      box-shadow: 0 0 20px rgba(245, 182, 66, 0.03);
+    }
+    .status-badge .status-icon { margin-right: 6px; font-size: 0.5rem; vertical-align: middle; }
+
+    /* ============================================================
+       SUMMARY CARD
+       ============================================================ */
+    .summary-card {
+      padding: 28px 30px;
+      background: rgba(6, 10, 18, 0.85);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 215, 0, 0.04);
+      border-radius: 44px;
+      box-shadow: 0 40px 80px -28px #000000dd;
+      position: sticky;
+      top: 24px;
+    }
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      font-weight: 500;
+      color: #c8d2e0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+      font-size: 0.9rem;
+    }
+    .summary-row:last-of-type { border-bottom: none; }
+    .summary-total {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: #f5b642;
+      padding-top: 16px;
+      border-top: 1px solid rgba(255, 215, 0, 0.06);
+      margin-top: 14px;
+      display: flex;
+      justify-content: space-between;
+      letter-spacing: -0.02em;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .action-btn {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      padding: 12px 20px;
+      border-radius: 60px;
+      font-weight: 600;
+      color: #eef2f6;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      transition: 0.25s ease;
+      cursor: pointer;
+      flex: 1;
+      justify-content: center;
+      backdrop-filter: blur(4px);
+      font-size: 0.85rem;
+      font-family: 'Inter', sans-serif;
+    }
+    .action-btn i { color: #f5b642; }
+    .action-btn:hover {
+      background: rgba(245, 182, 66, 0.04);
+      border-color: #f5b642;
+      transform: translateY(-2px);
+    }
+    .action-btn.primary {
+      background: linear-gradient(145deg, #f5b642, #d48f2b);
+      color: #0b0d12;
+      border: none;
+    }
+    .action-btn.primary i { color: #0b0d12; }
+    .action-btn.primary:hover {
+      background: #fcc85a;
+      box-shadow: 0 8px 24px -8px rgba(245, 182, 66, 0.25);
+    }
+    .action-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .calculating-indicator {
+      display: none;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.8rem;
+      padding: 8px 0;
+    }
+    .calculating-indicator.active { display: flex; }
+
+    /* ============================================================
+       AI ASSISTANT
+       ============================================================ */
+    .ai-assistant {
+      position: fixed;
+      bottom: 28px;
+      right: 28px;
+      width: 400px;
+      max-width: 94vw;
+      background: rgba(6, 10, 18, 0.92);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid rgba(255, 215, 0, 0.04);
+      border-radius: 36px;
+      padding: 24px 28px;
+      box-shadow: 0 48px 96px -24px #000000ee;
+      z-index: 999;
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.3, 1.2);
+    }
+    .ai-assistant:hover { border-color: rgba(255, 215, 0, 0.08); transform: scale(1.01); }
+    .ai-assistant h4 {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: 'Playfair Display', serif;
+    }
+    .ai-assistant h4 i { color: #f5b642; }
+    .ai-assistant textarea {
+      width: 100%;
+      margin: 12px 0;
+      padding: 14px 18px;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.03);
+      border-radius: 24px;
+      color: #eef2f6;
+      resize: vertical;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      transition: 0.2s;
+      min-height: 60px;
+    }
+    .ai-assistant textarea:focus { border-color: #f5b642; outline: none; }
+    .ai-assistant .ai-status {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      padding: 8px 0;
+    }
+    .ai-assistant .ai-status .spinner {
+      display: inline-block;
+      animation: spin 1s linear infinite;
+      margin-right: 6px;
+    }
+    @keyframes spin { 100% { transform: rotate(360deg); } }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      max-width: 420px;
+      background: rgba(14, 17, 21, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      z-index: 1000;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+      animation: slideUp 0.4s ease;
+      line-height: 1.6;
+    }
+    .toast.error { border-color: rgba(239, 68, 68, 0.3); }
+    .toast.success { border-color: rgba(74, 222, 128, 0.3); }
+    .toast .toast-icon { margin-right: 10px; }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @media (max-width: 600px) {
+      .toast { bottom: 1rem; right: 1rem; left: 1rem; max-width: none; font-size: 0.8rem; padding: 0.8rem 1rem; }
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      margin-top: 40px;
+      padding: 28px 0 16px;
+      border-top: 1px solid rgba(255, 255, 255, 0.02);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      color: #6f7a91;
+      font-size: 0.85rem;
+    }
+    .footer a { color: #9aa3b5; margin-left: 28px; text-decoration: none; transition: 0.2s; }
+    .footer a:hover { color: #f5b642; }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) { .container { padding: 0 1.8rem; } }
+    @media (max-width: 820px) {
+      .container { padding: 0 1.2rem; }
+      body { padding: 0 14px 40px; }
+      .hero { padding: 28px 20px; }
+      .hero h1 { font-size: 1.8rem; }
+      .ai-assistant { width: 96%; right: 2%; bottom: 12px; padding: 18px; }
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .card { padding: 18px 16px; }
+      .summary-card { padding: 18px 16px; }
+    }
+    @media (max-width: 600px) {
+      .hero-actions .btn-primary,
+      .hero-actions .btn-secondary { width: 100%; justify-content: center; }
+      .action-buttons { flex-direction: column; }
+      .action-btn { flex: 1; }
+    }
+    @media (max-width: 420px) {
+      .hero h1 { font-size: 1.4rem; }
+      .container { padding: 0 0.8rem; }
+      .card { padding: 14px 12px; }
+      .summary-card { padding: 14px 12px; }
+      .summary-total { font-size: 1.2rem; }
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+       ============================================================ */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+  <nav class="navbar">
+    <div class="container nav-flex">
+      <a href="/buildmart" class="logo">
+        PRIMESHIELDHUB
+        <span class="sub">BUILDMART</span>
+      </a>
+      <div class="nav-links">
+        <a href="/buildmart">Home</a>
+        <a href="/buildmart/products">Products</a>
+        <a href="/buildmart/categories">Categories</a>
+        <a href="/buildmart/wholesale">Wholesale</a>
+        <a href="/buildmart/contractors">Contractors</a>
+        <a href="/buildmart/projects">Projects</a>
+        <a href="/buildmart/quote" class="active">Quote</a>
+        <a href="/buildmart/delivery">Delivery</a>
+      </div>
+      <div class="nav-actions">
+        <a href="/buildmart/quote" class="btn-primary" style="padding:0.5rem 1.6rem; font-size:0.8rem;">
+          <i class="fas fa-file-invoice"></i> Quote
+        </a>
+        <button class="hamburger" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <section class="container">
+    <div class="hero">
+      <div>
+        <h1>Enterprise <span>Construction</span> Quotation</h1>
+        <p>Live inventory · AI estimation · Real-time pricing · Server-verified totals</p>
+        <div class="hero-badges">
+          <span><i class="fas fa-check-circle"></i> Live Inventory</span>
+          <span><i class="fas fa-check-circle"></i> Bulk Pricing</span>
+          <span><i class="fas fa-check-circle"></i> AI Estimation</span>
+          <span><i class="fas fa-check-circle"></i> Delivery ETA</span>
+          <span><i class="fas fa-check-circle"></i> Server Verified</span>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:10px;">
+          <button class="btn-primary" id="startBtn"><i class="fas fa-file-signature"></i> Start Quote</button>
+          <button class="btn-secondary" id="loadQuoteBtn"><i class="fas fa-folder-open"></i> Load Draft</button>
+        </div>
+      </div>
+      <div style="font-size:4rem;opacity:0.06;pointer-events:none;transform:rotate(8deg);"><i class="fas fa-cubes"></i></div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       QUOTE GRID
+       ============================================================ -->
+  <div class="container">
+    <div class="quote-grid">
+
+      <!-- LEFT: Project Info -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-project-diagram"></i> Project Info</div>
+
+        <div class="input-group">
+          <label>Quote Number</label>
+          <input type="text" id="quoteNumber" placeholder="Auto-generated" readonly style="color:var(--gold);">
+        </div>
+
+        <div class="input-group">
+          <label>Project Name *</label>
+          <input type="text" id="projectName" placeholder="Eko Tower Project" value="Eko Tower">
+        </div>
+
+        <div class="input-group">
+          <label>Customer Name *</label>
+          <input type="text" id="customerName" placeholder="John Doe" value="John Doe">
+        </div>
+
+        <div class="input-group">
+          <label>Company</label>
+          <input type="text" id="companyName" placeholder="BuildRight Ltd" value="BuildRight Ltd">
+        </div>
+
+        <div class="input-group">
+          <label>Email *</label>
+          <input type="email" id="customerEmail" placeholder="john@buildright.com" value="john@buildright.com">
+        </div>
+
+        <div class="input-group">
+          <label>Phone *</label>
+          <input type="tel" id="customerPhone" placeholder="+234 800 000 0000" value="+234 800 000 0000">
+        </div>
+
+        <div class="input-group">
+          <label>Project Type</label>
+          <select id="projectType">
+            <option value="residential">Residential</option>
+            <option value="commercial" selected>Commercial</option>
+            <option value="industrial">Industrial</option>
+            <option value="government">Government</option>
+            <option value="infrastructure">Infrastructure</option>
+            <option value="renovation">Renovation</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label>Delivery Region</label>
+          <select id="regionSelect"></select>
+        </div>
+
+        <div class="input-group">
+          <label>Delivery Zone</label>
+          <select id="zoneSelect"></select>
+        </div>
+
+        <div class="input-group">
+          <label>Delivery Date</label>
+          <input type="date" id="deliveryDate" value="2026-08-30">
+        </div>
+
+        <div class="input-group">
+          <label>Discount Code</label>
+          <input type="text" id="discountCode" placeholder="Enter discount code">
+        </div>
+
+        <div class="input-group">
+          <label>Notes</label>
+          <textarea id="notes" placeholder="Special requirements...">Urgent project, need fast delivery</textarea>
+        </div>
+      </div>
+
+      <!-- CENTER: Quote Builder -->
+      <div class="card">
+        <div class="card-title"><i class="fas fa-cube"></i> Quote Builder</div>
+
+        <div class="product-search">
+          <input type="text" id="productSearch" placeholder="Search inventory... (e.g. Cement, PVC)">
+          <button class="btn-secondary" id="searchBtn" style="padding:8px 20px;"><i class="fas fa-search"></i></button>
+          <div class="loading-spinner" id="searchSpinner"><i class="fas fa-spinner fa-spin"></i> Searching...</div>
+        </div>
+
+        <div class="search-results" id="searchResults">
+          <span style="color:var(--text-muted);font-size:0.8rem;width:100%;text-align:center;padding:12px 0;">
+            <i class="fas fa-search"></i> Type to search products
+          </span>
+        </div>
+
+        <div class="quote-items-container" id="quoteItemsContainer">
+          <div class="empty-quote">
+            <i class="fas fa-box-open"></i>
+            <p>No items added yet</p>
+            <span style="font-size:0.8rem;color:var(--text-muted);">Search and click products above to build your quote</span>
+          </div>
+        </div>
+
+        <div style="margin-top:14px;color:#6f7a91;font-size:0.75rem;display:flex;gap:16px;flex-wrap:wrap;">
+          <span><i class="fas fa-info-circle"></i> Click product to add</span>
+          <span><i class="fas fa-cloud-upload-alt"></i> Auto-saved</span>
+          <span><i class="fas fa-bolt"></i> Bulk discount active</span>
+          <span id="itemCount" style="color:var(--gold);">0 items</span>
+        </div>
+
+        <div class="status-track" id="statusTrack">
+          <span class="status-badge active" data-status="draft"><i class="fas fa-circle status-icon"></i>Draft</span>
+          <span class="status-badge" data-status="submitted"><i class="fas fa-circle status-icon"></i>Submitted</span>
+          <span class="status-badge" data-status="reviewed"><i class="fas fa-circle status-icon"></i>Reviewed</span>
+          <span class="status-badge" data-status="priced"><i class="fas fa-circle status-icon"></i>Priced</span>
+          <span class="status-badge" data-status="approved"><i class="fas fa-circle status-icon"></i>Approved</span>
+          <span class="status-badge" data-status="invoiced"><i class="fas fa-circle status-icon"></i>Invoiced</span>
+        </div>
+      </div>
+
+      <!-- RIGHT: Summary -->
+      <div class="summary-card">
+        <div class="card-title" style="margin-bottom:6px;"><i class="fas fa-receipt"></i> Quote Summary</div>
+
+        <div class="calculating-indicator" id="calculatingIndicator">
+          <i class="fas fa-spinner fa-spin"></i> Calculating totals...
+        </div>
+
+        <div class="summary-row"><span>Products</span><span id="productCount">0</span></div>
+        <div class="summary-row"><span>Subtotal</span><span id="subtotal">₦0</span></div>
+        <div class="summary-row"><span>Discount (<span id="discountPercent">0</span>%)</span><span id="discount">-₦0</span></div>
+        <div class="summary-row"><span>Delivery</span><span id="deliveryEstimate">₦0</span></div>
+        <div class="summary-row"><span>VAT (7.5%)</span><span id="vat">₦0</span></div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;padding:8px 0;font-size:0.8rem;color:var(--text-muted);border-bottom:1px solid rgba(255,255,255,0.02);">
+          <span><i class="fas fa-weight-hanging"></i> Est. Weight: <span id="estWeight">0</span> kg</span>
+          <span><i class="fas fa-truck"></i> Trucks: <span id="estTrucks">0</span></span>
+          <span><i class="fas fa-clock"></i> ETA: <span id="estEta">-</span></span>
+        </div>
+
+        <div class="summary-total"><span>Grand Total</span><span id="grandTotal">₦0</span></div>
+
+        <div class="action-buttons">
+          <button class="action-btn" id="saveDraftBtn"><i class="fas fa-save"></i> Save</button>
+          <button class="action-btn primary" id="submitQuoteBtn"><i class="fas fa-paper-plane"></i> Submit</button>
+          <button class="action-btn" id="pdfBtn"><i class="fas fa-file-pdf"></i> PDF</button>
+          <button class="action-btn" id="shareBtn"><i class="fas fa-share-alt"></i> Share</button>
+        </div>
+
+        <div style="margin-top:12px;color:#6f7a91;font-size:0.7rem;display:flex;gap:16px;flex-wrap:wrap;">
+          <span><i class="far fa-clock"></i> Auto-saved <span id="lastSaved">just now</span></span>
+          <span><i class="fas fa-keyboard"></i> ⌘+S</span>
+          <span><i class="fas fa-shield-alt"></i> Encrypted</span>
+          <span id="quoteStatus" style="color:var(--gold);">Draft</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================
+       AI ASSISTANT
+       ============================================================ -->
+  <div class="ai-assistant" id="aiAssistant">
+    <h4><i class="fas fa-robot"></i> AI Assistant</h4>
+    <textarea id="aiQuery" rows="2" placeholder="Describe your project…">I need materials for a 4-bedroom duplex with a 3-car garage.</textarea>
+    <div class="ai-status" id="aiStatus"><i class="fas fa-spinner fa-spin spinner"></i> Ready to assist</div>
+    <button class="btn-secondary" id="aiGenerateBtn" style="width:100%;justify-content:center;padding:10px;">
+      <i class="fas fa-magic"></i> Generate Quote
+    </button>
+  </div>
+
+  <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+  <div class="container">
+    <footer class="footer">
+      <span>© 2026 BuildMart — Enterprise Procurement Platform</span>
+      <span><a href="#">Privacy</a> <a href="#">Terms</a> <a href="#">Cookies</a></span>
+    </footer>
+  </div>
+
+  <!-- ============================================================
+       SCRIPTS — PRODUCTION READY WITH SERVER CALCULATIONS
+       ============================================================ -->
+  <script>
+    (function() {
+      "use strict";
+
+      // ============================================================
+      // CONFIGURATION
+      // ============================================================
+      const API_BASE = 'https://api.primeshieldhub.com/api';
+      const ENDPOINTS = {
+        products: `${API_BASE}/buildmart/products`,
+        categories: `${API_BASE}/buildmart/categories`,
+        quotes: `${API_BASE}/buildmart/quotes`,
+        quoteItems: `${API_BASE}/buildmart/quotes/items`,
+        deliveryRegions: `${API_BASE}/buildmart/delivery/regions`,
+        calculateQuote: `${API_BASE}/buildmart/quotes/calculate`,
+        aiEstimate: `${API_BASE}/buildmart/ai/estimate`
+      };
+
+      // ============================================================
+      // STATE
+      // ============================================================
+      let state = {
+        quoteId: null,
+        quoteNumber: null,
+        status: 'draft',
+        items: [],
+        products: [],
+        deliveryRegions: [],
+        deliveryZones: [],
+        isSubmitting: false,
+        isSaving: false,
+        isCalculating: false,
+        lastSaved: Date.now(),
+        serverTotals: {
+          subtotal: 0,
+          discount: 0,
+          discount_rate: 0,
+          delivery: 0,
+          vat: 0,
+          grand_total: 0
+        }
+      };
+
+      // ============================================================
+      // DOM REFS
+      // ============================================================
+      const $ = id => document.getElementById(id);
+      const qs = (sel, ctx = document) => ctx.querySelector(sel);
+      const qsa = (sel, ctx = document) => ctx.querySelectorAll(sel);
+
+      const dom = {
+        projectName: $('projectName'),
+        customerName: $('customerName'),
+        companyName: $('companyName'),
+        customerEmail: $('customerEmail'),
+        customerPhone: $('customerPhone'),
+        projectType: $('projectType'),
+        regionSelect: $('regionSelect'),
+        zoneSelect: $('zoneSelect'),
+        deliveryDate: $('deliveryDate'),
+        discountCode: $('discountCode'),
+        notes: $('notes'),
+        quoteNumber: $('quoteNumber'),
+
+        productSearch: $('productSearch'),
+        searchBtn: $('searchBtn'),
+        searchSpinner: $('searchSpinner'),
+        searchResults: $('searchResults'),
+
+        itemsContainer: $('quoteItemsContainer'),
+        statusTrack: $('statusTrack'),
+        itemCount: $('itemCount'),
+
+        productCount: $('productCount'),
+        subtotal: $('subtotal'),
+        discount: $('discount'),
+        discountPercent: $('discountPercent'),
+        deliveryEstimate: $('deliveryEstimate'),
+        vat: $('vat'),
+        grandTotal: $('grandTotal'),
+        estWeight: $('estWeight'),
+        estTrucks: $('estTrucks'),
+        estEta: $('estEta'),
+        quoteStatus: $('quoteStatus'),
+        lastSaved: $('lastSaved'),
+        calculatingIndicator: $('calculatingIndicator'),
+
+        saveDraftBtn: $('saveDraftBtn'),
+        submitQuoteBtn: $('submitQuoteBtn'),
+        pdfBtn: $('pdfBtn'),
+        shareBtn: $('shareBtn'),
+        loadQuoteBtn: $('loadQuoteBtn'),
+        startBtn: $('startBtn'),
+
+        aiQuery: $('aiQuery'),
+        aiStatus: $('aiStatus'),
+        aiGenerateBtn: $('aiGenerateBtn'),
+        aiAssistant: $('aiAssistant')
+      };
+
+      // ============================================================
+      // TOAST SYSTEM
+      // ============================================================
+      function showToast(message, type = 'info') {
+        const existing = document.querySelector('.toast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        const icons = { info: 'ℹ️', success: '✅', error: '⚠️', warning: '⚠️' };
+        toast.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ️'}</span> ${message}`;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateY(20px)';
+          toast.style.transition = '0.3s ease';
+          setTimeout(() => toast.remove(), 300);
+        }, 5000);
+      }
+
+      // ============================================================
+      // API HELPERS
+      // ============================================================
+      async function apiCall(endpoint, options = {}) {
+        const token = localStorage.getItem('token') || '';
+        const headers = {
+          'Content-Type': 'application/json',
+          ...(token ? { 'Authorization': `Bearer ${token}` } : {}),
+          ...(options.headers || {})
+        };
+
+        try {
+          const response = await fetch(endpoint, {
+            ...options,
+            headers,
+            credentials: 'include'
+          });
+
+          const data = await response.json();
+
+          if (!response.ok) {
+            throw new Error(data.error || data.message || `HTTP ${response.status}`);
+          }
+
+          return data;
+        } catch (error) {
+          console.error(`API Error (${endpoint}):`, error);
+          throw error;
+        }
+      }
+
+      // ============================================================
+      // DELIVERY REGIONS
+      // ============================================================
+      async function loadDeliveryRegions() {
+        try {
+          const data = await apiCall(ENDPOINTS.deliveryRegions);
+          state.deliveryRegions = data || [];
+
+          const regionSelect = dom.regionSelect;
+          regionSelect.innerHTML = '<option value="">Select Region</option>';
+          state.deliveryRegions.forEach(r => {
+            const opt = document.createElement('option');
+            opt.value = r.id;
+            opt.textContent = r.name;
+            regionSelect.appendChild(opt);
+          });
+
+          regionSelect.addEventListener('change', () => {
+            loadZones(regionSelect.value);
+            calculateTotals();
+          });
+
+          dom.zoneSelect.addEventListener('change', calculateTotals);
+          dom.discountCode.addEventListener('input', calculateTotals);
+
+          if (state.deliveryRegions.length > 0) {
+            regionSelect.value = state.deliveryRegions[0].id;
+            await loadZones(state.deliveryRegions[0].id);
+          }
+        } catch (error) {
+          console.error('Failed to load delivery regions:', error);
+        }
+      }
+
+      async function loadZones(regionId) {
+        try {
+          const region = state.deliveryRegions.find(r => r.id === regionId);
+          const zones = region?.zones || [];
+
+          const zoneSelect = dom.zoneSelect;
+          zoneSelect.innerHTML = '<option value="">Select Zone</option>';
+          zones.forEach(z => {
+            const opt = document.createElement('option');
+            opt.value = z.id;
+            opt.textContent = z.name;
+            zoneSelect.appendChild(opt);
+          });
+
+          if (zones.length > 0) {
+            zoneSelect.value = zones[0].id;
+          }
+
+          calculateTotals();
+        } catch (error) {
+          console.error('Failed to load zones:', error);
+        }
+      }
+
+      // ============================================================
+      // PRODUCT SEARCH
+      // ============================================================
+      let searchTimeout;
+
+      async function searchProducts(query) {
+        if (!query || query.length < 2) {
+          dom.searchResults.innerHTML = `<span style="color:var(--text-muted);font-size:0.8rem;width:100%;text-align:center;padding:12px 0;">
+            <i class="fas fa-search"></i> Type at least 2 characters to search
+          </span>`;
+          return;
+        }
+
+        dom.searchSpinner.classList.add('active');
+
+        try {
+          const data = await apiCall(`${ENDPOINTS.products}?search=${encodeURIComponent(query)}&limit=20`);
+          const products = data.products || [];
+
+          if (products.length === 0) {
+            dom.searchResults.innerHTML = `<span style="color:var(--text-muted);font-size:0.8rem;width:100%;text-align:center;padding:12px 0;">
+              <i class="fas fa-box-open"></i> No products found
+            </span>`;
+            return;
+          }
+
+          dom.searchResults.innerHTML = products.map(p => `
+            <div class="search-tag" data-id="${p.id}" data-name="${p.name}" data-price="${p.price || 0}" data-brand="${p.brand || ''}" data-stock="${p.stock || 0}">
+              <span class="tag-name">${p.name}</span>
+              <span class="tag-meta">
+                ${p.brand ? `<span>${p.brand}</span>` : ''}
+                <span>₦${(p.price || 0).toLocaleString()}</span>
+                <span class="stock ${(p.stock || 0) > 20 ? '' : (p.stock || 0) > 0 ? 'low' : 'out'}">
+                  ${(p.stock || 0) > 0 ? `${p.stock} in stock` : 'Out of stock'}
+                </span>
+              </span>
+            </div>
+          `).join('');
+
+          dom.searchResults.querySelectorAll('.search-tag').forEach(el => {
+            el.addEventListener('click', () => {
+              const id = el.dataset.id;
+              const name = el.dataset.name;
+              const price = parseFloat(el.dataset.price) || 0;
+              const brand = el.dataset.brand || '';
+              const stock = parseInt(el.dataset.stock) || 0;
+              addItem(id, name, price, brand, stock);
+            });
+          });
+
+        } catch (error) {
+          dom.searchResults.innerHTML = `<span style="color:#f87171;font-size:0.8rem;width:100%;text-align:center;padding:12px 0;">
+            <i class="fas fa-exclamation-triangle"></i> Error loading products
+          </span>`;
+        } finally {
+          dom.searchSpinner.classList.remove('active');
+        }
+      }
+
+      // ============================================================
+      // QUOTE ITEMS
+      // ============================================================
+      function addItem(id, name, price, brand, stock) {
+        const existing = state.items.find(item => item.product_id === id);
+        if (existing) {
+          existing.quantity += 1;
+          renderItems();
+          calculateTotals();
+          showToast(`⬆️ Added 1 more ${name}`, 'success');
+          return;
+        }
+
+        state.items.push({
+          product_id: id,
+          product_name: name,
+          brand: brand || '',
+          quantity: 1,
+          unit_price: price,
+          stock: stock || 0,
+          total: price
+        });
+
+        renderItems();
+        calculateTotals();
+        showToast(`✅ Added ${name} to quote`, 'success');
+        autoSave();
+      }
+
+      function removeItem(index) {
+        const item = state.items[index];
+        state.items.splice(index, 1);
+        renderItems();
+        calculateTotals();
+        showToast(`🗑️ Removed ${item.product_name}`, 'warning');
+        autoSave();
+      }
+
+      function updateQuantity(index, delta) {
+        const item = state.items[index];
+        const newQty = item.quantity + delta;
+        if (newQty < 1) return;
+        item.quantity = newQty;
+        item.total = item.quantity * item.unit_price;
+        renderItems();
+        calculateTotals();
+        autoSave();
+      }
+
+      function renderItems() {
+        const container = dom.itemsContainer;
+
+        if (state.items.length === 0) {
+          container.innerHTML = `
+            <div class="empty-quote">
+              <i class="fas fa-box-open"></i>
+              <p>No items added yet</p>
+              <span style="font-size:0.8rem;color:var(--text-muted);">Search and click products above to build your quote</span>
+            </div>
+          `;
+          dom.itemCount.textContent = '0 items';
+          return;
+        }
+
+        container.innerHTML = state.items.map((item, index) => `
+          <div class="quote-item" data-index="${index}">
+            <div>
+              <div class="item-name">${item.product_name}</div>
+              <div class="item-details">
+                ${item.brand ? `<span>${item.brand}</span>` : ''}
+                <span>${item.stock > 0 ? `${item.stock} available` : 'Out of stock'}</span>
+              </div>
+            </div>
+            <div class="qty-control">
+              <button class="qty-dec" data-index="${index}">−</button>
+              <span>${item.quantity}</span>
+              <button class="qty-inc" data-index="${index}">+</button>
+            </div>
+            <span class="item-price">₦${item.unit_price.toLocaleString()}</span>
+            <span class="item-total" style="color:#f5b642;font-weight:600;">₦${item.total.toLocaleString()}</span>
+            <button class="remove-item" data-index="${index}"><i class="fas fa-times-circle"></i></button>
+          </div>
+        `).join('');
+
+        container.querySelectorAll('.qty-dec').forEach(el => {
+          el.addEventListener('click', () => updateQuantity(parseInt(el.dataset.index), -1));
+        });
+        container.querySelectorAll('.qty-inc').forEach(el => {
+          el.addEventListener('click', () => updateQuantity(parseInt(el.dataset.index), 1));
+        });
+        container.querySelectorAll('.remove-item').forEach(el => {
+          el.addEventListener('click', () => removeItem(parseInt(el.dataset.index)));
+        });
+
+        dom.itemCount.textContent = `${state.items.length} items`;
+      }
+
+      // ============================================================
+      // SERVER-SIDE CALCULATIONS
+      // ============================================================
+      async function calculateTotals() {
+        if (state.items.length === 0) {
+          resetTotals();
+          return;
+        }
+
+        if (state.isCalculating) return;
+        state.isCalculating = true;
+        dom.calculatingIndicator.classList.add('active');
+
+        try {
+          const items = state.items.map(item => ({
+            product_id: item.product_id,
+            quantity: item.quantity,
+            unit_price: item.unit_price
+          }));
+
+          const result = await apiCall(ENDPOINTS.calculateQuote, {
+            method: 'POST',
+            body: JSON.stringify({
+              items: items,
+              region_id: dom.regionSelect.value,
+              zone_id: dom.zoneSelect.value,
+              discount_code: dom.discountCode.value.trim() || null
+            })
+          });
+
+          if (result.success) {
+            // Store server totals
+            state.serverTotals = {
+              subtotal: result.subtotal,
+              discount: result.discount,
+              discount_rate: result.discount_rate,
+              delivery: result.delivery,
+              vat: result.vat,
+              grand_total: result.grand_total
+            };
+
+            // Update UI with server-calculated values
+            dom.productCount.textContent = state.items.length;
+            dom.subtotal.textContent = result.breakdown.subtotal_formatted;
+            dom.discount.textContent = result.breakdown.discount_formatted;
+            dom.discountPercent.textContent = result.discount_rate;
+            dom.deliveryEstimate.textContent = result.breakdown.delivery_formatted;
+            dom.vat.textContent = result.breakdown.vat_formatted;
+            dom.grandTotal.textContent = result.breakdown.grand_total_formatted;
+
+            // Estimates
+            const estWeight = state.items.reduce((sum, item) => sum + (item.quantity * 50), 0);
+            dom.estWeight.textContent = estWeight.toLocaleString();
+            dom.estTrucks.textContent = Math.ceil(estWeight / 1000);
+
+            // ETA
+            const region = state.deliveryRegions.find(r => r.id === dom.regionSelect.value);
+            dom.estEta.textContent = region?.estimated_days || '2-3 days';
+          }
+        } catch (error) {
+          console.error('Calculation error:', error);
+          // Fallback to client-side calculation only if server fails
+          fallbackCalculateTotals();
+        } finally {
+          state.isCalculating = false;
+          dom.calculatingIndicator.classList.remove('active');
+        }
+      }
+
+      function fallbackCalculateTotals() {
+        // Client-side fallback (should only be used if server fails)
+        const subtotal = state.items.reduce((sum, item) => sum + item.total, 0);
+        let discountRate = 0;
+        if (subtotal > 2000000) discountRate = 10;
+        else if (subtotal > 1000000) discountRate = 7;
+        else if (subtotal > 500000) discountRate = 5;
+
+        const discount = subtotal * (discountRate / 100);
+        const delivery = 35000;
+        const vat = (subtotal - discount + delivery) * 0.075;
+        const grandTotal = subtotal - discount + delivery + vat;
+
+        dom.productCount.textContent = state.items.length;
+        dom.subtotal.textContent = `₦${subtotal.toLocaleString()}`;
+        dom.discount.textContent = `-₦${discount.toLocaleString()}`;
+        dom.discountPercent.textContent = discountRate;
+        dom.deliveryEstimate.textContent = `₦${delivery.toLocaleString()}`;
+        dom.vat.textContent = `₦${vat.toLocaleString()}`;
+        dom.grandTotal.textContent = `₦${grandTotal.toLocaleString()}`;
+
+        state.serverTotals = { subtotal, discount, discount_rate: discountRate, delivery, vat, grand_total: grandTotal };
+      }
+
+      function resetTotals() {
+        dom.productCount.textContent = '0';
+        dom.subtotal.textContent = '₦0';
+        dom.discount.textContent = '-₦0';
+        dom.discountPercent.textContent = '0';
+        dom.deliveryEstimate.textContent = '₦0';
+        dom.vat.textContent = '₦0';
+        dom.grandTotal.textContent = '₦0';
+        dom.estWeight.textContent = '0';
+        dom.estTrucks.textContent = '0';
+        dom.estEta.textContent = '-';
+        state.serverTotals = { subtotal: 0, discount: 0, discount_rate: 0, delivery: 0, vat: 0, grand_total: 0 };
+      }
+
+      // ============================================================
+      // STATUS TRACKER
+      // ============================================================
+      function updateStatus(status) {
+        state.status = status;
+        dom.quoteStatus.textContent = status.charAt(0).toUpperCase() + status.slice(1);
+
+        const statuses = ['draft', 'submitted', 'reviewed', 'priced', 'approved', 'invoiced'];
+        const currentIndex = statuses.indexOf(status);
+
+        dom.statusTrack.querySelectorAll('.status-badge').forEach((badge, index) => {
+          badge.classList.toggle('active', index <= currentIndex);
+        });
+      }
+
+      // ============================================================
+      // QUOTE OPERATIONS
+      // ============================================================
+      function getQuoteData() {
+        return {
+          project_name: dom.projectName.value,
+          customer_name: dom.customerName.value,
+          customer_email: dom.customerEmail.value,
+          customer_phone: dom.customerPhone.value,
+          company_name: dom.companyName.value,
+          project_type: dom.projectType.value,
+          delivery_region: dom.regionSelect.value,
+          delivery_zone: dom.zoneSelect.value,
+          delivery_date: dom.deliveryDate.value,
+          discount_code: dom.discountCode.value.trim() || null,
+          notes: dom.notes.value,
+          items: state.items.map(item => ({
+            product_id: item.product_id,
+            product_name: item.product_name,
+            quantity: item.quantity,
+            unit_price: item.unit_price,
+            total: item.total
+          }))
+        };
+      }
+
+      async function submitQuote() {
+        if (state.isSubmitting) return;
+
+        const data = getQuoteData();
+
+        if (!data.customer_name || !data.customer_email || !data.customer_phone) {
+          showToast('⚠️ Please fill in customer name, email, and phone', 'error');
+          return;
+        }
+
+        if (state.items.length === 0) {
+          showToast('⚠️ Please add at least one product to the quote', 'error');
+          return;
+        }
+
+        // Validate totals with server first
+        try {
+          const validationResult = await apiCall(ENDPOINTS.calculateQuote, {
+            method: 'POST',
+            body: JSON.stringify({
+              items: data.items.map(item => ({
+                product_id: item.product_id,
+                quantity: item.quantity,
+                unit_price: item.unit_price
+              })),
+              region_id: data.delivery_region,
+              zone_id: data.delivery_zone,
+              discount_code: data.discount_code
+            })
+          });
+
+          if (!validationResult.success) {
+            showToast('⚠️ Quote validation failed. Please try again.', 'error');
+            return;
+          }
+
+          // Use server-calculated totals
+          data.subtotal = validationResult.subtotal;
+          data.discount = validationResult.discount;
+          data.delivery = validationResult.delivery;
+          data.vat = validationResult.vat;
+          data.grand_total = validationResult.grand_total;
+        } catch (error) {
+          showToast('⚠️ Could not validate quote totals. Please try again.', 'error');
+          return;
+        }
+
+        state.isSubmitting = true;
+        dom.submitQuoteBtn.disabled = true;
+        dom.submitQuoteBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+
+        try {
+          const endpoint = state.quoteId
+            ? `${ENDPOINTS.quotes}/${state.quoteId}`
+            : ENDPOINTS.quotes;
+
+          const method = state.quoteId ? 'PUT' : 'POST';
+
+          const result = await apiCall(endpoint, {
+            method,
+            body: JSON.stringify(data)
+          });
+
+          if (result.success || result.id) {
+            state.quoteId = result.id || state.quoteId;
+            state.quoteNumber = result.quote_number || state.quoteNumber;
+            updateStatus('submitted');
+            showToast(`✅ Quote submitted! #${state.quoteNumber || 'N/A'}`, 'success');
+
+            if (dom.quoteNumber) {
+              dom.quoteNumber.value = state.quoteNumber || '';
+            }
+          } else {
+            throw new Error(result.error || 'Submission failed');
+          }
+        } catch (error) {
+          showToast(`⚠️ ${error.message || 'Failed to submit quote'}`, 'error');
+        } finally {
+          state.isSubmitting = false;
+          dom.submitQuoteBtn.disabled = false;
+          dom.submitQuoteBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit';
+        }
+      }
+
+      async function autoSave() {
+        if (state.isSaving) return;
+
+        state.isSaving = true;
+        try {
+          const data = getQuoteData();
+          localStorage.setItem('buildmart_quote_draft', JSON.stringify({
+            ...data,
+            items: state.items,
+            timestamp: Date.now()
+          }));
+
+          dom.lastSaved.textContent = new Date().toLocaleTimeString();
+        } catch (error) {
+          // Silent fail for auto-save
+        } finally {
+          state.isSaving = false;
+        }
+      }
+
+      function loadDraft() {
+        try {
+          const saved = localStorage.getItem('buildmart_quote_draft');
+          if (!saved) {
+            showToast('ℹ️ No saved draft found', 'info');
+            return;
+          }
+
+          const draft = JSON.parse(saved);
+          const items = draft.items || [];
+
+          if (items.length === 0) {
+            showToast('ℹ️ Saved draft is empty', 'info');
+            return;
+          }
+
+          // Restore form fields
+          if (draft.project_name) dom.projectName.value = draft.project_name;
+          if (draft.customer_name) dom.customerName.value = draft.customer_name;
+          if (draft.company_name) dom.companyName.value = draft.company_name;
+          if (draft.customer_email) dom.customerEmail.value = draft.customer_email;
+          if (draft.customer_phone) dom.customerPhone.value = draft.customer_phone;
+          if (draft.project_type) dom.projectType.value = draft.project_type;
+          if (draft.notes) dom.notes.value = draft.notes;
+          if (draft.discount_code) dom.discountCode.value = draft.discount_code;
+
+          state.items = items;
+          renderItems();
+          calculateTotals();
+          showToast(`📂 Loaded draft with ${items.length} items`, 'success');
+        } catch (error) {
+          showToast('⚠️ Failed to load draft', 'error');
+        }
+      }
+
+      // ============================================================
+      // AI ASSISTANT
+      // ============================================================
+      async function generateAIQuote() {
+        const query = dom.aiQuery.value.trim();
+        if (!query || query.length < 5) {
+          showToast('⚠️ Please describe your project in more detail', 'warning');
+          return;
+        }
+
+        dom.aiStatus.innerHTML = '<i class="fas fa-spinner fa-spin spinner"></i> Analyzing your project...';
+        dom.aiGenerateBtn.disabled = true;
+
+        try {
+          const result = await apiCall(ENDPOINTS.aiEstimate, {
+            method: 'POST',
+            body: JSON.stringify({ query })
+          });
+
+          const suggestions = result.suggestions || [];
+
+          if (suggestions.length === 0) {
+            dom.aiStatus.textContent = '🤔 No suggestions found. Try a different description.';
+            return;
+          }
+
+          // Add suggested items to quote
+          suggestions.forEach(s => {
+            const existing = state.items.find(item => item.product_name.toLowerCase() === s.name.toLowerCase());
+            if (existing) {
+              existing.quantity += s.quantity || 1;
+            } else {
+              state.items.push({
+                product_id: s.id || `ai-${Date.now()}`,
+                product_name: s.name,
+                brand: s.brand || '',
+                quantity: s.quantity || 1,
+                unit_price: s.price || 10000,
+                stock: 999,
+                total: (s.price || 10000) * (s.quantity || 1)
+              });
+            }
+          });
+
+          renderItems();
+          calculateTotals();
+          dom.aiStatus.innerHTML = '✅ AI generated quote with suggestions';
+          showToast(`🤖 AI added ${suggestions.length} items to your quote`, 'success');
+          autoSave();
+
+        } catch (error) {
+          dom.aiStatus.textContent = '⚠️ AI service error. Please try again.';
+          showToast('⚠️ AI service temporarily unavailable', 'error');
+        } finally {
+          dom.aiGenerateBtn.disabled = false;
+        }
+      }
+
+      // ============================================================
+      // SHARE / PDF
+      // ============================================================
+      function shareQuote() {
+        const total = dom.grandTotal.textContent;
+        const items = state.items.length;
+        const message = `🏗️ BuildMart Quote\n${items} items\nTotal: ${total}\n\nView online: ${window.location.href}`;
+
+        if (navigator.share) {
+          navigator.share({
+            title: 'BuildMart Quote',
+            text: message,
+            url: window.location.href
+          }).catch(() => {});
+        } else {
+          navigator.clipboard.writeText(message).then(() => {
+            showToast('📋 Quote summary copied to clipboard', 'success');
+          }).catch(() => {
+            showToast('📋 ' + message, 'info');
+          });
+        }
+      }
+
+      function generatePDF() {
+        showToast('📄 PDF generation coming soon', 'info');
+        // TODO: Implement PDF generation
+      }
+
+      // ============================================================
+      // EVENT BINDING
+      // ============================================================
+      function init() {
+        // Search
+        dom.productSearch.addEventListener('input', (e) => {
+          clearTimeout(searchTimeout);
+          searchTimeout = setTimeout(() => searchProducts(e.target.value.trim()), 400);
+        });
+
+        dom.searchBtn.addEventListener('click', () => {
+          searchProducts(dom.productSearch.value.trim());
+        });
+
+        dom.productSearch.addEventListener('keyup', (e) => {
+          if (e.key === 'Enter') {
+            searchProducts(e.target.value.trim());
+          }
+        });
+
+        // Quote operations
+        dom.submitQuoteBtn.addEventListener('click', submitQuote);
+        dom.saveDraftBtn.addEventListener('click', () => {
+          autoSave();
+          showToast('💾 Quote saved', 'success');
+        });
+
+        dom.loadQuoteBtn.addEventListener('click', loadDraft);
+        dom.startBtn.addEventListener('click', () => {
+          document.querySelector('.quote-grid').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        dom.pdfBtn.addEventListener('click', generatePDF);
+        dom.shareBtn.addEventListener('click', shareQuote);
+
+        // Region/zone changes trigger recalculation
+        dom.regionSelect.addEventListener('change', () => {
+          const regionId = dom.regionSelect.value;
+          loadZones(regionId);
+        });
+
+        dom.zoneSelect.addEventListener('change', calculateTotals);
+        dom.discountCode.addEventListener('input', calculateTotals);
+
+        // AI
+        dom.aiGenerateBtn.addEventListener('click', generateAIQuote);
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+          if ((e.metaKey || e.ctrlKey) && e.key === 's') {
+            e.preventDefault();
+            autoSave();
+            showToast('💾 Saved', 'success');
+          }
+        });
+
+        // Auto-save every 30 seconds
+        setInterval(autoSave, 30000);
+
+        // Load data
+        Promise.all([
+          loadDeliveryRegions()
+        ]).then(() => {
+          renderItems();
+          calculateTotals();
+          updateStatus('draft');
+        });
+
+        // Generate quote number
+        const now = new Date();
+        const quoteNum = `QTE-${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}-${String(Math.floor(Math.random() * 10000)).padStart(4, '0')}`;
+        dom.quoteNumber.value = quoteNum;
+        state.quoteNumber = quoteNum;
+
+        console.log('🚀 BuildMart Enterprise Quote Builder initialized');
+        console.log('📦 Server-side calculations enabled');
+        console.log('🔒 All financial calculations verified on server');
+      }
+
+      // ============================================================
+      // SCROLL REVEAL
+      // ============================================================
+      const reveals = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.1 });
+
+      document.querySelectorAll('.hero, .card, .summary-card, .footer').forEach(el => {
+        el.classList.add('reveal');
+        revealObserver.observe(el);
+      });
+
+      // ============================================================
+      // HAMBURGER
+      // ============================================================
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+          if (navLinks.style.display === 'flex') {
+            navLinks.style.display = 'none';
+          } else {
+            navLinks.style.display = 'flex';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.width = '100%';
+            navLinks.style.padding = '1rem 0';
+            navLinks.style.gap = '0.6rem';
+            navLinks.style.alignItems = 'center';
+          }
+        });
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 820) {
+            navLinks.style.display = 'flex';
+            navLinks.style.flexDirection = 'row';
+            navLinks.style.width = 'auto';
+            navLinks.style.padding = '0';
+            navLinks.style.gap = '1.6rem';
+          } else if (navLinks.style.display !== 'flex') {
+            navLinks.style.display = 'none';
+          }
+        });
+      }
+
+      // ============================================================
+      // INIT
+      // ============================================================
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
+

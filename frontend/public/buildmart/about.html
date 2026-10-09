@@ -1,0 +1,2295 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-quantum-version="11.4" data-theme="quantum-gold">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="BuildMart - Industrial Infrastructure Command. Building the future of Africa through AI-powered procurement, nationwide logistics, and enterprise supply chain.">
+    <meta name="theme-color" content="#060608">
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}">
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+    
+    <title>BuildMart Â· Industrial Infrastructure Command</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES & RESET
+           ============================================================ */
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f5e180;
+            --gold-dark: #b8942e;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --gold-border: rgba(212, 175, 55, 0.15);
+            --gold-border-bright: rgba(212, 175, 55, 0.3);
+            
+            --bg-deep: #050308;
+            --bg-primary: #08080d;
+            --bg-elevated: #0d0d16;
+            --bg-card: rgba(16, 16, 24, 0.75);
+            --bg-input: rgba(20, 20, 30, 0.6);
+            
+            --text-primary: #f0efe8;
+            --text-secondary: #b0ada5;
+            --text-muted: #6a6870;
+            --text-inverse: #08080d;
+            
+            --accent-success: #33ffaa;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #b388ff;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-xs: 6px;
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            
+            --shadow-card: 0 20px 60px rgba(0,0,0,0.4);
+            --shadow-glow: 0 0 40px rgba(214,178,94,0.1);
+            --shadow-elevated: 0 30px 80px rgba(0,0,0,0.6);
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================================
+           AMBIENT BACKGROUND
+           ============================================================ */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background: 
+                radial-gradient(ellipse 60% 40% at 20% 0%, rgba(214,178,94,0.04) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 35% at 80% 100%, rgba(180,130,255,0.03) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 30% at 50% 50%, rgba(0,212,255,0.02) 0%, transparent 60%);
+            pointer-events: none; z-index: -2;
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: 
+                radial-gradient(rgba(214,178,94,0.015) 1px, transparent 1px),
+                radial-gradient(rgba(180,130,255,0.01) 1px, transparent 1px);
+            background-size: 35px 35px, 50px 50px;
+            background-position: 0 0, 17px 25px;
+            pointer-events: none; z-index: -1;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 10%, transparent 55%);
+        }
+
+        /* Floating Orbs */
+        .orb {
+            position: fixed; border-radius: 50%; filter: blur(80px);
+            pointer-events: none; z-index: -1;
+            animation: orbFloat 20s ease-in-out infinite alternate;
+        }
+        .orb-1 {
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(214,178,94,0.08), transparent);
+            top: -20vh; right: -15vw;
+        }
+        .orb-2 {
+            width: 35vw; height: 35vw;
+            background: radial-gradient(circle, rgba(180,130,255,0.06), transparent);
+            bottom: -10vh; left: -10vw;
+            animation-duration: 25s; animation-direction: alternate-reverse;
+        }
+        .orb-3 {
+            width: 40vw; height: 40vw;
+            background: radial-gradient(circle, rgba(0,212,255,0.04), transparent);
+            top: 50vh; left: 50vw;
+            animation-duration: 30s;
+        }
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(5%, -4%) scale(1.08); opacity: 0.5; }
+            100% { transform: translate(-3%, 3%) scale(0.95); opacity: 0.35; }
+        }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-light); }
+        ::selection { background: rgba(214,178,94,0.25); color: var(--text-primary); }
+
+        /* ============================================================
+           UTILITY CLASSES
+           ============================================================ */
+        .gold-gradient {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gold-text { color: var(--gold); }
+        .gold-border { border-color: var(--gold); }
+
+        .section-eyebrow {
+            font-size: clamp(10px, 1.2vw, 14px);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            font-family: var(--font-display);
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 6%;
+            position: relative;
+            z-index: 2;
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Glass Morphism */
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px) saturate(300%);
+            -webkit-backdrop-filter: blur(20px) saturate(300%);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            transition: var(--transition-smooth);
+        }
+        .glass-panel:hover {
+            border-color: var(--gold-border-bright);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* Divider */
+        .section-divider {
+            width: 60px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), transparent);
+            margin: 1.5rem 0;
+        }
+
+        /* Breathing Space - Cinematic Image */
+        .cinematic-break {
+            position: relative;
+            height: 60vh;
+            min-height: 400px;
+            background: radial-gradient(ellipse at center, rgba(214,178,94,0.05) 0%, transparent 70%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-top: 1px solid var(--gold-border);
+            border-bottom: 1px solid var(--gold-border);
+            overflow: hidden;
+        }
+        .cinematic-break .overlay-text {
+            font-size: clamp(2rem, 5vw, 4rem);
+            font-weight: 900;
+            font-family: var(--font-display);
+            letter-spacing: 0.02em;
+            text-align: center;
+            color: rgba(255,255,255,0.06);
+            text-transform: uppercase;
+            line-height: 1.2;
+            max-width: 800px;
+        }
+        .cinematic-break .overlay-text .highlight {
+            color: rgba(214,178,94,0.12);
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .nav-header {
+            background: rgba(5, 5, 8, 0.92);
+            backdrop-filter: blur(20px) saturate(300%);
+            -webkit-backdrop-filter: blur(20px) saturate(300%);
+            border-bottom: 1px solid var(--gold-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.6rem 0;
+            transition: var(--transition-smooth);
+        }
+        .nav-header.scrolled {
+            background: rgba(5, 5, 8, 0.98);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+        }
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-logo img {
+            height: 36px;
+            width: auto;
+        }
+        .nav-logo .logo-badge {
+            background: var(--gold);
+            color: var(--text-inverse);
+            font-size: 0.5rem;
+            font-weight: 800;
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .nav-links ul {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.5rem 0.9rem;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+            position: relative;
+            white-space: nowrap;
+        }
+        .nav-links ul li a:hover {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.04);
+        }
+        .nav-links ul li a.active {
+            color: var(--gold);
+            background: rgba(214,178,94,0.08);
+        }
+        .nav-links ul li a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+        .btn-nav-prime {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-nav-prime:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(214,178,94,0.3);
+        }
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .nav-hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition-smooth);
+        }
+        .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+        .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            padding: 60px 0 40px;
+            position: relative;
+        }
+        .hero-grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(214,178,94,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(214,178,94,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at 30% 50%, black 30%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-content h1 {
+            font-size: clamp(3rem, 10vw, 6.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            margin-bottom: 1.5rem;
+        }
+        .hero-content .subtitle {
+            font-size: clamp(1rem, 1.8vw, 1.4rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+        .hero-badge-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(214,178,94,0.06);
+            border: 1px solid var(--gold-border);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .hero-badge .live-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulseDot 1.5s infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .hero-cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            font-weight: 700;
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 40px var(--gold-glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 70px rgba(214,178,94,0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--gold-border);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            background: rgba(214,178,94,0.05);
+            box-shadow: 0 0 40px var(--gold-glow);
+        }
+
+        .hero-visual {
+            position: relative;
+            min-height: 400px;
+            background: radial-gradient(ellipse at center, rgba(214,178,94,0.04) 0%, transparent 70%);
+            border-radius: var(--radius-xl);
+            border: 1px solid var(--gold-border);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .hero-visual canvas {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+        }
+        .hero-visual .visual-overlay {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+        }
+        .hero-visual .visual-overlay .big-icon {
+            font-size: 4rem;
+            color: var(--gold);
+            opacity: 0.3;
+            animation: floatIcon 6s ease-in-out infinite;
+        }
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-12px) rotate(2deg); }
+        }
+        .hero-visual .visual-overlay .visual-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .hero-visual .visual-overlay .visual-stat {
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(8px);
+            padding: 0.8rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gold-border);
+        }
+        .hero-visual .visual-overlay .visual-stat .num {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--gold);
+            font-family: var(--font-display);
+        }
+        .hero-visual .visual-overlay .visual-stat .lbl {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================================
+           AUTHORITY BAR - Clickable
+           ============================================================ */
+        .authority-bar {
+            background: rgba(10,10,16,0.9);
+            backdrop-filter: blur(16px);
+            border-top: 1px solid var(--gold-border);
+            border-bottom: 1px solid var(--gold-border);
+            padding: 0.8rem 0;
+            overflow: hidden;
+        }
+        .authority-scroll {
+            display: flex;
+            gap: 2.5rem;
+            animation: scrollAuthority 35s linear infinite;
+            white-space: nowrap;
+            align-items: center;
+        }
+        @keyframes scrollAuthority {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .authority-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 0.3rem 0.8rem;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+            border: 1px solid transparent;
+        }
+        .authority-badge:hover {
+            color: var(--gold);
+            border-color: var(--gold-border);
+            background: rgba(214,178,94,0.04);
+        }
+        .authority-badge .icon-diamond {
+            width: 6px;
+            height: 6px;
+            background: var(--gold);
+            transform: rotate(45deg);
+            display: inline-block;
+            flex-shrink: 0;
+        }
+
+        /* ============================================================
+           WHY BUILDMART EXISTS - Authority Story
+           ============================================================ */
+        .authority-story {
+            background: rgba(214,178,94,0.02);
+            border-top: 1px solid var(--gold-border);
+            border-bottom: 1px solid var(--gold-border);
+            padding: 2.5rem 0;
+        }
+        .authority-story .story-text {
+            font-size: clamp(1rem, 1.5vw, 1.3rem);
+            color: var(--text-secondary);
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            line-height: 1.8;
+            letter-spacing: 0.3px;
+        }
+        .authority-story .story-text strong {
+            color: var(--gold);
+        }
+
+        /* ============================================================
+           WHO WE ARE - Split Layout
+           ============================================================ */
+        .split-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+        .capability-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+        .capability-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 1.2rem 1rem;
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: var(--text-secondary);
+            transition: var(--transition-smooth);
+            cursor: default;
+            text-align: center;
+            border-radius: var(--radius-sm);
+        }
+        .capability-card:hover {
+            border-color: var(--gold);
+            background: rgba(214,178,94,0.04);
+            color: var(--gold);
+            transform: translateY(-4px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+
+        /* ============================================================
+           EXECUTIVE MESSAGE
+           ============================================================ */
+        .executive-message {
+            background: rgba(214,178,94,0.02);
+            border-top: 1px solid var(--gold-border);
+            border-bottom: 1px solid var(--gold-border);
+            padding: 4rem 0;
+        }
+        .executive-message .message-wrapper {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .executive-message .quote-mark {
+            font-size: 4rem;
+            color: var(--gold);
+            opacity: 0.2;
+            font-family: var(--font-serif, serif);
+            line-height: 1;
+        }
+        .executive-message .message-text {
+            font-size: clamp(1.4rem, 2.5vw, 2.2rem);
+            font-weight: 700;
+            font-family: var(--font-display);
+            line-height: 1.4;
+            letter-spacing: -0.02em;
+            margin: 1rem 0 1.5rem;
+        }
+        .executive-message .message-signature {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        .executive-message .message-signature .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--text-inverse);
+        }
+        .executive-message .message-signature .name {
+            font-weight: 700;
+            font-size: 1rem;
+        }
+        .executive-message .message-signature .title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           MISSION CONTROL - Dashboard
+           ============================================================ */
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+        .metric-card {
+            background: rgba(255,255,255,0.012);
+            border: 1px solid var(--gold-border);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+            border-radius: var(--radius-lg);
+            position: relative;
+        }
+        .metric-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+        .metric-card:hover::before { opacity: 1; }
+        .metric-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+        .metric-number {
+            font-size: clamp(2rem, 4vw, 3.2rem);
+            font-weight: 900;
+            letter-spacing: -0.02em;
+            background: linear-gradient(180deg, var(--text-primary), var(--gold));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .metric-label {
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+        .metric-line {
+            width: 30px;
+            height: 1px;
+            background: var(--gold-border);
+            margin: 0.75rem auto;
+        }
+
+        /* ============================================================
+           LIVE CONSTRUCTION TICKER
+           ============================================================ */
+        .live-ticker {
+            background: rgba(10,10,16,0.95);
+            border-top: 1px solid var(--gold-border);
+            border-bottom: 1px solid var(--gold-border);
+            padding: 1.2rem 0;
+            overflow: hidden;
+        }
+        .ticker-track {
+            display: flex;
+            gap: 4rem;
+            animation: tickerScroll 30s linear infinite;
+            align-items: center;
+        }
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-shrink: 0;
+        }
+        .ticker-item .ticker-stat {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+        .ticker-item .ticker-stat .value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--gold);
+            font-family: var(--font-display);
+        }
+        .ticker-item .ticker-stat .label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+        }
+        .ticker-item .ticker-divider {
+            width: 1px;
+            height: 30px;
+            background: var(--gold-border);
+        }
+
+        /* ============================================================
+           AI COMMAND CENTER
+           ============================================================ */
+        .ai-command-center {
+            background: rgba(10,10,16,0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gold-border-bright);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 400px;
+        }
+        .ai-command-left {
+            padding: 2.5rem;
+            border-right: 1px solid var(--gold-border);
+            background: rgba(0,0,0,0.2);
+        }
+        .ai-command-left .ai-reasoning {
+            margin-top: 1.5rem;
+        }
+        .ai-command-left .ai-reasoning li {
+            list-style: none;
+            padding: 0.6rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+        }
+        .ai-command-left .ai-reasoning li .check {
+            color: var(--accent-success);
+            font-weight: 900;
+        }
+        .ai-command-right {
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+        .ai-command-right .ai-chat-preview {
+            flex: 1;
+            background: rgba(0,0,0,0.2);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            min-height: 150px;
+            border: 1px solid var(--gold-border);
+        }
+        .ai-command-right .ai-chat-preview .msg {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .ai-command-right .ai-chat-preview .msg .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: var(--text-inverse);
+            flex-shrink: 0;
+        }
+        .ai-command-right .ai-chat-preview .msg .bubble {
+            background: rgba(255,255,255,0.04);
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            max-width: 80%;
+        }
+        .ai-command-right .ai-chat-preview .msg.user .bubble {
+            background: rgba(214,178,94,0.06);
+            border: 1px solid var(--gold-border);
+        }
+        .ai-command-right .ai-input-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+        .ai-command-right .ai-input-row input {
+            flex: 1;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--gold-border);
+            border-radius: 50px;
+            padding: 0.8rem 1.2rem;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+        .ai-command-right .ai-input-row input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+        .ai-command-right .ai-input-row button {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            color: var(--text-inverse);
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            flex-shrink: 0;
+        }
+        .ai-command-right .ai-input-row button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 30px rgba(214,178,94,0.3);
+        }
+
+        /* ============================================================
+           WAREHOUSE INTELLIGENCE - Enhanced
+           ============================================================ */
+        .warehouse-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.25rem;
+        }
+        .warehouse-card {
+            background: rgba(255,255,255,0.012);
+            border: 1px solid var(--gold-border);
+            padding: 1.5rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+            border-radius: var(--radius-lg);
+        }
+        .warehouse-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+        .warehouse-card .wh-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+        .warehouse-card .wh-percentage {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--gold);
+            font-family: var(--font-display);
+        }
+        .warehouse-card .wh-progress {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+        .warehouse-card .wh-progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 4px;
+        }
+        .warehouse-card .wh-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin-top: 0.75rem;
+        }
+        .warehouse-card .wh-metrics .wh-metric {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+        .warehouse-card .wh-metrics .wh-metric .val {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           WORKFLOW - Animated
+           ============================================================ */
+        .workflow-container {
+            position: relative;
+            padding: 2rem 0;
+            overflow: hidden;
+        }
+        .workflow-steps {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            max-width: 1200px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 0.5rem 0;
+        }
+        .workflow-steps::before {
+            content: '';
+            position: absolute;
+            top: 28px;
+            left: 5%;
+            right: 5%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), rgba(214,178,94,0.1));
+            z-index: 0;
+        }
+        .workflow-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1 1 60px;
+            transition: var(--transition-smooth);
+        }
+        .workflow-step:hover {
+            transform: translateY(-6px);
+        }
+        .workflow-step .workflow-dot {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid var(--gold-border);
+            background: var(--bg-deep);
+            margin: 0 auto 0.75rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.8rem;
+            color: var(--gold);
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+        .workflow-step:hover .workflow-dot {
+            background: var(--gold);
+            color: var(--text-inverse);
+            border-color: var(--gold);
+            box-shadow: 0 0 40px rgba(214,178,94,0.4);
+        }
+        .workflow-step .workflow-dot .glow-ring {
+            position: absolute;
+            inset: -6px;
+            border-radius: 50%;
+            border: 1px solid rgba(214,178,94,0.1);
+            animation: ringPulse 2s infinite;
+        }
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.3); opacity: 0; }
+        }
+        .workflow-step .workflow-label {
+            font-size: 0.6rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           SUPPLIER ECOSYSTEM - Enhanced Map
+           ============================================================ */
+        .ecosystem-map {
+            position: relative;
+            height: 400px;
+            background: radial-gradient(ellipse at center, rgba(214,178,94,0.02) 0%, transparent 70%);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+        }
+        .ecosystem-map .map-connection {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(214,178,94,0.1), rgba(214,178,94,0.3));
+            animation: flowLine 3s infinite;
+        }
+        @keyframes flowLine {
+            0% { opacity: 0.1; }
+            50% { opacity: 0.6; }
+            100% { opacity: 0.1; }
+        }
+        .ecosystem-map .map-node {
+            position: absolute;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .ecosystem-map .map-node:hover {
+            transform: scale(1.2);
+        }
+        .ecosystem-map .map-node .node-dot {
+            width: 14px;
+            height: 14px;
+            background: var(--gold);
+            border-radius: 50%;
+            box-shadow: 0 0 30px rgba(214,178,94,0.4);
+            animation: pulseNode 2.4s infinite;
+        }
+        @keyframes pulseNode {
+            0%, 100% { box-shadow: 0 0 20px rgba(214,178,94,0.3); }
+            50% { box-shadow: 0 0 50px rgba(214,178,94,0.8); }
+        }
+        .ecosystem-map .map-node .node-label {
+            position: absolute;
+            top: -1.8rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            white-space: nowrap;
+            background: rgba(0,0,0,0.6);
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            backdrop-filter: blur(4px);
+            opacity: 0;
+            transition: var(--transition-smooth);
+        }
+        .ecosystem-map .map-node:hover .node-label {
+            opacity: 1;
+        }
+
+        /* ============================================================
+           COMPARISON TABLE
+           ============================================================ */
+        .comparison-table {
+            max-width: 900px;
+            margin: 0 auto;
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+        }
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+        }
+        .comparison-row:last-child { border-bottom: none; }
+        .comparison-cell {
+            padding: 1rem 1.5rem;
+            font-size: 0.85rem;
+            letter-spacing: 0.3px;
+        }
+        .comparison-cell.header {
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.2);
+            font-size: 0.7rem;
+        }
+        .comparison-cell.traditional { color: rgba(255,100,100,0.5); }
+        .comparison-cell.buildmart { color: var(--gold); font-weight: 600; }
+
+        /* ============================================================
+           TESTIMONIALS
+           ============================================================ */
+        .testimonial-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .testimonial-card {
+            background: rgba(255,255,255,0.012);
+            border: 1px solid rgba(255,255,255,0.03);
+            padding: 1.8rem;
+            border-radius: var(--radius-lg);
+            transition: var(--transition-smooth);
+        }
+        .testimonial-card:hover {
+            border-color: var(--gold-border);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+        .testimonial-card .quote-stars {
+            color: var(--gold);
+            letter-spacing: 2px;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+        .testimonial-card .quote-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            font-style: italic;
+            line-height: 1.7;
+            margin-bottom: 1rem;
+        }
+        .testimonial-card .quote-author {
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+        .testimonial-card .quote-role {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        .enterprise-footer {
+            background: var(--bg-deep);
+            border-top: 1px solid var(--gold-border);
+            padding: 4rem 0 2rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2rem;
+        }
+        .footer-column h4 {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .footer-column a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-bottom: 0.6rem;
+            transition: var(--transition-smooth);
+        }
+        .footer-column a:hover { color: var(--gold); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.02);
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1200px) {
+            .dashboard-grid { grid-template-columns: repeat(2, 1fr); }
+            .warehouse-grid { grid-template-columns: 1fr 1fr; }
+            .testimonial-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: repeat(3, 1fr); }
+            .ai-command-center { grid-template-columns: 1fr; }
+            .ai-command-left { border-right: none; border-bottom: 1px solid var(--gold-border); }
+        }
+        @media (max-width: 992px) {
+            .nav-hamburger { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: 56px;
+                left: 0;
+                right: 0;
+                background: rgba(5,5,8,0.98);
+                backdrop-filter: blur(20px);
+                padding: 1rem;
+                border-bottom: 1px solid var(--gold-border);
+                transform: translateY(-120%);
+                transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+                max-height: calc(100vh - 56px);
+                overflow-y: auto;
+            }
+            .nav-links.open { transform: translateY(0); }
+            .nav-links ul {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.25rem;
+            }
+            .nav-links ul li a {
+                display: block;
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+                text-align: center;
+            }
+            .nav-links ul li a.active::after { display: none; }
+            .nav-links ul li a.active { background: rgba(214,178,94,0.08); }
+            .split-layout { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-visual { min-height: 300px; }
+            .cinematic-break { height: 40vh; min-height: 250px; }
+        }
+        @media (max-width: 768px) {
+            section { padding: 3rem 0; }
+            .container { padding: 0 5%; }
+            .dashboard-grid { grid-template-columns: 1fr; }
+            .warehouse-grid { grid-template-columns: 1fr; }
+            .testimonial-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .workflow-steps { flex-direction: column; gap: 1rem; align-items: center; }
+            .workflow-steps::before { display: none; }
+            .comparison-row { grid-template-columns: 1fr 1fr 1fr; }
+            .comparison-cell { padding: 0.75rem; font-size: 0.7rem; }
+            .nav-logo img { height: 30px; }
+            .btn-nav-prime { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+            .btn-nav-prime span { display: none; }
+            .hero-visual .visual-overlay .visual-stats { grid-template-columns: 1fr; }
+            .ai-command-left, .ai-command-right { padding: 1.5rem; }
+        }
+        @media (max-width: 480px) {
+            .capability-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .hero-cta-group { flex-direction: column; width: 100%; }
+            .btn-primary, .btn-secondary { width: 100%; text-align: center; justify-content: center; }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient Orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="nav-header" id="mainNav">
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="/buildmart" class="nav-logo">
+                <img src="/assets/images/buildmart/logo.svg" alt="BuildMart" onerror="this.style.display='none'" />
+                <span class="logo-badge">About</span>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <ul>
+                    <li><a href="/buildmart">Home</a></li>
+                    <li><a href="/buildmart/products.html">Products</a></li>
+                    <li><a href="/buildmart/categories.html">Categories</a></li>
+                    <li><a href="/buildmart/quote.html">Quote</a></li>
+                    <li><a href="/buildmart/contractors.html">Contractors</a></li>
+                    <li><a href="/buildmart/projects.html">Projects</a></li>
+                    <li><a href="/buildmart/delivery.html">Delivery</a></li>
+                    <li><a href="/buildmart/wholesale.html">Wholesale</a></li>
+                    <li><a href="/buildmart/about.html" class="active">About</a></li>
+                    <li><a href="/buildmart/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="/buildmart/quote.html" class="btn-nav-prime">
+                    <i class="fas fa-file-invoice"></i> <span>Get Quote</span>
+                </a>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero-section">
+    <div class="hero-grid-bg"></div>
+    <div class="container">
+        <div class="row" style="display:grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items:center;">
+            <div class="hero-content">
+                <div class="hero-badge-group">
+                    <span class="hero-badge"><span class="live-dot"></span> Live Network</span>
+                    <span class="hero-badge"><i class="fas fa-shield-alt"></i> Enterprise Grade</span>
+                    <span class="hero-badge"><i class="fas fa-brain"></i> AI Powered</span>
+                </div>
+                <h1>
+                    <span style="color:#fff;">BUILDING</span><br>
+                    <span class="gold-gradient">THE FUTURE</span><br>
+                    <span style="color:#fff;">OF AFRICA</span>
+                </h1>
+                <p class="subtitle">
+                    Industrial Infrastructure Command Â· AI-powered procurement Â· Nationwide logistics Â· 
+                    The supply chain backbone powering Nigeria's construction industry.
+                </p>
+                <div class="hero-cta-group">
+                    <button class="btn-primary" onclick="document.querySelector('.mission-control').scrollIntoView({behavior:'smooth'})">
+                        <i class="fas fa-chart-line"></i> View Mission Control
+                    </button>
+                    <button class="btn-secondary" onclick="document.querySelector('.ai-command').scrollIntoView({behavior:'smooth'})">
+                        <i class="fas fa-robot"></i> Try AI Command
+                    </button>
+                </div>
+            </div>
+            <div class="hero-visual" id="heroVisual">
+                <canvas id="heroNetworkCanvas"></canvas>
+                <div class="visual-overlay">
+                    <div class="big-icon"><i class="fas fa-warehouse"></i></div>
+                    <div class="visual-stats" id="heroVisualStats">
+                        <div class="visual-stat">
+                            <div class="num" id="vizNodes">24</div>
+                            <div class="lbl">Warehouse Nodes</div>
+                        </div>
+                        <div class="visual-stat">
+                            <div class="num" id="vizRoutes">142</div>
+                            <div class="lbl">Active Routes</div>
+                        </div>
+                        <div class="visual-stat">
+                            <div class="num" id="vizThroughput">4.8K</div>
+                            <div class="lbl">Tons/Day</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     AUTHORITY BAR - Clickable Badges
+     ============================================================ -->
+<div class="authority-bar" id="authorityBar">
+    <div class="container" style="padding:0 6%;">
+        <div class="authority-scroll" id="authorityScroll">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     AUTHORITY STORY - "Why BuildMart Exists"
+     ============================================================ -->
+<div class="authority-story">
+    <div class="container">
+        <p class="story-text">
+            BuildMart was created to <strong>eliminate procurement uncertainty</strong> for contractors, developers, 
+            and enterprise buyers by combining <strong>verified suppliers</strong>, 
+            <strong>intelligent procurement</strong>, and <strong>dependable nationwide logistics</strong>.
+        </p>
+    </div>
+</div>
+
+<!-- ============================================================
+     WHO WE ARE
+     ============================================================ -->
+<section class="who-we-are">
+    <div class="container split-layout">
+        <div>
+            <p class="section-eyebrow">Industrial Identity</p>
+            <h2 class="section-title">
+                We don't <br><span class="gold-gradient">simply sell</span><br>construction<br>materials.
+            </h2>
+            <p style="color:var(--text-secondary); font-size:1.1rem; max-width:500px; letter-spacing:-0.01em; margin-top:1rem;">
+                We architect the supply chain infrastructure that powers Nigeria's most ambitious projects.
+            </p>
+            <div style="display:flex; gap:1rem; flex-wrap:wrap; margin-top:1.5rem;">
+                <span style="color:var(--gold); font-weight:700;">âœ“ Enterprise Grade</span>
+                <span style="color:var(--gold); font-weight:700;">âœ“ AI Powered</span>
+                <span style="color:var(--gold); font-weight:700;">âœ“ Nationwide</span>
+            </div>
+        </div>
+        <div class="capability-grid" id="capabilityGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CINEMATIC BREAK
+     ============================================================ -->
+<div class="cinematic-break">
+    <div class="overlay-text">
+        EVERY MAJOR PROJECT <span class="highlight">BEGINS</span> WITH<br>
+        THE RIGHT <span class="highlight">SUPPLY PARTNER</span>
+    </div>
+</div>
+
+<!-- ============================================================
+     EXECUTIVE MESSAGE
+     ============================================================ -->
+<section class="executive-message">
+    <div class="container">
+        <div class="message-wrapper">
+            <div class="quote-mark">"</div>
+            <p class="message-text">
+                Every major building begins with one decision:<br>
+                <span class="gold-gradient">choosing the right supply partner.</span>
+            </p>
+            <div class="message-signature">
+                <div class="avatar">FE</div>
+                <div>
+                    <div class="name">Freedom Evbakoe Amenaghawon</div>
+                    <div class="title">Founder & CEO Â· PRIMESHIELDHUB GADGETS LIMITED</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     MISSION CONTROL - Dashboard
+     ============================================================ -->
+<section class="mission-control">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Mission Control</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:0.5rem;">
+            <span class="gold-gradient">Live</span> Operational Intelligence
+        </h2>
+        <p style="text-align:center; color:var(--text-muted); font-size:0.85rem; margin-bottom:2.5rem;" id="lastUpdated">
+            Last updated: Loading...
+        </p>
+        <div class="dashboard-grid" id="dashboardGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     LIVE CONSTRUCTION TICKER
+     ============================================================ -->
+<div class="live-ticker">
+    <div class="container" style="padding:0 6%;">
+        <div class="ticker-track" id="tickerTrack">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</div>
+
+<!-- ============================================================
+     AI COMMAND CENTER
+     ============================================================ -->
+<section class="ai-command">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Intelligence Layer</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:2.5rem;">
+            <span class="gold-gradient">AI</span> Command Center
+        </h2>
+        <div class="ai-command-center">
+            <!-- Left: Reasoning -->
+            <div class="ai-command-left">
+                <h4 style="font-family:var(--font-display); font-weight:700; font-size:1.1rem;">
+                    <i class="fas fa-brain gold-text"></i> AI Reasoning
+                </h4>
+                <ul class="ai-reasoning" id="aiReasoning">
+                    <!-- Populated by JS -->
+                </ul>
+            </div>
+            <!-- Right: Chat -->
+            <div class="ai-command-right">
+                <div class="ai-chat-preview" id="aiChatPreview">
+                    <!-- Populated by JS -->
+                </div>
+                <div class="ai-input-row">
+                    <input type="text" id="aiCommandInput" placeholder="Ask AI about procurement..." />
+                    <button onclick="sendAICommand()"><i class="fas fa-arrow-up"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     WAREHOUSE INTELLIGENCE - Enhanced
+     ============================================================ -->
+<section class="warehouse-intel">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Operations Center</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:2.5rem;">
+            <span class="gold-gradient">Warehouse</span> Intelligence
+        </h2>
+        <div class="warehouse-grid" id="warehouseGrid">
+            <!-- Populated by JS -->
+        </div>
+        <div class="dashboard-grid" style="margin-top:1.5rem;" id="warehouseMetrics">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SUPPLIER ECOSYSTEM - Enhanced Map
+     ============================================================ -->
+<section class="supplier-ecosystem">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Global Network</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:2.5rem;">
+            <span class="gold-gradient">Supplier</span> Ecosystem
+        </h2>
+        <div class="ecosystem-map" id="ecosystemMap">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     WORKFLOW - Animated
+     ============================================================ -->
+<section class="workflow">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Process</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:0.5rem;">
+            Enterprise <span class="gold-gradient">Procurement</span> Workflow
+        </h2>
+        <p style="text-align:center; color:var(--text-muted); margin-bottom:2.5rem;">
+            From inquiry to site delivery â€” fully tracked, AI-optimized
+        </p>
+        <div class="workflow-container">
+            <div class="workflow-steps" id="workflowSteps">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     COMPARISON TABLE
+     ============================================================ -->
+<section class="comparison">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">The Difference</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:2.5rem;">
+            Why Enterprises <span class="gold-gradient">Choose</span> BuildMart
+        </h2>
+        <div class="comparison-table" id="comparisonTable">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     TESTIMONIALS
+     ============================================================ -->
+<section class="testimonials">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Trusted By</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:2.5rem;">
+            Enterprise <span class="gold-gradient">Testimonials</span>
+        </h2>
+        <div class="testimonial-grid" id="testimonialGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="enterprise-footer">
+    <div class="container">
+        <div class="footer-grid" id="footerGrid">
+            <!-- Populated by JS -->
+        </div>
+        <div class="footer-bottom" id="footerBottom">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================================
+     TOAST NOTIFICATION
+     ============================================================ -->
+<div id="toast" style="position:fixed; bottom:30px; right:30px; background:rgba(10,10,18,0.95); backdrop-filter:blur(20px); border:1px solid var(--gold-border); padding:1rem 1.5rem; border-radius:var(--radius-sm); z-index:9999; transform:translateY(120px); opacity:0; transition:all 0.5s cubic-bezier(0.4,0,0.2,1); max-width:400px;">
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+        <span style="color:var(--gold); font-size:1.2rem;">âœ“</span>
+        <div>
+            <div style="font-weight:700; font-size:0.9rem;" id="toastTitle">Success</div>
+            <div style="color:var(--text-muted); font-size:0.8rem;" id="toastMessage">Action completed</div>
+        </div>
+        <button onclick="closeToast()" style="background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; padding:0 4px;">âœ•</button>
+    </div>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+    // =========================================================================
+    // CONFIGURATION
+    // =========================================================================
+    const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+
+    // =========================================================================
+    // DATA - Central Source of Truth
+    // =========================================================================
+    const DATA = {
+        authority: [
+            { label: 'Division of PRIMESHIELDHUB GADGETS LIMITED', id: 'company' },
+            { label: 'RC 9283954', id: 'credentials' },
+            { label: 'AI Procurement', id: 'ai' },
+            { label: 'Nationwide Logistics', id: 'logistics' },
+            { label: 'Enterprise Supply Chain', id: 'supply-chain' },
+            { label: 'Verified Suppliers', id: 'suppliers' },
+            { label: 'Government Ready', id: 'government' },
+            { label: 'Contractor Network', id: 'contractors' }
+        ],
+        capabilities: ['Steel', 'Roofing', 'Cement', 'Plumbing', 'Electrical', 'Finishing', 'Heavy Equipment', 'Project Supply'],
+        aiReasoning: [
+            'âœ” BOQ Analysis',
+            'âœ” Budget Optimization',
+            'âœ” Supplier Selection',
+            'âœ” Logistics Planning',
+            'âœ” Risk Assessment'
+        ],
+        workflow: [
+            'Planning', 'Quotation', 'Approval', 'Warehouse', 
+            'Loading', 'GPS Dispatch', 'Site Delivery', 'Support'
+        ],
+        comparison: [
+            { feature: 'Quotations', traditional: 'âŒ Manual', buildmart: 'âœ… AIâ€‘Powered' },
+            { feature: 'Inventory', traditional: 'âŒ Unknown', buildmart: 'âœ… Live Tracking' },
+            { feature: 'Logistics', traditional: 'âŒ Slow', buildmart: 'âœ… GPSâ€‘Tracked' },
+            { feature: 'Support', traditional: 'âŒ Reactive', buildmart: 'âœ… Dedicated Team' }
+        ],
+        testimonials: [
+            { text: 'BuildMart transformed our procurement. AI quotations saved us weeks of backâ€‘andâ€‘forth.', author: 'Oluwaseun Adebayo', role: 'Project Director, Lagos Dev Corp' },
+            { text: 'Their logistics network is unmatched. GPSâ€‘tracked deliveries give us realâ€‘time site visibility.', author: 'Fatima Ibrahim', role: 'Head of Ops, Northgate Construction' },
+            { text: 'We reduced procurement costs by 18% since switching. The enterprise dashboard is gameâ€‘changing.', author: 'Chidi Okonkwo', role: 'CEO, Vertex Infrastructure Group' }
+        ],
+        footer: {
+            about: ['Our Story', 'Leadership', 'Careers', 'Press'],
+            products: ['Steel', 'Cement', 'Roofing', 'All Categories'],
+            industries: ['Construction', 'Government', 'Oil & Gas', 'Real Estate'],
+            enterprise: ['API Access', 'Bulk Procurement', 'Developer Portal', 'Investor Relations'],
+            logistics: ['Fleet Tracking', 'Warehouses', 'Delivery Network'],
+            legal: ['Terms', 'Privacy', 'Compliance', 'Support']
+        },
+        // Will be updated by API
+        metrics: {
+            materials: 2457,
+            clients: 412,
+            projects: 138,
+            states: 22,
+            fleet: 36,
+            warehouses: 5
+        },
+        ticker: {
+            quotations: 128,
+            deliveriesInTransit: 36,
+            materialsDispatched: 2480,
+            enterpriseRequests: 17
+        },
+        warehouse: [
+            { name: 'Warehouse A', capacity: 97, turnover: 12.4, queue: 8, dispatch: 24 },
+            { name: 'Warehouse B', capacity: 91, turnover: 10.8, queue: 5, dispatch: 18 },
+            { name: 'Warehouse C', capacity: 84, turnover: 9.2, queue: 3, dispatch: 15 }
+        ],
+        warehouseMetrics: [
+            { label: 'Forklifts Active', value: 12 },
+            { label: 'Dispatch Bays', value: 8 },
+            { label: "Today's Shipments", value: 145 }
+        ],
+        ecosystem: [
+            { label: 'China', top: 28, left: 62 },
+            { label: 'Turkey', top: 34, left: 52 },
+            { label: 'Nigeria', top: 48, left: 44 },
+            { label: 'Europe', top: 26, left: 40 },
+            { label: 'Local Mfg', top: 54, left: 47 }
+        ]
+    };
+
+    // =========================================================================
+    // STATE
+    // =========================================================================
+    let heroNetworkAnimation = null;
+    let liveDataInterval = null;
+
+    // =========================================================================
+    // API FUNCTIONS
+    // =========================================================================
+    async function fetchLiveData() {
+        try {
+            const response = await fetch(`${API_BASE}/buildmart/dashboard`, {
+                signal: AbortSignal.timeout(5000)
+            });
+            if (!response.ok) throw new Error('API error');
+            return await response.json();
+        } catch (error) {
+            console.warn('Using fallback data:', error);
+            return null;
+        }
+    }
+
+    async function updateLiveData() {
+        const data = await fetchLiveData();
+        if (data) {
+            DATA.metrics = {
+                materials: data.total_products || DATA.metrics.materials,
+                clients: data.total_customers || DATA.metrics.clients,
+                projects: data.active_projects || DATA.metrics.projects,
+                states: data.states_covered || DATA.metrics.states,
+                fleet: data.active_trucks || DATA.metrics.fleet,
+                warehouses: data.warehouse_count || DATA.metrics.warehouses
+            };
+            // Update ticker if available
+            if (data.ticker) {
+                DATA.ticker = data.ticker;
+            }
+            // Update warehouse if available
+            if (data.warehouses) {
+                DATA.warehouse = data.warehouses;
+            }
+            renderAll();
+        }
+    }
+
+    // =========================================================================
+    // RENDER FUNCTIONS
+    // =========================================================================
+    function renderAll() {
+        renderAuthorityBar();
+        renderCapabilities();
+        renderMetrics();
+        renderTicker();
+        renderAIReasoning();
+        renderAIWelcome();
+        renderWarehouse();
+        renderEcosystem();
+        renderWorkflow();
+        renderComparison();
+        renderTestimonials();
+        renderFooter();
+        document.getElementById('lastUpdated').textContent = `Last updated: ${new Date().toLocaleString()}`;
+    }
+
+    function renderAuthorityBar() {
+        const container = document.getElementById('authorityScroll');
+        const items = [...DATA.authority, ...DATA.authority];
+        container.innerHTML = items.map(item => `
+            <span class="authority-badge" data-id="${item.id}">
+                <span class="icon-diamond"></span> ${item.label}
+            </span>
+        `).join('');
+
+        // Click handling - show toast with info
+        container.querySelectorAll('.authority-badge').forEach(badge => {
+            badge.addEventListener('click', () => {
+                const id = badge.dataset.id;
+                const labels = {
+                    'company': 'PRIMESHIELDHUB GADGETS LIMITED Â· RC 9283954',
+                    'credentials': 'CAC Registered Â· TIN Verified Â· Enterprise Grade',
+                    'ai': 'AI Procurement Intelligence Â· Powered by Gemini',
+                    'logistics': 'Nationwide Delivery Â· GPS Tracked Fleet',
+                    'supply-chain': 'End-to-End Supply Chain Management',
+                    'suppliers': 'Verified Suppliers Â· Quality Guaranteed',
+                    'government': 'Government Ready Â· BPP Registered',
+                    'contractors': 'Contractor Network Â· 500+ Verified Partners'
+                };
+                showToast(labels[id] || badge.textContent.trim(), 'Authority Badge');
+            });
+        });
+    }
+
+    function renderCapabilities() {
+        const container = document.getElementById('capabilityGrid');
+        container.innerHTML = DATA.capabilities.map(c => `
+            <div class="capability-card">${c}</div>
+        `).join('');
+    }
+
+    function renderMetrics() {
+        const container = document.getElementById('dashboardGrid');
+        const metrics = [
+            { id: 'materials', label: 'Materials Available', value: DATA.metrics.materials },
+            { id: 'clients', label: 'Enterprise Clients', value: DATA.metrics.clients },
+            { id: 'projects', label: 'Projects Supported', value: DATA.metrics.projects },
+            { id: 'states', label: 'States Covered', value: DATA.metrics.states },
+            { id: 'fleet', label: 'Truck Fleet', value: DATA.metrics.fleet },
+            { id: 'warehouses', label: 'Warehouses', value: DATA.metrics.warehouses }
+        ];
+        
+        container.innerHTML = metrics.map(m => `
+            <div class="metric-card">
+                <div class="metric-number" id="metric-${m.id}">0</div>
+                <div class="metric-line"></div>
+                <div class="metric-label">${m.label}</div>
+            </div>
+        `).join('');
+
+        metrics.forEach((m, i) => {
+            setTimeout(() => {
+                animateCounter(`metric-${m.id}`, m.value, 2000 + i * 200);
+            }, 100 + i * 100);
+        });
+    }
+
+    function animateCounter(elId, target, duration) {
+        const el = document.getElementById(elId);
+        if (!el) return;
+        const start = 0;
+        const startTime = performance.now();
+        function update(now) {
+            const elapsed = now - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            const current = Math.floor(eased * target);
+            el.textContent = current.toLocaleString();
+            if (progress < 1) requestAnimationFrame(update);
+            else el.textContent = target.toLocaleString();
+        }
+        requestAnimationFrame(update);
+    }
+
+    function renderTicker() {
+        const container = document.getElementById('tickerTrack');
+        const items = [
+            { label: "Today's Quotations", value: DATA.ticker.quotations },
+            { label: 'Deliveries in Transit', value: DATA.ticker.deliveriesInTransit },
+            { label: 'Materials Dispatched', value: `${DATA.ticker.materialsDispatched} tons` },
+            { label: 'Enterprise Requests', value: DATA.ticker.enterpriseRequests }
+        ];
+        const allItems = [...items, ...items];
+        container.innerHTML = allItems.map((item, i) => `
+            <div class="ticker-item">
+                <div class="ticker-stat">
+                    <span class="value">${item.value}</span>
+                    <span class="label">${item.label}</span>
+                </div>
+                ${i < allItems.length - 1 ? '<span class="ticker-divider"></span>' : ''}
+            </div>
+        `).join('');
+    }
+
+    function renderAIReasoning() {
+        const container = document.getElementById('aiReasoning');
+        container.innerHTML = DATA.aiReasoning.map(item => `
+            <li><span class="check">âœ“</span> ${item}</li>
+        `).join('');
+    }
+
+    function renderAIWelcome() {
+        const container = document.getElementById('aiChatPreview');
+        container.innerHTML = `
+            <div class="msg">
+                <div class="avatar">AI</div>
+                <div class="bubble">Hello! I'm your procurement AI. I can analyze BOQs, optimize budgets, recommend suppliers, and plan logistics. What would you like to know?</div>
+            </div>
+            <div class="msg user">
+                <div class="bubble" style="margin-left:auto; max-width:80%;">
+                    <span style="color:var(--text-muted);">Type a question above...</span>
+                </div>
+            </div>
+        `;
+    }
+
+    function renderWarehouse() {
+        const container = document.getElementById('warehouseGrid');
+        container.innerHTML = DATA.warehouse.map(w => `
+            <div class="warehouse-card">
+                <div class="wh-name">${w.name}</div>
+                <div class="wh-percentage">${w.capacity}%</div>
+                <div class="wh-progress">
+                    <div class="wh-progress-fill" style="width:${w.capacity}%;"></div>
+                </div>
+                <div class="wh-metrics">
+                    <div class="wh-metric">Turnover <span class="val">${w.turnover}x</span></div>
+                    <div class="wh-metric">Queue <span class="val">${w.queue}</span></div>
+                    <div class="wh-metric">Dispatch <span class="val">${w.dispatch}h</span></div>
+                </div>
+            </div>
+        `).join('');
+
+        const metricsContainer = document.getElementById('warehouseMetrics');
+        metricsContainer.innerHTML = DATA.warehouseMetrics.map(m => `
+            <div class="metric-card">
+                <div class="metric-number">${m.value}</div>
+                <div class="metric-label">${m.label}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderEcosystem() {
+        const container = document.getElementById('ecosystemMap');
+        const nodes = DATA.ecosystem;
+        const connections = [
+            { from: 0, to: 2 }, { from: 1, to: 2 }, { from: 3, to: 2 }, { from: 4, to: 2 }
+        ];
+        
+        let html = '';
+        // Connections
+        connections.forEach(conn => {
+            const from = nodes[conn.from];
+            const to = nodes[conn.to];
+            const angle = Math.atan2(to.top - from.top, to.left - from.left);
+            const distance = Math.sqrt(Math.pow(to.left - from.left, 2) + Math.pow(to.top - from.top, 2));
+            html += `
+                <div class="map-connection" style="
+                    top:${from.top}%;
+                    left:${from.left}%;
+                    width:${distance}%;
+                    transform:rotate(${angle}rad);
+                    transform-origin:0 0;
+                "></div>
+            `;
+        });
+        // Nodes
+        nodes.forEach(node => {
+            html += `
+                <div class="map-node" style="top:${node.top}%;left:${node.left}%;">
+                    <div class="node-dot"></div>
+                    <div class="node-label">${node.label}</div>
+                </div>
+            `;
+        });
+        container.innerHTML = html;
+    }
+
+    function renderWorkflow() {
+        const container = document.getElementById('workflowSteps');
+        container.innerHTML = DATA.workflow.map((step, i) => `
+            <div class="workflow-step">
+                <div class="workflow-dot">
+                    ${i + 1}
+                    <div class="glow-ring"></div>
+                </div>
+                <div class="workflow-label">${step}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderComparison() {
+        const container = document.getElementById('comparisonTable');
+        container.innerHTML = `
+            <div class="comparison-row">
+                <div class="comparison-cell header">Feature</div>
+                <div class="comparison-cell header">Traditional</div>
+                <div class="comparison-cell header">BuildMart</div>
+            </div>
+            ${DATA.comparison.map(c => `
+                <div class="comparison-row">
+                    <div class="comparison-cell">${c.feature}</div>
+                    <div class="comparison-cell traditional">${c.traditional}</div>
+                    <div class="comparison-cell buildmart">${c.buildmart}</div>
+                </div>
+            `).join('')}
+        `;
+    }
+
+    function renderTestimonials() {
+        const container = document.getElementById('testimonialGrid');
+        container.innerHTML = DATA.testimonials.map(t => `
+            <div class="testimonial-card">
+                <div class="quote-stars">â˜…â˜…â˜…â˜…â˜…</div>
+                <p class="quote-text">"${t.text}"</p>
+                <div class="quote-author">${t.author}</div>
+                <div class="quote-role">${t.role}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderFooter() {
+        const container = document.getElementById('footerGrid');
+        const sections = [
+            { title: 'About', items: DATA.footer.about },
+            { title: 'Products', items: DATA.footer.products },
+            { title: 'Industries', items: DATA.footer.industries },
+            { title: 'Enterprise', items: DATA.footer.enterprise },
+            { title: 'Logistics', items: DATA.footer.logistics },
+            { title: 'Legal', items: DATA.footer.legal }
+        ];
+        container.innerHTML = sections.map(s => `
+            <div class="footer-column">
+                <h4>${s.title}</h4>
+                ${s.items.map(item => `<a href="#">${item}</a>`).join('')}
+            </div>
+        `).join('');
+
+        document.getElementById('footerBottom').innerHTML = `
+            <span>Â© 2026 BuildMart â€” A Division of PRIMESHIELDHUB GADGETS LIMITED</span>
+            <span>Industrial Infrastructure Command â€¢ RC 9283954</span>
+        `;
+    }
+
+    // =========================================================================
+    // AI COMMAND
+    // =========================================================================
+    function sendAICommand() {
+        const input = document.getElementById('aiCommandInput');
+        const query = input.value.trim();
+        if (!query) return;
+
+        const container = document.getElementById('aiChatPreview');
+        // Add user message
+        const userMsg = document.createElement('div');
+        userMsg.className = 'msg user';
+        userMsg.innerHTML = `<div class="bubble" style="margin-left:auto; max-width:80%;">${query}</div>`;
+        container.appendChild(userMsg);
+
+        // Show AI thinking
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'msg';
+        aiMsg.innerHTML = `<div class="avatar">AI</div><div class="bubble" style="color:var(--text-muted);">Thinking...</div>`;
+        container.appendChild(aiMsg);
+        container.scrollTop = container.scrollHeight;
+
+        // Simulate AI response
+        setTimeout(() => {
+            const responses = [
+                'Based on your query, I\'ve analyzed 47 material options. Recommended: Dangote Cement (â‚¦6,800/bulk), 16mm Rebar, and Long Span Roofing. Estimated savings: â‚¦2.3M.',
+                'Your project requires approximately 2,450 bags of cement, 18.4 tons of steel, and an estimated budget of â‚¦2.8B. I\'ve identified 3 suppliers with best pricing.',
+                'I\'ve optimized your BOQ. By consolidating suppliers, you can save â‚¦4.2M and reduce delivery time by 40%. Would you like a detailed breakdown?',
+                'For this project, I recommend sourcing from our Lagos warehouse for cement (97% in stock) and our Ibadan hub for steel (91% in stock). Delivery within 48 hours.'
+            ];
+            const random = responses[Math.floor(Math.random() * responses.length)];
+            aiMsg.querySelector('.bubble').textContent = random;
+            aiMsg.querySelector('.bubble').style.color = 'var(--text-secondary)';
+            showToast('AI Analysis', 'Response generated successfully');
+            input.value = '';
+            container.scrollTop = container.scrollHeight;
+        }, 1500);
+    }
+
+    // Enter key support
+    document.getElementById('aiCommandInput')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') sendAICommand();
+    });
+
+    // =========================================================================
+    // HERO NETWORK VISUALIZATION
+    // =========================================================================
+    function initHeroNetwork() {
+        const canvas = document.getElementById('heroNetworkCanvas');
+        if (!canvas) return;
+        
+        const ctx = canvas.getContext('2d');
+        const rect = canvas.parentElement.getBoundingClientRect();
+        let width = rect.width;
+        let height = rect.height || 400;
+        
+        canvas.width = width;
+        canvas.height = height;
+        
+        const nodes = [];
+        const numNodes = 24;
+        const centerX = width / 2;
+        const centerY = height / 2;
+        const radius = Math.min(width, height) * 0.35;
+        
+        for (let i = 0; i < numNodes; i++) {
+            const angle = (i / numNodes) * Math.PI * 2;
+            const r = radius * (0.5 + Math.random() * 0.5);
+            nodes.push({
+                x: centerX + Math.cos(angle) * r,
+                y: centerY + Math.sin(angle) * r,
+                size: 2 + Math.random() * 4,
+                speed: 0.0005 + Math.random() * 0.001,
+                phase: Math.random() * Math.PI * 2
+            });
+        }
+        
+        for (let i = 0; i < 8; i++) {
+            const angle = Math.random() * Math.PI * 2;
+            const r = radius * (0.1 + Math.random() * 0.3);
+            nodes.push({
+                x: centerX + Math.cos(angle) * r,
+                y: centerY + Math.sin(angle) * r,
+                size: 3 + Math.random() * 4,
+                speed: 0.001 + Math.random() * 0.002,
+                phase: Math.random() * Math.PI * 2
+            });
+        }
+        
+        let time = 0;
+        
+        function drawNetwork() {
+            time += 0.01;
+            ctx.clearRect(0, 0, width, height);
+            
+            nodes.forEach((node, i) => {
+                const dx = Math.sin(time * node.speed + node.phase) * 5;
+                const dy = Math.cos(time * node.speed * 0.7 + node.phase) * 5;
+                const x = node.x + dx;
+                const y = node.y + dy;
+                
+                nodes.forEach((other, j) => {
+                    if (i === j) return;
+                    const ox = other.x + Math.sin(time * other.speed + other.phase) * 5;
+                    const oy = other.y + Math.cos(time * other.speed * 0.7 + other.phase) * 5;
+                    const dist = Math.sqrt((x - ox) ** 2 + (y - oy) ** 2);
+                    if (dist < radius * 0.5) {
+                        const alpha = 1 - (dist / (radius * 0.5));
+                        ctx.beginPath();
+                        ctx.moveTo(x, y);
+                        ctx.lineTo(ox, oy);
+                        ctx.strokeStyle = `rgba(212, 175, 55, ${alpha * 0.08})`;
+                        ctx.lineWidth = 0.8;
+                        ctx.stroke();
+                    }
+                });
+                
+                const gradient = ctx.createRadialGradient(x, y, 0, x, y, node.size * 2);
+                gradient.addColorStop(0, `rgba(212, 175, 55, ${0.3 + Math.sin(time + node.phase) * 0.1})`);
+                gradient.addColorStop(1, 'rgba(212, 175, 55, 0)');
+                ctx.beginPath();
+                ctx.arc(x, y, node.size * 2, 0, Math.PI * 2);
+                ctx.fillStyle = gradient;
+                ctx.fill();
+                
+                ctx.beginPath();
+                ctx.arc(x, y, node.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(212, 175, 55, ${0.5 + Math.sin(time + node.phase) * 0.2})`;
+                ctx.fill();
+            });
+            
+            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, radius * 0.3);
+            gradient.addColorStop(0, 'rgba(212, 175, 55, 0.04)');
+            gradient.addColorStop(1, 'rgba(212, 175, 55, 0)');
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, radius * 0.3, 0, Math.PI * 2);
+            ctx.fillStyle = gradient;
+            ctx.fill();
+            
+            heroNetworkAnimation = requestAnimationFrame(drawNetwork);
+        }
+        
+        drawNetwork();
+        
+        // Resize
+        window.addEventListener('resize', () => {
+            const rect = canvas.parentElement.getBoundingClientRect();
+            width = rect.width;
+            height = rect.height || 400;
+            canvas.width = width;
+            canvas.height = height;
+        });
+    }
+
+    // =========================================================================
+    // TOAST NOTIFICATION
+    // =========================================================================
+    function showToast(title, message) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastTitle').textContent = title;
+        document.getElementById('toastMessage').textContent = message;
+        toast.style.transform = 'translateY(0)';
+        toast.style.opacity = '1';
+        clearTimeout(window.toastTimeout);
+        window.toastTimeout = setTimeout(closeToast, 5000);
+    }
+
+    function closeToast() {
+        const toast = document.getElementById('toast');
+        toast.style.transform = 'translateY(120px)';
+        toast.style.opacity = '0';
+    }
+
+    // =========================================================================
+    // NAVIGATION
+    // =========================================================================
+    function setupNavigation() {
+        const hamburger = document.getElementById('navHamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        hamburger?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+        
+        navLinks?.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navLinks?.classList.remove('open');
+            });
+        });
+        
+        // Scroll shadow
+        const header = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            header?.classList.toggle('scrolled', window.pageYOffset > 50);
+        });
+    }
+
+    // =========================================================================
+    // INITIALIZATION
+    // =========================================================================
+    function init() {
+        console.log('ðŸ—ï¸ BuildMart Â· Industrial Infrastructure Command');
+        console.log('ðŸ“ Nigeria Network Active Â· ðŸš› Fleet Operational Â· ðŸ¤– AI Ready');
+        
+        setupNavigation();
+        renderAll();
+        initHeroNetwork();
+        
+        // Load live data
+        updateLiveData();
+        
+        // Auto-refresh every 30 seconds
+        liveDataInterval = setInterval(updateLiveData, 30000);
+        
+        // Show welcome
+        setTimeout(() => {
+            showToast('ðŸš€ Welcome', 'BuildMart Industrial Command Center is live.');
+        }, 1000);
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
+

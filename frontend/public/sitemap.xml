@@ -1,0 +1,526 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+    xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+    xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
+
+  <!-- ================================================================== -->
+  <!-- PRIMESHIELDHUB GADGETS LIMITED                                    -->
+  <!-- Production XML Sitemap                                            -->
+  <!-- https://primeshieldhub.com                                       -->
+  <!-- Last reviewed: 18 September 2026                                 -->
+  <!-- ================================================================== -->
+
+
+  <!-- ================================================================ -->
+  <!-- 1. PRIMARY WEBSITE                                               -->
+  <!-- ================================================================ -->
+
+  <url>
+    <loc>https://primeshieldhub.com/</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/assets/hero-premium-gadgets.webp</image:loc>
+      <image:title>PrimeShieldHub Premium Gadgets Nigeria</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/company_logo.png</image:loc>
+      <image:title>PrimeShieldHub Logo</image:title>
+    </image:image>
+  </url>
+
+
+  <!-- ================================================================ -->
+  <!-- 2. CORPORATE / ENTITY AUTHORITY                                  -->
+  <!-- ================================================================ -->
+
+  <url>
+    <loc>https://primeshieldhub.com/about</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/company</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/company_logo.png</image:loc>
+      <image:title>PrimeShieldHub Gadgets Limited Company Logo</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/cac.webp</image:loc>
+      <image:title>PrimeShieldHub Corporate Registration Certificate</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/founder</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/photograph.webp</image:loc>
+      <image:title>Freedom Evbakoe Amenaghawon — Founder and CEO of PrimeShieldHub</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/biography</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.95</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/photograph.webp</image:loc>
+      <image:title>Freedom Evbakoe Amenaghawon Official Biography</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/freedom-evbakoe-amenaghawon</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.9</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/photograph.webp</image:loc>
+      <image:title>Freedom Evbakoe Amenaghawon</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/leadership</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/mission</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/assets/mission-vision-banner.webp</image:loc>
+      <image:title>PrimeShieldHub Mission</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/vision</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/assets/vision-banner.webp</image:loc>
+      <image:title>PrimeShieldHub Vision</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/founder-letter</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/assets/founder-letter-banner.webp</image:loc>
+      <image:title>Founder's Letter — PrimeShieldHub</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/recognition</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/knowledge-graph</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/brand-assets</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/company_logo.png</image:loc>
+      <image:title>PrimeShieldHub Official Brand Logo</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/media-kit</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/company_logo.png</image:loc>
+      <image:title>PrimeShieldHub Media Kit Logo</image:title>
+    </image:image>
+  </url>
+
+
+  <!-- ================================================================ -->
+  <!-- 3. PRODUCTS / COMMERCE                                           -->
+  <!-- ================================================================ -->
+
+  <url>
+    <loc>https://primeshieldhub.com/products</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/categories</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/product-detail</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/wholesale</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/reseller</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/compare</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/services</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+  <!-- ================================================================ -->
+  <!-- 4. CAREERS                                                       -->
+  <!-- ================================================================ -->
+
+  <url>
+    <loc>https://primeshieldhub.com/careers</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+
+  <!-- ================================================================ -->
+  <!-- 5. BUILDMART — PUBLIC DIVISION                                   -->
+  <!-- ================================================================ -->
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.95</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/assets/images/buildmart/storefront.webp</image:loc>
+      <image:title>PRIMESHIELDHUB BUILDMART Storefront</image:title>
+    </image:image>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/assets/images/buildmart/logo.svg</image:loc>
+      <image:title>PRIMESHIELDHUB BUILDMART Logo</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/about</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/brand</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/products</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/categories</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/product-detail</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/bulk-order</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/wholesale</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/projects</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/project-detail</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/project-estimator</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/contractors</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/delivery</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/quote</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/search</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.6</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/faq</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/buildmart/contact</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+
+  <!-- ================================================================ -->
+  <!-- 6. FRANCHISE                                                     -->
+  <!-- ================================================================ -->
+
+  <url>
+    <loc>https://primeshieldhub.com/franchise</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.75</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/franchise/apply</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+
+  <!-- ================================================================ -->
+  <!-- 7. ARTICLES / BLOG / KNOWLEDGE                                   -->
+  <!-- ================================================================ -->
+
+  <url>
+    <loc>https://primeshieldhub.com/articles</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/articles/why-i-founded-primeshieldhub</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/photograph.webp</image:loc>
+      <image:title>Why I Founded PrimeShieldHub</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/articles/microbiology-to-entrepreneurship</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/photograph.webp</image:loc>
+      <image:title>From Microbiology to Entrepreneurship</image:title>
+    </image:image>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/blog</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+
+  <!-- ================================================================ -->
+  <!-- 8. PRESS / MEDIA                                                 -->
+  <!-- ================================================================ -->
+
+  <url>
+    <loc>https://primeshieldhub.com/press</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/press/founder-journey-2026</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.85</priority>
+
+    <image:image>
+      <image:loc>https://primeshieldhub.com/photograph.webp</image:loc>
+      <image:title>Freedom Evbakoe Amenaghawon Founder Journey 2026</image:title>
+    </image:image>
+  </url>
+
+
+  <!-- ================================================================ -->
+  <!-- 9. CUSTOMER INFORMATION                                          -->
+  <!-- ================================================================ -->
+
+  <url>
+    <loc>https://primeshieldhub.com/faq</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/contact</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/shipping</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/returns</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/payment-methods</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.65</priority>
+  </url>
+
+
+  <!-- ================================================================ -->
+  <!-- 10. LEGAL / TRUST                                                -->
+  <!-- ================================================================ -->
+
+  <url>
+    <loc>https://primeshieldhub.com/privacy</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+  <url>
+    <loc>https://primeshieldhub.com/terms</loc>
+    <lastmod>2026-09-18</lastmod>
+    <changefreq>yearly</changefreq>
+    <priority>0.3</priority>
+  </url>
+
+</urlset>

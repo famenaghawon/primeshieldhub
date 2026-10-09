@@ -1,0 +1,1547 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="11.4" data-encryption="aes-256-gcm">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="PrimeShieldHub – Quantum Staff Access Portal | AES-256 Encrypted">
+  <meta name="theme-color" content="#000000">
+  
+  <meta name="csrf-token" content="">
+  <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+  <meta name="user-role" content="staff">
+  
+  <!-- ===== PWA META TAGS ===== -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Staff Hub">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/staff/manifest.json">
+  <link rel="apple-touch-icon" href="/staff-icons/icon-192x192.png">
+  <link rel="apple-touch-startup-image" href="/staff-icons/icon-512x512.png">
+  <meta name="msapplication-TileColor" content="#060608">
+  <meta name="msapplication-TileImage" content="/staff-icons/icon-144x144.png">
+  
+  <!-- Staff Portal specific meta -->
+  <meta name="staff-portal" content="true">
+  
+  <title>Staff Login | PrimeShieldHub • Quantum Access</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://api.primeshieldhub.com">
+  
+  <!-- ===== FAVICONS & ICONS ===== -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/staff-icons/icon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/staff-icons/icon-96x96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/staff-icons/icon-48x48.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="/staff-icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/staff-icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/staff-icons/icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/staff-icons/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/staff-icons/icon-192x192.png">
+  <link rel="manifest" href="/staff/manifest.json">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/"
+      }
+    }
+  </script>
+  
+  <style>
+    :root {
+      --bg-deep: #000308;
+      --surface-card: rgba(6, 10, 20, 0.82);
+      --glass-edge: rgba(0, 247, 255, 0.28);
+      --glass-edge-hover: rgba(0, 247, 255, 0.5);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --neon-pink: #ff2d95;
+      --accent-success: #33ffaa;
+      --accent-warning: #ffaa33;
+      --accent-danger: #ff3366;
+      --text-primary: #f0f3ff;
+      --text-secondary: #8892a4;
+      --text-muted: #5a6377;
+      --gradient-cyan-purple: linear-gradient(135deg, #00f7ff 0%, #b200ff 100%);
+      --gradient-gold: linear-gradient(135deg, #ffd966 0%, #ffaa33 100%);
+      --gradient-fire: linear-gradient(135deg, #ff2d95 0%, #ff6b35 100%);
+      --radius-xl: 2rem;
+      --radius-lg: 1.5rem;
+      --radius-md: 1rem;
+      --radius-sm: 0.75rem;
+      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #quantum-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .cyber-grid {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 247, 255, 0.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 247, 255, 0.06) 1px, transparent 1px);
+      background-size: 60px 60px;
+      z-index: 1;
+      pointer-events: none;
+      animation: gridDrift 30s linear infinite;
+    }
+
+    @keyframes gridDrift {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 60px 60px, -60px 60px; }
+    }
+
+    .scan-lines {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 247, 255, 0.015) 2px, rgba(0, 247, 255, 0.015) 4px);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .particle-orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      pointer-events: none;
+      z-index: 0;
+      animation: orbFloat 8s ease-in-out infinite;
+    }
+
+    .orb-cyan { width: 400px; height: 400px; background: var(--neon-cyan); top: -100px; right: -100px; animation-delay: 0s; }
+    .orb-purple { width: 350px; height: 350px; background: var(--neon-purple); bottom: -100px; left: -100px; animation-delay: -4s; }
+    .orb-gold { width: 250px; height: 250px; background: var(--neon-gold); top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -2s; opacity: 0.08; }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -30px) scale(1.1); }
+      50% { transform: translate(-20px, 20px) scale(0.95); }
+      75% { transform: translate(-30px, -20px) scale(1.05); }
+    }
+
+    .quantum-container {
+      width: 100%;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      z-index: 10;
+      position: relative;
+    }
+
+    .quantum-card {
+      background: var(--surface-card);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--glass-edge);
+      box-shadow: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04) inset, 0 0 60px rgba(0, 247, 255, 0.08);
+      width: 100%;
+      max-width: 520px;
+      padding: 2.8rem 2.5rem;
+      animation: cardEntry 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quantum-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gradient-cyan-purple);
+      opacity: 0.8;
+    }
+
+    .quantum-card::after {
+      content: '';
+      position: absolute;
+      top: -100px; right: -100px;
+      width: 200px; height: 200px;
+      background: radial-gradient(circle, rgba(0, 247, 255, 0.08), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    @keyframes cardEntry {
+      from { opacity: 0; transform: translateY(60px) scale(0.94); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .quantum-header { text-align: center; margin-bottom: 2.2rem; }
+
+    .logo-wrapper { position: relative; width: 90px; height: 90px; margin: 0 auto 1.2rem; }
+
+    .logo-hexagon {
+      width: 90px; height: 90px;
+      background: var(--gradient-cyan-purple);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.2rem; font-weight: 900;
+      font-family: 'Orbitron', monospace; color: white;
+      box-shadow: 0 0 40px rgba(0, 247, 255, 0.5), 0 0 80px rgba(178, 0, 255, 0.3);
+      animation: logoGlow 3s ease-in-out infinite;
+      position: relative;
+    }
+
+    .logo-ring {
+      position: absolute; top: -8px; left: -8px;
+      width: calc(100% + 16px); height: calc(100% + 16px);
+      border: 2px solid rgba(0, 247, 255, 0.4);
+      border-radius: 50%;
+      animation: ringRotate 4s linear infinite;
+    }
+
+    @keyframes logoGlow {
+      0%, 100% { box-shadow: 0 0 40px rgba(0, 247, 255, 0.5), 0 0 80px rgba(178, 0, 255, 0.3); }
+      50% { box-shadow: 0 0 60px rgba(0, 247, 255, 0.7), 0 0 120px rgba(178, 0, 255, 0.5); }
+    }
+
+    @keyframes ringRotate { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+    .quantum-header h1 { font-size: 2.2rem; font-weight: 800; background: var(--gradient-gold); -webkit-background-clip: text; background-clip: text; color: transparent; letter-spacing: -0.5px; font-family: 'Space Grotesk', 'Inter', sans-serif; }
+    .quantum-header .subtitle { color: var(--text-secondary); margin-top: 0.4rem; font-size: 0.9rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 1px; }
+
+    .security-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(51, 255, 170, 0.1); border: 1px solid rgba(51, 255, 170, 0.3);
+      border-radius: 2rem; padding: 6px 16px;
+      font-size: 0.7rem; font-weight: 600; color: var(--accent-success);
+      margin-top: 0.8rem; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.5px;
+    }
+
+    .security-badge .pulse-dot { width: 8px; height: 8px; background: var(--accent-success); border-radius: 50%; animation: pulse 2s ease-in-out infinite; }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(51, 255, 170, 0.6); }
+      50% { opacity: 0.5; box-shadow: 0 0 0 10px rgba(51, 255, 170, 0); }
+    }
+
+    .form-group { margin-bottom: 1.4rem; position: relative; }
+    .form-group label { display: flex; align-items: center; gap: 8px; margin-bottom: 0.5rem; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-secondary); font-weight: 700; }
+    .form-group label i { font-size: 0.8rem; color: var(--neon-cyan); }
+
+    .input-wrapper { position: relative; }
+    .input-wrapper .input-icon { position: absolute; left: 16px; top: 50%; transform: translateY(-50%); color: var(--text-muted); font-size: 0.9rem; transition: var(--transition-smooth); z-index: 1; }
+
+    .form-group input {
+      width: 100%; background: rgba(0, 0, 0, 0.5);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 0.95rem 1.2rem 0.95rem 2.8rem;
+      color: white; font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      transition: var(--transition-smooth); letter-spacing: 0.3px;
+    }
+
+    .form-group input:focus { outline: none; border-color: var(--neon-cyan); box-shadow: 0 0 25px rgba(0, 247, 255, 0.2), 0 0 0 4px rgba(0, 247, 255, 0.05); background: rgba(0, 0, 0, 0.7); }
+    .form-group input:focus + .input-icon, .form-group input:focus ~ .input-icon { color: var(--neon-cyan); }
+    .form-group input.has-value { border-color: rgba(255, 255, 255, 0.25); }
+
+    .password-toggle { position: absolute; right: 14px; top: 50%; transform: translateY(-50%); background: none; border: none; color: var(--text-muted); cursor: pointer; padding: 6px; transition: var(--transition-smooth); z-index: 1; }
+    .password-toggle:hover { color: var(--neon-cyan); }
+
+    .quantum-message { padding: 0.9rem 1.2rem; border-radius: var(--radius-sm); margin-bottom: 1.5rem; font-size: 0.85rem; font-weight: 500; display: none; animation: messageSlide 0.4s ease; }
+    @keyframes messageSlide { from { opacity: 0; transform: translateY(-10px); } to { opacity: 1; transform: translateY(0); } }
+    .error-message { background: rgba(255, 51, 102, 0.1); border-left: 3px solid var(--accent-danger); color: #ff88aa; }
+    .success-message { background: rgba(51, 255, 170, 0.1); border-left: 3px solid var(--accent-success); color: #88ffcc; }
+    .info-message { background: rgba(0, 247, 255, 0.08); border-left: 3px solid var(--neon-cyan); color: #88eeff; }
+
+    .quantum-btn {
+      width: 100%; background: var(--gradient-cyan-purple);
+      border: none; border-radius: var(--radius-md);
+      padding: 1rem 1.5rem; font-weight: 700;
+      font-size: 1rem; color: white; cursor: pointer;
+      transition: var(--transition-bounce);
+      display: flex; align-items: center; justify-content: center;
+      gap: 0.6rem; letter-spacing: 0.5px;
+      position: relative; overflow: hidden;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .quantum-btn::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,255,255,0.15), transparent); transition: left 0.5s; }
+    .quantum-btn:hover::before { left: 100%; }
+    .quantum-btn:hover { transform: translateY(-3px); box-shadow: 0 15px 40px rgba(0, 247, 255, 0.4), 0 0 60px rgba(178, 0, 255, 0.2); }
+    .quantum-btn:active { transform: translateY(-1px); }
+    .quantum-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+    .quantum-btn .loading-spinner { display: none; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 0.7s linear infinite; }
+    .quantum-btn.loading .loading-spinner { display: inline-block; }
+    .quantum-btn.loading .btn-text { display: none; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .otp-input-group { display: flex; gap: 0.6rem; justify-content: center; margin-bottom: 0.5rem; }
+    .otp-input { width: 55px; height: 65px; text-align: center; font-size: 1.6rem; font-weight: 700; font-family: 'JetBrains Mono', monospace; background: rgba(0, 0, 0, 0.5) !important; border: 1.5px solid rgba(255, 255, 255, 0.15) !important; border-radius: var(--radius-sm) !important; color: var(--neon-cyan) !important; padding: 0 !important; transition: var(--transition-smooth); }
+    .otp-input:focus { border-color: var(--neon-cyan) !important; box-shadow: 0 0 20px rgba(0, 247, 255, 0.3) !important; background: rgba(0, 0, 0, 0.7) !important; }
+    .otp-input.filled { border-color: var(--accent-success) !important; background: rgba(51, 255, 170, 0.05) !important; }
+
+    .otp-timer { text-align: center; font-size: 0.8rem; color: var(--text-muted); margin: 0.8rem 0 1rem; font-family: 'JetBrains Mono', monospace; }
+    .otp-timer .countdown { color: var(--neon-gold); font-weight: 600; }
+
+    .links-section { text-align: center; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; }
+    .links-section a { color: var(--neon-cyan); text-decoration: none; font-size: 0.88rem; font-weight: 500; transition: var(--transition-smooth); display: inline-flex; align-items: center; justify-content: center; gap: 6px; }
+    .links-section a:hover { color: var(--neon-gold); }
+    .links-section .divider { color: var(--text-muted); font-size: 0.7rem; opacity: 0.5; }
+
+    .quantum-footer { text-align: center; margin-top: 2rem; padding-top: 1.5rem; border-top: 1px solid rgba(255, 255, 255, 0.06); }
+    .footer-info { display: flex; justify-content: center; gap: 1.5rem; flex-wrap: wrap; font-size: 0.7rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace; }
+    .footer-info span { display: flex; align-items: center; gap: 5px; }
+    .footer-info .dot { width: 5px; height: 5px; background: var(--accent-success); border-radius: 50%; }
+
+    .rate-limit-bar { position: fixed; bottom: 20px; left: 20px; background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(16px); padding: 8px 16px; border-radius: 2rem; font-size: 0.65rem; z-index: 100; font-family: 'JetBrains Mono', monospace; border: 1px solid rgba(255, 255, 255, 0.1); display: flex; align-items: center; gap: 8px; color: var(--text-secondary); }
+    .rate-limit-bar .indicator { width: 8px; height: 8px; background: var(--accent-success); border-radius: 50%; }
+
+    /* ===== PWA INSTALL BANNER STYLES ===== */
+    .pwa-install-banner {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      z-index: 99999;
+      background: linear-gradient(135deg, #12122a, #1a2045);
+      border: 1px solid rgba(214, 178, 94, 0.2);
+      border-radius: 16px;
+      padding: 16px 20px;
+      max-width: 420px;
+      width: 92%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pwa-install-banner.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .pwa-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .pwa-text {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .pwa-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .pwa-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #d6b25e;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .pwa-desc {
+      font-size: 0.7rem;
+      color: #9aa3d4;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .pwa-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .pwa-btn {
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      -webkit-appearance: none;
+      min-height: 36px;
+      white-space: nowrap;
+    }
+
+    .pwa-btn-install {
+      background: linear-gradient(135deg, #d6b25e, #f3d27b);
+      color: #000;
+    }
+
+    .pwa-btn-install:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(214, 178, 94, 0.3);
+    }
+
+    .pwa-btn-dismiss {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #6a73a8;
+    }
+
+    .pwa-btn-dismiss:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    @media (max-width: 600px) { 
+      .quantum-card { padding: 2rem 1.5rem; border-radius: var(--radius-lg); } 
+      .quantum-header h1 { font-size: 1.7rem; } 
+      .otp-input { width: 45px; height: 55px; font-size: 1.3rem; } 
+      .logo-hexagon { width: 70px; height: 70px; font-size: 1.8rem; }
+      .pwa-install-banner { bottom: 70px; padding: 12px 16px; width: 96%; }
+      .pwa-content { flex-direction: column; align-items: stretch; gap: 10px; }
+      .pwa-actions { justify-content: stretch; }
+      .pwa-btn { flex: 1; text-align: center; }
+    }
+    
+    @media (max-width: 380px) { 
+      .quantum-container { padding: 0.8rem; } 
+      .quantum-card { padding: 1.5rem 1rem; } 
+      .otp-input { width: 40px; height: 48px; font-size: 1.1rem; } 
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <!-- ===== OFFLINE BANNER ===== -->
+  <div class="offline-banner" id="offlineBanner" style="position:fixed;top:0;left:0;right:0;background:#ff4d6a;color:#fff;text-align:center;padding:10px;z-index:100000;transform:translateY(-100%);transition:transform 0.3s ease;font-family:'Inter',sans-serif;font-size:0.85rem;">
+    📡 You are offline. Please check your connection.
+  </div>
+
+  <!-- ===== PWA INSTALL BANNER ===== -->
+  <div class="pwa-install-banner" id="pwaInstallBanner">
+    <div class="pwa-content">
+      <div class="pwa-text">
+        <span class="pwa-icon">📱</span>
+        <div>
+          <div class="pwa-title">Install Staff Hub</div>
+          <div class="pwa-desc">Get faster access to your staff dashboard</div>
+        </div>
+      </div>
+      <div class="pwa-actions">
+        <button class="pwa-btn pwa-btn-install" id="pwaInstallBtn">
+          <i class="fas fa-download"></i> Install
+        </button>
+        <button class="pwa-btn pwa-btn-dismiss" id="pwaDismissBtn">Not now</button>
+      </div>
+    </div>
+  </div>
+
+  <canvas id="quantum-canvas"></canvas>
+  <div class="cyber-grid"></div>
+  <div class="scan-lines"></div>
+  <div class="particle-orb orb-cyan"></div>
+  <div class="particle-orb orb-purple"></div>
+  <div class="particle-orb orb-gold"></div>
+
+  <div class="quantum-container">
+    <div class="quantum-card">
+      <div class="quantum-header">
+        <div class="logo-wrapper">
+          <div class="logo-ring"></div>
+          <div class="logo-hexagon">Q</div>
+        </div>
+        <h1>PrimeShieldHub</h1>
+        <p class="subtitle">⚡ QUANTUM STAFF ACCESS PORTAL</p>
+        <div class="security-badge">
+          <span class="pulse-dot"></span>
+          AES-256 ENCRYPTED • SOC2 COMPLIANT
+        </div>
+      </div>
+
+      <div id="step-credentials">
+        <div class="quantum-message error-message" id="credential-error"></div>
+        
+        <div class="form-group">
+          <label><i class="fas fa-envelope"></i> Corporate Email</label>
+          <div class="input-wrapper">
+            <i class="fas fa-envelope input-icon"></i>
+            <input type="email" id="login-email" placeholder="you@primeshieldhub.com" autocomplete="email" spellcheck="false" inputmode="email">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-fingerprint"></i> Passphrase</label>
+          <div class="input-wrapper">
+            <i class="fas fa-lock input-icon"></i>
+            <input type="password" id="login-password" placeholder="Enter your passphrase" autocomplete="current-password">
+            <button type="button" class="password-toggle" id="toggle-password" aria-label="Toggle password visibility">
+              <i class="fas fa-eye"></i>
+            </button>
+          </div>
+        </div>
+
+        <button class="quantum-btn" id="request-otp-btn">
+          <span class="loading-spinner"></span>
+          <span class="btn-text"><i class="fas fa-arrow-right"></i> Authenticate & Continue</span>
+        </button>
+
+        <div class="links-section">
+          <a href="/staff/register.html"><i class="fas fa-user-plus"></i> Register as Staff</a>
+          <span class="divider">•</span>
+          <a href="/staff/forgot-password.html"><i class="fas fa-key"></i> Reset Passphrase</a>
+        </div>
+      </div>
+
+      <div id="step-otp" style="display: none;">
+        <div class="quantum-message error-message" id="otp-error"></div>
+        <div class="quantum-message success-message" id="otp-success"></div>
+        <div class="quantum-message info-message" id="otp-info" style="display: block;">
+          <i class="fas fa-shield-alt"></i> A 6-digit verification code has been encrypted and sent to your registered email.
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-shield-haltered"></i> Verification Code</label>
+          <div class="otp-input-group" id="otp-group">
+            <input type="text" class="otp-input" maxlength="1" data-index="0" inputmode="numeric" pattern="[0-9]" autocomplete="one-time-code">
+            <input type="text" class="otp-input" maxlength="1" data-index="1" inputmode="numeric" pattern="[0-9]">
+            <input type="text" class="otp-input" maxlength="1" data-index="2" inputmode="numeric" pattern="[0-9]">
+            <input type="text" class="otp-input" maxlength="1" data-index="3" inputmode="numeric" pattern="[0-9]">
+            <input type="text" class="otp-input" maxlength="1" data-index="4" inputmode="numeric" pattern="[0-9]">
+            <input type="text" class="otp-input" maxlength="1" data-index="5" inputmode="numeric" pattern="[0-9]">
+          </div>
+        </div>
+
+        <div class="otp-timer">
+          Code expires in <span class="countdown" id="otp-countdown">05:00</span>
+        </div>
+
+        <button class="quantum-btn" id="verify-otp-btn" disabled>
+          <span class="loading-spinner"></span>
+          <span class="btn-text"><i class="fas fa-check-circle"></i> Verify & Access Dashboard</span>
+        </button>
+
+        <div class="links-section">
+          <a href="#" id="resend-otp-link"><i class="fas fa-redo"></i> Resend Verification Code</a>
+          <span class="divider">•</span>
+          <a href="#" id="back-to-credentials"><i class="fas fa-arrow-left"></i> Back to Login</a>
+        </div>
+      </div>
+
+      <div class="quantum-footer">
+        <div class="footer-info">
+          <span><span class="dot"></span> v11.4.2</span>
+          <span>🔐 TLS 1.3</span>
+          <span>🌍 Benin City, NG</span>
+          <span>RC 9283954</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="rate-limit-bar" id="rate-limit-bar">
+    <span class="indicator"></span>
+    API: <strong id="api-counter">0</strong>/60 • 
+    <span id="rate-status">✅ OK</span>
+  </div>
+
+  <!-- ===== PWA INSTALL SCRIPT - STAFF PORTAL FIX ===== -->
+  <script>
+      (function() {
+          'use strict';
+
+          let deferredPrompt = null;
+          const banner = document.getElementById('pwaInstallBanner');
+          const installBtn = document.getElementById('pwaInstallBtn');
+          const dismissBtn = document.getElementById('pwaDismissBtn');
+
+          // ================================================================ //
+          // CHECK IF ALREADY INSTALLED                                       //
+          // ================================================================ //
+          if (window.navigator.standalone === true || 
+              window.matchMedia('(display-mode: standalone)').matches) {
+              if (banner) banner.style.display = 'none';
+              console.log('📱 Staff Hub already installed (standalone mode)');
+              return;
+          }
+
+          // ================================================================ //
+          // CHECK Dismissed/Installed flags                                  //
+          // ================================================================ //
+          const dismissed = localStorage.getItem('psh_staff_pwa_dismissed') === 'true';
+          const installed = localStorage.getItem('psh_staff_pwa_installed') === 'true';
+          
+          if (dismissed || installed) {
+              if (banner) banner.style.display = 'none';
+              console.log('📱 Staff Hub banner suppressed (dismissed:', dismissed, 'installed:', installed, ')');
+              return;
+          }
+
+          // ================================================================ //
+          // LISTEN FOR INSTALL PROMPT                                       //
+          // ================================================================ //
+          window.addEventListener('beforeinstallprompt', (e) => {
+              console.log('📱 🔔 beforeinstallprompt event fired!');
+              e.preventDefault();
+              deferredPrompt = e;
+              
+              if (banner && !banner.classList.contains('show')) {
+                  console.log('📱 Showing install banner (from beforeinstallprompt)');
+                  banner.classList.add('show');
+              }
+          });
+
+          // ================================================================ //
+          // FALLBACK: Force show banner after page loads                    //
+          // ================================================================ //
+          // This is the key fix - if beforeinstallprompt doesn't fire,
+          // we show the banner anyway after a delay.
+          setTimeout(() => {
+              // Re-check dismissed/installed flags
+              const dismissedNow = localStorage.getItem('psh_staff_pwa_dismissed') === 'true';
+              const installedNow = localStorage.getItem('psh_staff_pwa_installed') === 'true';
+              
+              if (!dismissedNow && !installedNow && banner && !banner.classList.contains('show')) {
+                  // Check if the app is already installed
+                  const isStandalone = window.navigator.standalone === true || 
+                                      window.matchMedia('(display-mode: standalone)').matches;
+                  
+                  if (!isStandalone) {
+                      console.log('📱 🔔 FALLBACK: Showing install banner (beforeinstallprompt did not fire)');
+                      banner.classList.add('show');
+                  }
+              }
+          }, 2000);
+
+          // ================================================================ //
+          // APP INSTALLED EVENT                                             //
+          // ================================================================ //
+          window.addEventListener('appinstalled', () => {
+              console.log('📱 ✅ Staff Hub installed!');
+              if (banner) banner.classList.remove('show');
+              localStorage.setItem('psh_staff_pwa_installed', 'true');
+              
+              // Show success toast
+              const toast = document.createElement('div');
+              toast.style.cssText = `
+                  position: fixed;
+                  bottom: 80px;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  background: linear-gradient(135deg, #12122a, #1a2045);
+                  border: 1px solid rgba(214, 178, 94, 0.3);
+                  border-radius: 12px;
+                  padding: 16px 24px;
+                  color: #e8edff;
+                  font-family: 'Inter', sans-serif;
+                  font-size: 0.9rem;
+                  z-index: 99999;
+                  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+                  backdrop-filter: blur(20px);
+                  animation: slideUp 0.4s ease;
+                  text-align: center;
+                  max-width: 400px;
+              `;
+              toast.innerHTML = `
+                  <div style="font-size: 28px;">✅</div>
+                  <div style="font-weight: 600; color: #d6b25e; margin-top: 4px;">Staff Hub Installed!</div>
+                  <div style="font-size: 0.8rem; color: #9aa3d4;">You can now access from your home screen</div>
+              `;
+              document.body.appendChild(toast);
+              setTimeout(() => {
+                  toast.style.opacity = '0';
+                  toast.style.transition = 'opacity 0.3s ease';
+                  setTimeout(() => toast.remove(), 300);
+              }, 4000);
+          });
+
+          // ================================================================ //
+          // INSTALL BUTTON                                                   //
+          // ================================================================ //
+          if (installBtn) {
+              installBtn.addEventListener('click', async () => {
+                  console.log('📱 Install button clicked');
+                  
+                  if (deferredPrompt) {
+                      console.log('📱 Showing install prompt (from beforeinstallprompt)');
+                      deferredPrompt.prompt();
+                      const result = await deferredPrompt.userChoice;
+                      console.log('📱 User choice:', result.outcome);
+                      
+                      if (result.outcome === 'accepted') {
+                          console.log('📱 User accepted install');
+                          if (banner) banner.classList.remove('show');
+                          localStorage.setItem('psh_staff_pwa_installed', 'true');
+                      } else {
+                          console.log('📱 User dismissed install');
+                          if (banner) banner.classList.remove('show');
+                          localStorage.setItem('psh_staff_pwa_dismissed', 'true');
+                      }
+                      deferredPrompt = null;
+                  } else {
+                      console.log('📱 No deferredPrompt - showing manual instructions');
+                      
+                      // Check if we can manually trigger the install
+                      const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge/.test(navigator.userAgent);
+                      const isEdge = /Edg/.test(navigator.userAgent);
+                      const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+                      
+                      if (isChrome || isEdge) {
+                          // Try to show the install banner manually by checking SW
+                          if ('serviceWorker' in navigator) {
+                              try {
+                                  const registration = await navigator.serviceWorker.ready;
+                                  // Try to trigger the install prompt via service worker message
+                                  if (registration.active) {
+                                      registration.active.postMessage({ type: 'trigger-install' });
+                                  }
+                              } catch(e) {
+                                  console.log('📱 Could not trigger SW install:', e);
+                              }
+                          }
+                          
+                          // Show the manual install instructions anyway
+                          alert('📱 To install Staff Hub:\n\n' +
+                                '1. Look for the install icon (⊕) in the address bar\n' +
+                                '2. Click "Install" or "Add to Home Screen"\n' +
+                                '3. Follow the prompts to install\n\n' +
+                                'Alternatively, tap the menu (⋮) and select "Install App"');
+                      } else if (isSafari) {
+                          alert('📱 To install Staff Hub on iPhone:\n\n' +
+                                '1. Tap the Share button (⬆️) at the bottom\n' +
+                                '2. Scroll down and tap "Add to Home Screen"\n' +
+                                '3. Tap "Add" in the top right corner\n\n' +
+                                'Then open from your home screen!');
+                      } else {
+                          alert('📱 To install Staff Hub:\n\n' +
+                                '1. Open your browser menu\n' +
+                                '2. Look for "Install App" or "Add to Home Screen"\n' +
+                                '3. Follow the prompts to install');
+                      }
+                  }
+              });
+          }
+
+          // ================================================================ //
+          // DISMISS BUTTON                                                   //
+          // ================================================================ //
+          if (dismissBtn) {
+              dismissBtn.addEventListener('click', () => {
+                  console.log('📱 User dismissed banner');
+                  if (banner) banner.classList.remove('show');
+                  localStorage.setItem('psh_staff_pwa_dismissed', 'true');
+              });
+          }
+
+          // ================================================================ //
+          // OFFLINE STATUS                                                   //
+          // ================================================================ //
+          function updateOnlineStatus() {
+              const banner = document.getElementById('offlineBanner');
+              if (!banner) return;
+
+              if (!navigator.onLine) {
+                  banner.classList.add('show');
+                  banner.textContent = '📡 You are offline. Some features may be unavailable.';
+              } else {
+                  banner.classList.remove('show');
+              }
+          }
+
+          window.addEventListener('online', updateOnlineStatus);
+          window.addEventListener('offline', updateOnlineStatus);
+          updateOnlineStatus();
+
+          // ================================================================ //
+          // DEBUG INFO                                                       //
+          // ================================================================ //
+          console.log('📱 Staff PWA Install handler ready');
+          console.log('📱 Manifest URL:', document.querySelector('link[rel="manifest"]')?.href);
+          console.log('📱 Service Worker:', navigator.serviceWorker ? 'available' : 'not available');
+          console.log('📱 Standalone:', window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches);
+          console.log('📱 Dismissed:', dismissed);
+          console.log('📱 Installed:', installed);
+          console.log('📱 Banner element:', banner ? 'found' : 'not found');
+
+          // ================================================================ //
+          // ADD A MANUAL TRIGGER FOR DEBUGGING                               //
+          // ================================================================ //
+          // Expose a global function to show the install banner manually
+          window.showStaffInstallBanner = function() {
+              if (banner && !banner.classList.contains('show')) {
+                  banner.classList.add('show');
+                  console.log('📱 Banner shown manually');
+              } else {
+                  console.log('📱 Banner already showing or not available');
+              }
+          };
+          
+          console.log('📱 Run showStaffInstallBanner() to show banner manually');
+      })();
+  </script>
+
+  <script type="module" src="../js/auth-storage.js"></script>
+  <script type="module" src="/js/staff-app.js"></script>
+
+  <script type="module">
+    // ================================================================ //
+    // STAFF LOGIN - UNIFIED CONFIG & BACKEND SYNC                       //
+    // ================================================================ //
+
+    import * as THREE from 'three';
+    import { CONFIG as UnifiedConfig } from '../js/config.js';
+    import { auth } from '../js/auth.js';
+
+    // ================================================================ //
+    // UNIFIED CONFIGURATION                                            //
+    // ================================================================ //
+
+    const CONFIG = {
+      API_BASE: UnifiedConfig.apiBase,
+      SITE_URL: 'https://primeshieldhub.com',
+      DASHBOARD_URL: '/staff/dashboard.html',
+      ADMIN_DASHBOARD_URL: '/admin/',
+      OTP_TIMEOUT: 300,
+      RATE_LIMIT: 60,
+      RATE_WINDOW: 60000,
+      STORAGE_KEYS: UnifiedConfig.STORAGE_KEYS || { TOKEN: 'psh_auth_token', USER: 'psh_user' }
+    };
+
+    // ================================================================ //
+    // AUTH CHECK - Redirect if already logged in                      //
+    // ================================================================ //
+
+    function checkAuth() {
+      try {
+        // Try unified auth first
+        const user = auth.getUser ? auth.getUser() : null;
+        if (user) {
+          const role = user.role || 'staff';
+          if (role === 'admin') {
+            window.location.href = CONFIG.ADMIN_DASHBOARD_URL;
+          } else {
+            window.location.href = CONFIG.DASHBOARD_URL;
+          }
+          return true;
+        }
+      } catch(e) {}
+
+      // Check legacy storage
+      try {
+        const token = localStorage.getItem((CONFIG.STORAGE_KEYS || { TOKEN: 'psh_auth_token' }).TOKEN) || 
+                      localStorage.getItem('psh_staff_token') || 
+                      localStorage.getItem('psh_auth_token');
+        const userStr = localStorage.getItem((CONFIG.STORAGE_KEYS || { USER: 'psh_user' }).USER) || 
+                       localStorage.getItem('psh_staff_user') || 
+                       localStorage.getItem('psh_user');
+        if (token && userStr) {
+          const user = JSON.parse(userStr);
+          const role = user.role || 'staff';
+          if (role === 'admin') {
+            window.location.href = CONFIG.ADMIN_DASHBOARD_URL;
+          } else {
+            window.location.href = CONFIG.DASHBOARD_URL;
+          }
+          return true;
+        }
+      } catch(e) {}
+
+      return false;
+    }
+
+    // ================================================================ //
+    // STATE                                                            //
+    // ================================================================ //
+
+    const State = {
+      currentUserId: null,
+      currentEmail: null,
+      deviceFingerprint: null,
+      otpTimer: null,
+      otpExpiry: null,
+      apiCallCount: 0,
+      rateLimitReset: Date.now() + CONFIG.RATE_WINDOW,
+      csrfToken: null,
+      userRole: null
+    };
+
+    // ================================================================ //
+    // DOM REFERENCES                                                   //
+    // ================================================================ //
+
+    const DOM = {
+      stepCredentials: document.getElementById('step-credentials'),
+      stepOtp: document.getElementById('step-otp'),
+      requestOtpBtn: document.getElementById('request-otp-btn'),
+      verifyOtpBtn: document.getElementById('verify-otp-btn'),
+      loginEmail: document.getElementById('login-email'),
+      loginPassword: document.getElementById('login-password'),
+      togglePassword: document.getElementById('toggle-password'),
+      otpInputs: document.querySelectorAll('.otp-input'),
+      otpCountdown: document.getElementById('otp-countdown'),
+      credentialError: document.getElementById('credential-error'),
+      otpError: document.getElementById('otp-error'),
+      otpSuccess: document.getElementById('otp-success'),
+      otpInfo: document.getElementById('otp-info'),
+      resendLink: document.getElementById('resend-otp-link'),
+      backLink: document.getElementById('back-to-credentials'),
+      rateLimitBar: document.getElementById('rate-limit-bar'),
+      apiCounter: document.getElementById('api-counter'),
+      rateStatus: document.getElementById('rate-status')
+    };
+
+    // ================================================================ //
+    // 3D BACKGROUND                                                    //
+    // ================================================================ //
+
+    function initThreeJS() {
+      const canvas = document.getElementById('quantum-canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.z = 8;
+      const coreGroup = new THREE.Group();
+      const innerCore = new THREE.Mesh(new THREE.IcosahedronGeometry(0.8, 2), new THREE.MeshStandardMaterial({ color: 0x00f7ff, emissive: 0x004466, emissiveIntensity: 1.2, metalness: 0.9, roughness: 0.1 }));
+      coreGroup.add(innerCore);
+      const outerCore = new THREE.Mesh(new THREE.IcosahedronGeometry(1.3, 1), new THREE.MeshStandardMaterial({ color: 0xb200ff, emissive: 0x440066, emissiveIntensity: 0.6, metalness: 0.7, roughness: 0.3, wireframe: true, transparent: true, opacity: 0.5 }));
+      coreGroup.add(outerCore);
+      scene.add(coreGroup);
+      const ringsGroup = new THREE.Group();
+      for (let r = 0; r < 3; r++) {
+        const ring = new THREE.Mesh(new THREE.TorusGeometry(2 + r * 0.8, 0.02, 16, 100), new THREE.MeshStandardMaterial({
+          color: r === 0 ? 0x00f7ff : r === 1 ? 0xb200ff : 0xffd966,
+          emissive: r === 0 ? 0x003344 : r === 1 ? 0x330044 : 0x443300,
+          emissiveIntensity: 0.4,
+          metalness: 0.8,
+          roughness: 0.2,
+          transparent: true,
+          opacity: 0.6
+        }));
+        ring.rotation.x = Math.PI / 2 + r * 0.3;
+        ring.rotation.y = r * 0.5;
+        ringsGroup.add(ring);
+      }
+      scene.add(ringsGroup);
+      const particlesGeo = new THREE.BufferGeometry();
+      const particleCount = 2000;
+      const positions = new Float32Array(particleCount * 3);
+      const colors = new Float32Array(particleCount * 3);
+      for (let i = 0; i < particleCount * 3; i += 3) {
+        positions[i] = (Math.random() - 0.5) * 30;
+        positions[i + 1] = (Math.random() - 0.5) * 20;
+        positions[i + 2] = (Math.random() - 0.5) * 15;
+        const cc = Math.random();
+        if (cc < 0.33) {
+          colors[i] = 0;
+          colors[i + 1] = 0.97;
+          colors[i + 2] = 1;
+        } else if (cc < 0.66) {
+          colors[i] = 0.7;
+          colors[i + 1] = 0;
+          colors[i + 2] = 1;
+        } else {
+          colors[i] = 1;
+          colors[i + 1] = 0.85;
+          colors[i + 2] = 0.4;
+        }
+      }
+      particlesGeo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+      particlesGeo.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+      const particles = new THREE.Points(particlesGeo, new THREE.PointsMaterial({
+        size: 0.04,
+        vertexColors: true,
+        transparent: true,
+        opacity: 0.7,
+        blending: THREE.AdditiveBlending,
+        depthWrite: false
+      }));
+      scene.add(particles);
+      scene.add(new THREE.AmbientLight(0x111122, 0.8));
+      const pl1 = new THREE.PointLight(0x00f7ff, 2, 15);
+      pl1.position.set(3, 2, 4);
+      scene.add(pl1);
+      const pl2 = new THREE.PointLight(0xb200ff, 1.5, 12);
+      pl2.position.set(-3, -1, 3);
+      scene.add(pl2);
+      const pl3 = new THREE.PointLight(0xffd966, 0.8, 10);
+      pl3.position.set(0, 3, -2);
+      scene.add(pl3);
+      let time = 0,
+          mouseX = 0,
+          mouseY = 0;
+      document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        time += 0.005;
+        coreGroup.rotation.x = time * 0.3;
+        coreGroup.rotation.y = time * 0.5;
+        innerCore.rotation.z = time * 0.2;
+        ringsGroup.rotation.x = time * 0.15;
+        ringsGroup.rotation.y = time * 0.2;
+        ringsGroup.rotation.z = time * 0.1;
+        particles.rotation.y = time * 0.08;
+        particles.rotation.x = time * 0.04;
+        camera.position.x += (mouseX * 1.5 - camera.position.x) * 0.03;
+        camera.position.y += (mouseY * 1 - camera.position.y) * 0.03;
+        camera.lookAt(0, 0, 0);
+        renderer.render(scene, camera);
+      }
+      animate();
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
+
+    // ================================================================ //
+    // DEVICE FINGERPRINT                                               //
+    // ================================================================ //
+
+    async function getDeviceFingerprint() {
+      if (State.deviceFingerprint) return State.deviceFingerprint;
+      try {
+        const fingerprintModule = await import('../js/sophisticated/fraud-engine/fingerprint.js');
+        State.deviceFingerprint = await fingerprintModule.getDeviceFingerprint();
+        return State.deviceFingerprint;
+      } catch (e) {
+        const components = [
+          navigator.userAgent, navigator.language, navigator.platform,
+          screen.width, screen.height, screen.colorDepth,
+          navigator.hardwareConcurrency || 4, new Date().getTimezoneOffset(),
+          navigator.deviceMemory || 4,
+          Intl.DateTimeFormat().resolvedOptions().timeZone
+        ].join('|||');
+        const encoder = new TextEncoder();
+        const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(components));
+        State.deviceFingerprint = Array.from(new Uint8Array(hashBuffer))
+          .map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+        return State.deviceFingerprint;
+      }
+    }
+
+    // ================================================================ //
+    // RATE LIMITING                                                    //
+    // ================================================================ //
+
+    function trackApiCall() {
+      if (Date.now() > State.rateLimitReset) {
+        State.apiCallCount = 0;
+        State.rateLimitReset = Date.now() + CONFIG.RATE_WINDOW;
+      }
+      State.apiCallCount++;
+      if (DOM.apiCounter) DOM.apiCounter.textContent = State.apiCallCount;
+      if (DOM.rateStatus) {
+        DOM.rateStatus.innerHTML = State.apiCallCount > 55 ?
+          '<span style="color:#ff3366;">🔴 HIGH</span>' :
+          State.apiCallCount > 45 ?
+          '<span style="color:#ffaa33;">⚠️ MED</span>' :
+          '<span style="color:#33ffaa;">✅ OK</span>';
+      }
+    }
+
+    // ================================================================ //
+    // API FETCH                                                        //
+    // ================================================================ //
+
+    async function apiFetch(endpoint, options = {}) {
+      trackApiCall();
+
+      const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content || State.csrfToken;
+
+      const headers = {
+        'Content-Type': 'application/json',
+        'x-device-fingerprint': await getDeviceFingerprint()
+      };
+
+      if (csrfToken && options.method && !['GET', 'HEAD'].includes(options.method)) {
+        headers['x-csrf-token'] = csrfToken;
+      }
+
+      const res = await fetch(`${CONFIG.API_BASE}${endpoint}`, {
+        credentials: 'include',
+        ...options,
+        headers: { ...headers, ...options.headers }
+      });
+
+      const newCsrf = res.headers.get('x-csrf-token');
+      if (newCsrf) {
+        State.csrfToken = newCsrf;
+        const meta = document.querySelector('meta[name="csrf-token"]');
+        if (meta) meta.setAttribute('content', newCsrf);
+      }
+
+      return res;
+    }
+
+    // ================================================================ //
+    // UI HELPERS                                                        //
+    // ================================================================ //
+
+    function showMessage(element, message, type = 'error') {
+      if (!element) return;
+      element.textContent = message;
+      element.className = `quantum-message ${type}-message`;
+      element.style.display = 'block';
+      if (type === 'success') {
+        setTimeout(() => { element.style.display = 'none'; }, 4000);
+      }
+    }
+
+    function hideAllMessages() {
+      [DOM.credentialError, DOM.otpError, DOM.otpSuccess].forEach(el => {
+        if (el) el.style.display = 'none';
+      });
+    }
+
+    function setButtonLoading(btn, isLoading) {
+      if (!btn) return;
+      if (isLoading) {
+        btn.classList.add('loading');
+        btn.disabled = true;
+      } else {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    // ================================================================ //
+    // OTP INPUTS                                                        //
+    // ================================================================ //
+
+    function setupOtpInputs() {
+      DOM.otpInputs.forEach((input, index) => {
+        input.addEventListener('input', (e) => {
+          const value = e.target.value.replace(/[^0-9]/g, '');
+          e.target.value = value;
+          if (value) {
+            input.classList.add('filled');
+            if (index < DOM.otpInputs.length - 1) DOM.otpInputs[index + 1].focus();
+          } else {
+            input.classList.remove('filled');
+          }
+          updateVerifyButton();
+        });
+
+        input.addEventListener('keydown', (e) => {
+          if (e.key === 'Backspace' && !e.target.value && index > 0) {
+            DOM.otpInputs[index - 1].focus();
+            DOM.otpInputs[index - 1].classList.remove('filled');
+          }
+        });
+
+        input.addEventListener('paste', (e) => {
+          e.preventDefault();
+          const digits = (e.clipboardData || window.clipboardData).getData('text').replace(/[^0-9]/g, '').split('');
+          DOM.otpInputs.forEach((inp, i) => {
+            if (digits[i]) {
+              inp.value = digits[i];
+              inp.classList.add('filled');
+            } else {
+              inp.value = '';
+              inp.classList.remove('filled');
+            }
+          });
+          updateVerifyButton();
+          if (digits.length >= 6) DOM.otpInputs[5].focus();
+        });
+      });
+    }
+
+    function getOtpValue() {
+      return Array.from(DOM.otpInputs).map(i => i.value).join('');
+    }
+
+    function updateVerifyButton() {
+      DOM.verifyOtpBtn.disabled = getOtpValue().length !== 6;
+    }
+
+    function clearOtpInputs() {
+      DOM.otpInputs.forEach(i => { i.value = '';
+        i.classList.remove('filled'); });
+      DOM.verifyOtpBtn.disabled = true;
+    }
+
+    // ================================================================ //
+    // OTP TIMER                                                         //
+    // ================================================================ //
+
+    function startOtpTimer() {
+      clearInterval(State.otpTimer);
+      State.otpExpiry = Date.now() + CONFIG.OTP_TIMEOUT * 1000;
+
+      function updateTimer() {
+        const remaining = Math.max(0, Math.ceil((State.otpExpiry - Date.now()) / 1000));
+        const mins = Math.floor(remaining / 60);
+        const secs = remaining % 60;
+        if (DOM.otpCountdown) {
+          DOM.otpCountdown.textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+          if (remaining < 60) DOM.otpCountdown.style.color = 'var(--accent-danger)';
+          else if (remaining < 120) DOM.otpCountdown.style.color = 'var(--accent-warning)';
+        }
+        if (remaining <= 0) {
+          clearInterval(State.otpTimer);
+          showMessage(DOM.otpError, 'Verification code expired.', 'error');
+          DOM.verifyOtpBtn.disabled = true;
+        }
+      }
+      updateTimer();
+      State.otpTimer = setInterval(updateTimer, 1000);
+    }
+
+    // ================================================================ //
+    // HANDLE REQUEST OTP                                               //
+    // ================================================================ //
+
+    async function handleRequestOtp() {
+      hideAllMessages();
+      const email = DOM.loginEmail.value.trim().toLowerCase();
+      const password = DOM.loginPassword.value;
+
+      if (!email) return showMessage(DOM.credentialError, 'Please enter your corporate email.', 'error');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return showMessage(DOM.credentialError, 'Please enter a valid email.', 'error');
+      if (!password || password.length < 6) return showMessage(DOM.credentialError, 'Please enter a valid passphrase.', 'error');
+
+      setButtonLoading(DOM.requestOtpBtn, true);
+
+      try {
+        const fp = await getDeviceFingerprint();
+        const res = await apiFetch('/auth/request-otp', {
+          method: 'POST',
+          body: JSON.stringify({ email, password, fingerprint: fp })
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Authentication failed');
+
+        State.currentUserId = data.userId;
+        State.currentEmail = email;
+
+        sessionStorage.setItem('psh_login_email', email);
+        sessionStorage.setItem('psh_login_userId', data.userId);
+
+        DOM.stepCredentials.style.display = 'none';
+        DOM.stepOtp.style.display = 'block';
+
+        showMessage(DOM.otpSuccess, '✅ Verification code sent!', 'success');
+        clearOtpInputs();
+        startOtpTimer();
+
+        setTimeout(() => { DOM.otpInputs[0]?.focus(); }, 300);
+
+      } catch (err) {
+        showMessage(DOM.credentialError, err.message, 'error');
+      } finally {
+        setButtonLoading(DOM.requestOtpBtn, false);
+      }
+    }
+
+    // ================================================================ //
+    // HANDLE VERIFY OTP                                                //
+    // ================================================================ //
+
+    async function handleVerifyOtp() {
+      hideAllMessages();
+      const otp = getOtpValue();
+
+      if (otp.length !== 6) return showMessage(DOM.otpError, 'Please enter the complete 6-digit code.', 'error');
+
+      const userId = State.currentUserId || sessionStorage.getItem('psh_login_userId');
+      const email = State.currentEmail || sessionStorage.getItem('psh_login_email');
+
+      if (!userId && !email) return showMessage(DOM.otpError, 'Session expired. Please go back.', 'error');
+
+      setButtonLoading(DOM.verifyOtpBtn, true);
+
+      try {
+        const fp = await getDeviceFingerprint();
+        const body = userId ? { userId, otp, fingerprint: fp } : { email, otp, fingerprint: fp };
+
+        const res = await apiFetch('/auth/verify-otp', { method: 'POST', body: JSON.stringify(body) });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Verification failed');
+        if (!data.success) throw new Error(data.error || 'Verification unsuccessful');
+
+        // Save using unified auth
+        if (data.token && data.user) {
+          try {
+            if (auth.setToken && auth.setUser) {
+              auth.setToken(data.token);
+              auth.setUser(data.user);
+            }
+          } catch (e) {
+            console.warn('Auth module save failed, using legacy storage');
+          }
+
+          // Always save to legacy keys for compatibility
+          localStorage.setItem((CONFIG.STORAGE_KEYS || { TOKEN: 'psh_auth_token' }).TOKEN, data.token);
+          localStorage.setItem((CONFIG.STORAGE_KEYS || { USER: 'psh_user' }).USER, JSON.stringify(data.user));
+
+          // Staff-specific keys
+          localStorage.setItem('psh_staff_token', data.token);
+          localStorage.setItem('psh_staff_user', JSON.stringify(data.user));
+
+          // Branch info
+          if (data.branchId) localStorage.setItem('psh_branch_id', data.branchId);
+          if (data.branchName) localStorage.setItem('psh_branch_name', data.branchName);
+
+          // Save to AuthStorage if available
+          if (window.AuthStorage && typeof window.AuthStorage.saveSession === 'function') {
+            window.AuthStorage.saveSession(data.token, data.user);
+          }
+        }
+
+        sessionStorage.removeItem('psh_login_email');
+        sessionStorage.removeItem('psh_login_userId');
+        clearInterval(State.otpTimer);
+
+        showMessage(DOM.otpSuccess, '🔓 Authentication successful!', 'success');
+
+        const role = data.role || data.user?.role || 'staff';
+        const redirectMap = {
+          'admin': CONFIG.ADMIN_DASHBOARD_URL,
+          'staff': CONFIG.DASHBOARD_URL
+        };
+
+        setTimeout(() => {
+          window.location.href = redirectMap[role] || CONFIG.DASHBOARD_URL;
+        }, 800);
+
+      } catch (err) {
+        showMessage(DOM.otpError, err.message, 'error');
+        clearOtpInputs();
+        DOM.otpInputs[0]?.focus();
+      } finally {
+        setButtonLoading(DOM.verifyOtpBtn, false);
+      }
+    }
+
+    // ================================================================ //
+    // HANDLE RESEND OTP                                                //
+    // ================================================================ //
+
+    async function handleResendOtp() {
+      hideAllMessages();
+      const email = State.currentEmail || sessionStorage.getItem('psh_login_email');
+      if (!email) return showMessage(DOM.otpError, 'Session expired.', 'error');
+
+      DOM.resendLink.style.pointerEvents = 'none';
+      DOM.resendLink.style.opacity = '0.5';
+
+      try {
+        const fp = await getDeviceFingerprint();
+        const res = await apiFetch('/auth/request-otp', {
+          method: 'POST',
+          body: JSON.stringify({ email, password: DOM.loginPassword.value || '', fingerprint: fp })
+        });
+        const data = await res.json();
+
+        if (!res.ok) throw new Error(data.error || 'Failed');
+
+        State.currentUserId = data.userId || State.currentUserId;
+        clearOtpInputs();
+        startOtpTimer();
+        showMessage(DOM.otpSuccess, '✅ New code sent!', 'success');
+        DOM.otpInputs[0]?.focus();
+
+      } catch (err) {
+        showMessage(DOM.otpError, err.message, 'error');
+      } finally {
+        setTimeout(() => {
+          DOM.resendLink.style.pointerEvents = '';
+          DOM.resendLink.style.opacity = '';
+        }, 3000);
+      }
+    }
+
+    // ================================================================ //
+    // HANDLE BACK TO CREDENTIALS                                        //
+    // ================================================================ //
+
+    function handleBackToCredentials() {
+      clearInterval(State.otpTimer);
+      clearOtpInputs();
+      DOM.stepCredentials.style.display = 'block';
+      DOM.stepOtp.style.display = 'none';
+      const savedEmail = sessionStorage.getItem('psh_login_email');
+      if (savedEmail && DOM.loginEmail) DOM.loginEmail.value = savedEmail;
+    }
+
+    // ================================================================ //
+    // PASSWORD TOGGLE                                                  //
+    // ================================================================ //
+
+    function setupPasswordToggle() {
+      if (!DOM.togglePassword) return;
+      DOM.togglePassword.addEventListener('click', () => {
+        const input = DOM.loginPassword;
+        const icon = DOM.togglePassword.querySelector('i');
+        if (input.type === 'password') {
+          input.type = 'text';
+          icon.className = 'fas fa-eye-slash';
+        } else {
+          input.type = 'password';
+          icon.className = 'fas fa-eye';
+        }
+      });
+    }
+
+    // ================================================================ //
+    // EVENT LISTENERS                                                   //
+    // ================================================================ //
+
+    function setupEventListeners() {
+      DOM.requestOtpBtn.addEventListener('click', handleRequestOtp);
+      DOM.verifyOtpBtn.addEventListener('click', handleVerifyOtp);
+      DOM.resendLink.addEventListener('click', (e) => { e.preventDefault();
+        handleResendOtp(); });
+      DOM.backLink.addEventListener('click', (e) => { e.preventDefault();
+        handleBackToCredentials(); });
+
+      DOM.loginPassword.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          handleRequestOtp();
+        }
+      });
+
+      DOM.loginEmail.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+          e.preventDefault();
+          DOM.loginPassword.focus();
+        }
+      });
+
+      [DOM.loginEmail, DOM.loginPassword].forEach(input => {
+        input.addEventListener('input', () => {
+          if (input.value) input.classList.add('has-value');
+          else input.classList.remove('has-value');
+        });
+      });
+    }
+
+    // ================================================================ //
+    // CSRF TOKEN FETCH                                                 //
+    // ================================================================ //
+
+    async function fetchCsrfToken() {
+      try {
+        const res = await fetch(`${CONFIG.API_BASE}/auth/csrf`, {
+          credentials: 'include',
+          headers: { 'x-device-fingerprint': await getDeviceFingerprint() }
+        });
+        if (res.ok) {
+          const token = await res.text();
+          State.csrfToken = token;
+          const meta = document.querySelector('meta[name="csrf-token"]');
+          if (meta) meta.setAttribute('content', token);
+        }
+      } catch (e) { /* silent */ }
+    }
+
+    // ================================================================ //
+    // INITIALIZATION                                                   //
+    // ================================================================ //
+
+    async function init() {
+      console.log('🚀 Initializing PrimeShieldHub Staff Login v11.4.3');
+      console.log('📍 API Base:', CONFIG.API_BASE);
+
+      // Check if already logged in
+      if (checkAuth()) {
+        console.log('👤 Already logged in, redirecting...');
+        return;
+      }
+
+      initThreeJS();
+      setupOtpInputs();
+      setupPasswordToggle();
+      setupEventListeners();
+
+      await getDeviceFingerprint();
+      await fetchCsrfToken();
+
+      const savedEmail = sessionStorage.getItem('psh_login_email');
+      if (savedEmail && DOM.loginEmail) {
+        DOM.loginEmail.value = savedEmail;
+        DOM.loginEmail.classList.add('has-value');
+      }
+
+      setTimeout(() => {
+        if (!DOM.loginEmail.value) DOM.loginEmail.focus();
+      }, 500);
+
+      console.log('✅ Login portal initialized');
+      console.log('📦 Using unified config from:', UnifiedConfig.apiBase);
+      
+      // Log staff navigation links
+      console.log('🔗 Staff Navigation:');
+      console.log('  📊 Dashboard: /staff/dashboard.html');
+      console.log('  👤 Profile: /staff/profile.html');
+      console.log('  ⚙️ Settings: /staff/settings.html');
+      console.log('  📋 Activity: /staff/activity.html');
+      console.log('  💳 Charge: /staff/charge.html');
+      console.log('  📝 Register: /staff/register.html');
+      console.log('  🔑 Forgot Password: /staff/forgot-password.html');
+      console.log('  ✅ Verify: /staff/verify/');
+    }
+
+    init().catch(err => console.error('❌ Initialization failed:', err));
+  </script>
+</body>
+</html>

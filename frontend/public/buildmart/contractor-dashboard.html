@@ -1,0 +1,2459 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="description" content="BuildMart Enterprise Command Center - Real-time construction intelligence with AI-powered analytics and global command palette." />
+    <meta name="theme-color" content="#05080c" />
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api" />
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}" />
+    
+    <title>BuildMart · Enterprise Command Center</title>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "BuildMart Command Center",
+        "description": "Enterprise construction intelligence platform with AI-powered analytics.",
+        "url": "https://primeshieldhub.com/buildmart/",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "PRIMESHIELDHUB BUILDMART",
+            "url": "https://primeshieldhub.com/buildmart"
+        }
+    }
+    </script>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES
+           ============================================================ */
+        :root {
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --gold-dark: #D97706;
+            --gold-glow: rgba(245, 158, 11, 0.12);
+            
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            --blue-dark: #1d4ed8;
+            --blue-glow: rgba(59, 130, 246, 0.15);
+            
+            --purple: #8b5cf6;
+            --purple-glow: rgba(139, 92, 246, 0.10);
+            
+            --cyan: #00D4FF;
+            --cyan-glow: rgba(0, 212, 255, 0.08);
+            
+            --bg-deep: #05080c;
+            --bg-primary: #0a1420;
+            --bg-card: rgba(8, 18, 30, 0.55);
+            --bg-elevated: rgba(12, 22, 38, 0.7);
+            --bg-glass: rgba(16, 24, 40, 0.4);
+            
+            --text-primary: #eef2f6;
+            --text-secondary: #b0c9ff;
+            --text-muted: #6c8eb0;
+            --text-inverse: #05080c;
+            
+            --accent-success: #34d399;
+            --accent-warning: #fbbf24;
+            --accent-danger: #f87171;
+            --accent-info: #60a5fa;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 40px;
+            --radius-3xl: 48px;
+            --radius-full: 9999px;
+            
+            --shadow-card: 0 20px 60px -16px rgba(0,0,0,0.9);
+            --shadow-glow: 0 0 60px rgba(59, 130, 246, 0.04);
+            --shadow-elevated: 0 30px 70px -20px rgba(0,0,0,0.8);
+            
+            --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            padding: 18px 22px 40px;
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 15% 20%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 85% 80%, rgba(139, 92, 246, 0.04) 0%, transparent 45%),
+                radial-gradient(circle at 50% 100%, rgba(0, 212, 255, 0.03) 0%, transparent 60%);
+            background-attachment: fixed;
+            line-height: 1.5;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #0f1722; border-radius: 20px; }
+        ::-webkit-scrollbar-thumb { background: var(--blue); border-radius: 20px; box-shadow: 0 0 20px var(--blue-glow); }
+        ::selection { background: rgba(59, 130, 246, 0.25); }
+
+        /* ============================================================
+           GLASS UTILITIES
+           ============================================================ */
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(14px) saturate(180%);
+            -webkit-backdrop-filter: blur(14px) saturate(180%);
+            border: 1px solid rgba(59, 130, 246, 0.12);
+            box-shadow: var(--shadow-card), inset 0 0 60px rgba(59, 130, 246, 0.02);
+            border-radius: var(--radius-3xl);
+        }
+
+        .glow-border {
+            position: relative;
+        }
+        .glow-border::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius-3xl);
+            padding: 1px;
+            background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(139,92,246,0.12), rgba(59,130,246,0));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+
+        .neon-text {
+            background: linear-gradient(135deg, #b0c9ff, #6c9aff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .badge-live {
+            background: rgba(52, 211, 153, 0.15);
+            color: var(--accent-success);
+            padding: 2px 14px;
+            border-radius: var(--radius-full);
+            font-size: 10px;
+            font-weight: 600;
+            border: 1px solid rgba(52, 211, 153, 0.2);
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .badge-live i { font-size: 6px; }
+
+        .dashboard { max-width: 1640px; margin: 0 auto; position: relative; }
+
+        /* ============================================================
+           COMMAND PALETTE OVERLAY
+           ============================================================ */
+        .command-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 12vh;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .command-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .command-modal {
+            width: 100%;
+            max-width: 620px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: var(--radius-xl);
+            padding: 20px 24px 16px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+            transform: translateY(-20px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .command-overlay.active .command-modal {
+            transform: translateY(0);
+        }
+        .command-modal .cmd-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding-bottom: 12px;
+        }
+        .command-modal .cmd-header i {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .command-modal .cmd-header .cmd-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 16px;
+            outline: none;
+            padding: 4px 0;
+        }
+        .command-modal .cmd-header .cmd-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        .command-modal .cmd-header .cmd-kbd {
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            background: rgba(255,255,255,0.04);
+            padding: 2px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .command-modal .cmd-results {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 12px;
+        }
+        .command-modal .cmd-results .cmd-group {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            padding: 8px 4px 4px;
+            font-weight: 600;
+        }
+        .command-modal .cmd-results .cmd-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+        .command-modal .cmd-results .cmd-item:hover,
+        .command-modal .cmd-results .cmd-item.selected {
+            background: rgba(59, 130, 246, 0.08);
+            color: var(--text-primary);
+        }
+        .command-modal .cmd-results .cmd-item i {
+            width: 20px;
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+        .command-modal .cmd-results .cmd-item .cmd-desc {
+            color: var(--text-muted);
+            font-size: 12px;
+            margin-left: auto;
+        }
+        .command-modal .cmd-footer {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            font-size: 10px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        /* ============================================================
+           SLIDE-OUT AI WORKSPACE
+           ============================================================ */
+        .ai-workspace {
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 420px;
+            max-width: 90vw;
+            height: 100vh;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(28px) saturate(200%);
+            border-left: 1px solid rgba(59, 130, 246, 0.12);
+            z-index: 9998;
+            transform: translateX(100%);
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            display: flex;
+            flex-direction: column;
+            box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+        }
+        .ai-workspace.open { transform: translateX(0); }
+        .ai-workspace .ws-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-shrink: 0;
+        }
+        .ai-workspace .ws-header h3 {
+            font-weight: 700;
+            font-size: 16px;
+            font-family: var(--font-display);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .ai-workspace .ws-header h3 i { color: var(--blue); filter: drop-shadow(0 0 16px var(--blue)); }
+        .ai-workspace .ws-header .close-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 20px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .ai-workspace .ws-header .close-btn:hover { color: var(--text-primary); }
+        .ai-workspace .ws-body {
+            flex: 1;
+            overflow-y: auto;
+            padding: 20px 24px;
+        }
+        .ai-workspace .ws-body .ai-message {
+            margin-bottom: 16px;
+            padding: 12px 16px;
+            border-radius: var(--radius-md);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .ai-workspace .ws-body .ai-message.user {
+            background: rgba(59, 130, 246, 0.06);
+            border: 1px solid rgba(59, 130, 246, 0.08);
+            border-radius: var(--radius-md) var(--radius-md) var(--radius-sm) var(--radius-md);
+            margin-left: 20px;
+        }
+        .ai-workspace .ws-body .ai-message.assistant {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: var(--radius-md) var(--radius-md) var(--radius-md) var(--radius-sm);
+            margin-right: 20px;
+        }
+        .ai-workspace .ws-body .ai-message .sender {
+            font-size: 10px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .ai-workspace .ws-footer {
+            padding: 16px 24px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            flex-shrink: 0;
+            display: flex;
+            gap: 10px;
+        }
+        .ai-workspace .ws-footer input {
+            flex: 1;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-sm);
+            padding: 10px 16px;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 13px;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+        .ai-workspace .ws-footer input:focus {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+        .ai-workspace .ws-footer button {
+            padding: 10px 18px;
+            border: none;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+            color: #fff;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .ai-workspace .ws-footer button:hover {
+            box-shadow: 0 0 30px var(--blue-glow);
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .nav-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 0 16px;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.10);
+            flex-wrap: wrap;
+            gap: 16px;
+        }
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            text-decoration: none;
+        }
+        .brand img { height: 34px; border-radius: 6px; }
+        .brand .logo-text {
+            font-weight: 800;
+            font-size: 22px;
+            font-family: var(--font-display);
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, #b0c9ff, #6c9aff, #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .brand .logo-text em {
+            font-style: normal;
+            color: var(--gold);
+            -webkit-text-fill-color: var(--gold);
+        }
+        .brand .badge {
+            background: var(--gold);
+            color: var(--text-inverse);
+            font-size: 0.5rem;
+            font-weight: 700;
+            padding: 0.1rem 0.7rem;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .nav-links {
+            display: flex;
+            gap: 28px;
+            font-weight: 500;
+            font-size: 13px;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            letter-spacing: 0.3px;
+            position: relative;
+            padding: 4px 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--blue);
+            transition: var(--transition-smooth);
+            box-shadow: 0 0 16px var(--blue-glow);
+        }
+        .nav-links a:hover::after, .nav-links .active::after { width: 100%; }
+        .nav-links a:hover { color: var(--text-primary); }
+        .nav-links .active { color: var(--blue); }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .nav-actions .cmd-trigger {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-full);
+            padding: 6px 16px;
+            color: var(--text-muted);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+        }
+        .nav-actions .cmd-trigger:hover {
+            border-color: rgba(59, 130, 246, 0.2);
+            color: var(--text-primary);
+        }
+        .nav-actions .cmd-trigger kbd {
+            background: rgba(255,255,255,0.06);
+            padding: 1px 8px;
+            border-radius: 3px;
+            font-family: var(--font-mono);
+            font-size: 10px;
+            color: var(--text-muted);
+        }
+        .nav-actions .user-badge {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(4px);
+            padding: 4px 16px 4px 12px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.03);
+        }
+        .nav-actions .user-badge .avatar {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, #1f3a5e, var(--blue));
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 12px;
+            color: #fff;
+            box-shadow: 0 0 20px var(--blue-glow);
+        }
+        .nav-actions .user-badge .user-name { font-size: 12px; font-weight: 500; color: var(--text-secondary); }
+        .nav-actions .user-badge .user-role { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.04em; }
+        .nav-actions .icon-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-full);
+            background: var(--bg-elevated);
+            border: 1px solid rgba(59, 130, 246, 0.08);
+            color: var(--text-muted);
+            display: grid;
+            place-items: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+        .nav-actions .icon-btn:hover {
+            border-color: rgba(59, 130, 246, 0.2);
+            color: var(--text-primary);
+            box-shadow: 0 0 30px var(--blue-glow);
+        }
+        .nav-actions .icon-btn .badge-dot {
+            position: absolute;
+            top: -2px;
+            right: -2px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-danger);
+            border-radius: 50%;
+            border: 2px solid var(--bg-deep);
+        }
+
+        /* ============================================================
+           EXECUTIVE HERO
+           ============================================================ */
+        .executive-hero {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 28px 38px;
+            margin: 24px 0 28px;
+            background: radial-gradient(ellipse at 80% 20%, #0f2640, #080e18);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            box-shadow: 0 20px 60px -12px rgba(0,0,0,0.8), inset 0 0 80px rgba(59, 130, 246, 0.03);
+            border-radius: var(--radius-3xl);
+        }
+        .hero-left h1 {
+            font-size: 30px;
+            font-weight: 800;
+            font-family: var(--font-display);
+            letter-spacing: -0.8px;
+            background: linear-gradient(135deg, #f0f6ff, #b0c9ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-left .sub {
+            color: var(--text-muted);
+            font-size: 15px;
+            font-weight: 400;
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .hero-left .sub .highlight { color: var(--blue); font-weight: 500; }
+        .hero-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 24px 44px;
+            margin-top: 16px;
+        }
+        .stat-item .label {
+            font-size: 11px;
+            color: var(--text-muted);
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        .stat-item .value {
+            font-size: 26px;
+            font-weight: 700;
+            margin-top: 2px;
+            text-shadow: 0 0 30px rgba(59,130,246,0.08);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .stat-item .sparkline {
+            display: inline-flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 24px;
+            margin-left: 4px;
+        }
+        .stat-item .sparkline .bar {
+            width: 3px;
+            border-radius: 2px;
+            background: var(--blue);
+            opacity: 0.6;
+            transition: height 0.5s ease;
+        }
+        .stat-item .change {
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+        .stat-item .change.up { color: var(--accent-success); }
+        .stat-item .change.down { color: var(--accent-danger); }
+
+        .hero-circle {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .circle-score {
+            width: 110px;
+            height: 110px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: 700;
+            color: #fff;
+            box-shadow: 0 0 0 3px #1f3349, 0 0 60px var(--blue-glow);
+            position: relative;
+            transition: background 1.2s ease;
+        }
+        .circle-score small { font-size: 16px; font-weight: 400; color: var(--text-secondary); }
+        .circle-label {
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .circle-label i { color: var(--accent-success); margin-right: 4px; }
+
+        /* ============================================================
+           KPI GRID
+           ============================================================ */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 12px;
+            padding: 20px 28px;
+            margin-bottom: 28px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(59, 130, 246, 0.06);
+            border-radius: var(--radius-2xl);
+        }
+        .kpi-card .num {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .kpi-card .num i { font-size: 13px; }
+        .kpi-card .num .trend-up { color: var(--accent-success); filter: drop-shadow(0 0 6px rgba(52,211,153,0.3)); }
+        .kpi-card .num .trend-down { color: var(--accent-danger); }
+        .kpi-card .label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+            margin-top: 2px;
+            font-weight: 600;
+        }
+        .kpi-card .mini-spark {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 16px;
+            margin-top: 4px;
+        }
+        .kpi-card .mini-spark .bar {
+            width: 2.5px;
+            border-radius: 1px;
+            background: var(--blue);
+            opacity: 0.5;
+            transition: height 0.5s ease;
+        }
+
+        /* ============================================================
+           AI INTELLIGENCE
+           ============================================================ */
+        .ai-intel {
+            padding: 22px 32px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 16px;
+            background: radial-gradient(circle at 0% 0%, #0b1f33, #060d16);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            box-shadow: 0 0 60px rgba(59, 130, 246, 0.03);
+            border-radius: var(--radius-2xl);
+        }
+        .ai-intel .left h3 {
+            font-weight: 700;
+            font-size: 18px;
+            font-family: var(--font-display);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .ai-intel .left h3 i { color: var(--blue); filter: drop-shadow(0 0 16px var(--blue)); }
+        .ai-intel .summary {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 18px;
+            margin-top: 12px;
+        }
+        .ai-intel .summary span {
+            background: rgba(20, 40, 65, 0.5);
+            backdrop-filter: blur(4px);
+            padding: 4px 16px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            border-left: 3px solid var(--blue);
+            box-shadow: 0 0 20px rgba(59,130,246,0.03);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .ai-intel .summary span:hover {
+            background: rgba(59, 130, 246, 0.08);
+            border-left-color: var(--gold);
+        }
+        .ai-savings {
+            background: rgba(30, 60, 100, 0.25);
+            backdrop-filter: blur(8px);
+            padding: 8px 24px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            font-weight: 700;
+            font-size: 15px;
+            border: 1px solid rgba(251, 191, 36, 0.15);
+            box-shadow: 0 0 40px rgba(251, 191, 36, 0.04);
+            flex-shrink: 0;
+        }
+        .ai-savings i { color: var(--gold); filter: drop-shadow(0 0 12px var(--gold)); }
+        .ai-savings .conf {
+            font-weight: 400;
+            background: rgba(59,130,246,0.12);
+            padding: 2px 14px;
+            border-radius: var(--radius-full);
+            font-size: 11px;
+            border: 1px solid rgba(59,130,246,0.08);
+        }
+
+        /* ============================================================
+           SECTION HEADER
+           ============================================================ */
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin: 32px 0 16px;
+        }
+        .section-header h2 {
+            font-weight: 700;
+            font-size: 22px;
+            font-family: var(--font-display);
+            letter-spacing: -0.3px;
+        }
+        .section-header .view-all {
+            color: var(--text-muted);
+            font-size: 13px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border-bottom: 1px dashed rgba(59, 130, 246, 0.2);
+        }
+        .section-header .view-all:hover { color: var(--text-secondary); border-color: var(--text-secondary); }
+
+        /* ============================================================
+           PROJECT CARDS — MINI DASHBOARD
+           ============================================================ */
+        .project-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+        .project-card {
+            background: var(--bg-elevated);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(59, 130, 246, 0.08);
+            border-radius: var(--radius-xl);
+            padding: 18px 20px;
+            transition: var(--transition-smooth);
+            box-shadow: 0 4px 30px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+        .project-card:hover {
+            border-color: var(--blue);
+            box-shadow: 0 0 40px var(--blue-glow);
+            transform: translateY(-3px);
+        }
+        .project-card .card-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+        .project-card .card-top .title {
+            font-weight: 700;
+            font-size: 16px;
+        }
+        .project-card .card-top .thumbnail {
+            width: 52px;
+            height: 52px;
+            border-radius: var(--radius-sm);
+            background: linear-gradient(135deg, #1f3a5e, #2a4a7a);
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            font-size: 20px;
+            color: var(--blue-light);
+        }
+        .project-card .progress-badge {
+            background: rgba(59, 130, 246, 0.12);
+            padding: 1px 12px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.06);
+        }
+        .project-card .progress-bar {
+            height: 5px;
+            background: #141f2e;
+            border-radius: 12px;
+            margin: 12px 0 10px;
+        }
+        .project-card .progress-fill {
+            height: 5px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--blue), var(--purple));
+            box-shadow: 0 0 20px var(--blue-glow);
+            transition: width 0.8s ease;
+        }
+        .project-card .mini-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 4px;
+            margin: 10px 0 8px;
+            font-size: 11px;
+        }
+        .project-card .mini-metrics .mm-item {
+            background: rgba(255,255,255,0.02);
+            padding: 4px 8px;
+            border-radius: var(--radius-sm);
+            text-align: center;
+        }
+        .project-card .mini-metrics .mm-item .mm-val { font-weight: 600; color: var(--text-secondary); }
+        .project-card .mini-metrics .mm-item .mm-label { color: var(--text-muted); font-size: 9px; text-transform: uppercase; }
+        .project-card .meta-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 14px;
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        .project-card .meta-row i { width: 14px; color: var(--text-muted); opacity: 0.6; }
+        .project-card .status-tag {
+            font-size: 10px;
+            padding: 1px 10px;
+            border-radius: var(--radius-full);
+            font-weight: 600;
+        }
+        .status-tag.on-track { background: rgba(52, 211, 153, 0.12); color: var(--accent-success); }
+        .status-tag.at-risk { background: rgba(251, 191, 36, 0.12); color: var(--accent-warning); }
+        .status-tag.delayed { background: rgba(248, 113, 113, 0.12); color: var(--accent-danger); }
+
+        /* ============================================================
+           PIPELINE — ANIMATED FLOW
+           ============================================================ */
+        .pipeline {
+            padding: 22px 30px;
+            margin-bottom: 28px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(59, 130, 246, 0.06);
+            border-radius: var(--radius-2xl);
+        }
+        .pipeline-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .pipeline-header h3 {
+            font-weight: 700;
+            font-size: 18px;
+            font-family: var(--font-display);
+        }
+        .pipeline-header h3 i { color: var(--blue); margin-right: 8px; }
+        .pipeline-header .count-badge {
+            color: var(--text-muted);
+            background: rgba(59, 130, 246, 0.05);
+            padding: 4px 16px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+        }
+        .pipeline-flow {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 4px 0;
+            margin-top: 16px;
+            overflow-x: auto;
+            padding: 8px 0;
+        }
+        .pipeline-stage {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(20, 40, 65, 0.3);
+            padding: 5px 14px 5px 10px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.04);
+            transition: var(--transition-smooth);
+            white-space: nowrap;
+        }
+        .pipeline-stage:hover { border-color: rgba(59, 130, 246, 0.15); }
+        .pipeline-stage .count {
+            background: rgba(59, 130, 246, 0.15);
+            border-radius: var(--radius-full);
+            padding: 0 10px;
+            font-weight: 700;
+            font-size: 11px;
+        }
+        .pipeline-stage i { color: var(--blue); font-size: 12px; }
+        .pipeline-stage.active { border-color: var(--blue); background: rgba(59, 130, 246, 0.08); }
+        .pipeline-stage.completed { border-color: var(--accent-success); background: rgba(52, 211, 153, 0.06); }
+        .pipeline-stage.completed i { color: var(--accent-success); }
+
+        .pipeline-arrow {
+            color: var(--text-muted);
+            font-size: 14px;
+            opacity: 0.3;
+            margin: 0 2px;
+            flex-shrink: 0;
+            animation: flowPulse 2s ease-in-out infinite;
+        }
+        @keyframes flowPulse {
+            0%, 100% { opacity: 0.3; transform: translateX(0); }
+            50% { opacity: 0.7; transform: translateX(3px); }
+        }
+
+        /* ============================================================
+           MATERIAL CONSUMPTION — ENHANCED
+           ============================================================ */
+        .material-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            padding: 22px 28px;
+            margin-bottom: 28px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(59, 130, 246, 0.06);
+            border-radius: var(--radius-2xl);
+        }
+        .material-item .mat-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .mat-bar {
+            height: 6px;
+            background: #141f2e;
+            border-radius: 12px;
+            margin: 6px 0 4px;
+            overflow: hidden;
+        }
+        .mat-fill {
+            height: 6px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--blue), var(--blue-light));
+            transition: width 0.8s ease;
+        }
+        .mat-fill.steel { background: linear-gradient(90deg, #60a5fa, #93c5fd); }
+        .mat-fill.blocks { background: linear-gradient(90deg, var(--accent-success), #6ee7b7); }
+        .mat-fill.electrical { background: linear-gradient(90deg, var(--gold), #fcd34d); }
+        .mat-fill.paint { background: linear-gradient(90deg, #f472b6, #f9a8d4); }
+        .material-item .sub-info {
+            font-size: 11px;
+            color: var(--text-muted);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+        }
+        .material-item .sub-info .reorder {
+            color: var(--accent-warning);
+            font-weight: 500;
+        }
+        .material-item .sub-info .depletion {
+            color: var(--accent-danger);
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           BUDGET — WITH RADIAL GAUGE
+           ============================================================ */
+        .budget-section {
+            padding: 24px 30px;
+            margin-bottom: 28px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(59, 130, 246, 0.06);
+            border-radius: var(--radius-2xl);
+        }
+        .budget-section h3 {
+            font-weight: 700;
+            font-size: 18px;
+            font-family: var(--font-display);
+            margin-bottom: 14px;
+        }
+        .budget-section h3 i { color: var(--blue); margin-right: 8px; }
+        .budget-layout {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 30px;
+            align-items: center;
+        }
+        .budget-gauge {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            flex-shrink: 0;
+            box-shadow: 0 0 0 3px #1f3349, 0 0 40px rgba(59,130,246,0.06);
+            transition: background 1s ease;
+        }
+        .budget-gauge small { font-size: 14px; font-weight: 400; color: var(--text-muted); }
+        .budget-numbers {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px 40px;
+            flex: 1;
+        }
+        .budget-item .num {
+            font-size: 24px;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+        }
+        .budget-item .lbl {
+            font-size: 11px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.6px;
+            font-weight: 600;
+        }
+        .budget-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 16px 28px;
+            margin-top: 16px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        .budget-actions span { cursor: pointer; transition: var(--transition-smooth); }
+        .budget-actions span:hover { color: var(--text-secondary); }
+
+        /* ============================================================
+           TWO COLUMN
+           ============================================================ */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 22px;
+            margin-bottom: 28px;
+        }
+        .col-card {
+            padding: 20px 24px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(59, 130, 246, 0.06);
+            border-radius: var(--radius-2xl);
+        }
+        .col-card h3 {
+            font-weight: 600;
+            font-size: 16px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .col-card h3 i { color: var(--blue); }
+
+        .delivery-item {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.04);
+            padding: 8px 0;
+            font-size: 13px;
+            gap: 4px;
+        }
+        .delivery-item:last-child { border-bottom: none; }
+        .delivery-item .tag {
+            padding: 1px 12px;
+            border-radius: var(--radius-full);
+            font-size: 10px;
+            font-weight: 600;
+        }
+        .tag.urgent { background: rgba(251, 191, 36, 0.12); color: var(--accent-warning); border: 1px solid rgba(251, 191, 36, 0.1); }
+        .tag.high { background: rgba(59, 130, 246, 0.12); color: var(--blue); border: 1px solid rgba(59, 130, 246, 0.08); }
+        .tag.medium { background: rgba(59, 130, 246, 0.06); color: var(--text-muted); border: 1px solid rgba(59, 130, 246, 0.04); }
+
+        .workforce-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px 28px;
+        }
+        .workforce-stats .num { font-size: 20px; font-weight: 700; }
+        .workforce-stats .lbl { font-size: 11px; color: var(--text-muted); }
+
+        /* ============================================================
+           SUPPLIER SCORECARD
+           ============================================================ */
+        .supplier-scorecard {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px 30px;
+        }
+        .supplier-card {
+            background: rgba(255,255,255,0.02);
+            border-radius: var(--radius-md);
+            padding: 12px 16px;
+            min-width: 160px;
+            flex: 1;
+            border: 1px solid rgba(255,255,255,0.03);
+        }
+        .supplier-card .s-name {
+            font-weight: 700;
+            font-size: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .supplier-card .s-stars { color: var(--gold); letter-spacing: 1px; font-size: 13px; }
+        .supplier-card .s-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px 12px;
+            margin-top: 6px;
+            font-size: 11px;
+        }
+        .supplier-card .s-metrics .sm-item {
+            display: flex;
+            justify-content: space-between;
+            color: var(--text-muted);
+        }
+        .supplier-card .s-metrics .sm-item .sm-val { color: var(--text-secondary); font-weight: 500; }
+
+        /* ============================================================
+           RISK
+           ============================================================ */
+        .risk-panel {
+            padding: 20px 28px;
+            margin-bottom: 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 12px 24px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(59, 130, 246, 0.06);
+            border-radius: var(--radius-2xl);
+        }
+        .risk-panel .risk-label {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            font-size: 14px;
+        }
+        .risk-panel .risk-label i { color: var(--blue); filter: drop-shadow(0 0 12px var(--blue)); }
+        .risk-tag {
+            background: rgba(20, 40, 65, 0.3);
+            padding: 3px 18px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            border: 1px solid rgba(59, 130, 246, 0.04);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .risk-tag .status-icon { font-size: 11px; }
+        .risk-tag .status-icon.good { color: var(--accent-success); }
+        .risk-tag .status-icon.warn { color: var(--accent-warning); }
+        .risk-tag .status-icon.bad { color: var(--accent-danger); }
+
+        /* ============================================================
+           AI RECOMMENDATIONS — ACTIONABLE
+           ============================================================ */
+        .ai-recommendations {
+            padding: 20px 28px;
+            margin-bottom: 28px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(59, 130, 246, 0.06);
+            border-radius: var(--radius-2xl);
+        }
+        .ai-recommendations .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .ai-recommendations .header h3 {
+            font-weight: 700;
+            font-size: 17px;
+            font-family: var(--font-display);
+        }
+        .ai-recommendations .header h3 i { color: var(--gold); filter: drop-shadow(0 0 12px var(--gold)); margin-right: 8px; }
+        .ai-recommendations .savings {
+            color: var(--accent-success);
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .rec-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 16px;
+            margin-top: 12px;
+        }
+        .rec-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255,255,255,0.02);
+            padding: 4px 12px 4px 8px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            border: 1px solid rgba(255,255,255,0.03);
+            transition: var(--transition-smooth);
+        }
+        .rec-item .check { color: var(--accent-success); }
+        .rec-item .rec-actions {
+            display: flex;
+            gap: 2px;
+            margin-left: 4px;
+        }
+        .rec-item .rec-actions button {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-size: 11px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .rec-item .rec-actions button:hover {
+            background: rgba(59, 130, 246, 0.08);
+            color: var(--text-primary);
+        }
+        .rec-item .rec-actions button.approve:hover { color: var(--accent-success); }
+        .rec-item .rec-actions button.ignore:hover { color: var(--accent-danger); }
+
+        /* ============================================================
+           STICKY BAR
+           ============================================================ */
+        .sticky-bar {
+            position: sticky;
+            bottom: 20px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(24px) saturate(200%);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: var(--radius-full);
+            padding: 10px 28px;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            margin-top: 36px;
+            box-shadow: 0 12px 50px rgba(0,0,0,0.9), 0 0 60px rgba(59,130,246,0.02);
+            z-index: 50;
+            gap: 12px;
+        }
+        .sticky-bar .left-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .sticky-bar .left-info i { color: var(--blue); }
+        .sticky-bar .actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px 14px;
+        }
+        .sticky-bar .actions .action-btn {
+            background: rgba(20, 40, 65, 0.3);
+            padding: 5px 18px;
+            border-radius: var(--radius-full);
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(59, 130, 246, 0.04);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            color: var(--text-secondary);
+            font-family: var(--font-sans);
+        }
+        .sticky-bar .actions .action-btn:hover {
+            background: rgba(59, 130, 246, 0.08);
+            border-color: rgba(59, 130, 246, 0.15);
+            color: var(--text-primary);
+        }
+        .sticky-bar .actions .action-btn.primary {
+            background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+            color: #fff;
+            border-color: var(--blue);
+        }
+        .sticky-bar .actions .action-btn.primary:hover {
+            box-shadow: 0 0 30px var(--blue-glow);
+            transform: translateY(-1px);
+        }
+
+        /* ============================================================
+           FLOATING AI
+           ============================================================ */
+        .floating-ai {
+            position: fixed;
+            bottom: 100px;
+            right: 28px;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(20px) saturate(200%);
+            border-radius: var(--radius-full);
+            padding: 12px 24px;
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            box-shadow: 0 8px 40px rgba(59,130,246,0.12), 0 0 80px rgba(59,130,246,0.03);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            z-index: 100;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .floating-ai:hover {
+            border-color: var(--blue);
+            box-shadow: 0 8px 50px rgba(59,130,246,0.2);
+        }
+        .floating-ai i:first-child {
+            color: var(--blue);
+            font-size: 20px;
+            filter: drop-shadow(0 0 16px var(--blue));
+        }
+        .floating-ai .question {
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .two-col { grid-template-columns: 1fr; }
+            .executive-hero { flex-direction: column; align-items: flex-start; gap: 20px; }
+            .hero-stats { gap: 16px 28px; }
+        }
+        @media (max-width: 768px) {
+            body { padding: 12px 14px 30px; }
+            .nav-bar { flex-direction: column; align-items: stretch; gap: 12px; }
+            .nav-links { justify-content: center; gap: 14px; font-size: 12px; }
+            .nav-actions { justify-content: space-between; }
+            .executive-hero { padding: 20px 22px; border-radius: var(--radius-2xl); }
+            .hero-left h1 { font-size: 22px; }
+            .hero-left .sub { font-size: 13px; }
+            .hero-stats .stat-item .value { font-size: 20px; }
+            .circle-score { width: 80px; height: 80px; font-size: 24px; }
+            .kpi-grid { grid-template-columns: repeat(3, 1fr); padding: 14px 18px; gap: 8px; }
+            .kpi-card .num { font-size: 18px; }
+            .ai-intel { flex-direction: column; align-items: flex-start; padding: 18px 20px; }
+            .ai-savings { width: 100%; justify-content: center; }
+            .project-cards { grid-template-columns: 1fr 1fr; }
+            .material-grid { grid-template-columns: 1fr 1fr; gap: 14px; padding: 16px 18px; }
+            .budget-layout { flex-direction: column; align-items: stretch; }
+            .budget-gauge { align-self: center; }
+            .budget-numbers { gap: 14px 24px; }
+            .budget-item .num { font-size: 22px; }
+            .sticky-bar { flex-direction: column; align-items: stretch; padding: 12px 16px; border-radius: var(--radius-xl); }
+            .sticky-bar .actions { justify-content: center; }
+            .floating-ai { right: 12px; bottom: 80px; padding: 10px 16px; gap: 10px; }
+            .floating-ai .question { font-size: 11px; }
+            .command-modal { margin: 0 16px; max-width: 100%; }
+            .ai-workspace { width: 100%; max-width: 100%; }
+        }
+        @media (max-width: 480px) {
+            body { padding: 8px 10px 20px; }
+            .nav-links { gap: 8px; font-size: 10px; }
+            .nav-links a { padding: 2px 4px; }
+            .nav-actions .user-badge { padding: 2px 10px 2px 8px; }
+            .nav-actions .user-badge .user-name { font-size: 10px; }
+            .nav-actions .cmd-trigger { font-size: 10px; padding: 4px 12px; }
+            .nav-actions .cmd-trigger kbd { font-size: 8px; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .project-cards { grid-template-columns: 1fr; }
+            .project-card .mini-metrics { grid-template-columns: repeat(2, 1fr); }
+            .material-grid { grid-template-columns: 1fr; }
+            .budget-numbers { flex-direction: column; gap: 8px; }
+            .budget-item .num { font-size: 20px; }
+            .sticky-bar .actions .action-btn { font-size: 10px; padding: 4px 12px; }
+            .risk-panel { gap: 8px 12px; padding: 14px 16px; }
+            .risk-tag { font-size: 10px; padding: 2px 12px; }
+            .rec-item { font-size: 11px; flex-wrap: wrap; }
+            .floating-ai { right: 8px; bottom: 70px; padding: 8px 14px; }
+            .floating-ai .question { display: none; }
+            .floating-ai i:first-child { font-size: 16px; }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+    <!-- ============================================================
+       COMMAND PALETTE OVERLAY
+       ============================================================ -->
+    <div class="command-overlay" id="commandOverlay">
+        <div class="command-modal">
+            <div class="cmd-header">
+                <i class="fas fa-search"></i>
+                <input class="cmd-input" id="cmdInput" placeholder="Type a command or search..." autofocus />
+                <span class="cmd-kbd">⌘K</span>
+            </div>
+            <div class="cmd-results" id="cmdResults">
+                <!-- Populated by JS -->
+            </div>
+            <div class="cmd-footer">
+                <span><i class="fas fa-arrow-up"></i><i class="fas fa-arrow-down"></i> navigate · <i class="fas fa-enter"></i> select</span>
+                <span><i class="fas fa-esc"></i> close</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       SLIDE-OUT AI WORKSPACE
+       ============================================================ -->
+    <div class="ai-workspace" id="aiWorkspace">
+        <div class="ws-header">
+            <h3><i class="fas fa-robot"></i> AI Assistant</h3>
+            <button class="close-btn" id="closeAI"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="ws-body" id="aiMessages">
+            <div class="ai-message assistant">
+                <div class="sender">BuildMart AI</div>
+                Hello! I'm your procurement intelligence assistant. Ask me about projects, materials, suppliers, or any operational question.
+            </div>
+        </div>
+        <div class="ws-footer">
+            <input id="aiInput" placeholder="Ask about projects, materials, suppliers..." />
+            <button id="aiSendBtn">Send</button>
+        </div>
+    </div>
+
+    <div class="dashboard">
+
+        <!-- ============================================================
+           NAVIGATION
+           ============================================================ -->
+        <nav class="nav-bar">
+            <a href="/buildmart/" class="brand">
+                <img src="/buildmart/company_logo.png" alt="BuildMart" onerror="this.style.display='none'" />
+                <span class="logo-text"><em>Build</em>Mart</span>
+                <span class="badge">Enterprise</span>
+            </a>
+
+            <div class="nav-links">
+                <a href="/buildmart/" class="active"><i class="fas fa-th-large"></i> Command</a>
+                <a href="/buildmart/projects.html"><i class="fas fa-folder"></i> Projects</a>
+                <a href="/buildmart/products.html"><i class="fas fa-box"></i> Products</a>
+                <a href="/buildmart/quote.html"><i class="fas fa-file-invoice"></i> Procurement</a>
+                <a href="/buildmart/contractors.html"><i class="fas fa-users"></i> Contractors</a>
+                <a href="/buildmart/delivery.html"><i class="fas fa-truck"></i> Logistics</a>
+                <a href="/buildmart/analytics.html"><i class="fas fa-chart-line"></i> Analytics</a>
+            </div>
+
+            <div class="nav-actions">
+                <button class="cmd-trigger" id="cmdTrigger">
+                    <i class="fas fa-search"></i> Command <kbd>⌘K</kbd>
+                </button>
+                <button class="icon-btn" id="aiTrigger" aria-label="AI Assistant">
+                    <i class="fas fa-robot" style="color:var(--blue);"></i>
+                </button>
+                <button class="icon-btn" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-dot"></span>
+                </button>
+                <div class="user-badge">
+                    <div class="avatar">FC</div>
+                    <div>
+                        <div class="user-name">Freedom C.</div>
+                        <div class="user-role">Contractor · Gold Tier</div>
+                    </div>
+                    <i class="fas fa-chevron-down" style="font-size:10px;color:var(--text-muted);"></i>
+                </div>
+            </div>
+        </nav>
+
+        <!-- ============================================================
+           EXECUTIVE HERO
+           ============================================================ -->
+        <div class="executive-hero glow-border">
+            <div class="hero-left">
+                <h1>Enterprise Command Center</h1>
+                <div class="sub">
+                    <i class="fas fa-building"></i>
+                    <span>Freedom Construction Ltd.</span>
+                    <span class="highlight">·</span>
+                    <span class="highlight">neural core</span>
+                    <span class="badge-live"><i class="fas fa-circle"></i> live</span>
+                </div>
+                <div class="hero-stats" id="heroStats">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+            <div class="hero-circle">
+                <div class="circle-score" id="aiHealthScore">98<small>%</small></div>
+                <div class="circle-label">
+                    <i class="fas fa-heartbeat"></i> AI Project Health
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           KPI GRID
+           ============================================================ -->
+        <div class="kpi-grid glass-panel" id="kpiGrid">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- ============================================================
+           AI INTELLIGENCE
+           ============================================================ -->
+        <div class="ai-intel glow-border">
+            <div class="left">
+                <h3><i class="fas fa-brain"></i> AI Executive Summary</h3>
+                <div class="summary" id="aiSummary">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+            <div class="ai-savings" id="aiSavings">
+                <i class="fas fa-coins"></i>
+                <span id="savingsAmount">₦4.3m</span> potential savings
+                <span class="conf">98% conf.</span>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           PROJECT COMMAND CENTER
+           ============================================================ -->
+        <div class="section-header">
+            <h2><i class="fas fa-rocket" style="color:var(--blue);margin-right:8px;"></i> Project Command Center</h2>
+            <span class="view-all" onclick="location.href='/buildmart/projects.html'">View all →</span>
+        </div>
+        <div class="project-cards" id="projectCards">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- ============================================================
+           PROCUREMENT PIPELINE — ANIMATED FLOW
+           ============================================================ -->
+        <div class="pipeline glow-border">
+            <div class="pipeline-header">
+                <h3><i class="fas fa-project-diagram"></i> Procurement Pipeline</h3>
+                <span class="count-badge" id="pipelineCount">12 active orders</span>
+            </div>
+            <div class="pipeline-flow" id="pipelineFlow">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ============================================================
+           MATERIAL CONSUMPTION — ENHANCED
+           ============================================================ -->
+        <div class="section-header">
+            <h2><i class="fas fa-cubes" style="color:var(--blue);margin-right:8px;"></i> Material Consumption</h2>
+            <span class="view-all">Real-time</span>
+        </div>
+        <div class="material-grid glow-border" id="materialGrid">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- ============================================================
+           BUDGET — WITH RADIAL GAUGE
+           ============================================================ -->
+        <div class="budget-section glow-border">
+            <h3><i class="fas fa-wallet"></i> Budget & Cost Control</h3>
+            <div class="budget-layout">
+                <div class="budget-gauge" id="budgetGauge">71<small>%</small></div>
+                <div class="budget-numbers" id="budgetNumbers">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+            <div class="budget-actions">
+                <span><i class="fas fa-chart-pie"></i> Spend by project</span>
+                <span><i class="fas fa-chart-bar"></i> by category</span>
+                <span><i class="fas fa-truck"></i> by supplier</span>
+                <span><i class="fas fa-file-export"></i> Export</span>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           TWO COLUMN — DELIVERY + WORKFORCE
+           ============================================================ -->
+        <div class="two-col">
+            <div class="col-card glow-border">
+                <h3><i class="fas fa-truck"></i> Delivery Operations</h3>
+                <div id="deliveryOps">
+                    <!-- Populated by JS -->
+                </div>
+                <div style="margin-top:12px; color:var(--text-muted); font-size:12px;">
+                    <i class="fas fa-map-marked-alt"></i> Live map integration · <span style="color:var(--blue);">4D</span> tracking
+                </div>
+            </div>
+            <div class="col-card glow-border">
+                <h3><i class="fas fa-users"></i> Workforce Center</h3>
+                <div id="workforceCenter">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           TWO COLUMN — EQUIPMENT + SUPPLIER SCORECARD
+           ============================================================ -->
+        <div class="two-col">
+            <div class="col-card glow-border">
+                <h3><i class="fas fa-cogs"></i> Equipment & Rentals</h3>
+                <div id="equipmentStatus">
+                    <!-- Populated by JS -->
+                </div>
+                <div style="margin-top:12px; color:var(--text-muted); font-size:12px;">
+                    📅 Rental schedule · 🔧 maintenance alerts · <span id="equipUtilization">76%</span> utilization
+                </div>
+            </div>
+            <div class="col-card glow-border">
+                <h3><i class="fas fa-medal"></i> Supplier Scorecard</h3>
+                <div class="supplier-scorecard" id="supplierScorecard">
+                    <!-- Populated by JS -->
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           RISK & COMPLIANCE
+           ============================================================ -->
+        <div class="risk-panel glow-border">
+            <div class="risk-label">
+                <i class="fas fa-shield-alt"></i>
+                Risk & Compliance
+                <span style="font-weight:400;font-size:12px;color:var(--text-muted);">AI continuous evaluation</span>
+            </div>
+            <div id="riskTags">
+                <!-- Populated by JS -->
+            </div>
+            <span style="font-size:11px; color:var(--text-muted); margin-left:auto;">
+                <i class="fas fa-robot"></i> mitigation active
+            </span>
+        </div>
+
+        <!-- ============================================================
+           AI RECOMMENDATIONS — ACTIONABLE
+           ============================================================ -->
+        <div class="ai-recommendations glow-border">
+            <div class="header">
+                <h3><i class="fas fa-lightbulb"></i> AI Recommendations</h3>
+                <span class="savings" id="recSavings">Estimated savings ₦5.1M</span>
+            </div>
+            <div class="rec-list" id="recList">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ============================================================
+           STICKY ACTION BAR
+           ============================================================ -->
+        <div class="sticky-bar">
+            <div class="left-info">
+                <i class="fas fa-cubes"></i>
+                <span id="stickyProjectCount">Projects 12</span>
+                <span style="opacity:0.3;">·</span>
+                <span id="stickyOrderCount">Orders 148</span>
+            </div>
+            <div class="actions">
+                <button class="action-btn" onclick="handleCommand('Create RFQ')"><i class="fas fa-plus"></i> Create RFQ</button>
+                <button class="action-btn" onclick="handleCommand('Upload BOQ')"><i class="fas fa-upload"></i> Upload BOQ</button>
+                <button class="action-btn" onclick="handleCommand('Request Quote')"><i class="fas fa-file-invoice"></i> Request Quote</button>
+                <button class="action-btn" onclick="handleCommand('Generate Report')"><i class="fas fa-chart-simple"></i> Generate Report</button>
+                <button class="action-btn primary" onclick="handleCommand('New Project')"><i class="fas fa-folder-open"></i> New Project</button>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           FLOATING AI
+           ============================================================ -->
+        <div class="floating-ai" id="floatingAI">
+            <i class="fas fa-robot"></i>
+            <span class="question">Show today's priorities · Predict shortages · Optimize procurement</span>
+        </div>
+
+        <!-- ============================================================
+           DOCUMENT BAR
+           ============================================================ -->
+        <div class="doc-bar" style="display:flex;flex-wrap:wrap;gap:16px;margin:24px 0 8px;border-top:1px solid rgba(59,130,246,0.06);padding-top:22px;">
+            <span style="background:var(--bg-elevated);padding:5px 22px;border-radius:var(--radius-full);border:1px solid rgba(59,130,246,0.04);font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:8px;">
+                <i class="fas fa-folder"></i> Documents: contracts, BOQs, invoices, permits
+            </span>
+            <span style="background:var(--bg-elevated);padding:5px 22px;border-radius:var(--radius-full);border:1px solid rgba(59,130,246,0.04);font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:8px;">
+                <i class="fas fa-coins"></i> Financials: outstanding ₦24M · retention ₦6M
+            </span>
+            <span style="background:var(--bg-elevated);padding:5px 22px;border-radius:var(--radius-full);border:1px solid rgba(59,130,246,0.04);font-size:12px;color:var(--text-muted);display:flex;align-items:center;gap:8px;">
+                <i class="fas fa-clock"></i> Timeline: structural 74% · roofing 41%
+            </span>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+    <script>
+        (function() {
+            "use strict";
+
+            // ============================================================
+            // CONFIG
+            // ============================================================
+            const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+
+            // ============================================================
+            // DATA
+            // ============================================================
+            const DATA = {
+                hero: {
+                    projects: 12,
+                    activeSites: 8,
+                    procurementValue: '₦486M',
+                    budgetUtilization: 71,
+                    onTimeDelivery: 96,
+                    healthScore: 98
+                },
+                kpis: [
+                    { label: 'Projects', value: 12, change: '+2', up: true, spark: [3, 5, 4, 7, 6, 8, 5] },
+                    { label: 'Completed', value: 46, change: '+4', up: true, spark: [8, 6, 9, 7, 10, 8, 6] },
+                    { label: 'Active', value: 8, change: '-1', up: false, spark: [4, 5, 6, 5, 4, 3, 4] },
+                    { label: 'Delayed', value: 1, change: '+1', up: false, spark: [1, 0, 1, 0, 0, 1, 1] },
+                    { label: 'Workers', value: 214, change: '+12', up: true, spark: [15, 18, 20, 22, 19, 21, 17] },
+                    { label: 'Orders', value: 148, change: '+18%', up: true, spark: [10, 12, 14, 16, 18, 15, 13] },
+                    { label: 'Invoices', value: 87, change: '+6', up: true, spark: [6, 7, 8, 9, 7, 10, 8] },
+                    { label: 'Equipment', value: 42, change: '+2', up: true, spark: [3, 4, 3, 5, 4, 4, 5] }
+                ],
+                aiSummary: [
+                    '⚡ Cement inventory: 9 days',
+                    '📈 Steel prices expected to rise',
+                    '⚠️ Electrical materials below safety stock',
+                    '🔄 Two suppliers can be consolidated',
+                    '🚚 One delivery may arrive late'
+                ],
+                savings: '₦4.3m',
+                projects: [
+                    { name: 'Airport Terminal', progress: 72, budget: '₦245M', orders: 18, engineer: 'Eng. Ade', deadline: 'Dec 2026', status: 'on-track', workers: 34, deliveries: 6, burnRate: '₦2.1M/mo' },
+                    { name: 'Hospital Project', progress: 41, budget: '₦118M', orders: 9, engineer: 'Eng. Bola', deadline: 'Mar 2027', status: 'on-track', workers: 22, deliveries: 3, burnRate: '₦1.4M/mo' },
+                    { name: 'Estate Phase II', progress: 93, budget: '₦64M', orders: 24, engineer: 'Eng. Chi', deadline: 'Nov 2026', status: 'on-track', workers: 48, deliveries: 8, burnRate: '₦3.8M/mo' },
+                    { name: 'Shopping Mall', progress: 18, budget: '₦430M', orders: 7, engineer: 'Eng. Deji', deadline: 'Sep 2027', status: 'at-risk', workers: 18, deliveries: 2, burnRate: '₦2.7M/mo' }
+                ],
+                pipeline: [
+                    { name: 'Planning', count: 3, icon: 'fa-clipboard-list', status: 'completed' },
+                    { name: 'RFQ', count: 5, icon: 'fa-file-alt', status: 'completed' },
+                    { name: 'Quote', count: 7, icon: 'fa-quote-right', status: 'completed' },
+                    { name: 'Approval', count: 9, icon: 'fa-check-circle', status: 'completed' },
+                    { name: 'PO', count: 14, icon: 'fa-file-invoice', status: 'active' },
+                    { name: 'Supplier', count: 8, icon: 'fa-truck', status: '' },
+                    { name: 'Warehouse', count: 6, icon: 'fa-warehouse', status: '' },
+                    { name: 'Delivery', count: 10, icon: 'fa-shipping-fast', status: '' },
+                    { name: 'Site', count: 12, icon: 'fa-hard-hat', status: '' },
+                    { name: 'Installed', count: 4, icon: 'fa-check-double', status: '' }
+                ],
+                materials: [
+                    { name: 'Concrete', pct: 78, daily: '12t', remaining: '84t', reorder: '20t', depletion: '9 days' },
+                    { name: 'Steel', pct: 73, daily: '4.2t', remaining: '23t', reorder: '8t', depletion: '6 days', cls: 'steel' },
+                    { name: 'Blocks', pct: 55, daily: '680', remaining: '3.2k', reorder: '1.2k', depletion: '5 days', cls: 'blocks' },
+                    { name: 'Electrical', pct: 42, daily: '48', remaining: '112', reorder: '80', depletion: '3 days', cls: 'electrical' },
+                    { name: 'Paint', pct: 28, daily: '22L', remaining: '540L', reorder: '200L', depletion: '12 days', cls: 'paint' }
+                ],
+                budget: [
+                    { label: 'Budget', value: '₦650M' },
+                    { label: 'Spent', value: '₦463M' },
+                    { label: 'Committed', value: '₦74M' },
+                    { label: 'Remaining', value: '₦113M', color: '#34d399' },
+                    { label: 'Savings', value: '₦18M', color: '#fbbf24' },
+                    { label: 'Forecast', value: '₦642M' }
+                ],
+                delivery: [
+                    { truck: 'Truck #214', eta: '2h', driver: 'K. Musa', site: 'Site A', tag: 'high' },
+                    { truck: 'Truck #107', eta: '5h', driver: 'T. Okafor', site: 'Site B', tag: 'medium' },
+                    { truck: 'Truck #089', eta: '20min', driver: 'A. Yusuf', site: 'Site C', tag: 'urgent' }
+                ],
+                workforce: [
+                    { label: 'Site Eng.', value: 12 },
+                    { label: 'Foremen', value: 18 },
+                    { label: 'Labourers', value: 164 },
+                    { label: 'Operators', value: 20 }
+                ],
+                equipment: [
+                    { name: 'Excavators', count: 6, status: 'active' },
+                    { name: 'Forklifts', count: 4, status: 'active' },
+                    { name: 'Scaffolding', count: 'Available', status: 'available' },
+                    { name: 'Concrete Mixers', count: 'Running', status: 'running' },
+                    { name: 'Generators', count: 'Maintenance', status: 'maintenance' }
+                ],
+                suppliers: [
+                    { name: 'Dangote', stars: 5, delivery: 97, quality: 99, pricing: 95, returns: 0.4, leadTime: 2.1 },
+                    { name: 'BUA', stars: 4, delivery: 88, quality: 94, pricing: 92, returns: 0.8, leadTime: 3.4 }
+                ],
+                risks: [
+                    { label: 'Procurement', score: 94, status: 'good' },
+                    { label: 'Weather', score: 67, status: 'warn' },
+                    { label: 'Delivery', score: 88, status: 'good' },
+                    { label: 'Safety', score: 72, status: 'warn' },
+                    { label: 'Budget', score: 91, status: 'good' },
+                    { label: 'Schedule', score: 63, status: 'bad' },
+                    { label: 'Supplier', score: 85, status: 'good' }
+                ],
+                recommendations: [
+                    { text: 'Approve PO-2081', actions: ['✓ Approve', '✗ Ignore', '📅 Schedule'] },
+                    { text: 'Move cement order to Lagos DC', actions: ['✓ Approve', '✗ Ignore'] },
+                    { text: 'Delay steel purchase 3 days', actions: ['✓ Approve', '✗ Ignore', '📅 Schedule'] },
+                    { text: 'Consolidate suppliers', actions: ['✓ Approve', '✗ Ignore'] },
+                    { text: 'Schedule concrete Tuesday', actions: ['✓ Approve', '✗ Ignore'] },
+                    { text: 'Renew equipment rental', actions: ['✓ Approve', '✗ Ignore'] }
+                ]
+            };
+
+            // ============================================================
+            // COMMAND PALETTE
+            // ============================================================
+            const commands = [
+                { name: 'Create a new project', icon: 'fa-folder-open', desc: 'Start a new construction project' },
+                { name: 'Show delayed deliveries', icon: 'fa-truck', desc: 'View all delayed shipments' },
+                { name: 'Open Airport Terminal', icon: 'fa-building', desc: 'Go to project details' },
+                { name: 'Generate RFQ', icon: 'fa-file-alt', desc: 'Create a new request for quote' },
+                { name: 'Upload BOQ', icon: 'fa-upload', desc: 'Upload bill of quantities' },
+                { name: 'Forecast cement usage', icon: 'fa-cube', desc: 'Predict cement consumption' },
+                { name: 'Show unpaid invoices', icon: 'fa-file-invoice', desc: 'View outstanding payments' },
+                { name: 'Find the cheapest supplier', icon: 'fa-medal', desc: 'Optimize procurement costs' },
+                { name: 'View project timeline', icon: 'fa-clock', desc: 'See project schedule' },
+                { name: 'Generate analytics report', icon: 'fa-chart-line', desc: 'Create performance report' },
+                { name: 'Schedule maintenance', icon: 'fa-wrench', desc: 'Plan equipment maintenance' },
+                { name: 'Check safety incidents', icon: 'fa-hard-hat', desc: 'View safety dashboard' }
+            ];
+
+            function renderCommands(filter = '') {
+                const container = document.getElementById('cmdResults');
+                const filtered = filter ? commands.filter(c => 
+                    c.name.toLowerCase().includes(filter.toLowerCase()) ||
+                    c.desc.toLowerCase().includes(filter.toLowerCase())
+                ) : commands;
+
+                const groups = {
+                    'Projects': filtered.filter(c => c.icon === 'fa-folder-open' || c.icon === 'fa-building' || c.icon === 'fa-clock'),
+                    'Procurement': filtered.filter(c => c.icon === 'fa-file-alt' || c.icon === 'fa-upload' || c.icon === 'fa-medal'),
+                    'Operations': filtered.filter(c => c.icon === 'fa-truck' || c.icon === 'fa-wrench' || c.icon === 'fa-hard-hat'),
+                    'Analytics': filtered.filter(c => c.icon === 'fa-chart-line' || c.icon === 'fa-file-invoice')
+                };
+
+                let html = '';
+                for (const [group, items] of Object.entries(groups)) {
+                    if (items.length === 0) continue;
+                    html += `<div class="cmd-group">${group}</div>`;
+                    items.forEach(cmd => {
+                        html += `
+                            <div class="cmd-item" onclick="handleCommand('${cmd.name}')">
+                                <i class="fas ${cmd.icon}"></i>
+                                <span>${cmd.name}</span>
+                                <span class="cmd-desc">${cmd.desc}</span>
+                            </div>
+                        `;
+                    });
+                }
+
+                if (!html) {
+                    html = `<div class="cmd-item" style="color:var(--text-muted);justify-content:center;padding:20px;">No commands found</div>`;
+                }
+                container.innerHTML = html;
+            }
+
+            function openCommandPalette() {
+                const overlay = document.getElementById('commandOverlay');
+                overlay.classList.add('active');
+                document.getElementById('cmdInput').value = '';
+                renderCommands('');
+                setTimeout(() => document.getElementById('cmdInput').focus(), 100);
+            }
+
+            function closeCommandPalette() {
+                document.getElementById('commandOverlay').classList.remove('active');
+            }
+
+            window.handleCommand = function(cmd) {
+                closeCommandPalette();
+                // Simulate command execution
+                const ws = document.getElementById('aiWorkspace');
+                if (!ws.classList.contains('open')) {
+                    ws.classList.add('open');
+                }
+                const body = document.getElementById('aiMessages');
+                body.innerHTML += `
+                    <div class="ai-message user">
+                        <div class="sender">You</div>
+                        ${cmd}
+                    </div>
+                    <div class="ai-message assistant">
+                        <div class="sender">BuildMart AI</div>
+                        Executing: <strong>${cmd}</strong><br>
+                        <span style="color:var(--text-muted);font-size:13px;">Processing your request...</span>
+                    </div>
+                `;
+                body.scrollTop = body.scrollHeight;
+            };
+
+            // ============================================================
+            // AI WORKSPACE
+            // ============================================================
+            function toggleAIWorkspace() {
+                const ws = document.getElementById('aiWorkspace');
+                ws.classList.toggle('open');
+                if (ws.classList.contains('open')) {
+                    document.getElementById('aiInput').focus();
+                }
+            }
+
+            function sendAIMessage() {
+                const input = document.getElementById('aiInput');
+                const msg = input.value.trim();
+                if (!msg) return;
+
+                const body = document.getElementById('aiMessages');
+                body.innerHTML += `
+                    <div class="ai-message user">
+                        <div class="sender">You</div>
+                        ${msg}
+                    </div>
+                `;
+                input.value = '';
+
+                // Simulate AI response
+                setTimeout(() => {
+                    body.innerHTML += `
+                        <div class="ai-message assistant">
+                            <div class="sender">BuildMart AI</div>
+                            <span style="color:var(--text-secondary);">I've analyzed your request: "<em>${msg}</em>"</span><br>
+                            <span style="color:var(--text-muted);font-size:13px;">🔍 This action is being processed. Check the command center for updates.</span>
+                        </div>
+                    `;
+                    body.scrollTop = body.scrollHeight;
+                }, 800);
+
+                body.scrollTop = body.scrollHeight;
+            }
+
+            // ============================================================
+            // RENDER FUNCTIONS
+            // ============================================================
+
+            function renderSparkline(container, data, height = 24) {
+                const max = Math.max(...data);
+                const bars = data.map(v => {
+                    const pct = max > 0 ? (v / max) * 100 : 0;
+                    return `<span class="bar" style="height:${Math.max(2, pct * height / 100)}px;"></span>`;
+                }).join('');
+                container.innerHTML = `<span class="sparkline">${bars}</span>`;
+            }
+
+            function renderHero() {
+                const h = DATA.hero;
+                const container = document.getElementById('heroStats');
+                const heroData = [
+                    { label: 'Projects', value: h.projects, spark: [3, 5, 4, 7, 6, 8, 5] },
+                    { label: 'Active Sites', value: h.activeSites, spark: [4, 3, 5, 6, 4, 7, 5] },
+                    { label: 'Procurement Value', value: h.procurementValue, spark: [5, 6, 7, 8, 9, 10, 8] },
+                    { label: 'Budget Utilization', value: h.budgetUtilization + '%', spark: [6, 7, 6, 8, 7, 9, 7] },
+                    { label: 'On-Time Delivery', value: h.onTimeDelivery + '%', change: '↑ 2%', up: true, spark: [8, 7, 9, 8, 9, 10, 8] }
+                ];
+
+                container.innerHTML = heroData.map(item => {
+                    const sparkContainer = document.createElement('span');
+                    sparkContainer.className = 'sparkline';
+                    const max = Math.max(...(item.spark || [5]));
+                    const bars = (item.spark || [5]).map(v => 
+                        `<span class="bar" style="height:${Math.max(2, (v/max) * 24)}px;"></span>`
+                    ).join('');
+                    
+                    return `
+                        <div class="stat-item">
+                            <div class="label">${item.label}</div>
+                            <div class="value">
+                                ${item.value}
+                                ${item.change ? `<span class="change ${item.up ? 'up' : 'down'}">${item.change}</span>` : ''}
+                                <span class="sparkline">${bars}</span>
+                            </div>
+                        </div>
+                    `;
+                }).join('');
+
+                // Animate health circle
+                const circle = document.getElementById('aiHealthScore');
+                const target = h.healthScore;
+                let current = 0;
+                const interval = setInterval(() => {
+                    current += 2;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(interval);
+                    }
+                    const conic = `conic-gradient(var(--blue) 0% ${current}%, #1a2a3e ${current}% 100%)`;
+                    circle.style.background = conic;
+                    circle.innerHTML = `${Math.round(current)}<small>%</small>`;
+                }, 30);
+            }
+
+            function renderKPIs() {
+                const container = document.getElementById('kpiGrid');
+                container.innerHTML = DATA.kpis.map(k => {
+                    const max = Math.max(...(k.spark || [5]));
+                    const bars = (k.spark || [5]).map(v => 
+                        `<span class="bar" style="height:${Math.max(2, (v/max) * 16)}px;"></span>`
+                    ).join('');
+                    
+                    return `
+                        <div class="kpi-card">
+                            <div class="num">
+                                ${k.value}
+                                ${k.change ? `<span class="${k.up ? 'trend-up' : 'trend-down'}">${k.change}</span>` : ''}
+                            </div>
+                            <div class="label">${k.label}</div>
+                            <div class="mini-spark">${bars}</div>
+                        </div>
+                    `;
+                }).join('');
+            }
+
+            function renderAISummary() {
+                const container = document.getElementById('aiSummary');
+                container.innerHTML = DATA.aiSummary.map(s => `<span>${s}</span>`).join('');
+                document.getElementById('savingsAmount').textContent = DATA.savings;
+            }
+
+            function renderProjects() {
+                const container = document.getElementById('projectCards');
+                container.innerHTML = DATA.projects.map(p => `
+                    <div class="project-card" onclick="handleCommand('Open ${p.name}')">
+                        <div class="card-top">
+                            <div class="title">${p.name}</div>
+                            <div class="thumbnail"><i class="fas fa-building"></i></div>
+                        </div>
+                        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:2px;">
+                            <span class="progress-badge">${p.progress}%</span>
+                            <span class="status-tag ${p.status}">${p.status.replace('-', ' ')}</span>
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width:${p.progress}%;"></div>
+                        </div>
+                        <div class="mini-metrics">
+                            <div class="mm-item"><div class="mm-val">${p.workers}</div><div class="mm-label">Workers</div></div>
+                            <div class="mm-item"><div class="mm-val">${p.deliveries}</div><div class="mm-label">Deliveries</div></div>
+                            <div class="mm-item"><div class="mm-val">${p.burnRate}</div><div class="mm-label">Burn Rate</div></div>
+                        </div>
+                        <div class="meta-row">
+                            <span><i class="fas fa-coins"></i> ${p.budget}</span>
+                            <span><i class="fas fa-box"></i> ${p.orders}</span>
+                            <span><i class="fas fa-user"></i> ${p.engineer}</span>
+                            <span>⚡ ${p.deadline}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function renderPipeline() {
+                const container = document.getElementById('pipelineFlow');
+                let html = '';
+                DATA.pipeline.forEach((p, i) => {
+                    const statusClass = p.status || '';
+                    html += `
+                        <div class="pipeline-stage ${statusClass}">
+                            <i class="fas ${p.icon}"></i>
+                            ${p.name}
+                            <span class="count">${p.count}</span>
+                        </div>
+                    `;
+                    if (i < DATA.pipeline.length - 1) {
+                        html += `<span class="pipeline-arrow"><i class="fas fa-arrow-right"></i></span>`;
+                    }
+                });
+                container.innerHTML = html;
+                document.getElementById('pipelineCount').textContent = `${DATA.pipeline.reduce((sum, p) => sum + p.count, 0)} active orders`;
+            }
+
+            function renderMaterials() {
+                const container = document.getElementById('materialGrid');
+                container.innerHTML = DATA.materials.map(m => `
+                    <div class="material-item">
+                        <div class="mat-label">
+                            <span>${m.name}</span>
+                            <span>${m.pct}%</span>
+                        </div>
+                        <div class="mat-bar">
+                            <div class="mat-fill ${m.cls || ''}" style="width:${m.pct}%;"></div>
+                        </div>
+                        <div class="sub-info">
+                            <span>daily ${m.daily}</span>
+                            <span>remaining ${m.remaining}</span>
+                            <span class="reorder">reorder ${m.reorder}</span>
+                            <span class="depletion">runs out in ${m.depletion}</span>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function renderBudget() {
+                const container = document.getElementById('budgetNumbers');
+                container.innerHTML = DATA.budget.map(b => `
+                    <div class="budget-item">
+                        <div class="lbl">${b.label}</div>
+                        <div class="num" style="${b.color ? `color:${b.color};` : ''}">${b.value}</div>
+                    </div>
+                `).join('');
+
+                // Animate budget gauge
+                const gauge = document.getElementById('budgetGauge');
+                const target = DATA.hero.budgetUtilization;
+                let current = 0;
+                const interval = setInterval(() => {
+                    current += 2;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(interval);
+                    }
+                    const conic = `conic-gradient(var(--blue) 0% ${current}%, #1a2a3e ${current}% 100%)`;
+                    gauge.style.background = conic;
+                    gauge.innerHTML = `${Math.round(current)}<small>%</small>`;
+                }, 30);
+            }
+
+            function renderDelivery() {
+                const container = document.getElementById('deliveryOps');
+                const stats = DATA.delivery;
+                container.innerHTML = `
+                    <div style="display:flex; gap:16px; flex-wrap:wrap; margin-bottom:12px;">
+                        <span><span class="num" style="font-size:20px;font-weight:700;">${stats.length}</span> today</span>
+                        <span><span class="num" style="font-size:20px;font-weight:700;">${stats.filter(d => d.tag !== 'urgent').length}</span> in transit</span>
+                        <span><span class="num" style="font-size:20px;font-weight:700;color:var(--accent-success);">${stats.filter(d => d.tag === 'high').length}</span> delivered</span>
+                        <span style="color:var(--accent-danger);"><span class="num" style="font-size:20px;font-weight:700;">${stats.filter(d => d.tag === 'urgent').length}</span> delayed</span>
+                    </div>
+                    ${stats.map(d => `
+                        <div class="delivery-item">
+                            <span>🚛 ${d.truck} · ETA ${d.eta}</span>
+                            <span>Driver: ${d.driver}</span>
+                            <span>${d.site}</span>
+                            <span class="tag ${d.tag}">${d.tag}</span>
+                        </div>
+                    `).join('')}
+                `;
+            }
+
+            function renderWorkforce() {
+                const container = document.getElementById('workforceCenter');
+                container.innerHTML = `
+                    <div class="workforce-stats">
+                        ${DATA.workforce.map(w => `
+                            <span>
+                                <span class="num">${w.value}</span>
+                                <span class="lbl">${w.label}</span>
+                            </span>
+                        `).join('')}
+                    </div>
+                    <div style="margin-top:14px; display:flex; gap:18px; font-size:13px; flex-wrap:wrap;">
+                        <span><i class="fas fa-clipboard-check" style="color:var(--accent-success);"></i> Attendance 97%</span>
+                        <span><i class="fas fa-hard-hat" style="color:var(--accent-warning);"></i> Safety ⚠️ 2 incidents</span>
+                        <span><i class="fas fa-clock" style="color:var(--blue);"></i> Timesheets</span>
+                    </div>
+                `;
+            }
+
+            function renderEquipment() {
+                const container = document.getElementById('equipmentStatus');
+                const statusColors = {
+                    active: 'var(--accent-success)',
+                    available: 'var(--accent-success)',
+                    running: 'var(--accent-warning)',
+                    maintenance: 'var(--accent-danger)'
+                };
+                container.innerHTML = DATA.equipment.map(e => `
+                    <span style="display:inline-block;margin-right:14px;font-size:13px;">
+                        ${e.name} <strong>${e.count}</strong>
+                        <span style="color:${statusColors[e.status] || 'var(--text-muted)'};font-size:11px;font-weight:500;">${e.status}</span>
+                    </span>
+                `).join('');
+                document.getElementById('equipUtilization').textContent = '76%';
+            }
+
+            function renderSuppliers() {
+                const container = document.getElementById('supplierScorecard');
+                container.innerHTML = DATA.suppliers.map(s => `
+                    <div class="supplier-card">
+                        <div class="s-name">
+                            ${s.name}
+                            <span class="s-stars">${'★'.repeat(s.stars)}${'☆'.repeat(5 - s.stars)}</span>
+                        </div>
+                        <div class="s-metrics">
+                            <div class="sm-item"><span>Delivery</span><span class="sm-val">${s.delivery}%</span></div>
+                            <div class="sm-item"><span>Quality</span><span class="sm-val">${s.quality}%</span></div>
+                            <div class="sm-item"><span>Pricing</span><span class="sm-val">${s.pricing}%</span></div>
+                            <div class="sm-item"><span>Returns</span><span class="sm-val">${s.returns}%</span></div>
+                            <div class="sm-item" style="grid-column:span 2;"><span>Lead Time</span><span class="sm-val">${s.leadTime} days</span></div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function renderRisks() {
+                const container = document.getElementById('riskTags');
+                const icons = { good: 'fa-check-circle', warn: 'fa-exclamation-triangle', bad: 'fa-times-circle' };
+                container.innerHTML = DATA.risks.map(r => `
+                    <span class="risk-tag">
+                        ${r.label} ${r.score}%
+                        <i class="fas ${icons[r.status]} status-icon ${r.status}"></i>
+                    </span>
+                `).join('');
+            }
+
+            function renderRecommendations() {
+                const container = document.getElementById('recList');
+                container.innerHTML = DATA.recommendations.map(r => `
+                    <span class="rec-item">
+                        <span class="check">✓</span>
+                        ${r.text}
+                        <span class="rec-actions">
+                            ${r.actions.map(a => `<button class="${a.includes('Approve') ? 'approve' : a.includes('Ignore') ? 'ignore' : ''}" onclick="handleCommand('${a} ${r.text}')">${a}</button>`).join('')}
+                        </span>
+                    </span>
+                `).join('');
+                document.getElementById('recSavings').textContent = 'Estimated savings ₦5.1M';
+            }
+
+            function renderSticky() {
+                document.getElementById('stickyProjectCount').textContent = `Projects ${DATA.hero.projects}`;
+                document.getElementById('stickyOrderCount').textContent = `Orders ${DATA.kpis.find(k => k.label === 'Orders')?.value || 148}`;
+            }
+
+            // ============================================================
+            // UPDATE — Simulates live data refresh
+            // ============================================================
+            function updateLiveData() {
+                // Update hero stats
+                const h = DATA.hero;
+                const projects = h.projects + Math.floor(Math.random() * 3) - 1;
+                document.querySelector('.hero-stats .stat-item:first-child .value').textContent = projects;
+                document.getElementById('stickyProjectCount').textContent = `Projects ${projects}`;
+
+                // Update AI health score
+                const health = 94 + Math.floor(Math.random() * 6);
+                const circle = document.getElementById('aiHealthScore');
+                const conic = `conic-gradient(var(--blue) 0% ${health}%, #1a2a3e ${health}% 100%)`;
+                circle.style.background = conic;
+                circle.innerHTML = `${health}<small>%</small>`;
+
+                // Update KPI values
+                const kpiValues = document.querySelectorAll('.kpi-card .num');
+                DATA.kpis.forEach((k, i) => {
+                    if (typeof k.value === 'number' && k.value < 500) {
+                        const change = Math.floor(Math.random() * 6) - 2;
+                        const newVal = Math.max(0, k.value + change);
+                        if (kpiValues[i]) {
+                            kpiValues[i].innerHTML = `${newVal}${k.change ? ` <span class="${k.up ? 'trend-up' : 'trend-down'}">${change >= 0 ? '+' : ''}${change}</span>` : ''}`;
+                        }
+                    }
+                });
+
+                // Update material percentages
+                const fills = document.querySelectorAll('.mat-fill');
+                const pcts = document.querySelectorAll('.material-item .mat-label span:last-child');
+                DATA.materials.forEach((m, i) => {
+                    const change = Math.floor(Math.random() * 6) - 3;
+                    const newPct = Math.min(100, Math.max(10, m.pct + change));
+                    if (fills[i]) fills[i].style.width = newPct + '%';
+                    if (pcts[i]) pcts[i].textContent = newPct + '%';
+                    m.pct = newPct;
+                });
+
+                // Update delivery ETAs
+                const etaElements = document.querySelectorAll('.delivery-item span:first-child');
+                const times = ['20min', '1h', '2h', '3h', '4h', '5h', '6h'];
+                etaElements.forEach((el, i) => {
+                    if (el && i < 3) {
+                        const newEta = times[Math.floor(Math.random() * times.length)];
+                        el.textContent = el.textContent.replace(/ETA\s+\S+/, `ETA ${newEta}`);
+                    }
+                });
+
+                // Update budget gauge
+                const gauge = document.getElementById('budgetGauge');
+                const budgetVal = 65 + Math.floor(Math.random() * 15);
+                gauge.style.background = `conic-gradient(var(--blue) 0% ${budgetVal}%, #1a2a3e ${budgetVal}% 100%)`;
+                gauge.innerHTML = `${budgetVal}<small>%</small>`;
+            }
+
+            // ============================================================
+            // EVENT LISTENERS
+            // ============================================================
+            function initEvents() {
+                // Command palette
+                document.getElementById('cmdTrigger').addEventListener('click', openCommandPalette);
+                document.getElementById('cmdInput').addEventListener('input', (e) => {
+                    renderCommands(e.target.value);
+                });
+                document.getElementById('cmdInput').addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') closeCommandPalette();
+                    if (e.key === 'Enter') {
+                        const first = document.querySelector('.cmd-item');
+                        if (first) first.click();
+                    }
+                });
+                document.getElementById('commandOverlay').addEventListener('click', (e) => {
+                    if (e.target === e.currentTarget) closeCommandPalette();
+                });
+
+                // AI Workspace
+                document.getElementById('aiTrigger').addEventListener('click', toggleAIWorkspace);
+                document.getElementById('floatingAI').addEventListener('click', toggleAIWorkspace);
+                document.getElementById('closeAI').addEventListener('click', toggleAIWorkspace);
+                document.getElementById('aiSendBtn').addEventListener('click', sendAIMessage);
+                document.getElementById('aiInput').addEventListener('keydown', (e) => {
+                    if (e.key === 'Enter') sendAIMessage();
+                });
+
+                // Keyboard shortcuts
+                document.addEventListener('keydown', (e) => {
+                    if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                        e.preventDefault();
+                        if (document.getElementById('commandOverlay').classList.contains('active')) {
+                            closeCommandPalette();
+                        } else {
+                            openCommandPalette();
+                        }
+                    }
+                    if (e.key === 'Escape') {
+                        if (document.getElementById('commandOverlay').classList.contains('active')) {
+                            closeCommandPalette();
+                        }
+                        if (document.getElementById('aiWorkspace').classList.contains('open')) {
+                            toggleAIWorkspace();
+                        }
+                    }
+                });
+
+                // Visibility change — update on return
+                document.addEventListener('visibilitychange', () => {
+                    if (!document.hidden) updateLiveData();
+                });
+            }
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            function init() {
+                console.log('🏗️ BuildMart Enterprise Command Center');
+                console.log('📡 API:', API_BASE);
+                console.log('⌘K — Command Palette');
+
+                renderHero();
+                renderKPIs();
+                renderAISummary();
+                renderProjects();
+                renderPipeline();
+                renderMaterials();
+                renderBudget();
+                renderDelivery();
+                renderWorkforce();
+                renderEquipment();
+                renderSuppliers();
+                renderRisks();
+                renderRecommendations();
+                renderSticky();
+                renderCommands('');
+                initEvents();
+
+                // Start live updates every 30 seconds
+                setInterval(updateLiveData, 30000);
+            }
+
+            document.addEventListener('DOMContentLoaded', init);
+
+        })();
+    </script>
+</body>
+</html>
+

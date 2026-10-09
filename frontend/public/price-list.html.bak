@@ -1,0 +1,1311 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimeShieldHub - Premium Device Price List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
+
+        body {
+            font-family: 'Inter', 'Times New Roman', serif;
+            background: #f5f2ed;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .document-container {
+            max-width: 1150px;
+            width: 100%;
+            background: #ffffff;
+            padding: 50px 60px 45px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08), 0 8px 25px rgba(139, 125, 60, 0.06);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .document-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 6px;
+            background: linear-gradient(90deg, #8B7D3C, #c4a86a, #8B7D3C);
+        }
+
+        .document-container::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #8B7D3C, #c4a86a, #8B7D3C);
+        }
+
+        /* ===== WATERMARK ===== */
+        .watermark {
+            position: fixed;
+            bottom: 40px;
+            right: 40px;
+            opacity: 0.03;
+            font-size: 120px;
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #8B7D3C;
+            pointer-events: none;
+            z-index: 0;
+            transform: rotate(-8deg);
+            letter-spacing: 8px;
+        }
+
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+            border-bottom: 3px solid #e8e3d8;
+            padding-bottom: 25px;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background: #8B7D3C;
+        }
+
+        .logo {
+            flex-shrink: 0;
+        }
+
+        .logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(139, 125, 60, 0.15);
+        }
+
+        .company-name {
+            flex: 1;
+            text-align: center;
+            position: relative;
+        }
+
+        .company-name h1 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #8B7D3C;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .company-name h1 span {
+            font-weight: 400;
+            color: #4a4a4a;
+        }
+
+        .company-name .subtitle {
+            font-size: 13px;
+            color: #6b6b6b;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            margin-top: 2px;
+            font-weight: 300;
+        }
+
+        .company-name .tagline {
+            font-size: 13px;
+            color: #999;
+            letter-spacing: 1px;
+            margin-top: 4px;
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+        }
+
+        .ceo-section {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            background: #f8f5ee;
+            padding: 12px 25px 12px 18px;
+            border-radius: 50px;
+            border: 1px solid #e8e3d8;
+            flex-shrink: 0;
+        }
+
+        .ceo-section .ceo-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid #8B7D3C;
+            box-shadow: 0 2px 8px rgba(139, 125, 60, 0.2);
+        }
+
+        .ceo-section .ceo-info {
+            text-align: left;
+        }
+
+        .ceo-section .ceo-info .ceo-name {
+            font-size: 13px;
+            font-weight: 700;
+            color: #2c2c2c;
+            line-height: 1.2;
+        }
+
+        .ceo-section .ceo-info .ceo-title {
+            font-size: 10px;
+            color: #8B7D3C;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        /* ===== TITLE ===== */
+        .doc-title {
+            text-align: center;
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: #2c2c2c;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 10px 0 5px;
+            margin-bottom: 5px;
+        }
+
+        .doc-title .gold {
+            color: #8B7D3C;
+        }
+
+        .doc-subtitle {
+            text-align: center;
+            font-size: 14px;
+            color: #888;
+            margin-bottom: 30px;
+            letter-spacing: 2px;
+            font-weight: 300;
+        }
+
+        .doc-subtitle .date {
+            color: #8B7D3C;
+            font-weight: 600;
+        }
+
+        .doc-subtitle .divider {
+            color: #d4cfc5;
+            margin: 0 12px;
+        }
+
+        /* ===== EXECUTIVE NOTE ===== */
+        .executive-note {
+            background: linear-gradient(135deg, #f8f5ee 0%, #f0ece3 100%);
+            border-left: 4px solid #8B7D3C;
+            padding: 18px 25px;
+            margin-bottom: 30px;
+            border-radius: 0 6px 6px 0;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .executive-note .note-icon {
+            font-size: 28px;
+            color: #8B7D3C;
+            flex-shrink: 0;
+        }
+
+        .executive-note .note-text {
+            font-size: 14px;
+            color: #4a4a4a;
+            line-height: 1.6;
+        }
+
+        .executive-note .note-text strong {
+            color: #8B7D3C;
+        }
+
+        /* ===== TABLE STYLES ===== */
+        .price-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 6px;
+            font-size: 14px;
+        }
+
+        .price-table thead th {
+            background: #8B7D3C;
+            color: #ffffff;
+            padding: 14px 18px;
+            text-align: left;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            font-size: 12px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .price-table thead th:first-child {
+            border-radius: 4px 0 0 0;
+        }
+
+        .price-table thead th:last-child {
+            border-radius: 0 4px 0 0;
+        }
+
+        .price-table tbody td {
+            padding: 11px 18px;
+            border-bottom: 1px solid #f0ece3;
+            color: #333;
+            transition: background 0.2s;
+        }
+
+        .price-table tbody tr:hover td {
+            background: #f8f5ee;
+        }
+
+        .price-table tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .price-table .device-name {
+            font-weight: 600;
+            color: #2c2c2c;
+            font-size: 14px;
+        }
+
+        .price-table .device-name .badge-icon {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            color: #fff;
+            padding: 1px 10px;
+            border-radius: 20px;
+            margin-left: 8px;
+            letter-spacing: 0.3px;
+            vertical-align: middle;
+        }
+
+        .badge-icon.used {
+            background: #8B7D3C;
+        }
+        .badge-icon.active {
+            background: #1a5276;
+        }
+        .badge-icon.non-active {
+            background: #a04040;
+        }
+        .badge-icon.new {
+            background: #2c7a4a;
+        }
+        .badge-icon.openbox {
+            background: #b8860b;
+        }
+        .badge-icon.gaming {
+            background: #6b1f7a;
+        }
+        .badge-icon.usa {
+            background: #1a5276;
+        }
+        .badge-icon.uk {
+            background: #8B7D3C;
+        }
+        .badge-icon.esim {
+            background: #6b1f7a;
+        }
+
+        .price-table .device-spec {
+            color: #777;
+            font-size: 13px;
+            font-weight: 400;
+        }
+
+        .price-table .device-price {
+            font-weight: 700;
+            color: #8B7D3C;
+            text-align: right;
+            font-size: 15px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .price-table .device-price .price-old {
+            text-decoration: line-through;
+            color: #bbb;
+            font-weight: 400;
+            font-size: 12px;
+            margin-right: 8px;
+        }
+
+        /* ===== CATEGORY HEADERS ===== */
+        .category-header {
+            background: linear-gradient(135deg, #f8f5ee 0%, #f0ece3 100%);
+            padding: 14px 20px;
+            margin-top: 30px;
+            margin-bottom: 14px;
+            border-left: 5px solid #8B7D3C;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .category-header h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 19px;
+            font-weight: 700;
+            color: #3a3a3a;
+            letter-spacing: 0.5px;
+        }
+
+        .category-header h2 .emoji {
+            margin-right: 8px;
+        }
+
+        .category-header .badge-group {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+
+        .category-header .badge {
+            display: inline-block;
+            font-size: 10px;
+            font-weight: 600;
+            color: #fff;
+            padding: 3px 14px;
+            border-radius: 20px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+
+        .badge.used {
+            background: #8B7D3C;
+        }
+        .badge.active {
+            background: #1a5276;
+        }
+        .badge.non-active {
+            background: #a04040;
+        }
+        .badge.new {
+            background: #2c7a4a;
+        }
+        .badge.stock {
+            background: #8B7D3C;
+        }
+
+        .badge.available {
+            background: #2c7a4a;
+        }
+        .badge.openbox {
+            background: #b8860b;
+        }
+        .badge.gaming {
+            background: #6b1f7a;
+        }
+        .badge.laptop {
+            background: #1a5276;
+        }
+        .badge.usa {
+            background: #1a5276;
+        }
+        .badge.ipad {
+            background: #2c7a4a;
+        }
+        .badge.keyboard {
+            background: #6b1f7a;
+        }
+        .badge.esim {
+            background: #6b1f7a;
+        }
+
+        /* ===== SUB-CATEGORY HEADER ===== */
+        .sub-category {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 600;
+            color: #8B7D3C;
+            margin-top: 22px;
+            margin-bottom: 10px;
+            padding-left: 12px;
+            border-left: 3px solid #c4a86a;
+            letter-spacing: 0.5px;
+        }
+
+        /* ===== DIVIDER ===== */
+        .section-divider {
+            border: none;
+            border-top: 2px dashed #e8e3d8;
+            margin: 30px 0 35px;
+        }
+
+        .section-divider .divider-text {
+            display: block;
+            text-align: center;
+            font-size: 10px;
+            color: #bbb;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            margin-top: -10px;
+            background: #fff;
+            padding: 0 15px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 40px;
+            padding-top: 25px;
+            border-top: 2px solid #e8e3d8;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 25px;
+            position: relative;
+        }
+
+        .footer::before {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: 0;
+            width: 80px;
+            height: 2px;
+            background: #8B7D3C;
+        }
+
+        .footer-left {
+            flex: 1;
+        }
+
+        .footer-left .company-footer {
+            font-family: 'Playfair Display', serif;
+            font-size: 16px;
+            font-weight: 700;
+            color: #8B7D3C;
+            letter-spacing: 1px;
+        }
+
+        .footer-left .company-footer span {
+            font-weight: 400;
+            color: #888;
+            font-size: 13px;
+        }
+
+        .footer-left p {
+            font-size: 12px;
+            color: #888;
+            line-height: 1.8;
+            margin-top: 4px;
+        }
+
+        .footer-left .contact-info {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-top: 6px;
+            font-size: 12px;
+            color: #888;
+        }
+
+        .footer-left .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .footer-left .contact-info .icon {
+            color: #8B7D3C;
+        }
+
+        .footer-right {
+            text-align: right;
+            flex-shrink: 0;
+        }
+
+        .footer-right .stamp-text {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
+            color: #8B7D3C;
+            font-size: 16px;
+            letter-spacing: 2px;
+        }
+
+        .footer-right .stamp-sub {
+            font-size: 10px;
+            color: #999;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+        }
+
+        .footer-right .stamp-box {
+            border: 2px dashed #8B7D3C;
+            padding: 12px 25px;
+            border-radius: 4px;
+            margin-top: 8px;
+            background: #fcfaf5;
+            min-width: 160px;
+            text-align: center;
+        }
+
+        .footer-right .stamp-box .stamp-placeholder {
+            font-size: 10px;
+            color: #aaa;
+            letter-spacing: 1px;
+        }
+
+        .footer-right .stamp-box .stamp-line {
+            height: 35px;
+            border-bottom: 1px solid #e8e3d8;
+            margin-top: 5px;
+        }
+
+        /* ===== DISCLAIMER ===== */
+        .disclaimer {
+            font-size: 11px;
+            color: #aaa;
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 18px;
+            border-top: 1px solid #f0ece3;
+            line-height: 1.6;
+        }
+
+        .disclaimer strong {
+            color: #8B7D3C;
+        }
+
+        /* ===== PAGE BREAKS ===== */
+        .page-break {
+            page-break-before: always;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px dashed #e8e3d8;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1024px) {
+            .header {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            .ceo-section {
+                margin-top: 10px;
+            }
+            .document-container {
+                padding: 35px 35px 30px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .document-container {
+                padding: 20px 15px;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+            }
+            .header::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .company-name h1 {
+                font-size: 20px;
+            }
+            .ceo-section {
+                padding: 10px 18px;
+            }
+            .ceo-section .ceo-avatar {
+                width: 38px;
+                height: 38px;
+            }
+            .price-table {
+                font-size: 12px;
+            }
+            .price-table thead th,
+            .price-table tbody td {
+                padding: 8px 10px;
+            }
+            .price-table .device-price {
+                font-size: 13px;
+            }
+            .footer {
+                flex-direction: column;
+                text-align: center;
+            }
+            .footer::before {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .footer-right {
+                text-align: center;
+            }
+            .category-header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .category-header h2 {
+                font-size: 16px;
+            }
+            .doc-title {
+                font-size: 20px;
+            }
+            .executive-note {
+                flex-direction: column;
+                text-align: center;
+                padding: 15px 18px;
+            }
+            .footer-left .contact-info {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .document-container {
+                padding: 12px 10px;
+            }
+            .price-table {
+                font-size: 10px;
+            }
+            .price-table thead th,
+            .price-table tbody td {
+                padding: 5px 6px;
+            }
+            .price-table .device-price {
+                font-size: 11px;
+            }
+            .company-name h1 {
+                font-size: 16px;
+            }
+            .doc-title {
+                font-size: 16px;
+            }
+            .category-header h2 {
+                font-size: 13px;
+            }
+            .logo img {
+                width: 55px;
+                height: 55px;
+            }
+            .ceo-section .ceo-avatar {
+                width: 32px;
+                height: 32px;
+            }
+            .ceo-section .ceo-info .ceo-name {
+                font-size: 11px;
+            }
+            .ceo-section .ceo-info .ceo-title {
+                font-size: 9px;
+            }
+            .footer-left .company-footer {
+                font-size: 14px;
+            }
+        }
+
+        /* ===== PRINT ===== */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+                margin: 0;
+            }
+            .document-container {
+                box-shadow: none;
+                padding: 30px 40px;
+                border-radius: 0;
+                max-width: 100%;
+            }
+            .document-container::before,
+            .document-container::after {
+                display: none;
+            }
+            .price-table thead th {
+                background: #8B7D3C !important;
+                color: #fff !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .category-header {
+                background: #f8f5ee !important;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .category-header .badge {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .logo img,
+            .ceo-section .ceo-avatar {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .footer-right .stamp-box {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                background: #fcfaf5 !important;
+            }
+            .executive-note {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                background: #f8f5ee !important;
+            }
+            .price-table tbody tr:hover td {
+                background: transparent;
+            }
+            .page-break {
+                border-top: none;
+                margin-top: 0;
+                padding-top: 0;
+            }
+            .section-divider {
+                border-top: 1px solid #d4cfc5;
+            }
+            .header::after {
+                display: none;
+            }
+            .watermark {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="watermark">PrimeShieldHub</div>
+
+<div class="document-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <div class="logo">
+            <img src="company_logo.png" alt="PrimeShieldHub Logo">
+        </div>
+        <div class="company-name">
+            <h1>PRIME<span>SHIELDHUB</span></h1>
+            <div class="subtitle">Gadget Limited — RC 9283954</div>
+            <div class="tagline">"Excellence in Technology &amp; Service"</div>
+        </div>
+        <div class="ceo-section">
+            <img src="photograph.webp" alt="CEO" class="ceo-avatar" onerror="this.style.display='none'">
+            <div class="ceo-info">
+                <div class="ceo-name">FREEDOM E. AMENAGHAWON</div>
+                <div class="ceo-title">Managing Director / CEO</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== TITLE ===== -->
+    <div class="doc-title">
+        <span class="gold">✦</span> Premium Device Price List <span class="gold">✦</span>
+    </div>
+    <div class="doc-subtitle">
+        <span class="date">October 2026</span>
+        <span class="divider">|</span>
+        All Prices in Nigerian Naira (₦)
+        <span class="divider">|</span>
+        <span style="color:#8B7D3C;">✓ Verified Authentic Devices</span>
+    </div>
+
+    <!-- ===== EXECUTIVE NOTE ===== -->
+    <div class="executive-note">
+        <div class="note-icon">👔</div>
+        <div class="note-text">
+            <strong>From the Managing Director's Desk:</strong> At PrimeShieldHub, we are committed to providing
+            only authentic, verified devices at competitive prices. This price list reflects our current inventory
+            and is updated regularly to serve you better. <em>— Freedom E. Amenaghawon</em>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: NEW & OPEN BOX & USA iPHONES (FACTORY UNLOCKED ESIM) -->
+    <!-- ============================================================ -->
+    <div class="category-header">
+        <h2><span class="emoji">🇺🇸</span> New &amp; Open Box — US iPhones (Factory Unlocked eSIM)</h2>
+        <div class="badge-group">
+            <span class="badge usa">USA</span>
+            <span class="badge new">New &amp; Open Box</span>
+            <span class="badge available">In Stock</span>
+        </div>
+    </div>
+
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:34%;">Details</th>
+                <th style="width:28%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">iPhone 17 Pro Max <span class="badge-icon usa">USA</span></td><td class="device-spec">512GB — eSIM — WiFi Only — New</td><td class="device-price">1,290,000</td></tr>
+            <tr><td class="device-name">iPhone 17 Pro Max <span class="badge-icon usa">USA</span></td><td class="device-spec">512GB — eSIM Unlocked — New</td><td class="device-price">1,940,000</td></tr>
+            <tr><td class="device-name">iPhone 17 <span class="badge-icon non-active">Non-Active</span></td><td class="device-spec">256GB — eSIM with AT&amp;T SIM — New</td><td class="device-price">850,000</td></tr>
+            <tr><td class="device-name">iPhone 17e <span class="badge-icon usa">USA</span></td><td class="device-spec">256GB — eSIM Unlocked — New</td><td class="device-price">800,000</td></tr>
+            <tr><td class="device-name">iPhone 16 Plus <span class="badge-icon usa">USA</span></td><td class="device-spec">128GB — Black — 88% Battery Health</td><td class="device-price">800,000</td></tr>
+            <tr><td class="device-name">iPhone 16 <span class="badge-icon usa">USA</span></td><td class="device-spec">128GB — Teal — eSIM Unlocked — 100% Battery Health</td><td class="device-price">770,000</td></tr>
+            <tr><td class="device-name">iPhone 14 Plus <span class="badge-icon usa">USA</span></td><td class="device-spec">256GB — Purple</td><td class="device-price">520,000</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="section-divider">
+    <span class="divider-text">✦ ✦ ✦</span>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: IPADS / KEYBOARDS / PENCILS (USED & NEW) -->
+    <!-- ============================================================ -->
+    <div class="category-header">
+        <h2><span class="emoji">📟</span> iPads, Keyboards &amp; Pencils</h2>
+        <div class="badge-group">
+            <span class="badge ipad">Used &amp; New</span>
+            <span class="badge available">In Stock</span>
+        </div>
+    </div>
+
+    <div class="sub-category">iPads — New Sealed &amp; UK Used</div>
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:34%;">Details</th>
+                <th style="width:28%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">iPad 10th Generation <span class="badge-icon new">New Sealed</span></td><td class="device-spec">256GB — WiFi — 10.9"</td><td class="device-price">700,000</td></tr>
+            <tr><td class="device-name">iPad 11th Generation <span class="badge-icon new">New Sealed</span></td><td class="device-spec">128GB — WiFi — 10.9"</td><td class="device-price">650,000</td></tr>
+            <tr><td class="device-name">iPad 11th Generation <span class="badge-icon new">New Sealed</span></td><td class="device-spec">128GB — WiFi + Cellular — 10.9"</td><td class="device-price">800,000</td></tr>
+            <tr><td class="device-name">iPad 11th Generation <span class="badge-icon new">New Sealed</span></td><td class="device-spec">256GB — WiFi</td><td class="device-price">870,000</td></tr>
+            <tr><td class="device-name">iPad Pro M1 <span class="badge-icon uk">UK Used</span></td><td class="device-spec">12.9" — 256GB — WiFi</td><td class="device-price">820,000</td></tr>
+            <tr><td class="device-name">iPad Air 13" M3 <span class="badge-icon new">New Sealed</span></td><td class="device-spec">128GB — WiFi</td><td class="device-price">1,000,000</td></tr>
+            <tr><td class="device-name">iPad Pro 11" M4 <span class="badge-icon new">New Sealed</span></td><td class="device-spec">256GB — WiFi</td><td class="device-price">1,520,000</td></tr>
+            <tr><td class="device-name">iPad Pro 11" M5 <span class="badge-icon new">New Sealed</span></td><td class="device-spec">256GB — WiFi</td><td class="device-price">1,590,000</td></tr>
+            <tr><td class="device-name">iPad Pro 11" M5 <span class="badge-icon new">New Sealed</span></td><td class="device-spec">512GB — WiFi</td><td class="device-price">1,670,000</td></tr>
+            <tr><td class="device-name">iPad Pro 13" M5 <span class="badge-icon new">New Sealed</span></td><td class="device-spec">256GB — WiFi</td><td class="device-price">1,690,000</td></tr>
+            <tr><td class="device-name">iPad Pro 13" M5 <span class="badge-icon new">New Sealed</span></td><td class="device-spec">256GB — WiFi + Cellular</td><td class="device-price">1,740,000</td></tr>
+            <tr><td class="device-name">iPad 11 <span class="badge-icon new">Brand New</span></td><td class="device-spec">128GB — WiFi</td><td class="device-price">625,000</td></tr>
+        </tbody>
+    </table>
+
+    <div class="sub-category">Keyboards &amp; Pencils</div>
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Accessory</th>
+                <th style="width:34%;">Compatibility</th>
+                <th style="width:28%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">Apple Keyboard <span class="badge-icon keyboard">Keyboard</span></td><td class="device-spec">iPad 10th / 11th Gen</td><td class="device-price">390,000</td></tr>
+            <tr><td class="device-name">Apple Magic Keyboard <span class="badge-icon keyboard">Keyboard</span></td><td class="device-spec">iPad Pro M2 — 11"</td><td class="device-price">400,000</td></tr>
+            <tr><td class="device-name">Apple Magic Keyboard <span class="badge-icon keyboard">Keyboard</span></td><td class="device-spec">iPad Pro M2 — 12.9"</td><td class="device-price">430,000</td></tr>
+            <tr><td class="device-name">Greenlion Keyboard <span class="badge-icon keyboard">Keyboard</span></td><td class="device-spec">iPad 10th / 11th Gen</td><td class="device-price">190,000</td></tr>
+            <tr><td class="device-name">Greenlion Keyboard <span class="badge-icon keyboard">Keyboard</span></td><td class="device-spec">iPad Pro 11"</td><td class="device-price">220,000</td></tr>
+            <tr><td class="device-name">Apple Magic Keyboard <span class="badge-icon keyboard">Keyboard</span></td><td class="device-spec">iPad Pro M4 / M5 — 13"</td><td class="device-price">580,000</td></tr>
+            <tr><td class="device-name">Apple Magic Keyboard <span class="badge-icon keyboard">Keyboard</span></td><td class="device-spec">iPad Pro M4 / M5 — 11"</td><td class="device-price">490,000</td></tr>
+            <tr><td class="device-name">Apple Pencil Type-C <span class="badge-icon keyboard">Pencil</span></td><td class="device-spec">iPad 10th / M2 Gen</td><td class="device-price">200,000</td></tr>
+            <tr><td class="device-name">Apple Pencil Pro <span class="badge-icon keyboard">Pencil</span></td><td class="device-spec">Compatible with Pro &amp; Air models</td><td class="device-price">230,000</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="section-divider">
+    <span class="divider-text">✦ ✦ ✦</span>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: MACBOOKS & LAPTOPS (USED & NEW) -->
+    <!-- ============================================================ -->
+    <div class="category-header">
+        <h2><span class="emoji">💻</span> MacBooks &amp; Laptops</h2>
+        <div class="badge-group">
+            <span class="badge laptop">Used &amp; New</span>
+            <span class="badge available">In Stock</span>
+        </div>
+    </div>
+
+    <p style="font-size:12px;color:#8B7D3C;font-style:italic;margin-bottom:12px;padding-left:4px;">
+        ✓ All laptops come with an original charger, unless otherwise stated.
+    </p>
+
+    <div class="sub-category">Windows Laptops — Business &amp; Premium</div>
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:40%;">Specifications</th>
+                <th style="width:22%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">Lenovo ThinkPad T490 <span class="badge-icon used">Mint</span></td><td class="device-spec">Core i5 8th Gen — 16GB/512GB — Touchscreen</td><td class="device-price">400,000</td></tr>
+            <tr><td class="device-name">Dell Latitude 5420</td><td class="device-spec">Core i5 11th Gen — 8GB/256GB</td><td class="device-price">370,000</td></tr>
+            <tr><td class="device-name">HP EliteBook 840 G6</td><td class="device-spec">Core i5 — 8GB/256GB — Touchscreen — Backlit Keyboard</td><td class="device-price">420,000</td></tr>
+            <tr><td class="device-name">HP ZBook G7</td><td class="device-spec">Core i5 10th Gen — 8GB/256GB — Face ID — Fingerprint — Backlit</td><td class="device-price">430,000</td></tr>
+            <tr><td class="device-name">HP EliteBook 845 G10</td><td class="device-spec">Ryzen 5 Pro — 16GB/256GB — Fingerprint — Face ID — Backlit</td><td class="device-price">540,000</td></tr>
+            <tr><td class="device-name">HP ProBook G11</td><td class="device-spec">16" Ryzen 5 — 16GB/256GB</td><td class="device-price">600,000</td></tr>
+            <tr><td class="device-name">HP Envy x360 2-in-1</td><td class="device-spec">Core i5 13th Gen — 8GB/512GB — Touchscreen</td><td class="device-price">640,000</td></tr>
+            <tr><td class="device-name">HP EliteBook x360 1040 G8</td><td class="device-spec">Core i7 11th Gen — 32GB/512GB — Touchscreen — Face ID — Fingerprint</td><td class="device-price">690,000</td></tr>
+        </tbody>
+    </table>
+
+    <div class="sub-category">MacBooks — UK Used &amp; Open Box</div>
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:40%;">Specifications</th>
+                <th style="width:22%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">MacBook Pro 2017 <span class="badge-icon uk">UK Used</span></td><td class="device-spec">15" — Core i7 — 16GB/256GB</td><td class="device-price">520,000</td></tr>
+            <tr><td class="device-name">MacBook Pro 2018 <span class="badge-icon uk">UK Used</span></td><td class="device-spec">15" — Core i7 — 16GB/256GB</td><td class="device-price">570,000</td></tr>
+            <tr><td class="device-name">MacBook Pro 2020 <span class="badge-icon uk">UK Used</span></td><td class="device-spec">13" — Core i7 — 16GB/512GB</td><td class="device-price">650,000</td></tr>
+            <tr><td class="device-name">MacBook Pro 2022 M2 <span class="badge-icon uk">UK Used</span></td><td class="device-spec">8GB/256GB</td><td class="device-price">1,040,000</td></tr>
+            <tr><td class="device-name">MacBook Air M3 <span class="badge-icon openbox">Open Box</span></td><td class="device-spec">8GB/512GB</td><td class="device-price">1,140,000</td></tr>
+            <tr><td class="device-name">MacBook Pro 14" M1 Pro <span class="badge-icon uk">UK Used</span></td><td class="device-spec">M1 Pro Chip — 16GB/512GB</td><td class="device-price">1,240,000</td></tr>
+            <tr><td class="device-name">MacBook Pro 16" M1 Pro <span class="badge-icon uk">UK Used</span></td><td class="device-spec">M1 Pro Chip — 16GB/512GB</td><td class="device-price">1,340,000</td></tr>
+            <tr><td class="device-name">MacBook Pro 14" M3 <span class="badge-icon openbox">Open Box</span></td><td class="device-spec">M3 Chip — 8GB/512GB</td><td class="device-price">1,540,000</td></tr>
+            <tr><td class="device-name">MacBook Pro 14" M3 Pro <span class="badge-icon used">No Box</span></td><td class="device-spec">M3 Pro Chip — 18GB/512GB</td><td class="device-price">1,680,000</td></tr>
+            <tr><td class="device-name">MacBook Pro M5 <span class="badge-icon new">New Sealed</span></td><td class="device-spec">14" — M5 Chip — 24GB/1TB</td><td class="device-price">2,800,000</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="section-divider">
+    <span class="divider-text">✦ ✦ ✦</span>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: GAMING / GRAPHIC LAPTOPS -->
+    <!-- ============================================================ -->
+    <div class="category-header">
+        <h2><span class="emoji">🎮</span> Gaming &amp; Graphic Laptops</h2>
+        <div class="badge-group">
+            <span class="badge gaming">High Performance</span>
+            <span class="badge available">In Stock</span>
+        </div>
+    </div>
+
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:40%;">Specifications</th>
+                <th style="width:22%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">HP ZBook 15" G5</td><td class="device-spec">Core i7 8th Gen — 32GB/512GB — Touchscreen — 4GB Dedicated Graphics</td><td class="device-price">620,000</td></tr>
+            <tr><td class="device-name">Asus Zephyrus G16</td><td class="device-spec">Core i7 13th Gen — 16GB/1TB SSD — RTX 4060 — 8GB Dedicated</td><td class="device-price">1,490,000</td></tr>
+            <tr><td class="device-name">HP OMEN Gaming PC <span class="badge-icon openbox">Open Box</span></td><td class="device-spec">Core i7 13th Gen — 16GB RAM — 1TB SSD — RTX 4060 — 8GB Dedicated</td><td class="device-price">1,640,000</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="section-divider">
+    <span class="divider-text">✦ ✦ ✦</span>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: UK USED IPHONES -->
+    <!-- ============================================================ -->
+    <div class="category-header">
+        <h2><span class="emoji">🇬🇧</span> UK Used iPhones</h2>
+        <div class="badge-group">
+            <span class="badge used">UK Used</span>
+            <span class="badge stock">Stock Available</span>
+        </div>
+    </div>
+
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:30%;">Storage</th>
+                <th style="width:32%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">iPhone XR</td><td class="device-spec">64GB</td><td class="device-price">210,000</td></tr>
+            <tr><td class="device-name">iPhone XR</td><td class="device-spec">128GB</td><td class="device-price">250,000</td></tr>
+            <tr><td class="device-name">iPhone 11</td><td class="device-spec">64GB</td><td class="device-price">250,000</td></tr>
+            <tr><td class="device-name">iPhone 11</td><td class="device-spec">128GB</td><td class="device-price">285,000</td></tr>
+            <tr><td class="device-name">iPhone 11 Pro</td><td class="device-spec">64GB</td><td class="device-price">305,000</td></tr>
+            <tr><td class="device-name">iPhone 11 Pro</td><td class="device-spec">256GB</td><td class="device-price">330,000</td></tr>
+            <tr><td class="device-name">iPhone 11 Pro Max</td><td class="device-spec">64GB</td><td class="device-price">320,000</td></tr>
+            <tr><td class="device-name">iPhone 11 Pro Max</td><td class="device-spec">256GB</td><td class="device-price">375,000</td></tr>
+            <tr><td class="device-name">iPhone 12</td><td class="device-spec">64GB</td><td class="device-price">290,000</td></tr>
+            <tr><td class="device-name">iPhone 12</td><td class="device-spec">128GB</td><td class="device-price">320,000</td></tr>
+            <tr><td class="device-name">iPhone 12 Pro</td><td class="device-spec">128GB</td><td class="device-price">390,000</td></tr>
+            <tr><td class="device-name">iPhone 12 Pro</td><td class="device-spec">256GB</td><td class="device-price">420,000</td></tr>
+            <tr><td class="device-name">iPhone 12 Pro Max</td><td class="device-spec">128GB</td><td class="device-price">440,000</td></tr>
+            <tr><td class="device-name">iPhone 12 Pro Max</td><td class="device-spec">256GB</td><td class="device-price">480,000</td></tr>
+            <tr><td class="device-name">iPhone 12 Pro Max</td><td class="device-spec">512GB</td><td class="device-price">490,000</td></tr>
+            <tr><td class="device-name">iPhone 13</td><td class="device-spec">128GB</td><td class="device-price">390,000</td></tr>
+            <tr><td class="device-name">iPhone 13</td><td class="device-spec">256GB</td><td class="device-price">420,000</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="section-divider">
+    <span class="divider-text">✦ ✦ ✦</span>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: NEW 18 SERIES -->
+    <!-- ============================================================ -->
+    <div class="category-header">
+        <h2><span class="emoji">📱</span> New 18 Series — Physical SIM + eSIM (Europe)</h2>
+        <div class="badge-group">
+            <span class="badge active">Active</span>
+            <span class="badge non-active">Non-Active</span>
+            <span class="badge available">In Stock</span>
+        </div>
+    </div>
+
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:34%;">Details</th>
+                <th style="width:28%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">iPhone 18 Pro</td><td class="device-spec">256GB — Active — Physical SIM + eSIM</td><td class="device-price">1,990,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro</td><td class="device-spec">256GB — Non-Active — Burgundy — Physical SIM + eSIM</td><td class="device-price">2,070,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro</td><td class="device-spec">256GB — Non-Active — Other Colors — Physical SIM + eSIM</td><td class="device-price">2,050,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro</td><td class="device-spec">512GB — Non-Active — Burgundy — Physical SIM + eSIM</td><td class="device-price">2,400,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro</td><td class="device-spec">512GB — Non-Active — Other Colors — Physical SIM + eSIM</td><td class="device-price">2,350,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro Max</td><td class="device-spec">256GB — Active — Colors — Physical SIM + eSIM</td><td class="device-price">2,500,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro Max</td><td class="device-spec">256GB — Non-Active — Physical SIM + eSIM</td><td class="device-price">2,550,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro Max</td><td class="device-spec">512GB — Active — Physical SIM + eSIM</td><td class="device-price">2,600,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro Max</td><td class="device-spec">512GB — Non-Active — Burgundy — Physical SIM + eSIM</td><td class="device-price">2,700,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro Max</td><td class="device-spec">512GB — Non-Active — Other Colors — Physical SIM + eSIM</td><td class="device-price">2,620,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro Max</td><td class="device-spec">1TB — All Colors — Physical SIM + eSIM</td><td class="device-price">3,360,000</td></tr>
+        </tbody>
+    </table>
+
+    <div class="sub-category">18 Series — eSIM Only (🇺🇸 🇨🇦 🇯🇵)</div>
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:34%;">Details</th>
+                <th style="width:28%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">iPhone 18 Pro <span class="badge-icon esim">eSIM Only</span></td><td class="device-spec">256GB — All Colors</td><td class="device-price">1,940,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro <span class="badge-icon esim">eSIM Only</span></td><td class="device-spec">512GB — All Colors</td><td class="device-price">2,350,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro Max <span class="badge-icon esim">eSIM Only</span></td><td class="device-spec">256GB — All Colors</td><td class="device-price">2,400,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro Max <span class="badge-icon esim">eSIM Only</span></td><td class="device-spec">512GB</td><td class="device-price">2,620,000</td></tr>
+            <tr><td class="device-name">iPhone 18 Pro Max <span class="badge-icon esim">eSIM Only</span></td><td class="device-spec">1TB</td><td class="device-price">3,210,000</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="section-divider">
+    <span class="divider-text">✦ ✦ ✦</span>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: NEW IPHONES ACTIVE -->
+    <!-- ============================================================ -->
+    <div class="category-header">
+        <h2><span class="emoji">📱</span> New iPhones — Active</h2>
+        <div class="badge-group">
+            <span class="badge active">Active / Carrier Locked</span>
+            <span class="badge available">In Stock</span>
+        </div>
+    </div>
+
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:34%;">Details</th>
+                <th style="width:28%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">iPhone 17 Pro Max</td><td class="device-spec">512GB — Active</td><td class="device-price">2,080,000</td></tr>
+            <tr><td class="device-name">iPhone 17 Pro</td><td class="device-spec">256GB — White — Dual SIM — Active</td><td class="device-price">1,630,000</td></tr>
+            <tr><td class="device-name">iPhone 17 Air</td><td class="device-spec">256GB — Active</td><td class="device-price">1,140,000</td></tr>
+            <tr><td class="device-name">iPhone 16 Pro Max</td><td class="device-spec">256GB — Physical + eSIM — Active</td><td class="device-price">1,400,000</td></tr>
+            <tr><td class="device-name">iPhone 16 Plus</td><td class="device-spec">256GB — Active</td><td class="device-price">1,200,000</td></tr>
+            <tr><td class="device-name">iPhone 16 Plus</td><td class="device-spec">128GB — Physical + eSIM — Active</td><td class="device-price">990,000</td></tr>
+            <tr><td class="device-name">iPhone 16</td><td class="device-spec">128GB — Active</td><td class="device-price">950,000</td></tr>
+            <tr><td class="device-name">iPhone 15 Pro Max</td><td class="device-spec">256GB — Physical + eSIM — Active</td><td class="device-price">1,050,000</td></tr>
+            <tr><td class="device-name">iPhone 14 Pro Max</td><td class="device-spec">256GB — Dual SIM</td><td class="device-price">740,000</td></tr>
+            <tr><td class="device-name">iPhone 14 Pro Max</td><td class="device-spec">256GB — Europe — Physical + eSIM</td><td class="device-price">870,000</td></tr>
+            <tr><td class="device-name">iPhone 14 Pro Max</td><td class="device-spec">128GB — Dual SIM</td><td class="device-price">705,000</td></tr>
+            <tr><td class="device-name">iPhone 14 Pro Max</td><td class="device-spec">128GB — Europe — Physical + eSIM</td><td class="device-price">790,000</td></tr>
+            <tr><td class="device-name">iPhone 14 Pro</td><td class="device-spec">128GB — Dual SIM</td><td class="device-price">640,000</td></tr>
+            <tr><td class="device-name">iPhone 14 Pro</td><td class="device-spec">128GB — Europe — Physical + eSIM</td><td class="device-price">710,000</td></tr>
+            <tr><td class="device-name">iPhone 14 Pro</td><td class="device-spec">256GB — Dual SIM</td><td class="device-price">680,000</td></tr>
+            <tr><td class="device-name">iPhone 14 Pro</td><td class="device-spec">256GB — Europe — Physical + eSIM</td><td class="device-price">750,000</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="section-divider">
+    <span class="divider-text">✦ ✦ ✦</span>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: NEW IPHONES NON ACTIVE -->
+    <!-- ============================================================ -->
+    <div class="category-header">
+        <h2><span class="emoji">📱</span> New iPhones — Non-Active</h2>
+        <div class="badge-group">
+            <span class="badge non-active">Non-Active</span>
+            <span class="badge available">Available</span>
+        </div>
+    </div>
+
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:34%;">Details</th>
+                <th style="width:28%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">iPhone 17 Pro Max</td><td class="device-spec">256GB — Physical + eSIM — Non-Active</td><td class="device-price">1,860,000</td></tr>
+            <tr><td class="device-name">iPhone 17 Pro</td><td class="device-spec">256GB — Physical + eSIM — Non-Active</td><td class="device-price">1,690,000</td></tr>
+            <tr><td class="device-name">iPhone 17 Air</td><td class="device-spec">256GB — eSIM — Non-Active</td><td class="device-price">1,180,000</td></tr>
+            <tr><td class="device-name">iPhone 16 Plus</td><td class="device-spec">128GB — Colors — Physical + eSIM — Non-Active</td><td class="device-price">1,150,000</td></tr>
+            <tr><td class="device-name">iPhone 16</td><td class="device-spec">256GB — Colors — Physical + eSIM — Non-Active</td><td class="device-price">1,150,000</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="section-divider">
+    <span class="divider-text">✦ ✦ ✦</span>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: UK USED SAMSUNG PHONES -->
+    <!-- ============================================================ -->
+    <div class="category-header">
+        <h2><span class="emoji">🇬🇧</span> UK Used Samsung Phones</h2>
+        <div class="badge-group">
+            <span class="badge used">UK Used</span>
+            <span class="badge stock">Available</span>
+        </div>
+    </div>
+
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:30%;">Storage</th>
+                <th style="width:32%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">Galaxy S8</td><td class="device-spec">64GB</td><td class="device-price">155,000</td></tr>
+            <tr><td class="device-name">Galaxy S8</td><td class="device-spec">128GB / 256GB</td><td class="device-price">160,000</td></tr>
+            <tr><td class="device-name">Galaxy S8+</td><td class="device-spec">64GB</td><td class="device-price">180,000</td></tr>
+            <tr><td class="device-name">Galaxy S8+</td><td class="device-spec">128GB</td><td class="device-price">185,000</td></tr>
+            <tr><td class="device-name">Galaxy S8+</td><td class="device-spec">256GB</td><td class="device-price">190,000</td></tr>
+            <tr><td class="device-name">Galaxy S9</td><td class="device-spec">64GB</td><td class="device-price">165,000</td></tr>
+            <tr><td class="device-name">Galaxy S9</td><td class="device-spec">128GB / 256GB</td><td class="device-price">170,000</td></tr>
+            <tr><td class="device-name">Galaxy S9+</td><td class="device-spec">64GB</td><td class="device-price">190,000</td></tr>
+            <tr><td class="device-name">Galaxy S9+</td><td class="device-spec">128GB</td><td class="device-price">195,000</td></tr>
+            <tr><td class="device-name">Galaxy S10</td><td class="device-spec">128GB</td><td class="device-price">240,000</td></tr>
+            <tr><td class="device-name">Galaxy S10+</td><td class="device-spec">128GB</td><td class="device-price">265,000</td></tr>
+            <tr><td class="device-name">Galaxy S20</td><td class="device-spec">128GB</td><td class="device-price">245,000</td></tr>
+            <tr><td class="device-name">Galaxy S21</td><td class="device-spec">128GB</td><td class="device-price">255,000</td></tr>
+            <tr><td class="device-name">Galaxy S22</td><td class="device-spec">128GB</td><td class="device-price">290,000</td></tr>
+            <tr><td class="device-name">Galaxy S22 Ultra</td><td class="device-spec">128GB</td><td class="device-price">470,000</td></tr>
+            <tr><td class="device-name">Galaxy S22 Ultra</td><td class="device-spec">256GB</td><td class="device-price">485,000</td></tr>
+            <tr><td class="device-name">Galaxy S23 Ultra</td><td class="device-spec">256GB</td><td class="device-price">595,000</td></tr>
+        </tbody>
+    </table>
+
+    <hr class="section-divider">
+    <span class="divider-text">✦ ✦ ✦</span>
+
+    <!-- ============================================================ -->
+    <!-- SECTION: IPADS (BRAND NEW) -->
+    <!-- ============================================================ -->
+    <div class="category-header">
+        <h2><span class="emoji">📟</span> iPads</h2>
+        <div class="badge-group">
+            <span class="badge new">Brand New</span>
+            <span class="badge stock">In Stock</span>
+        </div>
+    </div>
+
+    <table class="price-table">
+        <thead>
+            <tr>
+                <th style="width:38%;">Device</th>
+                <th style="width:34%;">Details</th>
+                <th style="width:28%;text-align:right;">Price (₦)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td class="device-name">iPad 11</td><td class="device-spec">128GB — WiFi — Brand New</td><td class="device-price">625,000</td></tr>
+        </tbody>
+    </table>
+
+    <!-- ============================================================ -->
+    <!-- FOOTER -->
+    <!-- ============================================================ -->
+    <div class="footer">
+        <div class="footer-left">
+            <div class="company-footer">PRIMESHIELDHUB <span>Gadget Limited</span></div>
+            <p>RC 9283954 — Boundary Road Branch, Benin City, Edo State</p>
+            <div class="contact-info">
+                <span><span class="icon">📞</span> +234 810 353 5978</span>
+                <span><span class="icon">✉️</span> ceo@primeshieldhub.com</span>
+                <span><span class="icon">🌐</span> primeshieldhub.com</span>
+            </div>
+            <p style="font-size:11px;color:#bbb;margin-top:4px;">
+                <span style="color:#8B7D3C;">✓</span> All devices inspected and verified for authenticity
+            </p>
+        </div>
+        <div class="footer-right">
+            <div class="stamp-text">PRIMESHIELDHUB</div>
+            <div class="stamp-sub">Gadget Limited</div>
+            <div class="stamp-box">
+                <div class="stamp-placeholder">Company Stamp</div>
+                <div class="stamp-line"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="disclaimer">
+        <strong>Disclaimer:</strong> Prices are subject to change without prior notice.
+        Please confirm availability and current pricing before purchase.
+        <br>
+        <span style="font-size:10px;color:#ccc;">© 2026 PrimeShieldHub Gadget Limited — All Rights Reserved</span>
+    </div>
+
+</div>
+
+<!-- ===== PRINT SCRIPT ===== -->
+<script>
+    window.onload = function() {
+        setTimeout(function() {
+            window.print();
+        }, 700);
+    };
+</script>
+
+</body>
+</html>

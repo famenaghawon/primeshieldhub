@@ -1,0 +1,880 @@
+# ============================================================================
+# PRIMESHIELDHUB GADGETS LIMITED
+# ROBOTS.TXT — PRODUCTION
+# ============================================================================
+#
+# Website:
+# https://primeshieldhub.com
+#
+# Organization:
+# PRIMESHIELDHUB GADGETS LIMITED
+#
+# Purpose:
+# - Search-engine discovery
+# - Entity/brand discoverability
+# - AI/search-engine discovery
+# - Social-media link previews
+# - Image discovery
+# - Protection of private/application routes from crawling
+#
+# IMPORTANT:
+# robots.txt controls crawler access only.
+# It is NOT a security mechanism and does not protect confidential data.
+#
+# Last reviewed: 18 August 2026
+# ============================================================================
+
+
+# ============================================================================
+# 1. DEFAULT RULES — ALL CRAWLERS
+# ============================================================================
+#
+# Public business, product, content, corporate and informational pages remain
+# crawlable by default.
+#
+# Private, transactional, administrative, authentication, development and
+# internal application areas are excluded.
+# ============================================================================
+
+User-agent: *
+
+# --------------------------------------------------------------------------
+# ADMINISTRATION & INTERNAL MANAGEMENT
+# --------------------------------------------------------------------------
+
+Disallow: /admin/
+Disallow: /admin-login.html
+Disallow: /admin-maintenance.html
+Disallow: /command-center.html
+Disallow: /dashboard.html
+Disallow: /dashboard-simple.html
+
+
+# --------------------------------------------------------------------------
+# CUSTOMER ACCOUNT & AUTHENTICATION
+# --------------------------------------------------------------------------
+
+Disallow: /account/
+Disallow: /login/
+Disallow: /login.html
+Disallow: /register.html
+Disallow: /profile.html
+Disallow: /wishlist.html
+
+
+# --------------------------------------------------------------------------
+# SHOPPING CART / CHECKOUT / ORDERS
+# --------------------------------------------------------------------------
+
+Disallow: /cart.html
+Disallow: /checkout.html
+Disallow: /payment.html
+Disallow: /payment-success.html
+Disallow: /track-order.html
+
+# Clean-URL equivalents, if routed by the application.
+Disallow: /cart/
+Disallow: /checkout/
+Disallow: /payment/
+Disallow: /payment-success/
+Disallow: /track-order/
+
+
+# --------------------------------------------------------------------------
+# API / BACKEND / DATA ENDPOINTS
+# --------------------------------------------------------------------------
+
+Disallow: /api/
+Disallow: /ajax/
+Disallow: /graphql
+Disallow: /graphql/
+Disallow: /_api/
+Disallow: /api
+
+
+# --------------------------------------------------------------------------
+# STAFF / EMPLOYEE / INTERNAL PORTALS
+# --------------------------------------------------------------------------
+
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Disallow: /payroll
+Disallow: /biometric/
+Disallow: /biometric.html
+Disallow: /biometric-auth.html
+
+
+# --------------------------------------------------------------------------
+# INVESTMENT / FINANCIAL APPLICATION AREAS
+# --------------------------------------------------------------------------
+#
+# Public informational investor pages may remain crawlable.
+# Private forms and financial workflows should not be crawled.
+# --------------------------------------------------------------------------
+
+Disallow: /investment-form.html
+Disallow: /investment-form/
+Disallow: /loan.html
+Disallow: /loan/
+Disallow: /equity.html
+Disallow: /equity/
+
+
+# --------------------------------------------------------------------------
+# BUILDING MATERIALS / BUILDMART — PRIVATE APPLICATION AREAS
+# --------------------------------------------------------------------------
+#
+# Public BuildMart pages remain crawlable.
+# Customer/contractor account and transaction areas do not.
+# --------------------------------------------------------------------------
+
+Disallow: /buildmart/auth/
+Disallow: /buildmart/login/
+Disallow: /buildmart/register.html
+Disallow: /buildmart/onboarding.html
+Disallow: /buildmart/account/
+Disallow: /buildmart/profile.html
+Disallow: /buildmart/settings.html
+Disallow: /buildmart/cart.html
+Disallow: /buildmart/checkout.html
+Disallow: /buildmart/orders.html
+Disallow: /buildmart/order-tracking.html
+Disallow: /buildmart/order-confirmation.html
+Disallow: /buildmart/invoice.html
+Disallow: /buildmart/wishlist.html
+Disallow: /buildmart/contractor-dashboard.html
+
+
+# --------------------------------------------------------------------------
+# CONTRACTOR / PROJECT MANAGEMENT — PRIVATE WORKFLOWS
+# --------------------------------------------------------------------------
+
+Disallow: /buildmart/contractor-dashboard/
+Disallow: /buildmart/projects/*/dashboard/
+Disallow: /buildmart/project-dashboard/
+
+
+# --------------------------------------------------------------------------
+# CAREERS — PRIVATE APPLICATION / STATUS WORKFLOWS
+# --------------------------------------------------------------------------
+#
+# Public:
+#   /careers/
+#   /careers/{job-id}
+#
+# Private/non-search pages:
+#   /careers/apply/
+#   /careers/apply/status/
+# --------------------------------------------------------------------------
+
+Disallow: /careers/apply/
+Disallow: /careers/apply/status/
+
+
+# --------------------------------------------------------------------------
+# FRANCHISE — PRIVATE DASHBOARD
+# --------------------------------------------------------------------------
+
+Disallow: /franchise/dashboard/
+Disallow: /franchise/dashboard.html
+
+
+# --------------------------------------------------------------------------
+# CRYPTO / QUANTUM / EXPERIMENTAL APPLICATION PAGES
+# --------------------------------------------------------------------------
+#
+# These were previously designated as non-indexable/internal or experimental
+# areas in the site's SEO architecture.
+# --------------------------------------------------------------------------
+
+Disallow: /crypto-payments.html
+Disallow: /crypto-payments/
+Disallow: /quantum-payment.html
+Disallow: /quantum-payment/
+Disallow: /quantum-delivery.html
+Disallow: /quantum-delivery/
+Disallow: /quantum-safe.html
+Disallow: /quantum-safe/
+Disallow: /encryption.html
+Disallow: /encryption/
+
+
+# --------------------------------------------------------------------------
+# DEVELOPMENT / TEST / DEBUG PAGES
+# --------------------------------------------------------------------------
+
+Disallow: /test.html
+Disallow: /test-product.html
+Disallow: /offline.html
+Disallow: /template.html
+
+
+# --------------------------------------------------------------------------
+# BACKUP / TEMPORARY / DEVELOPMENT FILES
+# --------------------------------------------------------------------------
+
+Disallow: /*.bak$
+Disallow: /*.backup$
+Disallow: /*.old$
+Disallow: /*.temp$
+Disallow: /*.tmp$
+Disallow: /*.config$
+Disallow: /*.log$
+Disallow: /*.sql$
+Disallow: /*.env$
+Disallow: /*.php$
+Disallow: /*.asp$
+Disallow: /*.aspx$
+
+Disallow: /backup/
+Disallow: /backups/
+Disallow: /cache/
+Disallow: /logs/
+Disallow: /temp/
+Disallow: /tmp/
+Disallow: /.wrangler/
+
+
+# --------------------------------------------------------------------------
+# INTERNAL / MANIFEST / CONFIGURATION FILES
+# --------------------------------------------------------------------------
+
+Disallow: /quantum-manifest.json
+Disallow: /serve.json
+Disallow: /founder. jsonld
+
+
+# ============================================================================
+# 2. URL PARAMETER PROTECTION
+# ============================================================================
+#
+# Prevent crawling of URLs containing session, authentication, cart and
+# transaction parameters.
+#
+# Example:
+# /products?session_id=123
+# /checkout?token=abc
+# ============================================================================
+
+Disallow: /*?*session_id=
+Disallow: /*?*session=
+Disallow: /*?*token=
+Disallow: /*?*auth=
+Disallow: /*?*authorization=
+Disallow: /*?*login=
+Disallow: /*?*cart_id=
+Disallow: /*?*cart=
+Disallow: /*?*order=
+Disallow: /*?*order_id=
+Disallow: /*?*transaction=
+Disallow: /*?*transaction_id=
+Disallow: /*?*payment=
+Disallow: /*?*payment_id=
+Disallow: /*?*reset=
+Disallow: /*?*verification=
+Disallow: /*?*otp=
+
+
+# ============================================================================
+# 3. CRAWLABLE STATIC RESOURCES
+# ============================================================================
+#
+# Search engines need access to these resources to properly render and
+# understand the site.
+# ============================================================================
+
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.mjs$
+
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.webp$
+Allow: /*.gif$
+Allow: /*.svg$
+Allow: /*.ico$
+
+Allow: /*.woff$
+Allow: /*.woff2$
+Allow: /*.ttf$
+Allow: /*.otf$
+
+
+# ============================================================================
+# 4. PUBLIC BRAND / MEDIA / IMAGE DIRECTORIES
+# ============================================================================
+#
+# These are intentionally crawlable because PrimeShieldHub's public images,
+# branding assets and product imagery contribute to image discovery and
+# entity recognition.
+# ============================================================================
+
+Allow: /assets/
+Allow: /assets/images/
+Allow: /assets/images/buildmart/
+Allow: /assets/images/brand/
+Allow: /assets/images/categories/
+Allow: /assets/images/products/
+Allow: /assets/images/projects/
+Allow: /assets/images/contractors/
+Allow: /assets/images/delivery/
+Allow: /assets/images/logistics/
+Allow: /assets/images/knowledge/
+Allow: /assets/images/quote/
+Allow: /assets/images/search/
+Allow: /assets/images/ui/
+Allow: /assets/images/wholesale/
+
+Allow: /assets/products/
+Allow: /assets/icons/
+Allow: /icons/
+Allow: /fonts/
+
+
+# ============================================================================
+# 5. PUBLIC PRIMESHIELDHUB CORPORATE / ENTITY PAGES
+# ============================================================================
+#
+# These are high-value pages for brand, company and entity discovery.
+# ============================================================================
+
+Allow: /
+Allow: /about
+Allow: /about/
+Allow: /company
+Allow: /company/
+Allow: /founder
+Allow: /founder/
+Allow: /biography
+Allow: /biography/
+Allow: /freedom-evbakoe-amenaghawon
+Allow: /freedom-evbakoe-amenaghawon/
+Allow: /leadership
+Allow: /leadership/
+Allow: /mission
+Allow: /mission/
+Allow: /vision
+Allow: /vision/
+Allow: /founder-letter
+Allow: /founder-letter/
+Allow: /recognition
+Allow: /recognition/
+Allow: /knowledge-graph
+Allow: /knowledge-graph/
+Allow: /press
+Allow: /press/
+Allow: /media-kit
+Allow: /media-kit/
+Allow: /brand-assets
+Allow: /brand-assets/
+
+
+# ============================================================================
+# 6. PUBLIC COMMERCE PAGES
+# ============================================================================
+
+Allow: /products
+Allow: /products/
+Allow: /categories
+Allow: /categories/
+Allow: /product-detail
+Allow: /product-detail/
+Allow: /wholesale
+Allow: /wholesale/
+Allow: /reseller
+Allow: /reseller/
+Allow: /compare
+Allow: /compare/
+Allow: /services
+Allow: /services/
+
+
+# ============================================================================
+# 7. PUBLIC INFORMATION / CUSTOMER INFORMATION PAGES
+# ============================================================================
+
+Allow: /faq
+Allow: /faq/
+Allow: /contact
+Allow: /contact/
+Allow: /shipping
+Allow: /shipping/
+Allow: /returns
+Allow: /returns/
+Allow: /payment-methods
+Allow: /payment-methods/
+Allow: /privacy
+Allow: /privacy/
+Allow: /terms
+Allow: /terms/
+
+
+# ============================================================================
+# 8. PUBLIC CONTENT / KNOWLEDGE / ARTICLES
+# ============================================================================
+
+Allow: /articles
+Allow: /articles/
+Allow: /blog
+Allow: /blog/
+Allow: /press/founder-journey-2026
+Allow: /press/founder-journey-2026/
+
+Allow: /articles/why-i-founded-primeshieldhub
+Allow: /articles/why-i-founded-primeshieldhub/
+
+Allow: /articles/microbiology-to-entrepreneurship
+Allow: /articles/microbiology-to-entrepreneurship/
+
+
+# ============================================================================
+# 9. PUBLIC CAREERS
+# ============================================================================
+#
+# Job listings are valuable public search content.
+# Individual public job pages remain crawlable.
+# Application workflows are blocked above.
+# ============================================================================
+
+Allow: /careers
+Allow: /careers/
+Allow: /careers/*
+
+
+# ============================================================================
+# 10. PUBLIC FRANCHISE
+# ============================================================================
+
+Allow: /franchise
+Allow: /franchise/
+Allow: /franchise/apply
+Allow: /franchise/apply/
+
+
+# ============================================================================
+# 11. PUBLIC BUILDMART
+# ============================================================================
+#
+# BuildMart is a public business division and should be discoverable.
+# ============================================================================
+
+Allow: /buildmart
+Allow: /buildmart/
+Allow: /buildmart/about
+Allow: /buildmart/about/
+Allow: /buildmart/brand
+Allow: /buildmart/brand/
+Allow: /buildmart/categories
+Allow: /buildmart/categories/
+Allow: /buildmart/products
+Allow: /buildmart/products/
+Allow: /buildmart/product-detail
+Allow: /buildmart/product-detail/
+Allow: /buildmart/projects
+Allow: /buildmart/projects/
+Allow: /buildmart/project-detail
+Allow: /buildmart/project-detail/
+Allow: /buildmart/contractors
+Allow: /buildmart/contractors/
+Allow: /buildmart/delivery
+Allow: /buildmart/delivery/
+Allow: /buildmart/faq
+Allow: /buildmart/faq/
+Allow: /buildmart/contact
+Allow: /buildmart/contact/
+Allow: /buildmart/wholesale
+Allow: /buildmart/wholesale/
+Allow: /buildmart/search
+Allow: /buildmart/search/
+
+
+# ============================================================================
+# 12. AI / SEARCH CRAWLER ACCESS
+# ============================================================================
+#
+# Public content is intentionally available to major search and AI discovery
+# crawlers.
+#
+# The private paths above remain excluded from the default group.
+#
+# IMPORTANT:
+# Do NOT use "Allow: /" in a crawler-specific group unless the group's
+# restrictions are fully replicated. Otherwise a specific crawler group can
+# accidentally bypass restrictions from the global group.
+# ============================================================================
+
+
+# OpenAI Search / discovery crawler
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /wishlist/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Disallow: /login/
+Disallow: /franchise/dashboard/
+Disallow: /buildmart/auth/
+Disallow: /buildmart/cart.html
+Disallow: /buildmart/checkout.html
+Disallow: /buildmart/orders.html
+Disallow: /buildmart/contractor-dashboard.html
+Disallow: /careers/apply/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# OpenAI GPT crawler
+User-agent: GPTBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /wishlist/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Disallow: /login/
+Disallow: /franchise/dashboard/
+Disallow: /buildmart/auth/
+Disallow: /buildmart/cart.html
+Disallow: /buildmart/checkout.html
+Disallow: /buildmart/orders.html
+Disallow: /buildmart/contractor-dashboard.html
+Disallow: /careers/apply/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# Google
+User-agent: Googlebot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /wishlist/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Disallow: /login/
+Disallow: /franchise/dashboard/
+Disallow: /buildmart/auth/
+Disallow: /buildmart/cart.html
+Disallow: /buildmart/checkout.html
+Disallow: /buildmart/orders.html
+Disallow: /buildmart/contractor-dashboard.html
+Disallow: /careers/apply/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# Google Image
+User-agent: Googlebot-Image
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# Google News
+User-agent: Googlebot-News
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# Google Video
+User-agent: Googlebot-Video
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# Bing
+User-agent: bingbot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /wishlist/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Disallow: /login/
+Disallow: /franchise/dashboard/
+Disallow: /buildmart/auth/
+Disallow: /careers/apply/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# Microsoft legacy crawler
+User-agent: msnbot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# DuckDuckGo
+User-agent: DuckDuckBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# Apple
+User-agent: Applebot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# Yandex
+User-agent: YandexBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# Perplexity
+User-agent: PerplexityBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# Common Crawl
+User-agent: CCBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# ============================================================================
+# 13. SOCIAL MEDIA / LINK PREVIEW CRAWLERS
+# ============================================================================
+#
+# These crawlers need access to public pages and Open Graph images for
+# WhatsApp/Facebook/Instagram/LinkedIn/X/etc. previews.
+# ============================================================================
+
+
+User-agent: FacebookExternalHit
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+User-agent: Twitterbot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+User-agent: LinkedInBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+User-agent: Slackbot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+User-agent: Discordbot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# ============================================================================
+# 14. SEO / SITE-AUDIT CRAWLERS
+# ============================================================================
+#
+# These crawlers may be useful for monitoring technical SEO.
+# They are allowed to inspect public pages but not private application areas.
+# ============================================================================
+
+
+User-agent: AhrefsBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Disallow: /buildmart/auth/
+Disallow: /franchise/dashboard/
+Disallow: /careers/apply/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+User-agent: SemrushBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Disallow: /buildmart/auth/
+Disallow: /franchise/dashboard/
+Disallow: /careers/apply/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+User-agent: MJ12bot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+User-agent: DotBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+User-agent: BLEXBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+User-agent: DataForSeoBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+User-agent: ZoominfoBot
+Allow: /
+Disallow: /admin/
+Disallow: /account/
+Disallow: /checkout/
+Disallow: /cart/
+Disallow: /api/
+Disallow: /staff/
+Disallow: /portal/
+Disallow: /payroll/
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# ============================================================================
+# 15. GLOBAL SITEMAP
+# ============================================================================
+#
+# One canonical XML sitemap for the production website.
+# ============================================================================
+
+Sitemap: https://primeshieldhub.com/sitemap.xml
+
+
+# ============================================================================
+# END OF PRIMESHIELDHUB ROBOTS.TXT
+# ============================================================================

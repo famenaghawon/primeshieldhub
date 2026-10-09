@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-quantum-version="11.4" data-theme="quantum-gold">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="BuildMart Wholesale - Enterprise procurement platform. Bulk pricing, AI-powered quotes, and nationwide logistics for contractors and developers.">
+    <meta name="theme-color" content="#060608">
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+    
+    <title>BuildMart Wholesale Â· Enterprise Procurement Platform</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES & RESET
+           ============================================================ */
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f5e180;
+            --gold-dark: #b8942e;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --gold-border: rgba(212, 175, 55, 0.15);
+            --gold-border-bright: rgba(212, 175, 55, 0.3);
+            
+            --bg-deep: #050308;
+            --bg-primary: #08080d;
+            --bg-elevated: #0d0d16;
+            --bg-card: rgba(16, 16, 24, 0.75);
+            
+            --text-primary: #f0efe8;
+            --text-secondary: #b0ada5;
+            --text-muted: #6a6870;
+            --text-inverse: #08080d;
+            
+            --accent-success: #33ffaa;
+            --accent-cyan: #00d4ff;
+            --accent-warning: #ffaa33;
+            --accent-danger: #ff3366;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-xs: 6px;
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            
+            --shadow-card: 0 20px 60px rgba(0,0,0,0.4);
+            --shadow-glow: 0 0 40px rgba(214,178,94,0.1);
+            --shadow-elevated: 0 30px 80px rgba(0,0,0,0.6);
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================================
+           AMBIENT BACKGROUND
+           ============================================================ */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background: 
+                radial-gradient(ellipse 60% 40% at 20% 0%, rgba(214,178,94,0.04) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 35% at 80% 100%, rgba(180,130,255,0.03) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 30% at 50% 50%, rgba(0,212,255,0.02) 0%, transparent 60%);
+            pointer-events: none; z-index: -2;
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: 
+                radial-gradient(rgba(214,178,94,0.015) 1px, transparent 1px),
+                radial-gradient(rgba(180,130,255,0.01) 1px, transparent 1px);
+            background-size: 35px 35px, 50px 50px;
+            background-position: 0 0, 17px 25px;
+            pointer-events: none; z-index: -1;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 10%, transparent 55%);
+        }
+
+        .orb {
+            position: fixed; border-radius: 50%; filter: blur(80px);
+            pointer-events: none; z-index: -1;
+            animation: orbFloat 20s ease-in-out infinite alternate;
+        }
+        .orb-1 {
+            width: 50vw; height: 50vw;
+            background: radial-gradient(circle, rgba(214,178,94,0.08), transparent);
+            top: -20vh; right: -15vw;
+        }
+        .orb-2 {
+            width: 35vw; height: 35vw;
+            background: radial-gradient(circle, rgba(180,130,255,0.06), transparent);
+            bottom: -10vh; left: -10vw;
+            animation-duration: 25s; animation-direction: alternate-reverse;
+        }
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(5%, -4%) scale(1.08); opacity: 0.5; }
+            100% { transform: translate(-3%, 3%) scale(0.95); opacity: 0.35; }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-light); }
+
+        /* ============================================================
+           UTILITY CLASSES
+           ============================================================ */
+        .gold-gradient {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gold-text { color: var(--gold); }
+        .gold-border { border-color: var(--gold); }
+
+        .section-eyebrow {
+            font-size: clamp(10px, 1.2vw, 14px);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            font-size: clamp(2.2rem, 6vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            font-family: var(--font-display);
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 6%;
+            position: relative;
+            z-index: 2;
+        }
+
+        section {
+            padding: 80px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(20px) saturate(300%);
+            -webkit-backdrop-filter: blur(20px) saturate(300%);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+            transition: var(--transition-smooth);
+        }
+        .glass-panel:hover {
+            border-color: var(--gold-border-bright);
+            box-shadow: var(--shadow-glow);
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .nav-header {
+            background: rgba(5, 5, 8, 0.92);
+            backdrop-filter: blur(20px) saturate(300%);
+            border-bottom: 1px solid var(--gold-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.6rem 0;
+            transition: var(--transition-smooth);
+        }
+        .nav-header.scrolled {
+            background: rgba(5, 5, 8, 0.98);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+        }
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-logo img { height: 36px; width: auto; }
+        .nav-logo .logo-badge {
+            background: var(--gold);
+            color: var(--text-inverse);
+            font-size: 0.5rem;
+            font-weight: 800;
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .nav-links ul {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.5rem 0.9rem;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+            position: relative;
+            white-space: nowrap;
+        }
+        .nav-links ul li a:hover {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.04);
+        }
+        .nav-links ul li a.active {
+            color: var(--gold);
+            background: rgba(214,178,94,0.08);
+        }
+        .nav-links ul li a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+        .btn-nav-prime {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-nav-prime:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(214,178,94,0.3);
+        }
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .nav-hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition-smooth);
+        }
+        .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+        .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero-section {
+            min-height: 70vh;
+            display: flex;
+            align-items: center;
+            padding: 40px 0;
+            position: relative;
+        }
+        .hero-grid-bg {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(rgba(214,178,94,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(214,178,94,0.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            mask-image: radial-gradient(ellipse at 30% 50%, black 30%, transparent 70%);
+            pointer-events: none;
+        }
+        .hero-content h1 {
+            font-size: clamp(2.8rem, 9vw, 5.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            margin-bottom: 1.5rem;
+        }
+        .hero-content .subtitle {
+            font-size: clamp(1rem, 1.8vw, 1.4rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+            margin-bottom: 2.5rem;
+        }
+        .hero-badge-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(214,178,94,0.06);
+            border: 1px solid var(--gold-border);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .hero-badge .live-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulseDot 1.5s infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .hero-cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            font-weight: 700;
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 0 40px var(--gold-glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 0 70px rgba(214,178,94,0.4);
+        }
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--gold-border);
+            color: var(--text-primary);
+            font-weight: 600;
+            padding: 0.9rem 2.5rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .btn-secondary:hover {
+            border-color: var(--gold);
+            background: rgba(214,178,94,0.05);
+            box-shadow: 0 0 40px var(--gold-glow);
+        }
+
+        /* ============================================================
+           QUOTE BUILDER - Interactive Quote Section
+           ============================================================ */
+        .quote-builder {
+            background: rgba(214,178,94,0.02);
+            border-top: 1px solid var(--gold-border);
+            border-bottom: 1px solid var(--gold-border);
+        }
+        .quote-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+        .quote-form .form-group {
+            margin-bottom: 1.25rem;
+        }
+        .quote-form label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            margin-bottom: 0.4rem;
+        }
+        .quote-form input, .quote-form select, .quote-form textarea {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-sm);
+            padding: 0.8rem 1.2rem;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.9rem;
+            transition: var(--transition-smooth);
+            outline: none;
+        }
+        .quote-form input:focus, .quote-form select:focus, .quote-form textarea:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+        .quote-form textarea { min-height: 80px; resize: vertical; }
+        .quote-form .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .quote-summary {
+            background: rgba(0,0,0,0.3);
+            border-radius: var(--radius-lg);
+            padding: 2rem;
+            border: 1px solid var(--gold-border);
+        }
+        .quote-summary .summary-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .quote-summary .summary-item:last-child { border-bottom: none; }
+        .quote-summary .summary-item .label { color: var(--text-secondary); font-size: 0.85rem; }
+        .quote-summary .summary-item .value { font-weight: 700; font-size: 0.95rem; }
+        .quote-summary .summary-item .value.gold { color: var(--gold); }
+        .quote-summary .summary-total {
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: var(--gold);
+            text-align: center;
+            padding: 1rem 0 0.5rem;
+            font-family: var(--font-display);
+        }
+
+        /* ============================================================
+           PRICING TIERS
+           ============================================================ */
+        .tiers-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.25rem;
+        }
+        .tier-card {
+            background: rgba(255,255,255,0.012);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+        .tier-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-glow);
+        }
+        .tier-card.popular {
+            border-color: var(--gold);
+            background: rgba(214,178,94,0.04);
+        }
+        .tier-card.popular .popular-badge {
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gold);
+            color: var(--text-inverse);
+            padding: 0.2rem 1.2rem;
+            border-radius: 50px;
+            font-size: 0.6rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .tier-card .tier-icon { font-size: 2.2rem; margin-bottom: 0.5rem; }
+        .tier-card .tier-name { font-weight: 700; font-size: 1.2rem; }
+        .tier-card .tier-spend { font-size: 0.8rem; color: var(--text-muted); }
+        .tier-card .tier-discount {
+            font-size: 2.8rem;
+            font-weight: 900;
+            color: var(--gold);
+            font-family: var(--font-display);
+            margin: 0.5rem 0;
+        }
+        .tier-card .tier-features {
+            list-style: none;
+            padding: 0;
+            margin: 1rem 0;
+            text-align: left;
+        }
+        .tier-card .tier-features li {
+            padding: 0.4rem 0;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .tier-card .tier-features li .check { color: var(--gold); font-weight: 700; }
+        .tier-card .btn-tier {
+            width: 100%;
+            padding: 0.6rem;
+            border-radius: 50px;
+            border: none;
+            font-weight: 700;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            background: rgba(214,178,94,0.08);
+            color: var(--gold);
+            border: 1px solid var(--gold-border);
+        }
+        .tier-card .btn-tier:hover {
+            background: var(--gold);
+            color: var(--text-inverse);
+            transform: translateY(-2px);
+        }
+        .tier-card.popular .btn-tier {
+            background: var(--gold);
+            color: var(--text-inverse);
+        }
+        .tier-card.popular .btn-tier:hover {
+            background: var(--gold-light);
+            box-shadow: 0 8px 30px rgba(214,178,94,0.3);
+        }
+
+        /* ============================================================
+           AI PROCUREMENT ASSISTANT
+           ============================================================ */
+        .ai-assistant {
+            background: rgba(10,10,16,0.8);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gold-border-bright);
+            border-radius: var(--radius-xl);
+            padding: 2.5rem;
+        }
+        .ai-assistant .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .ai-assistant .ai-header .ai-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            color: var(--text-inverse);
+        }
+        .ai-assistant .ai-header .ai-title { font-weight: 700; font-size: 1.1rem; }
+        .ai-assistant .ai-header .ai-subtitle { font-size: 0.8rem; color: var(--text-muted); }
+        .ai-assistant .ai-header .ai-status {
+            margin-left: auto;
+            font-size: 0.7rem;
+            color: var(--accent-success);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .ai-assistant .ai-header .ai-status .dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            animation: pulseDot 1.5s infinite;
+        }
+
+        .ai-personas {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .ai-persona-btn {
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            border: 1px solid var(--gold-border);
+            background: transparent;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+        }
+        .ai-persona-btn:hover {
+            border-color: var(--gold);
+            color: var(--text-primary);
+        }
+        .ai-persona-btn.active {
+            background: rgba(214,178,94,0.08);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .ai-chat-area {
+            background: rgba(0,0,0,0.2);
+            border-radius: var(--radius-md);
+            padding: 1.5rem;
+            min-height: 150px;
+            margin-bottom: 1rem;
+            border: 1px solid var(--gold-border);
+        }
+        .ai-chat-area .msg {
+            display: flex;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+        .ai-chat-area .msg .avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            display: grid;
+            place-items: center;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: var(--text-inverse);
+            flex-shrink: 0;
+        }
+        .ai-chat-area .msg .bubble {
+            background: rgba(255,255,255,0.04);
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            max-width: 80%;
+        }
+        .ai-chat-area .msg.user .bubble {
+            background: rgba(214,178,94,0.06);
+            border: 1px solid var(--gold-border);
+            margin-left: auto;
+        }
+        .ai-input-row {
+            display: flex;
+            gap: 0.75rem;
+        }
+        .ai-input-row input {
+            flex: 1;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--gold-border);
+            border-radius: 50px;
+            padding: 0.8rem 1.2rem;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            outline: none;
+            transition: var(--transition-smooth);
+        }
+        .ai-input-row input:focus {
+            border-color: var(--gold);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+        .ai-input-row button {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border: none;
+            border-radius: 50%;
+            width: 44px;
+            height: 44px;
+            color: var(--text-inverse);
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            flex-shrink: 0;
+        }
+        .ai-input-row button:hover {
+            transform: scale(1.08);
+            box-shadow: 0 0 30px rgba(214,178,94,0.3);
+        }
+
+        /* ============================================================
+           PROCUREMENT WORKFLOW
+           ============================================================ */
+        .procurement-flow {
+            display: flex;
+            justify-content: space-between;
+            position: relative;
+            max-width: 1100px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+            gap: 0.5rem 0;
+        }
+        .procurement-flow::before {
+            content: '';
+            position: absolute;
+            top: 24px;
+            left: 5%; right: 5%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--gold), rgba(214,178,94,0.1));
+            z-index: 0;
+        }
+        .flow-step {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            flex: 1 1 60px;
+            transition: var(--transition-smooth);
+        }
+        .flow-step:hover { transform: translateY(-6px); }
+        .flow-step .flow-dot {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            border: 2px solid var(--gold-border);
+            background: var(--bg-deep);
+            margin: 0 auto 0.6rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 0.75rem;
+            color: var(--gold);
+            transition: var(--transition-smooth);
+        }
+        .flow-step:hover .flow-dot {
+            background: var(--gold);
+            color: var(--text-inverse);
+            border-color: var(--gold);
+            box-shadow: 0 0 40px rgba(214,178,94,0.4);
+        }
+        .flow-step .flow-label {
+            font-size: 0.6rem;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           ENTERPRISE CLIENTS
+           ============================================================ */
+        .client-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        .client-card {
+            background: rgba(255,255,255,0.012);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            padding: 2rem 1.5rem;
+            text-align: center;
+            transition: var(--transition-smooth);
+        }
+        .client-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+        .client-card .client-icon { font-size: 2.5rem; margin-bottom: 0.5rem; opacity: 0.6; }
+        .client-card .client-name { font-weight: 600; font-size: 0.85rem; color: var(--text-secondary); }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        .enterprise-footer {
+            background: var(--bg-deep);
+            border-top: 1px solid var(--gold-border);
+            padding: 4rem 0 2rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 2rem;
+        }
+        .footer-column h4 {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .footer-column a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-bottom: 0.6rem;
+            transition: var(--transition-smooth);
+        }
+        .footer-column a:hover { color: var(--gold); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.02);
+            margin-top: 2.5rem;
+            padding-top: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(10,10,18,0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gold-border);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-sm);
+            z-index: 9999;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 400px;
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1200px) {
+            .tiers-grid { grid-template-columns: repeat(2, 1fr); }
+            .client-grid { grid-template-columns: repeat(2, 1fr); }
+            .quote-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+        @media (max-width: 992px) {
+            .nav-hamburger { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: 56px;
+                left: 0;
+                right: 0;
+                background: rgba(5,5,8,0.98);
+                backdrop-filter: blur(20px);
+                padding: 1rem;
+                border-bottom: 1px solid var(--gold-border);
+                transform: translateY(-120%);
+                transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+                max-height: calc(100vh - 56px);
+                overflow-y: auto;
+            }
+            .nav-links.open { transform: translateY(0); }
+            .nav-links ul {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.25rem;
+            }
+            .nav-links ul li a {
+                display: block;
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+                text-align: center;
+            }
+            .nav-links ul li a.active::after { display: none; }
+            .procurement-flow { flex-direction: column; gap: 1rem; align-items: center; }
+            .procurement-flow::before { display: none; }
+            .hero-content h1 { font-size: clamp(2.4rem, 10vw, 3.5rem); }
+        }
+        @media (max-width: 768px) {
+            section { padding: 3rem 0; }
+            .container { padding: 0 5%; }
+            .tiers-grid { grid-template-columns: 1fr; }
+            .client-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .quote-form .form-row { grid-template-columns: 1fr; }
+            .nav-logo img { height: 30px; }
+            .btn-nav-prime { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+            .btn-nav-prime span { display: none; }
+            .ai-assistant { padding: 1.5rem; }
+            .hero-cta-group { flex-direction: column; width: 100%; }
+            .btn-primary, .btn-secondary { width: 100%; text-align: center; justify-content: center; }
+        }
+        @media (max-width: 480px) {
+            .client-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient Orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="nav-header" id="mainNav">
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="/buildmart" class="nav-logo">
+                <img src="/assets/images/buildmart/logo.svg" alt="BuildMart" onerror="this.style.display='none'" />
+                <span class="logo-badge">Wholesale</span>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <ul>
+                    <li><a href="/buildmart">Home</a></li>
+                    <li><a href="/buildmart/products.html">Products</a></li>
+                    <li><a href="/buildmart/categories.html">Categories</a></li>
+                    <li><a href="/buildmart/quote.html">Quote</a></li>
+                    <li><a href="/buildmart/contractors.html">Contractors</a></li>
+                    <li><a href="/buildmart/projects.html">Projects</a></li>
+                    <li><a href="/buildmart/delivery.html">Delivery</a></li>
+                    <li><a href="/buildmart/wholesale.html" class="active">Wholesale</a></li>
+                    <li><a href="/buildmart/about.html">About</a></li>
+                    <li><a href="/buildmart/contact.html">Contact</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="/buildmart/quote.html" class="btn-nav-prime">
+                    <i class="fas fa-file-invoice"></i> <span>Get Quote</span>
+                </a>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero-section">
+    <div class="hero-grid-bg"></div>
+    <div class="container">
+        <div class="row" style="display:grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items:center;">
+            <div class="hero-content">
+                <div class="hero-badge-group">
+                    <span class="hero-badge"><span class="live-dot"></span> Live Pricing</span>
+                    <span class="hero-badge"><i class="fas fa-shield-alt"></i> Enterprise Grade</span>
+                    <span class="hero-badge"><i class="fas fa-brain"></i> AI Procurement</span>
+                </div>
+                <h1>
+                    <span style="color:#fff;">BULK</span><br>
+                    <span class="gold-gradient">PROCUREMENT</span><br>
+                    <span style="color:#fff;">COMMAND</span>
+                </h1>
+                <p class="subtitle">
+                    Enterprise-grade wholesale pricing Â· AI-powered quotes Â· 
+                    Nationwide logistics Â· Dedicated procurement support for contractors and developers.
+                </p>
+                <div class="hero-cta-group">
+                    <button class="btn-primary" onclick="document.querySelector('.quote-builder').scrollIntoView({behavior:'smooth'})">
+                        <i class="fas fa-calculator"></i> Build Quote
+                    </button>
+                    <button class="btn-secondary" onclick="document.querySelector('.ai-assistant').scrollIntoView({behavior:'smooth'})">
+                        <i class="fas fa-robot"></i> AI Assistant
+                    </button>
+                </div>
+            </div>
+            <div class="glass-panel" style="text-align:center; padding:2.5rem;">
+                <div style="font-size:4rem; margin-bottom:1rem; opacity:0.3;">
+                    <i class="fas fa-warehouse"></i>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem;">
+                    <div>
+                        <div style="font-size:2rem; font-weight:900; color:var(--gold); font-family:var(--font-display);">2,450+</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px;">Products</div>
+                    </div>
+                    <div>
+                        <div style="font-size:2rem; font-weight:900; color:var(--gold); font-family:var(--font-display);">36</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px;">Truck Fleet</div>
+                    </div>
+                    <div>
+                        <div style="font-size:2rem; font-weight:900; color:var(--gold); font-family:var(--font-display);">22</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px;">States</div>
+                    </div>
+                    <div>
+                        <div style="font-size:2rem; font-weight:900; color:var(--gold); font-family:var(--font-display);">98%</div>
+                        <div style="font-size:0.7rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1px;">On-Time</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     ENTERPRISE CLIENTS
+     ============================================================ -->
+<section class="enterprise-clients">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Trusted By</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:2.5rem;">
+            Enterprise <span class="gold-gradient">Clients</span>
+        </h2>
+        <div class="client-grid" id="clientGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     PRICING TIERS
+     ============================================================ -->
+<section class="pricing-tiers">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Volume Pricing</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:2.5rem;">
+            Choose Your <span class="gold-gradient">Procurement Tier</span>
+        </h2>
+        <div class="tiers-grid" id="tiersGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     QUOTE BUILDER
+     ============================================================ -->
+<section class="quote-builder">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Quote Builder</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:2.5rem;">
+            <span class="gold-gradient">Instant</span> Procurement Quote
+        </h2>
+        <div class="quote-grid">
+            <div class="quote-form">
+                <form id="quoteForm">
+                    <div class="form-group">
+                        <label>Company Name</label>
+                        <input type="text" id="companyName" placeholder="e.g. ABC Construction Ltd" required />
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Project Type</label>
+                            <select id="projectType">
+                                <option value="residential">Residential</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="industrial">Industrial</option>
+                                <option value="infrastructure">Infrastructure</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Location</label>
+                            <input type="text" id="location" placeholder="City, State" />
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Materials Needed</label>
+                        <textarea id="materials" placeholder="e.g. 500 bags of cement, 20 tons of steel, roofing sheets..."></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label>Budget Range (â‚¦)</label>
+                        <select id="budgetRange">
+                            <option value="500k">â‚¦500,000 - â‚¦1,000,000</option>
+                            <option value="1m">â‚¦1,000,000 - â‚¦5,000,000</option>
+                            <option value="5m">â‚¦5,000,000 - â‚¦10,000,000</option>
+                            <option value="10m">â‚¦10,000,000+</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn-primary" style="width:100%;">
+                        <i class="fas fa-paper-plane"></i> Generate Quote
+                    </button>
+                </form>
+            </div>
+            <div class="quote-summary" id="quoteSummary">
+                <div style="text-align:center; margin-bottom:1.5rem;">
+                    <span style="font-size:0.7rem; color:var(--text-muted); letter-spacing:2px; text-transform:uppercase;">Quote Summary</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Subtotal</span>
+                    <span class="value" id="summarySubtotal">â‚¦0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Bulk Discount</span>
+                    <span class="value gold" id="summaryDiscount">-â‚¦0</span>
+                </div>
+                <div class="summary-item">
+                    <span class="label">Delivery</span>
+                    <span class="value" id="summaryDelivery">â‚¦0</span>
+                </div>
+                <div class="summary-item" style="border-bottom: 2px solid var(--gold-border);">
+                    <span class="label" style="font-weight:700;">VAT (7.5%)</span>
+                    <span class="value" id="summaryVat">â‚¦0</span>
+                </div>
+                <div class="summary-total" id="summaryTotal">â‚¦0</div>
+                <button class="btn-secondary" style="width:100%; margin-top:1rem;" onclick="submitQuote()">
+                    <i class="fas fa-file-invoice"></i> Submit for Approval
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     AI PROCUREMENT ASSISTANT
+     ============================================================ -->
+<section class="ai-procurement">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Intelligence Layer</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:2.5rem;">
+            <span class="gold-gradient">AI</span> Procurement Assistant
+        </h2>
+        <div class="ai-assistant">
+            <div class="ai-header">
+                <div class="ai-avatar">AI</div>
+                <div>
+                    <div class="ai-title">Procurement Intelligence</div>
+                    <div class="ai-subtitle">Powered by Gemini Â· Context-Aware</div>
+                </div>
+                <div class="ai-status">
+                    <span class="dot"></span> Online
+                </div>
+            </div>
+            
+            <div class="ai-personas" id="aiPersonas">
+                <!-- Populated by JS -->
+            </div>
+            
+            <div class="ai-chat-area" id="aiChatArea">
+                <div class="msg">
+                    <div class="avatar">AI</div>
+                    <div class="bubble">Hello! I'm your procurement AI. I can help with bulk pricing, material estimates, delivery planning, and supplier recommendations. What would you like to know?</div>
+                </div>
+                <div class="msg user">
+                    <div class="bubble" style="margin-left:auto; max-width:80%;">
+                        <span style="color:var(--text-muted);">Type a question above...</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="ai-input-row">
+                <input type="text" id="aiInput" placeholder="Ask about bulk pricing, materials, delivery..." />
+                <button onclick="sendAIMessage()"><i class="fas fa-arrow-up"></i></button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     PROCUREMENT WORKFLOW
+     ============================================================ -->
+<section class="procurement-workflow">
+    <div class="container">
+        <p class="section-eyebrow" style="text-align:center;">Process</p>
+        <h2 class="section-title" style="text-align:center; margin-bottom:2.5rem;">
+            Procurement <span class="gold-gradient">Workflow</span>
+        </h2>
+        <div class="procurement-flow" id="procurementFlow">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FOOTER
+     ============================================================ -->
+<footer class="enterprise-footer">
+    <div class="container">
+        <div class="footer-grid" id="footerGrid">
+            <!-- Populated by JS -->
+        </div>
+        <div class="footer-bottom">
+            <span>Â© 2026 BuildMart â€” A Division of PRIMESHIELDHUB GADGETS LIMITED</span>
+            <span>Enterprise Procurement â€¢ RC 9283954</span>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================================
+     TOAST
+     ============================================================ -->
+<div id="toast">
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+        <span style="color:var(--gold); font-size:1.2rem;">âœ“</span>
+        <div>
+            <div style="font-weight:700; font-size:0.9rem;" id="toastTitle">Success</div>
+            <div style="color:var(--text-muted); font-size:0.8rem;" id="toastMessage">Action completed</div>
+        </div>
+        <button onclick="closeToast()" style="background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; padding:0 4px;">âœ•</button>
+    </div>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+    // =========================================================================
+    // CONFIGURATION
+    // =========================================================================
+    const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+
+    // =========================================================================
+    // DATA
+    // =========================================================================
+    const DATA = {
+        clients: [
+            { icon: 'ðŸ—ï¸', name: 'Developers' },
+            { icon: 'ðŸ‘·', name: 'Contractors' },
+            { icon: 'ðŸ¨', name: 'Hotels' },
+            { icon: 'ðŸ«', name: 'Universities' }
+        ],
+        tiers: [
+            { icon: 'ðŸ¥ˆ', name: 'Silver', spend: 'â‚¦500K+', discount: '5%', popular: false,
+              features: ['Standard pricing', 'Email support', 'Monthly reports'] },
+            { icon: 'ðŸ¥‡', name: 'Gold', spend: 'â‚¦1M+', discount: '10%', popular: true,
+              features: ['Premium pricing', 'Dedicated support', 'Free delivery', 'Quarterly reviews'] },
+            { icon: 'ðŸ’Ž', name: 'Platinum', spend: 'â‚¦5M+', discount: '15%', popular: false,
+              features: ['Elite pricing', '24/7 support', 'Express delivery', 'Monthly reviews', 'Exclusive access'] },
+            { icon: 'ðŸ‘‘', name: 'Diamond', spend: 'â‚¦10M+', discount: '25%', popular: false,
+              features: ['Custom pricing', 'Executive support', 'Same-day delivery', 'API access', 'Invite events'] }
+        ],
+        personas: [
+            { id: 'procurement', label: 'Procurement Expert', icon: 'ðŸ“Š' },
+            { id: 'contractor', label: 'Contractor Advisor', icon: 'ðŸ‘·' },
+            { id: 'logistics', label: 'Logistics Planner', icon: 'ðŸšš' },
+            { id: 'estimate', label: 'Quantity Surveyor', icon: 'ðŸ“' }
+        ],
+        workflow: ['Plan', 'Quote', 'Approve', 'Source', 'Warehouse', 'Load', 'Track', 'Deliver', 'Support']
+    };
+
+    // =========================================================================
+    // RENDER FUNCTIONS
+    // =========================================================================
+    function renderClients() {
+        const container = document.getElementById('clientGrid');
+        container.innerHTML = DATA.clients.map(c => `
+            <div class="client-card">
+                <div class="client-icon">${c.icon}</div>
+                <div class="client-name">${c.name}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderTiers() {
+        const container = document.getElementById('tiersGrid');
+        container.innerHTML = DATA.tiers.map(t => `
+            <div class="tier-card ${t.popular ? 'popular' : ''}">
+                ${t.popular ? '<div class="popular-badge">Most Popular</div>' : ''}
+                <div class="tier-icon">${t.icon}</div>
+                <div class="tier-name">${t.name}</div>
+                <div class="tier-spend">Min. Spend: ${t.spend}</div>
+                <div class="tier-discount">${t.discount}</div>
+                <ul class="tier-features">
+                    ${t.features.map(f => `<li><span class="check">âœ“</span> ${f}</li>`).join('')}
+                </ul>
+                <button class="btn-tier" onclick="showToast('${t.name} Tier', 'Contact our team to upgrade to ${t.name} tier.')">
+                    ${t.popular ? 'Get Started' : 'Learn More'}
+                </button>
+            </div>
+        `).join('');
+    }
+
+    function renderPersonas() {
+        const container = document.getElementById('aiPersonas');
+        container.innerHTML = DATA.personas.map((p, i) => `
+            <button class="ai-persona-btn ${i === 0 ? 'active' : ''}" data-persona="${p.id}" onclick="switchPersona(this)">
+                ${p.icon} ${p.label}
+            </button>
+        `).join('');
+    }
+
+    function renderWorkflow() {
+        const container = document.getElementById('procurementFlow');
+        container.innerHTML = DATA.workflow.map((step, i) => `
+            <div class="flow-step">
+                <div class="flow-dot">${i + 1}</div>
+                <div class="flow-label">${step}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderFooter() {
+        const container = document.getElementById('footerGrid');
+        const sections = [
+            { title: 'About', items: ['Our Story', 'Leadership', 'Careers', 'Press'] },
+            { title: 'Products', items: ['Steel', 'Cement', 'Roofing', 'All Categories'] },
+            { title: 'Industries', items: ['Construction', 'Government', 'Oil & Gas', 'Real Estate'] },
+            { title: 'Enterprise', items: ['API Access', 'Bulk Procurement', 'Developer Portal', 'Investor Relations'] },
+            { title: 'Logistics', items: ['Fleet Tracking', 'Warehouses', 'Delivery Network'] },
+            { title: 'Legal', items: ['Terms', 'Privacy', 'Compliance', 'Support'] }
+        ];
+        container.innerHTML = sections.map(s => `
+            <div class="footer-column">
+                <h4>${s.title}</h4>
+                ${s.items.map(item => `<a href="#">${item}</a>`).join('')}
+            </div>
+        `).join('');
+    }
+
+    // =========================================================================
+    // AI FUNCTIONS
+    // =========================================================================
+    let currentPersona = 'procurement';
+
+    function switchPersona(btn) {
+        document.querySelectorAll('.ai-persona-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        currentPersona = btn.dataset.persona;
+        showToast('AI Persona', `Switched to ${btn.textContent.trim()}`);
+    }
+
+    function sendAIMessage() {
+        const input = document.getElementById('aiInput');
+        const query = input.value.trim();
+        if (!query) return;
+
+        const area = document.getElementById('aiChatArea');
+        
+        // Add user message
+        const userMsg = document.createElement('div');
+        userMsg.className = 'msg user';
+        userMsg.innerHTML = `<div class="bubble" style="margin-left:auto; max-width:80%;">${query}</div>`;
+        area.appendChild(userMsg);
+        
+        // Show AI thinking
+        const aiMsg = document.createElement('div');
+        aiMsg.className = 'msg';
+        aiMsg.innerHTML = `<div class="avatar">AI</div><div class="bubble" style="color:var(--text-muted);">Thinking...</div>`;
+        area.appendChild(aiMsg);
+        area.scrollTop = area.scrollHeight;
+
+        // Simulate AI response based on persona
+        setTimeout(() => {
+            const responses = {
+                'procurement': [
+                    'Based on your request, I\'ve analyzed 47 material options. Recommended: Dangote Cement (â‚¦6,800/bulk), 16mm Rebar, and Long Span Roofing. Estimated savings: â‚¦2.3M.',
+                    'Your project requires approximately 2,450 bags of cement, 18.4 tons of steel, and an estimated budget of â‚¦2.8B. I\'ve identified 3 suppliers with best pricing.',
+                    'I\'ve optimized your BOQ. By consolidating suppliers, you can save â‚¦4.2M and reduce delivery time by 40%.'
+                ],
+                'contractor': [
+                    'For contractors, I recommend the Gold tier for projects above â‚¦1M. You\'ll get free delivery and dedicated support. This is our most popular tier for contractors.',
+                    'Based on your project size, I\'d suggest sourcing from our Lagos warehouse for cement (97% in stock) and our Ibadan hub for steel (91% in stock).'
+                ],
+                'logistics': [
+                    'Delivery to Lagos: 1-2 days. Major cities: 2-3 days. Remote areas: 3-5 days. Free shipping on orders over â‚¦500,000.',
+                    'Our fleet of 36 trucks is GPS-tracked. You\'ll receive real-time updates on your delivery status via email and WhatsApp.'
+                ],
+                'estimate': [
+                    'Your quantity takeoff shows: 2,450 bags of cement, 18.4 tons of steel, 12,000 blocks, and 200 liters of paint. Total estimated cost: â‚¦2.8M.',
+                    'I\'ve calculated the material quantities for your project. Would you like me to break it down by phase?'
+                ]
+            };
+            
+            const personaResponses = responses[currentPersona] || responses['procurement'];
+            const reply = personaResponses[Math.floor(Math.random() * personaResponses.length)];
+            
+            aiMsg.querySelector('.bubble').textContent = reply;
+            aiMsg.querySelector('.bubble').style.color = 'var(--text-secondary)';
+            showToast('AI Response', 'Generated successfully');
+            input.value = '';
+            area.scrollTop = area.scrollHeight;
+        }, 1500);
+    }
+
+    // Enter key support
+    document.getElementById('aiInput')?.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') sendAIMessage();
+    });
+
+    // =========================================================================
+    // QUOTE FUNCTIONS
+    // =========================================================================
+    let currentQuote = {
+        subtotal: 0,
+        discount: 0,
+        delivery: 0,
+        vat: 0,
+        total: 0
+    };
+
+    function generateQuote() {
+        const projectType = document.getElementById('projectType').value;
+        const budgetRange = document.getElementById('budgetRange').value;
+        const materials = document.getElementById('materials').value;
+        
+        if (!materials) {
+            showToast('Error', 'Please describe the materials needed.');
+            return false;
+        }
+
+        // Calculate quote based on inputs
+        const baseAmounts = {
+            'residential': 2000000,
+            'commercial': 4000000,
+            'industrial': 6000000,
+            'infrastructure': 8000000
+        };
+        
+        const base = baseAmounts[projectType] || 3000000;
+        const budgetMultiplier = {
+            '500k': 0.5,
+            '1m': 1,
+            '5m': 2.5,
+            '10m': 5
+        };
+        
+        const subtotal = Math.round(base * (budgetMultiplier[budgetRange] || 1));
+        const discount = Math.round(subtotal * 0.1); // 10% bulk discount
+        const delivery = Math.round(subtotal * 0.02);
+        const vat = Math.round((subtotal - discount + delivery) * 0.075);
+        const total = subtotal - discount + delivery + vat;
+
+        currentQuote = { subtotal, discount, delivery, vat, total };
+        updateQuoteDisplay();
+        showToast('Quote Generated', 'Your procurement quote is ready.');
+        return true;
+    }
+
+    function updateQuoteDisplay() {
+        document.getElementById('summarySubtotal').textContent = `â‚¦${currentQuote.subtotal.toLocaleString()}`;
+        document.getElementById('summaryDiscount').textContent = `-â‚¦${currentQuote.discount.toLocaleString()}`;
+        document.getElementById('summaryDelivery').textContent = `â‚¦${currentQuote.delivery.toLocaleString()}`;
+        document.getElementById('summaryVat').textContent = `â‚¦${currentQuote.vat.toLocaleString()}`;
+        document.getElementById('summaryTotal').textContent = `â‚¦${currentQuote.total.toLocaleString()}`;
+    }
+
+    function submitQuote() {
+        if (currentQuote.total === 0) {
+            showToast('Error', 'Please generate a quote first.');
+            return;
+        }
+        
+        const company = document.getElementById('companyName').value;
+        if (!company) {
+            showToast('Error', 'Please enter your company name.');
+            return;
+        }
+
+        // Simulate submission
+        const btn = document.querySelector('.quote-summary .btn-secondary');
+        const originalText = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+        btn.disabled = true;
+
+        setTimeout(() => {
+            showToast('Quote Submitted', `âœ“ We'll contact ${company} within 24 hours.`);
+            btn.innerHTML = 'âœ… Submitted!';
+            setTimeout(() => {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }, 2000);
+        }, 1500);
+    }
+
+    // =========================================================================
+    // TOAST
+    // =========================================================================
+    function showToast(title, message) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastTitle').textContent = title;
+        document.getElementById('toastMessage').textContent = message;
+        toast.classList.add('show');
+        clearTimeout(window.toastTimeout);
+        window.toastTimeout = setTimeout(closeToast, 4000);
+    }
+
+    function closeToast() {
+        document.getElementById('toast').classList.remove('show');
+    }
+
+    // =========================================================================
+    // NAVIGATION
+    // =========================================================================
+    function setupNavigation() {
+        const hamburger = document.getElementById('navHamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        hamburger?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+        
+        navLinks?.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navLinks?.classList.remove('open');
+            });
+        });
+        
+        const header = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            header?.classList.toggle('scrolled', window.pageYOffset > 50);
+        });
+    }
+
+    // =========================================================================
+    // QUOTE FORM HANDLING
+    // =========================================================================
+    document.getElementById('quoteForm')?.addEventListener('submit', (e) => {
+        e.preventDefault();
+        generateQuote();
+    });
+
+    // =========================================================================
+    // INITIALIZATION
+    // =========================================================================
+    function init() {
+        console.log('ðŸ—ï¸ BuildMart Wholesale Â· Enterprise Procurement Platform');
+        console.log('ðŸ“ Nigeria Network Active Â· ðŸš› Fleet Operational Â· ðŸ¤– AI Ready');
+        
+        setupNavigation();
+        renderClients();
+        renderTiers();
+        renderPersonas();
+        renderWorkflow();
+        renderFooter();
+        
+        showToast('ðŸš€ Welcome', 'BuildMart Wholesale Command Center is live.');
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
+

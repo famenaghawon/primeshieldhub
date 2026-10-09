@@ -1,0 +1,2441 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-product-id="timber-plank-2x4">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="description" content="BuildMart Product Detail - Premium construction materials with AI-powered procurement intelligence, real-time pricing, and live inventory." />
+    <meta name="theme-color" content="#050510" />
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api" />
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}" />
+    
+    <title>BuildMart · Product Detail</title>
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json" id="productSchema">
+    {
+        "@context": "https://schema.org",
+        "@type": "Product",
+        "name": "Loading...",
+        "description": "",
+        "brand": { "@type": "Brand", "name": "BuildMart" },
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "NGN",
+            "availability": "https://schema.org/InStock"
+        }
+    }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES — BUILDMART THEME
+           ============================================================ */
+        :root {
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --gold-dark: #D97706;
+            --gold-glow: rgba(245, 158, 11, 0.12);
+            --gold-dim: rgba(245, 179, 66, 0.15);
+            
+            --cyan: #00D4FF;
+            --cyan-glow: rgba(0, 212, 255, 0.08);
+            
+            --bg-deep: #050510;
+            --bg-primary: #0a1628;
+            --bg-card: rgba(12, 12, 30, 0.7);
+            --bg-input: rgba(0, 0, 0, 0.4);
+            --bg-glass: rgba(18, 18, 35, 0.55);
+            
+            --text-primary: #f0f0f5;
+            --text-secondary: #b0b0c0;
+            --text-muted: #6a6a80;
+            --text-inverse: #050510;
+            
+            --accent-success: #69f0ae;
+            --accent-warning: #F59E0B;
+            --accent-danger: #ff5252;
+            --accent-purple: #b388ff;
+            --accent-cyan: #00e5ff;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 48px;
+            --radius-3xl: 64px;
+            
+            --shadow-card: 0 40px 70px -30px rgba(0,0,0,0.9);
+            --shadow-glow: 0 0 40px rgba(245, 179, 66, 0.15);
+            --shadow-elevated: 0 30px 60px rgba(0,0,0,0.6);
+            
+            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-luxe: 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 20% 20%, rgba(245, 179, 66, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 229, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(179, 136, 255, 0.02) 0%, transparent 60%);
+            background-attachment: fixed;
+            padding: 0;
+            animation: ambientShift 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes ambientShift {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridPulse 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::selection { background: rgba(245, 158, 11, 0.25); }
+
+        .gold-gradient {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .cyan-text { color: var(--cyan); }
+        .gold-text { color: var(--gold); }
+        .purple-text { color: var(--accent-purple); }
+        .green-text { color: var(--accent-success); }
+
+        /* ============================================================
+           GLASS CARD
+           ============================================================ */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(28px) saturate(220%);
+            -webkit-backdrop-filter: blur(28px) saturate(220%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-3xl);
+            box-shadow: var(--shadow-card), inset 0 0 0 1px rgba(255,255,255,0.02);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius-3xl);
+            padding: 1px;
+            background: conic-gradient(from 0deg at 50% 50%, rgba(245, 179, 66, 0.15), rgba(0, 229, 255, 0.06), rgba(245, 179, 66, 0.15));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .glass-card:hover {
+            border-color: rgba(245, 179, 66, 0.2);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+        }
+
+        .glass-panel {
+            background: var(--bg-glass);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: var(--radius-2xl);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.03);
+        }
+
+        .container {
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 2.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle-glow {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 0.3rem;
+            font-weight: 600;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+        .section-title i { color: var(--gold); }
+
+        /* ============================================================
+           PARTICLES CANVAS
+           ============================================================ */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.4;
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        .navbar {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(245, 179, 66, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 5, 16, 0.7);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            box-shadow: 0 20px 50px -20px rgba(0,0,0,0.9);
+            transition: all 0.3s ease;
+        }
+        .navbar.shrink { padding: 0.4rem 0; background: rgba(5, 5, 16, 0.92); }
+        .nav-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            max-width: 1500px;
+            margin: 0 auto;
+            padding: 0 2.5rem;
+            width: 100%;
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .nav-logo i { color: var(--gold); filter: drop-shadow(0 0 15px rgba(245, 179, 66, 0.8)); }
+        .nav-logo .logo-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            animation: dotBlink 2s infinite;
+        }
+        @keyframes dotBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 0.3rem 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--gold); }
+        .nav-links a.active::after { width: 100%; }
+
+        .nav-actions { display: flex; gap: 1rem; align-items: center; }
+        .nav-badge {
+            background: rgba(0,229,255,0.1);
+            border: 1px solid rgba(0,229,255,0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            animation: livePulse 1.5s infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.8); }
+        }
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #d1d8e5;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 0.2rem 0.4rem;
+        }
+
+        /* ============================================================
+           AUTHORITY BAR
+           ============================================================ */
+        .authority-bar {
+            padding: 0.5rem 0;
+            background: rgba(10, 10, 25, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(245, 179, 66, 0.06);
+            border-top: 1px solid rgba(245, 179, 66, 0.06);
+        }
+        .authority-bar .container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem 2.5rem;
+            padding: 0.2rem 0;
+        }
+        .authority-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        .authority-item i { color: var(--gold); font-size: 0.8rem; opacity: 0.8; }
+        .authority-item .auth-value { color: var(--text-primary); font-weight: 600; font-family: var(--font-display); }
+
+        /* ============================================================
+           BREADCRUMB
+           ============================================================ */
+        .breadcrumb {
+            padding: 0.8rem 0;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+        }
+        .breadcrumb a:hover { color: var(--gold); }
+        .breadcrumb .separator { opacity: 0.3; }
+        .breadcrumb .current { color: var(--gold); font-weight: 500; }
+
+        /* ============================================================
+           MAIN GRID
+           ============================================================ */
+        .product-grid-main {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            position: relative;
+        }
+        @media (max-width: 1024px) { .product-grid-main { grid-template-columns: 1fr; } }
+
+        /* ============================================================
+           GALLERY
+           ============================================================ */
+        .gallery-section {
+            position: sticky;
+            top: 80px;
+            align-self: start;
+        }
+        @media (max-width: 1024px) { .gallery-section { position: relative; top: 0; } }
+
+        .main-image-wrap {
+            aspect-ratio: 1 / 0.9;
+            background: radial-gradient(circle at 30% 40%, rgba(245, 179, 66, 0.05), transparent 75%);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            position: relative;
+            border: 1px solid rgba(245, 179, 66, 0.1);
+            cursor: zoom-in;
+            touch-action: none;
+        }
+        .main-image-wrap img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            transition: var(--transition-smooth);
+        }
+        .main-image-wrap img.zoomed { transform: scale(1.5); cursor: zoom-out; }
+        .main-image-wrap .placeholder-icon {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 5rem;
+            color: var(--text-muted);
+            opacity: 0.2;
+        }
+        .gallery-thumbs {
+            display: flex;
+            gap: 0.8rem;
+            margin-top: 1rem;
+            overflow-x: auto;
+            padding-bottom: 0.3rem;
+            scroll-snap-type: x mandatory;
+        }
+        .gallery-thumb {
+            min-width: 70px;
+            height: 70px;
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            border: 2px solid transparent;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            background: rgba(255,255,255,0.02);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            scroll-snap-align: start;
+            flex-shrink: 0;
+        }
+        .gallery-thumb:hover { border-color: var(--text-muted); }
+        .gallery-thumb.active { border-color: var(--gold); }
+        .gallery-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .gallery-thumb .thumb-icon {
+            font-size: 1.5rem;
+            color: var(--text-muted);
+            opacity: 0.4;
+        }
+
+        /* ============================================================
+           GALLERY MODAL
+           ============================================================ */
+        .gallery-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            backdrop-filter: blur(20px);
+            z-index: 9999;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+        .gallery-modal.show { display: flex; }
+        .gallery-modal img {
+            max-width: 90%;
+            max-height: 85vh;
+            object-fit: contain;
+            border-radius: var(--radius-lg);
+        }
+        .gallery-modal .close-modal {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.6;
+            transition: var(--transition-smooth);
+        }
+        .gallery-modal .close-modal:hover { opacity: 1; }
+        .gallery-modal .nav-modal {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 1.2rem;
+        }
+        .gallery-modal .nav-modal:hover { background: rgba(255,255,255,0.1); }
+        .gallery-modal .nav-modal.prev { left: 2rem; }
+        .gallery-modal .nav-modal.next { right: 2rem; }
+
+        /* ============================================================
+           PROCUREMENT PANEL
+           ============================================================ */
+        .procurement-section {
+            position: sticky;
+            top: 80px;
+            align-self: start;
+        }
+        @media (max-width: 1024px) { .procurement-section { position: relative; top: 0; } }
+
+        .procurement-panel {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.2rem;
+        }
+        .procurement-panel .product-name {
+            font-family: var(--font-serif);
+            font-size: 1.8rem;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+        .procurement-panel .product-brand {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .price-tier {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 0.6rem;
+        }
+        .price-box {
+            background: rgba(0, 20, 45, 0.4);
+            border-radius: var(--radius-md);
+            padding: 0.6rem 1rem;
+            text-align: center;
+            border: 1px solid rgba(245, 179, 66, 0.12);
+            transition: var(--transition-smooth);
+        }
+        .price-box:hover { border-color: var(--gold); }
+        .price-box .label {
+            font-size: 0.55rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .price-box .amount {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--text-primary);
+        }
+        .price-box .amount.best { color: var(--accent-success); }
+        .price-box.recommended {
+            border-color: var(--gold);
+            background: rgba(245, 179, 66, 0.05);
+        }
+        .price-box.hidden { display: none; }
+
+        .stock-indicator {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.4rem 0;
+        }
+        .stock-indicator .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+        .stock-indicator .dot.in-stock { background: var(--accent-success); }
+        .stock-indicator .dot.low-stock { background: var(--accent-warning); }
+        .stock-indicator .dot.out-of-stock { background: var(--accent-danger); }
+
+        .qty-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            background: var(--bg-input);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 3rem;
+            padding: 0.2rem;
+        }
+        .qty-selector button {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: none;
+            background: rgba(255,255,255,0.04);
+            color: var(--text-primary);
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: var(--transition-smooth);
+        }
+        .qty-selector button:hover { background: rgba(245, 179, 66, 0.15); color: var(--gold); }
+        .qty-selector .qty-value {
+            min-width: 40px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.6rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition-smooth);
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            box-shadow: 0 10px 30px -10px rgba(245, 179, 66, 0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px -10px rgba(245, 179, 66, 0.6);
+        }
+        .btn-success {
+            background: linear-gradient(135deg, var(--accent-success), #059669);
+            color: var(--text-inverse);
+        }
+        .btn-success:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 45px -10px rgba(105, 240, 174, 0.4);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-secondary);
+        }
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--text-primary);
+            background: rgba(245, 179, 66, 0.05);
+        }
+        .btn-outline-gold {
+            background: transparent;
+            border: 1.5px solid rgba(245, 179, 66, 0.5);
+            color: var(--gold);
+        }
+        .btn-outline-gold:hover {
+            background: var(--gold);
+            color: var(--text-inverse);
+            transform: translateY(-3px);
+        }
+        .btn-sm { padding: 0.4rem 1rem; font-size: 0.75rem; }
+
+        /* ============================================================
+           AI ASSISTANT WIDGET
+           ============================================================ */
+        .ai-widget {
+            background: rgba(0, 30, 60, 0.3);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: var(--radius-xl);
+            padding: 1.2rem;
+            transition: var(--transition-smooth);
+        }
+        .ai-widget:hover { border-color: rgba(0, 229, 255, 0.25); }
+        .ai-widget .ai-header {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 0.6rem;
+        }
+        .ai-widget .ai-header i { color: var(--accent-cyan); font-size: 1.4rem; }
+        .ai-widget .ai-header .status {
+            font-size: 0.6rem;
+            color: var(--accent-success);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .ai-widget .ai-header .status .dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--accent-success);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .ai-widget .ai-input-wrap {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+            border-radius: 3rem;
+            padding: 0.2rem 0.2rem 0.2rem 1.2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: var(--transition-smooth);
+        }
+        .ai-widget .ai-input-wrap:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 20px rgba(245, 179, 66, 0.05);
+        }
+        .ai-widget .ai-input-wrap input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            padding: 0.5rem 0;
+            outline: none;
+            font-family: var(--font-sans);
+        }
+        .ai-widget .ai-input-wrap input::placeholder {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+        .ai-widget .ai-input-wrap button {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            border: none;
+            background: var(--gold);
+            color: var(--text-inverse);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: grid;
+            place-items: center;
+        }
+        .ai-widget .ai-input-wrap button:hover { transform: scale(1.05); }
+        .ai-widget .ai-suggestions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+            margin-top: 0.6rem;
+        }
+        .ai-widget .ai-suggestions button {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 3rem;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+        }
+        .ai-widget .ai-suggestions button:hover {
+            border-color: var(--gold);
+            color: var(--text-primary);
+            background: rgba(245, 179, 66, 0.05);
+        }
+        .ai-widget .ai-response {
+            margin-top: 0.6rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            display: none;
+            padding: 0.6rem 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: var(--radius-md);
+            border-left: 2px solid var(--gold);
+            max-height: 200px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+        .ai-widget .ai-response.show { display: block; }
+
+        /* ============================================================
+           SPECS
+           ============================================================ */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.8rem;
+        }
+        .spec-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+        }
+        .spec-item .spec-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .spec-item .spec-value {
+            font-weight: 600;
+            font-size: 1rem;
+            margin-top: 0.2rem;
+        }
+
+        /* ============================================================
+           TABS
+           ============================================================ */
+        .tabs-container {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding-bottom: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .tab-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            padding: 0.4rem 1.2rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+            border-radius: 3rem;
+        }
+        .tab-btn:hover { color: var(--text-primary); }
+        .tab-btn.active {
+            color: var(--gold);
+            background: rgba(245, 179, 66, 0.05);
+        }
+        .tab-content {
+            display: none;
+            padding: 1rem 0;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        .tab-content.active { display: block; }
+
+        /* ============================================================
+           DELIVERY CALCULATOR
+           ============================================================ */
+        .delivery-calc {
+            display: flex;
+            gap: 0.8rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .delivery-calc select,
+        .delivery-calc input {
+            background: var(--bg-input);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 3rem;
+            padding: 0.5rem 1.2rem;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            outline: none;
+            min-width: 140px;
+        }
+        .delivery-calc select:focus,
+        .delivery-calc input:focus {
+            border-color: var(--gold);
+        }
+        .delivery-result {
+            padding: 0.6rem 1.2rem;
+            background: rgba(105, 240, 174, 0.05);
+            border: 1px solid rgba(105, 240, 174, 0.1);
+            border-radius: 3rem;
+            font-size: 0.75rem;
+            color: var(--accent-success);
+        }
+        .delivery-result.error { color: var(--accent-danger); border-color: rgba(255, 82, 82, 0.1); background: rgba(255, 82, 82, 0.05); }
+
+        /* ============================================================
+           REVIEWS
+           ============================================================ */
+        .reviews-summary {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .reviews-summary .rating-big {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        .reviews-summary .rating-stars { color: var(--gold); font-size: 1.2rem; }
+        .review-item {
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+        }
+        .review-item .review-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .review-item .review-author {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .review-item .review-verified {
+            font-size: 0.6rem;
+            color: var(--accent-success);
+        }
+        .review-item .review-text {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            margin-top: 0.2rem;
+        }
+        .review-item .review-meta {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            margin-top: 0.2rem;
+        }
+        .review-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 0.5rem 0 1rem;
+        }
+        .review-filters button {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 3rem;
+            padding: 0.2rem 1rem;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+        }
+        .review-filters button:hover,
+        .review-filters button.active {
+            border-color: var(--gold);
+            color: var(--text-primary);
+        }
+
+        /* ============================================================
+           RELATED PRODUCTS
+           ============================================================ */
+        .related-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1.2rem;
+        }
+        .related-card {
+            background: rgba(0,20,45,0.3);
+            border: 1px solid rgba(60,140,220,0.08);
+            border-radius: var(--radius-xl);
+            padding: 1.2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-decoration: none;
+            color: inherit;
+        }
+        .related-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-6px);
+            box-shadow: 0 16px 40px rgba(0,0,0,0.4);
+        }
+        .related-card .r-image {
+            width: 100%;
+            height: 120px;
+            border-radius: var(--radius-md);
+            object-fit: cover;
+            background: rgba(0,0,0,0.2);
+            margin-bottom: 0.5rem;
+        }
+        .related-card .r-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .related-card .r-price {
+            color: var(--gold);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .related-card .r-stock {
+            font-size: 0.6rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            display: inline-block;
+        }
+        .related-card .r-stock.in-stock { background: rgba(105, 240, 174, 0.1); color: var(--accent-success); }
+        .related-card .r-stock.low-stock { background: rgba(245, 179, 66, 0.1); color: var(--accent-warning); }
+        .related-card .r-stock.out-of-stock { background: rgba(255, 82, 82, 0.1); color: var(--accent-danger); }
+        .related-card .r-rating { color: var(--gold); font-size: 0.7rem; margin-top: 0.2rem; }
+        .related-card .r-brand { font-size: 0.6rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+
+        /* ============================================================
+           FLOATING BAR
+           ============================================================ */
+        .floating-bar {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 95%;
+            max-width: 1280px;
+            background: rgba(2, 10, 22, 0.88);
+            backdrop-filter: blur(40px) saturate(220%);
+            -webkit-backdrop-filter: blur(40px) saturate(220%);
+            border: 1px solid rgba(245, 179, 66, 0.15);
+            border-radius: 5rem;
+            padding: 0.6rem 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 1000;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.9);
+            gap: 0.8rem;
+            display: none;
+        }
+        .floating-bar .bar-left {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .floating-bar .bar-right {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: rgba(10, 22, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 179, 66, 0.15);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--radius-sm);
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 420px;
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #toast .toast-content { display: flex; align-items: center; gap: 0.6rem; }
+        #toast .toast-icon { color: var(--gold); font-size: 1.1rem; }
+
+        /* ============================================================
+           SHIMMER LOADING
+           ============================================================ */
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.02) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.8s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .loading-placeholder {
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            border-radius: var(--radius-xl);
+        }
+
+        /* ============================================================
+           SCROLL REVEAL
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .container { padding: 0 1.5rem; }
+            .nav-flex { padding: 0 1.5rem; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .nav-flex { gap: 0.5rem; }
+            .gallery-modal .nav-modal { width: 40px; height: 40px; font-size: 0.9rem; }
+            .gallery-modal .nav-modal.prev { left: 0.5rem; }
+            .gallery-modal .nav-modal.next { right: 0.5rem; }
+            .product-grid-main { gap: 1.2rem; }
+            .price-tier { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 1rem; }
+            .procurement-panel { padding: 1.2rem; }
+            .procurement-panel .product-name { font-size: 1.4rem; }
+            .action-buttons .btn { flex: 1; justify-content: center; }
+            .floating-bar { padding: 0.4rem 1rem; border-radius: 3rem; bottom: 0.8rem; }
+            .floating-bar .bar-left { gap: 0.8rem; }
+            .floating-bar .bar-right .btn span { display: none; }
+            .gallery-section { position: relative; }
+            .procurement-section { position: relative; }
+            .specs-grid { grid-template-columns: 1fr 1fr; }
+            .related-grid { grid-template-columns: repeat(2, 1fr); }
+            .reviews-summary { gap: 1rem; }
+            .delivery-calc select,
+            .delivery-calc input { min-width: 100px; }
+            .gallery-modal { padding: 1rem; }
+            .gallery-modal img { max-width: 95%; max-height: 70vh; }
+            .breadcrumb { font-size: 0.65rem; }
+            .tabs-container { gap: 0.2rem; }
+            .tab-btn { padding: 0.3rem 0.8rem; font-size: 0.7rem; }
+            .authority-bar .container { gap: 0.4rem 1.2rem; overflow-x: auto; flex-wrap: nowrap; -webkit-overflow-scrolling: touch; }
+            .authority-item { font-size: 0.6rem; flex-shrink: 0; }
+        }
+
+        @media (max-width: 480px) {
+            .specs-grid { grid-template-columns: 1fr; }
+            .related-grid { grid-template-columns: 1fr; }
+            .price-tier { grid-template-columns: 1fr 1fr; }
+            .procurement-panel .product-name { font-size: 1.2rem; }
+            .hero h1 { font-size: 1.8rem; }
+            .container { padding: 0 0.8rem; }
+            .breadcrumb { font-size: 0.55rem; }
+            .authority-item { font-size: 0.5rem; }
+            .authority-item .auth-value { font-size: 0.6rem; }
+        }
+
+        /* ============================================================
+           AI FLOATING ASSISTANT
+           ============================================================ */
+        .ai-floating {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: rgba(15,15,30,0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4rem;
+            border: 1px solid rgba(245, 179, 66, 0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            z-index: 99;
+            box-shadow: 0 25px 60px -15px rgba(0,0,0,0.8), 0 0 40px rgba(245,179,66,0.1);
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .ai-floating:hover {
+            border-color: var(--gold);
+            box-shadow: 0 30px 70px -15px rgba(0,0,0,0.9), 0 0 60px rgba(245,179,66,0.2);
+        }
+        .ai-floating .ai-ring {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: ringPulse 3s infinite;
+        }
+        @keyframes ringPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245, 179, 66, 0.5); }
+            50% { box-shadow: 0 0 0 16px rgba(245, 179, 66, 0); }
+        }
+        .ai-floating .ai-ring i { color: #0a0a0f; font-size: 1rem; }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+    <div class="grid-overlay"></div>
+    <canvas id="particles-canvas" role="presentation" aria-hidden="true"></canvas>
+
+    <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-flex">
+            <a href="/buildmart" class="nav-logo">
+                <i class="fas fa-cubes" aria-hidden="true"></i>
+                PRIMESHIELDHUB<span style="font-weight:300;opacity:0.6;">BUILDMART</span>
+                <span class="logo-dot" aria-hidden="true"></span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/buildmart">Home</a>
+                <a href="/buildmart/products" class="active">Products</a>
+                <a href="/buildmart/categories">Categories</a>
+                <a href="/buildmart/contractors">Partnerships</a>
+                <a href="/buildmart/quote">Quote</a>
+            </div>
+            <div class="nav-actions">
+                <span class="nav-badge"><span class="live-dot" aria-hidden="true"></span> LIVE DATA</span>
+                <button class="hamburger" aria-label="Toggle navigation" id="hamburgerBtn">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+       AUTHORITY BAR
+       ============================================================ -->
+    <div class="authority-bar" role="complementary" aria-label="Company trust indicators">
+        <div class="container">
+            <div class="authority-item"><i class="fas fa-building"></i> <span class="auth-value">RC 9283954</span></div>
+            <div class="authority-item"><i class="fas fa-check-circle"></i> <span class="auth-value" id="authProducts">1,064+</span> Products</div>
+            <div class="authority-item"><i class="fas fa-truck"></i> <span class="auth-value" id="authDeliveries">15,000+</span> Orders</div>
+            <div class="authority-item"><i class="fas fa-clock"></i> <span class="auth-value" id="authOnTime">98.7%</span> On-Time</div>
+            <div class="authority-item"><i class="fas fa-brain"></i> <span class="auth-value" id="authAI">97.2%</span> AI Confidence</div>
+            <div class="authority-item"><i class="fas fa-map-marker-alt"></i> <span class="auth-value" id="authStates">24</span> States</div>
+            <div class="authority-item"><span style="color:var(--gold);">★★★★★</span> <span class="auth-value" id="authRating">4.9/5</span></div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       BREADCRUMB
+       ============================================================ -->
+    <div class="container">
+        <div class="breadcrumb" id="breadcrumb">
+            <a href="/buildmart">Home</a>
+            <span class="separator">/</span>
+            <a href="/buildmart/products">Products</a>
+            <span class="separator">/</span>
+            <a href="/buildmart/products?category=timber" id="breadcrumbCategory">Timber</a>
+            <span class="separator">/</span>
+            <span class="current" id="breadcrumbName">Loading...</span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+    <div class="container">
+
+        <!-- ============================================================
+           PRODUCT GRID
+           ============================================================ -->
+        <div class="product-grid-main" id="productMain">
+
+            <!-- ======== GALLERY ======== -->
+            <div class="gallery-section">
+                <div class="glass-panel" style="padding:1.2rem;">
+                    <div class="main-image-wrap" id="mainImageWrap">
+                        <div class="placeholder-icon"><i class="fas fa-cube"></i></div>
+                        <img id="mainImage" src="" alt="Product image" style="display:none;" />
+                    </div>
+                    <div class="gallery-thumbs" id="galleryThumbs">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== PROCUREMENT ======== -->
+            <div class="procurement-section">
+                <div class="glass-panel procurement-panel" id="procurementPanel">
+                    <div class="loading-placeholder shimmer" style="min-height:400px;" id="procurementLoading">
+                        <i class="fas fa-spinner fa-spin"></i> Loading product...
+                    </div>
+                    <div id="procurementContent" style="display:none;"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           SPECIFICATIONS
+           ============================================================ -->
+        <div class="glass-card reveal" style="padding:1.8rem 2.2rem;">
+            <div class="subtitle-glow">Technical Details</div>
+            <div class="section-title"><i class="fas fa-clipboard-list"></i> Specifications</div>
+            <div class="specs-grid" id="specsGrid">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ============================================================
+           TABS: Description | Applications | Downloads
+           ============================================================ -->
+        <div class="glass-card reveal" style="padding:1.8rem 2.2rem;">
+            <div class="tabs-container" id="tabsContainer">
+                <button class="tab-btn active" data-tab="description"><i class="fas fa-info-circle"></i> Description</button>
+                <button class="tab-btn" data-tab="applications"><i class="fas fa-tasks"></i> Applications</button>
+                <button class="tab-btn" data-tab="downloads"><i class="fas fa-download"></i> Downloads</button>
+            </div>
+            <div id="tabContent">
+                <div class="tab-content active" id="tab-description">
+                    <div id="productDescription" style="color:var(--text-secondary);line-height:1.8;">
+                        <div class="loading-placeholder shimmer" style="min-height:100px;">
+                            <i class="fas fa-spinner fa-spin"></i> Loading description...
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="tab-applications">
+                    <div id="productApplications" style="color:var(--text-secondary);line-height:1.8;">
+                        <div class="loading-placeholder shimmer" style="min-height:100px;">
+                            <i class="fas fa-spinner fa-spin"></i> Loading applications...
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-content" id="tab-downloads">
+                    <div id="productDownloads" style="color:var(--text-secondary);line-height:1.8;">
+                        <div class="loading-placeholder shimmer" style="min-height:100px;">
+                            <i class="fas fa-spinner fa-spin"></i> Loading downloads...
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           DELIVERY CALCULATOR
+           ============================================================ -->
+        <div class="glass-card reveal" style="padding:1.8rem 2.2rem;">
+            <div class="subtitle-glow">Logistics Intelligence</div>
+            <div class="section-title"><i class="fas fa-truck"></i> Delivery Calculator</div>
+            <div class="delivery-calc">
+                <select id="deliveryState">
+                    <option value="">Select State</option>
+                    <option value="lagos">Lagos</option>
+                    <option value="edo">Edo</option>
+                    <option value="fct">FCT Abuja</option>
+                    <option value="rivers">Rivers</option>
+                    <option value="kano">Kano</option>
+                    <option value="oyo">Oyo</option>
+                    <option value="enugu">Enugu</option>
+                </select>
+                <input type="text" id="deliveryCity" placeholder="City" />
+                <input type="number" id="deliveryQty" placeholder="Qty" value="1" min="1" style="width:80px;" />
+                <button class="btn btn-outline" onclick="calculateDelivery()">
+                    <i class="fas fa-calculator"></i> Estimate
+                </button>
+                <span class="delivery-result" id="deliveryResult">Enter location for estimate</span>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           REVIEWS
+           ============================================================ -->
+        <div class="glass-card reveal" style="padding:1.8rem 2.2rem;">
+            <div class="subtitle-glow">Customer Feedback</div>
+            <div class="section-title"><i class="fas fa-star"></i> Reviews</div>
+            <div class="review-filters" id="reviewFilters">
+                <button class="active" data-filter="all">All</button>
+                <button data-filter="5">★★★★★</button>
+                <button data-filter="4">★★★★</button>
+                <button data-filter="3">★★★</button>
+                <button data-filter="verified">Verified Only</button>
+            </div>
+            <div class="reviews-summary" id="reviewsSummary">
+                <div class="loading-placeholder shimmer" style="min-height:60px;flex:1;">
+                    <i class="fas fa-spinner fa-spin"></i> Loading reviews...
+                </div>
+            </div>
+            <div id="reviewsList" style="margin-top:1rem;">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+
+        <!-- ============================================================
+           RELATED PRODUCTS
+           ============================================================ -->
+        <div class="glass-card reveal" style="padding:1.8rem 2.2rem;">
+            <div class="subtitle-glow">You May Also Like</div>
+            <div class="section-title"><i class="fas fa-th-large"></i> Related Products
+                <span style="font-size:0.65rem;font-weight:400;color:var(--text-muted);margin-left:auto;" id="relatedCount">Loading...</span>
+            </div>
+            <div class="related-grid" id="relatedGrid">
+                <div class="loading-placeholder shimmer" style="min-height:180px;grid-column:1/-1;">
+                    <i class="fas fa-spinner fa-spin"></i> Loading recommendations...
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+       GALLERY MODAL
+       ============================================================ -->
+    <div class="gallery-modal" id="galleryModal">
+        <button class="close-modal" onclick="closeGallery()"><i class="fas fa-times"></i></button>
+        <button class="nav-modal prev" onclick="prevGalleryImage()"><i class="fas fa-chevron-left"></i></button>
+        <img id="modalImage" src="" alt="Product fullscreen" />
+        <button class="nav-modal next" onclick="nextGalleryImage()"><i class="fas fa-chevron-right"></i></button>
+    </div>
+
+    <!-- ============================================================
+       FLOATING BAR
+       ============================================================ -->
+    <div class="floating-bar" id="floatingBar">
+        <div class="bar-left">
+            <span id="fbName" style="font-weight:600;font-size:0.85rem;">Product Name</span>
+            <span id="fbPrice" style="color:var(--gold);font-weight:700;font-size:1rem;">₦0</span>
+            <div class="qty-selector">
+                <button onclick="updateFloatingQty(-1)">−</button>
+                <span class="qty-value" id="fbQty">1</span>
+                <button onclick="updateFloatingQty(1)">+</button>
+            </div>
+            <span style="font-size:0.65rem;color:var(--text-muted);" id="fbStock">In Stock</span>
+        </div>
+        <div class="bar-right">
+            <button class="btn btn-outline" onclick="addToCart()"><i class="fas fa-cart-plus"></i> <span>Add</span></button>
+            <button class="btn btn-primary" onclick="buyNow()"><i class="fas fa-bolt"></i> <span>Buy Now</span></button>
+            <button class="btn btn-outline-gold" onclick="getQuote()"><i class="fas fa-file-invoice"></i> <span>Quote</span></button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       AI FLOATING ASSISTANT
+       ============================================================ -->
+    <div class="ai-floating" id="aiFloating" role="button" tabindex="0" aria-label="Ask BuildMart AI about this product">
+        <div class="ai-ring"><i class="fas fa-robot" aria-hidden="true"></i></div>
+        <div>
+            <strong style="font-size:0.8rem;">Ask AI</strong><br>
+            <span style="opacity:0.5; font-size:0.65rem;">About this product</span>
+        </div>
+        <i class="fas fa-chevron-right" style="opacity:0.3; font-size:0.8rem;" aria-hidden="true"></i>
+    </div>
+
+    <!-- ============================================================
+       TOAST
+       ============================================================ -->
+    <div id="toast">
+        <div class="toast-content">
+            <span class="toast-icon">✓</span>
+            <div>
+                <div style="font-weight:600;font-size:0.85rem;" id="toastTitle">Success</div>
+                <div style="color:var(--text-muted);font-size:0.75rem;" id="toastMessage">Action completed</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+    <div class="container">
+        <div class="footer" style="padding:2rem 0;margin-top:2rem;border-top:1px solid rgba(255,215,0,0.06);display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;font-size:0.8rem;color:var(--text-muted);">
+            <div>
+                <i class="fas fa-cubes" style="color:var(--gold);"></i>
+                <strong>PRIMESHIELDHUB BUILDMART</strong> · Neural Procurement Intelligence
+                <span style="margin-left:0.8rem;font-size:0.7rem;">© 2026 PrimeShieldHub Gadgets Limited · RC 9283954</span>
+            </div>
+            <div style="display:flex;gap:0.8rem;flex-wrap:wrap;">
+                <span><i class="fas fa-share-alt"></i> Share</span>
+                <span><i class="fas fa-print"></i> Print</span>
+                <span><i class="fas fa-file-pdf"></i> PDF</span>
+                <span><i class="fas fa-code-branch"></i> API</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+    <script>
+        (function() {
+            "use strict";
+
+            // ============================================================
+            // CONFIGURATION
+            // ============================================================
+            const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+            const PRODUCT_ID = new URLSearchParams(window.location.search).get('id') || 'timber-plank-2x4';
+            let productData = null;
+            let currentQty = 1;
+            let compareList = JSON.parse(localStorage.getItem('buildmart_compare') || '[]');
+            let galleryImages = [];
+            let galleryIndex = 0;
+            let allReviews = [];
+
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+            const DOM = {
+                breadcrumbName: document.getElementById('breadcrumbName'),
+                breadcrumbCategory: document.getElementById('breadcrumbCategory'),
+                mainImage: document.getElementById('mainImage'),
+                mainImageWrap: document.getElementById('mainImageWrap'),
+                galleryThumbs: document.getElementById('galleryThumbs'),
+                procurementLoading: document.getElementById('procurementLoading'),
+                procurementContent: document.getElementById('procurementContent'),
+                specsGrid: document.getElementById('specsGrid'),
+                productDescription: document.getElementById('productDescription'),
+                productApplications: document.getElementById('productApplications'),
+                productDownloads: document.getElementById('productDownloads'),
+                reviewsSummary: document.getElementById('reviewsSummary'),
+                reviewsList: document.getElementById('reviewsList'),
+                reviewFilters: document.getElementById('reviewFilters'),
+                relatedGrid: document.getElementById('relatedGrid'),
+                relatedCount: document.getElementById('relatedCount'),
+                floatingBar: document.getElementById('floatingBar'),
+                fbName: document.getElementById('fbName'),
+                fbPrice: document.getElementById('fbPrice'),
+                fbQty: document.getElementById('fbQty'),
+                fbStock: document.getElementById('fbStock'),
+                deliveryResult: document.getElementById('deliveryResult'),
+                toast: document.getElementById('toast'),
+                toastTitle: document.getElementById('toastTitle'),
+                toastMessage: document.getElementById('toastMessage'),
+                modal: document.getElementById('galleryModal'),
+                modalImage: document.getElementById('modalImage'),
+                tabsContainer: document.getElementById('tabsContainer'),
+                aiFloating: document.getElementById('aiFloating'),
+            };
+
+            // ============================================================
+            // PARTICLES SYSTEM
+            // ============================================================
+            function initParticles() {
+                const canvas = document.getElementById('particles-canvas');
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+                let w, h;
+                const isMobile = window.innerWidth < 768;
+                const count = isMobile ? 30 : 80;
+
+                function resize() {
+                    w = canvas.width = window.innerWidth;
+                    h = canvas.height = window.innerHeight;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                class Particle {
+                    constructor() { this.reset(); }
+                    reset() {
+                        this.x = Math.random() * w;
+                        this.y = Math.random() * h;
+                        this.size = Math.random() * 2 + 0.5;
+                        this.speedX = (Math.random() - 0.5) * 0.3;
+                        this.speedY = (Math.random() - 0.5) * 0.3;
+                        this.opacity = Math.random() * 0.3 + 0.05;
+                    }
+                    update() {
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+                        if (this.x < 0 || this.x > w) this.speedX *= -1;
+                        if (this.y < 0 || this.y > h) this.speedY *= -1;
+                    }
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(245, 179, 66, ${this.opacity})`;
+                        ctx.fill();
+                    }
+                }
+
+                for (let i = 0; i < count; i++) particles.push(new Particle());
+
+                let animId = null;
+
+                function animate() {
+                    ctx.clearRect(0, 0, w, h);
+                    particles.forEach(p => { p.update(); p.draw(); });
+                    animId = requestAnimationFrame(animate);
+                }
+                animate();
+
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden && animId) cancelAnimationFrame(animId);
+                    else if (!document.hidden) animate();
+                });
+            }
+
+            // ============================================================
+            // UTILITY FUNCTIONS
+            // ============================================================
+            function showToast(title, message, icon = '✓') {
+                document.querySelector('#toast .toast-icon').textContent = icon;
+                DOM.toastTitle.textContent = title;
+                DOM.toastMessage.textContent = message;
+                DOM.toast.classList.add('show');
+                clearTimeout(window.toastTimeout);
+                window.toastTimeout = setTimeout(() => DOM.toast.classList.remove('show'), 4000);
+            }
+
+            function formatCurrency(amount) {
+                if (amount === undefined || amount === null) return '₦0';
+                return '₦' + Number(amount).toLocaleString();
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function sanitizeAIResponse(text) {
+                if (!text) return '';
+                let sanitized = escapeHtml(text);
+                sanitized = sanitized.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                sanitized = sanitized.replace(/\*(.*?)\*/g, '<em>$1</em>');
+                sanitized = sanitized.replace(/\n/g, '<br>');
+                return sanitized;
+            }
+
+            function getStockStatus(stock) {
+                if (stock > 20) return { status: 'in-stock', label: 'In Stock', icon: 'fa-check-circle', color: 'var(--accent-success)' };
+                if (stock > 0) return { status: 'low-stock', label: 'Low Stock', icon: 'fa-exclamation-triangle', color: 'var(--accent-warning)' };
+                return { status: 'out-of-stock', label: 'Out of Stock', icon: 'fa-times-circle', color: 'var(--accent-danger)' };
+            }
+
+            function trackEvent(event, data = {}) {
+                try {
+                    fetch(`${API_BASE}/analytics/events`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            event: event,
+                            product_id: PRODUCT_ID,
+                            ...data,
+                            timestamp: Date.now()
+                        })
+                    }).catch(() => {});
+                } catch (e) { /* silent */ }
+                console.log('📊 Analytics:', event, data);
+            }
+
+            // ============================================================
+            // API CALLS
+            // ============================================================
+            async function fetchProduct() {
+                try {
+                    const response = await fetch(`${API_BASE}/products/${PRODUCT_ID}`, {
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    if (!response.ok) throw new Error('Product not found');
+
+                    const data = await response.json();
+                    productData = data.product || data;
+                    renderProduct(productData);
+                    fetchRelated(productData.category || productData.category_id);
+                    fetchReviews(productData.id);
+                    updateSchema(productData);
+                    updateAuthorityBar(productData);
+                    return productData;
+                } catch (error) {
+                    console.error('Fetch error:', error);
+                    DOM.procurementLoading.innerHTML = `
+                        <div style="text-align:center;padding:2rem;color:var(--accent-danger);">
+                            <i class="fas fa-exclamation-triangle" style="font-size:3rem;display:block;margin-bottom:1rem;"></i>
+                            <h3>Product Not Found</h3>
+                            <p style="color:var(--text-secondary);">The product you're looking for doesn't exist.</p>
+                            <a href="/buildmart/products.html" class="btn btn-primary" style="margin-top:1rem;display:inline-flex;">Browse Products</a>
+                        </div>
+                    `;
+                    return null;
+                }
+            }
+
+            async function fetchRelated(category) {
+                try {
+                    const response = await fetch(`${API_BASE}/products?category=${encodeURIComponent(category)}&limit=6&exclude=${PRODUCT_ID}`, {
+                        credentials: 'include'
+                    });
+
+                    if (!response.ok) throw new Error('No related products');
+
+                    const data = await response.json();
+                    const products = data.products || data.data || [];
+                    renderRelated(products);
+                } catch (error) {
+                    console.warn('Related products error:', error);
+                    DOM.relatedGrid.innerHTML = `
+                        <div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">
+                            <i class="fas fa-box-open" style="font-size:2rem;display:block;margin-bottom:0.5rem;"></i>
+                            No related products found
+                        </div>
+                    `;
+                    DOM.relatedCount.textContent = '0 products';
+                }
+            }
+
+            async function fetchReviews(productId) {
+                try {
+                    const response = await fetch(`${API_BASE}/products/${productId}/reviews`, {
+                        credentials: 'include'
+                    });
+
+                    if (!response.ok) throw new Error('No reviews');
+
+                    const data = await response.json();
+                    allReviews = data.reviews || [];
+                    renderReviews(allReviews);
+                } catch (error) {
+                    console.warn('Reviews error:', error);
+                    DOM.reviewsSummary.innerHTML = `
+                        <div style="color:var(--text-muted);padding:0.5rem 0;">
+                            <i class="fas fa-star" style="color:var(--gold);"></i> No reviews yet
+                        </div>
+                    `;
+                    DOM.reviewsList.innerHTML = '';
+                }
+            }
+
+            async function fetchDeliveryEstimate(state, city, quantity) {
+                try {
+                    const response = await fetch(`${API_BASE}/delivery/estimate`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            productId: PRODUCT_ID,
+                            quantity: quantity || currentQty,
+                            state: state,
+                            city: city || ''
+                        })
+                    });
+
+                    if (!response.ok) throw new Error('Estimate failed');
+
+                    const data = await response.json();
+                    return data;
+                } catch (error) {
+                    console.warn('Delivery estimate error:', error);
+                    return null;
+                }
+            }
+
+            // ============================================================
+            // RENDER FUNCTIONS
+            // ============================================================
+            function renderProduct(product) {
+                DOM.procurementLoading.style.display = 'none';
+                DOM.procurementContent.style.display = 'block';
+
+                // Breadcrumb
+                DOM.breadcrumbName.textContent = product.name || 'Product';
+                DOM.breadcrumbCategory.textContent = product.category || 'Category';
+
+                // Main Image
+                const hasImage = product.image_url || product.image;
+                galleryImages = product.images || (hasImage ? [hasImage] : []);
+
+                if (hasImage) {
+                    DOM.mainImage.src = hasImage;
+                    DOM.mainImage.style.display = 'block';
+                    DOM.mainImageWrap.querySelector('.placeholder-icon').style.display = 'none';
+                }
+
+                // Gallery Thumbs
+                DOM.galleryThumbs.innerHTML = galleryImages.map((img, i) => `
+                    <div class="gallery-thumb ${i === 0 ? 'active' : ''}" onclick="changeImage('${img}', this, ${i})">
+                        <img src="${img}" alt="Thumb ${i+1}" loading="lazy" />
+                    </div>
+                `).join('') || `
+                    <div class="gallery-thumb active">
+                        <div class="thumb-icon"><i class="fas fa-cube"></i></div>
+                    </div>
+                `;
+
+                // Procurement Content
+                const stockInfo = getStockStatus(product.stock || 0);
+                const pricing = product.pricing || {};
+                const retail = pricing.retail || product.price || 0;
+                const wholesale = pricing.wholesale;
+                const contractor = pricing.contractor;
+                const enterprise = pricing.enterprise;
+                const recommended = pricing.recommended || pricing.ai_best;
+
+                const tiers = [
+                    { key: 'retail', label: 'Retail', value: retail },
+                    { key: 'wholesale', label: 'Wholesale', value: wholesale },
+                    { key: 'contractor', label: 'Contractor', value: contractor },
+                    { key: 'enterprise', label: 'Enterprise', value: enterprise },
+                    { key: 'recommended', label: '⭐ Recommended', value: recommended }
+                ].filter(t => t.value !== undefined && t.value !== null);
+
+                DOM.procurementContent.innerHTML = `
+                    <div class="product-brand">${escapeHtml(product.brand || 'BuildMart')}</div>
+                    <div class="product-name">${escapeHtml(product.name || 'Product')}</div>
+
+                    <div class="price-tier">
+                        ${tiers.map(t => `
+                            <div class="price-box ${t.key === 'recommended' || t.key === 'enterprise' ? 'recommended' : ''}">
+                                <div class="label">${t.label}</div>
+                                <div class="amount ${t.key === 'recommended' || t.key === 'enterprise' ? 'best' : ''}">${formatCurrency(t.value)}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+
+                    <div class="stock-indicator">
+                        <span class="dot ${stockInfo.status}"></span>
+                        <span style="color:${stockInfo.color};">${stockInfo.label} · ${product.stock || 0} units</span>
+                        ${product.eta ? `<span style="color:var(--text-muted);font-size:0.7rem;">· ETA: ${product.eta}</span>` : ''}
+                        ${product.warehouse ? `<span style="color:var(--text-muted);font-size:0.7rem;">· ${product.warehouse}</span>` : ''}
+                    </div>
+
+                    <div style="display:flex;gap:0.8rem;flex-wrap:wrap;align-items:center;">
+                        <div class="qty-selector">
+                            <button onclick="updateQty(-1)">−</button>
+                            <span class="qty-value" id="panelQty">${currentQty}</span>
+                            <button onclick="updateQty(1)">+</button>
+                        </div>
+                        <select style="background:var(--bg-input);color:var(--text-primary);border:1px solid rgba(255,255,255,0.06);border-radius:3rem;padding:0.4rem 1rem;font-family:var(--font-sans);font-size:0.8rem;">
+                            <option>Pieces</option>
+                            <option>Bundle (20)</option>
+                            <option>Pallet</option>
+                        </select>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="addToCart()"><i class="fas fa-cart-plus"></i> Add to Cart</button>
+                        <button class="btn btn-success" onclick="buyNow()"><i class="fas fa-bolt"></i> Buy Now</button>
+                        <button class="btn btn-outline" onclick="getQuote()"><i class="fas fa-file-invoice"></i> Quote</button>
+                        <button class="btn btn-outline" onclick="compareProduct()"><i class="fas fa-balance-scale"></i> Compare</button>
+                    </div>
+
+                    <div class="ai-widget" id="aiWidget">
+                        <div class="ai-header">
+                            <i class="fas fa-robot"></i>
+                            <div>
+                                <strong style="font-size:0.9rem;">BuildMart AI</strong>
+                                <span class="status"><span class="dot"></span> Online</span>
+                            </div>
+                        </div>
+                        <div class="ai-input-wrap">
+                            <input type="text" id="aiInput" placeholder="Ask about this product..." />
+                            <button onclick="askAI()"><i class="fas fa-arrow-up"></i></button>
+                        </div>
+                        <div class="ai-suggestions">
+                            <button onclick="askAI('How many do I need for a 5x4m room?')">📐 Quantity</button>
+                            <button onclick="askAI('Show me cheaper alternatives')">💰 Alternatives</button>
+                            <button onclick="askAI('Is this suitable for framing?')">🏗️ Suitability</button>
+                            <button onclick="askAI('Wholesale price for 500 pieces?')">📦 Bulk</button>
+                        </div>
+                        <div class="ai-response" id="aiResponse"></div>
+                    </div>
+                `;
+
+                // Specifications
+                const specs = product.specifications || {};
+                const specItems = [
+                    { label: 'Material', value: specs.material || product.material || 'Timber' },
+                    { label: 'Grade', value: specs.grade || product.grade || 'A' },
+                    { label: 'Thickness', value: specs.thickness || '18mm' },
+                    { label: 'Length', value: specs.length || '2.4m' },
+                    { label: 'Width', value: specs.width || '1.2m' },
+                    { label: 'Weight', value: specs.weight || product.weight || '2.8kg' },
+                    { label: 'Origin', value: specs.origin || product.origin || 'Nigeria' },
+                    { label: 'Warranty', value: specs.warranty || product.warranty || '5 years' },
+                ];
+
+                DOM.specsGrid.innerHTML = specItems.map(s => `
+                    <div class="spec-item">
+                        <div class="spec-label">${s.label}</div>
+                        <div class="spec-value">${escapeHtml(s.value)}</div>
+                    </div>
+                `).join('');
+
+                // Description
+                const description = product.description || product.long_description ||
+                    `${product.name || 'This product'} is a high-quality construction material.`;
+                DOM.productDescription.innerHTML = `<div style="white-space:pre-wrap;">${escapeHtml(description)}</div>`;
+
+                // Applications
+                const applications = product.applications || product.uses || 'Suitable for structural framing, roofing support, and general construction.';
+                DOM.productApplications.innerHTML = `<div style="white-space:pre-wrap;">${escapeHtml(applications)}</div>`;
+
+                // Downloads
+                const downloads = product.downloads || [
+                    { name: 'Datasheet', icon: 'fa-file-pdf', url: '#' },
+                    { name: 'Installation Guide', icon: 'fa-file-alt', url: '#' },
+                    { name: 'Warranty Certificate', icon: 'fa-file-contract', url: '#' },
+                    { name: 'Safety Data Sheet', icon: 'fa-file-shield', url: '#' },
+                ];
+                DOM.productDownloads.innerHTML = `
+                    <div style="display:flex;flex-wrap:wrap;gap:0.8rem;">
+                        ${downloads.map(d => `
+                            <a href="${d.url}" class="btn btn-outline" style="font-size:0.75rem;padding:0.3rem 1rem;" target="_blank" rel="noopener">
+                                <i class="fas ${d.icon || 'fa-file'}"></i> ${d.name}
+                            </a>
+                        `).join('')}
+                    </div>
+                `;
+
+                // Floating Bar
+                DOM.floatingBar.style.display = 'flex';
+                DOM.fbName.textContent = product.name || 'Product';
+                DOM.fbPrice.textContent = formatCurrency(retail);
+                DOM.fbQty.textContent = currentQty;
+                DOM.fbStock.textContent = stockInfo.label;
+                DOM.fbStock.style.color = stockInfo.color;
+
+                // Update title
+                document.title = `BuildMart · ${product.name || 'Product'}`;
+
+                // Trigger reveal
+                document.querySelectorAll('.reveal').forEach(el => {
+                    if (el.getBoundingClientRect().top < window.innerHeight) {
+                        el.classList.add('visible');
+                    }
+                });
+            }
+
+            function renderRelated(products) {
+                DOM.relatedCount.textContent = `${products.length} products`;
+
+                if (!products || products.length === 0) {
+                    DOM.relatedGrid.innerHTML = `
+                        <div style="grid-column:1/-1;text-align:center;color:var(--text-muted);padding:2rem;">
+                            <i class="fas fa-box-open" style="font-size:2rem;display:block;margin-bottom:0.5rem;"></i>
+                            No related products found
+                        </div>
+                    `;
+                    return;
+                }
+
+                DOM.relatedGrid.innerHTML = products.map(p => {
+                    const stockInfo = getStockStatus(p.stock || 0);
+                    const image = p.image_url || p.image || '';
+                    const rating = p.rating || p.average_rating || 0;
+                    const stars = '★'.repeat(Math.round(rating)) + '☆'.repeat(5 - Math.round(rating));
+                    return `
+                        <a href="/buildmart/product-detail.html?id=${p.id}" class="related-card">
+                            ${image ? `<img src="${image}" alt="${p.name}" class="r-image" onerror="this.style.display='none'">` : ''}
+                            <div class="r-brand">${escapeHtml(p.brand || 'BuildMart')}</div>
+                            <div class="r-name">${escapeHtml(p.name || 'Product')}</div>
+                            <div class="r-price">${formatCurrency(p.price || 0)}</div>
+                            ${rating > 0 ? `<div class="r-rating">${stars} ${rating.toFixed(1)}</div>` : ''}
+                            <span class="r-stock ${stockInfo.status}">${stockInfo.label}</span>
+                        </a>
+                    `;
+                }).join('');
+            }
+
+            function renderReviews(reviews) {
+                if (!reviews || reviews.length === 0) {
+                    DOM.reviewsSummary.innerHTML = `
+                        <div style="color:var(--text-muted);padding:0.5rem 0;">
+                            <i class="fas fa-star" style="color:var(--gold);"></i> No reviews yet
+                        </div>
+                    `;
+                    DOM.reviewsList.innerHTML = '';
+                    return;
+                }
+
+                const avgRating = reviews.reduce((sum, r) => sum + (r.rating || 0), 0) / reviews.length;
+                const stars = '★'.repeat(Math.round(avgRating)) + '☆'.repeat(5 - Math.round(avgRating));
+
+                DOM.reviewsSummary.innerHTML = `
+                    <div>
+                        <div class="rating-big">${avgRating.toFixed(1)}</div>
+                        <div class="rating-stars">${stars}</div>
+                        <div style="color:var(--text-muted);font-size:0.8rem;">${reviews.length} reviews</div>
+                    </div>
+                `;
+
+                renderReviewList(reviews);
+            }
+
+            function renderReviewList(reviews) {
+                if (!reviews || reviews.length === 0) {
+                    DOM.reviewsList.innerHTML = '<p style="color:var(--text-muted);">No reviews match your filter.</p>';
+                    return;
+                }
+
+                DOM.reviewsList.innerHTML = reviews.slice(0, 5).map(r => `
+                    <div class="review-item">
+                        <div class="review-header">
+                            <span class="review-author">${escapeHtml(r.author || r.user_name || 'Anonymous')}</span>
+                            <span class="review-verified"><i class="fas fa-check-circle"></i> ${r.verified ? 'Verified Contractor' : 'Verified Purchase'}</span>
+                            <span style="color:var(--gold);">${'★'.repeat(r.rating || 0)}${'☆'.repeat(5 - (r.rating || 0))}</span>
+                        </div>
+                        <div class="review-text">${escapeHtml(r.comment || r.text || '')}</div>
+                        <div class="review-meta">
+                            ${r.branch ? `🏢 ${r.branch}` : ''}
+                            ${r.project_type ? `· ${r.project_type}` : ''}
+                            ${r.date ? `· ${new Date(r.date).toLocaleDateString()}` : ''}
+                        </div>
+                    </div>
+                `).join('');
+            }
+
+            function updateSchema(product) {
+                const schema = document.getElementById('productSchema');
+                if (schema) {
+                    try {
+                        const data = JSON.parse(schema.textContent);
+                        data.name = product.name || 'Product';
+                        data.description = product.description || '';
+                        data.brand.name = product.brand || 'BuildMart';
+                        data.offers.price = product.price || 0;
+                        data.offers.availability = product.stock > 0 ? 'https://schema.org/InStock' : 'https://schema.org/OutOfStock';
+                        schema.textContent = JSON.stringify(data);
+                    } catch (e) { /* silent */ }
+                }
+            }
+
+            function updateAuthorityBar(product) {
+                // Update auth values if product has data
+                if (product) {
+                    document.getElementById('authProducts').textContent = (product.total_products || '1,064') + '+';
+                }
+            }
+
+            // ============================================================
+            // INTERACTIVE FUNCTIONS
+            // ============================================================
+            window.changeImage = function(src, el, index) {
+                document.querySelectorAll('.gallery-thumb').forEach(t => t.classList.remove('active'));
+                el.classList.add('active');
+                DOM.mainImage.src = src;
+                DOM.mainImage.style.display = 'block';
+                DOM.mainImageWrap.querySelector('.placeholder-icon').style.display = 'none';
+                galleryIndex = index || 0;
+            };
+
+            window.updateQty = function(delta) {
+                currentQty = Math.max(1, currentQty + delta);
+                document.querySelectorAll('.qty-value').forEach(el => el.textContent = currentQty);
+                DOM.fbQty.textContent = currentQty;
+                document.getElementById('deliveryQty').value = currentQty;
+            };
+
+            window.updateFloatingQty = function(delta) {
+                updateQty(delta);
+            };
+
+            window.askAI = function(prompt) {
+                const input = document.getElementById('aiInput');
+                const response = document.getElementById('aiResponse');
+
+                if (prompt) {
+                    input.value = prompt;
+                }
+
+                const question = input.value.trim();
+                if (!question) {
+                    showToast('AI', 'Please ask a question about this product', '🤖');
+                    return;
+                }
+
+                response.classList.add('show');
+                response.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Thinking...';
+                input.disabled = true;
+
+                const context = {
+                    product: {
+                        id: productData?.id,
+                        name: productData?.name,
+                        category: productData?.category,
+                        price: productData?.price,
+                        stock: productData?.stock,
+                        brand: productData?.brand,
+                        warehouse: productData?.warehouse,
+                        specs: productData?.specifications || {}
+                    }
+                };
+
+                fetch(`${API_BASE}/ai/chat`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            messages: [{ role: 'user', content: question }],
+                            message: question,
+                            context: context,
+                            sessionId: 'product_' + PRODUCT_ID + '_' + Date.now()
+                        })
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        const reply = data.reply || data.response || 'I understand. Let me help you with that.';
+                        response.innerHTML = sanitizeAIResponse(reply);
+                        input.disabled = false;
+                        input.value = '';
+                        trackEvent('ai_query', { product_id: PRODUCT_ID, question: question.substring(0, 100) });
+                    })
+                    .catch(err => {
+                        response.innerHTML = '⚠️ Sorry, I\'m having trouble connecting. Please try again.';
+                        input.disabled = false;
+                    });
+            };
+
+            window.addToCart = async function() {
+                if (!productData) return;
+                try {
+                    const response = await fetch(`${API_BASE}/cart/items`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            productId: productData.id,
+                            quantity: currentQty
+                        })
+                    });
+                    if (response.ok) {
+                        showToast('Added to Cart', `${productData.name} × ${currentQty} added! 🛒`);
+                        trackEvent('add_to_cart', { product_id: productData.id, quantity: currentQty });
+                    } else {
+                        const error = await response.json();
+                        showToast('Error', error.error || 'Could not add to cart', '⚠️');
+                    }
+                } catch (error) {
+                    showToast('Error', 'Network error. Please try again.', '⚠️');
+                }
+            };
+
+            window.buyNow = function() {
+                showToast('Checkout', 'Proceeding to checkout...', '🛒');
+                trackEvent('buy_now', { product_id: productData?.id, quantity: currentQty });
+                window.location.href = `/buildmart/checkout.html?product=${PRODUCT_ID}&qty=${currentQty}`;
+            };
+
+            window.getQuote = function() {
+                showToast('Quote Request', 'Generating professional quotation...', '📄');
+                trackEvent('quote_request', { product_id: productData?.id, quantity: currentQty });
+                window.location.href = `/buildmart/quote.html?product=${PRODUCT_ID}&qty=${currentQty}`;
+            };
+
+            window.compareProduct = function() {
+                if (!productData) return;
+                if (!compareList.includes(productData.id)) {
+                    compareList.push(productData.id);
+                    localStorage.setItem('buildmart_compare', JSON.stringify(compareList));
+                    showToast('Compare', `${productData.name} added to compare list (${compareList.length})`, '⚖️');
+                    trackEvent('compare_add', { product_id: productData.id });
+                } else {
+                    showToast('Compare', `${productData.name} already in compare list`, 'ℹ️');
+                }
+            };
+
+            window.calculateDelivery = async function() {
+                const state = document.getElementById('deliveryState').value;
+                const city = document.getElementById('deliveryCity').value.trim();
+                const quantity = parseInt(document.getElementById('deliveryQty').value) || currentQty;
+
+                if (!state) {
+                    DOM.deliveryResult.textContent = 'Please select a state';
+                    DOM.deliveryResult.className = 'delivery-result error';
+                    return;
+                }
+
+                DOM.deliveryResult.textContent = 'Calculating...';
+                DOM.deliveryResult.className = 'delivery-result';
+
+                const estimate = await fetchDeliveryEstimate(state, city, quantity);
+
+                if (estimate && estimate.success) {
+                    DOM.deliveryResult.innerHTML =
+                        `📍 ${city ? city + ', ' : ''}${state}: ${estimate.days || '2-3 days'} · ${formatCurrency(estimate.cost || 3000)}`;
+                    DOM.deliveryResult.className = 'delivery-result';
+                    trackEvent('delivery_calculate', { state, city, quantity });
+                } else {
+                    // Fallback
+                    const estimates = {
+                        lagos: { days: '1-2 days', cost: 3000 },
+                        edo: { days: '1 day', cost: 2000 },
+                        fct: { days: '2-3 days', cost: 5000 },
+                        rivers: { days: '2-3 days', cost: 4000 },
+                        kano: { days: '3-4 days', cost: 6000 },
+                        oyo: { days: '2-3 days', cost: 3500 },
+                        enugu: { days: '2-3 days', cost: 3500 },
+                    };
+                    const est = estimates[state] || { days: '2-4 days', cost: 4500 };
+                    const location = city ? `to ${city}, ${state}` : `to ${state}`;
+                    DOM.deliveryResult.innerHTML =
+                        `📍 ${location}: ${est.days} · ${formatCurrency(est.cost * Math.max(1, Math.ceil(quantity / 10)))}`;
+                    DOM.deliveryResult.className = 'delivery-result';
+                }
+            };
+
+            // ============================================================
+            // GALLERY MODAL
+            // ============================================================
+            window.openGallery = function(index) {
+                if (galleryImages.length === 0) return;
+                galleryIndex = index || 0;
+                DOM.modalImage.src = galleryImages[galleryIndex];
+                DOM.modal.classList.add('show');
+                document.body.style.overflow = 'hidden';
+            };
+
+            window.closeGallery = function() {
+                DOM.modal.classList.remove('show');
+                document.body.style.overflow = '';
+            };
+
+            window.prevGalleryImage = function() {
+                if (galleryImages.length === 0) return;
+                galleryIndex = (galleryIndex - 1 + galleryImages.length) % galleryImages.length;
+                DOM.modalImage.src = galleryImages[galleryIndex];
+            };
+
+            window.nextGalleryImage = function() {
+                if (galleryImages.length === 0) return;
+                galleryIndex = (galleryIndex + 1) % galleryImages.length;
+                DOM.modalImage.src = galleryImages[galleryIndex];
+            };
+
+            // Keyboard support for gallery
+            document.addEventListener('keydown', (e) => {
+                if (DOM.modal.classList.contains('show')) {
+                    if (e.key === 'Escape') closeGallery();
+                    if (e.key === 'ArrowLeft') prevGalleryImage();
+                    if (e.key === 'ArrowRight') nextGalleryImage();
+                }
+            });
+
+            // Main image click
+            DOM.mainImageWrap.addEventListener('click', () => {
+                if (galleryImages.length > 1) {
+                    DOM.mainImage.classList.toggle('zoomed');
+                } else if (galleryImages.length > 0) {
+                    openGallery(0);
+                }
+            });
+
+            DOM.mainImageWrap.addEventListener('dblclick', () => {
+                if (galleryImages.length > 0) openGallery(0);
+            });
+
+            // ============================================================
+            // TABS
+            // ============================================================
+            DOM.tabsContainer.addEventListener('click', (e) => {
+                const btn = e.target.closest('.tab-btn');
+                if (!btn) return;
+
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const tabId = btn.dataset.tab;
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                document.getElementById(`tab-${tabId}`).classList.add('active');
+            });
+
+            // ============================================================
+            // REVIEW FILTERS
+            // ============================================================
+            DOM.reviewFilters.addEventListener('click', (e) => {
+                const btn = e.target.closest('button');
+                if (!btn) return;
+
+                document.querySelectorAll('.review-filters button').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const filter = btn.dataset.filter;
+                applyReviewFilter(filter);
+            });
+
+            function applyReviewFilter(filter) {
+                let filtered = allReviews;
+                if (filter === '5') filtered = allReviews.filter(r => r.rating === 5);
+                else if (filter === '4') filtered = allReviews.filter(r => r.rating === 4);
+                else if (filter === '3') filtered = allReviews.filter(r => r.rating === 3);
+                else if (filter === 'verified') filtered = allReviews.filter(r => r.verified);
+                renderReviewList(filtered);
+            }
+
+            // ============================================================
+            // AI FLOATING BUTTON
+            // ============================================================
+            DOM.aiFloating.addEventListener('click', function() {
+                this.style.transform = 'scale(1.05)';
+                setTimeout(() => { this.style.transform = 'scale(1)'; }, 200);
+                // Scroll to AI widget
+                document.getElementById('aiWidget')?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                document.getElementById('aiInput')?.focus();
+            });
+
+            // ============================================================
+            // NAVBAR / HAMBURGER
+            // ============================================================
+            document.getElementById('hamburgerBtn')?.addEventListener('click', () => {
+                const links = document.getElementById('navLinks');
+                const isOpen = links.style.display === 'flex';
+                links.style.display = isOpen ? 'none' : 'flex';
+                if (!isOpen) {
+                    links.style.flexDirection = 'column';
+                    links.style.width = '100%';
+                    links.style.padding = '1rem 0';
+                    links.style.gap = '0.6rem';
+                    links.style.alignItems = 'center';
+                }
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('navbar').classList.toggle('shrink', window.scrollY > 60);
+            });
+
+            // ============================================================
+            // KEYBOARD SHORTCUTS
+            // ============================================================
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    DOM.toast.classList.remove('show');
+                    if (DOM.modal.classList.contains('show')) closeGallery();
+                }
+                if (e.key === 'Enter' && e.ctrlKey) { e.preventDefault();
+                    addToCart(); }
+                if (e.key === 'ArrowUp') updateQty(1);
+                if (e.key === 'ArrowDown') updateQty(-1);
+                if (e.key === 'Enter' && document.activeElement === document.getElementById('aiInput')) {
+                    e.preventDefault();
+                    askAI();
+                }
+            });
+
+            // ============================================================
+            // SCROLL REVEAL
+            // ============================================================
+            const reveals = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            reveals.forEach(el => revealObserver.observe(el));
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            async function init() {
+                console.log('🏗️ BuildMart Product Detail');
+                console.log('📦 Product ID:', PRODUCT_ID);
+                console.log('📡 API:', API_BASE);
+
+                initParticles();
+
+                // Load authority bar values from localStorage or default
+                try {
+                    const authData = JSON.parse(localStorage.getItem('buildmart_authority') || '{}');
+                    document.getElementById('authProducts').textContent = authData.products || '1,064+';
+                    document.getElementById('authDeliveries').textContent = authData.deliveries || '15,000+';
+                    document.getElementById('authOnTime').textContent = authData.onTime || '98.7%';
+                    document.getElementById('authAI').textContent = authData.ai || '97.2%';
+                    document.getElementById('authStates').textContent = authData.states || '24';
+                    document.getElementById('authRating').textContent = authData.rating || '4.9/5';
+                } catch (e) { /* silent */ }
+
+                await fetchProduct();
+                trackEvent('product_view', { product_id: PRODUCT_ID });
+            }
+
+            // Expose functions globally
+            window.addToCart = addToCart;
+            window.buyNow = buyNow;
+            window.getQuote = getQuote;
+            window.compareProduct = compareProduct;
+            window.askAI = askAI;
+            window.updateQty = updateQty;
+            window.updateFloatingQty = updateFloatingQty;
+            window.calculateDelivery = calculateDelivery;
+            window.changeImage = changeImage;
+            window.openGallery = openGallery;
+            window.closeGallery = closeGallery;
+            window.prevGalleryImage = prevGalleryImage;
+            window.nextGalleryImage = nextGalleryImage;
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+        })();
+    </script>
+</body>
+</html>
+

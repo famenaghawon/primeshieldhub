@@ -1,0 +1,1977 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-quantum-version="11.4" data-theme="nexus-gold">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="BuildMart Knowledge Platform - AI-powered construction intelligence, engineering calculators, material guides, and procurement insights.">
+    <meta name="theme-color" content="#08080e">
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}">
+    
+    <title>BuildMart Â· Knowledge Platform</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES - MATCHING BUILDMART ECOSYSTEM
+           ============================================================ */
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f5e180;
+            --gold-dark: #b8942e;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --gold-border: rgba(212, 175, 55, 0.15);
+            --gold-border-bright: rgba(212, 175, 55, 0.3);
+            
+            --cyan: #00ffff;
+            --cyan-dark: #00c8a0;
+            --cyan-glow: rgba(0, 255, 255, 0.08);
+            
+            --bg-deep: #050308;
+            --bg-primary: #08080d;
+            --bg-elevated: #0d0d16;
+            --bg-card: rgba(16, 16, 24, 0.75);
+            --bg-input: rgba(20, 20, 30, 0.6);
+            
+            --text-primary: #f0efe8;
+            --text-secondary: #b0ada5;
+            --text-muted: #6a6870;
+            --text-inverse: #08080d;
+            
+            --accent-success: #33ffaa;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #b388ff;
+            --accent-warning: #ffaa33;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-xs: 6px;
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 48px;
+            
+            --shadow-card: 0 20px 60px rgba(0,0,0,0.4);
+            --shadow-glow: 0 0 40px rgba(212,175,55,0.05);
+            --shadow-elevated: 0 30px 80px rgba(0,0,0,0.6);
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* ============================================================
+           AMBIENT BACKGROUND
+           ============================================================ */
+        .hyper-bg {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background: radial-gradient(circle at 20% 30%, #0b1a2e, #02060e 80%);
+            overflow: hidden;
+        }
+        .quantum-grid {
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: -50%;
+            left: -50%;
+            background-image: 
+                linear-gradient(rgba(0, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: shiftGrid 120s linear infinite;
+            transform: rotate(12deg);
+        }
+        @keyframes shiftGrid {
+            0% { transform: rotate(12deg) translate(0, 0); }
+            50% { transform: rotate(12deg) translate(30px, 30px); }
+            100% { transform: rotate(12deg) translate(0, 0); }
+        }
+        .plasma-orbs {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            filter: blur(70px);
+            opacity: 0.25;
+        }
+        .plasma-orbs .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 255, 255, 0.12), transparent 70%);
+            width: 500px;
+            height: 500px;
+            animation: floatOrb 28s infinite alternate ease-in-out;
+        }
+        .plasma-orbs .orb:nth-child(2) {
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.1), transparent 70%);
+            width: 400px;
+            height: 400px;
+            right: 10%;
+            bottom: 20%;
+            animation-duration: 34s;
+            animation-delay: -6s;
+        }
+        @keyframes floatOrb {
+            0% { transform: translate(-20%, 10%) scale(1); }
+            100% { transform: translate(30%, -20%) scale(1.4); }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-light); }
+        ::selection { background: rgba(212,175,55,0.25); color: var(--text-primary); }
+
+        /* ============================================================
+           UTILITY CLASSES
+           ============================================================ */
+        .gold-gradient {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .cyan-gradient {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gold-text { color: var(--gold); }
+        .cyan-text { color: var(--cyan); }
+
+        .section-eyebrow {
+            font-size: clamp(10px, 1.2vw, 14px);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            font-family: var(--font-display);
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 6%;
+            position: relative;
+            z-index: 10;
+        }
+
+        section {
+            padding: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ============================================================
+           GLASS MORPHISM
+           ============================================================ */
+        .neo-glass {
+            background: rgba(4, 12, 24, 0.55);
+            backdrop-filter: blur(24px) saturate(1.8);
+            -webkit-backdrop-filter: blur(24px) saturate(1.8);
+            border: 1px solid rgba(0, 255, 255, 0.08);
+            border-radius: var(--radius-2xl);
+            box-shadow: 0 30px 60px -20px rgba(0,0,0,0.8), inset 0 0 60px rgba(0, 255, 255, 0.02);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        .neo-glass:hover {
+            border-color: rgba(0, 255, 255, 0.2);
+            box-shadow: 0 40px 80px -15px rgba(0, 180, 200, 0.12);
+        }
+        .neo-glass.gold-holo {
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.03);
+        }
+        .neo-glass.gold-holo:hover {
+            border-color: rgba(212, 175, 55, 0.35);
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.08);
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn-prime {
+            background: linear-gradient(145deg, var(--gold-dark) 0%, var(--gold-light) 80%);
+            border: none;
+            color: var(--text-inverse);
+            font-weight: 700;
+            padding: 0.8rem 2.4rem;
+            border-radius: 4rem;
+            font-family: var(--font-display);
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+            box-shadow: 0 10px 30px rgba(212, 175, 55, 0.25);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-prime::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(120deg, transparent, rgba(255,255,255,0.2), transparent);
+            transform: translateX(-100%);
+            transition: 0.6s;
+        }
+        .btn-prime:hover::after { transform: translateX(100%); }
+        .btn-prime:hover {
+            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.4);
+            transform: translateY(-3px) scale(1.02);
+        }
+
+        .btn-neon {
+            background: transparent;
+            border: 1.5px solid var(--cyan);
+            color: var(--cyan);
+            padding: 0.6rem 1.8rem;
+            border-radius: 4rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            backdrop-filter: blur(8px);
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+        }
+        .btn-neon:hover {
+            background: rgba(0, 255, 255, 0.06);
+            border-color: var(--gold);
+            color: var(--gold);
+            box-shadow: 0 0 30px var(--cyan-glow);
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .nav-header {
+            background: rgba(5, 5, 8, 0.92);
+            backdrop-filter: blur(20px) saturate(300%);
+            border-bottom: 1px solid var(--gold-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.6rem 0;
+            transition: var(--transition-smooth);
+        }
+        .nav-header.scrolled {
+            background: rgba(5, 5, 8, 0.98);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+        }
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-logo .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--text-inverse);
+        }
+        .nav-logo .logo-text {
+            font-weight: 800;
+            font-size: 0.95rem;
+            font-family: var(--font-display);
+            letter-spacing: 0.5px;
+        }
+        .nav-logo .logo-text em {
+            font-style: normal;
+            color: var(--gold);
+        }
+        .nav-logo .logo-badge {
+            background: var(--gold);
+            color: var(--text-inverse);
+            font-size: 0.5rem;
+            font-weight: 800;
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .nav-links ul {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.5rem 0.9rem;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+            position: relative;
+            white-space: nowrap;
+        }
+        .nav-links ul li a:hover {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.04);
+        }
+        .nav-links ul li a.active {
+            color: var(--gold);
+            background: rgba(212,175,55,0.08);
+        }
+        .nav-links ul li a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+        .btn-nav-prime {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-nav-prime:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212,175,55,0.3);
+        }
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .nav-hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition-smooth);
+        }
+        .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+        .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+        /* ============================================================
+           HERO - KNOWLEDGE PLATFORM
+           ============================================================ */
+        .hero-section {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 30px 0;
+        }
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 8vw, 5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            font-family: var(--font-display);
+            margin-bottom: 1.5rem;
+        }
+        .hero-content .subtitle {
+            font-size: clamp(1rem, 1.8vw, 1.3rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+            margin-bottom: 2rem;
+        }
+        .hero-badge-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(212,175,55,0.06);
+            border: 1px solid var(--gold-border);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .hero-badge .live-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulseDot 1.5s infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .hero-cta-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        /* Nexus Sphere */
+        .nexus-sphere {
+            position: relative;
+            width: 320px;
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+        .core-pulse {
+            width: 140px;
+            height: 140px;
+            background: radial-gradient(circle at 35% 30%, var(--cyan), #0a1a3a);
+            border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%;
+            filter: drop-shadow(0 0 45px rgba(0, 255, 255, 0.3));
+            animation: morphPulse 6s infinite ease-in-out;
+        }
+        @keyframes morphPulse {
+            0% { border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%; transform: scale(1); }
+            50% { border-radius: 60% 40% 70% 30% / 40% 60% 40% 60%; transform: scale(1.08); }
+            100% { border-radius: 40% 60% 30% 70% / 50% 40% 60% 50%; transform: scale(1); }
+        }
+        .hologram-tag {
+            position: absolute;
+            background: rgba(0, 255, 255, 0.06);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            border-radius: 2rem;
+            padding: 0.4rem 0.9rem;
+            font-size: 0.65rem;
+            font-weight: 500;
+            color: #b0f0ff;
+            letter-spacing: 0.5px;
+            animation: floatTag 8s infinite alternate;
+            white-space: nowrap;
+        }
+        .hologram-tag:nth-child(2) { top: 0%; left: 0%; animation-delay: -2s; }
+        .hologram-tag:nth-child(3) { bottom: 5%; right: 0%; animation-delay: -5s; }
+        .hologram-tag:nth-child(4) { top: 50%; left: -20%; animation-delay: -3s; }
+        @keyframes floatTag {
+            0% { transform: translateY(0px) scale(1); opacity: 0.6; }
+            100% { transform: translateY(-15px) scale(1.05); opacity: 1; }
+        }
+
+        /* ============================================================
+           SEARCH BAR
+           ============================================================ */
+        .quantum-search {
+            display: flex;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 255, 255, 0.12);
+            border-radius: 5rem;
+            padding: 0.2rem 0.2rem 0.2rem 1.8rem;
+            backdrop-filter: blur(30px);
+            transition: all 0.3s;
+            max-width: 600px;
+        }
+        .quantum-search:focus-within {
+            border-color: var(--cyan);
+            box-shadow: 0 0 40px var(--cyan-glow);
+        }
+        .quantum-search input {
+            background: transparent;
+            border: none;
+            width: 100%;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            font-family: var(--font-sans);
+            padding: 0.8rem 0;
+        }
+        .quantum-search input::placeholder { color: var(--text-muted); }
+
+        /* ============================================================
+           STATS
+           ============================================================ */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1.2rem;
+        }
+        .stat-block {
+            font-family: var(--font-mono);
+            font-size: 2.4rem;
+            font-weight: 500;
+            background: linear-gradient(145deg, var(--gold-light), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+        .stat-card {
+            text-align: center;
+            padding: 1.2rem;
+            border-radius: var(--radius-lg);
+        }
+        .stat-card .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 0.2rem;
+        }
+
+        /* ============================================================
+           AI RESPONSE PANEL
+           ============================================================ */
+        .ai-response-panel {
+            background: rgba(0,0,0,0.4);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            min-height: 180px;
+            border-left: 3px solid var(--cyan);
+            transition: var(--transition-smooth);
+        }
+        .ai-response-panel .response-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        .ai-response-panel .response-content .highlight {
+            color: var(--cyan);
+        }
+        .ai-response-panel .response-content strong {
+            color: var(--gold);
+        }
+        .ai-response-panel .response-meta {
+            margin-top: 0.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .ai-response-panel .response-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .ai-response-panel .response-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        .ai-response-panel .response-actions .action-btn {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 2rem;
+            padding: 0.3rem 1rem;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .ai-response-panel .response-actions .action-btn:hover {
+            background: rgba(212,175,55,0.08);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        /* ============================================================
+           CATEGORY CARDS - ENHANCED
+           ============================================================ */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .category-card {
+            padding: 1.8rem;
+            border-radius: var(--radius-xl);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+        }
+        .category-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-elevated), 0 0 30px var(--gold-glow);
+        }
+        .category-card .cat-icon { font-size: 2rem; color: var(--gold); margin-bottom: 0.5rem; }
+        .category-card .cat-name { font-weight: 700; font-size: 1.1rem; color: var(--text-primary); }
+        .category-card .cat-desc { font-size: 0.8rem; color: var(--text-muted); }
+        .category-card .cat-meta {
+            margin-top: 0.5rem;
+            display: flex;
+            gap: 0.8rem;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+        .category-card .cat-meta span {
+            background: rgba(255,255,255,0.03);
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .category-card .cat-meta .helpful { color: var(--accent-success); }
+        .category-card .cat-count {
+            font-family: var(--font-mono);
+            color: var(--cyan);
+            font-size: 0.7rem;
+            display: inline-block;
+            background: rgba(0,255,255,0.04);
+            padding: 0.2rem 0.8rem;
+            border-radius: 50px;
+            border: 1px solid rgba(0,255,255,0.08);
+            margin-top: 0.3rem;
+        }
+
+        /* ============================================================
+           KNOWLEDGE GRAPH
+           ============================================================ */
+        .knowledge-graph {
+            background: rgba(0,0,0,0.3);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            min-height: 200px;
+            border: 1px solid rgba(255,255,255,0.04);
+            position: relative;
+            overflow: hidden;
+        }
+        .knowledge-graph .graph-node {
+            position: absolute;
+            padding: 0.4rem 1rem;
+            border-radius: 2rem;
+            background: rgba(212,175,55,0.06);
+            border: 1px solid var(--gold-border);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .knowledge-graph .graph-node:hover {
+            background: rgba(212,175,55,0.12);
+            border-color: var(--gold);
+            color: var(--gold);
+            transform: scale(1.05);
+            box-shadow: 0 0 30px var(--gold-glow);
+        }
+        .knowledge-graph .graph-node .node-icon { margin-right: 0.3rem; }
+        .knowledge-graph .graph-edge {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(212,175,55,0.1), rgba(0,255,255,0.1));
+            transform-origin: 0 0;
+            animation: pulseEdge 3s infinite;
+        }
+        @keyframes pulseEdge {
+            0%, 100% { opacity: 0.15; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ============================================================
+           ENGINEERING TOOLS
+           ============================================================ */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 1.2rem;
+        }
+        .tool-card {
+            padding: 1.5rem 1rem;
+            border-radius: var(--radius-lg);
+            text-align: center;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .tool-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+        .tool-card .tool-icon { font-size: 2rem; color: var(--gold); margin-bottom: 0.3rem; display: block; }
+        .tool-card .tool-name { font-weight: 600; font-size: 0.85rem; color: var(--text-primary); }
+        .tool-card .tool-desc { font-size: 0.65rem; color: var(--text-muted); }
+
+        /* ============================================================
+           FEATURED CAROUSEL
+           ============================================================ */
+        .featured-carousel {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 1.5rem;
+        }
+        .featured-card {
+            padding: 1.8rem;
+            border-radius: var(--radius-xl);
+            transition: var(--transition-smooth);
+        }
+        .featured-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-elevated), 0 0 30px var(--gold-glow);
+        }
+        .featured-card .featured-badge {
+            font-size: 0.6rem;
+            color: var(--gold);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            background: rgba(212,175,55,0.08);
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+        }
+        .featured-card .featured-title {
+            font-weight: 700;
+            color: var(--text-primary);
+            font-size: 1.05rem;
+        }
+        .featured-card hr {
+            border-color: rgba(26,42,58,0.3);
+            margin: 0.6rem 0;
+        }
+        .featured-card .featured-excerpt {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+        .featured-card .featured-link {
+            color: var(--cyan);
+            text-decoration: none;
+            font-size: 0.8rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            margin-top: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+        .featured-card .featured-link:hover {
+            color: var(--gold);
+            transform: translateX(4px);
+        }
+
+        /* ============================================================
+           FAQ ACCORDION - ENHANCED
+           ============================================================ */
+        .faq-accordion {
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            padding: 1rem 0;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .faq-accordion:hover {
+            background: rgba(0, 255, 255, 0.02);
+            padding-left: 0.5rem;
+        }
+        .faq-accordion .faq-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+        }
+        .faq-accordion .faq-header .faq-icon { color: var(--gold); margin-right: 0.5rem; }
+        .faq-accordion .faq-header .faq-toggle {
+            color: var(--cyan);
+            transition: var(--transition-smooth);
+            font-size: 0.8rem;
+        }
+        .faq-accordion.open .faq-toggle { transform: rotate(180deg); }
+        .faq-accordion .faq-content {
+            display: none;
+            margin-top: 0.8rem;
+            padding-left: 1.5rem;
+            border-left: 3px solid var(--gold);
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+        .faq-accordion.open .faq-content { display: block; animation: fadeSlideIn 0.3s ease; }
+        .faq-accordion .faq-content .faq-actions {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            margin-top: 0.8rem;
+        }
+        .faq-accordion .faq-content .faq-actions button {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 2rem;
+            padding: 0.2rem 0.8rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .faq-accordion .faq-content .faq-actions button:hover {
+            background: rgba(212,175,55,0.08);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(-8px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* ============================================================
+           GUIDES & DOWNLOADS
+           ============================================================ */
+        .guides-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+        }
+        .guide-card {
+            padding: 1rem 1.8rem;
+            border-radius: var(--radius-lg);
+            flex: 1;
+            min-width: 160px;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .guide-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+        .guide-card .guide-title { font-weight: 700; color: var(--gold); font-size: 0.95rem; }
+        .guide-card .guide-meta { color: var(--text-muted); font-size: 0.7rem; }
+
+        .downloads-grid {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* ============================================================
+           CTA
+           ============================================================ */
+        .cta-hyperspace {
+            padding: 2.5rem;
+            text-align: center;
+            border-radius: var(--radius-2xl);
+            margin: 2rem 0;
+        }
+        .cta-hyperspace .cta-title {
+            color: var(--gold);
+            font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+            font-family: var(--font-display);
+        }
+        .cta-hyperspace .cta-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+        .cta-hyperspace .cta-item { text-align: center; }
+        .cta-hyperspace .cta-item .cta-label { color: var(--cyan); font-weight: 600; }
+        .cta-hyperspace .cta-item .cta-desc { color: var(--text-muted); font-size: 0.8rem; }
+
+        /* ============================================================
+           FOOTER - ENTERPRISE
+           ============================================================ */
+        .enterprise-footer {
+            background: var(--bg-deep);
+            border-top: 1px solid var(--gold-border);
+            padding: 3rem 0 1.5rem;
+            margin-top: 2rem;
+        }
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+        }
+        .footer-column h4 {
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 1rem;
+        }
+        .footer-column a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+        .footer-column a:hover { color: var(--gold); }
+        .footer-bottom {
+            border-top: 1px solid rgba(255,255,255,0.02);
+            margin-top: 2rem;
+            padding-top: 1rem;
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(10,10,18,0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gold-border);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            z-index: 9999;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 400px;
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 992px) {
+            .nav-hamburger { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: 56px;
+                left: 0;
+                right: 0;
+                background: rgba(5,5,8,0.98);
+                backdrop-filter: blur(20px);
+                padding: 1rem;
+                border-bottom: 1px solid var(--gold-border);
+                transform: translateY(-120%);
+                transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+                max-height: calc(100vh - 56px);
+                overflow-y: auto;
+            }
+            .nav-links.open { transform: translateY(0); }
+            .nav-links ul {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.25rem;
+            }
+            .nav-links ul li a {
+                display: block;
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+                text-align: center;
+            }
+            .nav-links ul li a.active::after { display: none; }
+            .hero-content h1 { font-size: clamp(2.2rem, 7vw, 3.2rem); }
+            .nexus-sphere { width: 220px; height: 220px; }
+            .core-pulse { width: 100px; height: 100px; }
+            .hologram-tag { font-size: 0.55rem; padding: 0.2rem 0.6rem; }
+            .stat-block { font-size: 2rem; }
+            .knowledge-graph { min-height: 150px; }
+        }
+        @media (max-width: 768px) {
+            .container { padding: 0 5%; }
+            section { padding: 2rem 0; }
+            .hero-cta-group { flex-direction: column; width: 100%; }
+            .btn-prime, .btn-neon { width: 100%; text-align: center; justify-content: center; }
+            .quantum-search { max-width: 100%; padding: 0.2rem 0.2rem 0.2rem 1rem; }
+            .quantum-search input { font-size: 0.85rem; }
+            .nav-logo .logo-text { font-size: 0.8rem; }
+            .btn-nav-prime { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+            .btn-nav-prime span { display: none; }
+            .category-grid { grid-template-columns: 1fr 1fr; }
+            .stats-grid { grid-template-columns: repeat(3, 1fr); }
+            .tools-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .knowledge-graph .graph-node { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
+        }
+        @media (max-width: 480px) {
+            .category-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .tools-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .featured-carousel { grid-template-columns: 1fr; }
+            .cta-hyperspace .cta-grid { flex-direction: column; gap: 0.8rem; }
+            .knowledge-graph { min-height: 120px; }
+            .guides-grid { flex-direction: column; }
+            .downloads-grid { flex-direction: column; }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     AMBIENT BACKGROUND
+     ============================================================ -->
+<div class="hyper-bg">
+    <div class="quantum-grid"></div>
+    <div class="plasma-orbs">
+        <div class="orb"></div>
+        <div class="orb"></div>
+    </div>
+</div>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="nav-header" id="mainNav">
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="/buildmart" class="nav-logo">
+                <div class="logo-icon">ðŸ§ </div>
+                <div class="logo-text"><em>Build</em>Mart</div>
+                <span class="logo-badge">Knowledge</span>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <ul>
+                    <li><a href="/buildmart">Home</a></li>
+                    <li><a href="/buildmart/products.html">Products</a></li>
+                    <li><a href="/buildmart/categories.html">Categories</a></li>
+                    <li><a href="/buildmart/quote.html">Quote</a></li>
+                    <li><a href="/buildmart/contractors.html">Contractors</a></li>
+                    <li><a href="/buildmart/projects.html">Projects</a></li>
+                    <li><a href="/buildmart/delivery.html">Delivery</a></li>
+                    <li><a href="/buildmart/wholesale.html">Wholesale</a></li>
+                    <li><a href="/buildmart/about.html">About</a></li>
+                    <li><a href="/buildmart/contact.html">Contact</a></li>
+                    <li><a href="/buildmart/knowledge.html" class="active">Knowledge</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="/buildmart/quote.html" class="btn-nav-prime">
+                    <i class="fas fa-file-invoice"></i> <span>Get Quote</span>
+                </a>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero-section">
+    <div class="container">
+        <div style="display: flex; flex-wrap: wrap; gap: 2.5rem; align-items: center; justify-content: space-between;">
+            <div style="flex: 1.6;">
+                <div class="hero-badge-group">
+                    <span class="hero-badge"><span class="live-dot"></span> Neural Active</span>
+                    <span class="hero-badge"><i class="fas fa-brain"></i> AI Knowledge Base</span>
+                    <span class="hero-badge"><i class="fas fa-database"></i> <span id="totalArticles">3,200</span>+ Articles</span>
+                </div>
+                <h1>
+                    <span style="color:white;">BuildMart</span><br>
+                    <span class="gold-gradient">Knowledge</span><br>
+                    <span style="color:white;">Platform</span>
+                </h1>
+                <p class="subtitle">
+                    AI-powered construction intelligence Â· Engineering calculators Â· 
+                    Material guides Â· Procurement insights â€” all in one place.
+                </p>
+                <div class="quantum-search">
+                    <span style="color:var(--cyan); margin-right:0.8rem; opacity:0.7;">âš¡</span>
+                    <input type="text" placeholder="Ask the Knowledge Base..." id="searchInput" />
+                    <button class="btn-prime" style="padding:0.6rem 1.8rem; border-radius:4rem;" id="searchButton">
+                        <i class="fas fa-arrow-right"></i> ASK
+                    </button>
+                </div>
+                <div style="display:flex; gap:1.5rem; flex-wrap:wrap; margin-top:1rem; color:var(--text-muted); font-size:0.8rem;">
+                    <span><span class="gold-text">âœ¦</span> <span id="solvedQueries">3,247</span> solved queries</span>
+                    <span><span class="cyan-text">â—ˆ</span> <span id="activeUsers">24</span> online now</span>
+                    <span><span class="gold-text">âš¡</span> <span id="avgResponse">18</span> min avg response</span>
+                </div>
+            </div>
+            <div style="flex:1; display:flex; justify-content:center;">
+                <div class="nexus-sphere">
+                    <div class="core-pulse"></div>
+                    <div class="hologram-tag">ðŸ“ structural AI</div>
+                    <div class="hologram-tag">ðŸ§¾ BOQ generator</div>
+                    <div class="hologram-tag">ðŸ“¦ supply chain</div>
+                    <div style="position:absolute; bottom:0%; left:20%; background:rgba(212,175,55,0.08); padding:0.3rem 0.9rem; border-radius:2rem; border:1px solid var(--gold-border); font-size:0.6rem; color:var(--gold);">
+                        <span class="live-dot" style="width:5px;height:5px;display:inline-block;background:var(--accent-success);border-radius:50%;animation:pulseDot 1.5s infinite;margin-right:0.3rem;"></span>
+                        live Â· 128 nodes
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     STATS
+     ============================================================ -->
+<section style="padding:0 0 1rem 0;">
+    <div class="container">
+        <div class="neo-glass stats-grid" style="padding:1.5rem;" id="statsGrid">
+            <div class="stat-card">
+                <span class="stat-block" id="stat1">2,400</span><span style="color:var(--text-muted);">+</span>
+                <div class="stat-label">questions resolved</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-block" id="stat2">98.8</span><span style="color:var(--text-muted);">%</span>
+                <div class="stat-label">resolution accuracy</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-block" id="stat3">18</span><span style="color:var(--text-muted);">min</span>
+                <div class="stat-label">average response</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-block">24/7</span>
+                <div class="stat-label">neural assistant</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-block" id="stat4">580</span><span style="color:var(--text-muted);">+</span>
+                <div class="stat-label">projects supported</div>
+            </div>
+            <div class="stat-card">
+                <span class="stat-block">100%</span>
+                <div class="stat-label">verified data</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     AI RESPONSE PANEL
+     ============================================================ -->
+<section style="padding:1rem 0 2rem 0;">
+    <div class="container">
+        <div class="neo-glass" style="padding:2rem;">
+            <h2 style="color:var(--gold); margin-bottom:0.5rem; display:flex; gap:0.8rem; align-items:center; font-family:var(--font-display); font-size:1.4rem;">
+                <i class="fas fa-brain"></i> AI Intelligence
+                <span style="color:var(--cyan); font-size:0.75rem; font-weight:400;">Â· live inference</span>
+            </h2>
+            <div class="ai-response-panel" id="aiResponsePanel">
+                <div class="response-content" id="responseContent">
+                    <p><span class="highlight">â£ response:</span> For a duplex foundation, <strong>16mm rebar</strong> is structurally viable in columns and beams â€” always verify with structural engineer.</p>
+                    <div class="response-meta">
+                        <span><i class="fas fa-clock"></i> 2 min ago</span>
+                        <span><i class="fas fa-book-open"></i> 3 sources</span>
+                        <span><i class="fas fa-check-circle" style="color:var(--accent-success);"></i> 97% confidence</span>
+                    </div>
+                    <div class="response-actions">
+                        <button class="action-btn" onclick="showToast('Download', 'Downloading material specification...')"><i class="fas fa-download"></i> Download Spec</button>
+                        <button class="action-btn" onclick="showToast('Calculator', 'Opening BOQ calculator...')"><i class="fas fa-calculator"></i> BOQ Calculator</button>
+                        <button class="action-btn" onclick="showToast('Contact', 'Connecting to specialist...')"><i class="fas fa-user-tie"></i> Talk to Engineer</button>
+                        <button class="action-btn" onclick="showToast('Copied', 'Link copied to clipboard')"><i class="fas fa-link"></i> Copy Link</button>
+                    </div>
+                </div>
+            </div>
+            <div style="display:flex; flex-wrap:wrap; gap:0.6rem; margin-top:1rem;">
+                <button class="btn-neon" style="padding:0.3rem 1.2rem; font-size:0.75rem;" onclick="setQuery('Roofing sheets for bungalow')">Roofing</button>
+                <button class="btn-neon" style="padding:0.3rem 1.2rem; font-size:0.75rem;" onclick="setQuery('Foundation materials for 3-bedroom')">Foundation</button>
+                <button class="btn-neon" style="padding:0.3rem 1.2rem; font-size:0.75rem;" onclick="setQuery('Cement pricing bulk 500 bags')">Cement</button>
+                <button class="btn-neon" style="padding:0.3rem 1.2rem; font-size:0.75rem;" onclick="setQuery('Steel reinforcement guide')">Steel</button>
+                <button class="btn-neon" style="padding:0.3rem 1.2rem; font-size:0.75rem;" onclick="setQuery('Bulk pricing for contractors')">Bulk pricing</button>
+                <button class="btn-neon" style="padding:0.3rem 1.2rem; font-size:0.75rem;" onclick="setQuery('Material warranty policy')">Warranty</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     KNOWLEDGE GRAPH
+     ============================================================ -->
+<section style="padding:0 0 2rem 0;">
+    <div class="container">
+        <h2 class="section-title" style="margin-bottom:1rem; font-size:clamp(1.6rem, 3vw, 2.4rem);">
+            <span class="gold-gradient">Knowledge</span> Graph
+        </h2>
+        <div class="knowledge-graph" id="knowledgeGraph">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CATEGORIES
+     ============================================================ -->
+<section style="padding:0 0 2rem 0;">
+    <div class="container">
+        <h2 class="section-title" style="margin-bottom:0.5rem; font-size:clamp(1.6rem, 3vw, 2.4rem);">
+            <span class="gold-gradient">Knowledge</span> Categories
+        </h2>
+        <p style="color:var(--text-muted); margin-bottom:1.5rem; font-size:0.9rem;">
+            <span id="totalArticles2">768</span> articles Â· <span id="updatedTime">Updated just now</span>
+        </p>
+        <div class="category-grid" id="categoryGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     ENGINEERING TOOLS
+     ============================================================ -->
+<section style="padding:0 0 2rem 0;">
+    <div class="container">
+        <h2 class="section-title" style="margin-bottom:1rem; font-size:clamp(1.6rem, 3vw, 2.4rem);">
+            ðŸ› ï¸ <span class="gold-gradient">Engineering</span> Tools
+        </h2>
+        <div class="tools-grid" id="toolsGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FEATURED CAROUSEL
+     ============================================================ -->
+<section style="padding:0 0 2rem 0;">
+    <div class="container">
+        <h2 class="section-title" style="margin-bottom:1rem; font-size:clamp(1.6rem, 3vw, 2.4rem);">
+            â­ Featured <span class="gold-gradient">Intelligence</span>
+        </h2>
+        <div class="featured-carousel" id="featuredCarousel">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FAQ ACCORDION - ENHANCED
+     ============================================================ -->
+<section style="padding:0 0 2rem 0;">
+    <div class="container">
+        <h2 class="section-title" style="margin-bottom:1rem; font-size:clamp(1.6rem, 3vw, 2.4rem);">
+            ðŸ’¬ Interactive <span class="gold-gradient">FAQ</span>
+        </h2>
+        <div class="neo-glass" style="padding:1.8rem;" id="faqContainer">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     GUIDES & DOWNLOADS
+     ============================================================ -->
+<section style="padding:0 0 2rem 0;">
+    <div class="container">
+        <h2 class="section-title" style="margin-bottom:1rem; font-size:clamp(1.6rem, 3vw, 2.4rem);">
+            ðŸ“˜ Construction <span class="gold-gradient">Guides</span>
+        </h2>
+        <div class="guides-grid" id="guidesGrid">
+            <!-- Populated by JS -->
+        </div>
+        
+        <h2 class="section-title" style="margin:2rem 0 1rem; font-size:clamp(1.4rem, 2.5vw, 2rem);">
+            ðŸ“¥ <span class="gold-gradient">Downloads</span>
+        </h2>
+        <div class="downloads-grid" id="downloadsGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CTA
+     ============================================================ -->
+<section style="padding:0 0 1rem 0;">
+    <div class="container">
+        <div class="neo-glass gold-holo cta-hyperspace">
+            <h2 class="cta-title">ðŸ“¡ Connect with a Procurement Specialist</h2>
+            <div class="cta-grid">
+                <div class="cta-item">
+                    <div class="cta-label"><i class="fab fa-whatsapp"></i> Sales WhatsApp</div>
+                    <div class="cta-desc">avg 3 min response</div>
+                </div>
+                <div class="cta-item">
+                    <div class="cta-label"><i class="fas fa-user-tie"></i> Technical Engineer</div>
+                    <div class="cta-desc">avg 8 min response</div>
+                </div>
+                <div class="cta-item">
+                    <div class="cta-label"><i class="fas fa-truck"></i> Logistics Team</div>
+                    <div class="cta-desc">avg 5 min response</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FINAL CTA
+     ============================================================ -->
+<section style="padding:1rem 0 2rem 0;">
+    <div class="container">
+        <div style="text-align:center;">
+            <h2 style="font-size:clamp(1.8rem, 3.5vw, 2.8rem); font-family:var(--font-display);">
+                <span class="gold-gradient">Still searching?</span>
+            </h2>
+            <p style="color:var(--text-secondary); margin:1rem 0; font-size:1rem;">
+                Neural AI answers material, logistics, pricing, and engineering queries instantly.
+            </p>
+            <div style="display:flex; gap:1.2rem; justify-content:center; flex-wrap:wrap; margin-top:1.5rem;">
+                <button class="btn-prime" onclick="document.querySelector('.quantum-search input').focus();">
+                    <i class="fas fa-arrow-right"></i> Start AI Chat
+                </button>
+                <button class="btn-neon" onclick="showToast('Specialist', 'Connecting you to a procurement specialist...')">
+                    <i class="fas fa-user-tie"></i> Talk to Specialist
+                </button>
+                <button class="btn-neon" onclick="window.location.href='/buildmart/quote.html'">
+                    <i class="fas fa-file-invoice"></i> Request Quote
+                </button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     FOOTER - ENTERPRISE
+     ============================================================ -->
+<footer class="enterprise-footer">
+    <div class="container">
+        <div class="footer-grid" id="footerGrid">
+            <div class="footer-column">
+                <h4>Knowledge</h4>
+                <a href="#">Knowledge Center</a>
+                <a href="#">Procurement Guides</a>
+                <a href="#">Material Database</a>
+                <a href="#">Engineering Tools</a>
+            </div>
+            <div class="footer-column">
+                <h4>Platform</h4>
+                <a href="#">AI Assistant</a>
+                <a href="#">Developer API</a>
+                <a href="#">Download Center</a>
+                <a href="#">Integration</a>
+            </div>
+            <div class="footer-column">
+                <h4>Support</h4>
+                <a href="#">Enterprise Support</a>
+                <a href="#">Contact</a>
+                <a href="#">Careers</a>
+                <a href="#">Legal</a>
+            </div>
+            <div class="footer-column">
+                <h4>Company</h4>
+                <a href="#">About BuildMart</a>
+                <a href="#">Leadership</a>
+                <a href="#">Press</a>
+                <a href="#">Sustainability</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <span>Â© 2026 BuildMart â€” A Division of PRIMESHIELDHUB GADGETS LIMITED</span>
+            <span>Knowledge Platform v2.4 Â· RC 9283954</span>
+        </div>
+    </div>
+</footer>
+
+<!-- ============================================================
+     TOAST
+     ============================================================ -->
+<div id="toast">
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+        <span style="color:var(--gold); font-size:1.2rem;">âœ“</span>
+        <div>
+            <div style="font-weight:700; font-size:0.9rem;" id="toastTitle">Success</div>
+            <div style="color:var(--text-muted); font-size:0.8rem;" id="toastMessage">Action completed</div>
+        </div>
+        <button onclick="closeToast()" style="background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; padding:0 4px;">âœ•</button>
+    </div>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+    // =========================================================================
+    // 1. CONFIGURATION
+    // =========================================================================
+    const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+    let searchAbortController = null;
+    let searchDebounceTimer = null;
+
+    // =========================================================================
+    // 2. DATA
+    // =========================================================================
+    const DATA = {
+        categories: [
+            { icon: 'fa-file-invoice', name: 'Procurement', desc: 'BOQ, RFQ, bulk purchasing', articles: 128, updated: '2 hrs ago', helpful: '97%' },
+            { icon: 'fa-truck', name: 'Logistics', desc: 'Fleet management, tracking', articles: 96, updated: '5 hrs ago', helpful: '95%' },
+            { icon: 'fa-cubes', name: 'Materials', desc: 'Steel, cement, roofing', articles: 156, updated: '1 hr ago', helpful: '98%' },
+            { icon: 'fa-coins', name: 'Finance', desc: 'Credit, wholesale pricing', articles: 84, updated: '3 hrs ago', helpful: '94%' },
+            { icon: 'fa-user-tie', name: 'Accounts', desc: 'Dealer management, quotes', articles: 72, updated: '6 hrs ago', helpful: '93%' },
+            { icon: 'fa-headset', name: 'Support', desc: 'Returns, warranty, service', articles: 64, updated: '4 hrs ago', helpful: '96%' }
+        ],
+        featured: [
+            { badge: 'Trending', title: 'â±ï¸ Delivery Windows', excerpt: 'Real-time logistics & ETA across Nigeria with GPS tracking', link: 'View delivery guide â†’' },
+            { badge: 'Popular', title: 'ðŸ”„ 16mm Rods for Duplex', excerpt: 'Structural guide & load tables for reinforcement engineering', link: 'Engineer\'s notes â†’' },
+            { badge: 'Updated', title: 'ðŸ“¦ Bulk Cement Pricing', excerpt: 'Wholesale & volume discounts for contractors, updated daily', link: 'Get quote â†’' },
+            { badge: 'Alert', title: 'âš¡ Price Change Alert', excerpt: 'Steel prices updated: 12mm rebar now at â‚¦785,000/ton', link: 'View pricing â†’' }
+        ],
+        faq: [
+            { 
+                q: 'Return policy for damaged materials?', 
+                a: '7-day return window Â· photo required. <a href="#" style="color:var(--gold);">Download guide</a>',
+                related: ['Material Handling Guide', 'Warranty Policy'],
+                products: ['Quality Assurance', 'Inspection Service']
+            },
+            { 
+                q: 'Contractor credit terms?', 
+                a: 'Up to 30-day terms after verification. <span style="color:var(--gold);">Apply now</span>',
+                related: ['Credit Application', 'Dealer Program'],
+                products: ['Contractor Account', 'Credit Facilities']
+            },
+            { 
+                q: 'Real-time delivery tracking?', 
+                a: 'GPS live tracking available post-dispatch. ðŸšš',
+                related: ['Fleet Management', 'Delivery SLA'],
+                products: ['GPS Tracking', 'Logistics Dashboard']
+            },
+            { 
+                q: 'AI material estimation?', 
+                a: 'Upload blueprint or input dimensions. <span style="color:var(--cyan);">Try estimator</span>',
+                related: ['BOQ Template', 'Material Calculator'],
+                products: ['BOQ Analyzer', 'Estimation Tool']
+            }
+        ],
+        guides: [
+            { title: 'Cement estimation', meta: '8 min read Â· verified' },
+            { title: 'Reinforcement guide', meta: 'updated Jul 2026' },
+            { title: 'Foundation checklist', meta: 'pro-grade' },
+            { title: 'Roofing materials guide', meta: '10 min read Â· updated' },
+            { title: 'Plumbing specifications', meta: '6 min read' },
+            { title: 'Electrical wiring guide', meta: '12 min read' }
+        ],
+        downloads: [
+            { icon: 'fa-file-pdf', label: 'BOQ template' },
+            { icon: 'fa-file-pdf', label: 'Price list PDF' },
+            { icon: 'fa-file-pdf', label: 'Safety guide' },
+            { icon: 'fa-file-excel', label: 'Estimation sheet' },
+            { icon: 'fa-file-pdf', label: 'Specifications' },
+            { icon: 'fa-file-word', label: 'Contract template' }
+        ],
+        tools: [
+            { icon: 'fa-calculator', name: 'BOQ Analyzer', desc: 'Upload and analyze BOQs' },
+            { icon: 'fa-cube', name: 'Concrete Calculator', desc: 'Estimate concrete volume' },
+            { icon: 'fa-cubes', name: 'Block Calculator', desc: 'Calculate block requirements' },
+            { icon: 'fa-home', name: 'Roofing Calculator', desc: 'Estimate roofing materials' },
+            { icon: 'fa-weight-hanging', name: 'Steel Weight Calculator', desc: 'Calculate rebar weight' },
+            { icon: 'fa-truck', name: 'Cement Estimator', desc: 'Cement quantity estimator' },
+            { icon: 'fa-paint-roller', name: 'Paint Coverage', desc: 'Calculate paint needed' },
+            { icon: 'fa-ruler-combined', name: 'Tile Calculator', desc: 'Estimate tile quantities' }
+        ]
+    };
+
+    // =========================================================================
+    // 3. RENDER FUNCTIONS
+    // =========================================================================
+    function renderCategories() {
+        const container = document.getElementById('categoryGrid');
+        const totalArticles = DATA.categories.reduce((sum, c) => sum + c.articles, 0);
+        document.getElementById('totalArticles').textContent = totalArticles;
+        document.getElementById('totalArticles2').textContent = totalArticles;
+        document.getElementById('updatedTime').textContent = `Updated ${new Date().toLocaleTimeString()}`;
+        
+        container.innerHTML = DATA.categories.map(c => `
+            <div class="category-card neo-glass" onclick="showToast('Category', 'Loading ${c.name} articles...')">
+                <div class="cat-icon"><i class="fas ${c.icon}"></i></div>
+                <div class="cat-name">${c.name}</div>
+                <div class="cat-desc">${c.desc}</div>
+                <div class="cat-meta">
+                    <span>ðŸ“„ ${c.articles} articles</span>
+                    <span>ðŸ• ${c.updated}</span>
+                    <span class="helpful">ðŸ‘ ${c.helpful} helpful</span>
+                </div>
+                <span class="cat-count">Explore â†’</span>
+            </div>
+        `).join('');
+    }
+
+    function renderFeatured() {
+        const container = document.getElementById('featuredCarousel');
+        container.innerHTML = DATA.featured.map(f => `
+            <div class="featured-card neo-glass" onclick="showToast('Featured', 'Loading ${f.title}...')">
+                <span class="featured-badge">${f.badge}</span>
+                <div class="featured-title">${f.title}</div>
+                <hr>
+                <div class="featured-excerpt">${f.excerpt}</div>
+                <a href="#" class="featured-link" onclick="event.stopPropagation(); showToast('Featured', 'Loading ${f.title}...')">
+                    ${f.link} <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        `).join('');
+    }
+
+    function renderFAQ() {
+        const container = document.getElementById('faqContainer');
+        container.innerHTML = DATA.faq.map((f, i) => `
+            <div class="faq-accordion ${i === 0 ? 'open' : ''}" onclick="toggleFAQ(this)">
+                <div class="faq-header">
+                    <span><span class="faq-icon">ðŸ”¹</span> ${f.q}</span>
+                    <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
+                </div>
+                <div class="faq-content">
+                    <p>${f.a}</p>
+                    ${f.related ? `
+                        <div style="margin-top:0.5rem;">
+                            <strong style="color:var(--text-muted); font-size:0.8rem;">Related articles:</strong>
+                            ${f.related.map(r => `<span style="display:inline-block;background:rgba(255,255,255,0.04);padding:0.1rem 0.6rem;border-radius:50px;font-size:0.7rem;color:var(--text-secondary);margin:0.2rem;">${r}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                    ${f.products ? `
+                        <div style="margin-top:0.3rem;">
+                            <strong style="color:var(--text-muted); font-size:0.8rem;">Recommended:</strong>
+                            ${f.products.map(p => `<span style="display:inline-block;background:rgba(212,175,55,0.06);padding:0.1rem 0.6rem;border-radius:50px;font-size:0.7rem;color:var(--gold);margin:0.2rem;">${p}</span>`).join('')}
+                        </div>
+                    ` : ''}
+                    <div class="faq-actions">
+                        <button onclick="event.stopPropagation(); showToast('Guide', 'Loading related guide...')"><i class="fas fa-book-open"></i> Read Guide</button>
+                        <button onclick="event.stopPropagation(); showToast('Download', 'Downloading...')"><i class="fas fa-download"></i> Download</button>
+                        <button onclick="event.stopPropagation(); showToast('Contact', 'Connecting to engineer...')"><i class="fas fa-user-tie"></i> Talk to Engineer</button>
+                        <button onclick="event.stopPropagation(); showToast('Copied', 'Link copied!')"><i class="fas fa-link"></i> Copy Link</button>
+                        <button onclick="event.stopPropagation(); showToast('Feedback', 'Thank you for your feedback!')" style="color:var(--accent-success);">ðŸ‘ Helpful</button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderGuides() {
+        const container = document.getElementById('guidesGrid');
+        container.innerHTML = DATA.guides.map(g => `
+            <div class="guide-card neo-glass" onclick="showToast('Guide', 'Loading ${g.title}...')">
+                <div class="guide-title">${g.title}</div>
+                <div class="guide-meta">${g.meta}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderDownloads() {
+        const container = document.getElementById('downloadsGrid');
+        container.innerHTML = DATA.downloads.map(d => `
+            <button class="btn-neon" style="padding:0.5rem 1.5rem;" onclick="showToast('Download', 'Downloading ${d.label}...')">
+                <i class="fas ${d.icon}"></i> ${d.label}
+            </button>
+        `).join('');
+    }
+
+    function renderTools() {
+        const container = document.getElementById('toolsGrid');
+        container.innerHTML = DATA.tools.map(t => `
+            <div class="tool-card neo-glass" onclick="showToast('Tool', 'Opening ${t.name}...')">
+                <span class="tool-icon"><i class="fas ${t.icon}"></i></span>
+                <div class="tool-name">${t.name}</div>
+                <div class="tool-desc">${t.desc}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderKnowledgeGraph() {
+        const container = document.getElementById('knowledgeGraph');
+        const nodes = [
+            { id: 'steel', label: 'Steel', x: 15, y: 25, icon: 'ðŸ”©' },
+            { id: 'foundation', label: 'Foundation', x: 35, y: 15, icon: 'ðŸ—ï¸' },
+            { id: 'concrete', label: 'Concrete', x: 55, y: 20, icon: 'ðŸ§±' },
+            { id: 'columns', label: 'Columns', x: 20, y: 55, icon: 'ðŸ›ï¸' },
+            { id: 'roof', label: 'Roof', x: 45, y: 60, icon: 'ðŸ ' },
+            { id: 'finishing', label: 'Finishing', x: 70, y: 50, icon: 'ðŸŽ¨' },
+            { id: 'procurement', label: 'Procurement', x: 80, y: 25, icon: 'ðŸ“‹' },
+            { id: 'logistics', label: 'Logistics', x: 65, y: 75, icon: 'ðŸšš' }
+        ];
+        
+        container.innerHTML = nodes.map((n, i) => `
+            <div class="graph-node" style="top:${n.y}%; left:${n.x}%;" onclick="showToast('Knowledge Graph', 'Exploring ${n.label}...')">
+                <span class="node-icon">${n.icon}</span> ${n.label}
+            </div>
+        `).join('');
+        
+        // Add edges
+        const edges = [
+            { from: 'steel', to: 'foundation' },
+            { from: 'foundation', to: 'concrete' },
+            { from: 'concrete', to: 'columns' },
+            { from: 'columns', to: 'roof' },
+            { from: 'roof', to: 'finishing' },
+            { from: 'steel', to: 'procurement' },
+            { from: 'procurement', to: 'logistics' },
+            { from: 'foundation', to: 'logistics' }
+        ];
+        
+        const nodeMap = {};
+        nodes.forEach(n => { nodeMap[n.id] = n; });
+        
+        edges.forEach(edge => {
+            const from = nodeMap[edge.from];
+            const to = nodeMap[edge.to];
+            if (from && to) {
+                const dx = to.x - from.x;
+                const dy = to.y - from.y;
+                const length = Math.sqrt(dx*dx + dy*dy);
+                const angle = Math.atan2(dy, dx);
+                const edgeEl = document.createElement('div');
+                edgeEl.className = 'graph-edge';
+                edgeEl.style.cssText = `
+                    top: ${from.y}%;
+                    left: ${from.x}%;
+                    width: ${length}%;
+                    transform: rotate(${angle}rad);
+                    transform-origin: 0 0;
+                `;
+                container.appendChild(edgeEl);
+            }
+        });
+    }
+
+    // =========================================================================
+    // 4. AI FUNCTIONS
+    // =========================================================================
+    function setQuery(query) {
+        document.getElementById('searchInput').value = query;
+        updateAI(query);
+    }
+
+    async function updateAI(query) {
+        const responseContent = document.getElementById('responseContent');
+        if (!query) query = document.getElementById('searchInput').value;
+        if (!query) return;
+        
+        // Show loading
+        responseContent.innerHTML = `
+            <p><span class="highlight">â£ processing:</span> Analyzing "<strong>${query}</strong>" ...</p>
+            <div style="margin-top:0.5rem; color:var(--text-muted);">
+                <i class="fas fa-spinner fa-spin"></i> Querying neural knowledge base...
+            </div>
+        `;
+        
+        // Cancel previous request
+        if (searchAbortController) {
+            searchAbortController.abort();
+        }
+        searchAbortController = new AbortController();
+        
+        try {
+            // Simulate API call with delay
+            await new Promise(resolve => setTimeout(resolve, 1000 + Math.random() * 500));
+            
+            const responses = [
+                `<p><span class="highlight">â£ response:</span> For <strong>${query}</strong>, I've found 3 relevant articles. 
+                Structural verification recommended. <a href="#" style="color:var(--gold);">View materials â†’</a></p>
+                <div class="response-meta">
+                    <span><i class="fas fa-clock"></i> Just now</span>
+                    <span><i class="fas fa-book-open"></i> 3 sources</span>
+                    <span><i class="fas fa-check-circle" style="color:var(--accent-success);"></i> 97% confidence</span>
+                </div>
+                <div class="response-actions">
+                    <button class="action-btn" onclick="showToast('Download', 'Downloading material specification...')"><i class="fas fa-download"></i> Download Spec</button>
+                    <button class="action-btn" onclick="showToast('Calculator', 'Opening BOQ calculator...')"><i class="fas fa-calculator"></i> BOQ Calculator</button>
+                    <button class="action-btn" onclick="showToast('Contact', 'Connecting to specialist...')"><i class="fas fa-user-tie"></i> Talk to Engineer</button>
+                    <button class="action-btn" onclick="showToast('Copied', 'Link copied to clipboard')"><i class="fas fa-link"></i> Copy Link</button>
+                </div>`,
+                
+                `<p><span class="highlight">â£ response:</span> Based on your query about <strong>${query}</strong>, 
+                I recommend the following materials and specifications:</p>
+                <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem;">
+                    <span style="background:rgba(0,0,0,0.3);padding:0.2rem 0.8rem;border-radius:2rem;border:1px solid var(--gold-border);font-size:0.8rem;">ðŸ§± <span style="color:var(--gold);">Dangote Cement</span> Â· â‚¦6,800/bulk</span>
+                    <span style="background:rgba(0,0,0,0.3);padding:0.2rem 0.8rem;border-radius:2rem;border:1px solid var(--gold-border);font-size:0.8rem;">ðŸ—ï¸ <span style="color:var(--gold);">16mm Rebar</span> Â· â‚¦775,000/ton</span>
+                    <span style="background:rgba(0,0,0,0.3);padding:0.2rem 0.8rem;border-radius:2rem;border:1px solid var(--gold-border);font-size:0.8rem;">ðŸ  <span style="color:var(--gold);">Long Span Roofing</span> Â· â‚¦11,200/sheet</span>
+                </div>
+                <div style="margin-top:0.5rem; color:var(--text-muted); font-size:0.85rem;">
+                    <i class="fas fa-calculator"></i> Estimated cost: <strong style="color:var(--gold);">â‚¦4.2M</strong> Â· Savings: 10.5%
+                </div>
+                <div class="response-actions">
+                    <button class="action-btn" onclick="showToast('BOQ', 'Generating BOQ...')"><i class="fas fa-file-invoice"></i> Generate BOQ</button>
+                    <button class="action-btn" onclick="showToast('Quote', 'Requesting quote...')"><i class="fas fa-file-invoice-dollar"></i> Request Quote</button>
+                </div>`,
+                
+                `<p><span class="highlight">â£ response:</span> For <strong>${query}</strong>, I've analyzed the procurement requirements:</p>
+                <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem;">
+                    <span style="background:rgba(0,0,0,0.3);padding:0.2rem 0.8rem;border-radius:2rem;border:1px solid var(--gold-border);font-size:0.8rem;">ðŸ“¦ <span style="color:var(--gold);">Bulk Discount</span> Â· 15% off</span>
+                    <span style="background:rgba(0,0,0,0.3);padding:0.2rem 0.8rem;border-radius:2rem;border:1px solid var(--gold-border);font-size:0.8rem;">ðŸšš <span style="color:var(--gold);">Delivery</span> Â· 2-3 days</span>
+                    <span style="background:rgba(0,0,0,0.3);padding:0.2rem 0.8rem;border-radius:2rem;border:1px solid var(--gold-border);font-size:0.8rem;">ðŸ“‹ <span style="color:var(--gold);">BOQ Ready</span> Â· Download now</span>
+                </div>
+                <div class="response-meta">
+                    <span><i class="fas fa-robot"></i> Recommendation: <span style="color:var(--gold);">Proceed with bulk procurement</span></span>
+                    <span><i class="fas fa-clock"></i> 2 min ago</span>
+                </div>
+                <div class="response-actions">
+                    <button class="action-btn" onclick="showToast('Contact', 'Connecting to specialist...')"><i class="fas fa-user-tie"></i> Talk to Specialist</button>
+                    <button class="action-btn" onclick="showToast('Download', 'Downloading BOQ...')"><i class="fas fa-download"></i> Download BOQ</button>
+                </div>`
+            ];
+            
+            const random = responses[Math.floor(Math.random() * responses.length)];
+            responseContent.innerHTML = random;
+            showToast('AI Response', 'Knowledge query processed successfully');
+            
+        } catch (error) {
+            if (error.name !== 'AbortError') {
+                responseContent.innerHTML = `
+                    <p><span class="highlight">â£ error:</span> Unable to process query. Please try again.</p>
+                    <div style="margin-top:0.5rem; color:var(--text-muted);">
+                        <i class="fas fa-exclamation-circle"></i> ${error.message}
+                    </div>
+                `;
+            }
+        }
+    }
+
+    // =========================================================================
+    // 5. FAQ TOGGLE
+    // =========================================================================
+    function toggleFAQ(el) {
+        el.classList.toggle('open');
+    }
+
+    // =========================================================================
+    // 6. TOAST
+    // =========================================================================
+    function showToast(title, message) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastTitle').textContent = title;
+        document.getElementById('toastMessage').textContent = message;
+        toast.classList.add('show');
+        clearTimeout(window.toastTimeout);
+        window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    function closeToast() {
+        document.getElementById('toast').classList.remove('show');
+    }
+
+    // =========================================================================
+    // 7. NAVIGATION
+    // =========================================================================
+    function setupNavigation() {
+        const hamburger = document.getElementById('navHamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        hamburger?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+        
+        navLinks?.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navLinks?.classList.remove('open');
+            });
+        });
+        
+        const header = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            header?.classList.toggle('scrolled', window.pageYOffset > 50);
+        });
+    }
+
+    // =========================================================================
+    // 8. ANIMATED COUNTERS
+    // =========================================================================
+    function animateCounter(id, target) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        let current = 0;
+        const step = target / 45;
+        const timer = setInterval(() => {
+            current += step;
+            if (current >= target) {
+                el.textContent = target.toLocaleString();
+                clearInterval(timer);
+            } else {
+                el.textContent = Math.floor(current).toLocaleString();
+            }
+        }, 25);
+    }
+
+    // =========================================================================
+    // 9. DEBOUNCED SEARCH
+    // =========================================================================
+    function setupSearch() {
+        const input = document.getElementById('searchInput');
+        const button = document.getElementById('searchButton');
+        
+        const handleSearch = () => {
+            const query = input.value.trim();
+            if (query) {
+                updateAI(query);
+            }
+        };
+        
+        button.addEventListener('click', handleSearch);
+        
+        input.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSearch();
+            }
+        });
+        
+        // Debounced search for auto-suggest
+        input.addEventListener('input', () => {
+            clearTimeout(searchDebounceTimer);
+            const query = input.value.trim();
+            if (query.length > 2) {
+                searchDebounceTimer = setTimeout(() => {
+                    // Could implement live suggestions here
+                }, 300);
+            }
+        });
+    }
+
+    // =========================================================================
+    // 10. KEYBOARD SHORTCUTS
+    // =========================================================================
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('searchInput').focus();
+        }
+        if (e.key === 'Escape') {
+            closeToast();
+        }
+    });
+
+    // =========================================================================
+    // 11. LIVE STATS UPDATE
+    // =========================================================================
+    function updateLiveStats() {
+        const solvedQueries = document.getElementById('solvedQueries');
+        const activeUsers = document.getElementById('activeUsers');
+        const avgResponse = document.getElementById('avgResponse');
+        
+        if (solvedQueries) {
+            const current = parseInt(solvedQueries.textContent.replace(/,/g, ''));
+            const increment = Math.floor(Math.random() * 3);
+            solvedQueries.textContent = (current + increment).toLocaleString();
+        }
+        
+        if (activeUsers) {
+            const current = parseInt(activeUsers.textContent);
+            const change = Math.floor(Math.random() * 3) - 1;
+            activeUsers.textContent = Math.max(8, current + change);
+        }
+        
+        if (avgResponse) {
+            const current = parseFloat(avgResponse.textContent);
+            const change = (Math.random() * 2 - 1);
+            avgResponse.textContent = Math.max(5, Math.round((current + change) * 10) / 10);
+        }
+    }
+
+    // =========================================================================
+    // 12. INITIALIZATION
+    // =========================================================================
+    function init() {
+        console.log('ðŸ§  BuildMart Â· Knowledge Platform v2.4');
+        console.log('ðŸ“š Knowledge Base: 768 articles Â· 6 categories');
+        console.log('âš¡ AI Engine: Online Â· 24/7');
+        console.log('âŒ¨ï¸ Shortcut: Ctrl+K to focus search');
+        console.log('ðŸ› ï¸ Engineering Tools: 8 calculators ready');
+        
+        setupNavigation();
+        renderCategories();
+        renderFeatured();
+        renderFAQ();
+        renderGuides();
+        renderDownloads();
+        renderTools();
+        renderKnowledgeGraph();
+        setupSearch();
+        
+        // Animate stats
+        animateCounter('stat1', 2400);
+        animateCounter('stat2', 98.8);
+        animateCounter('stat3', 18);
+        animateCounter('stat4', 580);
+        
+        // Update live stats every 10 seconds
+        setInterval(updateLiveStats, 10000);
+        
+        // Welcome toast
+        setTimeout(() => {
+            showToast('ðŸ§  Knowledge Platform', 'Ask me anything about construction materials, procurement, and engineering.');
+        }, 1500);
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
+

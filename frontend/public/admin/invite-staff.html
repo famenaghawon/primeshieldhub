@@ -1,0 +1,1527 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="11.4" data-encryption="aes-256-gcm" data-page="admin-invitations">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="PrimeShieldHub – Admin Staff Invitation Portal | Quantum HR Management">
+  <meta name="theme-color" content="#000000">
+  <meta name="csrf-token" content="{{CSRF_TOKEN}}">
+  <title>Staff Invitations | PrimeShieldHub • Quantum Admin</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://api.primeshieldhub.com">
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/"
+      }
+    }
+  </script>
+  
+  <style>
+    :root {
+      --bg-deep: #000308;
+      --surface-card: rgba(6, 10, 22, 0.84);
+      --surface-hover: rgba(12, 18, 35, 0.9);
+      --glass-edge: rgba(0, 247, 255, 0.2);
+      --glass-edge-hover: rgba(0, 247, 255, 0.45);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --neon-pink: #ff2d95;
+      --accent-success: #33ffaa;
+      --accent-warning: #ffaa33;
+      --accent-danger: #ff3366;
+      --accent-info: #4488ff;
+      --text-primary: #f0f3ff;
+      --text-secondary: #8892a4;
+      --text-muted: #5a6377;
+      --gradient-cyan-purple: linear-gradient(135deg, #00f7ff 0%, #b200ff 100%);
+      --gradient-gold: linear-gradient(135deg, #ffd966 0%, #ffaa33 100%);
+      --gradient-fire: linear-gradient(135deg, #ff2d95 0%, #ff6b35 100%);
+      --gradient-success: linear-gradient(135deg, #33ffaa 0%, #00cc66 100%);
+      --radius-xl: 2rem;
+      --radius-lg: 1.5rem;
+      --radius-md: 1rem;
+      --radius-sm: 0.75rem;
+      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      --shadow-card: 0 25px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.03) inset;
+      --shadow-glow-cyan: 0 0 25px rgba(0,247,255,0.2);
+      --shadow-glow-gold: 0 0 25px rgba(255,217,102,0.2);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #quantum-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    .cyber-grid {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: 
+        linear-gradient(rgba(0,247,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,247,255,0.04) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: 1;
+      pointer-events: none;
+      animation: gridDrift 20s linear infinite;
+    }
+
+    @keyframes gridDrift {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 50px 50px, -50px 50px; }
+    }
+
+    .scan-lines {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0,247,255,0.01) 2px, rgba(0,247,255,0.01) 4px);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .orb { position: fixed; border-radius: 50%; filter: blur(70px); opacity: 0.1; pointer-events: none; z-index: 0; animation: orbFloat 10s ease-in-out infinite; }
+    .orb-cyan { width: 300px; height: 300px; background: var(--neon-cyan); top: -60px; right: -60px; animation-delay: 0s; }
+    .orb-purple { width: 280px; height: 280px; background: var(--neon-purple); bottom: -60px; left: -60px; animation-delay: -5s; }
+    .orb-gold { width: 200px; height: 200px; background: var(--neon-gold); top: 50%; left: 70%; animation-delay: -3s; opacity: 0.06; }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0,0) scale(1); }
+      25% { transform: translate(20px,-20px) scale(1.08); }
+      50% { transform: translate(-15px,15px) scale(0.94); }
+      75% { transform: translate(-20px,-10px) scale(1.04); }
+    }
+
+    .admin-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 1.5rem;
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Top Navigation */
+    .top-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      padding: 1.2rem 1.8rem;
+      background: var(--surface-card);
+      backdrop-filter: blur(24px);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--glass-edge);
+      box-shadow: var(--shadow-card);
+    }
+
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .nav-logo {
+      width: 50px; height: 50px;
+      background: var(--gradient-cyan-purple);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 1.2rem;
+      color: white;
+    }
+
+    .nav-title h1 {
+      font-size: 1.4rem;
+      font-weight: 800;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-title span {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 1px;
+    }
+
+    .nav-actions {
+      display: flex;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0.7rem 1.4rem;
+      border-radius: 2rem;
+      border: none;
+      font-weight: 600;
+      font-size: 0.85rem;
+      cursor: pointer;
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-bounce);
+      text-decoration: none;
+      letter-spacing: 0.3px;
+      white-space: nowrap;
+    }
+
+    .btn-primary { background: var(--gradient-cyan-purple); color: white; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: var(--shadow-glow-cyan); }
+    .btn-outline { background: transparent; border: 1.5px solid rgba(255,255,255,0.2); color: var(--text-secondary); }
+    .btn-outline:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+    .btn-danger { background: rgba(255,51,102,0.1); border: 1px solid rgba(255,51,102,0.3); color: var(--accent-danger); }
+    .btn-danger:hover { background: rgba(255,51,102,0.2); }
+    .btn-success { background: rgba(51,255,170,0.1); border: 1px solid rgba(51,255,170,0.3); color: var(--accent-success); }
+    .btn-success:hover { background: rgba(51,255,170,0.2); }
+    .btn-sm { padding: 0.45rem 1rem; font-size: 0.78rem; }
+    .btn-xs { padding: 0.35rem 0.8rem; font-size: 0.7rem; border-radius: 1.5rem; }
+
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; transform: none !important; box-shadow: none !important; }
+
+    /* Stats Bar */
+    .stats-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-mini {
+      background: var(--surface-card);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-lg);
+      border: 1px solid var(--glass-edge);
+      padding: 1.2rem 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      transition: var(--transition-smooth);
+    }
+
+    .stat-mini:hover { border-color: var(--glass-edge-hover); transform: translateY(-2px); }
+
+    .stat-mini .stat-icon {
+      width: 48px; height: 48px;
+      border-radius: 1rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem;
+    }
+
+    .stat-mini .stat-icon.purple { background: rgba(178,0,255,0.15); color: var(--neon-purple); }
+    .stat-mini .stat-icon.cyan { background: rgba(0,247,255,0.15); color: var(--neon-cyan); }
+    .stat-mini .stat-icon.gold { background: rgba(255,217,102,0.15); color: var(--neon-gold); }
+    .stat-mini .stat-icon.green { background: rgba(51,255,170,0.15); color: var(--accent-success); }
+
+    .stat-mini .stat-info .stat-value { font-size: 1.5rem; font-weight: 800; }
+    .stat-mini .stat-info .stat-label { font-size: 0.7rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1px; }
+
+    /* Cards */
+    .glass-card {
+      background: var(--surface-card);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-edge);
+      border-radius: var(--radius-xl);
+      padding: 1.8rem;
+      margin-bottom: 1.5rem;
+      box-shadow: var(--shadow-card);
+      animation: cardEntry 0.6s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .glass-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gradient-cyan-purple);
+      opacity: 0.5;
+    }
+
+    @keyframes cardEntry {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .glass-card h2 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+
+    .glass-card h2 i { font-size: 1.1rem; }
+
+    /* Form */
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 0.8rem;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 0.4rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.2px;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+
+    .form-group label i { font-size: 0.7rem; color: var(--neon-cyan); width: 14px; text-align: center; }
+
+    .form-group input,
+    .form-group select {
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      border: 1.5px solid rgba(255,255,255,0.1);
+      border-radius: 2rem;
+      padding: 0.8rem 1.2rem;
+      color: white;
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      transition: var(--transition-smooth);
+    }
+
+    .form-group select {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300f7ff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1.2rem center;
+      padding-right: 2.5rem;
+      cursor: pointer;
+    }
+
+    .form-group select option { background: #0a0a18; color: var(--text-primary); }
+
+    .form-group input:focus,
+    .form-group select:focus {
+      outline: none;
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px rgba(0,247,255,0.15);
+      background: rgba(0,0,0,0.7);
+    }
+
+    /* Code Display */
+    .code-reveal {
+      background: rgba(0,247,255,0.05);
+      border: 2px dashed var(--neon-cyan);
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      text-align: center;
+      margin-top: 1.5rem;
+      display: none;
+      animation: codePop 0.5s cubic-bezier(0.34,1.56,0.64,1);
+    }
+
+    .code-reveal.active { display: block; }
+
+    @keyframes codePop {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .code-reveal .invite-code {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 2.5rem;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      letter-spacing: 3px;
+      user-select: all;
+      word-break: break-all;
+      text-shadow: 0 0 20px rgba(0,247,255,0.4);
+    }
+
+    .code-reveal .code-meta {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      margin-top: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .code-reveal .share-row {
+      display: flex;
+      gap: 0.8rem;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 1.2rem;
+    }
+
+    .code-reveal .registration-link {
+      margin-top: 1rem;
+      padding: 0.8rem 1.2rem;
+      background: rgba(0,0,0,0.4);
+      border-radius: 2rem;
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      font-family: 'JetBrains Mono', monospace;
+      word-break: break-all;
+    }
+
+    .code-reveal .registration-link a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+    }
+
+    /* Tables */
+    .table-wrapper {
+      overflow-x: auto;
+      margin: 0 -0.5rem;
+      padding: 0 0.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 6px;
+      font-size: 0.85rem;
+    }
+
+    th {
+      text-align: left;
+      padding: 0.9rem 0.8rem;
+      color: var(--neon-cyan);
+      font-size: 0.68rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      font-weight: 700;
+      border-bottom: 2px solid rgba(0,247,255,0.2);
+      position: sticky;
+      top: 0;
+      background: rgba(6,10,22,0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1;
+    }
+
+    td {
+      padding: 0.8rem;
+      background: rgba(0,0,0,0.3);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: var(--transition-smooth);
+    }
+
+    tr:hover td {
+      background: rgba(0,247,255,0.05);
+    }
+
+    td:first-child { border-radius: 0.5rem 0 0 0.5rem; }
+    td:last-child { border-radius: 0 0.5rem 0.5rem 0; }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 4px 12px;
+      border-radius: 1rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+
+    .badge-success { background: rgba(51,255,170,0.12); color: var(--accent-success); }
+    .badge-warning { background: rgba(255,170,51,0.12); color: var(--accent-warning); }
+    .badge-danger { background: rgba(255,51,102,0.12); color: var(--accent-danger); }
+    .badge-info { background: rgba(68,136,255,0.12); color: var(--accent-info); }
+    .badge-cyan { background: rgba(0,247,255,0.12); color: var(--neon-cyan); }
+
+    .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; }
+
+    .empty-state {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--text-muted);
+    }
+
+    .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.3; }
+    .empty-state p { font-size: 0.9rem; }
+
+    /* Toast */
+    .toast-container {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      z-index: 10000;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .toast {
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(16px);
+      border: 1px solid var(--glass-edge);
+      padding: 0.9rem 1.4rem;
+      border-radius: 1rem;
+      color: white;
+      font-size: 0.85rem;
+      font-weight: 500;
+      animation: toastIn 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    .toast.error { border-color: var(--accent-danger); }
+    .toast.success { border-color: var(--accent-success); }
+
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateX(50px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .admin-container { padding: 1rem; }
+      .top-nav { flex-direction: column; text-align: center; }
+      .nav-actions { justify-content: center; }
+      .form-grid { grid-template-columns: 1fr; }
+      .glass-card { padding: 1.2rem; }
+      .code-reveal .invite-code { font-size: 1.6rem; }
+      th { font-size: 0.6rem; }
+      td { font-size: 0.78rem; padding: 0.6rem; }
+    }
+
+    @media (max-width: 480px) {
+      .btn { padding: 0.6rem 1rem; font-size: 0.78rem; }
+      .stats-bar { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <canvas id="quantum-canvas"></canvas>
+  <div class="cyber-grid"></div>
+  <div class="scan-lines"></div>
+  <div class="orb orb-cyan"></div>
+  <div class="orb orb-purple"></div>
+  <div class="orb orb-gold"></div>
+
+  <div class="admin-container">
+    <!-- Top Navigation -->
+    <div class="top-nav">
+      <div class="nav-brand">
+        <div class="nav-logo">Q</div>
+        <div class="nav-title">
+          <h1>Staff Invitation Portal</h1>
+          <span>⚡ QUANTUM HR MANAGEMENT SYSTEM</span>
+        </div>
+      </div>
+      <div class="nav-actions">
+        <a href="/admin/dashboard.html" class="btn btn-outline">
+          <i class="fas fa-tachometer-alt"></i> Dashboard
+        </a>
+        <a href="/admin" class="btn btn-outline">
+          <i class="fas fa-cog"></i> Admin Panel
+        </a>
+        <button class="btn btn-danger" id="logout-btn">
+          <i class="fas fa-sign-out-alt"></i> Disconnect
+        </button>
+      </div>
+    </div>
+
+    <!-- Stats Bar -->
+    <div class="stats-bar" id="stats-bar">
+      <div class="stat-mini">
+        <div class="stat-icon purple"><i class="fas fa-envelope-open-text"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="stat-active-invites">0</div>
+          <div class="stat-label">Active Invitations</div>
+        </div>
+      </div>
+      <div class="stat-mini">
+        <div class="stat-icon cyan"><i class="fas fa-user-check"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="stat-total-staff">0</div>
+          <div class="stat-label">Registered Staff</div>
+        </div>
+      </div>
+      <div class="stat-mini">
+        <div class="stat-icon gold"><i class="fas fa-clock"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="stat-pending">0</div>
+          <div class="stat-label">Pending Approval</div>
+        </div>
+      </div>
+      <div class="stat-mini">
+        <div class="stat-icon green"><i class="fas fa-shield-alt"></i></div>
+        <div class="stat-info">
+          <div class="stat-value" id="stat-admins">0</div>
+          <div class="stat-label">Administrators</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Generate Invitation -->
+    <div class="glass-card" id="generate-card">
+      <h2><i class="fas fa-magic" style="color:var(--neon-cyan);"></i> Generate Invitation Code</h2>
+      
+      <div class="form-grid">
+        <div class="form-group">
+          <label><i class="fas fa-user"></i> Staff Full Name <span style="color:var(--accent-danger);">*</span></label>
+          <input type="text" id="staff-name" placeholder="e.g., Jane Doe" maxlength="100">
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-building"></i> Branch <span style="color:var(--accent-danger);">*</span></label>
+          <select id="staff-branch">
+            <option value="">Select Branch</option>
+            <optgroup label="🏙️ Lagos">
+              <option value="main">Victoria Island (HQ)</option>
+              <option value="ikeja">Ikeja</option>
+              <option value="surulere">Surulere</option>
+              <option value="lekki">Lekki</option>
+              <option value="yaba">Yaba</option>
+            </optgroup>
+            <optgroup label="🌍 Other">
+              <option value="abuja">Abuja</option>
+              <option value="ph">Port Harcourt</option>
+              <option value="ibadan">Ibadan</option>
+              <option value="benin">Benin City</option>
+            </optgroup>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-user-tag"></i> Role</label>
+          <select id="staff-role">
+            <option value="staff">Staff (Standard)</option>
+            <option value="admin">Administrator (Full Access)</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label><i class="fas fa-hourglass-half"></i> Expires In</label>
+          <select id="expiry-hours">
+            <option value="24">24 Hours</option>
+            <option value="48" selected>48 Hours</option>
+            <option value="72">72 Hours (3 Days)</option>
+            <option value="168">168 Hours (7 Days)</option>
+            <option value="720">720 Hours (30 Days)</option>
+          </select>
+        </div>
+      </div>
+
+      <button class="btn btn-primary" id="generate-btn" style="width:100%; justify-content:center; padding:1rem;">
+        <i class="fas fa-key"></i> Generate Quantum Invitation
+      </button>
+
+      <!-- Code Reveal -->
+      <div class="code-reveal" id="code-reveal">
+        <div style="font-size:0.65rem; text-transform:uppercase; color:var(--text-muted); letter-spacing:2px; margin-bottom:0.8rem;">
+          🔐 Quantum Invitation Code
+        </div>
+        <div class="invite-code" id="generated-code"></div>
+        <div class="code-meta" id="code-meta"></div>
+        <div class="share-row">
+          <button class="btn btn-success btn-sm" id="whatsapp-share">
+            <i class="fab fa-whatsapp"></i> WhatsApp
+          </button>
+          <button class="btn btn-primary btn-sm" id="copy-code">
+            <i class="fas fa-copy"></i> Copy Code
+          </button>
+          <button class="btn btn-outline btn-sm" id="copy-link">
+            <i class="fas fa-link"></i> Copy Link
+          </button>
+        </div>
+        <div class="registration-link">
+          📋 Registration URL: <a href="https://primeshieldhub.com/staff/register.html" target="_blank">primeshieldhub.com/staff/register.html</a>
+          <br><small style="color:var(--text-muted);">Staff should enter the code in the <strong>"Employee Code"</strong> field.</small>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Invitations -->
+    <div class="glass-card">
+      <h2><i class="fas fa-clock" style="color:var(--neon-gold);"></i> Active Invitations</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Code</th>
+              <th>Staff Name</th>
+              <th>Role</th>
+              <th>Branch</th>
+              <th>Created</th>
+              <th>Expires</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="invitations-tbody">
+            <tr><td colspan="8"><div class="empty-state"><i class="fas fa-inbox"></i><p>Loading invitations...</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Registered Staff -->
+    <div class="glass-card">
+      <h2><i class="fas fa-users" style="color:var(--accent-success);"></i> Registered Staff Directory</h2>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Branch</th>
+              <th>Role</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody id="staff-tbody">
+            <tr><td colspan="7"><div class="empty-state"><i class="fas fa-spinner fa-pulse"></i><p>Loading staff directory...</p></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast-container" id="toast-container"></div>
+
+  <script type="module">
+    // ================================================================ //
+    // ADMIN STAFF INVITATION - UNIFIED CONFIG & BACKEND SYNC            //
+    // ================================================================ //
+
+    import * as THREE from 'three';
+    import { CONFIG as UnifiedConfig } from '../js/config.js';
+    import { auth } from '../js/auth.js';
+    import { getDeviceFingerprint } from '../js/sophisticated/fraud-engine/fingerprint.js';
+
+    // ================================================================ //
+    // UNIFIED CONFIGURATION                                            //
+    // ================================================================ //
+
+    const CONFIG = {
+        API_BASE: UnifiedConfig.apiBase,
+        STORAGE_KEYS: UnifiedConfig.STORAGE_KEYS,
+        ENDPOINTS: {
+            GENERATE_INVITE: '/admin/generate-invite',
+            INVITATIONS: '/admin/invitations',
+            REVOKE_INVITE: '/admin/revoke-invite',
+            STAFF_LIST: '/admin/staff-list',
+            APPROVE_STAFF: '/admin/approve-staff',
+            REJECT_STAFF: '/admin/reject-staff',
+            AUTH_CHECK: '/auth/check',
+            CSRF: '/auth/csrf',
+            LOGOUT: '/auth/logout',
+            BRANCHES: '/branches'
+        },
+        REGISTRATION_URL: 'https://primeshieldhub.com/staff/register'
+    };
+
+    // ================================================================ //
+    // STATE                                                            //
+    // ================================================================ //
+
+    const State = {
+        deviceFingerprint: null,
+        csrfToken: null,
+        currentUser: null,
+        currentInvite: null,
+        invitations: [],
+        staffList: [],
+        branches: []
+    };
+
+    // ================================================================ //
+    // DOM REFS                                                         //
+    // ================================================================ //
+
+    const DOM = {
+        generateBtn: document.getElementById('generate-btn'),
+        codeReveal: document.getElementById('code-reveal'),
+        generatedCode: document.getElementById('generated-code'),
+        codeMeta: document.getElementById('code-meta'),
+        staffName: document.getElementById('staff-name'),
+        staffBranch: document.getElementById('staff-branch'),
+        staffRole: document.getElementById('staff-role'),
+        expiryHours: document.getElementById('expiry-hours'),
+        invitationsTbody: document.getElementById('invitations-tbody'),
+        staffTbody: document.getElementById('staff-tbody'),
+        logoutBtn: document.getElementById('logout-btn'),
+        statActiveInvites: document.getElementById('stat-active-invites'),
+        statTotalStaff: document.getElementById('stat-total-staff'),
+        statPending: document.getElementById('stat-pending'),
+        statAdmins: document.getElementById('stat-admins')
+    };
+
+    // ================================================================ //
+    // 3D BACKGROUND                                                     //
+    // ================================================================ //
+
+    function initThreeJS() {
+        const canvas = document.getElementById('quantum-canvas');
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
+        camera.position.z = 7;
+
+        const core = new THREE.Mesh(
+            new THREE.DodecahedronGeometry(0.9, 1),
+            new THREE.MeshStandardMaterial({ color: 0x00f7ff, emissive: 0x003344, emissiveIntensity: 0.8, metalness: 0.8, roughness: 0.15 })
+        );
+        const outer = new THREE.Mesh(
+            new THREE.DodecahedronGeometry(1.3, 1),
+            new THREE.MeshStandardMaterial({ color: 0xb200ff, emissive: 0x330044, emissiveIntensity: 0.4, metalness: 0.6, roughness: 0.3, wireframe: true, transparent: true, opacity: 0.4 })
+        );
+        const group = new THREE.Group();
+        group.add(core, outer);
+        scene.add(group);
+
+        const particles = new THREE.Group();
+        for (let i = 0; i < 600; i++) {
+            const p = new THREE.Mesh(
+                new THREE.SphereGeometry(0.03, 4, 4),
+                new THREE.MeshBasicMaterial({ color: i % 2 === 0 ? 0x00f7ff : 0xffd966, transparent: true, opacity: 0.6 })
+            );
+            const angle = (i / 600) * Math.PI * 2;
+            p.position.set(Math.cos(angle) * 2.2, Math.sin(angle) * 2.2, (Math.random() - 0.5) * 1.5);
+            particles.add(p);
+        }
+        scene.add(particles);
+
+        const starGeo = new THREE.BufferGeometry();
+        const starPositions = new Float32Array(2000 * 3);
+        for (let i = 0; i < starPositions.length; i += 3) {
+            starPositions[i] = (Math.random() - 0.5) * 40;
+            starPositions[i + 1] = (Math.random() - 0.5) * 25;
+            starPositions[i + 2] = (Math.random() - 0.5) * 15 - 8;
+        }
+        starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+        const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.05, transparent: true, opacity: 0.5 }));
+        scene.add(stars);
+
+        scene.add(new THREE.AmbientLight(0x111122, 0.5));
+        const l1 = new THREE.PointLight(0x00f7ff, 1.5, 10);
+        l1.position.set(3, 2, 4);
+        const l2 = new THREE.PointLight(0xb200ff, 1, 8);
+        l2.position.set(-3, -1, 3);
+        scene.add(l1, l2);
+
+        let time = 0,
+            mx = 0,
+            my = 0;
+        document.addEventListener('mousemove', e => {
+            mx = (e.clientX / window.innerWidth) * 2 - 1;
+            my = -(e.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        function animate() {
+            requestAnimationFrame(animate);
+            time += 0.005;
+            group.rotation.x = time * 0.35;
+            group.rotation.y = time * 0.5;
+            particles.rotation.z = time * 0.2;
+            particles.rotation.x = time * 0.15;
+            stars.rotation.y = time * 0.02;
+            camera.position.x += (mx * 1 - camera.position.x) * 0.03;
+            camera.position.y += (my * 0.7 - camera.position.y) * 0.03;
+            camera.lookAt(0, 0, 0);
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    }
+
+    // ================================================================ //
+    // API HELPERS - Using unified config                               //
+    // ================================================================ //
+
+    async function getFingerprint() {
+        if (State.deviceFingerprint) return State.deviceFingerprint;
+        try {
+            State.deviceFingerprint = await getDeviceFingerprint();
+            return State.deviceFingerprint;
+        } catch {
+            const components = [
+                navigator.userAgent, navigator.language,
+                screen.width, screen.height, screen.colorDepth,
+                navigator.hardwareConcurrency || 4,
+                new Date().getTimezoneOffset()
+            ].join('|');
+            const hash = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(components));
+            State.deviceFingerprint = Array.from(new Uint8Array(hash)).map(b => b.toString(16).padStart(2, '0')).join('').slice(0, 32);
+            return State.deviceFingerprint;
+        }
+    }
+
+    async function refreshCsrf() {
+        try {
+            const fp = await getFingerprint();
+            const res = await fetch(`${CONFIG.API_BASE}${CONFIG.ENDPOINTS.CSRF}`, {
+                credentials: 'include',
+                headers: { 'x-device-fingerprint': fp }
+            });
+            if (res.ok) {
+                State.csrfToken = await res.text();
+                const meta = document.querySelector('meta[name="csrf-token"]');
+                if (meta) meta.setAttribute('content', State.csrfToken);
+                return State.csrfToken;
+            }
+        } catch {}
+        return null;
+    }
+
+    async function apiFetch(endpoint, options = {}) {
+        const fp = await getFingerprint();
+        const token = getAuthToken();
+
+        const headers = {
+            'x-device-fingerprint': fp,
+            'Accept': 'application/json'
+        };
+
+        if (options.body && !(options.body instanceof FormData)) {
+            headers['Content-Type'] = 'application/json';
+        }
+
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        if (State.csrfToken && options.method && !['GET', 'HEAD'].includes(options.method)) {
+            headers['x-csrf-token'] = State.csrfToken;
+        }
+
+        try {
+            const res = await fetch(`${CONFIG.API_BASE}${endpoint}`, {
+                credentials: 'include',
+                ...options,
+                headers: { ...headers, ...options.headers }
+            });
+
+            if (res.status === 403) {
+                await refreshCsrf();
+                // Retry with new CSRF token
+                const retryHeaders = { ...headers };
+                if (State.csrfToken) {
+                    retryHeaders['x-csrf-token'] = State.csrfToken;
+                }
+                const retry = await fetch(`${CONFIG.API_BASE}${endpoint}`, {
+                    credentials: 'include',
+                    ...options,
+                    headers: { ...retryHeaders, ...options.headers }
+                });
+                if (!retry.ok) throw new Error(`HTTP ${retry.status}`);
+                return retry;
+            }
+
+            if (res.status === 401) {
+                try { if (auth.logout) auth.logout(); } catch(e) {}
+                localStorage.removeItem(CONFIG.STORAGE_KEYS.TOKEN);
+                localStorage.removeItem(CONFIG.STORAGE_KEYS.USER);
+                window.location.href = '/login.html?return=' + encodeURIComponent(window.location.pathname);
+                throw new Error('Session expired');
+            }
+
+            if (res.status === 429) {
+                const retryAfter = res.headers.get('Retry-After') || 30;
+                throw new Error(`Rate limited. Please wait ${retryAfter} seconds.`);
+            }
+
+            return res;
+        } catch (error) {
+            console.error(`API Error [${endpoint}]:`, error);
+            throw error;
+        }
+    }
+
+    function getAuthToken() {
+        try {
+            const token = auth.getToken ? auth.getToken() : null;
+            if (token) return token;
+        } catch(e) {}
+
+        return localStorage.getItem(CONFIG.STORAGE_KEYS.TOKEN) ||
+            localStorage.getItem('psh_auth_token') ||
+            null;
+    }
+
+    // ================================================================ //
+    // AUTH CHECK                                                        //
+    // ================================================================ //
+
+    async function checkAuth() {
+        try {
+            // Check unified auth first
+            const user = getUser();
+            if (user && (user.role === 'admin' || user.role === 'staff')) {
+                State.currentUser = user;
+                return true;
+            }
+
+            const res = await apiFetch(CONFIG.ENDPOINTS.AUTH_CHECK);
+            if (!res.ok) throw new Error('Not authenticated');
+            const data = await res.json();
+            const userData = data.user || data;
+            if (!data.authenticated || (userData.role !== 'admin' && userData.role !== 'staff')) {
+                throw new Error('Not authorized');
+            }
+            State.currentUser = userData;
+            return true;
+        } catch {
+            window.location.href = '/login.html?return=' + encodeURIComponent(window.location.pathname);
+            return false;
+        }
+    }
+
+    function getUser() {
+        try {
+            const user = auth.getUser ? auth.getUser() : null;
+            if (user) return user;
+        } catch(e) {}
+
+        try {
+            const stored = localStorage.getItem(CONFIG.STORAGE_KEYS.USER);
+            if (stored) return JSON.parse(stored);
+        } catch(e) {}
+
+        return null;
+    }
+
+    // ================================================================ //
+    // TOAST                                                             //
+    // ================================================================ //
+
+    function showToast(msg, type = 'info') {
+        const container = document.getElementById('toast-container');
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        const icons = {
+            success: 'fa-check-circle',
+            error: 'fa-exclamation-circle',
+            info: 'fa-info-circle',
+            warning: 'fa-exclamation-triangle'
+        };
+        toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${msg}`;
+        container.appendChild(toast);
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transition = '0.3s';
+            setTimeout(() => toast.remove(), 300);
+        }, 4000);
+    }
+
+    function setLoading(btn, loading) {
+        if (!btn) return;
+        btn.disabled = loading;
+        if (loading) {
+            btn.dataset.original = btn.innerHTML;
+            btn.innerHTML = '<span class="loading-spinner"></span> Processing...';
+        } else if (btn.dataset.original) {
+            btn.innerHTML = btn.dataset.original;
+        }
+    }
+
+    // ================================================================ //
+    // LOAD BRANCHES - FIXED: Dynamic from API                          //
+    // ================================================================ //
+
+    async function loadBranches() {
+        try {
+            const res = await apiFetch(CONFIG.ENDPOINTS.BRANCHES);
+            if (!res.ok) throw new Error('Failed to load branches');
+            const data = await res.json();
+            const branches = data.branches || data || [];
+
+            State.branches = branches;
+
+            const select = DOM.staffBranch;
+            select.innerHTML = '<option value="">Select Branch</option>';
+
+            if (branches.length === 0) {
+                // Fallback branches
+                loadFallbackBranches();
+                return;
+            }
+
+            // Group by location
+            const grouped = {};
+            branches.forEach(b => {
+                const key = b.city || b.state || 'Other';
+                if (!grouped[key]) grouped[key] = [];
+                grouped[key].push(b);
+            });
+
+            Object.keys(grouped).forEach(city => {
+                const optgroup = document.createElement('optgroup');
+                optgroup.label = `📍 ${city}`;
+                grouped[city].forEach(b => {
+                    const opt = document.createElement('option');
+                    opt.value = b.id;
+                    opt.textContent = b.name || b.branch_name || `Branch ${b.id}`;
+                    optgroup.appendChild(opt);
+                });
+                select.appendChild(optgroup);
+            });
+
+            // If no optgroups were created, add flat list
+            if (select.children.length <= 1) {
+                branches.forEach(b => {
+                    const opt = document.createElement('option');
+                    opt.value = b.id;
+                    opt.textContent = b.name || b.branch_name || `Branch ${b.id}`;
+                    select.appendChild(opt);
+                });
+            }
+
+        } catch (e) {
+            console.warn('Failed to load branches from API, using fallback:', e);
+            loadFallbackBranches();
+        }
+    }
+
+    function loadFallbackBranches() {
+        const select = DOM.staffBranch;
+        const fallbackBranches = [
+            { id: 'main', label: 'Victoria Island (HQ)', city: 'Lagos' },
+            { id: 'ikeja', label: 'Ikeja', city: 'Lagos' },
+            { id: 'surulere', label: 'Surulere', city: 'Lagos' },
+            { id: 'lekki', label: 'Lekki', city: 'Lagos' },
+            { id: 'yaba', label: 'Yaba', city: 'Lagos' },
+            { id: 'abuja', label: 'Abuja', city: 'Abuja' },
+            { id: 'ph', label: 'Port Harcourt', city: 'Rivers' },
+            { id: 'ibadan', label: 'Ibadan', city: 'Oyo' },
+            { id: 'benin', label: 'Benin City', city: 'Edo' }
+        ];
+
+        const grouped = {};
+        fallbackBranches.forEach(b => {
+            if (!grouped[b.city]) grouped[b.city] = [];
+            grouped[b.city].push(b);
+        });
+
+        select.innerHTML = '<option value="">Select Branch</option>';
+        Object.keys(grouped).forEach(city => {
+            const optgroup = document.createElement('optgroup');
+            optgroup.label = `📍 ${city}`;
+            grouped[city].forEach(b => {
+                const opt = document.createElement('option');
+                opt.value = b.id;
+                opt.textContent = b.label;
+                optgroup.appendChild(opt);
+            });
+            select.appendChild(optgroup);
+        });
+    }
+
+    // ================================================================ //
+    // DATA LOADING                                                      //
+    // ================================================================ //
+
+    async function loadInvitations() {
+        try {
+            const res = await apiFetch(CONFIG.ENDPOINTS.INVITATIONS);
+            const data = await res.json();
+            State.invitations = data.invitations || data || [];
+            renderInvitations();
+            updateStats();
+        } catch (e) {
+            DOM.invitationsTbody.innerHTML =
+                `<tr><td colspan="8"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Failed to load invitations: ${e.message}</p></div></td></tr>`;
+        }
+    }
+
+    async function loadStaff() {
+        try {
+            const res = await apiFetch(CONFIG.ENDPOINTS.STAFF_LIST);
+            const data = await res.json();
+            State.staffList = data.staff || data || [];
+            renderStaff();
+            updateStats();
+        } catch (e) {
+            DOM.staffTbody.innerHTML =
+                `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-exclamation-triangle"></i><p>Failed to load staff: ${e.message}</p></div></td></tr>`;
+        }
+    }
+
+    function updateStats() {
+        const activeInvites = State.invitations.filter(i =>
+            !i.revoked && !i.used && new Date(i.expires_at) > new Date()
+        ).length;
+        const totalStaff = State.staffList.length;
+        const pending = State.staffList.filter(s => s.status === 'pending').length;
+        const admins = State.staffList.filter(s => s.role === 'admin').length;
+
+        DOM.statActiveInvites.textContent = activeInvites;
+        DOM.statTotalStaff.textContent = totalStaff;
+        DOM.statPending.textContent = pending;
+        DOM.statAdmins.textContent = admins;
+    }
+
+    // ================================================================ //
+    // RENDER                                                            //
+    // ================================================================ //
+
+    function renderInvitations() {
+        const invites = State.invitations;
+        if (!invites || !invites.length) {
+            DOM.invitationsTbody.innerHTML =
+                `<tr><td colspan="8"><div class="empty-state"><i class="fas fa-envelope"></i><p>No active invitations</p></div></td></tr>`;
+            return;
+        }
+
+        DOM.invitationsTbody.innerHTML = invites.map(inv => {
+            const isExpired = new Date(inv.expires_at) < new Date();
+            const isUsed = inv.used;
+            const isRevoked = inv.revoked;
+            let statusBadge = '';
+            if (isRevoked) statusBadge = '<span class="badge badge-danger"><i class="fas fa-ban"></i> Revoked</span>';
+            else if (isUsed) statusBadge = '<span class="badge badge-success"><i class="fas fa-check"></i> Used</span>';
+            else if (isExpired) statusBadge = '<span class="badge badge-warning"><i class="fas fa-clock"></i> Expired</span>';
+            else statusBadge = '<span class="badge badge-cyan"><i class="fas fa-spinner fa-pulse"></i> Active</span>';
+
+            const canRevoke = !isRevoked && !isUsed && !isExpired;
+
+            // Find branch name
+            const branchName = State.branches.find(b => b.id === inv.branch)?.name || inv.branch || '—';
+
+            return `<tr>
+                <td><span class="mono" style="color:var(--neon-cyan);">${inv.code}</span></td>
+                <td>${inv.name || '—'}</td>
+                <td><span class="badge ${inv.role === 'admin' ? 'badge-info' : 'badge-cyan'}">${inv.role}</span></td>
+                <td>${branchName}</td>
+                <td style="font-size:0.8rem;">${new Date(inv.createdAt).toLocaleDateString()}</td>
+                <td style="font-size:0.8rem; ${isExpired && !isUsed ? 'color:var(--accent-danger);' : ''}">${new Date(inv.expires_at).toLocaleDateString()}</td>
+                <td>${statusBadge}</td>
+                <td>
+                    ${canRevoke ? `<button class="btn btn-danger btn-xs" onclick="window._revokeInvite('${inv.id}')"><i class="fas fa-times"></i> Revoke</button>` : '<span style="color:var(--text-muted); font-size:0.75rem;">—</span>'}
+                </td>
+            </tr>`;
+        }).join('');
+    }
+
+    function renderStaff() {
+        const staff = State.staffList;
+        if (!staff || !staff.length) {
+            DOM.staffTbody.innerHTML =
+                `<tr><td colspan="7"><div class="empty-state"><i class="fas fa-user-slash"></i><p>No staff registered yet</p></div></td></tr>`;
+            return;
+        }
+
+        DOM.staffTbody.innerHTML = staff.map(s => {
+            const statusBadge = s.status === 'active' ?
+                '<span class="badge badge-success"><i class="fas fa-check-circle"></i> Active</span>' :
+                '<span class="badge badge-warning"><i class="fas fa-hourglass-half"></i> Pending</span>';
+
+            // Find branch name
+            const branchName = State.branches.find(b => b.id === s.branch_id)?.name || s.branch_name || s.branch || '—';
+
+            return `<tr>
+                <td><strong>${s.name || '—'}</strong></td>
+                <td style="font-size:0.85rem;">${s.email || '—'}</td>
+                <td>${s.phone || '—'}</td>
+                <td>${branchName}</td>
+                <td><span class="badge ${s.role === 'admin' ? 'badge-info' : 'badge-cyan'}">${s.role}</span></td>
+                <td>${statusBadge}</td>
+                <td>
+                    ${s.status === 'pending' ? `<button class="btn btn-success btn-xs" onclick="window._approveStaff('${s.id}')"><i class="fas fa-check"></i> Approve</button>` : '<span style="color:var(--text-muted); font-size:0.75rem;">Approved</span>'}
+                </td>
+            </tr>`;
+        }).join('');
+    }
+
+    // ================================================================ //
+    // ACTIONS - Using correct backend endpoints                        //
+    // ================================================================ //
+
+    async function generateInvite() {
+        const name = DOM.staffName.value.trim();
+        if (!name) {
+            showToast('Please enter a staff name', 'error');
+            DOM.staffName.focus();
+            return;
+        }
+        if (!DOM.staffBranch.value) {
+            showToast('Please select a branch', 'error');
+            DOM.staffBranch.focus();
+            return;
+        }
+
+        setLoading(DOM.generateBtn, true);
+        try {
+            const res = await apiFetch(CONFIG.ENDPOINTS.GENERATE_INVITE, {
+                method: 'POST',
+                body: JSON.stringify({
+                    name: name,
+                    branch: DOM.staffBranch.value,
+                    role: DOM.staffRole.value,
+                    expiryHours: parseInt(DOM.expiryHours.value)
+                })
+            });
+            const data = await res.json();
+            if (!res.ok) throw new Error(data.error || 'Failed to generate');
+
+            // Get branch name
+            const branchName = State.branches.find(b => b.id === DOM.staffBranch.value)?.name ||
+                DOM.staffBranch.options[DOM.staffBranch.selectedIndex]?.text || 'Selected Branch';
+
+            State.currentInvite = {
+                code: data.code,
+                expiresAt: data.expiresAt,
+                name: name,
+                branch: branchName
+            };
+            DOM.generatedCode.textContent = data.code;
+            DOM.codeMeta.innerHTML = `
+                <i class="fas fa-user"></i> ${name} &nbsp;|&nbsp;
+                <i class="fas fa-building"></i> ${branchName} &nbsp;|&nbsp;
+                <i class="fas fa-clock"></i> Expires: ${new Date(data.expiresAt).toLocaleString()}
+            `;
+            DOM.codeReveal.classList.add('active');
+            showToast('✅ Invitation code generated!', 'success');
+            await loadInvitations();
+            DOM.staffName.value = '';
+        } catch (e) {
+            showToast(e.message, 'error');
+        } finally {
+            setLoading(DOM.generateBtn, false);
+        }
+    }
+
+    async function revokeInvite(inviteId) {
+        if (!confirm('⚠️ Revoke this invitation? The code will no longer work.')) return;
+        try {
+            const res = await apiFetch(`${CONFIG.ENDPOINTS.REVOKE_INVITE}/${inviteId}`, { method: 'POST' });
+            if (!res.ok) throw new Error('Failed to revoke');
+            showToast('✅ Invitation revoked', 'success');
+            await loadInvitations();
+        } catch (e) {
+            showToast(e.message, 'error');
+        }
+    }
+
+    async function approveStaff(staffId) {
+        if (!confirm('✅ Approve this staff member? They will gain immediate access.')) return;
+        try {
+            const res = await apiFetch(`${CONFIG.ENDPOINTS.APPROVE_STAFF}/${staffId}`, { method: 'POST' });
+            if (!res.ok) throw new Error('Failed to approve');
+            showToast('✅ Staff approved!', 'success');
+            await loadStaff();
+        } catch (e) {
+            showToast(e.message, 'error');
+        }
+    }
+
+    async function logout() {
+        try {
+            await apiFetch(CONFIG.ENDPOINTS.LOGOUT, { method: 'POST' });
+        } catch {}
+
+        try { if (auth.logout) auth.logout(); } catch(e) {}
+
+        localStorage.removeItem(CONFIG.STORAGE_KEYS.TOKEN);
+        localStorage.removeItem(CONFIG.STORAGE_KEYS.USER);
+        sessionStorage.clear();
+
+        window.location.href = '/login.html';
+    }
+
+    // ================================================================ //
+    // SHARING                                                          //
+    // ================================================================ //
+
+    function shareWhatsApp() {
+        if (!State.currentInvite) {
+            showToast('Generate an invitation first', 'warning');
+            return;
+        }
+        const msg = encodeURIComponent(
+            `🔋 *PrimeShieldHub Staff Invitation*\n\n` +
+            `Hi ${State.currentInvite.name}, you've been invited to join PrimeShieldHub!\n\n` +
+            `📋 *Code:* ${State.currentInvite.code}\n` +
+            `🔗 Register: ${CONFIG.REGISTRATION_URL}\n\n` +
+            `Enter the code in the "Employee Code" field.\n\nWelcome aboard! ⚡`
+        );
+        window.open(`https://wa.me/?text=${msg}`, '_blank');
+    }
+
+    function copyCode() {
+        if (!State.currentInvite) {
+            showToast('Generate an invitation first', 'warning');
+            return;
+        }
+        navigator.clipboard.writeText(State.currentInvite.code)
+            .then(() => showToast('📋 Code copied!', 'success'))
+            .catch(() => showToast('Failed to copy', 'error'));
+    }
+
+    function copyLink() {
+        if (!State.currentInvite) {
+            showToast('Generate an invitation first', 'warning');
+            return;
+        }
+        const text = `Registration: ${CONFIG.REGISTRATION_URL}\nCode: ${State.currentInvite.code}`;
+        navigator.clipboard.writeText(text)
+            .then(() => showToast('🔗 Link & code copied!', 'success'))
+            .catch(() => showToast('Failed to copy', 'error'));
+    }
+
+    // ================================================================ //
+    // KEYBOARD SHORTCUTS                                                //
+    // ================================================================ //
+
+    function setupKeyboardShortcuts() {
+        document.addEventListener('keydown', (e) => {
+            // Ctrl+Enter = Generate
+            if (e.ctrlKey && e.key === 'Enter') {
+                e.preventDefault();
+                generateInvite();
+            }
+            // Escape = Clear form
+            if (e.key === 'Escape') {
+                DOM.staffName.value = '';
+                DOM.staffName.focus();
+            }
+        });
+    }
+
+    // ================================================================ //
+    // EVENT LISTENERS                                                   //
+    // ================================================================ //
+
+    function setupListeners() {
+        DOM.generateBtn.addEventListener('click', generateInvite);
+        DOM.logoutBtn.addEventListener('click', logout);
+
+        document.getElementById('whatsapp-share')?.addEventListener('click', shareWhatsApp);
+        document.getElementById('copy-code')?.addEventListener('click', copyCode);
+        document.getElementById('copy-link')?.addEventListener('click', copyLink);
+
+        // Enter key
+        DOM.staffName.addEventListener('keypress', e => {
+            if (e.key === 'Enter') generateInvite();
+        });
+
+        // Global functions for inline onclick
+        window._revokeInvite = revokeInvite;
+        window._approveStaff = approveStaff;
+
+        // Keyboard shortcuts
+        setupKeyboardShortcuts();
+    }
+
+    // ================================================================ //
+    // CONNECTION STATUS                                                 //
+    // ================================================================ //
+
+    function setupConnectionStatus() {
+        window.addEventListener('online', () => {
+            showToast('🟢 Connection restored', 'success', 2000);
+            Promise.all([loadInvitations(), loadStaff()]).catch(() => {});
+        });
+
+        window.addEventListener('offline', () => {
+            showToast('🔴 You are offline. Some features may be unavailable.', 'error', 4000);
+        });
+    }
+
+    // ================================================================ //
+    // INIT                                                              //
+    // ================================================================ //
+
+    async function init() {
+        console.log('🚀 Admin Staff Invitation Portal v11.5 — Unified Config');
+        console.log('📍 API Base:', CONFIG.API_BASE);
+        console.log('📦 Using unified config from:', UnifiedConfig.apiBase);
+
+        initThreeJS();
+        setupListeners();
+        setupConnectionStatus();
+
+        const authed = await checkAuth();
+        if (!authed) return;
+
+        await getFingerprint();
+        await refreshCsrf();
+
+        // Load branches first, then staff and invitations
+        await loadBranches();
+        await Promise.all([loadInvitations(), loadStaff()]);
+
+        console.log('✅ Portal ready');
+        console.log('⌨️  Ctrl+Enter to generate, Escape to clear');
+    }
+
+    init().catch(err => console.error('Init failed:', err));
+
+  </script>
+</body>
+</html>
+

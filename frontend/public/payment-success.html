@@ -1,0 +1,1702 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="8.0.0">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="PrimeShieldHub Payment Success">
+  <meta name="theme-color" content="#00f7ff">
+ 
+  <!-- Canonical URL (Clean URL - no .html) -->
+  <link rel="canonical" href="https://primeshieldhub.com/payment-success">
+ 
+  <title>Payment Success | PrimeShieldHub</title>
+ 
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+ 
+  <!-- Auth Storage Script -->
+  <script type="module" src="../js/auth-storage.js"></script></script>
+ 
+  <!-- Three.js for background -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+      }
+    }
+  </script>
+ 
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+
+    :root {
+      --bg-deep: #010105;
+      --surface-dark: rgba(8, 12, 25, 0.85);
+      --glass-edge: rgba(0, 247, 255, 0.25);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --accent-success: #33ffaa;
+      --accent-danger: #ff3366;
+      --whatsapp-green: #25D366;
+      --whatsapp-dark: #128C7E;
+      --text-primary: #f0f3ff;
+      --text-secondary: #9ca3cf;
+      --gradient-primary: linear-gradient(135deg, #00f7ff, #b200ff);
+      --gradient-gold: linear-gradient(135deg, #ffd966, #ffaa33);
+      --gradient-success: linear-gradient(135deg, #33ffaa, #00cc88);
+      --gradient-whatsapp: linear-gradient(135deg, #25D366, #128C7E);
+      --shadow-glow: 0 0 20px rgba(0,247,255,0.3);
+      --shadow-success: 0 0 30px rgba(51,255,170,0.4);
+      --radius-card: 2rem;
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+
+    body {
+      font-family: 'Inter', 'Space Grotesk', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+
+    /* 3D Canvas Background */
+    #quantum-bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+
+    /* Animated Grid Overlay */
+    .quantum-grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image:
+        linear-gradient(rgba(0,247,255,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,247,255,0.05) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+      animation: gridShift 20s linear infinite;
+    }
+
+
+    @keyframes gridShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+
+    /* Particle Confetti */
+    .confetti {
+      position: fixed;
+      width: 10px;
+      height: 10px;
+      background: var(--neon-cyan);
+      position: absolute;
+      animation: confettiFall 3s linear forwards;
+      z-index: 9999;
+    }
+
+
+    @keyframes confettiFall {
+      0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
+    }
+
+
+    /* Main Container */
+    .quantum-container {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+
+    /* Success Card */
+    .success-card {
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--glass-edge);
+      box-shadow: var(--shadow-success);
+      width: 100%;
+      max-width: 550px;
+      padding: 2.5rem;
+      transition: var(--transition-smooth);
+      animation: floatIn 0.6s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+
+    .success-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 4px;
+      background: var(--gradient-success);
+      animation: loadingBar 2s ease-out forwards;
+    }
+
+
+    @keyframes loadingBar {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+
+    /* Success Icon */
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      margin: 0 auto 1.5rem;
+      background: var(--gradient-success);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 0.8s ease-out;
+    }
+
+
+    @keyframes pulse {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+
+    .success-icon i {
+      font-size: 3rem;
+      color: white;
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.3));
+    }
+
+
+    /* Header */
+    .success-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+
+    .success-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      background: var(--gradient-success);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 0.5rem;
+    }
+
+
+    .success-header p {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+
+    /* Receipt Card */
+    .receipt-card {
+      background: rgba(0,0,0,0.4);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--glass-edge);
+    }
+
+
+    .receipt-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px dashed var(--glass-edge);
+    }
+
+
+    .receipt-title {
+      font-weight: 700;
+      font-size: 1.2rem;
+      color: var(--neon-cyan);
+    }
+
+
+    .receipt-logo {
+      font-family: 'Orbitron', monospace;
+      font-weight: 900;
+      font-size: 1rem;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+
+
+    .receipt-row:last-child {
+      border-bottom: none;
+    }
+
+
+    .receipt-label {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+
+    .receipt-value {
+      font-weight: 600;
+      font-size: 0.95rem;
+    }
+
+
+    .receipt-total {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 2px solid var(--neon-cyan);
+    }
+
+
+    .receipt-total .receipt-label {
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--neon-cyan);
+    }
+
+
+    .receipt-total .receipt-value {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--neon-cyan);
+    }
+
+
+    /* QR Code */
+    .qr-container {
+      text-align: center;
+      margin: 1.5rem 0;
+      padding: 1rem;
+      background: white;
+      border-radius: 1rem;
+      display: inline-block;
+      width: 100%;
+    }
+
+
+    #qrcode {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+
+    .qr-label {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+
+
+    /* WhatsApp Modal */
+    .whatsapp-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      z-index: 10000;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    .whatsapp-modal.active {
+      display: flex;
+    }
+
+
+    .whatsapp-modal-content {
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--glass-edge);
+      max-width: 450px;
+      width: 90%;
+      padding: 2rem;
+      animation: floatIn 0.3s ease-out;
+    }
+
+
+    .whatsapp-modal-header {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+
+    .whatsapp-modal-header i {
+      font-size: 3rem;
+      color: var(--whatsapp-green);
+    }
+
+
+    .whatsapp-modal-header h3 {
+      margin-top: 0.5rem;
+    }
+
+
+    .whatsapp-number-input {
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--glass-edge);
+      border-radius: 2rem;
+      padding: 1rem;
+      color: white;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+
+
+    .whatsapp-number-input:focus {
+      outline: none;
+      border-color: var(--whatsapp-green);
+      box-shadow: 0 0 12px rgba(37,211,102,0.3);
+    }
+
+
+    .whatsapp-preview {
+      background: rgba(0,0,0,0.3);
+      border-radius: 1rem;
+      padding: 1rem;
+      margin: 1rem 0;
+      font-size: 0.85rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+
+
+    .whatsapp-preview pre {
+      white-space: pre-wrap;
+      font-family: monospace;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+
+    .button-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+
+    .quantum-btn {
+      flex: 1;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: 2rem;
+      padding: 0.8rem 1.2rem;
+      font-weight: 600;
+      font-size: 0.9rem;
+      color: white;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      text-decoration: none;
+    }
+
+
+    .quantum-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0,247,255,0.6);
+    }
+
+
+    .quantum-btn.success {
+      background: var(--gradient-success);
+    }
+
+
+    .quantum-btn.whatsapp {
+      background: var(--gradient-whatsapp);
+    }
+
+
+    .quantum-btn.whatsapp:hover {
+      box-shadow: 0 0 20px rgba(37,211,102,0.5);
+    }
+
+
+    .quantum-btn.outline {
+      background: transparent;
+      border: 1px solid var(--glass-edge);
+    }
+
+
+    .quantum-btn.outline:hover {
+      border-color: var(--neon-cyan);
+      background: rgba(0,247,255,0.1);
+    }
+
+
+    /* Loading State */
+    .loading-state {
+      text-align: center;
+      padding: 2rem;
+    }
+
+
+    .quantum-loader {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto 1rem;
+      border: 3px solid var(--glass-edge);
+      border-top-color: var(--neon-cyan);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+
+    /* Error State */
+    .error-state {
+      text-align: center;
+      padding: 2rem;
+    }
+
+
+    .error-icon {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1rem;
+      background: var(--accent-danger);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+
+    .error-icon i {
+      font-size: 2.5rem;
+      color: white;
+    }
+
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 2rem;
+      padding: 1rem 2rem;
+      color: var(--neon-cyan);
+      z-index: 10001;
+      animation: slideIn 0.3s ease;
+      display: none;
+    }
+
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+
+    /* Responsive */
+    @media (max-width: 600px) {
+      .success-card { padding: 1.5rem; margin: 1rem; }
+      .button-group { flex-direction: column; }
+      .receipt-row { flex-direction: column; align-items: flex-start; gap: 0.3rem; }
+    }
+
+
+    /* Print Styles */
+    @media print {
+      .quantum-grid-overlay, #quantum-bg-canvas, .button-group, .confetti, .whatsapp-modal {
+        display: none !important;
+      }
+      .success-card {
+        background: white;
+        color: black;
+        box-shadow: none;
+        border: 1px solid #ccc;
+      }
+      .receipt-label { color: #666; }
+      .receipt-value { color: #000; }
+      .receipt-title { color: #00aa88; }
+    }
+
+
+    /* Admin Panel Badge */
+    .admin-badge {
+      position: fixed;
+      top: 1rem;
+      right: 1rem;
+      background: rgba(178, 0, 255, 0.8);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--neon-purple);
+      border-radius: 2rem;
+      padding: 0.5rem 1rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: white;
+      z-index: 9998;
+      display: none;
+      align-items: center;
+      gap: 0.5rem;
+      cursor: pointer;
+    }
+
+
+    .admin-badge.visible {
+      display: flex;
+    }
+
+
+    .admin-badge i {
+      color: var(--neon-gold);
+    }
+
+
+    /* Admin Actions Panel */
+    .admin-actions {
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(178, 0, 255, 0.1);
+      border-radius: 1rem;
+      border: 1px solid rgba(178, 0, 255, 0.3);
+      display: none;
+    }
+
+
+    .admin-actions.visible {
+      display: block;
+    }
+
+
+    .admin-actions h4 {
+      color: var(--neon-purple);
+      margin-bottom: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+
+    /* Authority Links Bar */
+    .authority-links {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(8, 12, 25, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(0, 247, 255, 0.2);
+      padding: 12px 0;
+      z-index: 9997;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+
+
+    .authority-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 12px;
+      font-weight: 500;
+      transition: var(--transition-smooth);
+    }
+
+
+    .authority-links a:hover {
+      color: var(--neon-cyan);
+    }
+
+
+    @media (max-width: 768px) {
+      .authority-links {
+        gap: 12px;
+        padding: 8px 0;
+      }
+      .authority-links a {
+        font-size: 10px;
+      }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <canvas id="quantum-bg-canvas"></canvas>
+  <div class="quantum-grid-overlay"></div>
+
+
+  <div class="toast" id="toast"></div>
+
+
+  <!-- Admin Badge -->
+  <div class="admin-badge" id="adminBadge">
+    <i class="fas fa-shield-alt"></i>
+    <span>Admin Mode</span>
+  </div>
+
+
+  <!-- Authority Links Bar -->
+  <div class="authority-links">
+    <a href="/freedom-evbakoe-amenaghawon">Personal Profile</a>
+    <a href="/biography">Official Biography</a>
+    <a href="/founder">Corporate Founder Profile</a>
+    <a href="/company">Company</a>
+    <a href="/leadership">Leadership</a>
+    <a href="/knowledge-graph">Knowledge Graph</a>
+  </div>
+
+
+  <!-- WhatsApp Modal -->
+  <div class="whatsapp-modal" id="whatsappModal">
+    <div class="whatsapp-modal-content">
+      <div class="whatsapp-modal-header">
+        <i class="fab fa-whatsapp"></i>
+        <h3>Send Receipt via WhatsApp</h3>
+        <p style="font-size: 0.8rem; color: var(--text-secondary);">Enter customer's WhatsApp number</p>
+      </div>
+     
+      <input type="tel" id="whatsappNumber" class="whatsapp-number-input" placeholder="e.g., 2348103535978" value="2348103535978">
+     
+      <div class="whatsapp-preview">
+        <strong>Preview Message:</strong>
+        <pre id="whatsappPreview"></pre>
+      </div>
+     
+      <div class="button-group">
+        <button class="quantum-btn whatsapp" id="sendWhatsappBtn">
+          <i class="fab fa-whatsapp"></i> Send Now
+        </button>
+        <button class="quantum-btn outline" id="closeWhatsappModal">
+          Cancel
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="quantum-container">
+    <div class="success-card" id="successCard">
+      <!-- Loading State -->
+      <div id="loadingState" class="loading-state">
+        <div class="quantum-loader"></div>
+        <p>Verifying your payment...</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Please wait while we confirm your transaction</p>
+      </div>
+
+
+      <!-- Success State (hidden initially) -->
+      <div id="successState" style="display: none;">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <div class="success-header">
+          <h1>Payment Successful!</h1>
+          <p>Your transaction has been completed successfully</p>
+        </div>
+
+
+        <!-- Receipt -->
+        <div class="receipt-card" id="receiptCard">
+          <div class="receipt-header">
+            <span class="receipt-title">PAYMENT RECEIPT</span>
+            <span class="receipt-logo">PRIMESHIELDHUB</span>
+          </div>
+         
+          <div class="receipt-row">
+            <span class="receipt-label">Transaction ID</span>
+            <span class="receipt-value" id="receiptRef">-</span>
+          </div>
+         
+          <div class="receipt-row">
+            <span class="receipt-label">Date & Time</span>
+            <span class="receipt-value" id="receiptDate">-</span>
+          </div>
+         
+          <div class="receipt-row">
+            <span class="receipt-label">Payment Method</span>
+            <span class="receipt-value" id="receiptMethod">Card / Bank Transfer</span>
+          </div>
+         
+          <div class="receipt-row">
+            <span class="receipt-label">Customer Name</span>
+            <span class="receipt-value" id="receiptCustomer">-</span>
+          </div>
+         
+          <div class="receipt-row">
+            <span class="receipt-label">Customer Email</span>
+            <span class="receipt-value" id="receiptEmail">-</span>
+          </div>
+         
+          <div class="receipt-row">
+            <span class="receipt-label">Items / Description</span>
+            <span class="receipt-value" id="receiptDescription">Quantum Purchase</span>
+          </div>
+         
+          <div class="receipt-row receipt-total">
+            <span class="receipt-label">Total Amount</span>
+            <span class="receipt-value" id="receiptAmount">₦0</span>
+          </div>
+        </div>
+
+
+        <!-- Admin Actions Panel -->
+        <div class="admin-actions" id="adminActions">
+          <h4><i class="fas fa-tools"></i> Admin Actions</h4>
+          <div class="button-group">
+            <button class="quantum-btn" id="adminResendReceiptsBtn">
+              <i class="fas fa-envelope"></i> Resend Email Receipts
+            </button>
+            <button class="quantum-btn success" id="adminDownloadPDFBtn">
+              <i class="fas fa-file-pdf"></i> Download & Print PDF
+            </button>
+          </div>
+        </div>
+
+
+        <!-- QR Code -->
+        <div id="qrContainer" style="display: none;">
+          <div class="qr-container">
+            <div id="qrcode"></div>
+            <div class="qr-label">Scan to verify receipt</div>
+          </div>
+        </div>
+
+
+        <!-- Action Buttons -->
+        <div class="button-group">
+          <button class="quantum-btn" id="printBtn">
+            <i class="fas fa-print"></i> Print Receipt
+          </button>
+          <button class="quantum-btn whatsapp" id="whatsappBtn">
+            <i class="fab fa-whatsapp"></i> WhatsApp Receipt
+          </button>
+          <a href="/" class="quantum-btn outline">
+            <i class="fas fa-home"></i> Return Home
+          </a>
+          <a href="/payment-methods" class="quantum-btn outline">
+            <i class="fas fa-credit-card"></i> Payment Methods
+          </a>
+        </div>
+       
+        <div class="button-group">
+          <a href="/dashboard" class="quantum-btn outline">
+            <i class="fas fa-shopping-bag"></i> View My Orders
+          </a>
+          <button class="quantum-btn outline" id="downloadReceiptBtn">
+            <i class="fas fa-download"></i> Download PDF
+          </button>
+        </div>
+      </div>
+
+
+      <!-- Error State (hidden initially) -->
+      <div id="errorState" style="display: none;">
+        <div class="error-icon">
+          <i class="fas fa-times-circle"></i>
+        </div>
+        <div class="success-header">
+          <h1 style="background: linear-gradient(135deg, #ff3366, #cc0044); -webkit-background-clip: text; background-clip: text; color: transparent;">Payment Failed</h1>
+          <p id="errorMessage">Unable to verify your payment. Please contact support.</p>
+        </div>
+        <div class="button-group">
+          <a href="/checkout" class="quantum-btn outline">
+            <i class="fas fa-arrow-left"></i> Try Again
+          </a>
+          <a href="https://wa.me/2348103535978" target="_blank" class="quantum-btn whatsapp">
+            <i class="fab fa-whatsapp"></i> Contact Support
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <script type="module">
+    import * as THREE from 'three';
+
+
+    // ================================================================
+    // UNIFIED CONFIGURATION
+    // ================================================================
+   
+    // Try to load config, fallback if not available
+    let CONFIG;
+    let API_BASE;
+    let STORAGE_KEYS;
+   
+    try {
+      const configModule = await import('../js/config.js');
+      CONFIG = configModule.CONFIG;
+      API_BASE = CONFIG.apiBase;
+      STORAGE_KEYS = CONFIG.STORAGE_KEYS;
+    } catch (e) {
+      // Fallback config - matches your backend
+      API_BASE = 'https://api.primeshieldhub.com/api';
+      STORAGE_KEYS = {
+        TOKEN: 'psh_auth_token',
+        USER: 'psh_user',
+        ORDERS: 'psh_local_orders',
+        CART: 'psh_cart',
+        ADMIN_TOKEN: 'psh_auth_token'
+      };
+      console.log('📦 Using fallback config');
+    }
+
+
+    // ================================================================
+    // UNIFIED AUTH - FIXED: Made async functions
+    // ================================================================
+   
+    async function getAuthToken() {
+      try {
+        const authModule = await import('../js/auth.js');
+        return authModule.auth.getToken();
+      } catch (e) {
+        // Fallback to localStorage using CONFIG key
+        return localStorage.getItem(STORAGE_KEYS.TOKEN) ||
+               localStorage.getItem('psh_auth_token') ||
+               localStorage.getItem('admin_token') ||
+               null;
+      }
+    }
+
+
+    async function getUser() {
+      try {
+        const authModule = await import('../js/auth.js');
+        return authModule.auth.getUser();
+      } catch (e) {
+        try {
+          const stored = localStorage.getItem(STORAGE_KEYS.USER);
+          if (stored) return JSON.parse(stored);
+        } catch(e) {}
+        return null;
+      }
+    }
+
+
+    async function checkAdminStatus() {
+      const token = await getAuthToken();
+      const user = await getUser();
+      // Admin if user has admin/staff role OR token exists
+      const isAdmin = user && (user.role === 'admin' || user.role === 'staff');
+     
+      if (isAdmin || token) {
+        document.getElementById('adminBadge').classList.add('visible');
+        document.getElementById('adminActions').classList.add('visible');
+      }
+     
+      return isAdmin || !!token;
+    }
+
+
+    // ================================================================
+    // API CALLS WITH UNIFIED CONFIG
+    // ================================================================
+   
+    async function apiCall(endpoint, method = 'GET', body = null) {
+      try {
+        const token = await getAuthToken();
+        const headers = {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json'
+        };
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+
+
+        const options = {
+          method,
+          headers,
+          credentials: 'include'
+        };
+        if (body) {
+          options.body = JSON.stringify(body);
+        }
+
+
+        const response = await fetch(`${API_BASE}${endpoint}`, options);
+
+
+        if (response.status === 401) {
+          // Token expired - clear it
+          localStorage.removeItem(STORAGE_KEYS.TOKEN);
+          localStorage.removeItem(STORAGE_KEYS.USER);
+          throw new Error('Session expired');
+        }
+
+
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(data.error || data.message || 'Request failed');
+        }
+        return data;
+      } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+      }
+    }
+
+
+    // ================================================================
+    // ADMIN FUNCTIONS - Using unified auth
+    // ================================================================
+   
+    async function resendReceipts(reference) {
+      const token = await getAuthToken();
+      if (!token) {
+        throw new Error('Admin authentication required');
+      }
+     
+      const response = await fetch(`${API_BASE}/admin/receipts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({ reference, action: 'resend_receipts' })
+      });
+     
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.message || `HTTP error! status: ${response.status}`);
+      }
+     
+      return response.json();
+    }
+
+
+    async function downloadPDF(reference) {
+      try {
+        const response = await fetch(`${API_BASE}/receipt/download`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ reference })
+        });
+       
+        const data = await response.json();
+       
+        if (data.success && data.html) {
+          const printWindow = window.open('', '_blank');
+          printWindow.document.write(data.html);
+          printWindow.document.close();
+         
+          printWindow.onload = function() {
+            setTimeout(() => {
+              printWindow.print();
+            }, 500);
+          };
+        } else {
+          throw new Error(data.message || 'Failed to generate PDF');
+        }
+      } catch (error) {
+        console.error('PDF download error:', error);
+        throw error;
+      }
+    }
+
+
+    // ================================================================
+    // DOM ELEMENTS
+    // ================================================================
+   
+    const loadingState = document.getElementById('loadingState');
+    const successState = document.getElementById('successState');
+    const errorState = document.getElementById('errorState');
+    const errorMessage = document.getElementById('errorMessage');
+    const toast = document.getElementById('toast');
+
+
+    const receiptRef = document.getElementById('receiptRef');
+    const receiptDate = document.getElementById('receiptDate');
+    const receiptMethod = document.getElementById('receiptMethod');
+    const receiptCustomer = document.getElementById('receiptCustomer');
+    const receiptEmail = document.getElementById('receiptEmail');
+    const receiptDescription = document.getElementById('receiptDescription');
+    const receiptAmount = document.getElementById('receiptAmount');
+
+
+    const whatsappModal = document.getElementById('whatsappModal');
+    const whatsappNumber = document.getElementById('whatsappNumber');
+    const whatsappPreview = document.getElementById('whatsappPreview');
+    const sendWhatsappBtn = document.getElementById('sendWhatsappBtn');
+    const closeWhatsappModal = document.getElementById('closeWhatsappModal');
+
+
+    const adminResendReceiptsBtn = document.getElementById('adminResendReceiptsBtn');
+    const adminDownloadPDFBtn = document.getElementById('adminDownloadPDFBtn');
+
+
+    // Get reference from URL
+    const params = new URLSearchParams(window.location.search);
+    const reference = params.get('reference');
+    const trxref = params.get('trxref');
+    const finalReference = reference || trxref;
+
+
+    let currentReceiptData = null;
+
+
+    // ================================================================
+    // UTILITY FUNCTIONS
+    // ================================================================
+   
+    function showToast(message, isError = false) {
+      toast.textContent = message;
+      toast.style.borderColor = isError ? 'var(--accent-danger)' : 'var(--neon-cyan)';
+      toast.style.color = isError ? 'var(--accent-danger)' : 'var(--neon-cyan)';
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 4000);
+    }
+
+
+    function createConfetti() {
+      const colors = ['#00f7ff', '#33ffaa', '#ffd966', '#b200ff', '#ff3366'];
+      for (let i = 0; i < 100; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        confetti.style.left = Math.random() * 100 + '%';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = Math.random() * 8 + 4 + 'px';
+        confetti.style.height = Math.random() * 8 + 4 + 'px';
+        confetti.style.animationDuration = Math.random() * 2 + 1 + 's';
+        confetti.style.animationDelay = Math.random() * 0.5 + 's';
+        document.body.appendChild(confetti);
+        setTimeout(() => confetti.remove(), 3000);
+      }
+    }
+
+
+    function formatCurrency(amount) {
+      return '₦' + Number(amount).toLocaleString('en-NG', { minimumFractionDigits: 2 });
+    }
+
+
+    function formatDate(timestamp) {
+      const date = new Date(timestamp);
+      return date.toLocaleDateString('en-NG', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+    }
+
+
+    function generateWhatsAppMessage(receiptData, phoneNumber) {
+      const formattedPhone = phoneNumber.replace(/[^0-9]/g, '');
+      const displayPhone = formattedPhone.startsWith('234') ? formattedPhone : '234' + formattedPhone;
+     
+      const message = `🏆 *PRIMESHIELDHUB RECEIPT* 🏆
+
+
+✅ *Payment Successful!*
+
+
+📋 *Transaction ID:* ${receiptData.reference}
+📅 *Date:* ${receiptData.date}
+💰 *Amount:* ${receiptData.amount}
+👤 *Customer:* ${receiptData.customer}
+📧 *Email:* ${receiptData.email || 'N/A'}
+
+
+🔗 *Track Order:* https://primeshieldhub.com/dashboard
+
+
+Thank you for shopping with PrimeShieldHub!
+_This is an official system-generated receipt._`;
+     
+      return { message, displayPhone };
+    }
+
+
+    function sendWhatsAppMessage(message, phoneNumber) {
+      const encodedMessage = encodeURIComponent(message);
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodedMessage}`;
+      window.open(whatsappUrl, '_blank');
+    }
+
+
+    function updateWhatsAppPreview() {
+      if (!currentReceiptData) return;
+      const phone = whatsappNumber.value.trim();
+      const { message } = generateWhatsAppMessage(currentReceiptData, phone);
+      whatsappPreview.textContent = message;
+    }
+
+
+    function openWhatsAppModal() {
+      if (!currentReceiptData) {
+        showToast('Receipt data not available', true);
+        return;
+      }
+      updateWhatsAppPreview();
+      whatsappModal.classList.add('active');
+    }
+
+
+    function closeWhatsAppModalFunc() {
+      whatsappModal.classList.remove('active');
+    }
+
+
+    async function handleSendWhatsApp() {
+      let phone = whatsappNumber.value.trim();
+      if (!phone) {
+        showToast('Please enter a WhatsApp number', true);
+        return;
+      }
+     
+      phone = phone.replace(/[^0-9]/g, '');
+      if (!phone.startsWith('234') && !phone.startsWith('0')) {
+        phone = '234' + phone;
+      }
+      if (phone.startsWith('0')) {
+        phone = '234' + phone.substring(1);
+      }
+     
+      const { message } = generateWhatsAppMessage(currentReceiptData, phone);
+      sendWhatsAppMessage(message, phone);
+      closeWhatsAppModalFunc();
+      showToast('Opening WhatsApp...');
+    }
+
+
+    async function generateQRCode(text) {
+      const qrContainer = document.getElementById('qrContainer');
+      const qrDiv = document.getElementById('qrcode');
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(text)}`;
+      qrDiv.innerHTML = `<img src="${qrUrl}" width="150" height="150" alt="QR Code">`;
+      qrContainer.style.display = 'block';
+    }
+
+
+    // ================================================================
+    // ADMIN ACTION HANDLERS
+    // ================================================================
+   
+    async function handleResendReceipts() {
+      if (!finalReference) {
+        showToast('No transaction reference found', true);
+        return;
+      }
+     
+      const btn = adminResendReceiptsBtn;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+      btn.disabled = true;
+     
+      try {
+        const result = await resendReceipts(finalReference);
+        if (result.success) {
+          showToast(`✅ ${result.message || 'Receipts resent successfully!'}`);
+        } else {
+          showToast(`❌ ${result.message || 'Failed to resend receipts'}`, true);
+        }
+      } catch (error) {
+        console.error('Resend receipts error:', error);
+        showToast(`❌ ${error.message || 'Failed to resend receipts'}`, true);
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+   
+    async function handleAdminDownloadPDF() {
+      if (!finalReference) {
+        showToast('No transaction reference found', true);
+        return;
+      }
+     
+      const btn = adminDownloadPDFBtn;
+      const originalText = btn.innerHTML;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+      btn.disabled = true;
+     
+      try {
+        await downloadPDF(finalReference);
+        showToast('📄 PDF generated successfully!');
+      } catch (error) {
+        console.error('Admin PDF download error:', error);
+        showToast(`❌ ${error.message || 'Failed to generate PDF'}`, true);
+      } finally {
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    }
+
+
+    // ================================================================
+    // LOAD ORDER DATA FROM LOCALSTORAGE
+    // ================================================================
+   
+    function loadOrderData() {
+      // Get reference from URL
+      const params = new URLSearchParams(window.location.search);
+      const reference = params.get('reference') || params.get('ref') || '';
+      const trackingId = params.get('trackingId') || '';
+      const method = params.get('method') || '';
+     
+      // Try to get order data from localStorage
+      let orderData = null;
+      try {
+        const stored = localStorage.getItem('psh_last_order');
+        if (stored) {
+          orderData = JSON.parse(stored);
+          console.log('📦 Loaded order data from localStorage:', orderData);
+        }
+      } catch (e) {
+        console.warn('Failed to load order data:', e);
+      }
+     
+      if (orderData) {
+        // Display the order data
+        receiptRef.textContent = orderData.reference || reference || 'N/A';
+        receiptDate.textContent = formatDate(orderData.timestamp || Date.now());
+       
+        // Payment method
+        const methodMap = {
+          'paystack': '💳 Card Payment (Paystack)',
+          'card': '💳 Card Payment',
+          'bank': '🏦 Bank Transfer',
+          'crypto': '₿ Cryptocurrency',
+          'whatsapp': '📱 WhatsApp Pay',
+          'bank_transfer': '🏦 Bank Transfer'
+        };
+        receiptMethod.textContent = methodMap[orderData.paymentMethod] || methodMap[method] || '💳 Card Payment';
+       
+        receiptCustomer.textContent = orderData.customerName || 'Customer';
+        receiptEmail.textContent = orderData.customerEmail || 'N/A';
+       
+        // Display items - FIX for "undefined x1"
+        if (orderData.items && orderData.items.length > 0) {
+          const itemsHtml = orderData.items.map(item => 
+            `${item.name || 'Product'} x${item.quantity || 1}`
+          ).join(', ');
+          receiptDescription.textContent = itemsHtml || 'Quantum Purchase';
+        } else {
+          receiptDescription.textContent = 'Quantum Purchase';
+        }
+       
+        receiptAmount.textContent = formatCurrency(orderData.total || 0);
+       
+        // Set currentReceiptData for WhatsApp
+        currentReceiptData = {
+          reference: orderData.reference || reference,
+          amount: formatCurrency(orderData.total || 0),
+          date: receiptDate.textContent,
+          customer: receiptCustomer.textContent,
+          email: receiptEmail.textContent
+        };
+       
+        // Generate QR code
+        generateQRCode(JSON.stringify(currentReceiptData));
+        createConfetti();
+       
+        // Clear the stored order after displaying
+        localStorage.removeItem('psh_last_order');
+       
+        return true;
+      }
+     
+      return false;
+    }
+
+
+    // ================================================================
+    // PAYMENT VERIFICATION - Uses your actual backend endpoint
+    // ================================================================
+   
+    async function verifyPayment() {
+      // Try to load from localStorage first
+      const loaded = loadOrderData();
+      if (loaded) {
+        await checkAdminStatus();
+        return;
+      }
+     
+      if (!finalReference) {
+        showError('No payment reference found. Please contact support.');
+        return;
+      }
+
+
+      try {
+        // Try with 'reference' first
+        let url = `${API_BASE}/payment/verify?reference=${encodeURIComponent(finalReference)}`;
+        let response = await fetch(url);
+       
+        // If 400, try with 'orderId'
+        if (response.status === 400) {
+          url = `${API_BASE}/payment/verify?orderId=${encodeURIComponent(finalReference)}`;
+          response = await fetch(url);
+        }
+       
+        // If still 400, try with 'ref'
+        if (response.status === 400) {
+          url = `${API_BASE}/payment/verify?ref=${encodeURIComponent(finalReference)}`;
+          response = await fetch(url);
+        }
+       
+        const data = await response.json();
+       
+        if (data.success) {
+          displaySuccess(data.data || { reference: finalReference, ...data });
+          await checkAdminStatus();
+        } else {
+          // Try localStorage fallback
+          const localOrders = [];
+          try {
+            const orders = JSON.parse(localStorage.getItem('psh_local_orders') || '[]');
+            localOrders.push(...orders);
+          } catch(e) {}
+          try {
+            const orders = JSON.parse(localStorage.getItem(STORAGE_KEYS.ORDERS) || '[]');
+            localOrders.push(...orders);
+          } catch(e) {}
+         
+          const order = localOrders.find(o =>
+            o.reference === finalReference ||
+            o.orderId === finalReference ||
+            o.id === finalReference
+          );
+         
+          if (order) {
+            displaySuccessFromOrder(order);
+          } else {
+            // Try loading from psh_last_order one more time
+            const loaded = loadOrderData();
+            if (!loaded) {
+              showError(data.message || 'Payment verification failed. Please contact support.');
+            }
+          }
+        }
+      } catch (error) {
+        console.error('Verification error:', error);
+        // Fallback to localStorage
+        const localOrders = [];
+        try {
+          const orders = JSON.parse(localStorage.getItem('psh_local_orders') || '[]');
+          localOrders.push(...orders);
+        } catch(e) {}
+        try {
+          const orders = JSON.parse(localStorage.getItem(STORAGE_KEYS.ORDERS) || '[]');
+          localOrders.push(...orders);
+        } catch(e) {}
+       
+        const order = localOrders.find(o =>
+          o.reference === finalReference ||
+          o.orderId === finalReference ||
+          o.id === finalReference
+        );
+       
+        if (order) {
+          displaySuccessFromOrder(order);
+        } else {
+          // Try loading from psh_last_order
+          const loaded = loadOrderData();
+          if (!loaded) {
+            showError('Unable to verify payment. Please check your internet connection and try again.');
+          }
+        }
+      }
+    }
+
+
+    function displaySuccess(data) {
+      loadingState.style.display = 'none';
+      successState.style.display = 'block';
+     
+      const transaction = data.data || data;
+      const amount = (transaction.amount || 0) / 100;
+      const metadata = transaction.metadata || {};
+     
+      receiptRef.textContent = transaction.reference || finalReference;
+      receiptDate.textContent = formatDate(transaction.paid_at || transaction.createdAt || Date.now());
+      receiptMethod.textContent = transaction.channel === 'card' ? '💳 Card Payment' : '🏦 Bank Transfer';
+      receiptCustomer.textContent = metadata.customer_name || metadata.customerName || 'Walk-in Customer';
+      receiptEmail.textContent = transaction.customer?.email || metadata.email || 'N/A';
+      receiptDescription.textContent = metadata.description || metadata.items || 'Quantum Purchase';
+      receiptAmount.textContent = formatCurrency(amount);
+     
+      currentReceiptData = {
+        reference: transaction.reference || finalReference,
+        amount: formatCurrency(amount),
+        date: receiptDate.textContent,
+        customer: receiptCustomer.textContent,
+        email: receiptEmail.textContent
+      };
+     
+      generateQRCode(JSON.stringify(currentReceiptData));
+      createConfetti();
+    }
+
+
+    function displaySuccessFromOrder(order) {
+      loadingState.style.display = 'none';
+      successState.style.display = 'block';
+     
+      receiptRef.textContent = order.reference || finalReference || 'N/A';
+      receiptDate.textContent = formatDate(order.timestamp || Date.now());
+      receiptMethod.textContent = order.paymentMethod === 'paystack' ? '💳 Card Payment' :
+                                  order.paymentMethod === 'bank' ? '🏦 Bank Transfer' :
+                                  order.paymentMethod === 'crypto' ? '₿ Cryptocurrency' : 
+                                  order.paymentMethod === 'whatsapp' ? '📱 WhatsApp Pay' : '💳 Card Payment';
+      receiptCustomer.textContent = order.customerName || 'Customer';
+      receiptEmail.textContent = order.customerEmail || 'N/A';
+     
+      // ===== FIX: Handle items correctly =====
+      let itemNames = '';
+      if (order.items && order.items.length > 0) {
+        itemNames = order.items.map(function(item) { 
+          return (item.name || 'Product') + ' x' + (item.quantity || 1); 
+        }).join(', ');
+      } else if (order.order && order.order.items && order.order.items.length > 0) {
+        // Handle nested order structure
+        itemNames = order.order.items.map(function(item) {
+          return (item.name || 'Product') + ' x' + (item.quantity || 1);
+        }).join(', ');
+      } else if (order.itemNames) {
+        itemNames = order.itemNames;
+      }
+      receiptDescription.textContent = itemNames || 'Quantum Purchase';
+      receiptAmount.textContent = formatCurrency(order.total || 0);
+     
+      currentReceiptData = {
+        reference: order.reference || finalReference || 'N/A',
+        amount: formatCurrency(order.total || 0),
+        date: receiptDate.textContent,
+        customer: receiptCustomer.textContent,
+        email: receiptEmail.textContent
+      };
+     
+      generateQRCode(JSON.stringify(currentReceiptData));
+      createConfetti();
+    }
+
+
+    function showError(message) {
+      loadingState.style.display = 'none';
+      errorState.style.display = 'block';
+      errorMessage.textContent = message;
+    }
+
+
+    // ================================================================
+    // EVENT LISTENERS
+    // ================================================================
+
+
+    function setupEventListeners() {
+      document.getElementById('printBtn')?.addEventListener('click', () => {
+        window.print();
+      });
+     
+      document.getElementById('whatsappBtn')?.addEventListener('click', () => {
+        openWhatsAppModal();
+      });
+     
+      document.getElementById('downloadReceiptBtn')?.addEventListener('click', () => {
+        window.print();
+      });
+     
+      sendWhatsappBtn?.addEventListener('click', handleSendWhatsApp);
+      closeWhatsappModal?.addEventListener('click', closeWhatsAppModalFunc);
+      whatsappNumber?.addEventListener('input', updateWhatsAppPreview);
+     
+      adminResendReceiptsBtn?.addEventListener('click', handleResendReceipts);
+      adminDownloadPDFBtn?.addEventListener('click', handleAdminDownloadPDF);
+     
+      document.getElementById('adminBadge')?.addEventListener('click', () => {
+        if (finalReference) {
+          navigator.clipboard?.writeText(finalReference).then(() => {
+            showToast(`📋 Reference copied: ${finalReference}`);
+          }).catch(() => {
+            showToast(`Reference: ${finalReference}`);
+          });
+        }
+      });
+     
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && whatsappModal.classList.contains('active')) {
+          closeWhatsAppModalFunc();
+        }
+      });
+     
+      whatsappModal?.addEventListener('click', (e) => {
+        if (e.target === whatsappModal) {
+          closeWhatsAppModalFunc();
+        }
+      });
+    }
+
+
+    // ================================================================
+    // 3D BACKGROUND
+    // ================================================================
+   
+    function init3DBackground() {
+      const canvas = document.getElementById('quantum-bg-canvas');
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0);
+     
+      const geometry = new THREE.TorusKnotGeometry(1.5, 0.4, 200, 32, 3, 4);
+      const material = new THREE.MeshStandardMaterial({
+        color: 0x33ffaa,
+        emissive: 0x00aa66,
+        emissiveIntensity: 0.6,
+        metalness: 0.8,
+        roughness: 0.2
+      });
+      const knot = new THREE.Mesh(geometry, material);
+      scene.add(knot);
+     
+      const wireMat = new THREE.MeshBasicMaterial({ color: 0x00f7ff, wireframe: true, transparent: true, opacity: 0.3 });
+      const wireKnot = new THREE.Mesh(geometry, wireMat);
+      scene.add(wireKnot);
+     
+      const starGeo = new THREE.BufferGeometry();
+      const starCount = 1500;
+      const starPos = [];
+      for (let i = 0; i < starCount; i++) {
+        starPos.push((Math.random() - 0.5) * 200);
+        starPos.push((Math.random() - 0.5) * 100);
+        starPos.push((Math.random() - 0.5) * 100 - 50);
+      }
+      starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
+      const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.2, transparent: true, opacity: 0.6 });
+      const stars = new THREE.Points(starGeo, starMat);
+      scene.add(stars);
+     
+      const ambientLight = new THREE.AmbientLight(0x222222);
+      scene.add(ambientLight);
+      const pointLight = new THREE.PointLight(0x33ffaa, 1);
+      pointLight.position.set(5, 5, 5);
+      scene.add(pointLight);
+      const backLight = new THREE.PointLight(0x00f7ff, 0.8);
+      backLight.position.set(-3, 2, -4);
+      scene.add(backLight);
+     
+      camera.position.z = 5;
+     
+      let time = 0;
+      function animate() {
+        requestAnimationFrame(animate);
+        time += 0.01;
+        knot.rotation.x = time * 0.5;
+        knot.rotation.y = time * 0.8;
+        wireKnot.rotation.x = time * 0.5;
+        wireKnot.rotation.y = time * 0.8;
+        stars.rotation.y = time * 0.05;
+        stars.rotation.x = Math.sin(time * 0.1) * 0.1;
+        renderer.render(scene, camera);
+      }
+      animate();
+     
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
+
+
+    // ================================================================
+    // INITIALIZATION
+    // ================================================================
+   
+    setupEventListeners();
+    init3DBackground();
+    await verifyPayment();
+   
+    console.log('🚀 PrimeShieldHub Payment Success v2.0 — Unified Config with Backend Sync');
+    console.log('✅ Backend endpoints: /payment/verify, /admin/receipts, /receipt/download');
+    console.log('✅ Using unified auth token: psh_auth_token');
+    console.log('✅ Using unified orders key: psh_local_orders');
+    console.log('✅ Fixed: Proper order data loading and "undefined x1" issue resolved');
+  </script>
+</body>
+</html>
+

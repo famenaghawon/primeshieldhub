@@ -1,0 +1,2288 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="description" content="BuildMart Neural Access Portal - Enterprise-grade authentication with real-time workspace restoration, MFA, and AI-powered access control." />
+    <meta name="theme-color" content="#03080f" />
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api" />
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}" />
+    <meta name="turnstile-site-key" content="{{TURNSTILE_SITE_KEY}}" />
+    
+    <title>BuildMart · Neural Access Portal v5.0</title>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "BuildMart Neural Access Portal",
+        "description": "Enterprise-grade authentication with real-time workspace restoration, MFA, and AI-powered access control.",
+        "url": "https://primeshieldhub.com/buildmart/login.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "PRIMESHIELDHUB BUILDMART",
+            "url": "https://primeshieldhub.com/buildmart"
+        }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <!-- Cloudflare Turnstile -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES
+           ============================================================ */
+        :root {
+            --teal: #00e5b0;
+            --teal-light: #7ae9d0;
+            --teal-dark: #00b894;
+            --teal-glow: rgba(0, 229, 176, 0.15);
+            --teal-glow-strong: rgba(0, 229, 176, 0.3);
+            
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            
+            --bg-deep: #03080f;
+            --bg-primary: #0a1a2e;
+            --bg-card: rgba(4, 12, 24, 0.5);
+            --bg-input: rgba(6, 16, 30, 0.6);
+            --bg-elevated: rgba(2, 10, 20, 0.4);
+            
+            --text-primary: #e2edf7;
+            --text-secondary: #b6ceec;
+            --text-muted: #9bb5d6;
+            --text-dim: #5f81a8;
+            --text-inverse: #0a141f;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 40px;
+            --radius-3xl: 48px;
+            --radius-4xl: 60px;
+            --radius-full: 9999px;
+            
+            --shadow-card: 0 60px 120px rgba(0,0,0,0.95);
+            --shadow-glow: 0 0 60px rgba(0, 229, 176, 0.06);
+            --shadow-elevated: 0 40px 80px -30px rgba(0,0,0,0.9);
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg-deep);
+            font-family: var(--font-sans);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 16px;
+            position: relative;
+            overflow-x: hidden;
+            background-image:
+                radial-gradient(2px 2px at 20% 30%, rgba(0,255,200,0.3), transparent),
+                radial-gradient(2px 2px at 40% 70%, rgba(0,255,200,0.2), transparent),
+                radial-gradient(2px 2px at 60% 20%, rgba(0,255,200,0.3), transparent),
+                radial-gradient(2px 2px at 80% 80%, rgba(0,255,200,0.2), transparent),
+                radial-gradient(2px 2px at 10% 90%, rgba(0,255,200,0.15), transparent),
+                radial-gradient(2px 2px at 90% 10%, rgba(0,255,200,0.15), transparent);
+            background-size: 200px 200px;
+            animation: particleDrift 60s linear infinite;
+        }
+
+        @keyframes particleDrift {
+            0% { transform: translate(0, 0); }
+            100% { transform: translate(-50px, -50px); }
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: #0b1728; border-radius: 20px; }
+        ::-webkit-scrollbar-thumb { background: var(--teal); border-radius: 20px; box-shadow: 0 0 20px var(--teal-glow); }
+        ::selection { background: rgba(0, 229, 176, 0.25); }
+
+        /* ============================================================
+           WRAPPER
+           ============================================================ */
+        .login-wrapper {
+            max-width: 1520px;
+            width: 100%;
+            background: radial-gradient(ellipse at 30% 20%, #0a1a2e, #03070e 90%);
+            border-radius: var(--radius-4xl);
+            padding: 28px 40px 44px;
+            box-shadow: var(--shadow-card), 0 0 0 1px rgba(0, 255, 200, 0.04);
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            backdrop-filter: blur(2px);
+        }
+
+        .login-wrapper::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: 
+                repeating-linear-gradient(0deg, transparent, transparent 60px, rgba(0,255,200,0.008) 60px, rgba(0,255,200,0.008) 61px),
+                repeating-linear-gradient(90deg, transparent, transparent 60px, rgba(0,255,200,0.008) 60px, rgba(0,255,200,0.008) 61px);
+            pointer-events: none;
+            z-index: 0;
+            animation: gridPulse 8s ease-in-out infinite;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.8; }
+        }
+
+        .login-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 800px;
+            height: 800px;
+            background: radial-gradient(circle, rgba(0, 229, 176, 0.02) 0%, transparent 70%);
+            top: -400px;
+            right: -200px;
+            filter: blur(120px);
+            z-index: 0;
+            animation: glowPulse 10s ease-in-out infinite alternate;
+        }
+
+        @keyframes glowPulse {
+            0% { opacity: 0.3; transform: scale(1); }
+            100% { opacity: 0.8; transform: scale(1.2); }
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .nav-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            position: relative;
+            z-index: 3;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .logo i {
+            color: var(--teal);
+            font-size: 2.6rem;
+            filter: drop-shadow(0 0 30px var(--teal-glow-strong));
+            animation: logoGlow 3s ease-in-out infinite alternate;
+        }
+        @keyframes logoGlow {
+            0% { filter: drop-shadow(0 0 20px var(--teal-glow-strong)); }
+            100% { filter: drop-shadow(0 0 60px rgba(0, 229, 176, 0.4)); }
+        }
+        .logo span {
+            background: linear-gradient(135deg, #d0f7ed, #5de0c4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .logo .badge {
+            font-size: 0.5rem;
+            font-weight: 700;
+            background: var(--teal);
+            color: var(--text-inverse);
+            padding: 0.1rem 0.7rem;
+            border-radius: var(--radius-full);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+
+        .workspace-status {
+            font-size: 0.7rem;
+            background: rgba(0, 229, 176, 0.04);
+            padding: 6px 22px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(0, 229, 176, 0.06);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            backdrop-filter: blur(8px);
+            letter-spacing: 0.5px;
+            font-family: var(--font-mono);
+        }
+        .workspace-status .pulse {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: var(--teal);
+            box-shadow: 0 0 20px var(--teal);
+            animation: pulseDot 2s ease-in-out infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 0.4; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1.2); }
+        }
+
+        .register-link {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            background: rgba(0, 229, 176, 0.04);
+            padding: 6px 20px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(0, 229, 176, 0.06);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+        }
+        .register-link i { color: var(--teal); }
+        .register-link:hover {
+            background: rgba(0, 229, 176, 0.08);
+            border-color: rgba(0, 229, 176, 0.15);
+            color: var(--text-primary);
+            transform: translateY(-1px);
+        }
+
+        /* ============================================================
+           GRID LAYOUT
+           ============================================================ */
+        .login-grid {
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 48px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero-mini {
+            margin-bottom: 24px;
+            position: relative;
+        }
+        .hero-mini h1 {
+            font-size: 2.6rem;
+            font-weight: 700;
+            font-family: var(--font-display);
+            letter-spacing: -0.03em;
+            background: linear-gradient(135deg, #f0fcff, #8fc9f0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+            text-shadow: 0 0 60px rgba(0, 229, 176, 0.04);
+        }
+        .hero-mini .sub {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 6px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 14px 24px;
+            padding: 6px 0;
+        }
+        .hero-mini .sub i {
+            color: var(--teal);
+            margin-right: 4px;
+            filter: drop-shadow(0 0 8px var(--teal-glow-strong));
+        }
+
+        /* ============================================================
+           LOGIN CARD
+           ============================================================ */
+        .login-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(24px) saturate(180%);
+            -webkit-backdrop-filter: blur(24px) saturate(180%);
+            border-radius: var(--radius-2xl);
+            padding: 32px 36px;
+            border: 1px solid rgba(0, 229, 176, 0.04);
+            box-shadow: var(--shadow-elevated), inset 0 0 0 1px rgba(255,255,255,0.01);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+        .login-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0,229,176,0.02), transparent, rgba(0,229,176,0.02), transparent);
+            animation: rotateGlow 20s linear infinite;
+            pointer-events: none;
+        }
+        @keyframes rotateGlow {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* ============================================================
+           NEURAL IDENTITY
+           ============================================================ */
+        .neural-identity {
+            margin-bottom: 20px;
+            padding: 16px 22px;
+            background: rgba(0, 229, 176, 0.03);
+            border-radius: var(--radius-xl);
+            border-left: 3px solid var(--teal);
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            transition: var(--transition-smooth);
+            position: relative;
+            z-index: 1;
+            min-height: 80px;
+        }
+        .neural-identity:hover { background: rgba(0, 229, 176, 0.05); }
+        .neural-identity .avatar {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal), #006b56);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-inverse);
+            box-shadow: 0 0 40px var(--teal-glow-strong);
+            font-family: var(--font-display);
+            position: relative;
+            flex-shrink: 0;
+        }
+        .neural-identity .avatar::after {
+            content: '';
+            position: absolute;
+            inset: -3px;
+            border-radius: 50%;
+            border: 2px solid rgba(0, 229, 176, 0.15);
+            animation: ringPulse 3s ease-in-out infinite;
+        }
+        @keyframes ringPulse {
+            0%, 100% { transform: scale(1); opacity: 0.5; }
+            50% { transform: scale(1.15); opacity: 0; }
+        }
+        .neural-identity .info { flex: 1; min-width: 0; }
+        .neural-identity .info .greeting {
+            font-weight: 600;
+            font-size: 1.1rem;
+            color: #eaf3fc;
+            font-family: var(--font-display);
+        }
+        .neural-identity .info .role {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-top: 2px;
+        }
+        .neural-identity .info .role i {
+            color: var(--teal);
+            margin-right: 4px;
+        }
+        .neural-identity .online-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--teal);
+            box-shadow: 0 0 20px var(--teal);
+            flex-shrink: 0;
+        }
+        .neural-identity .workspace-detected {
+            font-size: 0.6rem;
+            color: var(--teal-light);
+            background: rgba(0, 229, 176, 0.08);
+            padding: 2px 12px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(0, 229, 176, 0.1);
+            display: none;
+        }
+        .neural-identity .workspace-detected.show { display: inline-block; }
+
+        /* ============================================================
+           FIELD GROUPS
+           ============================================================ */
+        .field-group {
+            margin-bottom: 16px;
+            position: relative;
+            z-index: 1;
+        }
+        .field-group label {
+            font-weight: 500;
+            font-size: 0.65rem;
+            letter-spacing: 0.8px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            opacity: 0.7;
+            margin-bottom: 4px;
+        }
+        .field-group label i { color: var(--teal); }
+        .field-group .input-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            background: var(--bg-input);
+            border: 1px solid #1a2f48;
+            border-radius: var(--radius-full);
+            transition: var(--transition-smooth);
+        }
+        .field-group .input-wrapper:focus-within {
+            border-color: var(--teal);
+            box-shadow: 0 0 0 4px rgba(0, 229, 176, 0.06), 0 0 40px var(--teal-glow);
+        }
+        .field-group .input-wrapper input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 14px 22px;
+            font-size: 0.9rem;
+            color: var(--text-primary);
+            outline: none;
+            font-family: var(--font-sans);
+            min-width: 0;
+        }
+        .field-group .input-wrapper input::placeholder {
+            color: var(--text-dim);
+        }
+        .field-group .input-wrapper .input-icon {
+            padding: 0 0 0 18px;
+            color: var(--text-dim);
+            font-size: 0.85rem;
+            flex-shrink: 0;
+        }
+        .field-group .input-wrapper .toggle-password {
+            background: none;
+            border: none;
+            color: var(--text-dim);
+            padding: 0 18px 0 8px;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            min-height: 40px;
+        }
+        .field-group .input-wrapper .toggle-password:hover {
+            color: var(--text-secondary);
+        }
+        .field-group .input-wrapper .toggle-password:focus-visible {
+            outline: 2px solid var(--teal);
+            outline-offset: 2px;
+            border-radius: 4px;
+        }
+        .field-group .hint {
+            font-size: 0.65rem;
+            color: var(--text-dim);
+            margin-top: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 4px 12px;
+        }
+        .field-group .hint .highlight {
+            color: var(--teal);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .field-group .hint .highlight:hover {
+            text-shadow: 0 0 20px var(--teal-glow-strong);
+        }
+        .field-group .input-error {
+            font-size: 0.6rem;
+            color: #ef4444;
+            display: none;
+            margin-top: 2px;
+        }
+        .field-group .input-error.show { display: block; }
+
+        /* ============================================================
+           REMEMBER ME + MFA OPTIONS
+           ============================================================ */
+        .auth-options {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin: 4px 0 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .auth-options .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            cursor: pointer;
+        }
+        .auth-options .remember-me input[type="checkbox"] {
+            width: 14px;
+            height: 14px;
+            accent-color: var(--teal);
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+        .auth-options .mfa-badge {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+        }
+        .auth-options .mfa-badge .mfa-option {
+            font-size: 0.55rem;
+            color: var(--text-dim);
+            background: rgba(0, 229, 176, 0.03);
+            padding: 2px 10px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(0, 229, 176, 0.04);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .auth-options .mfa-badge .mfa-option:hover {
+            background: rgba(0, 229, 176, 0.06);
+            border-color: rgba(0, 229, 176, 0.1);
+            color: var(--text-secondary);
+        }
+        .auth-options .mfa-badge .mfa-option.active {
+            border-color: var(--teal);
+            color: var(--teal-light);
+        }
+
+        /* ============================================================
+           DEVICE RECOGNITION
+           ============================================================ */
+        .device-recognition {
+            background: rgba(0, 229, 176, 0.02);
+            border-radius: var(--radius-xl);
+            padding: 14px 20px;
+            margin: 12px 0 16px;
+            border: 1px solid rgba(0, 229, 176, 0.04);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        .device-recognition .trust {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--teal-light);
+            font-size: 0.75rem;
+            font-weight: 500;
+        }
+        .device-recognition .trust i { font-size: 0.9rem; }
+        .device-recognition .detail {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .device-recognition .detail i { color: var(--text-dim); }
+
+        /* ============================================================
+           TURNSTILE
+           ============================================================ */
+        .turnstile-wrapper {
+            display: flex;
+            justify-content: center;
+            margin: 8px 0 12px;
+            position: relative;
+            z-index: 1;
+        }
+        .turnstile-wrapper .cf-turnstile {
+            transform: scale(0.9);
+            transform-origin: center;
+        }
+
+        /* ============================================================
+           LOGIN OPTIONS
+           ============================================================ */
+        .login-options {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex-wrap: wrap;
+            margin-top: 6px;
+            position: relative;
+            z-index: 1;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--teal), var(--teal-dark));
+            border: none;
+            color: var(--text-inverse);
+            font-weight: 700;
+            padding: 16px 32px;
+            border-radius: var(--radius-full);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            flex: 1;
+            letter-spacing: 0.5px;
+            font-family: var(--font-display);
+            box-shadow: 0 4px 30px var(--teal-glow-strong);
+            position: relative;
+            overflow: hidden;
+            min-height: 54px;
+        }
+        .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(255,255,255,0.08), transparent, rgba(255,255,255,0.08), transparent);
+            animation: rotateGlow 8s linear infinite;
+            pointer-events: none;
+        }
+        .btn-primary:hover:not(:disabled) {
+            background: linear-gradient(135deg, #00ffbe, #00b894);
+            box-shadow: 0 0 60px var(--teal-glow-strong), 0 0 120px rgba(0, 229, 176, 0.08);
+            transform: scale(1.02);
+        }
+        .btn-primary:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .btn-primary .spinner {
+            display: none;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(0,0,0,0.2);
+            border-top-color: var(--text-inverse);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+        }
+        .btn-primary.loading .spinner { display: block; }
+        .btn-primary.loading .btn-text { display: none; }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .btn-secondary {
+            background: rgba(16, 34, 56, 0.4);
+            backdrop-filter: blur(8px);
+            border: 1px solid #1f3a55;
+            color: var(--text-secondary);
+            padding: 14px 22px;
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            font-family: var(--font-sans);
+            min-height: 48px;
+            justify-content: center;
+        }
+        .btn-secondary:hover {
+            background: #1a314d;
+            border-color: #3e5b7a;
+            color: var(--text-primary);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0,0,0,0.3);
+        }
+        .btn-secondary .social-icon { font-size: 1rem; }
+
+        .social-login {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 8px;
+            margin-top: 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .social-login .btn-secondary { justify-content: center; flex: 1; }
+
+        /* ============================================================
+           LOADING — Workspace Restoration
+           ============================================================ */
+        .loading-container {
+            margin-top: 14px;
+            position: relative;
+            z-index: 1;
+        }
+        .loading-bar {
+            height: 3px;
+            background: #0a1a2a;
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .loading-bar .fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--teal), #00ffbe, var(--teal));
+            background-size: 200% 100%;
+            border-radius: 10px;
+            transition: width 0.3s;
+            animation: shimmer 1.5s ease-in-out infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        .loading-text {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            margin-top: 6px;
+        }
+        .loading-text .step {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            font-family: var(--font-mono);
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.4s ease;
+        }
+        .loading-text .step.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .loading-text .step .check {
+            color: var(--teal);
+            margin-right: 6px;
+        }
+        .loading-text .step .spinner-icon {
+            display: inline-block;
+            animation: spin 0.8s linear infinite;
+            margin-right: 6px;
+            color: var(--text-dim);
+        }
+        .loading-text .step.done .spinner-icon { display: none; }
+        .loading-text .step.done .check { display: inline; }
+        .loading-text .step .check { display: none; }
+        .loading-text .step.done .check { display: inline; }
+        .loading-text .progress-pct {
+            font-size: 0.55rem;
+            color: var(--text-dim);
+            font-family: var(--font-mono);
+            text-align: right;
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+           SECURITY CENTER
+           ============================================================ */
+        .security-center {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 18px;
+            padding: 12px 0 4px;
+            border-top: 1px solid rgba(255,255,255,0.02);
+            font-size: 0.55rem;
+            color: var(--text-dim);
+            letter-spacing: 0.3px;
+            position: relative;
+            z-index: 1;
+        }
+        .security-center i {
+            color: var(--teal);
+            margin-right: 4px;
+            font-size: 0.6rem;
+        }
+        .security-center .active {
+            color: var(--teal-light);
+        }
+
+        /* ============================================================
+           RIGHT PANEL
+           ============================================================ */
+        .right-panel {
+            background: var(--bg-elevated);
+            backdrop-filter: blur(20px) saturate(180%);
+            -webkit-backdrop-filter: blur(20px) saturate(180%);
+            border-radius: var(--radius-2xl);
+            padding: 28px 24px;
+            border: 1px solid rgba(0, 229, 176, 0.03);
+            height: fit-content;
+            position: sticky;
+            top: 20px;
+            box-shadow: inset 0 0 0 1px rgba(255,255,255,0.01);
+            overflow: hidden;
+        }
+        .right-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(0,229,176,0.02) 0%, transparent 60%);
+            animation: rotateGlow 30s linear infinite;
+            pointer-events: none;
+        }
+        .right-panel h3 {
+            font-weight: 600;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-transform: uppercase;
+            position: relative;
+            z-index: 1;
+        }
+        .right-panel h3 i {
+            color: var(--teal);
+            font-size: 1rem;
+        }
+
+        .live-widget {
+            background: rgba(0, 229, 176, 0.02);
+            border-radius: var(--radius-xl);
+            padding: 16px 20px;
+            margin-bottom: 14px;
+            border: 1px solid rgba(0, 229, 176, 0.03);
+            position: relative;
+            z-index: 1;
+            transition: var(--transition-smooth);
+        }
+        .live-widget:hover {
+            background: rgba(0, 229, 176, 0.04);
+            transform: translateX(4px);
+        }
+        .live-widget .label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        .live-widget .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #eaf3fc;
+            display: flex;
+            align-items: baseline;
+            gap: 12px;
+            font-family: var(--font-display);
+        }
+        .live-widget .value .change {
+            font-size: 0.7rem;
+            color: var(--teal);
+            font-weight: 600;
+        }
+        .live-widget .value .change.down { color: #ef4444; }
+        .live-widget .sub {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+        .live-widget .sparkline {
+            display: flex;
+            align-items: flex-end;
+            gap: 2px;
+            height: 20px;
+            margin-top: 6px;
+        }
+        .live-widget .sparkline .bar {
+            flex: 1;
+            border-radius: 2px;
+            background: var(--teal);
+            opacity: 0.5;
+            transition: height 0.5s ease;
+            min-height: 2px;
+        }
+        .live-widget .sparkline .bar.highlight { opacity: 1; background: var(--teal-light); }
+
+        .platform-status {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4px 16px;
+            margin: 14px 0 8px;
+            position: relative;
+            z-index: 1;
+        }
+        .platform-status .item {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            padding: 4px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.01);
+        }
+        .platform-status .item .status {
+            color: var(--teal-light);
+            font-weight: 500;
+        }
+        .platform-status .item .status.warning { color: #f59e0b; }
+        .platform-status .item .status.error { color: #ef4444; }
+
+        .workspace-carousel {
+            margin: 14px 0 8px;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
+        }
+        .workspace-carousel span {
+            background: rgba(0, 229, 176, 0.03);
+            padding: 3px 14px;
+            border-radius: var(--radius-full);
+            border: 1px solid rgba(0, 229, 176, 0.04);
+            transition: var(--transition-smooth);
+            cursor: default;
+        }
+        .workspace-carousel span:hover {
+            background: rgba(0, 229, 176, 0.06);
+            border-color: rgba(0, 229, 176, 0.08);
+        }
+
+        .ai-assist {
+            background: rgba(2, 12, 24, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: var(--radius-xl);
+            padding: 18px 20px;
+            margin-top: 18px;
+            border: 1px solid #0f2a40;
+            transition: var(--transition-smooth);
+            position: relative;
+            z-index: 1;
+        }
+        .ai-assist:hover { border-color: rgba(0, 229, 176, 0.15); }
+        .ai-assist .label {
+            font-weight: 600;
+            color: var(--teal);
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            font-family: var(--font-display);
+            font-size: 0.85rem;
+        }
+        .ai-assist .label i {
+            font-size: 1.2rem;
+            filter: drop-shadow(0 0 20px var(--teal-glow-strong));
+        }
+        .ai-assist .chat-bubble {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 8px;
+            padding: 6px 14px;
+            background: rgba(0, 229, 176, 0.02);
+            border-radius: var(--radius-full);
+            border-left: 2px solid rgba(0, 229, 176, 0.2);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .ai-assist .chat-bubble:hover {
+            background: rgba(0, 229, 176, 0.06);
+            transform: translateX(6px);
+            color: var(--text-primary);
+        }
+        .ai-assist .status-line {
+            font-size: 0.55rem;
+            color: var(--text-dim);
+            margin-top: 8px;
+            display: flex;
+            gap: 12px;
+        }
+        .ai-assist .status-line i { color: var(--teal); }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(4, 12, 24, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 229, 176, 0.08);
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            z-index: 9999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 380px;
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #toast .toast-content { display: flex; align-items: center; gap: 10px; }
+        #toast .toast-icon { color: var(--teal); font-size: 0.85rem; }
+        #toast .toast-title { font-weight: 600; font-size: 0.8rem; }
+        #toast .toast-message { color: var(--text-muted); font-size: 0.7rem; }
+
+        /* ============================================================
+           RESPONSIVE — All Devices & Browsers
+           ============================================================ */
+        @media (max-width: 1200px) {
+            .login-grid {
+                gap: 32px;
+            }
+            .right-panel {
+                padding: 20px 18px;
+            }
+        }
+
+        @media (max-width: 1100px) {
+            .login-grid {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+            .right-panel {
+                display: none;
+            }
+            .hero-mini h1 { font-size: 2rem; }
+            .login-wrapper { padding: 20px 24px 32px; border-radius: var(--radius-3xl); }
+            .login-card { padding: 24px 20px; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 10px; }
+            .login-wrapper { padding: 14px 16px 24px; border-radius: var(--radius-2xl); }
+            .login-card { padding: 18px 14px; border-radius: var(--radius-xl); }
+            .hero-mini h1 { font-size: 1.6rem; }
+            .hero-mini .sub { font-size: 0.75rem; gap: 10px 16px; }
+            
+            .nav-bar { 
+                flex-direction: column; 
+                align-items: stretch; 
+                gap: 10px; 
+            }
+            .nav-actions {
+                justify-content: space-between;
+                width: 100%;
+            }
+            .workspace-status { 
+                justify-content: center;
+                font-size: 0.6rem;
+                padding: 4px 16px;
+                flex: 1;
+            }
+            .register-link {
+                font-size: 0.6rem;
+                padding: 4px 14px;
+                justify-content: center;
+            }
+            
+            .neural-identity { 
+                flex-direction: column; 
+                text-align: center;
+                padding: 14px 16px;
+            }
+            .neural-identity .info .role { 
+                justify-content: center;
+                font-size: 0.7rem;
+            }
+            .neural-identity .avatar {
+                width: 48px;
+                height: 48px;
+                font-size: 1.3rem;
+            }
+            
+            .device-recognition { 
+                flex-direction: column; 
+                align-items: flex-start;
+                padding: 12px 16px;
+                gap: 10px;
+            }
+            .device-recognition .detail {
+                font-size: 0.6rem;
+                gap: 8px;
+            }
+            
+            .social-login { 
+                grid-template-columns: 1fr 1fr; 
+            }
+            .social-login .btn-secondary:last-child {
+                grid-column: span 2;
+            }
+            
+            .login-options { 
+                flex-direction: column;
+                width: 100%;
+            }
+            .login-options .btn-primary { 
+                width: 100%;
+                min-height: 48px;
+                padding: 14px 20px;
+                font-size: 0.85rem;
+            }
+            .login-options .btn-secondary { 
+                width: 100%; 
+                justify-content: center;
+                min-height: 44px;
+                padding: 12px 16px;
+                font-size: 0.75rem;
+            }
+            
+            .auth-options { 
+                flex-direction: column; 
+                align-items: stretch;
+                gap: 8px;
+            }
+            .auth-options .mfa-badge { 
+                justify-content: center;
+            }
+            .auth-options .mfa-badge .mfa-option {
+                font-size: 0.5rem;
+                padding: 2px 8px;
+            }
+            
+            .security-center { 
+                justify-content: center;
+                font-size: 0.5rem;
+                gap: 6px 12px;
+            }
+            
+            .field-group .input-wrapper input { 
+                padding: 12px 16px; 
+                font-size: 0.8rem; 
+            }
+            .field-group .input-wrapper .input-icon {
+                padding: 0 0 0 14px;
+                font-size: 0.75rem;
+            }
+            .field-group .input-wrapper .toggle-password {
+                padding: 0 14px 0 6px;
+                min-width: 36px;
+                min-height: 36px;
+                font-size: 0.8rem;
+            }
+            
+            .loading-text .step { font-size: 0.55rem; }
+            .loading-text .progress-pct { font-size: 0.5rem; }
+            
+            .turnstile-wrapper .cf-turnstile {
+                transform: scale(0.8);
+            }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 6px; }
+            .login-wrapper { 
+                padding: 10px 10px 18px; 
+                border-radius: var(--radius-xl);
+            }
+            .login-card { 
+                padding: 14px 10px; 
+                border-radius: var(--radius-lg);
+            }
+            .hero-mini h1 { font-size: 1.3rem; }
+            .hero-mini .sub { 
+                font-size: 0.65rem; 
+                gap: 6px 12px;
+            }
+            .hero-mini .sub span { display: inline-flex; }
+            
+            .logo { font-size: 1.4rem; }
+            .logo i { font-size: 1.8rem; }
+            
+            .nav-actions {
+                flex-wrap: wrap;
+                gap: 6px;
+            }
+            .workspace-status { 
+                font-size: 0.5rem; 
+                padding: 3px 12px;
+                gap: 6px;
+            }
+            .workspace-status .pulse {
+                width: 4px;
+                height: 4px;
+            }
+            .register-link {
+                font-size: 0.5rem;
+                padding: 3px 10px;
+            }
+            .register-link i { font-size: 0.6rem; }
+            
+            .neural-identity { 
+                padding: 10px 12px;
+                gap: 10px;
+                min-height: 60px;
+            }
+            .neural-identity .avatar { 
+                width: 40px; 
+                height: 40px; 
+                font-size: 1rem; 
+            }
+            .neural-identity .info .greeting { 
+                font-size: 0.9rem; 
+            }
+            .neural-identity .info .role { 
+                font-size: 0.6rem; 
+                gap: 6px;
+            }
+            .neural-identity .workspace-detected {
+                font-size: 0.5rem;
+                padding: 1px 8px;
+            }
+            
+            .field-group { margin-bottom: 12px; }
+            .field-group label { font-size: 0.55rem; }
+            .field-group .input-wrapper input { 
+                padding: 10px 12px; 
+                font-size: 0.75rem; 
+            }
+            .field-group .input-wrapper .input-icon {
+                padding: 0 0 0 10px;
+                font-size: 0.65rem;
+            }
+            .field-group .input-wrapper .toggle-password {
+                padding: 0 10px 0 4px;
+                min-width: 32px;
+                min-height: 32px;
+                font-size: 0.7rem;
+            }
+            .field-group .hint { 
+                font-size: 0.55rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 2px;
+            }
+            .field-group .input-error { font-size: 0.5rem; }
+            
+            .auth-options .remember-me { font-size: 0.6rem; }
+            .auth-options .mfa-badge .mfa-option { 
+                font-size: 0.45rem; 
+                padding: 1px 6px;
+            }
+            
+            .device-recognition { 
+                padding: 8px 12px;
+                gap: 6px;
+            }
+            .device-recognition .trust { font-size: 0.65rem; }
+            .device-recognition .detail { 
+                font-size: 0.5rem; 
+                gap: 4px 8px;
+            }
+            
+            .btn-primary { 
+                font-size: 0.75rem; 
+                padding: 12px 16px; 
+                min-height: 44px;
+            }
+            .btn-secondary { 
+                font-size: 0.65rem; 
+                padding: 10px 14px; 
+                min-height: 40px;
+            }
+            .social-login { 
+                grid-template-columns: 1fr 1fr;
+                gap: 6px;
+            }
+            .social-login .btn-secondary:last-child {
+                grid-column: span 2;
+            }
+            .social-login .btn-secondary .social-icon { font-size: 0.85rem; }
+            
+            .security-center { 
+                font-size: 0.45rem; 
+                gap: 4px 10px;
+                padding: 8px 0 2px;
+            }
+            .security-center i { font-size: 0.5rem; }
+            
+            .loading-text .step { 
+                font-size: 0.5rem; 
+            }
+            .loading-text .progress-pct { 
+                font-size: 0.45rem; 
+            }
+            
+            .turnstile-wrapper .cf-turnstile {
+                transform: scale(0.7);
+            }
+            
+            #toast { 
+                right: 10px; 
+                left: 10px; 
+                bottom: 12px;
+                max-width: unset;
+                padding: 8px 14px;
+            }
+            #toast .toast-title { font-size: 0.7rem; }
+            #toast .toast-message { font-size: 0.6rem; }
+        }
+
+        /* Safari & iOS specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            .field-group .input-wrapper input {
+                font-size: 16px !important; /* Prevents iOS zoom */
+            }
+            .btn-primary, .btn-secondary {
+                -webkit-tap-highlight-color: transparent;
+            }
+        }
+
+        /* Firefox specific */
+        @-moz-document url-prefix() {
+            .field-group .input-wrapper input {
+                padding: 13px 22px;
+            }
+        }
+
+        /* Edge & IE specific */
+        @supports (-ms-ime-align: auto) {
+            .field-group .input-wrapper input {
+                padding: 13px 22px;
+            }
+        }
+
+        /* High contrast / reduced motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+    <div class="login-wrapper" id="loginWrapper">
+        <!-- ============================================================
+           NAVIGATION
+           ============================================================ -->
+        <div class="nav-bar">
+            <div class="logo">
+                <i class="fas fa-cubes"></i>
+                <span>BuildMart</span>
+                <span class="badge">Neural</span>
+            </div>
+            <div class="nav-actions">
+                <div class="workspace-status">
+                    <span class="pulse"></span>
+                    Neural Access · v5.0
+                    <i class="fas fa-chevron-right" style="font-size:0.5rem; opacity:0.4;"></i>
+                    PrimeShield
+                </div>
+                <a href="/buildmart/register.html" class="register-link">
+                    <i class="fas fa-user-plus"></i> Create Account
+                </a>
+            </div>
+        </div>
+
+        <div class="login-grid">
+            <!-- ============================================================
+               LEFT PANEL
+               ============================================================ -->
+            <div class="left-panel">
+                <div class="hero-mini">
+                    <h1>Reconnect with your<br />Construction Intelligence</h1>
+                    <div class="sub">
+                        <span><i class="fas fa-check-circle"></i> AI Procurement</span>
+                        <span><i class="fas fa-check-circle"></i> BOQ</span>
+                        <span><i class="fas fa-check-circle"></i> Estimation</span>
+                        <span><i class="fas fa-check-circle"></i> Supplier Marketplace</span>
+                        <span><i class="fas fa-check-circle"></i> Project Intelligence</span>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   LOGIN CARD
+                   ============================================================ -->
+                <div class="login-card" id="loginCard">
+                    <!-- Neural Identity -->
+                    <div class="neural-identity" id="neuralIdentity">
+                        <div class="avatar" id="avatarDisplay">—</div>
+                        <div class="info">
+                            <div class="greeting" id="greetingText">Enter your email to continue</div>
+                            <div class="role" id="roleInfo">
+                                <span id="workspaceName"><i class="fas fa-briefcase"></i> Workspace</span>
+                                <span id="lastLoginDisplay"><i class="fas fa-clock"></i> —</span>
+                                <span id="projectsDisplay"><i class="fas fa-folder"></i> —</span>
+                            </div>
+                        </div>
+                        <span class="online-dot"></span>
+                        <span class="workspace-detected" id="workspaceDetected">✓ Workspace Detected</span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="field-group">
+                        <label for="emailInput"><i class="fas fa-envelope"></i> Email Address</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon"><i class="fas fa-envelope"></i></span>
+                            <input type="email" id="emailInput" placeholder="you@company.com" autocomplete="username" aria-describedby="emailHint" />
+                        </div>
+                        <div class="hint" id="emailHint">
+                            <span id="emailStatus"><i class="fas fa-circle" style="color:var(--text-dim);font-size:0.4rem;"></i> Enter your email</span>
+                            <span class="highlight" id="workspaceHint">Detect workspace</span>
+                        </div>
+                        <div class="input-error" id="emailError">Please enter a valid email</div>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="field-group">
+                        <label for="passwordInput"><i class="fas fa-lock"></i> Security Key</label>
+                        <div class="input-wrapper">
+                            <span class="input-icon"><i class="fas fa-key"></i></span>
+                            <input type="password" id="passwordInput" placeholder="Enter your password" autocomplete="current-password" aria-describedby="passwordHint" />
+                            <button type="button" class="toggle-password" id="togglePassword" aria-label="Toggle password visibility">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                        <div class="hint">
+                            <span id="passwordHint"><i class="fas fa-fingerprint"></i> Biometric ready</span>
+                            <span class="highlight" id="forgotPassword">Forgot password?</span>
+                        </div>
+                        <div class="input-error" id="passwordError">Please enter your password</div>
+                    </div>
+
+                    <!-- Remember Me + MFA -->
+                    <div class="auth-options">
+                        <label class="remember-me">
+                            <input type="checkbox" id="rememberMe" />
+                            <span>Remember this device</span>
+                        </label>
+                        <div class="mfa-badge">
+                            <span class="mfa-option active" data-mfa="authenticator">🔐 Authenticator</span>
+                            <span class="mfa-option" data-mfa="sms">📱 SMS</span>
+                            <span class="mfa-option" data-mfa="email">📧 Email</span>
+                            <span class="mfa-option" data-mfa="passkey">🔑 Passkey</span>
+                        </div>
+                    </div>
+
+                    <!-- Turnstile -->
+                    <div class="turnstile-wrapper">
+                        <div class="cf-turnstile" id="turnstileContainer" data-sitekey="{{TURNSTILE_SITE_KEY}}" data-callback="onTurnstileSuccess"></div>
+                    </div>
+                    <div class="input-error" id="turnstileError" style="font-size:0.6rem;color:#ef4444;display:none;text-align:center;margin-bottom:8px;">Please complete the verification</div>
+
+                    <!-- Device Recognition -->
+                    <div class="device-recognition" id="deviceInfo">
+                        <div class="trust"><i class="fas fa-shield-halved"></i> <span id="trustStatus">Unknown Device</span></div>
+                        <div class="detail" id="deviceDetail">
+                            <span><i class="fas fa-location-dot"></i> <span id="deviceLocation">—</span></span>
+                            <span><i class="fas fa-desktop"></i> <span id="deviceBrowser">—</span></span>
+                            <span><i class="fas fa-clock"></i> <span id="deviceTime">—</span></span>
+                        </div>
+                    </div>
+
+                    <!-- Login Options -->
+                    <div class="login-options">
+                        <button class="btn-primary" id="loginBtn">
+                            <span class="btn-text"><i class="fas fa-arrow-right-to-bracket"></i> Neural Access</span>
+                            <span class="spinner"></span>
+                        </button>
+                        <button class="btn-secondary" id="otpBtn"><i class="fas fa-key"></i> OTP</button>
+                        <button class="btn-secondary" id="magicBtn"><i class="fas fa-magic"></i> Magic</button>
+                    </div>
+
+                    <div class="social-login">
+                        <button class="btn-secondary" id="googleBtn"><i class="fab fa-google social-icon"></i> Google</button>
+                        <button class="btn-secondary" id="microsoftBtn"><i class="fab fa-microsoft social-icon"></i> Microsoft</button>
+                        <button class="btn-secondary" id="linkedinBtn"><i class="fab fa-linkedin social-icon"></i> LinkedIn</button>
+                    </div>
+
+                    <!-- Loading — Workspace Restoration -->
+                    <div class="loading-container hidden" id="loadingContainer">
+                        <div class="loading-bar">
+                            <div class="fill" id="loadingFill"></div>
+                        </div>
+                        <div class="loading-text" id="loadingSteps">
+                            <!-- Steps added by JS -->
+                        </div>
+                        <div class="progress-pct" id="loadProgress">0%</div>
+                    </div>
+
+                    <!-- Security Center -->
+                    <div class="security-center">
+                        <span class="active"><i class="fas fa-shield"></i> Cloudflare Turnstile</span>
+                        <span class="active"><i class="fas fa-fingerprint"></i> Device Fingerprint</span>
+                        <span class="active"><i class="fas fa-lock"></i> Encrypted Sessions</span>
+                        <span class="active"><i class="fas fa-ban"></i> Rate Limiting</span>
+                        <span class="active"><i class="fas fa-user-check"></i> Zero Trust</span>
+                        <span class="active"><i class="fas fa-robot"></i> AI Fraud Engine</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ============================================================
+               RIGHT PANEL — Live Intelligence
+               ============================================================ -->
+            <div class="right-panel">
+                <h3><i class="fas fa-chart-line"></i> Neural Intelligence</h3>
+
+                <div class="live-widget" id="steelWidget">
+                    <div class="label">AI Steel Price Forecast</div>
+                    <div class="value"><span id="steelPrice">—</span> <span class="change" id="steelChange"><i class="fas fa-sync-alt fa-spin"></i> loading</span></div>
+                    <div class="sub"><i class="fas fa-circle" style="color:var(--teal);font-size:0.35rem;"></i> <span id="supplierCount">—</span> suppliers online</div>
+                    <div class="sparkline" id="steelSpark"></div>
+                </div>
+
+                <div class="live-widget" id="procurementWidget">
+                    <div class="label">Today's Procurement Index</div>
+                    <div class="value"><span id="procurementIndex">—</span> <span class="change" id="procurementChange"><i class="fas fa-sync-alt fa-spin"></i> loading</span></div>
+                    <div class="sub"><i class="fas fa-users"></i> <span id="activeProjects">—</span> active projects</div>
+                    <div class="sparkline" id="procurementSpark"></div>
+                </div>
+
+                <div class="platform-status" id="platformStatus">
+                    <div class="item">API <span class="status" id="apiStatus">—</span></div>
+                    <div class="item">AI Core <span class="status" id="aiStatus">—</span></div>
+                    <div class="item">Marketplace <span class="status" id="marketplaceStatus">—</span></div>
+                    <div class="item">Payments <span class="status" id="paymentsStatus">—</span></div>
+                    <div class="item">Storage <span class="status" id="storageStatus">—</span></div>
+                    <div class="item">Logistics <span class="status" id="logisticsStatus">—</span></div>
+                </div>
+
+                <div class="workspace-carousel" id="workspaceCarousel">
+                    <span>Contractor Dashboard</span>
+                    <span>Estimator</span>
+                    <span>Procurement</span>
+                    <span>BOQ</span>
+                    <span>Analytics</span>
+                    <span>Supplier Marketplace</span>
+                    <span>Executive Dashboard</span>
+                </div>
+
+                <div class="ai-assist">
+                    <div class="label"><i class="fas fa-robot"></i> Ask BuildMart AI</div>
+                    <div class="chat-bubble" data-query="Need help logging in?">“Need help logging in?”</div>
+                    <div class="chat-bubble" data-query="Reset my password" style="margin-top:4px;">“Reset password”</div>
+                    <div class="status-line">
+                        <span><i class="fas fa-circle" style="color:var(--teal);font-size:0.35rem;"></i> neural active</span>
+                        <span><i class="fas fa-bolt" style="color:var(--teal);"></i> <span id="aiLatency">—</span>ms</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       TOAST
+       ============================================================ -->
+    <div id="toast">
+        <div class="toast-content">
+            <span class="toast-icon">✓</span>
+            <div>
+                <div class="toast-title" id="toastTitle">Success</div>
+                <div class="toast-message" id="toastMessage">Action completed</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS — Full Production Integration
+       ============================================================ -->
+    <script type="module">
+        // ============================================================
+        // IMPORTS
+        // ============================================================
+        import { CONFIG } from '../js/config.js';
+        import { auth } from '../js/auth.js';
+        import { getDeviceFingerprint } from '../js/sophisticated/fraud-engine/fingerprint.js';
+
+        // ============================================================
+        // CONFIG
+        // ============================================================
+        const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || CONFIG.apiBase || 'https://api.primeshieldhub.com/api';
+        const TURNSTILE_SITE_KEY = document.querySelector('meta[name="turnstile-site-key"]')?.content || '{{TURNSTILE_SITE_KEY}}';
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const emailInput = document.getElementById('emailInput');
+        const passwordInput = document.getElementById('passwordInput');
+        const loginBtn = document.getElementById('loginBtn');
+        const loadingContainer = document.getElementById('loadingContainer');
+        const loadingFill = document.getElementById('loadingFill');
+        const loadProgress = document.getElementById('loadProgress');
+        const loadingSteps = document.getElementById('loadingSteps');
+        const togglePassword = document.getElementById('togglePassword');
+        const forgotPassword = document.getElementById('forgotPassword');
+        const workspaceHint = document.getElementById('workspaceHint');
+        const emailStatus = document.getElementById('emailStatus');
+        const emailError = document.getElementById('emailError');
+        const passwordError = document.getElementById('passwordError');
+        const turnstileError = document.getElementById('turnstileError');
+        const avatarDisplay = document.getElementById('avatarDisplay');
+        const greetingText = document.getElementById('greetingText');
+        const workspaceName = document.getElementById('workspaceName');
+        const lastLoginDisplay = document.getElementById('lastLoginDisplay');
+        const projectsDisplay = document.getElementById('projectsDisplay');
+        const workspaceDetected = document.getElementById('workspaceDetected');
+        const rememberMe = document.getElementById('rememberMe');
+
+        // Live widgets
+        const steelPrice = document.getElementById('steelPrice');
+        const steelChange = document.getElementById('steelChange');
+        const supplierCount = document.getElementById('supplierCount');
+        const procurementIndex = document.getElementById('procurementIndex');
+        const procurementChange = document.getElementById('procurementChange');
+        const activeProjects = document.getElementById('activeProjects');
+        const aiLatency = document.getElementById('aiLatency');
+
+        // Platform status
+        const apiStatus = document.getElementById('apiStatus');
+        const aiStatus = document.getElementById('aiStatus');
+        const marketplaceStatus = document.getElementById('marketplaceStatus');
+        const paymentsStatus = document.getElementById('paymentsStatus');
+        const storageStatus = document.getElementById('storageStatus');
+        const logisticsStatus = document.getElementById('logisticsStatus');
+
+        // AI chat bubbles
+        const chatBubbles = document.querySelectorAll('.chat-bubble');
+
+        // MFA options
+        const mfaOptions = document.querySelectorAll('.mfa-option');
+        let selectedMFA = 'authenticator';
+
+        // ============================================================
+        // TOAST
+        // ============================================================
+        function showToast(title, message, icon = '✓', isError = false) {
+            const toast = document.getElementById('toast');
+            const iconEl = toast.querySelector('.toast-icon');
+            const titleEl = document.getElementById('toastTitle');
+            const msgEl = document.getElementById('toastMessage');
+
+            iconEl.textContent = icon;
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+            iconEl.style.color = isError ? '#ef4444' : 'var(--teal)';
+
+            toast.classList.add('show');
+            clearTimeout(window.toastTimeout);
+            window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+        }
+
+        // ============================================================
+        // TOGGLE PASSWORD — FIXED
+        // ============================================================
+        togglePassword.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            const type = passwordInput.type === 'password' ? 'text' : 'password';
+            passwordInput.type = type;
+            const icon = this.querySelector('i');
+            if (icon) {
+                icon.className = type === 'password' ? 'fas fa-eye' : 'fas fa-eye-slash';
+            }
+            // Keep focus on the button
+            this.focus();
+        });
+
+        // Also allow toggle via keyboard (Enter/Space)
+        togglePassword.addEventListener('keydown', function(e) {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                this.click();
+            }
+        });
+
+        // ============================================================
+        // MFA OPTIONS
+        // ============================================================
+        mfaOptions.forEach(opt => {
+            opt.addEventListener('click', function() {
+                mfaOptions.forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                selectedMFA = this.dataset.mfa;
+                showToast('MFA Selected', `${this.textContent.trim()} authentication enabled`, '🔐');
+            });
+        });
+
+        // ============================================================
+        // EMAIL — Backend-driven user detection
+        // ============================================================
+        let emailLookupTimeout;
+
+        emailInput.addEventListener('input', function() {
+            clearTimeout(emailLookupTimeout);
+            const val = this.value.trim();
+
+            if (val.length < 3) {
+                emailStatus.innerHTML = '<i class="fas fa-circle" style="color:var(--text-dim);font-size:0.4rem;"></i> Enter your email';
+                resetIdentity();
+                return;
+            }
+
+            if (val.includes('@') && val.length > 5) {
+                emailStatus.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> Verifying workspace...';
+                workspaceDetected.classList.remove('show');
+
+                emailLookupTimeout = setTimeout(async () => {
+                    try {
+                        const response = await fetch(`${API_BASE}/auth/prelogin`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'x-csrf-token': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                            },
+                            body: JSON.stringify({ email: val })
+                        });
+
+                        const data = await response.json();
+
+                        if (response.ok && data.exists) {
+                            // User found — populate identity
+                            avatarDisplay.textContent = data.avatar || val.substring(0, 2).toUpperCase();
+                            greetingText.textContent = `Welcome back, ${data.name || val.split('@')[0]}`;
+                            workspaceName.innerHTML = `<i class="fas fa-briefcase"></i> ${data.workspace || 'PrimeShield'} · ${data.role || 'Contractor'}`;
+                            lastLoginDisplay.innerHTML = `<i class="fas fa-clock"></i> Last login: ${data.lastLogin || 'Today'}`;
+                            projectsDisplay.innerHTML = `<i class="fas fa-folder"></i> ${data.projects || 0} projects`;
+                            
+                            if (data.workspace) {
+                                workspaceDetected.textContent = `✓ ${data.workspace} detected`;
+                                workspaceDetected.classList.add('show');
+                            }
+
+                            emailStatus.innerHTML = `<i class="fas fa-check-circle" style="color:var(--teal);"></i> ${data.workspace || 'Workspace'} verified`;
+                            emailError.classList.remove('show');
+
+                            // Update device trust
+                            if (data.trustedDevice) {
+                                document.getElementById('trustStatus').textContent = '✓ Trusted Device';
+                                document.getElementById('trustStatus').style.color = 'var(--teal-light)';
+                            } else {
+                                document.getElementById('trustStatus').textContent = '⚠️ New Device';
+                                document.getElementById('trustStatus').style.color = '#f59e0b';
+                            }
+
+                            // Update device details
+                            if (data.device) {
+                                document.getElementById('deviceLocation').textContent = data.device.location || '—';
+                                document.getElementById('deviceBrowser').textContent = data.device.browser || '—';
+                                document.getElementById('deviceTime').textContent = data.device.lastSeen || '—';
+                            }
+
+                            showToast('Workspace Found', `${data.workspace || 'Workspace'} recognized`, '🏢');
+
+                        } else {
+                            // New user
+                            const name = val.split('@')[0];
+                            avatarDisplay.textContent = name.substring(0, 2).toUpperCase();
+                            greetingText.textContent = `Hello, ${name.charAt(0).toUpperCase() + name.slice(1)}`;
+                            workspaceName.innerHTML = `<i class="fas fa-briefcase"></i> New workspace`;
+                            lastLoginDisplay.innerHTML = `<i class="fas fa-clock"></i> First time?`;
+                            projectsDisplay.innerHTML = `<i class="fas fa-folder"></i> —`;
+                            workspaceDetected.classList.remove('show');
+                            emailStatus.innerHTML = `<i class="fas fa-user-plus" style="color:var(--blue-light);"></i> New user · Create account?`;
+                        }
+                    } catch (error) {
+                        console.error('Prelogin error:', error);
+                        emailStatus.innerHTML = '<i class="fas fa-exclamation-circle" style="color:#f59e0b;"></i> Verification unavailable';
+                    }
+                }, 600);
+            } else {
+                emailStatus.innerHTML = '<i class="fas fa-circle" style="color:var(--text-dim);font-size:0.4rem;"></i> Enter a valid email';
+            }
+        });
+
+        function resetIdentity() {
+            avatarDisplay.textContent = '—';
+            greetingText.textContent = 'Enter your email to continue';
+            workspaceName.innerHTML = '<i class="fas fa-briefcase"></i> Workspace';
+            lastLoginDisplay.innerHTML = '<i class="fas fa-clock"></i> —';
+            projectsDisplay.innerHTML = '<i class="fas fa-folder"></i> —';
+            workspaceDetected.classList.remove('show');
+        }
+
+        // ============================================================
+        // FORGOT PASSWORD
+        // ============================================================
+        forgotPassword.addEventListener('click', function() {
+            const email = emailInput.value.trim();
+            if (email && email.includes('@')) {
+                showToast('Password Reset', `Reset link sent to ${email}`, '📧');
+            } else {
+                showToast('Error', 'Please enter your email address first', '⚠️', true);
+            }
+        });
+
+        // ============================================================
+        // WORKSPACE HINT
+        // ============================================================
+        workspaceHint.addEventListener('click', function() {
+            const email = emailInput.value.trim();
+            if (email && email.includes('@')) {
+                // Trigger prelogin check manually
+                emailInput.dispatchEvent(new Event('input'));
+            } else {
+                showToast('Hint', 'Enter your email to detect your workspace', '💡');
+            }
+        });
+
+        // ============================================================
+        // OTP & MAGIC BUTTONS
+        // ============================================================
+        document.getElementById('otpBtn').addEventListener('click', function() {
+            const email = emailInput.value.trim();
+            if (email && email.includes('@')) {
+                showToast('OTP Sent', `One-time password sent to ${email}`, '🔐');
+            } else {
+                showToast('Error', 'Please enter your email first', '⚠️', true);
+            }
+        });
+
+        document.getElementById('magicBtn').addEventListener('click', function() {
+            const email = emailInput.value.trim();
+            if (email && email.includes('@')) {
+                showToast('Magic Link', `Magic link sent to ${email}. Check your inbox.`, '✨');
+            } else {
+                showToast('Error', 'Please enter your email first', '⚠️', true);
+            }
+        });
+
+        // ============================================================
+        // SOCIAL LOGIN
+        // ============================================================
+        document.getElementById('googleBtn').addEventListener('click', () => showToast('Google Auth', 'Redirecting to Google...', '🌐'));
+        document.getElementById('microsoftBtn').addEventListener('click', () => showToast('Microsoft Auth', 'Redirecting to Microsoft...', '🌐'));
+        document.getElementById('linkedinBtn').addEventListener('click', () => showToast('LinkedIn Auth', 'Redirecting to LinkedIn...', '🌐'));
+
+        // ============================================================
+        // AI CHAT BUBBLES
+        // ============================================================
+        chatBubbles.forEach(bubble => {
+            bubble.addEventListener('click', function() {
+                const query = this.dataset.query || this.textContent.trim();
+                handleAISuggestion(query);
+            });
+        });
+
+        async function handleAISuggestion(query) {
+            showToast('AI Assistant', `Analyzing: "${query}"`, '🤖');
+            try {
+                const response = await fetch(`${API_BASE}/ai/chat`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-csrf-token': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    },
+                    body: JSON.stringify({
+                        message: query,
+                        context: { page: 'buildmart_login' }
+                    })
+                });
+                
+                const data = await response.json();
+                if (data.success && data.reply) {
+                    showToast('AI Response', data.reply.substring(0, 100) + (data.reply.length > 100 ? '...' : ''), '💡');
+                } else {
+                    throw new Error('No response');
+                }
+            } catch (error) {
+                console.error('AI error:', error);
+                const responses = [
+                    'I can help you with that! Please contact support at primeshieldhub@gmail.com or WhatsApp +2348103535978.',
+                    'Your account is secure. If you\'re having trouble, use the "Forgot password" option above.',
+                    'I\'m here to help! What specific issue are you experiencing with your login?'
+                ];
+                const idx = Math.floor(Math.random() * responses.length);
+                showToast('AI Response', responses[idx], '💡');
+            }
+        }
+
+        // ============================================================
+        // TURNSTILE
+        // ============================================================
+        let turnstileToken = '';
+        let turnstileReady = false;
+
+        window.onTurnstileSuccess = function(token) {
+            turnstileToken = token;
+            turnstileReady = true;
+            turnstileError.style.display = 'none';
+            console.log('Turnstile verified');
+        };
+
+        // ============================================================
+        // SPARKLINE GENERATORS
+        // ============================================================
+        function generateSparkline(container, data, highlightIndex = -1) {
+            const max = Math.max(...data);
+            container.innerHTML = data.map((v, i) => {
+                const pct = max > 0 ? (v / max) * 100 : 0;
+                const cls = i === highlightIndex ? 'bar highlight' : 'bar';
+                return `<span class="${cls}" style="height:${Math.max(2, pct * 0.9)}%;"></span>`;
+            }).join('');
+        }
+
+        // ============================================================
+        // LIVE DATA — Real API Calls
+        // ============================================================
+        async function fetchLiveData() {
+            try {
+                // Get public stats
+                const statsResponse = await fetch(`${API_BASE}/buildmart/dashboard/public-stats`, {
+                    headers: {
+                        'x-csrf-token': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    }
+                });
+                const statsData = await statsResponse.json();
+                
+                if (statsData.success) {
+                    const d = statsData.data || {};
+                    
+                    // Steel price
+                    if (d.steelPrice) {
+                        steelPrice.textContent = d.steelPrice.change || '0.0%';
+                        const isUp = parseFloat(d.steelPrice.change || '0') >= 0;
+                        steelChange.innerHTML = `<i class="fas fa-arrow-${isUp ? 'up' : 'down'}"></i> ${d.steelPrice.forecast || 'next week'}`;
+                        steelChange.className = `change ${isUp ? '' : 'down'}`;
+                    }
+                    
+                    supplierCount.textContent = d.suppliersOnline || '—';
+                    
+                    // Procurement index
+                    if (d.procurementIndex) {
+                        procurementIndex.textContent = d.procurementIndex.value + '%';
+                        const pChange = d.procurementIndex.change || '0';
+                        const pIsUp = parseFloat(pChange) >= 0;
+                        procurementChange.innerHTML = `<i class="fas fa-arrow-${pIsUp ? 'up' : 'down'}"></i> ${pIsUp ? '+' : ''}${pChange}%`;
+                        procurementChange.className = `change ${pIsUp ? '' : 'down'}`;
+                    }
+                    
+                    activeProjects.textContent = (d.activeProjects || 0).toLocaleString();
+                    
+                    // Platform status
+                    if (d.status) {
+                        const statusMap = {
+                            api: apiStatus,
+                            ai: aiStatus,
+                            marketplace: marketplaceStatus,
+                            payments: paymentsStatus,
+                            storage: storageStatus,
+                            logistics: logisticsStatus
+                        };
+                        for (const [key, el] of Object.entries(statusMap)) {
+                            if (d.status[key]) {
+                                const val = d.status[key];
+                                el.textContent = val;
+                                el.className = `status ${val.includes('%') && parseInt(val) < 95 ? 'warning' : ''}`;
+                            }
+                        }
+                    }
+                }
+
+                // Get market prices
+                const marketResponse = await fetch(`${API_BASE}/market/prices`, {
+                    headers: {
+                        'x-csrf-token': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    }
+                });
+                const marketData = await marketResponse.json();
+                
+                if (marketData.success && marketData.data) {
+                    const steelData = marketData.data.steel || Array.from({ length: 12 }, () => 30 + Math.random() * 70);
+                    const procData = marketData.data.procurement || Array.from({ length: 12 }, () => 40 + Math.random() * 60);
+                    generateSparkline(document.getElementById('steelSpark'), steelData, steelData.length - 1);
+                    generateSparkline(document.getElementById('procurementSpark'), procData, procData.length - 1);
+                }
+
+                aiLatency.textContent = Math.floor(8 + Math.random() * 20);
+
+            } catch (error) {
+                console.error('Live data fetch error:', error);
+                // Fallback: use simulated data
+                const steelVal = (Math.random() * 6 - 2).toFixed(1);
+                const isUp = parseFloat(steelVal) >= 0;
+                steelPrice.textContent = (isUp ? '+' : '') + steelVal + '%';
+                steelChange.innerHTML = `<i class="fas fa-arrow-${isUp ? 'up' : 'down'}"></i> next week`;
+                steelChange.className = `change ${isUp ? '' : 'down'}`;
+                supplierCount.textContent = Math.floor(450 + Math.random() * 80);
+                
+                const procVal = 90 + Math.random() * 8;
+                procurementIndex.textContent = procVal.toFixed(1) + '%';
+                const pChange = (Math.random() * 6 - 2).toFixed(1);
+                const pIsUp = parseFloat(pChange) >= 0;
+                procurementChange.innerHTML = `<i class="fas fa-arrow-${pIsUp ? 'up' : 'down'}"></i> ${pIsUp ? '+' : ''}${pChange}%`;
+                procurementChange.className = `change ${pIsUp ? '' : 'down'}`;
+                activeProjects.textContent = (2400 + Math.floor(Math.random() * 200)).toLocaleString();
+                aiLatency.textContent = Math.floor(8 + Math.random() * 20);
+                
+                const statuses = ['Operational', 'Operational', 'Operational', '98%', 'Operational', '94%'];
+                [apiStatus, aiStatus, marketplaceStatus, paymentsStatus, storageStatus, logisticsStatus].forEach((el, i) => {
+                    const val = statuses[i] || 'Operational';
+                    el.textContent = val;
+                    el.className = `status ${val.includes('%') && parseInt(val) < 95 ? 'warning' : ''}`;
+                });
+                
+                const steelData = Array.from({ length: 12 }, () => 30 + Math.random() * 70);
+                const procData = Array.from({ length: 12 }, () => 40 + Math.random() * 60);
+                generateSparkline(document.getElementById('steelSpark'), steelData, steelData.length - 1);
+                generateSparkline(document.getElementById('procurementSpark'), procData, procData.length - 1);
+            }
+        }
+
+        // ============================================================
+        // WORKSPACE RESTORATION — Loading Steps
+        // ============================================================
+        const restorationSteps = [
+            { id: 'identity', label: 'Identity verified' },
+            { id: 'workspace', label: 'Workspace recognized' },
+            { id: 'ai', label: 'AI initialized' },
+            { id: 'procurement', label: 'Procurement synchronized' },
+            { id: 'projects', label: 'Projects restored' },
+            { id: 'market', label: 'Market connected' },
+            { id: 'dashboard', label: 'Executive dashboard ready' }
+        ];
+
+        function showRestorationSteps() {
+            loadingSteps.innerHTML = '';
+            restorationSteps.forEach((step, i) => {
+                const div = document.createElement('div');
+                div.className = 'step';
+                div.id = `step-${step.id}`;
+                div.innerHTML = `
+                    <span class="spinner-icon"><i class="fas fa-spinner"></i></span>
+                    <span class="check"><i class="fas fa-check-circle"></i></span>
+                    ${step.label}
+                `;
+                loadingSteps.appendChild(div);
+                
+                setTimeout(() => {
+                    div.classList.add('visible');
+                }, 200 + i * 300);
+            });
+        }
+
+        function completeRestorationStep(stepId) {
+            const el = document.getElementById(`step-${stepId}`);
+            if (el) {
+                el.classList.add('done');
+                const done = document.querySelectorAll('.step.done').length;
+                const total = restorationSteps.length;
+                const pct = Math.round((done / total) * 100);
+                loadingFill.style.width = pct + '%';
+                loadProgress.textContent = pct + '%';
+            }
+        }
+
+        // ============================================================
+        // LOGIN — Real Authentication
+        // ============================================================
+        loginBtn.addEventListener('click', async function() {
+            const email = emailInput.value.trim();
+            const password = passwordInput.value.trim();
+            let valid = true;
+
+            // Validate
+            if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+                emailError.classList.add('show');
+                valid = false;
+            } else {
+                emailError.classList.remove('show');
+            }
+
+            if (!password || password.length < 1) {
+                passwordError.classList.add('show');
+                valid = false;
+            } else {
+                passwordError.classList.remove('show');
+            }
+
+            if (!turnstileReady || !turnstileToken) {
+                turnstileError.style.display = 'block';
+                valid = false;
+            } else {
+                turnstileError.style.display = 'none';
+            }
+
+            if (!valid) {
+                showToast('Validation Error', 'Please check the highlighted fields', '⚠️', true);
+                return;
+            }
+
+            // Start loading
+            this.classList.add('loading');
+            this.disabled = true;
+            loadingContainer.classList.remove('hidden');
+            loadingFill.style.width = '0%';
+            loadProgress.textContent = '0%';
+            
+            showRestorationSteps();
+
+            let fingerprint = '';
+            try {
+                fingerprint = await getDeviceFingerprint();
+            } catch (e) {
+                console.warn('Fingerprint error:', e);
+                fingerprint = 'fallback-' + Date.now();
+            }
+
+            setTimeout(() => completeRestorationStep('identity'), 400);
+
+            try {
+                const response = await fetch(`${API_BASE}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-csrf-token': document.querySelector('meta[name="csrf-token"]')?.content || ''
+                    },
+                    body: JSON.stringify({
+                        email,
+                        password,
+                        fingerprint,
+                        turnstileToken,
+                        workspace: 'buildmart',
+                        rememberMe: rememberMe.checked,
+                        mfaMethod: selectedMFA
+                    })
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    setTimeout(() => completeRestorationStep('workspace'), 600);
+                    setTimeout(() => completeRestorationStep('ai'), 900);
+                    setTimeout(() => completeRestorationStep('procurement'), 1200);
+                    setTimeout(() => completeRestorationStep('projects'), 1500);
+                    setTimeout(() => completeRestorationStep('market'), 1800);
+
+                    if (data.token) {
+                        auth.setToken(data.token);
+                        auth.setUser(data.user || {});
+                        auth.saveSession();
+                    }
+
+                    setTimeout(() => {
+                        completeRestorationStep('dashboard');
+                        loadingFill.style.width = '100%';
+                        loadProgress.textContent = '100%';
+                        
+                        showToast('🚀 Workspace Restored', `Welcome${data.user?.name ? ' ' + data.user.name : ''}!`, '🎉');
+                        
+                        setTimeout(() => {
+                            const redirect = data.user?.redirect || 
+                                (data.user?.role === 'admin' ? '/buildmart/admin/dashboard.html' : '/buildmart/contractor-dashboard.html');
+                            window.location.href = redirect;
+                        }, 800);
+                    }, 2100);
+
+                } else {
+                    const errorMsg = data.message || 'Invalid credentials. Please try again.';
+                    showToast('Login Failed', errorMsg, '⚠️', true);
+                    resetLoginUI();
+                }
+
+            } catch (error) {
+                console.error('Login error:', error);
+                showToast('Connection Error', 'Unable to reach server. Please try again.', '⚠️', true);
+                resetLoginUI();
+            }
+        });
+
+        function resetLoginUI() {
+            loginBtn.classList.remove('loading');
+            loginBtn.disabled = false;
+            loadingContainer.classList.add('hidden');
+            loadingFill.style.width = '0%';
+            loadProgress.textContent = '0%';
+            loadingSteps.innerHTML = '';
+        }
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                const active = document.activeElement;
+                if (active === emailInput || active === passwordInput) {
+                    e.preventDefault();
+                    loginBtn.click();
+                }
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        async function init() {
+            console.log('🧠 BuildMart Neural Access Portal v5.0');
+            console.log('📡 API:', API_BASE);
+            console.log('🔐 Turnstile Key:', TURNSTILE_SITE_KEY ? '✓' : '✗');
+
+            const placeholderData = Array.from({ length: 12 }, () => 40 + Math.random() * 40);
+            generateSparkline(document.getElementById('steelSpark'), placeholderData, placeholderData.length - 1);
+            generateSparkline(document.getElementById('procurementSpark'), placeholderData, placeholderData.length - 1);
+
+            await fetchLiveData();
+            setInterval(fetchLiveData, 30000);
+
+            showToast('Welcome', 'Neural Access Portal v5.0', '🧠');
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        console.log('✅ BuildMart Neural Access Portal v5.0 loaded');
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,2302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes">
+    <title>BuildMart · Neural Construction Intelligence</title>
+    <meta name="description" content="PRIMESHIELDHUB BUILDMART project detail — AI-powered construction intelligence with real-time data." />
+    
+    <!-- Preload critical resources -->
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" as="style" />
+    <link rel="preload" href="/company_logo.png" as="image" />
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "ConstructionProject",
+        "name": "Lagos Smart Estate",
+        "description": "30 luxury residential units completed with neural-powered construction intelligence.",
+        "status": "completed",
+        "funding": "₦2.83 Billion",
+        "location": {
+            "@type": "Place",
+            "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Lekki Phase 1",
+                "addressRegion": "Lagos",
+                "addressCountry": "NG"
+            },
+            "geo": {
+                "@type": "GeoCoordinates",
+                "latitude": "6.4532",
+                "longitude": "3.3958"
+            }
+        },
+        "image": "/assets/images/projects/hero.webp",
+        "url": "https://primeshieldhub.com/buildmart/project-detail.html",
+        "parentOrganization": {
+            "@type": "Organization",
+            "name": "PRIMESHIELDHUB GADGETS LIMITED",
+            "taxID": "RC 9283954"
+        }
+    }
+    </script>
+
+    <!-- Font & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <style>
+        /* ============================================================
+           RESET & BASE
+           ============================================================ */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg-deep: #050510;
+            --bg-card: rgba(12, 12, 30, 0.7);
+            --gold: #f5b342;
+            --gold-bright: #ffd36e;
+            --gold-dim: rgba(245, 179, 66, 0.15);
+            --accent-cyan: #00e5ff;
+            --accent-purple: #b388ff;
+            --accent-green: #69f0ae;
+            --accent-red: #ff5252;
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --glass-bg: rgba(18, 18, 35, 0.55);
+            --text-primary: #f0f0f5;
+            --text-secondary: #b0b0c0;
+            --text-muted: #6a6a80;
+            --radius-xl: 2.5rem;
+            --radius-lg: 1.8rem;
+            --radius-md: 1.2rem;
+            --shadow-glow-gold: 0 0 40px rgba(245, 179, 66, 0.15);
+            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        /* Animated grid background */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse at 20% 20%, rgba(245, 179, 66, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 229, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(179, 136, 255, 0.02) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+            animation: ambientShift 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes ambientShift {
+            0% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+            100% { opacity: 0.7; transform: scale(1.02); }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridPulse 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        .container { max-width: 1500px; margin: 0 auto; padding: 0 2.5rem; position: relative; z-index: 1; }
+
+        /* ============================================================
+           GLASS
+           ============================================================ */
+        .glass-panel {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius-xl);
+            box-shadow: 0 25px 60px -20px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(255,255,255,0.02);
+            transition: var(--transition-smooth);
+        }
+        .glass-panel:hover {
+            box-shadow: 0 30px 70px -20px rgba(0,0,0,0.9), var(--shadow-glow-gold);
+            border-color: rgba(245, 179, 66, 0.2);
+        }
+
+        .glass-card {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem;
+            transition: var(--transition-smooth);
+        }
+        .glass-card:hover {
+            background: rgba(25, 25, 50, 0.6);
+            border-color: rgba(245, 179, 66, 0.15);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================================
+           COLORS
+           ============================================================ */
+        .gold-text { color: var(--gold); }
+        .gold-glow { text-shadow: 0 0 20px rgba(245, 179, 66, 0.4), 0 0 40px rgba(245, 179, 66, 0.15); }
+        .cyan-text { color: var(--accent-cyan); }
+        .purple-text { color: var(--accent-purple); }
+        .green-text { color: var(--accent-green); }
+        .red-text { color: var(--accent-red); }
+
+        .section-title {
+            font-family: 'Space Grotesk', 'Inter', sans-serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+        .section-title i {
+            font-size: 1.3rem;
+            color: var(--gold);
+            filter: drop-shadow(0 0 8px rgba(245,179,66,0.5));
+        }
+
+        .subtitle-glow {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        nav {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 0.8rem 2.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: rgba(5, 5, 16, 0.7);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border-bottom: 1px solid rgba(255,215,0,0.08);
+            transition: var(--transition-smooth);
+        }
+        nav.scrolled {
+            padding: 0.5rem 2.5rem;
+            background: rgba(5, 5, 16, 0.92);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+        }
+        .nav-logo {
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 1.4rem;
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .nav-logo .logo-icon {
+            position: relative;
+            display: inline-block;
+        }
+        .nav-logo .logo-icon i { color: var(--gold); filter: drop-shadow(0 0 15px rgba(245,179,66,0.8)); }
+        .nav-logo .logo-dot {
+            position: absolute;
+            top: -3px;
+            right: -3px;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            animation: dotBlink 2s infinite;
+        }
+        @keyframes dotBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 0.3rem 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--gold); }
+        .nav-links a.active::after { width: 100%; }
+
+        .nav-actions { display: flex; gap: 1rem; align-items: center; }
+        .nav-badge {
+            background: rgba(0,229,255,0.1);
+            border: 1px solid rgba(0,229,255,0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: livePulse 1.5s infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.8); }
+        }
+
+        /* ============================================================
+           AUTHORITY BAR — Trust First
+           ============================================================ */
+        .authority-bar {
+            position: relative;
+            z-index: 10;
+            margin-top: 0;
+            padding: 0.6rem 0;
+            background: rgba(10, 10, 25, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid rgba(245, 179, 66, 0.06);
+            border-top: 1px solid rgba(245, 179, 66, 0.06);
+        }
+        .authority-bar .container {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: center;
+            gap: 0.8rem 2.5rem;
+            padding: 0.2rem 0;
+        }
+        .authority-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+        .authority-item i {
+            color: var(--gold);
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+        .authority-item .auth-value {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-family: 'Space Grotesk', sans-serif;
+        }
+        .authority-item .auth-divider {
+            color: var(--text-muted);
+            opacity: 0.3;
+            margin: 0 0.2rem;
+        }
+        .authority-item .rating-stars {
+            color: var(--gold);
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+        }
+
+        @media (max-width: 820px) {
+            .authority-bar .container {
+                gap: 0.4rem 1.2rem;
+                padding: 0.4rem 0;
+                overflow-x: auto;
+                justify-content: flex-start;
+                flex-wrap: nowrap;
+                -webkit-overflow-scrolling: touch;
+            }
+            .authority-item {
+                font-size: 0.6rem;
+                flex-shrink: 0;
+            }
+            .authority-item i { font-size: 0.7rem; }
+            .authority-item .auth-value { font-size: 0.7rem; }
+        }
+
+        @media (max-width: 480px) {
+            .authority-bar .container { gap: 0.3rem 1rem; }
+            .authority-item { font-size: 0.55rem; }
+            .authority-item .rating-stars { font-size: 0.6rem; }
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero {
+            position: relative;
+            width: 100%;
+            min-height: 90vh;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            padding: 7rem 3rem 4rem;
+            isolation: isolate;
+        }
+        .hero-bg {
+            position: absolute;
+            inset: 0;
+            background: url('/company_logo.png') center/cover no-repeat;
+            transform: scale(1.08);
+            animation: kenBurns 25s infinite alternate ease-in-out;
+            z-index: 0;
+            filter: saturate(0.6) brightness(0.5);
+        }
+        @keyframes kenBurns {
+            0% { transform: scale(1.08) translate(0, 0); }
+            25% { transform: scale(1.18) translate(-15px, -10px); }
+            50% { transform: scale(1.22) translate(-30px, -25px); }
+            75% { transform: scale(1.14) translate(-10px, -15px); }
+            100% { transform: scale(1.2) translate(-25px, -35px); }
+        }
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background:
+                linear-gradient(180deg, rgba(5,5,16,0.3) 0%, rgba(5,5,16,0.6) 40%, rgba(5,5,16,0.92) 85%, rgba(5,5,16,1) 100%),
+                radial-gradient(ellipse at 30% 50%, rgba(245,179,66,0.08) 0%, transparent 60%);
+            z-index: 1;
+        }
+        .hero-particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 1;
+            animation: floatUp 6s infinite;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(0) translateX(0); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) translateX(40px); opacity: 0; }
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            max-width: 1000px;
+            margin-bottom: 1rem;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(245, 179, 66, 0.12);
+            backdrop-filter: blur(8px);
+            padding: 0.4rem 1.4rem;
+            border-radius: 3rem;
+            border: 1px solid rgba(245, 179, 66, 0.25);
+            font-weight: 600;
+            font-size: 0.75rem;
+            letter-spacing: 0.06em;
+            margin-bottom: 1.2rem;
+            color: var(--gold-bright);
+        }
+        .hero-badge .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent-green);
+            border-radius: 50%;
+            animation: pulseDot 1.5s infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(105,240,174,0.6); }
+            50% { box-shadow: 0 0 0 12px rgba(105,240,174,0); }
+        }
+        .hero h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 4.5rem;
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 1.05;
+            margin-bottom: 0.6rem;
+            background: linear-gradient(135deg, #fff 0%, #e0d5c0 50%, #f5b342 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 40px rgba(245,179,66,0.3));
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            font-weight: 400;
+            letter-spacing: 0.02em;
+            margin-bottom: 1.5rem;
+            max-width: 600px;
+        }
+        .hero-meta {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2.5rem;
+            font-size: 0.9rem;
+            margin: 1.5rem 0 2rem;
+            opacity: 0.9;
+        }
+        .hero-meta .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+        .hero-meta .meta-item i { color: var(--gold); font-size: 0.9rem; width: 1.2rem; }
+        .hero-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn {
+            padding: 0.7rem 1.8rem;
+            border-radius: 3rem;
+            font-weight: 600;
+            border: none;
+            background: rgba(255,255,255,0.05);
+            backdrop-filter: blur(8px);
+            color: white;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            font-family: 'Inter', sans-serif;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px -10px rgba(245,179,66,0.25);
+            border-color: rgba(245,179,66,0.3);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #f5b342 0%, #e6992a 100%);
+            color: #0a0a0f;
+            border: none;
+            font-weight: 700;
+            box-shadow: 0 10px 30px -10px rgba(245,179,66,0.4);
+        }
+        .btn-primary:hover { box-shadow: 0 20px 45px -10px rgba(245,179,66,0.6); transform: translateY(-3px); }
+        .btn-outline-gold { border: 1.5px solid rgba(245,179,66,0.5); background: transparent; }
+        .btn-sm { padding: 0.4rem 1rem; font-size: 0.75rem; }
+
+        /* ============================================================
+           UTILITY CLASSES
+           ============================================================ */
+        .mt-1 { margin-top: 0.5rem; }
+        .mt-2 { margin-top: 1rem; }
+        .mt-3 { margin-top: 1.5rem; }
+        .mb-1 { margin-bottom: 0.5rem; }
+        .mb-2 { margin-bottom: 1rem; }
+        .flex { display: flex; }
+        .flex-center { display: flex; align-items: center; justify-content: center; }
+        .gap-1 { gap: 0.5rem; }
+        .gap-2 { gap: 1rem; }
+        .gap-3 { gap: 1.5rem; }
+        .text-center { text-align: center; }
+        .text-muted { color: var(--text-muted); }
+        .gold-text { color: var(--gold); }
+
+        /* ============================================================
+           FLOATING STATS
+           ============================================================ */
+        .floating-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 0.8rem;
+            padding: 1.5rem 2rem;
+            margin-top: -3.5rem;
+            position: relative;
+            z-index: 10;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            background: rgba(10,10,25,0.8);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border-radius: 3rem;
+            border: 1px solid rgba(245,179,66,0.15);
+            box-shadow: 0 40px 80px -30px rgba(0,0,0,0.9), var(--shadow-glow-gold);
+        }
+        .stat-item {
+            text-align: center;
+            padding: 0.3rem;
+            position: relative;
+        }
+        .stat-item::after {
+            content: '';
+            position: absolute;
+            right: -0.3rem;
+            top: 20%;
+            height: 60%;
+            width: 1px;
+            background: rgba(255,255,255,0.06);
+        }
+        .stat-item:last-child::after { display: none; }
+        .stat-item .num {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            letter-spacing: -0.02em;
+        }
+        .stat-item .label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            opacity: 0.55;
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           SECTIONS
+           ============================================================ */
+        section { padding: 4rem 0; position: relative; z-index: 1; }
+        .section-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+        @media (max-width: 1000px) {
+            .section-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 3rem; }
+        }
+
+        /* ============================================================
+           AI SUMMARY
+           ============================================================ */
+        .ai-summary-card {
+            background: linear-gradient(135deg, rgba(245,179,66,0.06) 0%, rgba(0,229,255,0.03) 100%);
+            border: 1px solid rgba(245,179,66,0.2);
+            border-left: 5px solid var(--gold);
+            padding: 2rem 2.2rem;
+            border-radius: var(--radius-xl);
+            position: relative;
+            overflow: hidden;
+        }
+        .ai-summary-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            right: -30%;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(245,179,66,0.06) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .ai-summary-card .ai-icon { font-size: 1.8rem; color: var(--gold); filter: drop-shadow(0 0 15px rgba(245,179,66,0.6)); }
+
+        /* ============================================================
+           KPI GRID
+           ============================================================ */
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+        .kpi-item {
+            background: rgba(255,255,255,0.02);
+            padding: 0.6rem 0.8rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .kpi-item .kpi-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        .kpi-item .kpi-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            opacity: 0.5;
+        }
+        .kpi-item .kpi-status {
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        .kpi-item .kpi-status.low { color: var(--accent-green); }
+        .kpi-item .kpi-status.medium { color: var(--gold); }
+        .kpi-item .kpi-status.high { color: var(--accent-red); }
+
+        /* ============================================================
+           TIMELINE
+           ============================================================ */
+        .timeline-enhanced {
+            display: flex;
+            gap: 0.2rem;
+            margin: 1rem 0;
+            flex-wrap: wrap;
+            position: relative;
+        }
+        .tl-node {
+            flex: 1 0 60px;
+            padding: 0.5rem 0.3rem;
+            border-radius: 2rem;
+            text-align: center;
+            font-size: 0.6rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.08);
+            background: rgba(255,255,255,0.02);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+        .tl-node.completed {
+            background: linear-gradient(135deg, rgba(245,179,66,0.2), rgba(245,179,66,0.05));
+            border-color: rgba(245,179,66,0.5);
+            color: var(--gold);
+        }
+        .tl-node.active {
+            background: var(--gold);
+            color: #0a0a0f;
+            border-color: var(--gold);
+            font-weight: 700;
+            box-shadow: 0 0 25px rgba(245,179,66,0.5);
+            animation: nodeGlow 2s infinite;
+        }
+        @keyframes nodeGlow {
+            0%, 100% { box-shadow: 0 0 25px rgba(245,179,66,0.5); }
+            50% { box-shadow: 0 0 45px rgba(245,179,66,0.8); }
+        }
+
+        /* ============================================================
+           GALLERY
+           ============================================================ */
+        .gallery-tabs {
+            display: flex;
+            gap: 0.2rem;
+            flex-wrap: wrap;
+            margin-bottom: 0.8rem;
+        }
+        .gallery-tab {
+            padding: 0.2rem 0.7rem;
+            border-radius: 2rem;
+            font-size: 0.6rem;
+            font-weight: 600;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .gallery-tab.active {
+            background: var(--gold);
+            color: #0a0a0f;
+            border-color: var(--gold);
+        }
+        .gallery-tab:hover:not(.active) {
+            border-color: var(--gold);
+            color: var(--text-primary);
+        }
+
+        .masonry {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 0.5rem;
+        }
+        .masonry .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .masonry .gallery-item img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            transition: transform 0.5s;
+            filter: brightness(0.7);
+            loading="lazy";
+            decoding="async";
+        }
+        .masonry .gallery-item:hover img { transform: scale(1.08); filter: brightness(1); }
+        .masonry .gallery-item:hover { border-color: var(--gold); box-shadow: 0 0 30px rgba(245,179,66,0.2); }
+        .masonry .span-2 { grid-column: span 2; }
+        .masonry .span-2 img { height: 160px; }
+        .gallery-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 0.3rem;
+            background: linear-gradient(transparent, rgba(0,0,0,0.8));
+            font-size: 0.65rem;
+            font-weight: 500;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .masonry .gallery-item:hover .gallery-overlay { opacity: 1; }
+
+        /* ============================================================
+           MATERIAL BARS
+           ============================================================ */
+        .material-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.03);
+            gap: 0.8rem;
+        }
+        .material-row .material-name { font-weight: 500; min-width: 70px; font-size: 0.8rem; }
+        .material-row .material-value { font-size: 0.75rem; color: var(--text-secondary); min-width: 70px; text-align: right; }
+        .material-bar-wrap {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .material-bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-bright));
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(245,179,66,0.3);
+        }
+
+        /* ============================================================
+           DASHBOARD
+           ============================================================ */
+        .dash-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.8rem;
+            margin-top: 0.8rem;
+        }
+        .dash-card {
+            background: rgba(255,255,255,0.02);
+            padding: 1rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: var(--transition-smooth);
+        }
+        .dash-card:hover { border-color: rgba(245,179,66,0.2); }
+        .dash-card .dash-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+
+        /* ============================================================
+           MAP
+           ============================================================ */
+        .map-3d {
+            background: linear-gradient(135deg, #0a0a20 0%, #10102a 100%);
+            border-radius: var(--radius-lg);
+            height: 220px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid rgba(255,215,0,0.08);
+            position: relative;
+            overflow: hidden;
+        }
+        .map-3d::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23f5b342' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            pointer-events: none;
+        }
+        .map-pin {
+            position: absolute;
+            color: var(--gold);
+            font-size: 1.8rem;
+            filter: drop-shadow(0 0 15px rgba(245,179,66,0.8));
+            animation: pinBounce 2s infinite;
+        }
+        @keyframes pinBounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        /* ============================================================
+           CONTRACTOR
+           ============================================================ */
+        .contractor-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 0.8rem;
+        }
+        .contractor-card {
+            background: rgba(255,255,255,0.02);
+            padding: 1rem 0.8rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .contractor-card:hover {
+            border-color: var(--gold);
+            background: rgba(245,179,66,0.05);
+            transform: translateY(-3px);
+        }
+        .contractor-avatar {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-dim), rgba(255,255,255,0.05));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 0.6rem;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--gold);
+        }
+
+        /* ============================================================
+           AI ASSISTANT
+           ============================================================ */
+        .ai-assistant {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: rgba(15,15,30,0.85);
+            backdrop-filter: blur(25px);
+            -webkit-backdrop-filter: blur(25px);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4rem;
+            border: 1px solid rgba(245,179,66,0.3);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            z-index: 99;
+            box-shadow: 0 25px 60px -15px rgba(0,0,0,0.8), 0 0 40px rgba(245,179,66,0.1);
+            color: var(--text-primary);
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .ai-assistant:hover {
+            border-color: var(--gold);
+            box-shadow: 0 30px 70px -15px rgba(0,0,0,0.9), 0 0 60px rgba(245,179,66,0.2);
+        }
+        .ai-assistant .ai-ring {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold), #e6992a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: ringPulse 3s infinite;
+        }
+        @keyframes ringPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(245,179,66,0.5); }
+            50% { box-shadow: 0 0 0 16px rgba(245,179,66,0); }
+        }
+        .ai-assistant .ai-ring i { color: #0a0a0f; font-size: 1rem; }
+
+        /* ============================================================
+           DOCUMENTS
+           ============================================================ */
+        .doc-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 0.6rem;
+        }
+        .doc-item {
+            background: rgba(255,255,255,0.02);
+            padding: 0.6rem 0.8rem;
+            border-radius: var(--radius-md);
+            border: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .doc-item:hover {
+            border-color: var(--gold);
+            background: rgba(245,179,66,0.03);
+        }
+        .doc-item .doc-icon { font-size: 1.3rem; }
+        .doc-item .doc-info { flex: 1; }
+        .doc-item .doc-name { font-weight: 500; font-size: 0.8rem; }
+        .doc-item .doc-meta {
+            font-size: 0.55rem;
+            opacity: 0.5;
+            display: flex;
+            gap: 0.4rem;
+        }
+        .doc-item .doc-status {
+            font-size: 0.55rem;
+            padding: 0.05rem 0.5rem;
+            border-radius: 2rem;
+            font-weight: 600;
+        }
+        .doc-item .doc-status.approved { background: rgba(105,240,174,0.15); color: var(--accent-green); }
+        .doc-item .doc-status.pending { background: rgba(245,179,66,0.15); color: var(--gold); }
+        .doc-item .doc-status.rejected { background: rgba(255,82,82,0.15); color: var(--accent-red); }
+
+        /* ============================================================
+           PRODUCT CARDS
+           ============================================================ */
+        .product-carousel {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            padding: 0.3rem 0;
+            scroll-behavior: smooth;
+        }
+        .product-carousel .product-card {
+            min-width: 160px;
+            flex-shrink: 0;
+            background: rgba(255,255,255,0.02);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: var(--transition-smooth);
+        }
+        .product-carousel .product-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-4px);
+        }
+        .product-carousel .product-card .product-icon { font-size: 1.6rem; color: var(--gold); }
+        .product-carousel .product-card .product-name { font-weight: 600; margin: 0.4rem 0 0.2rem; font-size: 0.85rem; }
+        .product-carousel .product-card .product-price { font-size: 1.1rem; color: var(--gold); font-weight: 700; }
+        .product-carousel .product-card .product-stock { font-size: 0.65rem; opacity: 0.4; }
+        .product-carousel .product-card .product-rating { color: var(--gold); font-size: 0.7rem; }
+
+        /* ============================================================
+           LIVE DASHBOARD
+           ============================================================ */
+        .live-dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+        .live-dash-item {
+            background: rgba(255,255,255,0.02);
+            padding: 0.6rem;
+            border-radius: var(--radius-md);
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .live-dash-item .live-value {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+        .live-dash-item .live-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            opacity: 0.4;
+            letter-spacing: 0.06em;
+        }
+        .live-dash-item .live-status {
+            font-size: 0.65rem;
+            font-weight: 600;
+        }
+        .live-dash-item .live-status.online { color: var(--accent-green); }
+        .live-dash-item .live-status.offline { color: var(--accent-red); }
+
+        /* ============================================================
+           PROGRESS RING
+           ============================================================ */
+        .progress-ring {
+            position: relative;
+            width: 70px;
+            height: 70px;
+        }
+        .progress-ring svg { transform: rotate(-90deg); }
+        .progress-ring .bg-circle { fill: none; stroke: rgba(255,255,255,0.05); stroke-width: 6; }
+        .progress-ring .fg-circle {
+            fill: none;
+            stroke: var(--gold);
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 226;
+            transition: stroke-dashoffset 1.5s ease;
+            filter: drop-shadow(0 0 8px rgba(245,179,66,0.5));
+        }
+
+        /* ============================================================
+           STICKY BAR
+           ============================================================ */
+        .sticky-bar {
+            position: sticky;
+            bottom: 0;
+            background: rgba(5,5,16,0.85);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            padding: 0.6rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-top: 1px solid rgba(255,215,0,0.1);
+            z-index: 50;
+            border-radius: 2rem 2rem 0 0;
+        }
+        .sticky-bar .actions { display: flex; gap: 0.8rem; flex-wrap: wrap; }
+
+        /* ============================================================
+           FOOTER
+           ============================================================ */
+        .footer {
+            padding: 2rem 0;
+            background: rgba(5,5,16,0.9);
+            border-top: 1px solid rgba(255,215,0,0.06);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .footer i { color: var(--gold); margin: 0 0.4rem; transition: var(--transition-smooth); }
+        .footer i:hover { color: #fff; }
+
+        /* ============================================================
+           SCROLLBAR
+           ============================================================ */
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: rgba(245,179,66,0.3); border-radius: 10px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(245,179,66,0.5); }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            max-width: 500px;
+            background: rgba(14, 17, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.12);
+            border-radius: 2px;
+            padding: 0.8rem 1.2rem;
+            color: var(--text-primary);
+            font-family: 'Inter', sans-serif;
+            font-size: 0.85rem;
+            z-index: 2000;
+            box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+            display: none;
+            text-align: center;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1024px) { .container { padding: 0 1.5rem; } }
+
+        @media (max-width: 820px) {
+            .hero { padding: 5rem 1.5rem 2.5rem; min-height: 70vh; }
+            .hero h1 { font-size: 2.4rem; }
+            .nav-links { display: none; }
+            .floating-stats { padding: 1rem; gap: 0.3rem; margin-top: -2rem; }
+            .stat-item .num { font-size: 1.4rem; }
+            .masonry { grid-template-columns: repeat(2, 1fr); }
+            .masonry .span-2 { grid-column: span 2; }
+            .dash-grid { grid-template-columns: 1fr 1fr; }
+            .section-grid { grid-template-columns: 1fr; }
+            .sticky-bar { flex-direction: column; gap: 0.6rem; align-items: stretch; padding: 0.6rem 1rem; }
+            .sticky-bar .actions { justify-content: center; }
+            .ai-assistant { padding: 0.6rem 1rem; font-size: 0.7rem; }
+            .ai-assistant .ai-ring { width: 30px; height: 30px; }
+            .ai-assistant .ai-ring i { font-size: 0.8rem; }
+            .container { padding: 0 1rem; }
+            .hero-meta { gap: 0.6rem 1.5rem; font-size: 0.8rem; }
+            .kpi-grid { grid-template-columns: repeat(2, 1fr); }
+            .live-dashboard { grid-template-columns: repeat(2, 1fr); }
+            .doc-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.8rem; }
+            .floating-stats { grid-template-columns: repeat(4, 1fr); margin-top: -1.5rem; padding: 0.8rem; }
+            .masonry { grid-template-columns: 1fr 1fr; }
+            .dash-grid { grid-template-columns: 1fr; }
+            .section-title { font-size: 1.1rem; }
+            .ai-summary-card { padding: 1.2rem; }
+            .tl-node { flex: 1 0 45px; font-size: 0.5rem; padding: 0.3rem 0.2rem; }
+            .btn { padding: 0.5rem 1rem; font-size: 0.7rem; }
+            .hero-actions .btn { width: 100%; justify-content: center; }
+            .container { padding: 0 0.8rem; }
+            .contractor-grid { grid-template-columns: 1fr 1fr; }
+            .hero-meta { flex-direction: column; gap: 0.3rem; }
+            .floating-stats .stat-item::after { display: none; }
+            .kpi-grid { grid-template-columns: 1fr; }
+            .live-dashboard { grid-template-columns: 1fr 1fr; }
+            .gallery-tabs { gap: 0.15rem; }
+            .gallery-tab { font-size: 0.5rem; padding: 0.15rem 0.5rem; }
+            .product-carousel .product-card { min-width: 120px; padding: 0.6rem; }
+            .sticky-bar .actions .btn { font-size: 0.65rem; padding: 0.3rem 0.6rem; }
+            .authority-bar .container { gap: 0.3rem 0.8rem; }
+            .authority-item { font-size: 0.5rem; }
+            .authority-item i { font-size: 0.6rem; }
+            .hero-badge { font-size: 0.6rem; padding: 0.3rem 1rem; }
+        }
+
+        @media (max-width: 420px) {
+            .hero h1 { font-size: 1.5rem; }
+            .floating-stats { grid-template-columns: repeat(2, 1fr); }
+            .masonry { grid-template-columns: 1fr; }
+            .masonry .span-2 { grid-column: span 1; }
+            .masonry .span-2 img { height: 140px; }
+            .contractor-grid { grid-template-columns: 1fr; }
+            .sticky-bar .actions { flex-direction: column; align-items: stretch; }
+            .sticky-bar .actions .btn { width: 100%; justify-content: center; }
+            .live-dashboard { grid-template-columns: 1fr; }
+            .floating-stats { padding: 0.6rem; }
+            .container { padding: 0 0.6rem; }
+            .hero { padding: 4rem 1rem 2rem; min-height: 60vh; }
+            .hero-actions .btn { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+            .authority-item { font-size: 0.45rem; }
+            .authority-item .auth-value { font-size: 0.6rem; }
+        }
+
+        /* ============================================================
+           REVEAL
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================================
+           NUMBER ANIMATION
+           ============================================================ */
+        .counter-animate {
+            display: inline-block;
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+    <div class="grid-overlay"></div>
+
+    <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+    <nav id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-logo">
+            <span class="logo-icon">
+                <i class="fas fa-cubes" aria-hidden="true"></i>
+                <span class="logo-dot" aria-hidden="true"></span>
+            </span>
+            PRIMESHIELDHUB<span style="font-weight:300;opacity:0.6;">BUILDMART</span>
+        </div>
+        <div class="nav-links">
+            <a href="/buildmart">Home</a>
+            <a href="/buildmart/products">Products</a>
+            <a href="/buildmart/categories">Categories</a>
+            <a href="/buildmart/projects" class="active" aria-current="page">Projects</a>
+            <a href="/buildmart/contractors">Contractors</a>
+            <a href="/buildmart/quote">Quote</a>
+        </div>
+        <div class="nav-actions">
+            <span class="nav-badge" aria-live="polite"><span class="live-dot" aria-hidden="true"></span> LIVE DATA</span>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+       AUTHORITY BAR — Trust First
+       ============================================================ -->
+    <div class="authority-bar" role="complementary" aria-label="Company trust indicators">
+        <div class="container">
+            <div class="authority-item">
+                <i class="fas fa-building" aria-hidden="true"></i>
+                <span class="auth-value">RC 9283954</span>
+            </div>
+            <div class="authority-item">
+                <i class="fas fa-check-circle" aria-hidden="true"></i>
+                <span class="auth-value" id="authProjects">500+</span>
+                <span>Projects</span>
+            </div>
+            <div class="authority-item">
+                <i class="fas fa-truck" aria-hidden="true"></i>
+                <span class="auth-value" id="authDeliveries">15,000+</span>
+                <span>Orders Delivered</span>
+            </div>
+            <div class="authority-item">
+                <i class="fas fa-clock" aria-hidden="true"></i>
+                <span class="auth-value" id="authOnTime">98.7%</span>
+                <span>On-Time Delivery</span>
+            </div>
+            <div class="authority-item">
+                <i class="fas fa-brain" aria-hidden="true"></i>
+                <span class="auth-value" id="authAI">97.2%</span>
+                <span>AI Confidence</span>
+            </div>
+            <div class="authority-item">
+                <i class="fas fa-map-marker-alt" aria-hidden="true"></i>
+                <span class="auth-value" id="authStates">24</span>
+                <span>States Served</span>
+            </div>
+            <div class="authority-item">
+                <span class="rating-stars">★★★★★</span>
+                <span class="auth-value" id="authRating">4.9/5</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       HERO
+       ============================================================ -->
+    <section class="hero" id="hero" aria-label="Project hero">
+        <div class="hero-bg" aria-hidden="true"></div>
+        <div class="hero-overlay" aria-hidden="true"></div>
+        <div class="hero-particle" style="left:10%; animation-delay:0s;" aria-hidden="true"></div>
+        <div class="hero-particle" style="left:25%; animation-delay:1.5s;" aria-hidden="true"></div>
+        <div class="hero-particle" style="left:45%; animation-delay:3s;" aria-hidden="true"></div>
+        <div class="hero-particle" style="left:65%; animation-delay:4.5s;" aria-hidden="true"></div>
+        <div class="hero-particle" style="left:80%; animation-delay:2s;" aria-hidden="true"></div>
+        <div class="hero-particle" style="left:90%; animation-delay:5s;" aria-hidden="true"></div>
+
+        <div class="hero-content">
+            <div class="hero-badge">
+                <span class="pulse-dot" aria-hidden="true"></span>
+                <span id="heroStatus">COMPLETED · RESIDENTIAL COMPLEX</span>
+            </div>
+            <h1 id="projectTitle">Lagos Smart Estate</h1>
+            <p class="hero-subtitle" id="projectSubtitle">Neural-powered construction intelligence. 30 luxury units delivered with 97% procurement efficiency.</p>
+            <div class="hero-meta" id="heroMeta">
+                <div class="meta-item" aria-label="Location"><i class="fas fa-map-pin" aria-hidden="true"></i> <span id="projectLocation">Lekki Phase 1, Lagos</span></div>
+                <div class="meta-item" aria-label="Client"><i class="fas fa-building" aria-hidden="true"></i> <span id="projectClient">Eko Developments Ltd</span></div>
+                <div class="meta-item" aria-label="Completion date"><i class="fas fa-calendar-check" aria-hidden="true"></i> <span id="projectDate">Completed: March 2026</span></div>
+                <div class="meta-item" aria-label="Budget"><i class="fas fa-coins" aria-hidden="true"></i> <span id="projectBudget">₦2.83 Billion</span></div>
+                <div class="meta-item" aria-label="Status"><i class="fas fa-chart-line" aria-hidden="true"></i> <span id="projectStatus">3 weeks ahead of schedule</span></div>
+            </div>
+            <div class="hero-actions">
+                <button class="btn btn-primary" onclick="window.location.href='/buildmart/quote'" aria-label="Request a similar project quote">
+                    <i class="fas fa-file-invoice" aria-hidden="true"></i> Request Similar Project
+                </button>
+                <button class="btn btn-outline-gold" onclick="shareProject()" aria-label="Share this project">
+                    <i class="fas fa-share-nodes" aria-hidden="true"></i> Share Dossier
+                </button>
+                <button class="btn" id="aiQueryBtn" aria-label="Ask AI about this project">
+                    <i class="fas fa-robot" aria-hidden="true"></i> Ask AI
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ============================================================
+       FLOATING STATS
+       ============================================================ -->
+    <div class="floating-stats holographic" id="floatingStats" role="list" aria-label="Project statistics">
+        <div class="stat-item" role="listitem"><div class="num counter-animate" id="statCompletion">100%</div><div class="label">Completion</div></div>
+        <div class="stat-item" role="listitem"><div class="num counter-animate" id="statDuration">18 mo</div><div class="label">Duration</div></div>
+        <div class="stat-item" role="listitem"><div class="num counter-animate" id="statArea">15.2k m²</div><div class="label">Built Area</div></div>
+        <div class="stat-item" role="listitem"><div class="num counter-animate" id="statDeliveries">412</div><div class="label">Deliveries</div></div>
+        <div class="stat-item" role="listitem"><div class="num counter-animate" id="statMaterials">245</div><div class="label">Material Types</div></div>
+        <div class="stat-item" role="listitem"><div class="num counter-animate" id="statEngineers">16</div><div class="label">Engineers</div></div>
+        <div class="stat-item" role="listitem"><div class="num counter-animate" id="statWorkers">124</div><div class="label">Craft Workers</div></div>
+        <div class="stat-item" role="listitem"><div class="num gold-glow counter-animate" id="statSafety">100%</div><div class="label">Safety Record</div></div>
+    </div>
+
+    <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+    <div class="container">
+
+        <!-- ============================================================
+           AI EXECUTIVE SUMMARY + KPI
+           ============================================================ -->
+        <section aria-label="AI executive summary">
+            <div class="section-title"><i class="fas fa-brain" aria-hidden="true"></i> Neural Executive Summary <span class="live-indicator"><span class="live-dot" aria-hidden="true"></span> <span id="lastUpdate">Updated 2 min ago</span></span></div>
+            <div class="ai-summary-card" id="aiSummary">
+                <div class="flex gap-2" style="align-items:center; margin-bottom:0.8rem;">
+                    <i class="fas fa-robot ai-icon" aria-hidden="true"></i>
+                    <div>
+                        <strong style="font-size:1.1rem;">BuildMart AI Analysis</strong><br>
+                        <span style="opacity:0.6; font-size:0.8rem;">Procurement optimization score: <span id="aiScore">97.2%</span></span>
+                    </div>
+                </div>
+                <p id="aiDescription" style="margin-bottom:0.8rem; font-size:0.95rem;">This residential development consisted of <strong>30 luxury units</strong> across 15,200 m². BuildMart orchestrated end-to-end material supply chain.</p>
+                <div style="display:flex; flex-wrap:wrap; gap:0.4rem 0.8rem; margin-bottom:1rem;" id="aiTags" role="list">
+                    <span class="ai-insight-item" role="listitem" style="display:flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;background:rgba(255,255,255,0.02);border-radius:2rem;font-size:0.8rem;"><i class="fas fa-check-circle" aria-hidden="true" style="color:var(--accent-green);"></i> Cement</span>
+                    <span class="ai-insight-item" role="listitem" style="display:flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;background:rgba(255,255,255,0.02);border-radius:2rem;font-size:0.8rem;"><i class="fas fa-check-circle" aria-hidden="true" style="color:var(--accent-green);"></i> Structural Steel</span>
+                    <span class="ai-insight-item" role="listitem" style="display:flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;background:rgba(255,255,255,0.02);border-radius:2rem;font-size:0.8rem;"><i class="fas fa-check-circle" aria-hidden="true" style="color:var(--accent-green);"></i> Aluminum Roofing</span>
+                    <span class="ai-insight-item" role="listitem" style="display:flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;background:rgba(255,255,255,0.02);border-radius:2rem;font-size:0.8rem;"><i class="fas fa-check-circle" aria-hidden="true" style="color:var(--accent-green);"></i> Porcelain Tiles</span>
+                    <span class="ai-insight-item" role="listitem" style="display:flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;background:rgba(255,255,255,0.02);border-radius:2rem;font-size:0.8rem;"><i class="fas fa-check-circle" aria-hidden="true" style="color:var(--accent-green);"></i> PEX Plumbing</span>
+                    <span class="ai-insight-item" role="listitem" style="display:flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;background:rgba(255,255,255,0.02);border-radius:2rem;font-size:0.8rem;"><i class="fas fa-check-circle" aria-hidden="true" style="color:var(--accent-green);"></i> Electrical Conduits</span>
+                    <span class="ai-insight-item" role="listitem" style="display:flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;background:rgba(255,255,255,0.02);border-radius:2rem;font-size:0.8rem;"><i class="fas fa-check-circle" aria-hidden="true" style="color:var(--accent-green);"></i> HVAC Ducting</span>
+                    <span class="ai-insight-item" role="listitem" style="display:flex;align-items:center;gap:0.4rem;padding:0.3rem 0.8rem;background:rgba(255,255,255,0.02);border-radius:2rem;font-size:0.8rem;"><i class="fas fa-check-circle" aria-hidden="true" style="color:var(--accent-green);"></i> Smart Glass</span>
+                </div>
+
+                <!-- KPI Grid -->
+                <div class="kpi-grid" id="kpiGrid" role="list">
+                    <div class="kpi-item" role="listitem"><div class="kpi-value" id="kpiRisk">LOW</div><div class="kpi-label">Construction Risk</div><div class="kpi-status low">● Stable</div></div>
+                    <div class="kpi-item" role="listitem"><div class="kpi-value" id="kpiSupply">LOW</div><div class="kpi-label">Supply Risk</div><div class="kpi-status low">● Stable</div></div>
+                    <div class="kpi-item" role="listitem"><div class="kpi-value" id="kpiCost">3%</div><div class="kpi-label">Cost Overrun</div><div class="kpi-status low">● On Track</div></div>
+                    <div class="kpi-item" role="listitem"><div class="kpi-value" id="kpiDelay">0 days</div><div class="kpi-label">Delay Prediction</div><div class="kpi-status low">● On Schedule</div></div>
+                    <div class="kpi-item" role="listitem"><div class="kpi-value" id="kpiCarbon">Moderate</div><div class="kpi-label">Carbon Footprint</div><div class="kpi-status medium">● Improving</div></div>
+                    <div class="kpi-item" role="listitem"><div class="kpi-value" id="kpiEfficiency">97%</div><div class="kpi-label">Efficiency</div><div class="kpi-status low">● Excellent</div></div>
+                    <div class="kpi-item" role="listitem"><div class="kpi-value" id="kpiSafety">100%</div><div class="kpi-label">Safety Score</div><div class="kpi-status low">● Perfect</div></div>
+                    <div class="kpi-item" role="listitem"><div class="kpi-value" id="kpiConfidence">98%</div><div class="kpi-label">AI Confidence</div><div class="kpi-status low">● High</div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+           LIVE DASHBOARD
+           ============================================================ -->
+        <section style="padding:1.5rem 0;" aria-label="Live dashboard">
+            <div class="section-title"><i class="fas fa-satellite-dish" aria-hidden="true"></i> Live Dashboard <span class="live-indicator"><span class="live-dot" aria-hidden="true"></span> <span id="liveStatusText">Updated just now</span></span></div>
+            <div class="live-dashboard" id="liveDashboard" role="list">
+                <div class="live-dash-item" role="listitem"><div class="live-value counter-animate" id="liveWorkers">43</div><div class="live-label">Workers On-Site</div><div class="live-status online">● Online</div></div>
+                <div class="live-dash-item" role="listitem"><div class="live-value counter-animate" id="liveDeliveries">12</div><div class="live-label">Deliveries Today</div><div class="live-status online">● In Progress</div></div>
+                <div class="live-dash-item" role="listitem"><div class="live-value counter-animate" id="liveTrucks">4</div><div class="live-label">Trucks Arriving</div><div class="live-status online">● En Route</div></div>
+                <div class="live-dash-item" role="listitem"><div class="live-value" id="liveTemp">32°C</div><div class="live-label">Temperature</div><div class="live-status online">● Moderate</div></div>
+                <div class="live-dash-item" role="listitem"><div class="live-value" id="liveHumidity">74%</div><div class="live-label">Humidity</div><div class="live-status medium">● High</div></div>
+                <div class="live-dash-item" role="listitem"><div class="live-value" id="liveRain">5%</div><div class="live-label">Rain Chance</div><div class="live-status low">● Low</div></div>
+                <div class="live-dash-item" role="listitem"><div class="live-value" id="liveRiskDashboard">LOW</div><div class="live-label">AI Risk Assessment</div><div class="live-status low">● Stable</div></div>
+                <div class="live-dash-item" role="listitem"><div class="live-value counter-animate" id="liveProgressDashboard">94%</div><div class="live-label">Overall Progress</div><div class="live-status online">● On Track</div></div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+           TIMELINE + GALLERY
+           ============================================================ -->
+        <section class="section-grid" aria-label="Project timeline and gallery">
+            <div class="glass-card">
+                <div class="subtitle-glow">Construction Phases</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-clock" aria-hidden="true"></i> Project Timeline</div>
+                <div class="timeline-enhanced" id="timelineNodes" role="list">
+                    <span class="tl-node completed" data-phase="planning" role="listitem">Planning</span>
+                    <span class="tl-node completed" data-phase="foundation" role="listitem">Foundation</span>
+                    <span class="tl-node completed" data-phase="structure" role="listitem">Structure</span>
+                    <span class="tl-node completed" data-phase="roofing" role="listitem">Roofing</span>
+                    <span class="tl-node active" data-phase="finishing" role="listitem">Finishing</span>
+                    <span class="tl-node" data-phase="handover" role="listitem">Handover</span>
+                </div>
+                <div style="margin-top:0.8rem; padding:0.8rem 1rem; background:rgba(255,255,255,0.02); border-radius:1rem;" id="phaseDetail" aria-live="polite">
+                    <i class="fas fa-info-circle gold-text" aria-hidden="true"></i>
+                    <strong>Current Phase:</strong> <span id="currentPhase">Final finishing & landscaping. 2,450 cement bags, 18T steel consumed in foundation phase alone.</span>
+                </div>
+                <div style="margin-top:0.8rem;">
+                    <div style="display:flex; justify-content:space-between; font-size:0.75rem;">
+                        <span id="startDate">Start: Jan 2025</span>
+                        <span id="targetDate">Target: Oct 2026</span>
+                        <span class="green-text" id="progressStatus">+3 weeks ahead</span>
+                    </div>
+                    <div style="height:4px; background:rgba(255,255,255,0.05); border-radius:4px; margin-top:0.3rem;">
+                        <div style="width:72%; height:100%; background:var(--gold); border-radius:4px;" id="progressBar" aria-label="Project progress 72%"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="subtitle-glow">Visual Documentation</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-images" aria-hidden="true"></i> Neural Gallery</div>
+                <div class="gallery-tabs" id="galleryTabs" role="tablist" aria-label="Gallery tabs">
+                    <span class="gallery-tab active" data-tab="photos" role="tab" aria-selected="true" aria-controls="galleryGrid">Photos</span>
+                    <span class="gallery-tab" data-tab="drone" role="tab" aria-selected="false" aria-controls="galleryGrid">Drone</span>
+                    <span class="gallery-tab" data-tab="blueprint" role="tab" aria-selected="false" aria-controls="galleryGrid">Blueprint</span>
+                    <span class="gallery-tab" data-tab="video" role="tab" aria-selected="false" aria-controls="galleryGrid">Video</span>
+                    <span class="gallery-tab" data-tab="before" role="tab" aria-selected="false" aria-controls="galleryGrid">Before</span>
+                    <span class="gallery-tab" data-tab="after" role="tab" aria-selected="false" aria-controls="galleryGrid">After</span>
+                </div>
+                <div class="masonry" id="galleryGrid" role="list">
+                    <div class="gallery-item" role="listitem"><img src="/company_logo.png" alt="Luxury interior view" loading="lazy" decoding="async"><div class="gallery-overlay">Luxury Interior</div></div>
+                    <div class="gallery-item" role="listitem"><img src="/company_logo.png" alt="External view of the building" loading="lazy" decoding="async"><div class="gallery-overlay">External View</div></div>
+                    <div class="gallery-item span-2" role="listitem"><img src="/company_logo.png" alt="Aerial drone view" loading="lazy" decoding="async"><div class="gallery-overlay">Drone Aerial</div></div>
+                    <div class="gallery-item" role="listitem"><img src="/company_logo.png" alt="Construction phase 2" loading="lazy" decoding="async"><div class="gallery-overlay">Phase 2</div></div>
+                    <div class="gallery-item" role="listitem"><img src="/company_logo.png" alt="Night render" loading="lazy" decoding="async"><div class="gallery-overlay">Night Render</div></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+           MATERIAL BREAKDOWN + PROCUREMENT
+           ============================================================ -->
+        <section class="section-grid" aria-label="Material breakdown and procurement">
+            <div class="glass-card">
+                <div class="subtitle-glow">Resource Consumption</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-weight-hanging" aria-hidden="true"></i> Material Breakdown</div>
+                <div id="materialList" role="list">
+                    <div class="material-row" role="listitem">
+                        <span class="material-name">Cement</span>
+                        <div class="material-bar-wrap" role="progressbar" aria-valuenow="85" aria-valuemin="0" aria-valuemax="100"><div class="material-bar-fill" style="width:85%"></div></div>
+                        <span class="material-value counter-animate" id="matCement">2,450 bags</span>
+                    </div>
+                    <div class="material-row" role="listitem">
+                        <span class="material-name">Steel Rebar</span>
+                        <div class="material-bar-wrap" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"><div class="material-bar-fill" style="width:65%"></div></div>
+                        <span class="material-value counter-animate" id="matSteel">18.2 tons</span>
+                    </div>
+                    <div class="material-row" role="listitem">
+                        <span class="material-name">Concrete Blocks</span>
+                        <div class="material-bar-wrap" role="progressbar" aria-valuenow="92" aria-valuemin="0" aria-valuemax="100"><div class="material-bar-fill" style="width:92%"></div></div>
+                        <span class="material-value counter-animate" id="matBlocks">22,500 units</span>
+                    </div>
+                    <div class="material-row" role="listitem">
+                        <span class="material-name">Premium Paint</span>
+                        <div class="material-bar-wrap" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"><div class="material-bar-fill" style="width:45%"></div></div>
+                        <span class="material-value counter-animate" id="matPaint">980 buckets</span>
+                    </div>
+                    <div class="material-row" role="listitem">
+                        <span class="material-name">Porcelain Tiles</span>
+                        <div class="material-bar-wrap" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100"><div class="material-bar-fill" style="width:72%"></div></div>
+                        <span class="material-value counter-animate" id="matTiles">4,200 m²</span>
+                    </div>
+                    <div class="material-row" role="listitem">
+                        <span class="material-name">Smart Glass</span>
+                        <div class="material-bar-wrap" role="progressbar" aria-valuenow="35" aria-valuemin="0" aria-valuemax="100"><div class="material-bar-fill" style="width:35%"></div></div>
+                        <span class="material-value counter-animate" id="matGlass">1,100 m²</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="subtitle-glow">Procurement Intelligence</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-chart-pie" aria-hidden="true"></i> Spend Analytics</div>
+                <div class="dash-grid" id="dashGrid" role="list">
+                    <div class="dash-card" role="listitem"><div class="dash-value" id="dashTotal">₦2.83B</div><div class="label">Total Spend</div></div>
+                    <div class="dash-card" role="listitem"><div class="dash-value counter-animate" id="dashDelivered">96.4%</div><div class="label">Delivered</div></div>
+                    <div class="dash-card" role="listitem"><div class="dash-value counter-animate" id="dashPending">3.6%</div><div class="label">Pending</div></div>
+                    <div class="dash-card" role="listitem"><div class="dash-value" id="dashDelivery">3.2d</div><div class="label">Avg Delivery</div></div>
+                    <div class="dash-card" role="listitem"><div class="dash-value" id="dashSuppliers">18</div><div class="label">Suppliers</div></div>
+                    <div class="dash-card" role="listitem"><div class="dash-value" id="dashPOs">421</div><div class="label">POs Issued</div></div>
+                </div>
+                <div style="margin-top:1rem; padding:0.8rem 1rem; background:rgba(255,179,66,0.05); border-radius:1rem; display:flex; align-items:center; gap:0.8rem; font-size:0.85rem;">
+                    <i class="fas fa-trophy gold-text" style="font-size:1.3rem;" aria-hidden="true"></i>
+                    <span><strong>Top Supplier:</strong> <span id="topSupplier">Dangote Cement PLC</span> — <span id="topSupplierPercent">38%</span> of total procurement</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+           MAP + RELATED PRODUCTS
+           ============================================================ -->
+        <section class="section-grid" aria-label="Project map and related products">
+            <div class="glass-card">
+                <div class="subtitle-glow">Geospatial Intelligence</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-map-location-dot" aria-hidden="true"></i> Project Geofence</div>
+                <div class="map-3d">
+                    <i class="fas fa-map-pin map-pin" style="top:35%; left:45%;" aria-hidden="true"></i>
+                    <span style="position:relative; z-index:1; color:var(--text-muted); font-size:0.8rem;">
+                        <i class="fas fa-satellite gold-text" aria-hidden="true"></i> <span id="projectCoordinates">Lekki Phase 1 · 6.4532°N, 3.3958°E</span>
+                    </span>
+                </div>
+                <div style="display:flex; gap:0.5rem; margin-top:0.8rem; flex-wrap:wrap;">
+                    <span class="btn btn-sm" style="background:rgba(0,229,255,0.08); border-color:rgba(0,229,255,0.2);"><i class="fas fa-warehouse" aria-hidden="true"></i> <span id="nearbyWarehouses">3</span> Nearby Warehouses</span>
+                    <span class="btn btn-sm" style="background:rgba(179,136,255,0.08); border-color:rgba(179,136,255,0.2);"><i class="fas fa-truck" aria-hidden="true"></i> <span id="activeSuppliers">12</span> Active Suppliers</span>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="subtitle-glow">Product Catalog</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-boxes-stacked" aria-hidden="true"></i> Related Products</div>
+                <div class="product-carousel" id="relatedProducts" role="list">
+                    <div class="product-card" role="listitem" onclick="window.location.href='/buildmart/products'">
+                        <div class="product-icon" aria-hidden="true">🧱</div>
+                        <div class="product-name">Dangote Cement</div>
+                        <div class="product-rating" aria-label="5 stars">★★★★★</div>
+                        <div class="product-price">₦4,500</div>
+                        <div class="product-stock">In Stock: 3,240</div>
+                        <button class="btn btn-sm btn-primary" style="margin-top:0.4rem; width:100%; font-size:0.65rem;" aria-label="Order Dangote Cement">Order</button>
+                    </div>
+                    <div class="product-card" role="listitem" onclick="window.location.href='/buildmart/products'">
+                        <div class="product-icon" aria-hidden="true">🛠️</div>
+                        <div class="product-name">Steel Rebar 16mm</div>
+                        <div class="product-rating" aria-label="4.5 stars">★★★★☆</div>
+                        <div class="product-price">₦12,200</div>
+                        <div class="product-stock">In Stock: 1,850</div>
+                        <button class="btn btn-sm btn-primary" style="margin-top:0.4rem; width:100%; font-size:0.65rem;" aria-label="Order Steel Rebar">Order</button>
+                    </div>
+                    <div class="product-card" role="listitem" onclick="window.location.href='/buildmart/products'">
+                        <div class="product-icon" aria-hidden="true">🔲</div>
+                        <div class="product-name">Porcelain Tiles</div>
+                        <div class="product-rating" aria-label="5 stars">★★★★★</div>
+                        <div class="product-price">₦8,700</div>
+                        <div class="product-stock">In Stock: 4,200</div>
+                        <button class="btn btn-sm btn-primary" style="margin-top:0.4rem; width:100%; font-size:0.65rem;" aria-label="Order Porcelain Tiles">Order</button>
+                    </div>
+                    <div class="product-card" role="listitem" onclick="window.location.href='/buildmart/products'">
+                        <div class="product-icon" aria-hidden="true">🎨</div>
+                        <div class="product-name">Premium Paint</div>
+                        <div class="product-rating" aria-label="4.5 stars">★★★★☆</div>
+                        <div class="product-price">₦3,200</div>
+                        <div class="product-stock">In Stock: 980</div>
+                        <button class="btn btn-sm btn-primary" style="margin-top:0.4rem; width:100%; font-size:0.65rem;" aria-label="Order Premium Paint">Order</button>
+                    </div>
+                    <div class="product-card" role="listitem" onclick="window.location.href='/buildmart/products'">
+                        <div class="product-icon" aria-hidden="true">🪟</div>
+                        <div class="product-name">Smart Glass</div>
+                        <div class="product-rating" aria-label="5 stars">★★★★★</div>
+                        <div class="product-price">₦25,000</div>
+                        <div class="product-stock">In Stock: 1,100</div>
+                        <button class="btn btn-sm btn-primary" style="margin-top:0.4rem; width:100%; font-size:0.65rem;" aria-label="Order Smart Glass">Order</button>
+                    </div>
+                </div>
+                <div style="margin-top:0.8rem; padding:0.8rem 1rem; background:rgba(0,229,255,0.03); border-radius:1rem; border:1px solid rgba(0,229,255,0.1); font-size:0.85rem;">
+                    <i class="fas fa-magic cyan-text" aria-hidden="true"></i> <span>AI recommends: <strong>Berger Paints</strong> based on project humidity profile</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+           CONTRACTORS + DOCUMENTS
+           ============================================================ -->
+        <section class="section-grid" aria-label="Contractors and documents">
+            <div class="glass-card">
+                <div class="subtitle-glow">Project Team</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-users-gear" aria-hidden="true"></i> Contractors & Engineers</div>
+                <div class="contractor-grid" id="contractorGrid" role="list">
+                    <div class="contractor-card" role="listitem" onclick="showToast('👷 ABC Construction — Lead Contractor')">
+                        <div class="contractor-avatar">AC</div>
+                        <strong style="font-size:0.85rem;">ABC Construction</strong><br>
+                        <span style="opacity:0.5; font-size:0.7rem;">Lead Contractor</span>
+                    </div>
+                    <div class="contractor-card" role="listitem" onclick="showToast('🏗️ XYZ Design Studio — Architect')">
+                        <div class="contractor-avatar">XD</div>
+                        <strong style="font-size:0.85rem;">XYZ Design Studio</strong><br>
+                        <span style="opacity:0.5; font-size:0.7rem;">Architect</span>
+                    </div>
+                    <div class="contractor-card" role="listitem" onclick="showToast('📐 John Okonkwo — Structural Engineer')">
+                        <div class="contractor-avatar">JO</div>
+                        <strong style="font-size:0.85rem;">John Okonkwo</strong><br>
+                        <span style="opacity:0.5; font-size:0.7rem;">Structural Eng.</span>
+                    </div>
+                    <div class="contractor-card" role="listitem" onclick="showToast('👷 Mary Adeola — Site Supervisor')">
+                        <div class="contractor-avatar">MA</div>
+                        <strong style="font-size:0.85rem;">Mary Adeola</strong><br>
+                        <span style="opacity:0.5; font-size:0.7rem;">Site Supervisor</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="subtitle-glow">Documentation</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-file-shield" aria-hidden="true"></i> Project Documents</div>
+                <div class="doc-grid" id="documentsGrid" role="list">
+                    <div class="doc-item" role="listitem" onclick="showToast('📄 Downloading BOQ v4.2...')">
+                        <div class="doc-icon" style="color:var(--accent-red);" aria-hidden="true">📄</div>
+                        <div class="doc-info"><div class="doc-name">BOQ v4.2</div><div class="doc-meta"><span>2.4 MB</span><span>v4.2</span><span>Mar 2026</span></div></div>
+                        <span class="doc-status approved">✓ Approved</span>
+                    </div>
+                    <div class="doc-item" role="listitem" onclick="showToast('📐 Opening Structural Plans...')">
+                        <div class="doc-icon" style="color:var(--accent-cyan);" aria-hidden="true">📐</div>
+                        <div class="doc-info"><div class="doc-name">Structural Plans</div><div class="doc-meta"><span>8.7 MB</span><span>v3.1</span><span>Feb 2026</span></div></div>
+                        <span class="doc-status approved">✓ Approved</span>
+                    </div>
+                    <div class="doc-item" role="listitem" onclick="showToast('📄 Downloading Building Permit...')">
+                        <div class="doc-icon" style="color:var(--accent-green);" aria-hidden="true">📄</div>
+                        <div class="doc-info"><div class="doc-name">Building Permit</div><div class="doc-meta"><span>1.2 MB</span><span>v1.0</span><span>Jan 2026</span></div></div>
+                        <span class="doc-status approved">✓ Approved</span>
+                    </div>
+                    <div class="doc-item" role="listitem" onclick="showToast('📋 Opening Inspection Report...')">
+                        <div class="doc-icon" aria-hidden="true">📋</div>
+                        <div class="doc-info"><div class="doc-name">Inspection Report</div><div class="doc-meta"><span>3.6 MB</span><span>v2.4</span><span>Mar 2026</span></div></div>
+                        <span class="doc-status pending">⏳ Pending</span>
+                    </div>
+                </div>
+                <div style="margin-top:0.8rem; padding:0.6rem 1rem; background:rgba(255,255,255,0.02); border-radius:1rem; font-size:0.75rem;">
+                    <i class="fas fa-lock gold-text" aria-hidden="true"></i> All documents blockchain-verified via <strong>BuildChain™</strong>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+           DRONE + BUDGET
+           ============================================================ -->
+        <section class="section-grid" aria-label="Drone monitoring and budget">
+            <div class="glass-card">
+                <div class="subtitle-glow">Aerial Monitoring</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-drone" aria-hidden="true"></i> Drone Time-Lapse</div>
+                <div style="display:flex; gap:0.4rem; flex-wrap:wrap; margin-bottom:0.8rem;">
+                    <span class="btn btn-sm" style="background:rgba(245,179,66,0.1); font-size:0.65rem;">Month 1</span>
+                    <span class="btn btn-sm" style="background:rgba(245,179,66,0.1); font-size:0.65rem;">Month 4</span>
+                    <span class="btn btn-sm" style="background:rgba(245,179,66,0.1); font-size:0.65rem;">Month 8</span>
+                    <span class="btn btn-sm" style="background:rgba(245,179,66,0.1); font-size:0.65rem;">Month 12</span>
+                    <span class="btn btn-primary btn-sm" style="font-size:0.65rem;">Completed</span>
+                </div>
+                <div style="background:rgba(0,0,0,0.3); border-radius:1rem; padding:1.5rem; text-align:center; border:1px dashed rgba(255,255,255,0.08);">
+                    <i class="fas fa-play-circle" style="font-size:2.5rem; color:var(--gold); opacity:0.6;" aria-hidden="true"></i>
+                    <p style="opacity:0.4; margin-top:0.3rem; font-size:0.85rem;">4K Drone Time-Lapse Playback</p>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="subtitle-glow">Financial Overview</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-chart-doughnut" aria-hidden="true"></i> Budget Allocation</div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.3rem 1rem; font-size:0.8rem;" id="budgetAllocation">
+                    <span>Concrete Works <span class="gold-text" style="float:right;">38%</span></span>
+                    <span>Structural Steel <span class="gold-text" style="float:right;">22%</span></span>
+                    <span>Electrical Systems <span class="cyan-text" style="float:right;">11%</span></span>
+                    <span>Roofing <span class="gold-text" style="float:right;">9%</span></span>
+                    <span>Labor <span class="purple-text" style="float:right;">20%</span></span>
+                </div>
+                <div style="margin-top:1rem; display:flex; align-items:center; gap:1.2rem; justify-content:center;">
+                    <div class="progress-ring" role="progressbar" aria-valuenow="72" aria-valuemin="0" aria-valuemax="100">
+                        <svg width="70" height="70" viewBox="0 0 80 80">
+                            <circle class="bg-circle" cx="40" cy="40" r="36"/>
+                            <circle class="fg-circle" cx="40" cy="40" r="36" id="budgetRing"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div style="font-size:1.6rem; font-weight:700; color:var(--gold);" id="budgetUsed">72%</div>
+                        <div style="opacity:0.5; font-size:0.75rem;">Budget Utilized</div>
+                        <div style="color:var(--accent-green); font-size:0.75rem;" id="budgetStatus">✓ Under Budget</div>
+                    </div>
+                </div>
+                <div style="margin-top:0.8rem; display:grid; grid-template-columns:1fr 1fr; gap:0.3rem; font-size:0.7rem; opacity:0.6;">
+                    <span>Original Budget: ₦3.2B</span>
+                    <span>Current Spend: ₦2.3B</span>
+                    <span>Savings: ₦0.9B</span>
+                    <span>Forecast: ₦2.9B</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+           TESTIMONIAL + LIVE PROGRESS
+           ============================================================ -->
+        <section class="section-grid" aria-label="Testimonial and live progress">
+            <div class="glass-card" style="background:linear-gradient(135deg, rgba(245,179,66,0.06), rgba(0,0,0,0.3));">
+                <div class="subtitle-glow">Client Feedback</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-star" aria-hidden="true"></i> Testimonial</div>
+                <div style="color:var(--gold); font-size:1.2rem; margin-bottom:0.3rem;" aria-label="5 star rating">★★★★★</div>
+                <p id="testimonialText" style="font-size:1rem; font-weight:300; margin:0.4rem 0; line-height:1.6;">
+                    "BuildMart's AI-driven procurement platform ensured every material arrived precisely when needed. We completed three weeks ahead of schedule with zero supply chain disruptions."
+                </p>
+                <div style="display:flex; align-items:center; gap:0.6rem; margin-top:0.8rem;">
+                    <div style="width:36px; height:36px; border-radius:50%; background:var(--gold-dim); display:flex; align-items:center; justify-content:center; color:var(--gold); font-weight:700; font-size:0.9rem;">ED</div>
+                    <div>
+                        <strong id="testimonialAuthor" style="font-size:0.85rem;">Eko Developments Ltd</strong><br>
+                        <span style="opacity:0.4; font-size:0.7rem;" id="testimonialLocation">Lagos, Nigeria</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-card">
+                <div class="subtitle-glow">Real-Time Status</div>
+                <div class="section-title" style="font-size:1.2rem; margin-bottom:0.6rem;"><i class="fas fa-satellite-dish" aria-hidden="true"></i> Live Progress <span class="live-indicator"><span class="live-dot" aria-hidden="true"></span> LIVE</span></div>
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:0.6rem;">
+                    <span style="font-size:0.9rem;">Overall Progress</span>
+                    <span class="gold-text" style="font-size:1.6rem; font-weight:700;" id="liveProgressSummary">94%</span>
+                </div>
+                <div style="height:8px; background:rgba(255,255,255,0.05); border-radius:10px; margin:0.6rem 0; overflow:hidden;">
+                    <div style="width:94%; height:100%; background:linear-gradient(90deg, var(--gold), var(--accent-green)); border-radius:10px;" id="liveProgressBar" role="progressbar" aria-valuenow="94" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-top:0.8rem; font-size:0.8rem;">
+                    <div>Est. Completion: <span class="gold-text" id="estCompletion">Oct 2026</span></div>
+                    <div>Last Update: <span class="cyan-text" id="lastUpdateTime">2 hours ago</span></div>
+                    <div>Workers On-Site: <span class="green-text" id="workersOnSite">47 active</span></div>
+                    <div>Next Milestone: <span class="purple-text" id="nextMilestone">Handover Prep</span></div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+
+    <!-- ============================================================
+       STICKY BAR
+       ============================================================ -->
+    <div class="sticky-bar">
+        <div style="display:flex; align-items:center; gap:0.8rem;">
+            <i class="fas fa-qrcode gold-text" style="font-size:1.3rem;" aria-hidden="true"></i>
+            <span style="font-size:0.7rem; opacity:0.5;">Scan to share dossier</span>
+        </div>
+        <div class="actions">
+            <button class="btn btn-primary btn-sm" onclick="window.location.href='/buildmart/quote'" aria-label="Request a quote">
+                <i class="fas fa-file-invoice" aria-hidden="true"></i> Quote
+            </button>
+            <button class="btn btn-sm" onclick="window.location.href='tel:+2348000000000'" aria-label="Call us">
+                <i class="fas fa-phone" aria-hidden="true"></i> Call
+            </button>
+            <button class="btn btn-sm" style="border-color:rgba(37,211,102,0.3);" onclick="window.open('https://wa.me/2348000000000','_blank')" aria-label="Contact on WhatsApp">
+                <i class="fab fa-whatsapp" style="color:#25d366;" aria-hidden="true"></i> WhatsApp
+            </button>
+            <button class="btn btn-sm" onclick="showToast('📄 BOQ download starting...')" aria-label="Download BOQ">
+                <i class="fas fa-download" aria-hidden="true"></i> BOQ
+            </button>
+            <button class="btn btn-sm" onclick="window.print()" aria-label="Print this page">
+                <i class="fas fa-print" aria-hidden="true"></i> Print
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       AI FLOATING ASSISTANT
+       ============================================================ -->
+    <div class="ai-assistant" id="aiAssistant" role="button" tabindex="0" aria-label="Ask BuildMart AI about this project">
+        <div class="ai-ring"><i class="fas fa-robot" aria-hidden="true"></i></div>
+        <div>
+            <strong style="font-size:0.8rem;">Ask BuildMart AI</strong><br>
+            <span style="opacity:0.5; font-size:0.65rem;">"How much cement?"</span>
+        </div>
+        <i class="fas fa-chevron-right" style="opacity:0.3; font-size:0.8rem;" aria-hidden="true"></i>
+    </div>
+
+    <!-- ============================================================
+       TOAST
+       ============================================================ -->
+    <div id="toast" role="alert" aria-live="polite"></div>
+
+    <!-- ============================================================
+       FOOTER
+       ============================================================ -->
+    <div class="container">
+        <div class="footer">
+            <div>
+                <i class="fas fa-cubes gold-text" aria-hidden="true"></i> <strong>PRIMESHIELDHUB BUILDMART</strong> · Neural Construction Intelligence
+                <span style="margin-left:0.8rem; font-size:0.7rem;">© 2026 PrimeShieldHub Gadgets Limited · RC 9283954</span>
+            </div>
+            <div style="display:flex; gap:0.8rem; flex-wrap:wrap;">
+                <span><i class="fas fa-share-alt" aria-hidden="true"></i> Share</span>
+                <span><i class="fas fa-print" aria-hidden="true"></i> Print</span>
+                <span><i class="fas fa-file-pdf" aria-hidden="true"></i> PDF</span>
+                <span><i class="fas fa-code-branch" aria-hidden="true"></i> API</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+    <script>
+        (function() {
+            "use strict";
+
+            // ============================================================
+            // CONFIGURATION
+            // ============================================================
+            const API_BASE = window.APP_CONFIG?.apiUrl ||
+                'https://api.primeshieldhub.com';
+
+            const isDebug = window.APP_CONFIG?.debug || false;
+
+            // ============================================================
+            // TOAST
+            // ============================================================
+            window.showToast = function(message) {
+                const toast = document.getElementById('toast');
+                toast.textContent = message;
+                toast.style.display = 'block';
+                clearTimeout(toast._timeout);
+                toast._timeout = setTimeout(() => {
+                    toast.style.display = 'none';
+                }, 4000);
+            };
+
+            // ============================================================
+            // SHARE — With fallback
+            // ============================================================
+            window.shareProject = function() {
+                const url = window.location.href;
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'BuildMart Project',
+                        text: 'Check out this project: Lagos Smart Estate',
+                        url: url
+                    }).catch(() => {});
+                } else {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = url;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = '0';
+                    textarea.style.pointerEvents = 'none';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        document.execCommand('copy');
+                        showToast('📋 Project link copied to clipboard');
+                    } catch (e) {
+                        showToast('📋 ' + url);
+                    }
+                    document.body.removeChild(textarea);
+                }
+            };
+
+            // ============================================================
+            // NAVBAR SCROLL
+            // ============================================================
+            const navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', () => {
+                navbar.classList.toggle('scrolled', window.scrollY > 50);
+            });
+
+            // ============================================================
+            // COUNTER ANIMATION
+            // ============================================================
+            function animateCounter(element, target, suffix = '', isCurrency = false) {
+                if (!element) return;
+                let current = 0;
+                const step = Math.max(1, Math.ceil(target / 40));
+                const duration = 800;
+                const interval = duration / 40;
+                const timer = setInterval(() => {
+                    current += step;
+                    if (current >= target) {
+                        current = target;
+                        clearInterval(timer);
+                    }
+                    let display = current;
+                    if (isCurrency) {
+                        display = '₦' + current.toLocaleString();
+                    } else {
+                        display = current.toLocaleString() + suffix;
+                    }
+                    element.textContent = display;
+                }, interval);
+            }
+
+            // ============================================================
+            // AI ASSISTANT
+            // ============================================================
+            const aiAssistant = document.getElementById('aiAssistant');
+            const aiQueryBtn = document.getElementById('aiQueryBtn');
+
+            async function getAIResponse(query) {
+                try {
+                    const title = document.getElementById('projectTitle').textContent || 'this project';
+                    const response = await fetch(`${API_BASE}/api/buildmart/ai/project-query`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            projectId: new URLSearchParams(window.location.search).get('id') || '1',
+                            conversationId: sessionStorage.getItem('aiConversationId') || null,
+                            message: query || 'summary'
+                        }),
+                        credentials: 'include'
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.conversationId) {
+                            sessionStorage.setItem('aiConversationId', data.conversationId);
+                        }
+                        return data.response || `For ${title}, we used 2,450 cement bags, 18 tons of steel, and 22,500 blocks. Completion is at 94%.`;
+                    }
+                } catch (e) {
+                    if (isDebug) console.warn('AI API unavailable, using fallback');
+                }
+                const title = document.getElementById('projectTitle').textContent || 'this project';
+                return `For ${title}, we used 2,450 cement bags, 18 tons of steel, and 22,500 blocks. Completion is at 94%. Ask me about budget, timeline, or materials.`;
+            }
+
+            aiAssistant.addEventListener('click', async function() {
+                this.style.transform = 'scale(1.05)';
+                setTimeout(() => { this.style.transform = 'scale(1)'; }, 200);
+                const response = await getAIResponse('summary');
+                showToast('🤖 ' + response);
+            });
+
+            if (aiQueryBtn) {
+                aiQueryBtn.addEventListener('click', async function() {
+                    const response = await getAIResponse('summary');
+                    showToast('🤖 ' + response);
+                });
+            }
+
+            // ============================================================
+            // TIMELINE NODE INTERACTION
+            // ============================================================
+            document.querySelectorAll('.tl-node').forEach(node => {
+                node.addEventListener('click', function() {
+                    document.querySelectorAll('.tl-node').forEach(n => n.classList.remove('active'));
+                    this.classList.add('active');
+                    const phase = this.dataset.phase || 'finishing';
+                    const phaseDetails = {
+                        planning: 'Planning phase completed. Site survey and architectural design finalized.',
+                        foundation: 'Foundation phase completed. Excavation and concrete works finished.',
+                        structure: 'Structural phase completed. All steel and concrete framing installed.',
+                        roofing: 'Roofing phase completed. All roofing materials installed.',
+                        finishing: 'Final finishing & landscaping. 2,450 cement bags, 18T steel consumed.',
+                        handover: 'Handover phase in progress. Final inspections and documentation.'
+                    };
+                    document.getElementById('currentPhase').textContent = phaseDetails[phase] || 'Phase in progress';
+                });
+            });
+
+            // ============================================================
+            // GALLERY TABS
+            // ============================================================
+            const galleryImages = {
+                photos: [
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png'
+                ],
+                drone: [
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png'
+                ],
+                blueprint: [
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png'
+                ],
+                video: [
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png'
+                ],
+                before: [
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png'
+                ],
+                after: [
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png',
+                    '/company_logo.png'
+                ]
+            };
+
+            document.querySelectorAll('.gallery-tab').forEach(tab => {
+                tab.addEventListener('click', function() {
+                    document.querySelectorAll('.gallery-tab').forEach(t => {
+                        t.classList.remove('active');
+                        t.setAttribute('aria-selected', 'false');
+                    });
+                    this.classList.add('active');
+                    this.setAttribute('aria-selected', 'true');
+
+                    const tabName = this.dataset.tab;
+                    const images = galleryImages[tabName] || galleryImages.photos;
+                    const gallery = document.getElementById('galleryGrid');
+                    const items = gallery.querySelectorAll('.gallery-item');
+
+                    items.forEach((item, i) => {
+                        const img = item.querySelector('img');
+                        if (img) {
+                            img.src = images[i % images.length];
+                            img.alt = tabName.charAt(0).toUpperCase() + tabName.slice(1) + ' view ' + (i + 1);
+                        }
+                    });
+                    showToast('📸 ' + tabName.charAt(0).toUpperCase() + tabName.slice(1) + ' view loaded');
+                });
+            });
+
+            // ============================================================
+            // NAV LINKS ACTIVE STATE
+            // ============================================================
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function(e) {
+                    document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
+                    this.classList.add('active');
+                });
+            });
+
+            // ============================================================
+            // PROGRESS RING CALCULATION
+            // ============================================================
+            function updateProgressRing(percent) {
+                const ring = document.getElementById('budgetRing');
+                if (!ring) return;
+                const circumference = 226;
+                const offset = circumference - (percent / 100) * circumference;
+                ring.style.strokeDashoffset = offset;
+            }
+
+            // ============================================================
+            // LOAD PROJECT DATA
+            // ============================================================
+            function setText(id, value) {
+                const el = document.getElementById(id);
+                if (el) el.textContent = value || '';
+            }
+
+            async function loadProjectData() {
+                try {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const projectId = urlParams.get('id') || '1';
+
+                    const response = await fetch(`${API_BASE}/api/buildmart/projects/${projectId}`, {
+                        credentials: 'include'
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        updateUI(data);
+                    } else {
+                        console.warn('Using fallback project data');
+                        const fallbackData = {
+                            title: 'Lagos Smart Estate',
+                            subtitle: 'Neural-powered construction intelligence.',
+                            status: 'COMPLETED · RESIDENTIAL COMPLEX',
+                            location: 'Lekki Phase 1, Lagos',
+                            client: 'Eko Developments Ltd',
+                            date: 'Completed: March 2026',
+                            budget: '₦2.83 Billion',
+                            progress: '3 weeks ahead of schedule',
+                            completion: '100%',
+                            duration: '18 mo',
+                            area: '15.2k m²',
+                            deliveries: '412',
+                            materials: '245',
+                            engineers: '16',
+                            workers: '124',
+                            safety: '100%',
+                            aiScore: '97.2%',
+                            aiDescription: 'This residential development consisted of 30 luxury units across 15,200 m².',
+                            testimonial: '"BuildMart\'s AI-driven procurement platform ensured every material arrived precisely when needed. We completed three weeks ahead of schedule with zero supply chain disruptions."',
+                            testimonialAuthor: 'Eko Developments Ltd',
+                            testimonialLocation: 'Lagos, Nigeria',
+                            authProjects: '500+',
+                            authDeliveries: '15,000+',
+                            authOnTime: '98.7%',
+                            authAI: '97.2%',
+                            authStates: '24',
+                            authRating: '4.9/5'
+                        };
+                        updateUI(fallbackData);
+                    }
+                } catch (error) {
+                    console.error('Error loading project data:', error);
+                    showToast('⚠️ Could not load project data. Using cached version.');
+                }
+            }
+
+            function updateUI(data) {
+                // Authority Bar
+                setText('authProjects', data.authProjects || '500+');
+                setText('authDeliveries', data.authDeliveries || '15,000+');
+                setText('authOnTime', data.authOnTime || '98.7%');
+                setText('authAI', data.authAI || '97.2%');
+                setText('authStates', data.authStates || '24');
+                setText('authRating', data.authRating || '4.9/5');
+
+                // Hero
+                setText('heroStatus', data.status || 'COMPLETED · RESIDENTIAL COMPLEX');
+                setText('projectTitle', data.title || 'Lagos Smart Estate');
+                setText('projectSubtitle', data.subtitle || 'Neural-powered construction intelligence.');
+                setText('projectLocation', data.location || 'Lekki Phase 1, Lagos');
+                setText('projectClient', data.client || 'Eko Developments Ltd');
+                setText('projectDate', data.date || 'Completed: March 2026');
+                setText('projectBudget', data.budget || '₦2.83 Billion');
+                setText('projectStatus', data.progress || '3 weeks ahead of schedule');
+
+                // Stats — animate counters
+                const completion = data.completion || '100%';
+                const statCompletion = document.getElementById('statCompletion');
+                if (statCompletion) {
+                    const val = parseInt(completion);
+                    animateCounter(statCompletion, val, '%');
+                }
+                animateCounter(document.getElementById('statDuration'), 18, ' mo');
+                const area = document.getElementById('statArea');
+                if (area) {
+                    const val = data.area || '15.2k m²';
+                    area.textContent = val;
+                }
+                animateCounter(document.getElementById('statDeliveries'), parseInt(data.deliveries) || 412);
+                animateCounter(document.getElementById('statMaterials'), parseInt(data.materials) || 245);
+                animateCounter(document.getElementById('statEngineers'), parseInt(data.engineers) || 16);
+                animateCounter(document.getElementById('statWorkers'), parseInt(data.workers) || 124);
+                const safety = document.getElementById('statSafety');
+                if (safety) {
+                    const val = data.safety || '100%';
+                    safety.textContent = val;
+                }
+
+                // AI Summary
+                setText('aiScore', data.aiScore || '97.2%');
+                setText('aiDescription', data.aiDescription || 'This residential development consisted of 30 luxury units across 15,200 m².');
+
+                // Testimonial
+                setText('testimonialText', data.testimonial || '"BuildMart\'s AI-driven procurement platform ensured every material arrived precisely when needed. We completed three weeks ahead of schedule with zero supply chain disruptions."');
+                setText('testimonialAuthor', data.testimonialAuthor || 'Eko Developments Ltd');
+                setText('testimonialLocation', data.testimonialLocation || 'Lagos, Nigeria');
+
+                // Live Dashboard
+                const progress = data.completion || '94';
+                const liveProgressDashboard = document.getElementById('liveProgressDashboard');
+                if (liveProgressDashboard) animateCounter(liveProgressDashboard, parseInt(progress), '%');
+                const liveProgressSummary = document.getElementById('liveProgressSummary');
+                if (liveProgressSummary) liveProgressSummary.textContent = progress + '%';
+                const progressBar = document.getElementById('liveProgressBar');
+                if (progressBar) {
+                    progressBar.style.width = progress + '%';
+                    progressBar.setAttribute('aria-valuenow', progress);
+                }
+
+                // Budget ring
+                const budgetPercent = data.budgetUtilized || 72;
+                updateProgressRing(budgetPercent);
+                setText('budgetUsed', budgetPercent + '%');
+
+                // Timestamp
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString();
+                setText('liveTimestamp', timeStr);
+                setText('lastUpdate', 'Updated ' + timeStr);
+                setText('liveStatusText', 'Updated ' + timeStr);
+
+                // Materials
+                animateCounter(document.getElementById('matCement'), 2450, ' bags');
+                animateCounter(document.getElementById('matSteel'), 18.2, ' tons');
+                animateCounter(document.getElementById('matBlocks'), 22500, ' units');
+                animateCounter(document.getElementById('matPaint'), 980, ' buckets');
+                animateCounter(document.getElementById('matTiles'), 4200, ' m²');
+                animateCounter(document.getElementById('matGlass'), 1100, ' m²');
+
+                // Dash
+                animateCounter(document.getElementById('dashDelivered'), 96.4, '%');
+                animateCounter(document.getElementById('dashPending'), 3.6, '%');
+                setText('dashTotal', data.budget || '₦2.83B');
+                setText('dashDelivery', '3.2d');
+                setText('dashSuppliers', '18');
+                setText('dashPOs', '421');
+
+                // Live workers, deliveries, trucks
+                animateCounter(document.getElementById('liveWorkers'), 43);
+                animateCounter(document.getElementById('liveDeliveries'), 12);
+                animateCounter(document.getElementById('liveTrucks'), 4);
+
+                // Top supplier
+                setText('topSupplier', 'Dangote Cement PLC');
+                setText('topSupplierPercent', '38%');
+            }
+
+            // ============================================================
+            // SCROLL REVEAL
+            // ============================================================
+            const reveals = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.12 });
+
+            document.querySelectorAll('.glass-card, .ai-summary-card, .map-3d, .footer, .floating-stats, .live-dashboard, .doc-grid, .kpi-grid, .product-carousel, .authority-bar')
+                .forEach(el => el.classList.add('reveal'));
+
+            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            loadProjectData();
+
+            // Initial progress ring
+            setTimeout(() => {
+                updateProgressRing(72);
+            }, 100);
+
+            // Debug logs only if enabled
+            if (isDebug) {
+                console.log('🏗️ BuildMart Project Detail — Neural Construction Intelligence');
+                console.log('🔐 Blockchain Verified · AI-Powered · Real-Time Sync');
+                console.log('♿ Accessibility: ARIA labels, roles, and semantic HTML implemented');
+            }
+
+        })();
+    </script>
+</body>
+</html>
+
+

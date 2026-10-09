@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+    <title>PrimeShieldHub Press Center | News, Founder Updates & Corporate Announcements</title>
+    <meta name="description" content="Official press center of PrimeShieldHub Gadgets Limited. Corporate news, founder updates, company milestones, technology initiatives and business announcements.">
+    <meta name="keywords" content="PrimeShieldHub, PrimeShieldHub Press, Freedom Evbakoe Amenaghawon, PrimeShieldHub Founder, PrimeShieldHub CEO, Technology Company Nigeria, Press Releases, Corporate News, Business Announcements">
+    <meta name="author" content="Freedom Evbakoe Amenaghawon">
+    <meta name="robots" content="index,follow">
+    <link rel="canonical" href="https://primeshieldhub.com/press">
+    <link rel="icon" href="/company_logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="PrimeShieldHub Press Center">
+    <meta property="og:description" content="Corporate announcements, founder updates and company news from PrimeShieldHub Gadgets Limited.">
+    <meta property="og:url" content="https://primeshieldhub.com/press">
+    <meta property="og:image" content="https://primeshieldhub.com/company_logo.png">
+    <meta name="twitter:card" content="summary_large_image">
+
+    <!-- ========== COLLECTIONPAGE SCHEMA (ADDED) ========== -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            "@id": "https://primeshieldhub.com/press",
+            "name": "PrimeShieldHub Press Center",
+            "description": "Official media and corporate announcement center of PrimeShieldHub Gadgets Limited.",
+            "url": "https://primeshieldhub.com/press",
+            "publisher": {
+                "@id": "https://primeshieldhub.com/company#organization"
+            }
+        }
+    </script>
+
+    <!-- NewsMediaOrganization Schema -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "NewsMediaOrganization",
+            "@id": "https://primeshieldhub.com/press#media",
+            "name": "PrimeShieldHub Gadgets Limited",
+            "url": "https://primeshieldhub.com",
+            "logo": "https://primeshieldhub.com/company_logo.png",
+            "founder": {"@id":"https://primeshieldhub.com/founder#person"},
+            "parentOrganization": {"@id":"https://primeshieldhub.com/company#organization"}
+        }
+    </script>
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "WebPage",
+            "name": "PrimeShieldHub Press Center",
+            "url": "https://primeshieldhub.com/press",
+            "description": "Official media and corporate announcement center of PrimeShieldHub Gadgets Limited.",
+            "publisher": {"@id":"https://primeshieldhub.com/company#organization"}
+        }
+    </script>
+
+    <!-- ========== PRESS RELEASE AS NEWSARTICLE (FIXED) ========== -->
+    <script type="application/ld+json">
+        {
+            "@context": "https://schema.org",
+            "@type": "NewsArticle",
+            "headline": "Founder Shares Journey From University Student To Multi-Sector Entrepreneur",
+            "url": "https://primeshieldhub.com/press/founder-journey-2026",
+            "datePublished": "2026-06-01T08:00:00+01:00",
+            "author": {"@id":"https://primeshieldhub.com/founder#person"},
+            "publisher": {"@id":"https://primeshieldhub.com/company#organization"},
+            "about": [
+                {"@type":"Person","name":"Freedom Evbakoe Amenaghawon"},
+                {"@type":"Organization","name":"PrimeShieldHub Gadgets Limited"}
+            ]
+        }
+    </script>
+
+    <style>
+        /* ===== DESIGN SYSTEM ===== */
+        :root{
+            --bg-deep:#060608;
+            --bg-primary:#0a0a0d;
+            --bg-elevated:#0f0f14;
+            --bg-card:#141419;
+            --bg-card-hover:#1a1a20;
+            --gold-soft:#c4a04a;
+            --gold-core:#d6b25e;
+            --gold-bright:#e8c97a;
+            --gold-light:#f3dba0;
+            --gold-glow-subtle:rgba(214,178,94,0.06);
+            --gold-glow-medium:rgba(214,178,94,0.12);
+            --gold-glow-strong:rgba(214,178,94,0.2);
+            --gold-border-subtle:rgba(214,178,94,0.1);
+            --gold-border:rgba(214,178,94,0.18);
+            --gold-border-bright:rgba(214,178,94,0.3);
+            --text-primary:#f0efe8;
+            --text-secondary:#b8b6ad;
+            --text-muted:#7a7870;
+            --text-inverse:#0a0a0d;
+            --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+            --font-mono:'JetBrains Mono',monospace;
+            --font-serif:'Cormorant Garamond',Georgia,serif;
+            --radius-sm:12px;
+            --radius-md:20px;
+            --radius-lg:28px;
+            --radius-xl:36px;
+            --radius-full:50%;
+            --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
+            --duration-fast:0.3s;
+            --duration-medium:0.5s;
+            --wide-max:1400px;
+        }
+
+        *{margin:0;padding:0;box-sizing:border-box;}
+
+        html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+
+        body{
+            font-family:var(--font-sans);
+            background:var(--bg-deep);
+            color:var(--text-primary);
+            overflow-x:hidden;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            line-height:1.6;
+        }
+
+        body::before{
+            content:'';position:fixed;inset:0;
+            background:radial-gradient(ellipse 80% 50% at 10% 0%,rgba(214,178,94,0.04) 0%,transparent 55%),
+                       radial-gradient(ellipse 60% 40% at 90% 100%,rgba(214,178,94,0.03) 0%,transparent 55%);
+            pointer-events:none;z-index:-2;
+        }
+        body::after{
+            content:'';position:fixed;inset:0;
+            background-image:radial-gradient(rgba(214,178,94,0.025) 1px,transparent 1px);
+            background-size:40px 40px;pointer-events:none;z-index:-1;
+            mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%);
+            -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%);
+        }
+
+        ::-webkit-scrollbar{width:5px;}
+        ::-webkit-scrollbar-track{background:var(--bg-deep);}
+        ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold-soft),var(--gold-bright));border-radius:3px;}
+        ::selection{background:var(--gold-glow-strong);color:var(--text-primary);}
+
+        /* ===== HEADER NAVIGATION ===== */
+        .quantum-header{
+            position:sticky;
+            top:0;
+            z-index:1000;
+            background:rgba(6,6,8,0.92);
+            backdrop-filter:blur(20px);
+            border-bottom:1px solid var(--gold-border-subtle);
+        }
+        .header-container{
+            max-width:var(--wide-max);
+            margin:0 auto;
+            padding:16px 32px;
+            display:flex;
+            align-items:center;
+            justify-content:space-between;
+            flex-wrap:wrap;
+        }
+        .quantum-brand{
+            display:flex;
+            align-items:center;
+            gap:12px;
+            text-decoration:none;
+        }
+        .shield-logo{
+            width:40px;
+            height:40px;
+            border-radius:12px;
+        }
+        .brand-name{
+            font-weight:800;
+            font-size:1rem;
+            letter-spacing:0.1em;
+            color:var(--text-primary);
+        }
+        .brand-tagline{
+            font-size:0.65rem;
+            color:var(--gold-core);
+            font-family:var(--font-mono);
+        }
+        .quantum-nav{
+            display:flex;
+            gap:28px;
+            align-items:center;
+            flex-wrap:wrap;
+        }
+        .nav-item a{
+            color:var(--text-secondary);
+            text-decoration:none;
+            font-size:0.85rem;
+            font-weight:500;
+            transition:color var(--duration-fast);
+            font-family:var(--font-mono);
+        }
+        .nav-item a:hover{
+            color:var(--gold-core);
+        }
+        .nav-cta{
+            background:rgba(214,178,94,0.1);
+            padding:8px 16px;
+            border-radius:100px;
+            border:1px solid var(--gold-border-subtle);
+            color:var(--gold-core) !important;
+        }
+        .mobile-menu-toggle{
+            display:none;
+            background:none;
+            border:none;
+            font-size:1.5rem;
+            color:var(--gold-core);
+            cursor:pointer;
+        }
+        .mobile-nav{
+            display:none;
+            flex-direction:column;
+            background:var(--bg-elevated);
+            border-top:1px solid var(--gold-border-subtle);
+            padding:20px 32px;
+            gap:16px;
+        }
+        .mobile-nav a{
+            color:var(--text-secondary);
+            text-decoration:none;
+            font-size:0.9rem;
+            padding:8px 0;
+            border-bottom:1px solid rgba(255,255,255,0.05);
+        }
+        .mobile-nav a:last-child{
+            border-bottom:none;
+        }
+
+        .container{max-width:var(--wide-max);margin:0 auto;padding:0 32px;}
+        .section{padding:100px 0;}
+
+        .gold-gradient{
+            background:linear-gradient(135deg,var(--gold-soft),var(--gold-bright),var(--gold-light));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+        }
+
+        .section-badge{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:8px 20px;background:var(--gold-glow-subtle);
+            border:1px solid var(--gold-border-subtle);color:var(--gold-core);
+            border-radius:100px;font-size:0.73rem;font-weight:700;
+            letter-spacing:0.15em;text-transform:uppercase;
+            font-family:var(--font-mono);margin-bottom:18px;
+        }
+
+        .section-header{text-align:center;margin-bottom:60px;}
+        .section-title{
+            font-family:var(--font-serif);font-size:clamp(2.2rem,4.5vw,3.5rem);
+            font-weight:600;line-height:1.15;letter-spacing:-0.02em;margin-bottom:10px;
+        }
+        .section-title .gold{color:var(--gold-core);}
+        .section-subtitle{color:var(--text-muted);font-size:1rem;}
+
+        /* ===== HERO ===== */
+        .hero-section{padding:100px 0 80px;text-align:center;position:relative;}
+        .hero-orb{
+            position:absolute;width:600px;height:600px;border-radius:50%;
+            background:radial-gradient(circle,rgba(214,178,94,0.06) 0%,transparent 65%);
+            top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
+            animation:orbPulse 10s ease-in-out infinite;
+        }
+        @keyframes orbPulse{
+            0%,100%{opacity:0.4;transform:translate(-50%,-50%) scale(1);}
+            50%{opacity:0.7;transform:translate(-50%,-50%) scale(1.06);}
+        }
+        .hero-logo{width:100px;margin:0 auto 30px;display:block;}
+        .hero-title{
+            font-family:var(--font-serif);font-size:clamp(3rem,7vw,5.5rem);
+            font-weight:600;line-height:1.05;letter-spacing:-0.02em;margin-bottom:16px;
+        }
+        .hero-sub{
+            font-size:1.1rem;color:var(--text-secondary);max-width:800px;
+            margin:0 auto;line-height:1.85;
+        }
+
+        /* ===== CARDS ===== */
+        .card{
+            background:var(--bg-card);border:1px solid var(--gold-border-subtle);
+            border-radius:var(--radius-lg);padding:35px;
+            transition:all var(--duration-fast) var(--ease-out-expo);
+            display:block;text-decoration:none;color:var(--text-primary);
+        }
+        .card:hover{
+            border-color:var(--gold-border);background:var(--bg-card-hover);
+            transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,0.35);
+        }
+        .card-date{
+            font-size:0.78rem;color:var(--gold-core);font-weight:700;
+            font-family:var(--font-mono);margin-bottom:12px;
+        }
+        .card h3{font-size:1.2rem;margin-bottom:10px;line-height:1.4;}
+        .card p{color:var(--text-secondary);line-height:1.8;font-size:0.93rem;}
+        .card-arrow{
+            display:inline-block;margin-top:16px;font-weight:700;
+            color:var(--gold-core);font-size:0.85rem;font-family:var(--font-mono);
+        }
+
+        .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:25px;}
+        .grid-3{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:25px;}
+
+        /* ===== FOUNDER MESSAGE ===== */
+        .founder-grid{
+            display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;
+        }
+        .founder-image img{
+            width:100%;max-width:500px;border-radius:var(--radius-lg);
+            box-shadow:0 25px 60px rgba(0,0,0,0.5),0 0 40px var(--gold-glow-subtle);
+            border:1px solid var(--gold-border-subtle);
+        }
+        .founder-content h2{
+            font-family:var(--font-serif);font-size:clamp(1.8rem,4vw,3rem);
+            font-weight:600;margin-bottom:20px;
+        }
+        .founder-content p{
+            font-size:1.05rem;line-height:1.9;color:var(--text-secondary);margin-bottom:20px;
+        }
+        .founder-attribution{margin-top:30px;}
+        .founder-attribution strong{color:var(--text-primary);}
+        .founder-attribution span{color:var(--text-muted);font-size:0.9rem;}
+
+        /* ===== MILESTONE CARDS ===== */
+        .milestone-card{
+            background:var(--bg-card);border:1px solid var(--gold-border-subtle);
+            border-radius:var(--radius-lg);padding:30px;margin-bottom:20px;
+            transition:all var(--duration-fast) var(--ease-out-expo);
+        }
+        .milestone-card:hover{border-color:var(--gold-border);}
+        .milestone-card h3{font-family:var(--font-mono);color:var(--gold-core);font-size:1rem;margin-bottom:8px;}
+        .milestone-card p{color:var(--text-secondary);line-height:1.8;font-size:0.95rem;}
+
+        /* ===== BUTTONS ===== */
+        .btn-primary{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:14px 30px;background:linear-gradient(135deg,var(--gold-soft),var(--gold-core));
+            color:var(--text-inverse);text-decoration:none;border-radius:100px;
+            font-weight:700;font-size:0.88rem;font-family:var(--font-mono);
+            transition:all var(--duration-fast) var(--ease-out-expo);border:none;cursor:pointer;
+        }
+        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px var(--gold-glow-medium);}
+        .btn-secondary{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:14px 30px;background:transparent;color:var(--gold-core);
+            text-decoration:none;border-radius:100px;font-weight:700;font-size:0.88rem;
+            font-family:var(--font-mono);border:1px solid var(--gold-border);
+            transition:all var(--duration-fast) var(--ease-out-expo);cursor:pointer;
+        }
+        .btn-secondary:hover{background:var(--gold-glow-subtle);transform:translateY(-2px);border-color:var(--gold-border-bright);}
+        .btn-row{display:flex;gap:14px;flex-wrap:wrap;}
+        .btn-row-center{justify-content:center;}
+
+        /* ===== SOCIAL ===== */
+        .social-card{
+            display:flex;align-items:center;gap:12px;
+            padding:20px 25px;text-decoration:none;color:var(--text-primary);
+        }
+        .social-card i{font-size:1.3rem;color:var(--gold-core);}
+        .social-card span{font-weight:600;}
+
+        /* ===== FOOTER ===== */
+        .site-footer{
+            background:var(--bg-elevated);border-top:1px solid rgba(255,255,255,0.04);
+            padding:60px 0 30px;
+        }
+        .footer-grid{
+            display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+            gap:40px;margin-bottom:40px;
+        }
+        .footer-grid h4{
+            font-family:var(--font-mono);font-size:0.75rem;color:var(--gold-core);
+            text-transform:uppercase;letter-spacing:0.12em;margin-bottom:18px;
+        }
+        .footer-grid a{
+            display:block;color:var(--text-muted);text-decoration:none;
+            font-size:0.9rem;margin-bottom:8px;transition:color var(--duration-fast);
+        }
+        .footer-grid a:hover{color:var(--gold-core);}
+        .footer-bottom{
+            text-align:center;padding-top:30px;
+            border-top:1px solid rgba(255,255,255,0.03);color:var(--text-muted);font-size:0.85rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:1024px){
+            .quantum-nav{display:none;}
+            .mobile-menu-toggle{display:block;}
+            .header-container{justify-content:space-between;}
+            .founder-grid{grid-template-columns:1fr;gap:40px;}
+            .founder-image{text-align:center;}
+            .founder-image img{max-width:350px;}
+        }
+        @media(max-width:768px){
+            .container{padding:0 20px;}.section{padding:70px 0;}
+            .hero-title{font-size:2.4rem;}.section-title{font-size:1.8rem;}
+            .founder-image img{max-width:280px;}
+            .grid{grid-template-columns:1fr;}
+            .grid-3{grid-template-columns:1fr;}
+            .btn-row{flex-direction:column;align-items:stretch;}
+            .btn-primary,.btn-secondary{justify-content:center;}
+            .social-card{justify-content:center;}
+            .brand-tagline{display:none;}
+        }
+        @media(max-width:480px){
+            .hero-title{font-size:1.8rem;}
+            .hero-logo{width:70px;}
+            .founder-image img{max-width:220px;}
+            .footer-grid{grid-template-columns:1fr;}
+            .milestone-card{padding:20px;}
+            .card{padding:25px;}
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== HEADER NAVIGATION ==================== -->
+<header class="quantum-header">
+    <div class="header-container">
+        <a href="/" class="quantum-brand">
+            <img src="/company_logo.png" alt="PrimeShieldHub Logo" class="shield-logo" loading="eager">
+            <div class="brand-text">
+                <div class="brand-name">PRIMESHIELDHUB</div>
+                <div class="brand-tagline">PRESS CENTER</div>
+            </div>
+        </a>
+        <nav class="quantum-nav" id="mainNav">
+            <div class="nav-item"><a href="/">Home</a></div>
+            <div class="nav-item"><a href="/founder">Founder</a></div>
+            <div class="nav-item"><a href="/company">Company</a></div>
+            <div class="nav-item"><a href="/leadership">Leadership</a></div>
+            <div class="nav-item"><a href="/biography">Biography</a></div>
+            <div class="nav-item"><a href="/articles">Insights</a></div>
+            <div class="nav-item"><a href="/press" class="nav-cta">Press</a></div>
+            <div class="nav-item"><a href="/media-kit">Media Kit</a></div>
+        </nav>
+        <button class="mobile-menu-toggle" id="mobileMenuBtn" aria-label="Toggle Navigation"><i class="fas fa-bars"></i></button>
+    </div>
+    <div class="mobile-nav" id="mobileNav">
+        <a href="/">Home</a>
+        <a href="/founder">Founder</a>
+        <a href="/company">Company</a>
+        <a href="/leadership">Leadership</a>
+        <a href="/biography">Biography</a>
+        <a href="/articles">Insights</a>
+        <a href="/press">Press</a>
+        <a href="/media-kit">Media Kit</a>
+    </div>
+</header>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero-section">
+<div class="hero-orb"></div>
+<div class="container">
+    <img src="/company_logo.png" alt="PrimeShieldHub Logo" class="hero-logo">
+    <span class="section-badge">Official Press Center</span>
+    <h1 class="hero-title">
+        PrimeShieldHub<br><span class="gold-gradient">Press Center</span>
+    </h1>
+    <p class="hero-sub">
+        Official company announcements, founder updates, milestones, business developments, technology initiatives and corporate news from PrimeShieldHub Gadgets Limited.
+    </p>
+</div>
+</section>
+
+<!-- ==================== FOUNDER MESSAGE ==================== -->
+<section class="section" style="background:var(--bg-primary);">
+<div class="container">
+    <div class="founder-grid">
+        <div class="founder-image">
+            <img src="/photograph.webp" alt="Freedom Evbakoe Amenaghawon">
+        </div>
+        <div class="founder-content">
+            <span class="section-badge">Founder Statement</span>
+            <h2>Message From <span class="gold-gradient">The Founder</span></h2>
+            <p>
+                PrimeShieldHub was founded with a commitment to integrity, innovation and customer trust.
+                Our vision is to build one of Africa's most respected technology and commerce brands by consistently delivering authentic products, exceptional service and sustainable business practices.
+                We believe long-term success is achieved by creating real value for customers, partners and communities.
+            </p>
+            <div class="founder-attribution">
+                <strong>Freedom Evbakoe Amenaghawon</strong><br>
+                <span>Founder & Chief Executive Officer</span>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ==================== CORPORATE TIMELINE ==================== -->
+<section class="section">
+<div class="container">
+    <div class="section-header">
+        <span class="section-badge">Corporate Timeline</span>
+        <h2 class="section-title">Company <span class="gold">Milestones</span></h2>
+        <p class="section-subtitle">Key moments in our journey</p>
+    </div>
+    <div style="max-width:900px;margin:0 auto;">
+        <div class="milestone-card">
+            <h3><i class="fas fa-flag-checkered" style="margin-right:8px;"></i> 2026</h3>
+            <p>PrimeShieldHub brand operations officially launched with a focus on technology products, digital commerce and innovation.</p>
+        </div>
+        <div class="milestone-card">
+            <h3><i class="fas fa-file-certificate" style="margin-right:8px;"></i> 2026</h3>
+            <p>PrimeShieldHub Gadgets Limited completed corporate registration and began building long-term technology infrastructure.</p>
+        </div>
+        <div class="milestone-card">
+            <h3><i class="fas fa-rocket" style="margin-right:8px;"></i> Future Vision</h3>
+            <p>Expansion into broader technology services, digital solutions, business innovation and strategic investments.</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ==================== ABOUT PRIMESHIELDHUB ==================== -->
+<section class="section" style="background:var(--bg-primary);">
+<div class="container" style="max-width:900px;margin:0 auto;text-align:center;">
+    <span class="section-badge">About</span>
+    <h2 class="section-title">About <span class="gold">PrimeShieldHub</span></h2>
+    <p style="font-size:1.08rem;line-height:1.9;color:var(--text-secondary);">
+        PrimeShieldHub Gadgets Limited is a Nigerian technology and commerce company operating in consumer electronics, digital commerce, business development and innovation-driven solutions.
+        The company is led by Founder and Chief Executive Officer Freedom Evbakoe Amenaghawon and is committed to building trusted customer relationships through professionalism, transparency and continuous improvement.
+    </p>
+</div>
+</section>
+
+<!-- ==================== LEADERSHIP & OWNERSHIP ==================== -->
+<section class="section">
+<div class="container" style="max-width:900px;margin:0 auto;text-align:center;">
+    <span class="section-badge">Leadership</span>
+    <h2 class="section-title">Leadership & <span class="gold">Ownership</span></h2>
+    <p style="font-size:1.08rem;line-height:1.9;color:var(--text-secondary);">
+        PrimeShieldHub Gadgets Limited was founded by Freedom Evbakoe Amenaghawon.
+        Freedom Evbakoe Amenaghawon is the Founder and Chief Executive Officer (CEO) of PrimeShieldHub Gadgets Limited.
+        As Founder and CEO, Freedom Evbakoe Amenaghawon leads strategic planning, business development, technology initiatives, operational growth and long-term corporate direction.
+        PrimeShieldHub Gadgets Limited operates from Benin City, Edo State, Nigeria.
+    </p>
+</div>
+</section>
+
+<!-- ==================== MEDIA RESOURCES ==================== -->
+<section class="section" style="background:var(--bg-primary);">
+<div class="container">
+    <div class="section-header">
+        <span class="section-badge">Resources</span>
+        <h2 class="section-title">Media <span class="gold">Resources</span></h2>
+        <p class="section-subtitle">Official company resources for media and public reference</p>
+    </div>
+    <div class="grid-3">
+        <div class="card" style="text-align:center;">
+            <i class="fas fa-image" style="color:var(--gold-core);font-size:1.8rem;margin-bottom:14px;display:block;"></i>
+            <h3>Company Logo</h3>
+            <p>Official PrimeShieldHub corporate logo.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <i class="fas fa-user-tie" style="color:var(--gold-core);font-size:1.8rem;margin-bottom:14px;display:block;"></i>
+            <h3>Founder Profile</h3>
+            <p>Biography and professional background of Freedom Evbakoe Amenaghawon.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <i class="fas fa-building" style="color:var(--gold-core);font-size:1.8rem;margin-bottom:14px;display:block;"></i>
+            <h3>Corporate Information</h3>
+            <p>Official company registration and corporate profile information.</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ==================== FEATURED PRESS RELEASES (AS NEWSARTICLE) ==================== -->
+<section class="section">
+<div class="container">
+    <div class="section-header">
+        <span class="section-badge">Press Releases</span>
+        <h2 class="section-title">Featured <span class="gold">Announcements</span></h2>
+        <p class="section-subtitle">Official corporate updates from PrimeShieldHub Gadgets Limited</p>
+    </div>
+    <div class="grid">
+        <a href="/press/founder-journey-2026.html" class="card">
+            <div class="card-date">June 2026</div>
+            <h3>Founder Shares Journey From University Student To Multi-Sector Entrepreneur</h3>
+            <p>Freedom Evbakoe Amenaghawon discusses resilience, entrepreneurship, technology, agriculture and the continued growth of PrimeShieldHub.</p>
+            <span class="card-arrow">Read Full Release â†’</span>
+        </a>
+        <div class="card">
+            <div class="card-date">February 2026</div>
+            <h3>PrimeShieldHub Gadgets Limited Officially Incorporated</h3>
+            <p>PrimeShieldHub Gadgets Limited completed official incorporation in Nigeria, strengthening its long-term business structure and growth strategy.</p>
+        </div>
+        <div class="card">
+            <div class="card-date">Corporate Update</div>
+            <h3>Expansion Of Digital Commerce Operations</h3>
+            <p>The company continues investing in technology, customer experience and digital commerce infrastructure.</p>
+        </div>
+        <div class="card">
+            <div class="card-date">Strategic Vision</div>
+            <h3>Long-Term Innovation Roadmap</h3>
+            <p>PrimeShieldHub remains focused on sustainable growth, operational excellence and technology-driven customer solutions.</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ==================== RECOGNITION & GROWTH ==================== -->
+<section class="section" style="background:var(--bg-primary);">
+<div class="container" style="max-width:900px;margin:0 auto;text-align:center;">
+    <span class="section-badge">Growth</span>
+    <h2 class="section-title">Recognition & <span class="gold">Growth</span></h2>
+    <p style="font-size:1.08rem;line-height:1.9;color:var(--text-secondary);">
+        PrimeShieldHub Gadgets Limited continues to build its reputation through customer satisfaction, business integrity, authentic products and long-term commitment to excellence.
+        The company remains focused on sustainable growth and operational improvement while expanding its presence within Nigeria's technology and consumer electronics sector.
+    </p>
+</div>
+</section>
+
+<!-- ==================== CORPORATE VALUES ==================== -->
+<section class="section">
+<div class="container">
+    <div class="section-header">
+        <span class="section-badge">Values</span>
+        <h2 class="section-title">Corporate <span class="gold">Values</span></h2>
+    </div>
+    <div class="grid">
+        <div class="card" style="text-align:center;">
+            <i class="fas fa-shield-halved" style="color:var(--gold-core);font-size:1.6rem;margin-bottom:12px;display:block;"></i>
+            <h3>Integrity</h3>
+            <p>Commitment to honest business practices and transparency.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <i class="fas fa-lightbulb" style="color:var(--gold-core);font-size:1.6rem;margin-bottom:12px;display:block;"></i>
+            <h3>Innovation</h3>
+            <p>Continuous improvement through technology and creative problem solving.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <i class="fas fa-users" style="color:var(--gold-core);font-size:1.6rem;margin-bottom:12px;display:block;"></i>
+            <h3>Customer First</h3>
+            <p>Creating long-term value and trusted customer relationships.</p>
+        </div>
+        <div class="card" style="text-align:center;">
+            <i class="fas fa-star" style="color:var(--gold-core);font-size:1.6rem;margin-bottom:12px;display:block;"></i>
+            <h3>Excellence</h3>
+            <p>Pursuing high standards across products, services and operations.</p>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ==================== OFFICIAL SOCIAL PROFILES ==================== -->
+<section class="section" style="background:var(--bg-primary);">
+<div class="container">
+    <div class="section-header">
+        <span class="section-badge">Connect</span>
+        <h2 class="section-title">Official <span class="gold">Social Profiles</span></h2>
+    </div>
+    <div class="grid">
+        <a href="https://www.linkedin.com/in/primeshieldhub-08a1863b0" target="_blank" class="social-card card">
+            <i class="fab fa-linkedin-in"></i> <span>LinkedIn</span>
+        </a>
+        <a href="https://github.com/famenaghawon" target="_blank" class="social-card card">
+            <i class="fab fa-github"></i> <span>GitHub</span>
+        </a>
+        <a href="https://www.upwork.com/freelancers/~012164868a9c4eaab3" target="_blank" class="social-card card">
+            <i class="fab fa-upwork"></i> <span>Upwork</span>
+        </a>
+        <a href="https://x.com/primeshieldhub" target="_blank" class="social-card card">
+            <i class="fab fa-x-twitter"></i> <span>X (Twitter)</span>
+        </a>
+        <a href="https://www.instagram.com/primeshieldhub" target="_blank" class="social-card card">
+            <i class="fab fa-instagram"></i> <span>Instagram</span>
+        </a>
+        <a href="https://www.facebook.com/share/1EWJxoLtWJ/" target="_blank" class="social-card card">
+            <i class="fab fa-facebook-f"></i> <span>Facebook</span>
+        </a>
+    </div>
+</div>
+</section>
+
+<!-- ==================== MEDIA CONTACT ==================== -->
+<section class="section">
+<div class="container" style="max-width:800px;margin:0 auto;text-align:center;">
+    <span class="section-badge">Media Contact</span>
+    <h2 class="section-title">Press & <span class="gold">Media Enquiries</span></h2>
+    <p style="font-size:1.05rem;line-height:1.9;color:var(--text-secondary);margin-bottom:40px;">
+        For media enquiries, interviews, business partnerships and official communications, please contact PrimeShieldHub Gadgets Limited using the details below.
+    </p>
+    <div class="card" style="text-align:center;">
+        <p style="margin-bottom:12px;"><i class="fas fa-envelope" style="color:var(--gold-core);margin-right:8px;"></i> <strong>Email:</strong> ceo@primeshieldhub.com</p>
+        <p style="margin-bottom:12px;"><i class="fas fa-phone" style="color:var(--gold-core);margin-right:8px;"></i> <strong>Phone:</strong> +2348103535978</p>
+        <p><i class="fas fa-map-marker-alt" style="color:var(--gold-core);margin-right:8px;"></i> <strong>Location:</strong> Benin City, Edo State, Nigeria</p>
+    </div>
+</div>
+</section>
+
+<!-- ==================== CORPORATE INFORMATION NETWORK ==================== -->
+<section class="section" style="background:var(--bg-primary);">
+<div class="container" style="text-align:center;">
+    <span class="section-badge">Explore</span>
+    <h2 class="section-title">Corporate <span class="gold">Information Network</span></h2>
+    <p style="font-size:1.05rem;line-height:1.9;color:var(--text-secondary);max-width:800px;margin:0 auto 40px;">
+        PrimeShieldHub Gadgets Limited maintains several official information resources designed to provide transparency regarding its operations, leadership and corporate structure.
+    </p>
+    <div class="btn-row btn-row-center">
+        <a href="/founder" class="btn-primary"><i class="fas fa-user-tie"></i> Founder Profile</a>
+        <a href="/company" class="btn-secondary"><i class="fas fa-building"></i> Company Profile</a>
+        <a href="/about" class="btn-secondary"><i class="fas fa-info-circle"></i> About Company</a>
+        <a href="/biography" class="btn-secondary"><i class="fas fa-book"></i> Official Biography</a>
+        <a href="/freedom-evbakoe-amenaghawon" class="btn-secondary"><i class="fas fa-id-card"></i> Personal Profile</a>
+    </div>
+</div>
+</section>
+
+<!-- ==================== LEADERSHIP & OWNERSHIP (REINFORCEMENT) ==================== -->
+<section class="section">
+<div class="container" style="max-width:900px;margin:0 auto;text-align:center;">
+    <span class="section-badge">Entity</span>
+    <h2 class="section-title">Leadership & <span class="gold">Ownership</span></h2>
+    <p style="font-size:1.08rem;line-height:1.9;color:var(--text-secondary);">
+        PrimeShieldHub Gadgets Limited was founded by Freedom Evbakoe Amenaghawon.
+        Freedom Evbakoe Amenaghawon currently serves as Founder and Chief Executive Officer (CEO) of PrimeShieldHub Gadgets Limited.
+        The company is headquartered in Benin City, Edo State, Nigeria.
+        PrimeShieldHub Gadgets Limited operates in technology, consumer electronics, digital commerce and business innovation.
+        Additional information regarding the founder, company leadership and corporate operations can be found through the official Founder Profile and Company Profile pages.
+    </p>
+</div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="site-footer">
+<div class="container">
+    <div class="footer-grid">
+        <div>
+            <img src="/company_logo.png" alt="PrimeShieldHub Logo" style="width:70px;margin-bottom:16px;">
+            <h4>PrimeShieldHub Gadgets Limited</h4>
+            <p style="color:var(--text-muted);font-size:0.85rem;line-height:1.7;">Technology â€¢ Digital Commerce â€¢ Consumer Electronics â€¢ Business Innovation</p>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="/"><i class="fas fa-home"></i> Home</a>
+            <a href="/about"><i class="fas fa-info-circle"></i> About</a>
+            <a href="/company"><i class="fas fa-building"></i> Company</a>
+            <a href="/founder"><i class="fas fa-user"></i> Founder</a>
+            <a href="/biography"><i class="fas fa-book"></i> Biography</a>
+            <a href="/freedom-evbakoe-amenaghawon"><i class="fas fa-id-card"></i> Personal Profile</a>
+        </div>
+        <div>
+            <h4>Media Contact</h4>
+            <a href="mailto:ceo@primeshieldhub.com"><i class="fas fa-envelope"></i> ceo@primeshieldhub.com</a>
+            <a href="tel:+2348103535978"><i class="fas fa-phone"></i> +2348103535978</a>
+            <a><i class="fas fa-map-marker-alt"></i> Benin City, Nigeria</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        Â© <span id="pressYear"></span> PrimeShieldHub Gadgets Limited. All Rights Reserved.
+    </div>
+</div>
+</footer>
+
+<script>
+document.getElementById('pressYear').textContent = new Date().getFullYear();
+
+// Mobile menu toggle
+const mobileBtn = document.getElementById('mobileMenuBtn');
+const mobileNav = document.getElementById('mobileNav');
+if(mobileBtn && mobileNav){
+    mobileBtn.addEventListener('click', function(){
+        if(mobileNav.style.display === 'flex'){
+            mobileNav.style.display = 'none';
+        } else {
+            mobileNav.style.display = 'flex';
+        }
+    });
+}
+</script>
+
+</body>
+</html>
+

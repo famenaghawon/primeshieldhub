@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="9.0.0">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="PrimeShieldHub Quantum Payment Gateway">
+  <title>PrimeShieldHub | Quantum Payment Gateway</title>
+  
+  <!-- ===== IMPORTANT: This meta tag should be populated by your backend ===== -->
+  <!-- For Cloudflare Pages: use {{PAYSTACK_PUBLIC_KEY}} -->
+  <!-- For static HTML: manually set it, or the JS will fetch it -->
+  <meta name="paystack-public-key" content="{{PAYSTACK_PUBLIC_KEY}}">
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+  
+  <!-- Paystack Inline Script -->
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+  
+  <!-- Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg-deep: #010105;
+      --surface-dark: rgba(8, 12, 25, 0.75);
+      --glass-edge: rgba(0, 247, 255, 0.25);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --paystack: #0C8;
+      --paystack-glow: rgba(0, 200, 136, 0.3);
+      --crypto: #8247E5;
+      --crypto-glow: rgba(130, 71, 229, 0.3);
+      --bank: #0066FF;
+      --bank-glow: rgba(0, 102, 255, 0.3);
+      --whatsapp: #25D366;
+      --whatsapp-glow: rgba(37, 211, 102, 0.3);
+      --accent-success: #33ffaa;
+      --accent-danger: #ff3366;
+      --text-primary: #f0f3ff;
+      --text-secondary: #9ca3cf;
+      --gradient-primary: linear-gradient(135deg, #00f7ff, #b200ff);
+      --gradient-gold: linear-gradient(135deg, #ffd966, #ffaa33);
+      --shadow-glow: 0 0 20px rgba(0,247,255,0.3);
+      --radius-card: 2rem;
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    body {
+      font-family: 'Inter', 'Space Grotesk', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+    #quantum-bg-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: -2;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+    .quantum-grid-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: 
+        linear-gradient(rgba(0,247,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,247,255,0.08) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+      animation: gridShift 20s linear infinite;
+    }
+    @keyframes gridShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+    .quantum-header {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(5, 5, 12, 0.85);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--glass-edge);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+    .logo-icon {
+      width: 40px; height: 40px;
+      background: var(--gradient-primary);
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 900;
+      font-size: 1.5rem;
+      font-family: 'Orbitron', monospace;
+    }
+    .logo-text {
+      font-size: 1.2rem;
+      font-weight: 800;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    .back-link {
+      color: var(--neon-cyan);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      transition: var(--transition-smooth);
+    }
+    .back-link:hover {
+      color: var(--neon-gold);
+      transform: translateX(-5px);
+    }
+    .quantum-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .glass-card {
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--glass-edge);
+      padding: 1.5rem;
+      transition: var(--transition-smooth);
+    }
+    .order-summary { margin-bottom: 2rem; }
+    .cart-items { margin-top: 1rem; }
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem 0;
+      border-bottom: 1px solid var(--glass-edge);
+    }
+    .cart-item:last-child { border-bottom: none; }
+    .item-name { font-weight: 600; }
+    .item-price { color: var(--neon-cyan); }
+    .payment-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+    }
+    @media (max-width: 768px) {
+      .payment-grid { grid-template-columns: 1fr; }
+    }
+    .payment-method-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--glass-edge);
+      border-radius: 1.5rem;
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+    .payment-method-card::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%;
+      width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(0,247,255,0.05) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.6s;
+      pointer-events: none;
+    }
+    .payment-method-card:hover::before { opacity: 1; }
+    .payment-method-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--neon-cyan);
+      box-shadow: var(--shadow-glow);
+    }
+    .payment-icon { font-size: 3rem; margin-bottom: 1rem; }
+    .payment-method-card.paystack .payment-icon { color: var(--paystack); }
+    .payment-method-card.crypto .payment-icon { color: var(--crypto); }
+    .payment-method-card.bank .payment-icon { color: var(--bank); }
+    .payment-method-card.whatsapp .payment-icon { color: var(--whatsapp); }
+    .quantum-btn {
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: 2rem;
+      padding: 0.8rem 1.5rem;
+      font-weight: bold;
+      font-size: 0.9rem;
+      color: white;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+    .quantum-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0,247,255,0.6);
+    }
+    .quantum-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+    .calculator { margin-top: 2rem; }
+    .calculator .input-group { margin-bottom: 1rem; }
+    .calculator input, .calculator select {
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--glass-edge);
+      border-radius: 1rem;
+      padding: 0.8rem;
+      color: white;
+      font-size: 1rem;
+    }
+    .calculator input:focus, .calculator select:focus {
+      outline: none;
+      border-color: var(--neon-cyan);
+    }
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-content {
+      background: var(--surface-dark);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--glass-edge);
+      padding: 2rem;
+      max-width: 500px;
+      width: 100%;
+      text-align: center;
+      max-height: 90vh;
+      overflow-y: auto;
+    }
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 2rem;
+      padding: 1rem 2rem;
+      color: var(--neon-cyan);
+      z-index: 10000;
+      animation: slideIn 0.3s ease;
+      display: none;
+      max-width: 400px;
+    }
+    .toast.error { border-color: var(--accent-danger); color: var(--accent-danger); }
+    .toast.success { border-color: var(--accent-success); color: var(--accent-success); }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    .loading-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .loading-overlay.active { display: flex; }
+    .quantum-loader {
+      width: 60px; height: 60px;
+      border: 3px solid var(--glass-edge);
+      border-top-color: var(--neon-cyan);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    .loading-overlay .loading-text { color: var(--text-secondary); font-size: 0.9rem; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    /* Key status indicator */
+    .key-status {
+      font-size: 0.7rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      display: inline-block;
+      margin-top: 0.5rem;
+    }
+    .key-status.valid {
+      background: rgba(51,255,170,0.1);
+      color: var(--accent-success);
+      border: 1px solid rgba(51,255,170,0.2);
+    }
+    .key-status.invalid {
+      background: rgba(255,51,102,0.1);
+      color: var(--accent-danger);
+      border: 1px solid rgba(255,51,102,0.2);
+    }
+    .key-status.loading {
+      background: rgba(255,255,255,0.05);
+      color: var(--text-secondary);
+      border: 1px solid rgba(255,255,255,0.1);
+      animation: pulse 1.5s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    @media (max-width: 480px) {
+      .quantum-container { padding: 1rem; }
+      .modal-content { padding: 1.5rem; }
+      .payment-grid { gap: 1rem; }
+      .payment-method-card { padding: 1rem; }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <canvas id="quantum-bg-canvas"></canvas>
+  <div class="quantum-grid-overlay"></div>
+
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="quantum-loader"></div>
+    <div class="loading-text">Processing your payment...</div>
+  </div>
+
+  <header class="quantum-header">
+    <div class="logo">
+      <div class="logo-icon">Q</div>
+      <div class="logo-text">PRIMESHIELDHUB</div>
+    </div>
+    <a href="/cart" class="back-link"><i class="fas fa-arrow-left"></i> Back to Cart</a>
+  </header>
+
+  <div class="quantum-container">
+    <div class="glass-card order-summary">
+      <h2>Order Summary</h2>
+      <div id="cartItemsContainer" class="cart-items"></div>
+      <div class="cart-total" style="margin-top: 1rem; font-size: 1.2rem; text-align: right;">
+        <strong>Total: </strong><span id="cartTotal">Ã¢â€šÂ¦0</span>
+      </div>
+    </div>
+
+    <!-- Key Status Indicator -->
+    <div style="text-align: center; margin-bottom: 1.5rem;">
+      <span id="keyStatus" class="key-status loading">
+        <i class="fas fa-spinner fa-spin"></i> Loading Paystack configuration...
+      </span>
+    </div>
+
+    <div class="payment-grid">
+      <div class="payment-method-card paystack" onclick="initiatePaystackPayment()">
+        <div class="payment-icon"><i class="fas fa-bolt"></i></div>
+        <h3>Paystack Pro</h3>
+        <p>Cards, USSD, Bank Transfer</p>
+        <div class="stat-value" style="font-size: 0.8rem;">1.5% fee Ã¢â‚¬Â¢ 2s settlement</div>
+      </div>
+      <div class="payment-method-card crypto" onclick="showCryptoModal()">
+        <div class="payment-icon"><i class="fab fa-bitcoin"></i></div>
+        <h3>Cryptocurrency</h3>
+        <p>BTC, ETH, USDT, BNB</p>
+        <div class="stat-value" style="font-size: 0.8rem;">0.5% network fee</div>
+      </div>
+      <div class="payment-method-card bank" onclick="showBankModal()">
+        <div class="payment-icon"><i class="fas fa-university"></i></div>
+        <h3>Bank Transfer</h3>
+        <p>All Nigerian Banks</p>
+        <div class="stat-value" style="font-size: 0.8rem;">No fees Ã¢â‚¬Â¢ Instant</div>
+      </div>
+      <div class="payment-method-card whatsapp" onclick="initiateWhatsAppPayment()">
+        <div class="payment-icon"><i class="fab fa-whatsapp"></i></div>
+        <h3>WhatsApp Pay</h3>
+        <p>Chat & Pay with AI</p>
+        <div class="stat-value" style="font-size: 0.8rem;">1% fee Ã¢â‚¬Â¢ 24/7 support</div>
+      </div>
+    </div>
+
+    <div class="glass-card calculator">
+      <h3>Quantum Payment Calculator</h3>
+      <div class="input-group">
+        <label>Amount (Ã¢â€šÂ¦)</label>
+        <input type="number" id="calcAmount" value="50000" step="1000">
+      </div>
+      <div class="input-group">
+        <label>Payment Method</label>
+        <select id="calcMethod">
+          <option value="paystack">Paystack</option>
+          <option value="crypto">Cryptocurrency</option>
+          <option value="bank">Bank Transfer</option>
+          <option value="whatsapp">WhatsApp Pay</option>
+        </select>
+      </div>
+      <button class="quantum-btn" onclick="calculatePayment()">Calculate</button>
+      <div id="calcResults" style="margin-top: 1rem;"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ================================================================
+    // CONFIGURATION
+    // ================================================================
+    const API_BASE = 'https://api.primeshieldhub.com/api';
+    const CART_KEY = 'psh_cart';
+    const ORDERS_KEY = 'psh_local_orders';
+    const USER_KEY = 'psh_user';
+    const TOKEN_KEY = 'psh_auth_token';
+
+    // ================================================================
+    // PAYSTACK KEY MANAGEMENT
+    // ================================================================
+    let PAYSTACK_PUBLIC_KEY = null;
+    let isKeyLoaded = false;
+
+    /**
+     * Get Paystack public key from:
+     * 1. Meta tag (if populated by backend)
+     * 2. Backend API endpoint
+     * 3. Fallback (for development only)
+     */
+    async function loadPaystackKey() {
+      const keyStatus = document.getElementById('keyStatus');
+      
+      try {
+        // Try meta tag first
+        const metaKey = document.querySelector('meta[name="paystack-public-key"]')?.content;
+        if (metaKey && metaKey.length > 10 && metaKey.startsWith('pk_')) {
+          PAYSTACK_PUBLIC_KEY = metaKey;
+          isKeyLoaded = true;
+          keyStatus.className = 'key-status valid';
+          keyStatus.innerHTML = '<i class="fas fa-check-circle"></i> Paystack configured';
+          console.log('Ã¢Å“â€¦ Paystack key loaded from meta tag');
+          return;
+        }
+
+        // Try backend API
+        keyStatus.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Fetching Paystack key...';
+        
+        const response = await fetch(`${API_BASE}/config/paystack`);
+        if (response.ok) {
+          const data = await response.json();
+          if (data.publicKey && data.publicKey.length > 10) {
+            PAYSTACK_PUBLIC_KEY = data.publicKey;
+            isKeyLoaded = true;
+            keyStatus.className = 'key-status valid';
+            keyStatus.innerHTML = '<i class="fas fa-check-circle"></i> Paystack configured';
+            console.log('Ã¢Å“â€¦ Paystack key loaded from API');
+            return;
+          }
+        }
+
+        // Fallback - for development only
+        console.warn('Ã¢Å¡Â Ã¯Â¸Â No Paystack key found. Using fallback (development only).');
+        // DO NOT use hardcoded keys in production
+        PAYSTACK_PUBLIC_KEY = 'pk_test_...'; // Replace with your test key for development
+        if (PAYSTACK_PUBLIC_KEY === 'pk_test_...') {
+          keyStatus.className = 'key-status invalid';
+          keyStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Paystack key not configured. Please add PAYSTACK_PUBLIC_KEY to your secrets.';
+        } else {
+          isKeyLoaded = true;
+          keyStatus.className = 'key-status valid';
+          keyStatus.innerHTML = '<i class="fas fa-check-circle"></i> Paystack configured (fallback)';
+        }
+
+      } catch (error) {
+        console.error('Error loading Paystack key:', error);
+        keyStatus.className = 'key-status invalid';
+        keyStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Failed to load Paystack configuration';
+      }
+    }
+
+    // ================================================================
+    // DOM REFS
+    // ================================================================
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const toast = document.getElementById('toast');
+    const cartItemsContainer = document.getElementById('cartItemsContainer');
+    const cartTotalSpan = document.getElementById('cartTotal');
+
+    let currentCart = [];
+    let currentUser = null;
+    let toastTimeout = null;
+
+    // ================================================================
+    // TOAST SYSTEM
+    // ================================================================
+    function showToast(message, type = 'info') {
+      if (toastTimeout) { clearTimeout(toastTimeout); toast.style.display = 'none'; }
+      toast.textContent = message;
+      toast.className = 'toast ' + type;
+      toast.style.display = 'block';
+      toastTimeout = setTimeout(() => {
+        toast.style.display = 'none';
+        toastTimeout = null;
+      }, 4000);
+    }
+
+    // ================================================================
+    // LOADING OVERLAY
+    // ================================================================
+    function showLoading(show, text = 'Processing your payment...') {
+      if (show) {
+        loadingOverlay.querySelector('.loading-text').textContent = text;
+        loadingOverlay.classList.add('active');
+      } else {
+        loadingOverlay.classList.remove('active');
+      }
+    }
+
+    // ================================================================
+    // AUTHENTICATION
+    // ================================================================
+    function getAuthToken() { return localStorage.getItem(TOKEN_KEY) || null; }
+    function getUser() {
+      try { const data = localStorage.getItem(USER_KEY); return data ? JSON.parse(data) : null; } catch { return null; }
+    }
+    function isAuthenticated() { return !!getAuthToken() || !!getUser(); }
+
+    // ================================================================
+    // CART MANAGEMENT
+    // ================================================================
+    function getCart() {
+      try { return JSON.parse(localStorage.getItem(CART_KEY) || '[]'); } catch { return []; }
+    }
+    function saveCart(cart) { localStorage.setItem(CART_KEY, JSON.stringify(cart)); }
+    function loadCart() {
+      currentCart = getCart();
+      renderCart();
+      updateCalculatorAmount();
+    }
+    function renderCart() {
+      if (!cartItemsContainer) return;
+      if (currentCart.length === 0) {
+        cartItemsContainer.innerHTML = '<p style="color: var(--text-secondary);">Your cart is empty.</p>';
+        cartTotalSpan.textContent = 'Ã¢â€šÂ¦0';
+        return;
+      }
+      let html = ''; let total = 0;
+      currentCart.forEach(item => {
+        const itemTotal = (item.price || 0) * (item.quantity || 1);
+        total += itemTotal;
+        html += `<div class="cart-item"><div class="item-name">${escapeHtml(item.name || 'Product')} x ${item.quantity || 1}</div><div class="item-price">Ã¢â€šÂ¦${itemTotal.toLocaleString()}</div></div>`;
+      });
+      cartItemsContainer.innerHTML = html;
+      cartTotalSpan.textContent = `Ã¢â€šÂ¦${total.toLocaleString()}`;
+      return total;
+    }
+    function getCartTotal() {
+      return currentCart.reduce((sum, i) => sum + ((i.price || 0) * (i.quantity || 1)), 0);
+    }
+    function escapeHtml(text) {
+      if (!text) return '';
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    function updateCalculatorAmount() {
+      const total = getCartTotal();
+      const calcAmount = document.getElementById('calcAmount');
+      if (calcAmount && total > 0) calcAmount.value = Math.round(total);
+    }
+
+    // ================================================================
+    // PAYMENT CALCULATOR
+    // ================================================================
+    window.calculatePayment = function() {
+      const amount = parseFloat(document.getElementById('calcAmount').value) || 0;
+      const method = document.getElementById('calcMethod').value;
+      let feeRate = 0; let feeText = '';
+      switch (method) {
+        case 'paystack': feeRate = 0.015; feeText = '1.5%'; break;
+        case 'crypto': feeRate = 0.005; feeText = '0.5%'; break;
+        case 'bank': feeRate = 0; feeText = '0%'; break;
+        case 'whatsapp': feeRate = 0.01; feeText = '1%'; break;
+        default: feeRate = 0.015; feeText = '1.5%';
+      }
+      const fee = amount * feeRate;
+      const total = amount + fee;
+      document.getElementById('calcResults').innerHTML = `
+        <div style="margin-top:1rem; padding:1rem; background:rgba(0,200,136,0.1); border-radius:1rem; border:1px solid rgba(0,200,136,0.2);">
+          <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Amount:</span><span>Ã¢â€šÂ¦${amount.toLocaleString()}</span></div>
+          <div style="display:flex; justify-content:space-between; padding:4px 0; color:var(--text-secondary);"><span>Processing Fee (${feeText}):</span><span>Ã¢â€šÂ¦${fee.toLocaleString()}</span></div>
+          <div style="display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid rgba(255,255,255,0.1); margin-top:4px; font-size:1.2rem; font-weight:bold; color:var(--neon-cyan);"><span>Total:</span><span>Ã¢â€šÂ¦${total.toLocaleString()}</span></div>
+        </div>
+      `;
+    };
+
+    // ================================================================
+    // PAYSTACK PAYMENT - FIXED with proper key handling
+    // ================================================================
+    window.initiatePaystackPayment = async function() {
+      // Check if key is loaded
+      if (!isKeyLoaded || !PAYSTACK_PUBLIC_KEY) {
+        showToast('Paystack configuration is loading. Please wait...', 'error');
+        return;
+      }
+
+      if (!isAuthenticated()) {
+        showToast('Please login first', 'error');
+        setTimeout(() => window.location\.href\ =\ '/login\', 1000);
+        return;
+      }
+      if (currentCart.length === 0) {
+        showToast('Your cart is empty', 'error');
+        return;
+      }
+
+      const user = getUser();
+      const total = getCartTotal();
+      const fee = total * 0.015;
+      const amountToPay = Math.round(total + fee);
+      const amountInKobo = amountToPay * 100;
+
+      showLoading(true, 'Initializing Paystack...');
+
+      try {
+        const customerName = user?.name || user?.displayName || 'Customer';
+        const customerEmail = user?.email || 'customer@example.com';
+        const reference = 'PSH-' + Date.now().toString(36).toUpperCase();
+
+        const orderSummary = {
+          reference, trackingId: 'TRK-' + Date.now().toString(36).toUpperCase(),
+          customerName, customerEmail, total: amountToPay,
+          items: currentCart.map(item => ({ name: item.name || 'Product', quantity: item.quantity || 1, price: item.price || 0 })),
+          paymentMethod: 'paystack', timestamp: new Date().toISOString()
+        };
+        localStorage.setItem('psh_last_order', JSON.stringify(orderSummary));
+
+        const orderData = {
+          items: currentCart, total, fee, grandTotal: amountToPay,
+          customerName, customerEmail, paymentMethod: 'paystack',
+          reference, status: 'pending_payment'
+        };
+
+        const token = getAuthToken();
+        const headers = { 'Content-Type': 'application/json' };
+        if (token) headers['Authorization'] = `Bearer ${token}`;
+
+        const response = await fetch(`${API_BASE}/orders`, {
+          method: 'POST', headers, body: JSON.stringify(orderData)
+        });
+        if (!response.ok) {
+          const errorData = await response.json().catch(() => ({}));
+          throw new Error(errorData.message || 'Failed to create order');
+        }
+
+        showLoading(false);
+
+        // ===== FIX: Use the loaded Paystack key =====
+        console.log('Ã°Å¸â€â€˜ Using Paystack key:', PAYSTACK_PUBLIC_KEY.substring(0, 15) + '...');
+
+        const handler = PaystackPop.setup({
+          key: PAYSTACK_PUBLIC_KEY,
+          email: customerEmail,
+          amount: amountInKobo,
+          currency: 'NGN',
+          ref: reference,
+          metadata: {
+            custom_fields: [
+              { display_name: "Customer Name", variable_name: "name", value: customerName },
+              { display_name: "Cart Items", variable_name: "items", value: JSON.stringify(currentCart) }
+            ]
+          },
+          callback: async (response) => {
+            showLoading(true, 'Verifying payment...');
+            try {
+              const verifyResponse = await fetch(`${API_BASE}/payment/verify?reference=${response.reference}`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+              });
+              const verifyData = await verifyResponse.json();
+              if (verifyData.success) {
+                localStorage.removeItem(CART_KEY);
+                showToast('Ã¢Å“â€¦ Payment successful! Order placed.', 'success');
+                setTimeout(() => {
+                  window.location.href = `/payment-success?reference=${response.reference}`;
+                }, 1500);
+              } else {
+                throw new Error(verifyData.message || 'Payment verification failed');
+              }
+            } catch (err) {
+              console.error('Verification error:', err);
+              showToast('Payment successful but verification failed. Contact support.', 'error');
+              setTimeout(() => {
+                window.location.href = `/payment-success?reference=${response.reference}`;
+              }, 2000);
+            } finally { showLoading(false); }
+          },
+          onClose: () => { showToast('Payment cancelled'); }
+        });
+        handler.openIframe();
+
+      } catch (error) {
+        console.error('Paystack error:', error);
+        showLoading(false);
+        showToast(error.message || 'Payment initialization failed', 'error');
+      }
+    };
+
+    // ================================================================
+    // WHATSAPP PAYMENT
+    // ================================================================
+    window.initiateWhatsAppPayment = function() {
+      if (currentCart.length === 0) {
+        showToast('Your cart is empty', 'error');
+        return;
+      }
+
+      const total = getCartTotal();
+      const fee = total * 0.01;
+      const amountToPay = Math.round(total + fee);
+      const user = getUser();
+      const name = user?.name || user?.displayName || 'Customer';
+      const phone = user?.phone || '';
+      const email = user?.email || '';
+
+      const itemsList = currentCart.map(item => 
+        `- ${item.name || 'Product'} x${item.quantity || 1} = Ã¢â€šÂ¦${((item.price || 0) * (item.quantity || 1)).toLocaleString()}`
+      ).join('\n');
+
+      const message = encodeURIComponent(
+        `Ã°Å¸â€ºâ€™ *New Order from PrimeShieldHub*\n\nÃ°Å¸â€˜Â¤ *Customer:* ${name}\nÃ°Å¸â€œÅ¾ *Phone:* ${phone || 'Not provided'}\nÃ°Å¸â€œÂ§ *Email:* ${email || 'Not provided'}\n\nÃ°Å¸â€œÂ¦ *Order Items:*\n${itemsList}\n\nÃ°Å¸â€™Â° *Total: Ã¢â€šÂ¦${amountToPay.toLocaleString()}*\nÃ°Å¸â€™Â³ *Payment Method:* WhatsApp Pay\n\nPlease confirm this order by replying "CONFIRM".\n_This is an automated order request._`
+      );
+
+      window.open(`https://wa.me/2348103535978?text=${message}`, '_blank');
+      showToast('Opening WhatsApp... Please confirm your order', 'info');
+
+      const reference = 'PSH-WA-' + Date.now().toString(36).toUpperCase();
+      const orderSummary = {
+        reference, trackingId: 'TRK-' + Date.now().toString(36).toUpperCase(),
+        customerName: name, customerEmail: email, total: amountToPay,
+        items: currentCart.map(item => ({ name: item.name || 'Product', quantity: item.quantity || 1, price: item.price || 0 })),
+        paymentMethod: 'whatsapp', timestamp: new Date().toISOString()
+      };
+      localStorage.setItem('psh_last_order', JSON.stringify(orderSummary));
+      localStorage.removeItem(CART_KEY);
+      
+      setTimeout(() => {
+        window.location.href = `/payment-success?reference=${reference}&method=whatsapp`;
+      }, 3000);
+    };
+
+    // ================================================================
+    // CRYPTO MODAL
+    // ================================================================
+    window.showCryptoModal = function() {
+      const total = getCartTotal();
+      const amount = Math.round(total + (total * 0.005));
+      document.querySelectorAll('.modal-overlay').forEach(el => el.remove());
+
+      const modal = document.createElement('div');
+      modal.className = 'modal-overlay active';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <h3 style="margin-bottom:1rem;">Cryptocurrency Payment</h3>
+          <div style="margin:1rem 0;">
+            <select id="cryptoSelect" style="padding:0.8rem; margin-bottom:1rem; width:100%; background:#111; color:white; border:1px solid var(--glass-edge); border-radius:0.5rem; font-size:1rem;">
+              <option value="BTC">Bitcoin (BTC)</option>
+              <option value="ETH">Ethereum (ETH)</option>
+              <option value="USDT">USDT (ERC20)</option>
+              <option value="BNB">BNB (BSC)</option>
+            </select>
+            <div id="cryptoAddressDisplay" style="background: rgba(130,71,229,0.2); padding: 1rem; border-radius: 1rem; font-family: monospace; word-break: break-all; font-size:0.9rem;">
+              bc1qprimeshieldhub2026x8yv9j5h2k6g7d4e3f2c1a
+            </div>
+            <button class="quantum-btn" onclick="copyToClipboard(document.getElementById('cryptoAddressDisplay').innerText)" style="margin-top:1rem; width:100%; justify-content:center;">
+              <i class="fas fa-copy"></i> Copy Address
+            </button>
+          </div>
+          <p style="font-size:0.85rem; color:var(--text-secondary);">
+            Send exact amount <strong style="color:var(--neon-cyan);">Ã¢â€šÂ¦${amount.toLocaleString()}</strong> equivalent in selected crypto.
+          </p>
+          <button class="quantum-btn" onclick="this.closest('.modal-overlay').remove()" style="margin-top:1rem; width:100%; justify-content:center;">
+            <i class="fas fa-times"></i> Close
+          </button>
+        </div>
+      `;
+      document.body.appendChild(modal);
+
+      const cryptoSelect = modal.querySelector('#cryptoSelect');
+      const addressDiv = modal.querySelector('#cryptoAddressDisplay');
+      const addresses = {
+        'BTC': 'bc1qprimeshieldhub2026x8yv9j5h2k6g7d4e3f2c1a',
+        'ETH': '0xPr1me5h1e1dHuB2026CryptoWallet',
+        'USDT': 'TPr1me5h1e1dHuB2026TRC20Address',
+        'BNB': 'bnb1primeshieldhub2026bech32address'
+      };
+      cryptoSelect.addEventListener('change', () => {
+        addressDiv.innerText = addresses[cryptoSelect.value];
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+      });
+    };
+
+    // ================================================================
+    // BANK TRANSFER MODAL
+    // ================================================================
+    window.showBankModal = function() {
+      document.querySelectorAll('.modal-overlay').forEach(el => el.remove());
+      const modal = document.createElement('div');
+      modal.className = 'modal-overlay active';
+      modal.innerHTML = `
+        <div class="modal-content">
+          <h3 style="margin-bottom:1rem;">Bank Transfer Details</h3>
+          <div style="margin:1rem 0; text-align:left; background:rgba(0,102,255,0.05); padding:1rem; border-radius:1rem; border:1px solid rgba(0,102,255,0.1);">
+            <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+              <span style="color:var(--text-secondary);">Account Name</span>
+              <span style="font-weight:600;">PRIME SHIELD HUB ENTERPRISES</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.05);">
+              <span style="color:var(--text-secondary);">Bank</span>
+              <span style="font-weight:600;">ZENITH BANK</span>
+            </div>
+            <div style="display:flex; justify-content:space-between; padding:8px 0;">
+              <span style="color:var(--text-secondary);">Account Number</span>
+              <span style="font-weight:700; color:var(--bank); font-family:monospace; font-size:1.2rem;">12234567890</span>
+            </div>
+          </div>
+          <button class="quantum-btn" onclick="copyToClipboard('12234567890')" style="width:100%; justify-content:center; margin-bottom:0.5rem;">
+            <i class="fas fa-copy"></i> Copy Account Number
+          </button>
+          <p style="margin-top:0.5rem; font-size:0.8rem; color:var(--text-secondary);">
+            <i class="fas fa-info-circle"></i> After transfer, send receipt to WhatsApp for instant confirmation.
+          </p>
+          <div style="display:flex; gap:1rem; margin-top:1rem; flex-wrap:wrap;">
+            <button class="quantum-btn" onclick="window.open('https://wa.me/2348103535978?text=I%20have%20made%20a%20bank%20transfer','_blank')" style="flex:1; justify-content:center; background:var(--gradient-gold); color:#000;">
+              <i class="fab fa-whatsapp"></i> Notify on WhatsApp
+            </button>
+            <button class="quantum-btn" onclick="this.closest('.modal-overlay').remove()" style="flex:1; justify-content:center; background:rgba(255,255,255,0.1);">
+              <i class="fas fa-times"></i> Close
+            </button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modal);
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.remove();
+      });
+    };
+
+    // ================================================================
+    // COPY HELPER
+    // ================================================================
+    window.copyToClipboard = function(text) {
+      if (navigator.clipboard) {
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Ã°Å¸â€œâ€¹ Copied to clipboard!', 'success');
+        }).catch(() => fallbackCopy(text));
+      } else { fallbackCopy(text); }
+    };
+    function fallbackCopy(text) {
+      const textarea = document.createElement('textarea');
+      textarea.value = text;
+      textarea.style.position = 'fixed';
+      textarea.style.opacity = '0';
+      document.body.appendChild(textarea);
+      textarea.select();
+      try {
+        document.execCommand('copy');
+        showToast('Ã°Å¸â€œâ€¹ Copied to clipboard!', 'success');
+      } catch (err) {
+        showToast('Failed to copy. Please copy manually.', 'error');
+      }
+      document.body.removeChild(textarea);
+    }
+
+    // ================================================================
+    // THREE.JS BACKGROUND
+    // ================================================================
+    (function initThreeBackground() {
+      const canvas = document.getElementById('quantum-bg-canvas');
+      if (!canvas || typeof THREE === 'undefined') {
+        console.warn('Three.js not available');
+        return;
+      }
+      try {
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setClearColor(0x000000, 0);
+        
+        const geometry = new THREE.TorusKnotGeometry(1.5, 0.4, 200, 32, 3, 4);
+        const material = new THREE.MeshStandardMaterial({ 
+          color: 0x00f7ff, emissive: 0x0066aa, emissiveIntensity: 0.6, metalness: 0.8, roughness: 0.2 
+        });
+        const knot = new THREE.Mesh(geometry, material);
+        knot.position.x = 0.5;
+        scene.add(knot);
+        
+        const wireMat = new THREE.MeshBasicMaterial({ 
+          color: 0xff66cc, wireframe: true, transparent: true, opacity: 0.3 
+        });
+        const wireKnot = new THREE.Mesh(geometry, wireMat);
+        wireKnot.position.x = 0.5;
+        scene.add(wireKnot);
+        
+        const starGeo = new THREE.BufferGeometry();
+        const starCount = 1500;
+        const starPos = [];
+        for (let i = 0; i < starCount; i++) {
+          starPos.push((Math.random() - 0.5) * 200);
+          starPos.push((Math.random() - 0.5) * 100);
+          starPos.push((Math.random() - 0.5) * 100 - 50);
+        }
+        starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
+        const starMat = new THREE.PointsMaterial({ color: 0xffffff, size: 0.2, transparent: true, opacity: 0.6 });
+        const stars = new THREE.Points(starGeo, starMat);
+        stars.position.x = 0.5;
+        scene.add(stars);
+        
+        const ambientLight = new THREE.AmbientLight(0x222222);
+        scene.add(ambientLight);
+        const pointLight = new THREE.PointLight(0x00ffff, 1);
+        pointLight.position.set(5, 5, 5);
+        scene.add(pointLight);
+        const backLight = new THREE.PointLight(0xff66cc, 0.8);
+        backLight.position.set(-3, 2, -4);
+        scene.add(backLight);
+        
+        camera.position.z = 5;
+        let time = 0;
+        function animate() {
+          requestAnimationFrame(animate);
+          time += 0.01;
+          knot.rotation.x = time * 0.5;
+          knot.rotation.y = time * 0.8;
+          wireKnot.rotation.x = time * 0.5;
+          wireKnot.rotation.y = time * 0.8;
+          stars.rotation.y = time * 0.05;
+          stars.rotation.x = Math.sin(time * 0.1) * 0.1;
+          renderer.render(scene, camera);
+        }
+        animate();
+        
+        window.addEventListener('resize', () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+      } catch (error) {
+        console.warn('Three.js background error:', error);
+      }
+    })();
+
+    // ================================================================
+    // INITIALIZATION
+    // ================================================================
+    document.addEventListener('DOMContentLoaded', async () => {
+      // Load Paystack key first
+      await loadPaystackKey();
+      
+      currentUser = getUser();
+      loadCart();
+      setTimeout(() => calculatePayment(), 500);
+      
+      console.log('Ã°Å¸Å¡â‚¬ Quantum Payment Gateway v2.0 Ã¢â‚¬â€ REST API');
+      console.log('Ã¢Å“â€¦ API Base: ' + API_BASE);
+      console.log('Ã¢Å“â€¦ Cart key: ' + CART_KEY);
+      console.log('Ã¢Å“â€¦ Paystack key loaded: ' + (isKeyLoaded ? 'YES' : 'NO'));
+    });
+  </script>
+</body>
+</html>
+

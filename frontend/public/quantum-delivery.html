@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="9.0.0">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="PrimeShieldHub Quantum Delivery Tracking with Live Updates">
+  <title>Track Order | PrimeShieldHub</title>
+  <link rel="canonical" href="https://primeshieldhub.com/quantum-delivery">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+      }
+    }
+  </script>
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-deep: #010105;
+      --surface-dark: rgba(8, 12, 25, 0.75);
+      --glass-edge: rgba(0, 247, 255, 0.25);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --gold-core: #d6b25e;
+      --accent-success: #33ffaa;
+      --accent-danger: #ff3366;
+      --accent-warning: #ffb74d;
+      --text-primary: #f0f3ff;
+      --text-secondary: #9ca3cf;
+      --text-muted: #6b7280;
+      --gradient-primary: linear-gradient(135deg, #00f7ff, #b200ff);
+      --gradient-gold: linear-gradient(135deg, #ffd966, #ffaa33);
+      --whatsapp-green: #25D366;
+      --shadow-glow: 0 0 20px rgba(0,247,255,0.3);
+      --radius-card: 2rem;
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', 'Space Grotesk', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #quantum-bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.7; pointer-events: none; }
+    .quantum-grid-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-image: linear-gradient(rgba(0,247,255,0.08) 1px, transparent 1px), linear-gradient(90deg, rgba(0,247,255,0.08) 1px, transparent 1px); background-size: 50px 50px; z-index: -1; animation: gridShift 20s linear infinite; }
+    @keyframes gridShift { 0% { transform: translate(0, 0); } 100% { transform: translate(50px, 50px); } }
+
+    .quantum-header { position: sticky; top: 0; z-index: 100; background: rgba(5, 5, 12, 0.85); backdrop-filter: blur(16px); border-bottom: 1px solid var(--glass-edge); padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+    .logo { display: flex; align-items: center; gap: 1rem; }
+    .logo-icon { width: 40px; height: 40px; background: var(--gradient-primary); border-radius: 1rem; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.5rem; font-family: 'Orbitron', monospace; }
+    .logo-text { font-size: 1.2rem; font-weight: 800; background: var(--gradient-gold); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .back-link { color: var(--neon-cyan); text-decoration: none; display: flex; align-items: center; gap: 0.5rem; transition: var(--transition-smooth); }
+    .back-link:hover { color: var(--neon-gold); transform: translateX(-5px); }
+
+    .quantum-container { max-width: 1400px; margin: 0 auto; padding: 2rem; }
+    .glass-card { background: var(--surface-dark); backdrop-filter: blur(20px); border-radius: var(--radius-card); border: 1px solid var(--glass-edge); padding: 1.5rem; transition: var(--transition-smooth); }
+
+    .search-section { margin-bottom: 2rem; }
+    .search-box { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .search-box input { flex: 1; background: rgba(0,0,0,0.5); border: 1px solid var(--glass-edge); border-radius: 2rem; padding: 1rem 1.5rem; color: white; font-size: 1rem; min-width: 200px; }
+    .search-box input:focus { outline: none; border-color: var(--neon-cyan); box-shadow: 0 0 12px rgba(0,247,255,0.3); }
+    .quantum-btn { background: var(--gradient-primary); border: none; border-radius: 2rem; padding: 0.8rem 1.5rem; font-weight: bold; font-size: 0.9rem; color: white; cursor: pointer; transition: var(--transition-smooth); display: inline-flex; align-items: center; gap: 0.5rem; }
+    .quantum-btn:hover { transform: translateY(-2px); box-shadow: 0 0 20px rgba(0,247,255,0.6); }
+    .quantum-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+    .quantum-btn .spinner { display: inline-block; width: 16px; height: 16px; border: 2px solid rgba(255,255,255,0.3); border-radius: 50%; border-top-color: white; animation: spin 0.8s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .live-indicator { display: inline-flex; align-items: center; gap: 8px; padding: 4px 14px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; color: var(--accent-success); border: 1px solid rgba(51,255,170,0.3); background: rgba(51,255,170,0.05); }
+    .live-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent-success); animation: livePulse 1.5s infinite; }
+    @keyframes livePulse { 0%,100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.3; transform: scale(0.8); } }
+
+    .order-info { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem; }
+    @media (max-width: 768px) { .order-info { grid-template-columns: 1fr; } }
+
+    .timeline { position: relative; padding-left: 2rem; }
+    .timeline-item { position: relative; padding-bottom: 2rem; border-left: 2px solid var(--glass-edge); padding-left: 1.5rem; }
+    .timeline-item:last-child { border-left-color: transparent; }
+    .timeline-dot { position: absolute; left: -0.6rem; top: 0; width: 1rem; height: 1rem; border-radius: 50%; background: var(--neon-cyan); box-shadow: 0 0 8px var(--neon-cyan); }
+    .timeline-item.completed .timeline-dot { background: var(--accent-success); box-shadow: 0 0 8px var(--accent-success); }
+    .timeline-item.active .timeline-dot { background: var(--neon-gold); animation: quantumPulse 1.5s infinite; }
+    @keyframes quantumPulse { 0%,100% { box-shadow: 0 0 8px var(--neon-gold); } 50% { box-shadow: 0 0 20px var(--neon-gold); } }
+    .timeline-title { font-weight: bold; margin-bottom: 0.3rem; }
+    .timeline-desc { font-size: 0.85rem; color: var(--text-secondary); }
+
+    .map-container { height: 300px; border-radius: 1rem; overflow: hidden; margin-top: 1rem; }
+
+    .address-card { background: rgba(0,0,0,0.4); border-radius: 1rem; padding: 1rem; text-align: center; margin-top: 1rem; }
+    .address-card i { color: var(--neon-gold); font-size: 1.5rem; margin-bottom: 0.5rem; }
+
+    .status-badge { padding: 0.3rem 1rem; border-radius: 2rem; font-size: 0.8rem; font-weight: 600; display: inline-block; }
+    .status-badge.pending { background: #ffaa3320; color: #ffaa33; }
+    .status-badge.processing { background: #33aaff20; color: #33aaff; }
+    .status-badge.shipped { background: #00f7ff20; color: #00f7ff; }
+    .status-badge.in_transit { background: #d6b25e20; color: #d6b25e; }
+    .status-badge.delivered { background: #33ffaa20; color: #33ffaa; }
+    .status-badge.cancelled { background: #ff336620; color: #ff3366; }
+
+    /* ===== NOTIFICATION CONTROLS ===== */
+    .notification-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 1rem;
+      padding: 1rem;
+      background: rgba(0,0,0,0.3);
+      border-radius: 1rem;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+    .notification-controls label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      padding: 6px 12px;
+      border-radius: 1rem;
+      transition: var(--transition-smooth);
+    }
+    .notification-controls label:hover {
+      background: rgba(255,255,255,0.05);
+    }
+    .notification-controls input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: var(--neon-cyan);
+      cursor: pointer;
+    }
+    .notification-controls .input-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex: 1;
+      min-width: 150px;
+    }
+    .notification-controls .input-group input {
+      flex: 1;
+      padding: 6px 12px;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--glass-edge);
+      border-radius: 1rem;
+      color: white;
+      font-size: 0.8rem;
+      min-width: 120px;
+    }
+    .notification-controls .input-group input:focus {
+      outline: none;
+      border-color: var(--neon-cyan);
+    }
+
+    .notify-btn {
+      padding: 6px 16px;
+      border: none;
+      border-radius: 1rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .notify-btn.email { background: #3b82f6; color: white; }
+    .notify-btn.sms { background: #8b5cf6; color: white; }
+    .notify-btn.whatsapp { background: #25D366; color: white; }
+    .notify-btn:hover { transform: translateY(-2px); opacity: 0.9; }
+
+    .toast { position: fixed; bottom: 2rem; right: 2rem; background: var(--surface-dark); backdrop-filter: blur(20px); border: 1px solid var(--neon-cyan); border-radius: 2rem; padding: 1rem 2rem; color: var(--neon-cyan); z-index: 10000; animation: slideIn 0.3s ease; display: none; max-width: 450px; }
+    @keyframes slideIn { from { transform: translateX(100%); opacity: 0; } to { transform: translateX(0); opacity: 1; } }
+
+    @media (max-width: 768px) { 
+      .quantum-container { padding: 1rem; }
+      .notification-controls { flex-direction: column; }
+      .notification-controls .input-group { width: 100%; }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <canvas id="quantum-bg-canvas"></canvas>
+  <div class="quantum-grid-overlay"></div>
+
+  <header class="quantum-header">
+    <div class="logo">
+      <div class="logo-icon">Q</div>
+      <div class="logo-text">PRIMESHIELDHUB</div>
+    </div>
+    <div style="display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;">
+      <span class="live-indicator" id="liveIndicator">
+        <span class="live-dot"></span> Live Tracking
+      </span>
+      <a href="/" class="back-link"><i class="fas fa-arrow-left"></i> Return Home</a>
+    </div>
+  </header>
+
+  <div class="quantum-container">
+    <div class="glass-card search-section">
+      <h3><i class="fas fa-search"></i> Track Your Order</h3>
+      <p style="margin-bottom: 1rem; color: var(--text-secondary);">
+        Enter your tracking ID or order reference to see real-time delivery status.
+        <span id="lastUpdateTime" style="font-size:0.7rem;color:var(--text-muted);margin-left:8px;"></span>
+      </p>
+      <div class="search-box">
+        <input type="text" id="trackingInput" placeholder="Tracking ID (e.g., PSH-20260621-A7B3)" autocomplete="off">
+        <button class="quantum-btn" id="trackBtn"><i class="fas fa-search"></i> Track Order</button>
+        <button class="quantum-btn" id="refreshBtn" style="background:rgba(0,247,255,0.1);border:1px solid var(--glass-edge);" title="Refresh tracking">
+          <i class="fas fa-sync-alt"></i>
+        </button>
+      </div>
+      <div style="margin-top:8px;display:flex;gap:12px;flex-wrap:wrap;font-size:0.7rem;color:var(--text-muted);">
+        <span><i class="fas fa-clock"></i> Auto-refresh: <span id="refreshStatus">30s</span></span>
+        <button id="toggleAutoRefresh" style="background:none;border:none;color:var(--neon-cyan);cursor:pointer;font-size:0.7rem;">
+          <i class="fas fa-pause"></i> Pause
+        </button>
+      </div>
+    </div>
+
+    <div id="orderDetails" style="display: none;">
+      <div class="order-info">
+        <div class="glass-card">
+          <h3><i class="fas fa-receipt"></i> Order Summary</h3>
+          <div id="orderSummary"></div>
+          <div class="address-card">
+            <i class="fas fa-warehouse"></i>
+            <p>PrimeShieldHub Fulfillment Center</p>
+            <p>108 Ekhorutomwen St, Uselu, Benin City</p>
+          </div>
+        </div>
+        <div class="glass-card">
+          <h3><i class="fas fa-history"></i> Delivery Timeline</h3>
+          <div id="timeline" class="timeline"></div>
+        </div>
+      </div>
+
+      <div class="glass-card">
+        <h3><i class="fas fa-map-marked-alt"></i> Live Tracking Map</h3>
+        <div id="map" class="map-container"></div>
+        <p style="margin-top: 1rem; font-size: 0.8rem; color: var(--text-secondary); text-align: center;">
+          <i class="fas fa-map-marker-alt" style="color: var(--neon-cyan);"></i> 
+          Estimated delivery: <span id="eta">--</span>
+        </p>
+      </div>
+
+      <!-- ===== NOTIFICATION CONTROLS ===== -->
+      <div class="glass-card" style="margin-top:1.5rem;">
+        <h3><i class="fas fa-bell"></i> Tracking Notifications</h3>
+        <p style="color: var(--text-secondary); font-size:0.85rem; margin-bottom:1rem;">
+          Get real-time updates when your order status changes.
+        </p>
+        
+        <div class="notification-controls" id="notificationControls">
+          <!-- Email -->
+          <label style="flex:1;">
+            <input type="checkbox" id="notifyEmail" checked>
+            <i class="fas fa-envelope" style="color:#3b82f6;"></i> Email
+          </label>
+          
+          <!-- SMS -->
+          <label style="flex:1;">
+            <input type="checkbox" id="notifySms">
+            <i class="fas fa-sms" style="color:#8b5cf6;"></i> SMS
+          </label>
+          
+          <!-- WhatsApp -->
+          <label style="flex:1;">
+            <input type="checkbox" id="notifyWhatsapp">
+            <i class="fab fa-whatsapp" style="color:#25D366;"></i> WhatsApp
+          </label>
+          
+          <div class="input-group" style="flex:2;">
+            <input type="tel" id="notificationPhone" placeholder="Phone for SMS/WhatsApp" value="234">
+            <button class="notify-btn email" id="sendEmailBtn"><i class="fas fa-envelope"></i> Send</button>
+            <button class="notify-btn sms" id="sendSmsBtn"><i class="fas fa-sms"></i> SMS</button>
+            <button class="notify-btn whatsapp" id="sendWhatsappBtn"><i class="fab fa-whatsapp"></i> WhatsApp</button>
+          </div>
+        </div>
+        
+        <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;font-size:0.7rem;color:var(--text-muted);">
+          <span id="notificationStatus"><i class="fas fa-check-circle" style="color:var(--accent-success);"></i> Ready</span>
+          <button id="testNotificationBtn" style="background:none;border:1px solid var(--glass-edge);border-radius:1rem;padding:4px 12px;color:var(--text-secondary);cursor:pointer;font-size:0.7rem;">
+            <i class="fas fa-vial"></i> Test Notification
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <div id="noOrder" class="glass-card" style="text-align: center; display: block;">
+      <i class="fas fa-box-open fa-3x" style="color: var(--neon-gold); margin-bottom: 1rem;"></i>
+      <p>Enter a tracking ID above to view real-time delivery status.</p>
+      <p style="color: var(--text-secondary); font-size: 0.8rem; margin-top: 0.5rem;">You can find your tracking ID in your order confirmation.</p>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import * as THREE from 'three';
+    import { CONFIG } from '../js/config.js';
+    import { auth } from '../js/auth.js';
+
+    // ===== UNIFIED CONFIG =====
+    const API_BASE = CONFIG.apiBase;
+    const STORAGE_KEYS = CONFIG.STORAGE_KEYS;
+
+    // ===== DOM REFS =====
+    const toast = document.getElementById('toast');
+    const trackingInput = document.getElementById('trackingInput');
+    const trackBtn = document.getElementById('trackBtn');
+    const refreshBtn = document.getElementById('refreshBtn');
+    const orderDetailsDiv = document.getElementById('orderDetails');
+    const noOrderDiv = document.getElementById('noOrder');
+    const orderSummaryDiv = document.getElementById('orderSummary');
+    const timelineDiv = document.getElementById('timeline');
+    const etaSpan = document.getElementById('eta');
+    const lastUpdateTime = document.getElementById('lastUpdateTime');
+    const refreshStatus = document.getElementById('refreshStatus');
+    const toggleAutoRefreshBtn = document.getElementById('toggleAutoRefresh');
+    const liveIndicator = document.getElementById('liveIndicator');
+
+    // Notification controls
+    const notifyEmail = document.getElementById('notifyEmail');
+    const notifySms = document.getElementById('notifySms');
+    const notifyWhatsapp = document.getElementById('notifyWhatsapp');
+    const notificationPhone = document.getElementById('notificationPhone');
+    const sendEmailBtn = document.getElementById('sendEmailBtn');
+    const sendSmsBtn = document.getElementById('sendSmsBtn');
+    const sendWhatsappBtn = document.getElementById('sendWhatsappBtn');
+    const notificationStatus = document.getElementById('notificationStatus');
+    const testNotificationBtn = document.getElementById('testNotificationBtn');
+
+    let map = null;
+    let marker = null;
+    let currentTrackingId = null;
+    let currentTrackingData = null;
+    let autoRefreshInterval = null;
+    let isAutoRefreshEnabled = true;
+    let refreshCount = 0;
+    let vehicleInterval = null;
+
+    const hqLat = 6.3350;
+    const hqLng = 5.6037;
+    const hqAddress = "108 Ekhorutomwen St, Uselu, Benin City";
+
+    // ===== TOAST =====
+    function showToast(message, isError = false, duration = 4000) {
+      toast.textContent = message;
+      toast.style.borderColor = isError ? 'var(--accent-danger)' : 'var(--neon-cyan)';
+      toast.style.color = isError ? 'var(--accent-danger)' : 'var(--neon-cyan)';
+      toast.style.display = 'block';
+      clearTimeout(toast._timer);
+      toast._timer = setTimeout(() => { toast.style.display = 'none'; }, duration);
+    }
+
+    function updateStatus(message, isSuccess = true) {
+      if (notificationStatus) {
+        const icon = isSuccess ? 'fa-check-circle' : 'fa-exclamation-circle';
+        const color = isSuccess ? 'var(--accent-success)' : 'var(--accent-danger)';
+        notificationStatus.innerHTML = `<i class="fas ${icon}" style="color:${color};"></i> ${message}`;
+      }
+    }
+
+    // ===== FORMAT HELPERS =====
+    function formatCurrency(amount) {
+      return '₦' + Number(amount).toLocaleString('en-NG');
+    }
+
+    function formatDate(dateStr) {
+      if (!dateStr) return 'N/A';
+      const d = new Date(dateStr);
+      return d.toLocaleDateString('en-NG', { 
+        year: 'numeric', 
+        month: 'short', 
+        day: 'numeric', 
+        hour: '2-digit', 
+        minute: '2-digit' 
+      });
+    }
+
+    function getStatusClass(status) {
+      const map = {
+        'pending': 'pending',
+        'processing': 'processing',
+        'shipped': 'shipped',
+        'in_transit': 'in_transit',
+        'delivered': 'delivered',
+        'cancelled': 'cancelled'
+      };
+      return map[status] || 'pending';
+    }
+
+    // ===== API CALL =====
+    async function apiCall(endpoint, method = 'GET', body = null) {
+      let token = null;
+      try {
+        token = auth.getToken ? auth.getToken() : null;
+      } catch(e) {
+        token = localStorage.getItem(STORAGE_KEYS.TOKEN) || null;
+      }
+
+      const headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      };
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+
+      const options = { method, headers, credentials: 'include' };
+      if (body) options.body = JSON.stringify(body);
+
+      try {
+        const response = await fetch(API_BASE + endpoint, options);
+        
+        if (response.status === 401) {
+          try { if (auth.logout) auth.logout(); } catch(e) {}
+          localStorage.removeItem(STORAGE_KEYS.TOKEN);
+          localStorage.removeItem(STORAGE_KEYS.USER);
+          throw new Error('Session expired. Please login again.');
+        }
+        
+        if (response.status === 404) {
+          throw new Error('Tracking ID not found. Please check and try again.');
+        }
+        
+        const data = await response.json();
+        if (!response.ok) throw new Error(data.error || data.message || 'Request failed');
+        return data;
+      } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+      }
+    }
+
+    // ===== MAP FUNCTIONS =====
+    function initMap() {
+      if (map) return;
+      try {
+        map = L.map('map').setView([hqLat, hqLng], 13);
+        L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+          attribution: '&copy; OpenStreetMap & CartoDB',
+          subdomains: 'abcd',
+          maxZoom: 20
+        }).addTo(map);
+
+        const hqIcon = L.divIcon({
+          className: 'custom-div-icon',
+          html: '<i class="fas fa-warehouse" style="color: #ffd966; font-size: 24px; text-shadow: 0 0 5px #ffd966;"></i>',
+          iconSize: [30, 30],
+          popupAnchor: [0, -15]
+        });
+        L.marker([hqLat, hqLng], { icon: hqIcon }).addTo(map)
+          .bindPopup('<b>PrimeShieldHub HQ</b><br>' + hqAddress);
+      } catch (e) {
+        console.warn('Map initialization failed:', e);
+      }
+    }
+
+    function updateMap(destLat, destLng, destCity) {
+      if (!map) initMap();
+      if (!map) return;
+      
+      try {
+        if (vehicleInterval) clearInterval(vehicleInterval);
+        if (marker) map.removeLayer(marker);
+
+        const bounds = [[hqLat, hqLng], [destLat, destLng]];
+        map.fitBounds(bounds, { padding: [50, 50] });
+
+        const destIcon = L.divIcon({
+          className: 'custom-div-icon',
+          html: '<i class="fas fa-map-marker-alt" style="color: #ff3366; font-size: 28px;"></i>',
+          iconSize: [30, 30],
+          popupAnchor: [0, -15]
+        });
+        L.marker([destLat, destLng], { icon: destIcon }).addTo(map)
+          .bindPopup('<b>Delivery Destination</b><br>' + (destCity || ''));
+
+        const route = [];
+        const steps = 8;
+        for (let i = 0; i <= steps; i++) {
+          route.push([hqLat + (destLat - hqLat) * (i / steps), hqLng + (destLng - hqLng) * (i / steps)]);
+        }
+        L.polyline(route, { color: '#00f7ff', weight: 2, opacity: 0.4, dashArray: '10, 10' }).addTo(map);
+
+        const vehicleIcon = L.divIcon({
+          className: 'custom-div-icon',
+          html: '<i class="fas fa-truck" style="color: #00f7ff; font-size: 24px;"></i>',
+          iconSize: [30, 30],
+          popupAnchor: [0, -15]
+        });
+        marker = L.marker([hqLat, hqLng], { icon: vehicleIcon }).addTo(map);
+        marker.bindPopup('In transit').openPopup();
+
+        let pos = 0;
+        vehicleInterval = setInterval(() => {
+          pos = (pos + 0.1) % (route.length - 1);
+          const idx = Math.floor(pos);
+          const frac = pos - idx;
+          const lat = route[idx][0] + (route[idx + 1][0] - route[idx][0]) * frac;
+          const lng = route[idx][1] + (route[idx + 1][1] - route[idx][1]) * frac;
+          if (marker) marker.setLatLng([lat, lng]);
+        }, 2000);
+      } catch (e) {
+        console.warn('Map update failed:', e);
+      }
+    }
+
+    // ===== RENDER TIMELINE =====
+    function renderTimeline(tracking) {
+      const status = tracking.status || 'pending';
+      const statusOrder = ['order_placed', 'payment_confirmed', 'processing', 'shipped', 'in_transit', 'delivered'];
+      const currentIdx = statusOrder.indexOf(status) >= 0 ? statusOrder.indexOf(status) : 0;
+
+      const steps = [
+        { key: 'order_placed', title: 'Order Placed', desc: 'Your order has been received.' },
+        { key: 'payment_confirmed', title: 'Payment Confirmed', desc: 'Payment verified and confirmed.' },
+        { key: 'processing', title: 'Processing', desc: 'Preparing your items for shipment.' },
+        { key: 'shipped', title: 'Shipped', desc: 'Package handed to courier.' },
+        { key: 'in_transit', title: 'In Transit', desc: 'En route to delivery destination.' },
+        { key: 'delivered', title: 'Delivered', desc: 'Package delivered successfully!' }
+      ];
+
+      const history = tracking.history || [];
+      
+      timelineDiv.innerHTML = steps.map((step, idx) => {
+        let statusClass = '';
+        if (idx < currentIdx) statusClass = 'completed';
+        else if (idx === currentIdx) statusClass = 'active';
+        
+        const historyEntry = history.find(h => 
+          h.status && h.status.toLowerCase().replace(/ /g, '_') === step.key
+        );
+        const timeDisplay = historyEntry ? formatDate(historyEntry.timestamp) : (idx <= currentIdx ? 'Completed' : 'Pending');
+        const locationDisplay = historyEntry ? historyEntry.location || '' : '';
+
+        return '<div class="timeline-item ' + statusClass + '">' +
+          '<div class="timeline-dot"></div>' +
+          '<div class="timeline-title">' + step.title + '</div>' +
+          '<div class="timeline-desc">' + step.desc + '</div>' +
+          (locationDisplay ? '<div class="timeline-desc" style="font-size:0.75rem;color:var(--text-muted);"><i class="fas fa-map-marker-alt"></i> ' + locationDisplay + '</div>' : '') +
+          '<div style="font-size:0.7rem;color:var(--text-muted);margin-top:2px;">' + timeDisplay + '</div>' +
+          '</div>';
+      }).join('');
+
+      // ETA
+      if (status === 'delivered') {
+        etaSpan.textContent = 'Delivered';
+      } else if (tracking.estimatedDelivery) {
+        etaSpan.textContent = formatDate(tracking.estimatedDelivery);
+      } else if (currentIdx >= 3) {
+        etaSpan.textContent = '1-3 days';
+      } else {
+        etaSpan.textContent = 'Processing';
+      }
+    }
+
+    // ================================================================ //
+    // NOTIFICATION FUNCTIONS                                           //
+    // ================================================================ //
+
+    async function sendNotification(type, trackingData) {
+      if (!trackingData) {
+        updateStatus('No order data to send', false);
+        return;
+      }
+
+      let phone = notificationPhone.value.trim();
+      if (type === 'whatsapp' || type === 'sms') {
+        if (!phone || phone.length < 10) {
+          updateStatus('Please enter a valid phone number for SMS/WhatsApp', false);
+          showToast('Please enter a valid phone number', true);
+          return;
+        }
+        // Format phone number
+        phone = phone.replace(/[^0-9]/g, '');
+        if (!phone.startsWith('234') && !phone.startsWith('0')) {
+          phone = '234' + phone;
+        }
+        if (phone.startsWith('0')) {
+          phone = '234' + phone.substring(1);
+        }
+      }
+
+      // Get user email from auth or localStorage
+      let email = null;
+      try {
+        const user = auth.getUser ? auth.getUser() : null;
+        if (user && user.email) email = user.email;
+      } catch(e) {
+        try {
+          const stored = localStorage.getItem(STORAGE_KEYS.USER);
+          if (stored) {
+            const user = JSON.parse(stored);
+            if (user.email) email = user.email;
+          }
+        } catch(e) {}
+      }
+
+      const data = {
+        trackingId: trackingData.trackingId || trackingData.id,
+        reference: trackingData.reference,
+        status: trackingData.status,
+        customerEmail: email || 'user@example.com',
+        customerPhone: phone,
+        trackingUrl: window.location.href,
+        amount: trackingData.total || trackingData.amount || 0,
+        estimatedDelivery: trackingData.estimatedDelivery || '1-3 days'
+      };
+
+      // Determine which endpoint to call
+      let endpoint = '';
+      switch(type) {
+        case 'email':
+          endpoint = '/receipt/email';
+          break;
+        case 'sms':
+          endpoint = '/receipt/sms';
+          break;
+        case 'whatsapp':
+          endpoint = '/receipt/whatsapp';
+          break;
+        default:
+          updateStatus('Invalid notification type', false);
+          return;
+      }
+
+      try {
+        const response = await apiCall(endpoint, 'POST', data);
+        if (response.success) {
+          updateStatus(`${type.charAt(0).toUpperCase() + type.slice(1)} notification sent!`, true);
+          showToast(`✅ ${type.charAt(0).toUpperCase() + type.slice(1)} notification sent!`, false, 3000);
+        } else {
+          updateStatus(`Failed to send ${type} notification: ${response.message || 'Unknown error'}`, false);
+          showToast(`❌ Failed to send ${type} notification`, true);
+        }
+      } catch (error) {
+        console.error('Notification error:', error);
+        updateStatus(`Error sending ${type} notification: ${error.message}`, false);
+        showToast(`❌ Error sending ${type} notification`, true);
+      }
+    }
+
+    // ================================================================ //
+    // TRACK ORDER - MAIN FUNCTION                                      //
+    // ================================================================ //
+
+    async function trackOrder(trackingId, showLoading = true) {
+      if (!trackingId) {
+        showToast('Please enter a tracking ID', true);
+        return;
+      }
+
+      currentTrackingId = trackingId;
+
+      if (showLoading) {
+        trackBtn.disabled = true;
+        trackBtn.innerHTML = '<span class="spinner"></span> Searching...';
+      }
+
+      try {
+        const data = await apiCall('/orders/track?trackingId=' + encodeURIComponent(trackingId));
+
+        if (data.success && data.tracking) {
+          currentTrackingData = data.tracking;
+          orderDetailsDiv.style.display = 'block';
+          noOrderDiv.style.display = 'none';
+
+          // Update last update time
+          const now = new Date();
+          lastUpdateTime.textContent = `Last updated: ${now.toLocaleTimeString()}`;
+
+          // Order summary
+          const tracking = data.tracking;
+          const statusClass = getStatusClass(tracking.status || 'pending');
+          const statusDisplay = (tracking.status || 'pending').replace(/_/g, ' ');
+
+          orderSummaryDiv.innerHTML = 
+            '<p><strong>Tracking ID:</strong> ' + (tracking.trackingId || tracking.id || 'N/A') + '</p>' +
+            '<p><strong>Order Ref:</strong> ' + (tracking.reference || 'N/A') + '</p>' +
+            '<p><strong>Date:</strong> ' + formatDate(tracking.createdAt || tracking.created_at || tracking.timestamp) + '</p>' +
+            '<p><strong>Amount:</strong> ' + formatCurrency(tracking.total || tracking.amount || 0) + '</p>' +
+            '<p><strong>Customer:</strong> ' + (tracking.customerName || tracking.customer || 'N/A') + '</p>' +
+            '<p><strong>Status:</strong> <span class="status-badge ' + statusClass + '">' + statusDisplay + '</span></p>';
+
+          renderTimeline(tracking);
+
+          // Map
+          let dest = tracking.destination || {};
+          let destLat = dest.lat || dest.latitude || hqLat + 0.05;
+          let destLng = dest.lng || dest.longitude || hqLng + 0.03;
+          let destCity = dest.city || dest.address || '';
+
+          if (tracking.shippingAddress) {
+            try {
+              const addr = typeof tracking.shippingAddress === 'string' ? JSON.parse(tracking.shippingAddress) : tracking.shippingAddress;
+              if (addr.city) destCity = addr.city;
+              if (addr.lat) destLat = addr.lat;
+              if (addr.lng) destLng = addr.lng;
+            } catch(e) {}
+          }
+
+          initMap();
+          updateMap(destLat, destLng, destCity);
+
+          // Start auto-refresh
+          startAutoRefresh();
+
+          showToast('Order found! Tracking loaded.', false);
+        } else {
+          orderDetailsDiv.style.display = 'none';
+          noOrderDiv.style.display = 'block';
+          stopAutoRefresh();
+          showToast(data.message || 'Tracking ID not found. Please check and try again.', true);
+        }
+      } catch (e) {
+        console.error('Tracking error:', e);
+        orderDetailsDiv.style.display = 'none';
+        noOrderDiv.style.display = 'block';
+        stopAutoRefresh();
+        showToast(e.message || 'Unable to connect. Please try again.', true);
+      } finally {
+        if (showLoading) {
+          trackBtn.disabled = false;
+          trackBtn.innerHTML = '<i class="fas fa-search"></i> Track Order';
+        }
+      }
+    }
+
+    // ================================================================ //
+    // AUTO-REFRESH                                                    //
+    // ================================================================ //
+
+    function startAutoRefresh() {
+      stopAutoRefresh();
+      if (!isAutoRefreshEnabled) return;
+      
+      refreshCount = 0;
+      autoRefreshInterval = setInterval(() => {
+        refreshCount++;
+        if (currentTrackingId) {
+          refreshStatus.textContent = `${refreshCount * 30}s`;
+          // Silently refresh (no loading indicator)
+          trackOrder(currentTrackingId, false);
+        }
+      }, 30000); // Every 30 seconds
+      
+      refreshStatus.textContent = '30s';
+      toggleAutoRefreshBtn.innerHTML = '<i class="fas fa-pause"></i> Pause';
+    }
+
+    function stopAutoRefresh() {
+      if (autoRefreshInterval) {
+        clearInterval(autoRefreshInterval);
+        autoRefreshInterval = null;
+      }
+      refreshStatus.textContent = 'Paused';
+      toggleAutoRefreshBtn.innerHTML = '<i class="fas fa-play"></i> Resume';
+    }
+
+    toggleAutoRefreshBtn.addEventListener('click', () => {
+      isAutoRefreshEnabled = !isAutoRefreshEnabled;
+      if (isAutoRefreshEnabled) {
+        startAutoRefresh();
+        showToast('Auto-refresh resumed', false, 1500);
+      } else {
+        stopAutoRefresh();
+        showToast('Auto-refresh paused', false, 1500);
+      }
+    });
+
+    // ================================================================ //
+    // EVENT LISTENERS                                                  //
+    // ================================================================ //
+
+    trackBtn.addEventListener('click', () => {
+      trackOrder(trackingInput.value.trim());
+    });
+
+    refreshBtn.addEventListener('click', () => {
+      if (currentTrackingId) {
+        refreshBtn.disabled = true;
+        refreshBtn.innerHTML = '<span class="spinner"></span>';
+        trackOrder(currentTrackingId, false).finally(() => {
+          refreshBtn.disabled = false;
+          refreshBtn.innerHTML = '<i class="fas fa-sync-alt"></i>';
+        });
+      } else {
+        showToast('No tracking ID loaded', true);
+      }
+    });
+
+    trackingInput.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') trackBtn.click();
+    });
+
+    // ===== NOTIFICATION BUTTONS =====
+    sendEmailBtn.addEventListener('click', () => {
+      if (notifyEmail.checked) {
+        sendNotification('email', currentTrackingData);
+      } else {
+        showToast('Please enable Email notifications', true);
+      }
+    });
+
+    sendSmsBtn.addEventListener('click', () => {
+      if (notifySms.checked) {
+        sendNotification('sms', currentTrackingData);
+      } else {
+        showToast('Please enable SMS notifications', true);
+      }
+    });
+
+    sendWhatsappBtn.addEventListener('click', () => {
+      if (notifyWhatsapp.checked) {
+        sendNotification('whatsapp', currentTrackingData);
+      } else {
+        showToast('Please enable WhatsApp notifications', true);
+      }
+    });
+
+    testNotificationBtn.addEventListener('click', async () => {
+      if (!currentTrackingData) {
+        showToast('Please track an order first', true);
+        return;
+      }
+      
+      updateStatus('Sending test notification...', true);
+      try {
+        // Send to all enabled channels
+        const promises = [];
+        if (notifyEmail.checked) {
+          promises.push(sendNotification('email', currentTrackingData));
+        }
+        if (notifySms.checked) {
+          promises.push(sendNotification('sms', currentTrackingData));
+        }
+        if (notifyWhatsapp.checked) {
+          promises.push(sendNotification('whatsapp', currentTrackingData));
+        }
+        
+        if (promises.length === 0) {
+          updateStatus('Please enable at least one notification channel', false);
+          showToast('Enable at least one notification channel', true);
+          return;
+        }
+        
+        await Promise.all(promises);
+        updateStatus(`Test notifications sent to ${promises.length} channel(s)`, true);
+        showToast(`✅ Test notifications sent!`, false, 3000);
+      } catch (e) {
+        updateStatus('Test notification failed: ' + e.message, false);
+        showToast('❌ Test notification failed', true);
+      }
+    });
+
+    // Load saved preferences
+    (function loadPreferences() {
+      try {
+        const prefs = JSON.parse(localStorage.getItem('psh_tracking_prefs') || '{}');
+        if (prefs.notifyEmail !== undefined) notifyEmail.checked = prefs.notifyEmail;
+        if (prefs.notifySms !== undefined) notifySms.checked = prefs.notifySms;
+        if (prefs.notifyWhatsapp !== undefined) notifyWhatsapp.checked = prefs.notifyWhatsapp;
+        if (prefs.phone) notificationPhone.value = prefs.phone;
+        if (prefs.autoRefresh !== undefined) {
+          isAutoRefreshEnabled = prefs.autoRefresh;
+          if (!isAutoRefreshEnabled) stopAutoRefresh();
+        }
+      } catch(e) {}
+    })();
+
+    // Save preferences when changed
+    function savePreferences() {
+      try {
+        const prefs = {
+          notifyEmail: notifyEmail.checked,
+          notifySms: notifySms.checked,
+          notifyWhatsapp: notifyWhatsapp.checked,
+          phone: notificationPhone.value.trim(),
+          autoRefresh: isAutoRefreshEnabled
+        };
+        localStorage.setItem('psh_tracking_prefs', JSON.stringify(prefs));
+      } catch(e) {}
+    }
+
+    [notifyEmail, notifySms, notifyWhatsapp, notificationPhone].forEach(el => {
+      el.addEventListener('change', savePreferences);
+      el.addEventListener('input', savePreferences);
+    });
+
+    // ===== CHECK URL FOR TRACKING ID =====
+    (function() {
+      const params = new URLSearchParams(window.location.search);
+      const trackingId = params.get('trackingId') || params.get('track') || params.get('ref') || params.get('id');
+      if (trackingId) {
+        trackingInput.value = trackingId;
+        setTimeout(() => { trackOrder(trackingId); }, 500);
+      }
+    })();
+
+    // ===== HEADER SCROLL EFFECT =====
+    window.addEventListener('scroll', function() {
+      const header = document.querySelector('.quantum-header');
+      if (window.scrollY > 50) {
+        header.style.background = 'rgba(5, 5, 12, 0.95)';
+        header.style.boxShadow = '0 4px 30px rgba(0, 0, 0, 0.4)';
+      } else {
+        header.style.background = 'rgba(5, 5, 12, 0.85)';
+        header.style.boxShadow = 'none';
+      }
+    });
+
+    // Clean up on page unload
+    window.addEventListener('beforeunload', () => {
+      if (vehicleInterval) clearInterval(vehicleInterval);
+      stopAutoRefresh();
+    });
+
+    // ================================================================ //
+    // 3D BACKGROUND                                                    //
+    // ================================================================ //
+
+    const canvas = document.getElementById('quantum-bg-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+
+    const geometry = new THREE.TorusKnotGeometry(1.5, 0.4, 200, 32, 3, 4);
+    const material = new THREE.MeshStandardMaterial({ 
+      color: 0x00f7ff, 
+      emissive: 0x0066aa, 
+      emissiveIntensity: 0.6, 
+      metalness: 0.8, 
+      roughness: 0.2 
+    });
+    const knot = new THREE.Mesh(geometry, material); 
+    scene.add(knot);
+    
+    const wireMat = new THREE.MeshBasicMaterial({ 
+      color: 0xff66cc, 
+      wireframe: true, 
+      transparent: true, 
+      opacity: 0.3 
+    });
+    const wireKnot = new THREE.Mesh(geometry, wireMat); 
+    scene.add(wireKnot);
+
+    const starGeo = new THREE.BufferGeometry(); 
+    const starCount = 1500; 
+    const starPos = [];
+    for (let i = 0; i < starCount; i++) { 
+      starPos.push((Math.random() - 0.5) * 200); 
+      starPos.push((Math.random() - 0.5) * 100); 
+      starPos.push((Math.random() - 0.5) * 100 - 50); 
+    }
+    starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
+    const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ 
+      color: 0xffffff, 
+      size: 0.2, 
+      transparent: true, 
+      opacity: 0.6 
+    })); 
+    scene.add(stars);
+
+    scene.add(new THREE.AmbientLight(0x222222));
+    const l1 = new THREE.PointLight(0x00ffff, 1); 
+    l1.position.set(5, 5, 5); 
+    scene.add(l1);
+    const l2 = new THREE.PointLight(0xff66cc, 0.8); 
+    l2.position.set(-3, 2, -4); 
+    scene.add(l2);
+
+    camera.position.z = 5; 
+    let time = 0;
+    function animate() { 
+      requestAnimationFrame(animate); 
+      time += 0.01; 
+      knot.rotation.x = time * 0.5; 
+      knot.rotation.y = time * 0.8; 
+      wireKnot.rotation.x = time * 0.5; 
+      wireKnot.rotation.y = time * 0.8; 
+      stars.rotation.y = time * 0.05; 
+      stars.rotation.x = Math.sin(time * 0.1) * 0.1; 
+      renderer.render(scene, camera); 
+    }
+    animate();
+
+    window.addEventListener('resize', function() { 
+      camera.aspect = window.innerWidth / window.innerHeight; 
+      camera.updateProjectionMatrix(); 
+      renderer.setSize(window.innerWidth, window.innerHeight); 
+    });
+
+    // ================================================================ //
+    // INIT                                                              //
+    // ================================================================ //
+
+    console.log('🚀 PrimeShieldHub Track Order v3.0 — Live Updates + Notifications');
+    console.log('🔐 API Base:', API_BASE);
+    console.log('📦 Using config from:', CONFIG.apiBase);
+    console.log('📍 Tracking endpoint: /orders/track');
+    console.log('📧 Email notifications: /receipt/email');
+    console.log('💬 SMS notifications: /receipt/sms');
+    console.log('💬 WhatsApp notifications: /receipt/whatsapp');
+    console.log('🔄 Auto-refresh: 30s interval');
+  </script>
+</body>
+</html>
+

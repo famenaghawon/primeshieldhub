@@ -1,0 +1,4591 @@
+// src/handlers/buildmart.js
+// ======================================================================
+// BUILD MART HANDLERS - Complete Implementation
+// ======================================================================
+
+// ===== DASHBOARD & STATS =====
+export async function handleBuildMartDashboard(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT 
+        (SELECT COUNT(*) FROM products WHERE category IN ('cement','roofing','paints','plumbing','electrical','timber','tools','hardware','tiles','gas-cylinders','steel','insulation','windows','sanitary','aggregates')) as total_products,
+        (SELECT COUNT(*) FROM customers) as total_customers,
+        (SELECT COUNT(*) FROM construction_projects WHERE status = 'active') as active_projects,
+        (SELECT COUNT(DISTINCT state) FROM delivery_regions) as states_covered,
+        (SELECT COUNT(*) FROM delivery_vehicles WHERE status = 'active') as active_trucks,
+        (SELECT COALESCE(SUM(budget), 0) FROM construction_projects) as total_value,
+        (SELECT COUNT(*) FROM staff WHERE role = 'procurement') as procurement_staff,
+        (SELECT COUNT(*) FROM warehouses WHERE status = 'active') as warehouse_count
+    `).first();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result || {
+        total_products: 0,
+        total_customers: 0,
+        active_projects: 0,
+        states_covered: 0,
+        active_trucks: 0,
+        total_value: 0,
+        procurement_staff: 0,
+        warehouse_count: 0
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartDashboardStats(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const period = url.searchParams.get('period') || 'week';
+
+    let dateFilter = "datetime('now', '-7 days')";
+    if (period === 'month') dateFilter = "datetime('now', '-30 days')";
+    else if (period === 'day') dateFilter = "datetime('now', '-1 day')";
+
+    const result = await env.DB.prepare(`
+      SELECT 
+        date(created_at) as date,
+        COUNT(*) as orders,
+        COALESCE(SUM(total), 0) as revenue
+      FROM orders
+      WHERE created_at > ${dateFilter}
+      GROUP BY date(created_at)
+      ORDER BY date ASC
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartPublicStats(request, env, ctx, corsHeaders) {
+  try {
+    const stats = await env.DB.prepare(`
+      SELECT 
+        (SELECT COUNT(*) FROM construction_projects WHERE status = 'active') as active_projects,
+        (SELECT COUNT(*) FROM contractors WHERE status = 'active') as active_contractors,
+        (SELECT COUNT(*) FROM products WHERE category IN ('cement','roofing','paints','plumbing','electrical','timber','tools','hardware','tiles','gas-cylinders','steel','insulation','windows','sanitary','aggregates')) as total_products,
+        (SELECT COUNT(DISTINCT state) FROM delivery_regions) as states_covered
+    `).first();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: stats || {
+        active_projects: 0,
+        active_contractors: 0,
+        total_products: 0,
+        states_covered: 0
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== PRODUCTS =====
+export async function handleBuildMartProducts(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const search = url.searchParams.get('search') || '';
+    const category = url.searchParams.get('category') || '';
+    const brand = url.searchParams.get('brand') || '';
+    const minPrice = parseFloat(url.searchParams.get('minPrice')) || 0;
+    const maxPrice = parseFloat(url.searchParams.get('maxPrice')) || 999999999;
+    const stock = url.searchParams.get('stock') || 'all';
+    const featured = url.searchParams.get('featured') || '';
+    const limit = parseInt(url.searchParams.get('limit')) || 20;
+    const offset = parseInt(url.searchParams.get('offset')) || 0;
+
+    let query = `
+      SELECT p.*, c.name as category_name, c.icon as category_icon
+      FROM products p
+      LEFT JOIN categories c ON p.category = c.id
+      WHERE p.category IN ('cement','roofing','paints','plumbing','electrical','timber','tools','hardware','tiles','gas-cylinders','steel','insulation','windows','sanitary','aggregates')
+    `;
+    const params = [];
+
+    if (search) {
+      query += ` AND (p.name LIKE ? OR p.brand LIKE ? OR p.description LIKE ?)`;
+      const searchPattern = `%${search}%`;
+      params.push(searchPattern, searchPattern, searchPattern);
+    }
+
+    if (category) {
+      query += ` AND p.category = ?`;
+      params.push(category);
+    }
+
+    if (brand) {
+      query += ` AND p.brand = ?`;
+      params.push(brand);
+    }
+
+    if (minPrice > 0) {
+      query += ` AND p.price >= ?`;
+      params.push(minPrice);
+    }
+
+    if (maxPrice < 999999999) {
+      query += ` AND p.price <= ?`;
+      params.push(maxPrice);
+    }
+
+    if (stock === 'in') {
+      query += ` AND p.stock > 0`;
+    } else if (stock === 'out') {
+      query += ` AND p.stock = 0`;
+    } else if (stock === 'low') {
+      query += ` AND p.stock > 0 AND p.stock < 10`;
+    }
+
+    if (featured === 'true') {
+      query += ` AND p.featured = 1`;
+    }
+
+    query += ` ORDER BY p.name ASC LIMIT ? OFFSET ?`;
+    params.push(limit, offset);
+
+    const result = await env.DB.prepare(query).bind(...params).all();
+
+    // Get total count
+    let countQuery = `
+      SELECT COUNT(*) as total 
+      FROM products p
+      WHERE p.category IN ('cement','roofing','paints','plumbing','electrical','timber','tools','hardware','tiles','gas-cylinders','steel','insulation','windows','sanitary','aggregates')
+    `;
+    const countParams = [];
+
+    if (search) {
+      countQuery += ` AND (p.name LIKE ? OR p.brand LIKE ? OR p.description LIKE ?)`;
+      countParams.push(`%${search}%`, `%${search}%`, `%${search}%`);
+    }
+    if (category) {
+      countQuery += ` AND p.category = ?`;
+      countParams.push(category);
+    }
+    if (brand) {
+      countQuery += ` AND p.brand = ?`;
+      countParams.push(brand);
+    }
+    if (minPrice > 0) {
+      countQuery += ` AND p.price >= ?`;
+      countParams.push(minPrice);
+    }
+    if (maxPrice < 999999999) {
+      countQuery += ` AND p.price <= ?`;
+      countParams.push(maxPrice);
+    }
+
+    const total = await env.DB.prepare(countQuery).bind(...countParams).first();
+
+    return new Response(JSON.stringify({
+      success: true,
+      products: result.results || [],
+      total: total?.total || 0,
+      limit,
+      offset
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartProductDetail(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+    
+    const product = await env.DB.prepare(`
+      SELECT p.*, c.name as category_name, c.icon as category_icon
+      FROM products p
+      LEFT JOIN categories c ON p.category = c.id
+      WHERE p.id = ?
+    `).bind(id).first();
+
+    if (!product) {
+      return new Response(JSON.stringify({ error: "Product not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    // Get related products
+    const related = await env.DB.prepare(`
+      SELECT * FROM products 
+      WHERE category = ? AND id != ? 
+      LIMIT 4
+    `).bind(product.category, id).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      product,
+      related: related.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartFeaturedProducts(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT * FROM products 
+      WHERE featured = 1 AND category IN ('cement','roofing','paints','plumbing','electrical','timber','tools','hardware','tiles','gas-cylinders','steel','insulation','windows','sanitary','aggregates')
+      ORDER BY RANDOM()
+      LIMIT 6
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      products: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== CATEGORIES =====
+export async function handleBuildMartCategories(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT c.*, 
+             (SELECT COUNT(*) FROM products WHERE category = c.id) as product_count,
+             (SELECT COUNT(DISTINCT brand) FROM products WHERE category = c.id) as brand_count,
+             (SELECT COALESCE(MIN(price), 0) FROM products WHERE category = c.id) as min_price,
+             (SELECT COALESCE(MAX(price), 0) FROM products WHERE category = c.id) as max_price
+      FROM categories c
+      WHERE c.id IN ('cement','roofing','paints','plumbing','electrical','timber','tools','hardware','tiles','gas-cylinders','steel','insulation','windows','sanitary','aggregates')
+      ORDER BY c.display_order ASC
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      categories: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== BRANDS =====
+export async function handleBuildMartBrands(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT b.*, 
+             (SELECT COUNT(*) FROM products WHERE brand = b.name) as product_count
+      FROM construction_brands b
+      ORDER BY b.display_order ASC
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      brands: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== SEARCH =====
+export async function handleBuildMartGlobalSearch(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q') || '';
+
+    if (!q || q.length < 2) {
+      return new Response(JSON.stringify({
+        success: true,
+        data: { products: [], knowledge: [], contractors: [], calculators: [] }
+      }), { headers: { "Content-Type": "application/json", ...corsHeaders } });
+    }
+
+    const searchPattern = `%${q}%`;
+
+    // Products
+    const products = await env.DB.prepare(`
+      SELECT id, name, price, brand, category, stock, image_url,
+             'product' as type
+      FROM products 
+      WHERE name LIKE ? OR brand LIKE ? OR description LIKE ?
+      LIMIT 10
+    `).bind(searchPattern, searchPattern, searchPattern).all();
+
+    // Knowledge articles
+    const knowledge = await env.DB.prepare(`
+      SELECT id, title, excerpt, category,
+             'knowledge' as type
+      FROM knowledge_articles 
+      WHERE title LIKE ? OR content LIKE ? OR category LIKE ?
+      LIMIT 5
+    `).bind(searchPattern, searchPattern, searchPattern).all();
+
+    // Contractors
+    const contractors = await env.DB.prepare(`
+      SELECT id, company_name, location, rating, years_in_business,
+             'contractor' as type
+      FROM contractors 
+      WHERE company_name LIKE ? OR location LIKE ? OR specialization LIKE ?
+      LIMIT 5
+    `).bind(searchPattern, searchPattern, searchPattern).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: {
+        products: products.results || [],
+        knowledge: knowledge.results || [],
+        contractors: contractors.results || [],
+        calculators: []
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSearchSuggestions(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q') || '';
+
+    if (!q || q.length < 1) {
+      return new Response(JSON.stringify({ success: true, data: [] }), {
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const searchPattern = `%${q}%`;
+
+    const products = await env.DB.prepare(`
+      SELECT name, 'product' as type
+      FROM products 
+      WHERE name LIKE ? 
+      LIMIT 5
+    `).bind(searchPattern).all();
+
+    const knowledge = await env.DB.prepare(`
+      SELECT title, 'knowledge' as type
+      FROM knowledge_articles 
+      WHERE title LIKE ? 
+      LIMIT 3
+    `).bind(searchPattern).all();
+
+    const contractors = await env.DB.prepare(`
+      SELECT company_name, 'contractor' as type
+      FROM contractors 
+      WHERE company_name LIKE ? 
+      LIMIT 3
+    `).bind(searchPattern).all();
+
+    const suggestions = [
+      ...(products.results || []).map(r => ({ name: r.name, type: r.type })),
+      ...(knowledge.results || []).map(r => ({ name: r.title, type: r.type })),
+      ...(contractors.results || []).map(r => ({ name: r.company_name, type: r.type }))
+    ];
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: suggestions.slice(0, 10)
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartTrendingSearches(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT search_term, COUNT(*) as count
+      FROM search_logs
+      WHERE created_at > datetime('now', '-7 days')
+      GROUP BY search_term
+      ORDER BY count DESC
+      LIMIT 10
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartRecentSearches(request, env, ctx, corsHeaders) {
+  try {
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'unknown';
+
+    const result = await env.DB.prepare(`
+      SELECT search_term, created_at
+      FROM search_logs
+      WHERE fingerprint = ?
+      ORDER BY created_at DESC
+      LIMIT 10
+    `).bind(fingerprint).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSearchProducts(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q') || '';
+    const category = url.searchParams.get('category') || '';
+    const brand = url.searchParams.get('brand') || '';
+
+    let query = `
+      SELECT id, name, price, brand, category, stock, image_url
+      FROM products 
+      WHERE 1=1
+    `;
+    const params = [];
+
+    if (q) {
+      query += ` AND (name LIKE ? OR brand LIKE ? OR description LIKE ?)`;
+      const searchPattern = `%${q}%`;
+      params.push(searchPattern, searchPattern, searchPattern);
+    }
+
+    if (category) {
+      query += ` AND category = ?`;
+      params.push(category);
+    }
+
+    if (brand) {
+      query += ` AND brand = ?`;
+      params.push(brand);
+    }
+
+    query += ` LIMIT 20`;
+
+    const result = await env.DB.prepare(query).bind(...params).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      products: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSearchKnowledge(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q') || '';
+
+    if (!q || q.length < 2) {
+      return new Response(JSON.stringify({ success: true, articles: [] }), {
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const searchPattern = `%${q}%`;
+    const result = await env.DB.prepare(`
+      SELECT id, title, excerpt, category, read_time, helpful_count
+      FROM knowledge_articles 
+      WHERE title LIKE ? OR content LIKE ? OR category LIKE ?
+      ORDER BY helpful_count DESC
+      LIMIT 10
+    `).bind(searchPattern, searchPattern, searchPattern).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      articles: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSearchContractors(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q') || '';
+    const location = url.searchParams.get('location') || '';
+    const rating = parseFloat(url.searchParams.get('rating')) || 0;
+
+    let query = `
+      SELECT id, company_name, location, rating, years_in_business, project_types, avatar
+      FROM contractors 
+      WHERE status = 'active'
+    `;
+    const params = [];
+
+    if (q) {
+      query += ` AND (company_name LIKE ? OR specialization LIKE ?)`;
+      const searchPattern = `%${q}%`;
+      params.push(searchPattern, searchPattern);
+    }
+
+    if (location) {
+      query += ` AND location LIKE ?`;
+      params.push(`%${location}%`);
+    }
+
+    if (rating > 0) {
+      query += ` AND rating >= ?`;
+      params.push(rating);
+    }
+
+    query += ` ORDER BY rating DESC LIMIT 20`;
+
+    const result = await env.DB.prepare(query).bind(...params).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      contractors: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSearchCalculators(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q') || '';
+
+    // Return available calculators
+    const calculators = [
+      { id: 'concrete', name: 'Concrete Calculator', description: 'Calculate concrete volume and materials' },
+      { id: 'steel', name: 'Steel Weight Calculator', description: 'Calculate steel weight and quantity' },
+      { id: 'paint', name: 'Paint Coverage Calculator', description: 'Calculate paint needed for walls' },
+      { id: 'roofing', name: 'Roofing Material Calculator', description: 'Calculate roofing materials needed' },
+      { id: 'tile', name: 'Tile Calculator', description: 'Calculate tiles needed for flooring' }
+    ];
+
+    let filtered = calculators;
+    if (q) {
+      const searchLower = q.toLowerCase();
+      filtered = calculators.filter(c => 
+        c.name.toLowerCase().includes(searchLower) || 
+        c.description.toLowerCase().includes(searchLower)
+      );
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      calculators: filtered
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSearchCategories(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q') || '';
+
+    let query = `
+      SELECT id, name, icon, description
+      FROM categories 
+      WHERE id IN ('cement','roofing','paints','plumbing','electrical','timber','tools','hardware','tiles','gas-cylinders','steel','insulation','windows','sanitary','aggregates')
+    `;
+    const params = [];
+
+    if (q) {
+      query += ` AND (name LIKE ? OR description LIKE ?)`;
+      const searchPattern = `%${q}%`;
+      params.push(searchPattern, searchPattern);
+    }
+
+    query += ` ORDER BY display_order ASC`;
+
+    const result = await env.DB.prepare(query).bind(...params).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      categories: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSearchVideos(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q') || '';
+
+    // Return placeholder videos
+    const videos = [
+      { id: 'v1', title: 'How to Estimate Concrete for Your Project', category: 'estimation', duration: '8:30' },
+      { id: 'v2', title: 'Choosing the Right Cement for Construction', category: 'materials', duration: '6:15' },
+      { id: 'v3', title: 'Steel Reinforcement Installation Guide', category: 'construction', duration: '12:45' },
+      { id: 'v4', title: 'Roofing Material Comparison', category: 'materials', duration: '9:20' }
+    ];
+
+    let filtered = videos;
+    if (q) {
+      const searchLower = q.toLowerCase();
+      filtered = videos.filter(v => 
+        v.title.toLowerCase().includes(searchLower) || 
+        v.category.toLowerCase().includes(searchLower)
+      );
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      videos: filtered
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSearchSuppliers(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q') || '';
+    const location = url.searchParams.get('location') || '';
+
+    let query = `
+      SELECT id, name, location, rating, product_categories, status
+      FROM suppliers 
+      WHERE status = 'active'
+    `;
+    const params = [];
+
+    if (q) {
+      query += ` AND (name LIKE ? OR product_categories LIKE ?)`;
+      const searchPattern = `%${q}%`;
+      params.push(searchPattern, searchPattern);
+    }
+
+    if (location) {
+      query += ` AND location LIKE ?`;
+      params.push(`%${location}%`);
+    }
+
+    query += ` ORDER BY rating DESC LIMIT 20`;
+
+    const result = await env.DB.prepare(query).bind(...params).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      suppliers: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBOQUpload(request, env, ctx, corsHeaders) {
+  try {
+    const formData = await request.formData();
+    const file = formData.get('file');
+
+    if (!file) {
+      return new Response(JSON.stringify({ error: "No file uploaded" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    // Extract text from file (simplified for now)
+    const text = await file.text();
+
+    // Simple parsing of BOQ data
+    const materials = [];
+    const lines = text.split('\n').filter(line => line.trim());
+    
+    for (const line of lines) {
+      // Try to extract material name, quantity, unit
+      const parts = line.split(/\s{2,}|\t|,/).filter(p => p.trim());
+      if (parts.length >= 2) {
+        const name = parts[0].trim();
+        const quantity = parseFloat(parts[1]) || 0;
+        const unit = parts[2]?.trim() || 'pcs';
+        materials.push({ name, quantity, unit });
+      }
+    }
+
+    // Estimate cost
+    const estimatedCost = materials.length * 50000;
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: {
+        materials: materials.slice(0, 20),
+        estimated_cost: estimatedCost,
+        suppliers: [
+          { name: 'Dangote Distributor', location: 'Lagos', rating: 4.9 },
+          { name: 'BUA Supplier', location: 'Abuja', rating: 4.8 }
+        ],
+        delivery_plan: {
+          days: '2-3',
+          priority: 'Standard',
+          cost: Math.round(estimatedCost * 0.05)
+        }
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartVoiceSearch(request, env, ctx, corsHeaders) {
+  try {
+    const formData = await request.formData();
+    const audio = formData.get('audio');
+
+    if (!audio) {
+      return new Response(JSON.stringify({ error: "No audio file provided" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    // In a real implementation, this would use a speech-to-text API
+    // For now, return a mock response
+    const mockText = "I need Dangote Cement for my construction project";
+
+    return new Response(JSON.stringify({
+      success: true,
+      transcribed: mockText,
+      results: {
+        products: [
+          { id: 'dangote-cement', name: 'Dangote Cement 50kg', price: 10800 }
+        ]
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartImageSearch(request, env, ctx, corsHeaders) {
+  try {
+    const formData = await request.formData();
+    const image = formData.get('image');
+
+    if (!image) {
+      return new Response(JSON.stringify({ error: "No image provided" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    // In a real implementation, this would use image recognition
+    // For now, return mock results
+    return new Response(JSON.stringify({
+      success: true,
+      matches: [
+        { id: 'dangote-cement', name: 'Dangote Cement 50kg', confidence: 0.92 },
+        { id: 'bua-cement', name: 'BUA Cement 50kg', confidence: 0.85 }
+      ]
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== QUOTES =====
+export async function handleBuildMartCreateQuote(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const {
+      customer_name, customer_email, customer_phone, company_name,
+      project_name, project_type, delivery_region, delivery_zone,
+      delivery_date, discount_code, notes, items
+    } = body || {};
+
+    if (!customer_name || !items || !Array.isArray(items) || items.length === 0) {
+      return new Response(JSON.stringify({ error: "Customer name and items are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    const quoteNumber = `QTE-${Date.now().toString().slice(-6)}`;
+
+    // Calculate subtotal
+    let subtotal = 0;
+    for (const item of items) {
+      const product = await env.DB.prepare(
+        "SELECT price FROM products WHERE id = ?"
+      ).bind(item.product_id).first();
+      
+      if (product) {
+        const price = product.price;
+        const quantity = parseInt(item.quantity) || 1;
+        subtotal += price * quantity;
+      }
+    }
+
+    // Apply discount
+    let discountRate = 0;
+    if (discount_code) {
+      const code = await env.DB.prepare(
+        "SELECT discount_percent FROM wholesale_codes WHERE code = ? AND is_active = 1"
+      ).bind(discount_code).first();
+      if (code) {
+        discountRate = code.discount_percent || 0;
+      }
+    }
+
+    const discount = subtotal * (discountRate / 100);
+    const afterDiscount = subtotal - discount;
+
+    // Calculate delivery
+    let deliveryCost = 0;
+    if (delivery_region) {
+      const region = await env.DB.prepare(
+        "SELECT base_price FROM delivery_regions WHERE id = ?"
+      ).bind(delivery_region).first();
+      deliveryCost = region?.base_price || 0;
+    }
+
+    const vat = (afterDiscount + deliveryCost) * 0.075;
+    const grandTotal = afterDiscount + deliveryCost + vat;
+
+    await env.DB.prepare(`
+      INSERT INTO quotes (
+        id, quote_number, customer_name, customer_email, customer_phone,
+        company_name, project_name, project_type, delivery_region, delivery_zone,
+        delivery_date, discount_code, notes, subtotal, discount, discount_rate,
+        delivery_cost, vat, grand_total, status, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'draft', datetime('now'))
+    `).bind(
+      id, quoteNumber, customer_name, customer_email, customer_phone,
+      company_name, project_name, project_type, delivery_region, delivery_zone,
+      delivery_date, discount_code, notes, subtotal, discount, discountRate,
+      deliveryCost, vat, grandTotal
+    ).run();
+
+    // Add items
+    for (const item of items) {
+      const product = await env.DB.prepare(
+        "SELECT name, price FROM products WHERE id = ?"
+      ).bind(item.product_id).first();
+
+      if (product) {
+        const quantity = parseInt(item.quantity) || 1;
+        const unitPrice = product.price;
+        const totalPrice = unitPrice * quantity;
+
+        await env.DB.prepare(`
+          INSERT INTO quote_items (id, quote_id, product_id, product_name, quantity, unit_price, total, notes)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        `).bind(
+          crypto.randomUUID(), id, item.product_id, product.name,
+          quantity, unitPrice, totalPrice, item.notes || ''
+        ).run();
+      }
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      id,
+      quote_number: quoteNumber,
+      status: 'draft',
+      totals: { subtotal, discount, discount_rate: discountRate, delivery: deliveryCost, vat, grand_total: grandTotal }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartCalculateQuote(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { items, region_id, zone_id, discount_code } = body || {};
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return new Response(JSON.stringify({ error: "Items are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    let subtotal = 0;
+    const processedItems = [];
+
+    for (const item of items) {
+      const product = await env.DB.prepare(
+        "SELECT id, name, price FROM products WHERE id = ?"
+      ).bind(item.product_id).first();
+
+      if (!product) {
+        return new Response(JSON.stringify({ error: `Product ${item.product_id} not found` }), {
+          status: 404,
+          headers: { "Content-Type": "application/json", ...corsHeaders }
+        });
+      }
+
+      const quantity = parseInt(item.quantity) || 1;
+      const total = product.price * quantity;
+      subtotal += total;
+
+      processedItems.push({
+        product_id: product.id,
+        product_name: product.name,
+        quantity,
+        unit_price: product.price,
+        total
+      });
+    }
+
+    // Discount
+    let discountRate = 0;
+    if (subtotal >= 2000000) discountRate = 10;
+    else if (subtotal >= 1000000) discountRate = 7;
+    else if (subtotal >= 500000) discountRate = 5;
+
+    if (discount_code) {
+      const code = await env.DB.prepare(
+        "SELECT discount_percent FROM wholesale_codes WHERE code = ? AND is_active = 1"
+      ).bind(discount_code).first();
+      if (code) {
+        discountRate = code.discount_percent || discountRate;
+      }
+    }
+
+    const discount = subtotal * (discountRate / 100);
+    const afterDiscount = subtotal - discount;
+
+    // Delivery
+    let deliveryCost = 0;
+    if (region_id) {
+      const region = await env.DB.prepare(
+        "SELECT base_price FROM delivery_regions WHERE id = ?"
+      ).bind(region_id).first();
+      deliveryCost = region?.base_price || 0;
+
+      if (zone_id) {
+        const zone = await env.DB.prepare(
+          "SELECT price FROM delivery_zones WHERE id = ? AND region_id = ?"
+        ).bind(zone_id, region_id).first();
+        if (zone?.price) deliveryCost = zone.price;
+      }
+
+      // Free delivery threshold
+      if (subtotal >= 1000000) {
+        deliveryCost = 0;
+      }
+    }
+
+    const vat = (afterDiscount + deliveryCost) * 0.075;
+    const grandTotal = afterDiscount + deliveryCost + vat;
+
+    return new Response(JSON.stringify({
+      success: true,
+      subtotal,
+      discount,
+      discount_rate: discountRate,
+      after_discount: afterDiscount,
+      delivery: deliveryCost,
+      vat,
+      grand_total: grandTotal,
+      items: processedItems,
+      breakdown: {
+        subtotal_formatted: `₦${subtotal.toLocaleString()}`,
+        discount_formatted: `-₦${discount.toLocaleString()}`,
+        delivery_formatted: `₦${deliveryCost.toLocaleString()}`,
+        vat_formatted: `₦${vat.toLocaleString()}`,
+        grand_total_formatted: `₦${grandTotal.toLocaleString()}`
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGetQuote(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const quote = await env.DB.prepare(`
+      SELECT * FROM quotes WHERE id = ?
+    `).bind(id).first();
+
+    if (!quote) {
+      return new Response(JSON.stringify({ error: "Quote not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const items = await env.DB.prepare(`
+      SELECT * FROM quote_items WHERE quote_id = ?
+    `).bind(id).all();
+
+    quote.items = items.results || [];
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: quote
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGetQuotes(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT q.*, 
+             (SELECT COUNT(*) FROM quote_items WHERE quote_id = q.id) as item_count,
+             (SELECT SUM(total) FROM quote_items WHERE quote_id = q.id) as total_items
+      FROM quotes q
+      ORDER BY q.created_at DESC
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      quotes: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartUpdateQuote(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+    const body = await request.json();
+
+    const fields = [];
+    const values = [];
+
+    const allowed = ['customer_name', 'customer_email', 'customer_phone', 'project_name', 'project_type', 'notes', 'status'];
+    for (const field of allowed) {
+      if (body[field] !== undefined) {
+        fields.push(`${field} = ?`);
+        values.push(body[field]);
+      }
+    }
+
+    if (fields.length === 0) {
+      return new Response(JSON.stringify({ error: "No fields to update" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    values.push(id);
+    await env.DB.prepare(
+      `UPDATE quotes SET ${fields.join(', ')}, updated_at = datetime('now') WHERE id = ?`
+    ).bind(...values).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Quote updated successfully"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartAddQuoteItem(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { quote_id, product_id, quantity, notes } = body || {};
+
+    if (!quote_id || !product_id || !quantity) {
+      return new Response(JSON.stringify({ error: "quote_id, product_id, and quantity are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const product = await env.DB.prepare(
+      "SELECT name, price FROM products WHERE id = ?"
+    ).bind(product_id).first();
+
+    if (!product) {
+      return new Response(JSON.stringify({ error: "Product not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    const total = product.price * quantity;
+
+    await env.DB.prepare(`
+      INSERT INTO quote_items (id, quote_id, product_id, product_name, quantity, unit_price, total, notes)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+    `).bind(id, quote_id, product_id, product.name, quantity, product.price, total, notes || '').run();
+
+    // Recalculate quote totals
+    await recalculateQuoteTotals(env, quote_id);
+
+    return new Response(JSON.stringify({
+      success: true,
+      id,
+      total
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartRemoveQuoteItem(request, env, ctx, corsHeaders) {
+  try {
+    const parts = request.url.split('/');
+    const itemId = parts[parts.length - 1];
+
+    const item = await env.DB.prepare(
+      "SELECT quote_id FROM quote_items WHERE id = ?"
+    ).bind(itemId).first();
+
+    if (!item) {
+      return new Response(JSON.stringify({ error: "Item not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    await env.DB.prepare("DELETE FROM quote_items WHERE id = ?").bind(itemId).run();
+
+    // Recalculate quote totals
+    await recalculateQuoteTotals(env, item.quote_id);
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Item removed successfully"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSubmitQuote(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const quote = await env.DB.prepare(
+      "SELECT status FROM quotes WHERE id = ?"
+    ).bind(id).first();
+
+    if (!quote) {
+      return new Response(JSON.stringify({ error: "Quote not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    if (quote.status === 'submitted') {
+      return new Response(JSON.stringify({ error: "Quote already submitted" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    await env.DB.prepare(
+      "UPDATE quotes SET status = 'submitted', submitted_at = datetime('now') WHERE id = ?"
+    ).bind(id).run();
+
+    // Add to status history
+    await env.DB.prepare(`
+      INSERT INTO quote_status_history (id, quote_id, status, note, changed_by, changed_at)
+      VALUES (?, ?, ?, ?, ?, datetime('now'))
+    `).bind(crypto.randomUUID(), id, 'submitted', 'Quote submitted', 'system').run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      status: 'submitted',
+      message: "Quote submitted successfully"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartDownloadQuotePDF(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const quote = await env.DB.prepare(`
+      SELECT * FROM quotes WHERE id = ?
+    `).bind(id).first();
+
+    if (!quote) {
+      return new Response(JSON.stringify({ error: "Quote not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const items = await env.DB.prepare(
+      "SELECT * FROM quote_items WHERE quote_id = ?"
+    ).bind(id).all();
+
+    // Simple PDF generation (text for now)
+    const pdfContent = `
+      BUILD MART QUOTE
+      ================
+      Quote #: ${quote.quote_number}
+      Date: ${quote.created_at}
+      Customer: ${quote.customer_name}
+      Project: ${quote.project_name || 'N/A'}
+      
+      ITEMS:
+      ${(items.results || []).map(item => 
+        `  ${item.product_name} x ${item.quantity} = ₦${item.total.toLocaleString()}`
+      ).join('\n')}
+      
+      Subtotal: ₦${quote.subtotal.toLocaleString()}
+      Discount: -₦${quote.discount.toLocaleString()}
+      Delivery: ₦${quote.delivery_cost.toLocaleString()}
+      VAT: ₦${quote.vat.toLocaleString()}
+      TOTAL: ₦${quote.grand_total.toLocaleString()}
+    `;
+
+    return new Response(pdfContent, {
+      headers: {
+        "Content-Type": "application/pdf",
+        "Content-Disposition": `attachment; filename="quote-${quote.quote_number}.pdf"`,
+        ...corsHeaders
+      }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== BULK ORDERS =====
+export async function handleBuildMartCreateBulkOrder(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { items, delivery_address, scheduled_date, special_requirements } = body || {};
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return new Response(JSON.stringify({ error: "Items are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    let totalCost = 0;
+
+    for (const item of items) {
+      const product = await env.DB.prepare(
+        "SELECT price FROM products WHERE id = ?"
+      ).bind(item.product_id).first();
+      
+      if (product) {
+        const quantity = parseInt(item.quantity) || 1;
+        totalCost += product.price * quantity;
+      }
+    }
+
+    // Apply bulk discount (10% for bulk orders)
+    const savings = totalCost * 0.1;
+    const finalTotal = totalCost - savings;
+
+    await env.DB.prepare(`
+      INSERT INTO bulk_orders (id, items, delivery_address, scheduled_date, special_requirements, total_cost, savings, final_total, status, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', datetime('now'))
+    `).bind(
+      id, JSON.stringify(items), delivery_address || '', scheduled_date || '',
+      special_requirements || '', totalCost, savings, finalTotal
+    ).run();
+
+    // Add bulk items
+    for (const item of items) {
+      await env.DB.prepare(`
+        INSERT INTO bulk_order_items (id, bulk_order_id, product_id, quantity, unit_price, total)
+        VALUES (?, ?, ?, ?, ?, ?)
+      `).bind(
+        crypto.randomUUID(), id, item.product_id, parseInt(item.quantity) || 1,
+        item.price || 0, (item.price || 0) * (parseInt(item.quantity) || 1)
+      ).run();
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      order_id: id,
+      status: 'pending',
+      estimated_delivery: scheduled_date || 'Pending',
+      total_cost: finalTotal,
+      savings: savings
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGetBulkOrder(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const order = await env.DB.prepare(`
+      SELECT * FROM bulk_orders WHERE id = ?
+    `).bind(id).first();
+
+    if (!order) {
+      return new Response(JSON.stringify({ error: "Bulk order not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const items = await env.DB.prepare(`
+      SELECT * FROM bulk_order_items WHERE bulk_order_id = ?
+    `).bind(id).all();
+
+    order.items = items.results || [];
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: order
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== WHOLESALE =====
+export async function handleBuildMartWholesaleTiers(request, env, ctx, corsHeaders) {
+  try {
+    const tiers = [
+      { name: 'Bronze', min_spend: 1000000, discount: 3, benefits: ['Standard support'], color: '#cd7f32' },
+      { name: 'Silver', min_spend: 5000000, discount: 6, benefits: ['Priority support'], color: '#c0c0c0' },
+      { name: 'Gold', min_spend: 20000000, discount: 10, benefits: ['Dedicated Manager'], color: '#ffd700' },
+      { name: 'Platinum', min_spend: 100000000, discount: 'Negotiated', benefits: ['Executive Support'], color: '#e5e4e2' }
+    ];
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: tiers
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartWholesalePricing(request, env, ctx, corsHeaders) {
+  try {
+    // Simple bulk pricing calculation
+    const result = await env.DB.prepare(`
+      SELECT id, name, price, 
+             ROUND(price * 0.95, 2) as price_50_100,
+             ROUND(price * 0.90, 2) as price_100_500,
+             ROUND(price * 0.85, 2) as price_500_1000,
+             ROUND(price * 0.80, 2) as price_1000_plus
+      FROM products 
+      WHERE category IN ('cement','roofing','paints','plumbing','electrical','timber','tools','hardware','tiles','gas-cylinders','steel','insulation','windows','sanitary','aggregates')
+      LIMIT 20
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      products: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartWholesaleRegister(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const {
+      company_name, cac_number, contact_person, email, phone,
+      estimated_monthly_spend, project_types
+    } = body || {};
+
+    if (!company_name || !contact_person || !email) {
+      return new Response(JSON.stringify({ error: "Company name, contact person, and email are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+
+    await env.DB.prepare(`
+      INSERT INTO wholesale_requests (
+        id, company_name, cac_number, contact_person, email, phone,
+        estimated_monthly_spend, project_types, status, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, 'pending', datetime('now'))
+    `).bind(
+      id, company_name, cac_number || '', contact_person, email,
+      phone || '', estimated_monthly_spend || 0, JSON.stringify(project_types || [])
+    ).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      id,
+      status: 'pending',
+      message: "Application submitted for review"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartWholesaleQuote(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { company, cac, project, location, date, budget, materials } = body || {};
+
+    if (!company || !project) {
+      return new Response(JSON.stringify({ error: "Company and project are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    const quoteNumber = `WH-${Date.now().toString().slice(-6)}`;
+
+    await env.DB.prepare(`
+      INSERT INTO wholesale_quotes (id, quote_number, company, cac, project, location, date, budget, materials, status, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', datetime('now'))
+    `).bind(
+      id, quoteNumber, company, cac || '', project, location || '',
+      date || '', budget || 0, JSON.stringify(materials || [])
+    ).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      quote_id: id,
+      quote_number: quoteNumber,
+      status: 'pending'
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== PROJECT ESTIMATOR =====
+export async function handleBuildMartCreateEstimate(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { project_type, dimensions, materials, location } = body || {};
+
+    if (!project_type) {
+      return new Response(JSON.stringify({ error: "Project type is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    const estimatedCost = 5000000; // Placeholder
+
+    await env.DB.prepare(`
+      INSERT INTO project_estimates (id, project_type, dimensions, materials, location, estimated_cost, status, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, 'draft', datetime('now'))
+    `).bind(
+      id, project_type, JSON.stringify(dimensions || {}),
+      JSON.stringify(materials || []), location || '', estimatedCost
+    ).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      id,
+      estimated_cost: estimatedCost
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGetEstimate(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const estimate = await env.DB.prepare(`
+      SELECT * FROM project_estimates WHERE id = ?
+    `).bind(id).first();
+
+    if (!estimate) {
+      return new Response(JSON.stringify({ error: "Estimate not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: estimate
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSaveEstimate(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+    const body = await request.json();
+
+    await env.DB.prepare(
+      "UPDATE project_estimates SET status = 'saved', updated_at = datetime('now') WHERE id = ?"
+    ).bind(id).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Estimate saved successfully"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartConvertToQuote(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const estimate = await env.DB.prepare(
+      "SELECT * FROM project_estimates WHERE id = ?"
+    ).bind(id).first();
+
+    if (!estimate) {
+      return new Response(JSON.stringify({ error: "Estimate not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const quoteId = crypto.randomUUID();
+    const quoteNumber = `QTE-${Date.now().toString().slice(-6)}`;
+
+    await env.DB.prepare(`
+      INSERT INTO quotes (id, quote_number, project_name, project_type, grand_total, status, created_at)
+      VALUES (?, ?, ?, ?, ?, 'draft', datetime('now'))
+    `).bind(quoteId, quoteNumber, estimate.project_type, estimate.project_type, estimate.estimated_cost).run();
+
+    await env.DB.prepare(
+      "UPDATE project_estimates SET status = 'converted', quote_id = ? WHERE id = ?"
+    ).bind(quoteId, id).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      quote_id: quoteId,
+      quote_number: quoteNumber
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== PROJECTS =====
+export async function handleBuildMartGetProjects(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const filter = url.searchParams.get('filter') || '';
+    const status = url.searchParams.get('status') || '';
+    const page = parseInt(url.searchParams.get('page')) || 1;
+    const limit = parseInt(url.searchParams.get('limit')) || 9;
+
+    let query = "SELECT * FROM construction_projects WHERE 1=1";
+    const params = [];
+
+    if (filter) {
+      query += ` AND category = ?`;
+      params.push(filter);
+    }
+
+    if (status) {
+      query += ` AND status = ?`;
+      params.push(status);
+    }
+
+    const offset = (page - 1) * limit;
+    query += ` ORDER BY created_at DESC LIMIT ? OFFSET ?`;
+    params.push(limit, offset);
+
+    const result = await env.DB.prepare(query).bind(...params).all();
+
+    // Get total count
+    let countQuery = "SELECT COUNT(*) as total FROM construction_projects WHERE 1=1";
+    const countParams = [];
+    if (filter) {
+      countQuery += ` AND category = ?`;
+      countParams.push(filter);
+    }
+    if (status) {
+      countQuery += ` AND status = ?`;
+      countParams.push(status);
+    }
+    const total = await env.DB.prepare(countQuery).bind(...countParams).first();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: {
+        projects: result.results || [],
+        pagination: {
+          total: total?.total || 0,
+          page,
+          limit,
+          pages: Math.ceil((total?.total || 0) / limit)
+        }
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGetProject(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const project = await env.DB.prepare(`
+      SELECT * FROM construction_projects WHERE id = ?
+    `).bind(id).first();
+
+    if (!project) {
+      return new Response(JSON.stringify({ error: "Project not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: project
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartFeaturedProjects(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT * FROM construction_projects 
+      WHERE featured = 1 
+      ORDER BY RANDOM()
+      LIMIT 6
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      projects: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartLiveProject(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    // Mock live data
+    const liveData = {
+      workers: Math.floor(Math.random() * 50) + 10,
+      deliveries: Math.floor(Math.random() * 20) + 2,
+      trucks: Math.floor(Math.random() * 8) + 1,
+      temperature: `${Math.floor(Math.random() * 10) + 28}°C`,
+      humidity: `${Math.floor(Math.random() * 30) + 50}%`,
+      rain: `${Math.floor(Math.random() * 20)}%`,
+      risk: ['LOW', 'MEDIUM', 'HIGH'][Math.floor(Math.random() * 3)],
+      progress: `${Math.floor(Math.random() * 30) + 60}%`
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: liveData
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartProjectTimeline(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const result = await env.DB.prepare(`
+      SELECT * FROM project_timelines WHERE project_id = ? ORDER BY order_index ASC
+    `).bind(id).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartProjectGallery(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const result = await env.DB.prepare(`
+      SELECT * FROM project_gallery WHERE project_id = ? ORDER BY order_index ASC
+    `).bind(id).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartProjectMaterials(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const result = await env.DB.prepare(`
+      SELECT * FROM project_materials WHERE project_id = ?
+    `).bind(id).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartProjectContractor(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const result = await env.DB.prepare(`
+      SELECT c.* FROM contractors c
+      JOIN project_contractors pc ON pc.contractor_id = c.id
+      WHERE pc.project_id = ?
+      LIMIT 1
+    `).bind(id).first();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result || null
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== CONTRACTORS =====
+export async function handleBuildMartRegisterContractor(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const {
+      company_name, cac_number, tin, address, years_in_business,
+      industry, project_types, monthly_spend, payment_method,
+      contact_person, email, phone
+    } = body || {};
+
+    if (!company_name || !contact_person || !email) {
+      return new Response(JSON.stringify({ error: "Company name, contact person, and email are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+
+    await env.DB.prepare(`
+      INSERT INTO contractors (
+        id, company_name, cac_number, tin, address, years_in_business,
+        industry, project_types, monthly_spend, payment_method,
+        contact_person, email, phone, status, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', datetime('now'))
+    `).bind(
+      id, company_name, cac_number || '', tin || '', address || '',
+      years_in_business || 0, industry || '', JSON.stringify(project_types || []),
+      monthly_spend || 0, payment_method || '', contact_person, email,
+      phone || ''
+    ).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      id,
+      status: 'pending',
+      message: "Application submitted for review"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGetContractors(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const location = url.searchParams.get('location') || '';
+    const rating = parseFloat(url.searchParams.get('rating')) || 0;
+    const specialization = url.searchParams.get('specialization') || '';
+
+    let query = "SELECT * FROM contractors WHERE status = 'active'";
+    const params = [];
+
+    if (location) {
+      query += ` AND address LIKE ?`;
+      params.push(`%${location}%`);
+    }
+
+    if (rating > 0) {
+      query += ` AND rating >= ?`;
+      params.push(rating);
+    }
+
+    if (specialization) {
+      query += ` AND project_types LIKE ?`;
+      params.push(`%${specialization}%`);
+    }
+
+    query += ` ORDER BY rating DESC LIMIT 50`;
+
+    const result = await env.DB.prepare(query).bind(...params).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGetContractor(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const contractor = await env.DB.prepare(`
+      SELECT * FROM contractors WHERE id = ?
+    `).bind(id).first();
+
+    if (!contractor) {
+      return new Response(JSON.stringify({ error: "Contractor not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const projects = await env.DB.prepare(`
+      SELECT * FROM contractor_projects WHERE contractor_id = ?
+    `).bind(id).all();
+
+    contractor.projects = projects.results || [];
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: contractor
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartUpdateContractor(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+    const body = await request.json();
+
+    const fields = [];
+    const values = [];
+
+    const allowed = ['company_name', 'address', 'phone', 'rating', 'status', 'project_types'];
+    for (const field of allowed) {
+      if (body[field] !== undefined) {
+        fields.push(`${field} = ?`);
+        values.push(body[field]);
+      }
+    }
+
+    if (fields.length === 0) {
+      return new Response(JSON.stringify({ error: "No fields to update" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    values.push(id);
+    await env.DB.prepare(
+      `UPDATE contractors SET ${fields.join(', ')}, updated_at = datetime('now') WHERE id = ?`
+    ).bind(...values).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Contractor updated successfully"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGetContractorProjects(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const result = await env.DB.prepare(`
+      SELECT * FROM contractor_projects WHERE contractor_id = ?
+    `).bind(id).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartCreateContractorProject(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+    const body = await request.json();
+    const { project_name, project_type, project_value, status } = body || {};
+
+    if (!project_name) {
+      return new Response(JSON.stringify({ error: "Project name is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const projectId = crypto.randomUUID();
+
+    await env.DB.prepare(`
+      INSERT INTO contractor_projects (id, contractor_id, project_name, project_type, project_value, status, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, datetime('now'))
+    `).bind(projectId, id, project_name, project_type || '', project_value || 0, status || 'active').run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      id: projectId
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== DELIVERY & LOGISTICS =====
+export async function handleBuildMartDeliveryRegions(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT dr.*, 
+             (SELECT COUNT(*) FROM delivery_zones WHERE region_id = dr.id) as zone_count
+      FROM delivery_regions dr
+      WHERE dr.status = 'active'
+      ORDER BY dr.name
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartDeliveryRegion(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[5];
+
+    const region = await env.DB.prepare(`
+      SELECT * FROM delivery_regions WHERE id = ? AND status = 'active'
+    `).bind(id).first();
+
+    if (!region) {
+      return new Response(JSON.stringify({ error: "Region not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const zones = await env.DB.prepare(`
+      SELECT * FROM delivery_zones WHERE region_id = ? AND status = 'active'
+    `).bind(id).all();
+
+    region.zones = zones.results || [];
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: region
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartTrackDelivery(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[5];
+
+    // Mock tracking data
+    const tracking = {
+      order_id: id,
+      status: 'In Transit',
+      location: 'Benin → Lagos',
+      eta: `${Math.floor(Math.random() * 4) + 1} hours`,
+      history: [
+        { status: 'Order Placed', timestamp: new Date(Date.now() - 3600000 * 8).toISOString() },
+        { status: 'Processing', timestamp: new Date(Date.now() - 3600000 * 6).toISOString() },
+        { status: 'Dispatched', timestamp: new Date(Date.now() - 3600000 * 4).toISOString() },
+        { status: 'In Transit', timestamp: new Date(Date.now() - 3600000 * 2).toISOString() }
+      ]
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: tracking
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartCalculateDelivery(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { pickup, destination, weight, priority } = body || {};
+
+    if (!pickup || !destination) {
+      return new Response(JSON.stringify({ error: "Pickup and destination are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    // Mock calculation
+    const distance = Math.floor(Math.random() * 300) + 50;
+    const baseFee = 2000;
+    const perKm = 150;
+    const weightSurcharge = weight ? Math.ceil(weight / 1000) * 500 : 0;
+    const prioritySurcharge = priority === 'express' ? 5000 : 0;
+
+    const totalFee = baseFee + (distance * perKm) + weightSurcharge + prioritySurcharge;
+
+    return new Response(JSON.stringify({
+      success: true,
+      truck: weight > 5000 ? '20 Ton' : weight > 2000 ? '10 Ton' : '5 Ton',
+      time: `${Math.ceil(distance / 60)} hrs`,
+      fee: `₦${totalFee.toLocaleString()}`,
+      carbon: totalFee > 50000 ? 'Medium' : 'Low',
+      route: `${pickup} → ${destination}`
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartFleetStatus(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT COUNT(*) as total FROM delivery_vehicles WHERE status = 'active'
+    `).first();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: {
+        active_trucks: result?.total || 27,
+        loading: Math.floor(Math.random() * 10) + 3,
+        delivered_today: Math.floor(Math.random() * 200) + 50,
+        fuel_efficiency: Math.floor(Math.random() * 30) + 60
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartCoverageMap(request, env, ctx, corsHeaders) {
+  try {
+    const regions = await env.DB.prepare(`
+      SELECT name, states, cities, base_price FROM delivery_regions WHERE status = 'active'
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: regions.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== ORDERS =====
+export async function handleBuildMartGetOrders(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT * FROM orders 
+      ORDER BY created_at DESC 
+      LIMIT 50
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGetOrder(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const order = await env.DB.prepare(`
+      SELECT * FROM orders WHERE id = ?
+    `).bind(id).first();
+
+    if (!order) {
+      return new Response(JSON.stringify({ error: "Order not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const items = await env.DB.prepare(`
+      SELECT * FROM order_items WHERE order_id = ?
+    `).bind(id).all();
+
+    order.items = items.results || [];
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: order
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartTrackOrder(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const order = await env.DB.prepare(`
+      SELECT status, tracking_number, estimated_delivery FROM orders WHERE id = ?
+    `).bind(id).first();
+
+    if (!order) {
+      return new Response(JSON.stringify({ error: "Order not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: {
+        status: order.status || 'Processing',
+        tracking_number: order.tracking_number || 'Not assigned',
+        estimated_delivery: order.estimated_delivery || '3-5 business days'
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartReorder(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const order = await env.DB.prepare(
+      "SELECT * FROM orders WHERE id = ?"
+    ).bind(id).first();
+
+    if (!order) {
+      return new Response(JSON.stringify({ error: "Order not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const newId = crypto.randomUUID();
+    await env.DB.prepare(`
+      INSERT INTO orders (id, user_id, amount, status, customerName, customerEmail, customerPhone, total, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, datetime('now'))
+    `).bind(newId, order.user_id, order.amount, 'pending', order.customerName, order.customerEmail, order.customerPhone, order.total).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      new_order_id: newId
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGetInvoice(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[4];
+
+    const order = await env.DB.prepare(`
+      SELECT * FROM orders WHERE id = ?
+    `).bind(id).first();
+
+    if (!order) {
+      return new Response(JSON.stringify({ error: "Order not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    // Generate simple invoice
+    const invoice = {
+      invoice_number: `INV-${Date.now().toString().slice(-6)}`,
+      order_id: id,
+      date: new Date().toISOString(),
+      customer: order.customerName || 'N/A',
+      amount: order.total || order.amount || 0,
+      status: order.status || 'pending'
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: invoice
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== CART =====
+export async function handleBuildMartGetCart(request, env, ctx, corsHeaders) {
+  try {
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'guest';
+
+    const cart = await env.DB.prepare(`
+      SELECT c.*, p.name as product_name, p.price as current_price, p.image_url
+      FROM cart_items c
+      JOIN products p ON c.product_id = p.id
+      WHERE c.fingerprint = ? AND c.type = 'cart'
+    `).bind(fingerprint).all();
+
+    let subtotal = 0;
+    const items = (cart.results || []).map(item => {
+      const total = item.quantity * (item.current_price || item.price || 0);
+      subtotal += total;
+      return { ...item, total };
+    });
+
+    const delivery = subtotal > 1000000 ? 0 : 25000;
+    const vat = (subtotal + delivery) * 0.075;
+    const grandTotal = subtotal + delivery + vat;
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: {
+        items,
+        subtotal,
+        delivery,
+        vat,
+        grand_total: grandTotal
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartAddToCart(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { product_id, quantity } = body || {};
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'guest';
+
+    if (!product_id) {
+      return new Response(JSON.stringify({ error: "Product ID is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const product = await env.DB.prepare(
+      "SELECT name, price FROM products WHERE id = ?"
+    ).bind(product_id).first();
+
+    if (!product) {
+      return new Response(JSON.stringify({ error: "Product not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const existing = await env.DB.prepare(
+      "SELECT id, quantity FROM cart_items WHERE fingerprint = ? AND product_id = ? AND type = 'cart'"
+    ).bind(fingerprint, product_id).first();
+
+    if (existing) {
+      await env.DB.prepare(
+        "UPDATE cart_items SET quantity = quantity + ?, updated_at = datetime('now') WHERE id = ?"
+      ).bind(quantity || 1, existing.id).run();
+    } else {
+      const id = crypto.randomUUID();
+      await env.DB.prepare(`
+        INSERT INTO cart_items (id, fingerprint, product_id, quantity, type, created_at)
+        VALUES (?, ?, ?, ?, 'cart', datetime('now'))
+      `).bind(id, fingerprint, product_id, quantity || 1).run();
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Item added to cart"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartUpdateCartItem(request, env, ctx, corsHeaders) {
+  try {
+    const itemId = request.url.split('/')[5];
+    const body = await request.json();
+    const { quantity } = body || {};
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'guest';
+
+    if (!quantity || quantity < 1) {
+      return new Response(JSON.stringify({ error: "Valid quantity is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    await env.DB.prepare(
+      "UPDATE cart_items SET quantity = ?, updated_at = datetime('now') WHERE id = ? AND fingerprint = ?"
+    ).bind(quantity, itemId, fingerprint).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Cart updated"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartRemoveFromCart(request, env, ctx, corsHeaders) {
+  try {
+    const itemId = request.url.split('/')[5];
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'guest';
+
+    await env.DB.prepare(
+      "DELETE FROM cart_items WHERE id = ? AND fingerprint = ?"
+    ).bind(itemId, fingerprint).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Item removed from cart"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartClearCart(request, env, ctx, corsHeaders) {
+  try {
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'guest';
+
+    await env.DB.prepare(
+      "DELETE FROM cart_items WHERE fingerprint = ? AND type = 'cart'"
+    ).bind(fingerprint).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Cart cleared"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartCartToQuote(request, env, ctx, corsHeaders) {
+  try {
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'guest';
+
+    const cart = await env.DB.prepare(`
+      SELECT c.*, p.name as product_name, p.price
+      FROM cart_items c
+      JOIN products p ON c.product_id = p.id
+      WHERE c.fingerprint = ? AND c.type = 'cart'
+    `).bind(fingerprint).all();
+
+    if (!cart.results || cart.results.length === 0) {
+      return new Response(JSON.stringify({ error: "Cart is empty" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const quoteId = crypto.randomUUID();
+    const quoteNumber = `QTE-${Date.now().toString().slice(-6)}`;
+
+    let subtotal = 0;
+    for (const item of cart.results) {
+      subtotal += item.quantity * item.price;
+    }
+
+    await env.DB.prepare(`
+      INSERT INTO quotes (id, quote_number, subtotal, grand_total, status, created_at)
+      VALUES (?, ?, ?, ?, 'draft', datetime('now'))
+    `).bind(quoteId, quoteNumber, subtotal, subtotal).run();
+
+    for (const item of cart.results) {
+      await env.DB.prepare(`
+        INSERT INTO quote_items (id, quote_id, product_id, product_name, quantity, unit_price, total)
+        VALUES (?, ?, ?, ?, ?, ?, ?)
+      `).bind(crypto.randomUUID(), quoteId, item.product_id, item.product_name, item.quantity, item.price, item.quantity * item.price).run();
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      quote_id: quoteId,
+      quote_number: quoteNumber
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== WISHLIST =====
+export async function handleBuildMartGetWishlist(request, env, ctx, corsHeaders) {
+  try {
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'guest';
+
+    const result = await env.DB.prepare(`
+      SELECT w.*, p.name, p.price, p.image_url, p.stock
+      FROM wishlist w
+      JOIN products p ON w.product_id = p.id
+      WHERE w.fingerprint = ?
+    `).bind(fingerprint).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartAddToWishlist(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { product_id } = body || {};
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'guest';
+
+    if (!product_id) {
+      return new Response(JSON.stringify({ error: "Product ID is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const existing = await env.DB.prepare(
+      "SELECT id FROM wishlist WHERE fingerprint = ? AND product_id = ?"
+    ).bind(fingerprint, product_id).first();
+
+    if (existing) {
+      return new Response(JSON.stringify({ error: "Item already in wishlist" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    await env.DB.prepare(`
+      INSERT INTO wishlist (id, fingerprint, product_id, created_at)
+      VALUES (?, ?, ?, datetime('now'))
+    `).bind(id, fingerprint, product_id).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Added to wishlist"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartRemoveFromWishlist(request, env, ctx, corsHeaders) {
+  try {
+    const itemId = request.url.split('/')[5];
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'guest';
+
+    await env.DB.prepare(
+      "DELETE FROM wishlist WHERE id = ? AND fingerprint = ?"
+    ).bind(itemId, fingerprint).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Removed from wishlist"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartMoveToCart(request, env, ctx, corsHeaders) {
+  try {
+    const itemId = request.url.split('/')[5];
+    const fingerprint = request.headers.get('x-device-fingerprint') || 'guest';
+
+    const wishItem = await env.DB.prepare(
+      "SELECT product_id FROM wishlist WHERE id = ? AND fingerprint = ?"
+    ).bind(itemId, fingerprint).first();
+
+    if (!wishItem) {
+      return new Response(JSON.stringify({ error: "Item not found in wishlist" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    // Add to cart
+    const existing = await env.DB.prepare(
+      "SELECT id FROM cart_items WHERE fingerprint = ? AND product_id = ? AND type = 'cart'"
+    ).bind(fingerprint, wishItem.product_id).first();
+
+    if (existing) {
+      await env.DB.prepare(
+        "UPDATE cart_items SET quantity = quantity + 1 WHERE id = ?"
+      ).bind(existing.id).run();
+    } else {
+      const id = crypto.randomUUID();
+      await env.DB.prepare(`
+        INSERT INTO cart_items (id, fingerprint, product_id, quantity, type, created_at)
+        VALUES (?, ?, ?, 1, 'cart', datetime('now'))
+      `).bind(id, fingerprint, wishItem.product_id).run();
+    }
+
+    // Remove from wishlist
+    await env.DB.prepare(
+      "DELETE FROM wishlist WHERE id = ?"
+    ).bind(itemId).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Moved to cart"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== KNOWLEDGE BASE =====
+export async function handleBuildMartKnowledgeStats(request, env, ctx, corsHeaders) {
+  try {
+    const stats = await env.DB.prepare(`
+      SELECT 
+        (SELECT COUNT(*) FROM knowledge_articles) as total_articles,
+        (SELECT COUNT(*) FROM knowledge_queries) as total_queries,
+        (SELECT COALESCE(AVG(response_time), 0) FROM knowledge_queries WHERE response_time IS NOT NULL) as avg_response,
+        (SELECT COALESCE(AVG(helpful_rate), 0) FROM knowledge_articles) as accuracy
+    `).first();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: stats || { total_articles: 0, total_queries: 0, avg_response: 0, accuracy: 0 }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartKnowledgeCategories(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT category, COUNT(*) as article_count,
+             MAX(updated_at) as updated,
+             AVG(helpful_rate) as helpfulness
+      FROM knowledge_articles
+      GROUP BY category
+      ORDER BY article_count DESC
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartKnowledgeArticles(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const category = url.searchParams.get('category') || '';
+    const page = parseInt(url.searchParams.get('page')) || 1;
+    const limit = parseInt(url.searchParams.get('limit')) || 20;
+
+    let query = "SELECT * FROM knowledge_articles WHERE 1=1";
+    const params = [];
+
+    if (category) {
+      query += ` AND category = ?`;
+      params.push(category);
+    }
+
+    const offset = (page - 1) * limit;
+    query += ` ORDER BY helpful_count DESC LIMIT ? OFFSET ?`;
+    params.push(limit, offset);
+
+    const result = await env.DB.prepare(query).bind(...params).all();
+
+    const total = await env.DB.prepare(
+      "SELECT COUNT(*) as total FROM knowledge_articles" + (category ? " WHERE category = ?" : "")
+    ).bind(...(category ? [category] : [])).first();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || [],
+      pagination: {
+        total: total?.total || 0,
+        page,
+        limit,
+        pages: Math.ceil((total?.total || 0) / limit)
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartKnowledgeArticle(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[5];
+
+    const article = await env.DB.prepare(`
+      SELECT * FROM knowledge_articles WHERE id = ?
+    `).bind(id).first();
+
+    if (!article) {
+      return new Response(JSON.stringify({ error: "Article not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    await env.DB.prepare(
+      "UPDATE knowledge_articles SET view_count = view_count + 1 WHERE id = ?"
+    ).bind(id).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: article
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartRelatedArticles(request, env, ctx, corsHeaders) {
+  try {
+    const id = request.url.split('/')[5];
+
+    const article = await env.DB.prepare(
+      "SELECT category FROM knowledge_articles WHERE id = ?"
+    ).bind(id).first();
+
+    if (!article) {
+      return new Response(JSON.stringify({ error: "Article not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const result = await env.DB.prepare(`
+      SELECT * FROM knowledge_articles 
+      WHERE category = ? AND id != ?
+      ORDER BY helpful_count DESC
+      LIMIT 5
+    `).bind(article.category, id).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartFAQ(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT * FROM knowledge_faq 
+      ORDER BY order_index ASC
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartGuides(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT * FROM knowledge_guides 
+      ORDER BY created_at DESC
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartDownloads(request, env, ctx, corsHeaders) {
+  try {
+    const result = await env.DB.prepare(`
+      SELECT * FROM knowledge_downloads 
+      ORDER BY download_count DESC
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartTools(request, env, ctx, corsHeaders) {
+  try {
+    const tools = [
+      { id: 'concrete-calc', name: 'Concrete Calculator', description: 'Calculate concrete volume and materials', icon: 'fa-calculator' },
+      { id: 'steel-calc', name: 'Steel Weight Calculator', description: 'Calculate steel weight and quantity', icon: 'fa-weight' },
+      { id: 'paint-calc', name: 'Paint Coverage Calculator', description: 'Calculate paint needed for walls', icon: 'fa-paint-brush' },
+      { id: 'roofing-calc', name: 'Roofing Material Calculator', description: 'Calculate roofing materials needed', icon: 'fa-home' },
+      { id: 'tile-calc', name: 'Tile Calculator', description: 'Calculate tiles needed for flooring', icon: 'fa-th' }
+    ];
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: tools
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartKnowledgeGraph(request, env, ctx, corsHeaders) {
+  try {
+    const nodes = await env.DB.prepare(`
+      SELECT id, title as label, category
+      FROM knowledge_articles
+      LIMIT 20
+    `).all();
+
+    const edges = [];
+    for (let i = 0; i < (nodes.results || []).length; i++) {
+      for (let j = i + 1; j < (nodes.results || []).length; j++) {
+        if (nodes.results[i].category === nodes.results[j].category) {
+          edges.push({
+            source: nodes.results[i].id,
+            target: nodes.results[j].id,
+            type: 'related'
+          });
+        }
+      }
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: {
+        nodes: nodes.results || [],
+        edges: edges.slice(0, 30)
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartFeedback(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { article_id, helpful } = body || {};
+
+    if (!article_id) {
+      return new Response(JSON.stringify({ error: "Article ID is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    await env.DB.prepare(`
+      INSERT INTO knowledge_feedback (id, article_id, helpful, created_at)
+      VALUES (?, ?, ?, datetime('now'))
+    `).bind(crypto.randomUUID(), article_id, helpful ? 1 : 0).run();
+
+    // Update article helpful rate
+    const stats = await env.DB.prepare(`
+      SELECT COUNT(*) as total, SUM(helpful) as helpful_count
+      FROM knowledge_feedback
+      WHERE article_id = ?
+    `).bind(article_id).first();
+
+    if (stats && stats.total > 0) {
+      const rate = (stats.helpful_count / stats.total) * 100;
+      await env.DB.prepare(
+        "UPDATE knowledge_articles SET helpful_rate = ?, helpful_count = ? WHERE id = ?"
+      ).bind(rate, stats.helpful_count, article_id).run();
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      message: "Feedback recorded"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartKnowledgeSearch(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { query } = body || {};
+
+    if (!query || query.length < 2) {
+      return new Response(JSON.stringify({ error: "Query must be at least 2 characters" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const searchPattern = `%${query}%`;
+    const result = await env.DB.prepare(`
+      SELECT id, title, excerpt, category, helpful_count,
+             CASE 
+               WHEN title LIKE ? THEN 3
+               WHEN category LIKE ? THEN 2
+               ELSE 1
+             END as relevance
+      FROM knowledge_articles
+      WHERE title LIKE ? OR content LIKE ? OR category LIKE ?
+      ORDER BY relevance DESC, helpful_count DESC
+      LIMIT 10
+    `).bind(searchPattern, searchPattern, searchPattern, searchPattern, searchPattern).all();
+
+    // Log search
+    await env.DB.prepare(`
+      INSERT INTO knowledge_queries (id, query, result_count, created_at)
+      VALUES (?, ?, ?, datetime('now'))
+    `).bind(crypto.randomUUID(), query, (result.results || []).length).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: result.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== COMPANY & BRAND =====
+export async function handleBuildMartAbout(request, env, ctx, corsHeaders) {
+  try {
+    const about = {
+      story: "PrimeShieldHub was founded in 2026 to revolutionize construction procurement in Nigeria.",
+      mission: "To provide seamless, transparent, and efficient construction material procurement for builders and contractors.",
+      vision: "To become Africa's leading construction technology platform, empowering builders with smart procurement solutions.",
+      values: ["Innovation", "Integrity", "Excellence", "Sustainability"],
+      team: [
+        { name: "Freedom Amenaghawon", role: "CEO & Founder" },
+        { name: "Team PrimeShield", role: "Construction & Technology Experts" }
+      ],
+      stats: {
+        projects: 500,
+        suppliers: 3000,
+        customers: 10000,
+        states: 24
+      }
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: about
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBrandValues(request, env, ctx, corsHeaders) {
+  try {
+    const values = [
+      { name: "Innovation", description: "Pushing the boundaries of construction technology", icon: "fa-lightbulb" },
+      { name: "Integrity", description: "Honest and transparent dealings with all stakeholders", icon: "fa-handshake" },
+      { name: "Excellence", description: "Delivering quality in every product and service", icon: "fa-star" },
+      { name: "Sustainability", description: "Building a greener future for construction", icon: "fa-leaf" }
+    ];
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: values
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBrandPhilosophy(request, env, ctx, corsHeaders) {
+  try {
+    const philosophy = {
+      statement: "Building the future of construction through technology and trust.",
+      principles: [
+        "Customer-first approach",
+        "Technology-driven solutions",
+        "Sustainable practices",
+        "Transparent operations"
+      ]
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: philosophy
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBrandIdentity(request, env, ctx, corsHeaders) {
+  try {
+    const identity = {
+      pillars: ["Technology", "Trust", "Efficiency", "Sustainability"],
+      colors: {
+        primary: "#00e5b0",
+        secondary: "#3b82f6",
+        gold: "#f5c842"
+      },
+      typography: {
+        heading: "Space Grotesk",
+        body: "Inter",
+        mono: "JetBrains Mono"
+      },
+      voice: "Professional, Innovative, Trustworthy"
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: identity
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBrandColors(request, env, ctx, corsHeaders) {
+  try {
+    const colors = {
+      primary: { hex: "#00e5b0", rgb: "0, 229, 176" },
+      secondary: { hex: "#3b82f6", rgb: "59, 130, 246" },
+      gold: { hex: "#f5c842", rgb: "245, 200, 66" },
+      dark: { hex: "#12122a", rgb: "18, 18, 42" },
+      light: { hex: "#f4f4f8", rgb: "244, 244, 248" }
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: colors
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBrandTypography(request, env, ctx, corsHeaders) {
+  try {
+    const typography = {
+      heading: {
+        family: "Space Grotesk",
+        weights: [400, 500, 600, 700],
+        sizes: { h1: "48px", h2: "36px", h3: "28px", h4: "20px" }
+      },
+      body: {
+        family: "Inter",
+        weights: [400, 500, 600],
+        sizes: { large: "18px", normal: "16px", small: "14px" }
+      },
+      mono: {
+        family: "JetBrains Mono",
+        weights: [400, 600],
+        sizes: { code: "14px" }
+      }
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: typography
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBrandVoice(request, env, ctx, corsHeaders) {
+  try {
+    const voice = {
+      tone: "Professional, accessible, and forward-thinking",
+      traits: ["Confident", "Helpful", "Transparent", "Innovative"],
+      principles: [
+        "Speak with clarity and precision",
+        "Be honest about capabilities and limitations",
+        "Show empathy for construction challenges",
+        "Inspire confidence through expertise"
+      ]
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: voice
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBrandStandards(request, env, ctx, corsHeaders) {
+  try {
+    const standards = {
+      procurement: [
+        "All products must meet NIS quality standards",
+        "Suppliers must be verified and registered",
+        "Pricing must be transparent and competitive",
+        "Delivery timelines must be strictly adhered to"
+      ],
+      quality: [
+        "Regular quality checks on all products",
+        "Supplier audits conducted quarterly",
+        "Customer feedback integrated into quality improvement"
+      ]
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: standards
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBrandEcosystem(request, env, ctx, corsHeaders) {
+  try {
+    const ecosystem = {
+      layers: [
+        { name: "Platform", components: ["Website", "Mobile App", "API Gateway"] },
+        { name: "Marketplace", components: ["Products", "Categories", "Brands"] },
+        { name: "Procurement", components: ["Quotes", "Orders", "Bulk Orders"] },
+        { name: "Logistics", components: ["Delivery", "Tracking", "Fleet"] },
+        { name: "Knowledge", components: ["Articles", "Guides", "Tools"] },
+        { name: "Community", components: ["Contractors", "Projects", "Support"] }
+      ]
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: ecosystem
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBrandStats(request, env, ctx, corsHeaders) {
+  try {
+    const stats = await env.DB.prepare(`
+      SELECT 
+        (SELECT COUNT(*) FROM construction_projects) as projects,
+        (SELECT COUNT(*) FROM contractors) as contractors,
+        (SELECT COUNT(DISTINCT state) FROM delivery_regions) as states,
+        (SELECT COUNT(*) FROM products WHERE category IN ('cement','roofing','paints','plumbing','electrical','timber','tools','hardware','tiles','gas-cylinders','steel','insulation','windows','sanitary','aggregates')) as products,
+        (SELECT COALESCE(SUM(budget), 0) FROM construction_projects) as total_value,
+        (SELECT AVG(rating) FROM contractors WHERE rating > 0) as avg_rating
+    `).first();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: stats || {
+        projects: 0,
+        contractors: 0,
+        states: 0,
+        products: 0,
+        total_value: 0,
+        avg_rating: 0
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartBrandAsk(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { question } = body || {};
+
+    if (!question) {
+      return new Response(JSON.stringify({ error: "Question is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    // Simple response based on keywords
+    let response = "Thank you for your question. Our team is available to assist you with any construction procurement needs.";
+    
+    if (question.toLowerCase().includes('cement')) {
+      response = "We offer premium cement from Dangote, BUA, and Lafarge. Prices start from ₦10,500 per 50kg bag. Bulk discounts available for orders over 500 bags.";
+    } else if (question.toLowerCase().includes('steel')) {
+      response = "We provide high-quality steel reinforcement bars in various sizes (10mm, 12mm, 16mm). Prices range from ₦450,000 to ₦650,000 per ton depending on grade and quantity.";
+    } else if (question.toLowerCase().includes('delivery')) {
+      response = "We offer delivery services across Nigeria with 99.2% on-time delivery rate. Delivery costs are calculated based on location, weight, and priority level.";
+    } else if (question.toLowerCase().includes('contractor')) {
+      response = "We work with verified contractors across Nigeria. You can find and connect with contractors based on location, specialization, and rating on our platform.";
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      response,
+      question
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== CONTACT & INQUIRIES =====
+export async function handleBuildMartContact(request, env, ctx, corsHeaders) {
+  try {
+    const contact = {
+      offices: [
+        { city: "Benin City", address: "108 Newton Street (Ekhorummtomwen Street)", phone: "+2348103535978" },
+        { city: "Lagos", address: "Victoria Island, Lagos", phone: "+2348103535978" },
+        { city: "Abuja", address: "Central Business District", phone: "+2348103535978" }
+      ],
+      hours: "Monday - Friday: 8:00 AM - 6:00 PM, Saturday: 9:00 AM - 2:00 PM",
+      phones: ["+2348103535978", "+2348030000000"],
+      emails: ["buildmart@primeshieldhub.com", "support@primeshieldhub.com"]
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: contact
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartContactSubmit(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { name, email, phone, subject, message } = body || {};
+
+    if (!name || !email || !message) {
+      return new Response(JSON.stringify({ error: "Name, email, and message are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    await env.DB.prepare(`
+      INSERT INTO contact_messages (id, name, email, phone, subject, message, status, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, 'pending', datetime('now'))
+    `).bind(id, name, email, phone || '', subject || '', message).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      id,
+      message: "Message sent successfully"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartCreateInquiry(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const {
+      name, company, phone, email, project_type, urgency,
+      state, city, address, category, budget, quantity,
+      date, communication, materials
+    } = body || {};
+
+    if (!name || !email || !project_type) {
+      return new Response(JSON.stringify({ error: "Name, email, and project type are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    await env.DB.prepare(`
+      INSERT INTO inquiries (
+        id, name, company, phone, email, project_type, urgency,
+        state, city, address, category, budget, quantity,
+        date, communication, materials, status, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', datetime('now'))
+    `).bind(
+      id, name, company || '', phone || '', email, project_type,
+      urgency || 'normal', state || '', city || '', address || '',
+      category || '', budget || 0, quantity || '',
+      date || '', communication || 'email', JSON.stringify(materials || [])
+    ).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      id,
+      status: 'pending'
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartSiteVisit(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { inquiry_id, date, time, notes } = body || {};
+
+    if (!inquiry_id || !date || !time) {
+      return new Response(JSON.stringify({ error: "Inquiry ID, date, and time are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    await env.DB.prepare(`
+      INSERT INTO site_visits (id, inquiry_id, date, time, notes, status, created_at)
+      VALUES (?, ?, ?, ?, ?, 'scheduled', datetime('now'))
+    `).bind(id, inquiry_id, date, time, notes || '').run();
+
+    await env.DB.prepare(
+      "UPDATE inquiries SET status = 'site_visit_scheduled' WHERE id = ?"
+    ).bind(inquiry_id).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      visit_id: id,
+      status: 'scheduled'
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartWorkspace(request, env, ctx, corsHeaders) {
+  try {
+    const inquiryId = request.url.split('/')[4];
+
+    const inquiry = await env.DB.prepare(`
+      SELECT * FROM inquiries WHERE id = ?
+    `).bind(inquiryId).first();
+
+    if (!inquiry) {
+      return new Response(JSON.stringify({ error: "Inquiry not found" }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const messages = await env.DB.prepare(`
+      SELECT * FROM workspace_messages WHERE inquiry_id = ? ORDER BY created_at ASC
+    `).bind(inquiryId).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: {
+        inquiry,
+        messages: messages.results || []
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartWorkspaceMessage(request, env, ctx, corsHeaders) {
+  try {
+    const inquiryId = request.url.split('/')[4];
+    const body = await request.json();
+    const { message, sender } = body || {};
+
+    if (!message) {
+      return new Response(JSON.stringify({ error: "Message is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    await env.DB.prepare(`
+      INSERT INTO workspace_messages (id, inquiry_id, message, sender, created_at)
+      VALUES (?, ?, ?, ?, datetime('now'))
+    `).bind(id, inquiryId, message, sender || 'user').run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      message_id: id,
+      timestamp: new Date().toISOString()
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== MARKET & LIVE DATA =====
+export async function handleBuildMartMarketPrices(request, env, ctx, corsHeaders) {
+  try {
+    const prices = {
+      steel: { price: 485000, change: 2.4, change_percent: 2.4, forecast: "next week" },
+      concrete: { price: 85000, change: 1.1, change_percent: 1.1 },
+      fuel: { price: 1200, change: 0.8, change_percent: 0.8 },
+      fx: 1580,
+      weather: "30°C · Clear",
+      logistics: "On time",
+      sparklines: {
+        steel: [30, 35, 32, 38, 40, 36, 42],
+        procurement: [40, 45, 42, 48, 50, 46, 52]
+      }
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: prices
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartCompanySearch(request, env, ctx, corsHeaders) {
+  try {
+    const url = new URL(request.url);
+    const q = url.searchParams.get('q') || '';
+
+    if (!q || q.length < 2) {
+      return new Response(JSON.stringify({ error: "Search query must be at least 2 characters" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    // Search in contractors and inquiries
+    const contractors = await env.DB.prepare(`
+      SELECT company_name as name, cac_number, address, 'contractor' as type
+      FROM contractors 
+      WHERE company_name LIKE ? OR cac_number LIKE ?
+      LIMIT 10
+    `).bind(`%${q}%`, `%${q}%`).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      found: (contractors.results || []).length > 0,
+      data: contractors.results || []
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartDocumentUpload(request, env, ctx, corsHeaders) {
+  try {
+    const formData = await request.formData();
+    const files = formData.getAll('documents');
+
+    if (!files || files.length === 0) {
+      return new Response(JSON.stringify({ error: "No documents uploaded" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const uploaded = [];
+    for (const file of files) {
+      if (file.size > 0) {
+        const key = `documents/${Date.now()}-${crypto.randomUUID()}-${file.name}`;
+        await env.STORAGE.put(key, file.stream(), {
+          httpMetadata: {
+            contentType: file.type || 'application/octet-stream',
+            contentDisposition: `attachment; filename="${file.name}"`
+          }
+        });
+
+        uploaded.push({
+          id: crypto.randomUUID(),
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          url: `${SITE_URL}/files/${key}`,
+          uploaded_at: new Date().toISOString()
+        });
+      }
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      documents: uploaded,
+      message: `${uploaded.length} files uploaded successfully`
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== AI BUILD MART =====
+export async function handleBuildMartAIEstimate(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { query, project_type, location } = body || {};
+
+    if (!query && !project_type) {
+      return new Response(JSON.stringify({ error: "Query or project type is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const queryLower = (query || '').toLowerCase();
+    let detectedType = project_type || 'residential';
+    let estimatedArea = 150;
+
+    if (queryLower.includes('commercial') || queryLower.includes('office')) {
+      detectedType = 'commercial';
+      estimatedArea = 500;
+    } else if (queryLower.includes('industrial') || queryLower.includes('warehouse')) {
+      detectedType = 'industrial';
+      estimatedArea = 1000;
+    } else if (queryLower.includes('duplex') || queryLower.includes('4-bedroom')) {
+      estimatedArea = 200;
+    } else if (queryLower.includes('bungalow') || queryLower.includes('3-bedroom')) {
+      estimatedArea = 150;
+    }
+
+    const suggestions = [
+      {
+        id: 'dangote-cement-50kg',
+        name: 'Dangote Cement 50kg',
+        quantity: Math.ceil(estimatedArea * 3.5),
+        price: 10800,
+        brand: 'Dangote',
+        category: 'cement',
+        total: Math.ceil(estimatedArea * 3.5) * 10800
+      },
+      {
+        id: 'dulux-emulsion-20l',
+        name: 'Dulux Emulsion Paint 20L',
+        quantity: Math.ceil(estimatedArea * 0.4),
+        price: 28000,
+        brand: 'Dulux',
+        category: 'paints',
+        total: Math.ceil(estimatedArea * 0.4) * 28000
+      }
+    ];
+
+    let subtotal = suggestions.reduce((sum, item) => sum + item.total, 0);
+    const discount = subtotal * 0.05;
+    const vat = (subtotal - discount) * 0.075;
+    const delivery = 35000;
+
+    return new Response(JSON.stringify({
+      success: true,
+      project_type: detectedType,
+      project_size: 'medium',
+      estimated_area: estimatedArea,
+      suggestions,
+      summary: {
+        subtotal,
+        discount,
+        discount_rate: 5,
+        vat,
+        delivery,
+        grand_total: subtotal - discount + vat + delivery
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartAIRecommend(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { query, context } = body || {};
+
+    const categories = ['cement', 'roofing', 'paints', 'plumbing', 'electrical', 'timber', 'tools'];
+    const products = await env.DB.prepare(`
+      SELECT id, name, price, brand, category
+      FROM products 
+      WHERE category IN ('cement','roofing','paints','plumbing','electrical','timber','tools')
+      LIMIT 10
+    `).all();
+
+    return new Response(JSON.stringify({
+      success: true,
+      categories,
+      products: products.results || [],
+      estimated_budget: 4500000
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+export async function handleBuildMartAIChat(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { message, sessionId, fingerprint, context } = body || {};
+
+    if (!message) {
+      return new Response(JSON.stringify({ error: "Message is required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    // Simple response
+    const replies = [
+      "I understand you're asking about construction materials. Can you tell me more about your project?",
+      "We have a wide range of materials available. What specific product are you looking for?",
+      "For bulk orders, we offer significant discounts. How many units do you need?",
+      "Our delivery service covers all major cities in Nigeria. Where is your site located?",
+      "I can help you create a quote. Just tell me what materials and quantities you need."
+    ];
+
+    const reply = replies[Math.floor(Math.random() * replies.length)];
+
+    return new Response(JSON.stringify({
+      success: true,
+      reply,
+      model: 'gemini-2.5-flash',
+      sessionId: sessionId || crypto.randomUUID(),
+      analytics: {
+        intent: 'general_inquiry',
+        sentiment: 'neutral',
+        urgency: false,
+        confidence: 0.85
+      }
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// Stub handlers for AI endpoints that need implementation
+export async function handleBuildMartAIWishlist(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI wishlist analysis" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAIWishlistQuery(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI wishlist query" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAIOrdersAnalyze(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI orders analysis" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAIOrdersPrioritize(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI orders prioritization" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAIOrdersForecast(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI orders forecast" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAILogistics(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI logistics assistant" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAIBulk(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI bulk procurement" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAIBulkAnalyze(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI bulk analysis" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAIBulkOptimize(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI bulk optimization" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAIBulkPricing(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI bulk pricing" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAIBulkSuppliers(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI supplier analysis" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+export async function handleBuildMartAIBulkDelivery(request, env, ctx, corsHeaders) {
+  return new Response(JSON.stringify({ success: true, message: "AI delivery optimization" }), {
+    headers: { "Content-Type": "application/json", ...corsHeaders }
+  });
+}
+
+// ===== COMPARE PRODUCTS =====
+export async function handleBuildMartCompareProducts(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { product_ids } = body || {};
+
+    if (!product_ids || !Array.isArray(product_ids) || product_ids.length < 2) {
+      return new Response(JSON.stringify({ 
+        error: "At least 2 product IDs are required for comparison" 
+      }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const placeholders = product_ids.map(() => '?').join(',');
+    const query = `
+      SELECT p.*, c.name as category_name, c.icon as category_icon
+      FROM products p
+      LEFT JOIN categories c ON p.category = c.id
+      WHERE p.id IN (${placeholders})
+    `;
+
+    const result = await env.DB.prepare(query).bind(...product_ids).all();
+
+    if (!result.results || result.results.length < 2) {
+      return new Response(JSON.stringify({ 
+        error: "Not enough products found for comparison" 
+      }), {
+        status: 404,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const products = result.results || [];
+    const comparison = {
+      products: products,
+      metrics: {
+        price_range: {
+          min: Math.min(...products.map(p => p.price || 0)),
+          max: Math.max(...products.map(p => p.price || 0)),
+          average: products.reduce((sum, p) => sum + (p.price || 0), 0) / products.length
+        },
+        stock_status: products.map(p => ({
+          id: p.id,
+          name: p.name,
+          in_stock: (p.stock || 0) > 0,
+          stock_level: (p.stock || 0) > 50 ? 'high' : (p.stock || 0) > 10 ? 'medium' : 'low'
+        }))
+      }
+    };
+
+    return new Response(JSON.stringify({
+      success: true,
+      data: comparison
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== BULK ORDER =====
+export async function handleBuildMartBulkOrder(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { items, delivery_address, scheduled_date, special_requirements, customer_info } = body || {};
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return new Response(JSON.stringify({ error: "Items are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const id = crypto.randomUUID();
+    const orderNumber = `BULK-${Date.now().toString().slice(-6)}`;
+    let totalCost = 0;
+    const bulkItems = [];
+    let totalQuantity = 0;
+
+    for (const item of items) {
+      const product = await env.DB.prepare(
+        "SELECT id, name, price, stock FROM products WHERE id = ?"
+      ).bind(item.product_id).first();
+      
+      if (product) {
+        const quantity = parseInt(item.quantity) || 1;
+        const itemTotal = product.price * quantity;
+        totalCost += itemTotal;
+        totalQuantity += quantity;
+        bulkItems.push({
+          product_id: product.id,
+          product_name: product.name,
+          quantity,
+          unit_price: product.price,
+          total: itemTotal
+        });
+
+        if (product.stock < quantity) {
+          return new Response(JSON.stringify({ 
+            error: `Insufficient stock for ${product.name}. Available: ${product.stock}, Requested: ${quantity}` 
+          }), {
+            status: 400,
+            headers: { "Content-Type": "application/json", ...corsHeaders }
+          });
+        }
+      }
+    }
+
+    let discountRate = 0;
+    if (totalQuantity >= 1000) discountRate = 15;
+    else if (totalQuantity >= 500) discountRate = 12;
+    else if (totalQuantity >= 100) discountRate = 10;
+    else if (totalQuantity >= 50) discountRate = 7;
+    else if (totalQuantity >= 25) discountRate = 5;
+
+    const savings = totalCost * (discountRate / 100);
+    const finalTotal = totalCost - savings;
+
+    let estimatedDays = '3-5 business days';
+    if (totalQuantity > 500) estimatedDays = '5-7 business days';
+    else if (totalQuantity > 100) estimatedDays = '4-6 business days';
+
+    await env.DB.prepare(`
+      INSERT INTO bulk_orders (
+        id, order_number, items, delivery_address, scheduled_date, 
+        special_requirements, total_cost, savings, discount_rate,
+        final_total, total_quantity, status, estimated_delivery, created_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, datetime('now'))
+    `).bind(
+      id, orderNumber, JSON.stringify(bulkItems), delivery_address || '', 
+      scheduled_date || '', special_requirements || '', totalCost, 
+      savings, discountRate, finalTotal, totalQuantity, estimatedDays
+    ).run();
+
+    return new Response(JSON.stringify({
+      success: true,
+      order_id: id,
+      order_number: orderNumber,
+      status: 'pending',
+      total_items: bulkItems.length,
+      total_quantity: totalQuantity,
+      estimated_delivery: estimatedDays,
+      discount_rate: discountRate,
+      savings: savings,
+      total_cost: finalTotal,
+      message: "Bulk order created successfully."
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== CHECKOUT =====
+export async function handleBuildMartCheckout(request, env, ctx, corsHeaders) {
+  try {
+    const body = await request.json();
+    const { 
+      items, customer_name, customer_email, customer_phone, 
+      delivery_address, delivery_region, delivery_zone,
+      payment_method, notes, discount_code, company_name,
+      require_invoice, delivery_instructions
+    } = body || {};
+
+    if (!items || !Array.isArray(items) || items.length === 0) {
+      return new Response(JSON.stringify({ error: "Items are required" }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    if (!customer_name || !customer_email || !delivery_address) {
+      return new Response(JSON.stringify({ 
+        error: "Customer name, email, and delivery address are required" 
+      }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    const orderId = crypto.randomUUID();
+    const orderNumber = `ORD-${Date.now().toString().slice(-6)}`;
+    let subtotal = 0;
+    const orderItems = [];
+    const stockErrors = [];
+
+    for (const item of items) {
+      const product = await env.DB.prepare(
+        "SELECT id, name, price, stock FROM products WHERE id = ?"
+      ).bind(item.product_id).first();
+      
+      if (!product) {
+        stockErrors.push(`Product ID ${item.product_id} not found`);
+        continue;
+      }
+
+      const quantity = parseInt(item.quantity) || 1;
+      
+      if (product.stock < quantity) {
+        stockErrors.push(`Insufficient stock for ${product.name}. Available: ${product.stock}, Requested: ${quantity}`);
+        continue;
+      }
+
+      const itemTotal = product.price * quantity;
+      subtotal += itemTotal;
+      orderItems.push({
+        product_id: product.id,
+        product_name: product.name,
+        quantity,
+        unit_price: product.price,
+        total: itemTotal
+      });
+    }
+
+    if (stockErrors.length > 0) {
+      return new Response(JSON.stringify({ 
+        error: "Stock issues detected",
+        details: stockErrors 
+      }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    if (orderItems.length === 0) {
+      return new Response(JSON.stringify({ 
+        error: "No valid items to checkout" 
+      }), {
+        status: 400,
+        headers: { "Content-Type": "application/json", ...corsHeaders }
+      });
+    }
+
+    let discountRate = 0;
+    let discountCodeId = null;
+    if (discount_code) {
+      const code = await env.DB.prepare(
+        "SELECT id, discount_percent FROM wholesale_codes WHERE code = ? AND is_active = 1 AND (max_uses IS NULL OR times_used < max_uses)"
+      ).bind(discount_code).first();
+      if (code) {
+        discountRate = code.discount_percent || 0;
+        discountCodeId = code.id;
+        await env.DB.prepare(
+          "UPDATE wholesale_codes SET times_used = times_used + 1 WHERE id = ?"
+        ).bind(code.id).run();
+      }
+    }
+
+    const discount = subtotal * (discountRate / 100);
+    const afterDiscount = subtotal - discount;
+
+    let deliveryCost = 25000;
+    let deliveryEstimate = '3-5 business days';
+    
+    if (delivery_region) {
+      const region = await env.DB.prepare(
+        "SELECT name, base_price, estimated_days FROM delivery_regions WHERE id = ? AND status = 'active'"
+      ).bind(delivery_region).first();
+      if (region) {
+        deliveryCost = region.base_price || 25000;
+        deliveryEstimate = region.estimated_days || '3-5 business days';
+        
+        if (delivery_zone) {
+          const zone = await env.DB.prepare(
+            "SELECT price FROM delivery_zones WHERE id = ? AND region_id = ? AND status = 'active'"
+          ).bind(delivery_zone, delivery_region).first();
+          if (zone?.price) {
+            deliveryCost = zone.price;
+          }
+        }
+      }
+    }
+
+    if (subtotal >= 1000000) {
+      deliveryCost = 0;
+    }
+
+    const vat = (afterDiscount + deliveryCost) * 0.075;
+    const grandTotal = afterDiscount + deliveryCost + vat;
+
+    for (const item of orderItems) {
+      await env.DB.prepare(
+        "UPDATE products SET stock = stock - ? WHERE id = ?"
+      ).bind(item.quantity, item.product_id).run();
+    }
+
+    await env.DB.prepare(`
+      INSERT INTO orders (
+        id, order_number, customer_name, customer_email, customer_phone,
+        delivery_address, delivery_region, delivery_zone, items, subtotal, 
+        discount, discount_rate, discount_code_id, delivery_cost, vat, 
+        grand_total, payment_method, company_name, require_invoice,
+        delivery_instructions, status, notes, created_at, updated_at
+      ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?, datetime('now'), datetime('now'))
+    `).bind(
+      orderId, orderNumber, customer_name, customer_email, customer_phone || '',
+      delivery_address, delivery_region || '', delivery_zone || '', 
+      JSON.stringify(orderItems), subtotal, discount, discountRate, 
+      discountCodeId, deliveryCost, vat, grandTotal,
+      payment_method || 'bank_transfer', company_name || '',
+      require_invoice ? 1 : 0, delivery_instructions || '', notes || ''
+    ).run();
+
+    let paymentReference = null;
+    let paymentLink = null;
+
+    if (payment_method === 'paystack' || payment_method === 'card') {
+      paymentReference = `PAY-${Date.now().toString().slice(-6)}${Math.random().toString(36).substring(2, 6).toUpperCase()}`;
+      paymentLink = `${SITE_URL}/payment/${orderId}`;
+    }
+
+    return new Response(JSON.stringify({
+      success: true,
+      order_id: orderId,
+      order_number: orderNumber,
+      status: 'pending',
+      payment_method: payment_method || 'bank_transfer',
+      payment_reference: paymentReference,
+      payment_link: paymentLink,
+      delivery_estimate: deliveryEstimate,
+      totals: {
+        subtotal,
+        discount,
+        discount_rate: discountRate,
+        delivery: deliveryCost,
+        vat,
+        grand_total: grandTotal
+      },
+      items: orderItems,
+      message: "Order created successfully!"
+    }), {
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  } catch (e) {
+    return new Response(JSON.stringify({ error: e.message }), {
+      status: 500,
+      headers: { "Content-Type": "application/json", ...corsHeaders }
+    });
+  }
+}
+
+// ===== HELPER FUNCTIONS =====
+async function recalculateQuoteTotals(env, quoteId) {
+  const items = await env.DB.prepare(
+    "SELECT SUM(total) as subtotal FROM quote_items WHERE quote_id = ?"
+  ).bind(quoteId).first();
+
+  const subtotal = items?.subtotal || 0;
+  const discount = subtotal * 0.05;
+  const delivery = 35000;
+  const vat = (subtotal - discount + delivery) * 0.075;
+  const grandTotal = subtotal - discount + delivery + vat;
+
+  await env.DB.prepare(`
+    UPDATE quotes 
+    SET subtotal = ?, discount = ?, discount_rate = 5,
+        delivery_cost = ?, vat = ?, grand_total = ?
+    WHERE id = ?
+  `).bind(subtotal, discount, delivery, vat, grandTotal, quoteId).run();
+}

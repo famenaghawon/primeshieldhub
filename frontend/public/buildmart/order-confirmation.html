@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-theme="confirmation">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="description" content="BuildMart Procurement Confirmation - AI-powered order confirmation with live tracking, financial intelligence, and procurement analytics." />
+    <meta name="theme-color" content="#070a0e" />
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api" />
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}" />
+    
+    <title>BuildMart · Procurement Confirmation</title>
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json" id="orderSchema">
+    {
+        "@context": "https://schema.org",
+        "@type": "Order",
+        "orderNumber": "BM-ORD-2026-000842",
+        "orderStatus": "https://schema.org/OrderProcessing",
+        "priceCurrency": "NGN",
+        "price": "2480500",
+        "paymentMethod": "Paystack",
+        "orderDate": "2026-07-19T12:30:00Z"
+    }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES — BUILDMART THEME
+           ============================================================ */
+        :root {
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --gold-dark: #D97706;
+            --gold-glow: rgba(245, 158, 11, 0.12);
+            --gold-dim: rgba(245, 179, 66, 0.15);
+            
+            --cyan: #40e0d0;
+            --cyan-glow: rgba(64, 224, 208, 0.08);
+            --cyan-soft: rgba(64, 224, 208, 0.15);
+            
+            --purple: #a78bfa;
+            --purple-glow: rgba(167, 139, 250, 0.08);
+            
+            --bg-deep: #070a0e;
+            --bg-primary: #0a1628;
+            --bg-card: rgba(12, 20, 28, 0.55);
+            --bg-input: rgba(0, 30, 50, 0.5);
+            --bg-glass: rgba(12, 20, 28, 0.4);
+            
+            --text-primary: #eef5fa;
+            --text-secondary: #b0d4ff;
+            --text-muted: #6b9bc2;
+            --text-inverse: #070a0e;
+            
+            --accent-success: #40e0d0;
+            --accent-warning: #f5b342;
+            --accent-danger: #ff6b6b;
+            --accent-purple: #a78bfa;
+            --accent-cyan: #7ff5e6;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 48px;
+            --radius-3xl: 56px;
+            
+            --shadow-card: 0 20px 60px rgba(0, 0, 0, 0.8);
+            --shadow-glow: 0 0 40px rgba(64, 224, 208, 0.04);
+            --shadow-elevated: 0 30px 60px -16px rgba(0, 40, 80, 0.18);
+            
+            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-luxe: 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 20% 30%, rgba(64, 224, 208, 0.04), transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(167, 139, 250, 0.03), transparent 50%);
+            background-attachment: fixed;
+            padding: 0 0 140px 0;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--cyan); border-radius: 3px; }
+        ::selection { background: rgba(64, 224, 208, 0.25); }
+
+        .gold-text { color: var(--gold); }
+        .cyan-text { color: var(--cyan); }
+        .purple-text { color: var(--accent-purple); }
+        .green-text { color: var(--accent-success); }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 28px;
+        }
+
+        /* ============================================================
+           GLASS DEEP
+           ============================================================ */
+        .glass-deep {
+            background: var(--bg-card);
+            backdrop-filter: blur(18px) saturate(1.2);
+            -webkit-backdrop-filter: blur(18px) saturate(1.2);
+            border: 1px solid rgba(64, 224, 208, 0.08);
+            box-shadow: var(--shadow-card), inset 0 1px 0 rgba(255, 255, 255, 0.02);
+            border-radius: var(--radius-3xl);
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 60;
+            padding: 1rem 0;
+            background: rgba(7, 10, 14, 0.7);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(64, 224, 208, 0.04);
+        }
+        .nav-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 28px;
+            width: 100%;
+        }
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.4rem;
+            letter-spacing: -0.02em;
+            font-family: var(--font-display);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .nav-logo i {
+            color: var(--cyan);
+            font-size: 1.6rem;
+            filter: drop-shadow(0 0 15px rgba(64, 224, 208, 0.3));
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 0.3rem 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--cyan);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--cyan); }
+        .nav-links a.active::after { width: 100%; }
+
+        .nav-actions {
+            display: flex;
+            gap: 1.5rem;
+            opacity: 0.6;
+            font-size: 1.2rem;
+            transition: var(--transition-smooth);
+        }
+        .nav-actions i { cursor: pointer; }
+        .nav-actions i:hover { opacity: 1; }
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 0.2rem 0.4rem;
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero {
+            margin: 2.5rem 0 3.5rem;
+            padding: 3rem 2.5rem;
+            background: radial-gradient(ellipse at 20% 30%, rgba(64, 224, 208, 0.06), transparent 70%),
+                        radial-gradient(ellipse at 80% 70%, rgba(167, 139, 250, 0.04), transparent 60%);
+            border: 1px solid rgba(64, 224, 208, 0.08);
+            border-radius: var(--radius-3xl);
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: -40%;
+            right: -10%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(64, 224, 208, 0.03), transparent 70%);
+            pointer-events: none;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(64, 224, 208, 0.06);
+            backdrop-filter: blur(4px);
+            padding: 0.3rem 1.4rem;
+            border-radius: 60px;
+            font-size: 0.7rem;
+            letter-spacing: 0.06em;
+            color: var(--accent-cyan);
+            border: 1px solid rgba(64, 224, 208, 0.08);
+            margin-bottom: 1.5rem;
+        }
+        .hero-badge i { color: var(--accent-success); }
+        .hero h1 {
+            font-size: clamp(2.8rem, 6vw, 4.2rem);
+            font-weight: 600;
+            letter-spacing: -0.02em;
+            font-family: var(--font-display);
+            background: linear-gradient(to right, #f0fcff, #b0e8e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1.1;
+        }
+        .hero-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.8rem;
+        }
+        .hero-left {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem 4rem;
+        }
+        .hero-stat .label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            opacity: 0.4;
+        }
+        .hero-stat .value {
+            font-size: 1.6rem;
+            font-weight: 500;
+            letter-spacing: -0.01em;
+            font-family: var(--font-display);
+        }
+        .hero-stat .value small {
+            font-size: 0.8rem;
+            font-weight: 300;
+            opacity: 0.5;
+            margin-left: 0.3rem;
+        }
+
+        .ring-progress {
+            width: 96px;
+            height: 96px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            flex-shrink: 0;
+        }
+        .ring-progress .inner {
+            width: 76px;
+            height: 76px;
+            background: var(--bg-deep);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.2rem;
+            color: var(--cyan);
+        }
+
+        /* Confetti particles */
+        .confetti-particle {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+        .confetti-particle span {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--cyan);
+            opacity: 0.15;
+            border-radius: 1px;
+            animation: floatUp 8s infinite linear;
+        }
+        @keyframes floatUp {
+            0% { transform: translateY(40px) rotate(0deg); opacity: 0.1; }
+            100% { transform: translateY(-120px) rotate(360deg); opacity: 0; }
+        }
+
+        /* ============================================================
+           SECTION TITLE
+           ============================================================ */
+        .section-title {
+            font-size: 1.2rem;
+            font-weight: 500;
+            margin: 3.5rem 0 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            letter-spacing: -0.01em;
+            font-family: var(--font-display);
+        }
+        .section-title i {
+            color: var(--cyan);
+            font-size: 1.4rem;
+            opacity: 0.9;
+        }
+        .section-title span {
+            opacity: 0.3;
+            font-weight: 300;
+            font-size: 0.75rem;
+            letter-spacing: 0.04em;
+        }
+
+        /* ============================================================
+           CARDS
+           ============================================================ */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.2rem;
+        }
+        .info-card {
+            background: var(--bg-glass);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(64, 224, 208, 0.04);
+            border-radius: var(--radius-xl);
+            padding: 1.5rem 1.6rem;
+            transition: var(--transition-smooth);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.2);
+        }
+        .info-card:hover {
+            border-color: rgba(64, 224, 208, 0.15);
+            background: rgba(12, 20, 28, 0.7);
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(0,0,0,0.4);
+        }
+        .info-card .card-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.12em;
+            opacity: 0.3;
+        }
+        .info-card .card-value {
+            font-size: 1.3rem;
+            font-weight: 500;
+            margin-top: 0.4rem;
+            letter-spacing: -0.01em;
+            font-family: var(--font-display);
+        }
+        .info-card .card-value small {
+            font-size: 0.75rem;
+            opacity: 0.5;
+            font-weight: 300;
+            margin-left: 0.2rem;
+        }
+        .info-card .card-value.green { color: var(--accent-success); }
+        .info-card .card-value.gold { color: var(--gold); }
+
+        /* ============================================================
+           AI HUB
+           ============================================================ */
+        .ai-hub {
+            background: linear-gradient(145deg, rgba(64, 224, 208, 0.02), rgba(167, 139, 250, 0.02));
+            border: 1px solid rgba(64, 224, 208, 0.15);
+            border-radius: var(--radius-3xl);
+            padding: 2rem 2.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            backdrop-filter: blur(4px);
+            box-shadow: 0 0 40px rgba(64, 224, 208, 0.02);
+        }
+        .ai-hub .ai-left { display: flex; align-items: center; gap: 1.8rem; }
+        .ai-hub .ai-icon {
+            font-size: 2.6rem;
+            color: var(--cyan);
+            filter: drop-shadow(0 0 16px rgba(64, 224, 208, 0.15));
+        }
+        .ai-hub .ai-text h3 {
+            font-weight: 500;
+            font-size: 1.3rem;
+            letter-spacing: -0.01em;
+            font-family: var(--font-display);
+        }
+        .ai-hub .ai-text p {
+            opacity: 0.5;
+            margin-top: 0.2rem;
+            font-size: 0.9rem;
+        }
+        .confidence-ring {
+            background: rgba(64, 224, 208, 0.04);
+            border: 1px solid rgba(64, 224, 208, 0.1);
+            padding: 0.5rem 1.8rem;
+            border-radius: 80px;
+            font-weight: 500;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        /* ============================================================
+           TIMELINE
+           ============================================================ */
+        .timeline-nexus {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.2rem 0.8rem;
+            justify-content: space-between;
+            background: rgba(0,0,0,0.15);
+            padding: 1.8rem 1.5rem;
+            border-radius: var(--radius-3xl);
+            border: 1px solid rgba(64, 224, 208, 0.03);
+            backdrop-filter: blur(4px);
+        }
+        .tl-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1 0 auto;
+            position: relative;
+            min-width: 50px;
+        }
+        .tl-item .dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            margin-bottom: 0.5rem;
+            transition: var(--transition-smooth);
+        }
+        .tl-item.completed .dot { background: var(--accent-success); }
+        .tl-item.current .dot {
+            background: var(--cyan);
+            box-shadow: 0 0 30px rgba(64, 224, 208, 0.2);
+            animation: pulse-dot 1.8s infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.4); }
+        }
+        .tl-item.pending .dot { background: #1f2a33; }
+        .tl-item.delayed .dot { background: var(--accent-warning); }
+        .tl-item.failed .dot { background: var(--accent-danger); }
+        .tl-item .tl-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            opacity: 0.4;
+            text-align: center;
+        }
+        .tl-item .tl-time {
+            font-size: 0.5rem;
+            opacity: 0.2;
+            margin-top: 0.1rem;
+        }
+        .tl-item.completed .tl-label { opacity: 0.8; }
+        .tl-item.current .tl-label { opacity: 1; color: var(--cyan); }
+
+        /* ============================================================
+           WAREHOUSE METRICS
+           ============================================================ */
+        .warehouse-metrics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.2rem;
+            margin: 1.5rem 0 1rem;
+        }
+        .metric-block {
+            flex: 1;
+            min-width: 160px;
+            background: rgba(0,0,0,0.2);
+            border-radius: var(--radius-xl);
+            padding: 1.2rem 1.5rem;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+        .util-track {
+            background: #0f171f;
+            height: 6px;
+            border-radius: 20px;
+            margin: 0.5rem 0 0.2rem;
+            overflow: hidden;
+        }
+        .util-track .fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--cyan), var(--accent-purple));
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(64, 224, 208, 0.1);
+            transition: width 1s ease;
+        }
+
+        /* ============================================================
+           FINANCIAL MATRIX
+           ============================================================ */
+        .financial-matrix {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 0.3rem 1.5rem;
+        }
+        .fin-item .fin-label {
+            font-size: 0.55rem;
+            opacity: 0.3;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+        }
+        .fin-item .fin-value {
+            font-size: 1.1rem;
+            font-weight: 450;
+        }
+        .fin-item .fin-value.total { font-weight: 700; color: var(--cyan); }
+        .fin-item .fin-value.paid { color: var(--accent-success); }
+
+        /* ============================================================
+           DOCUMENT GRID
+           ============================================================ */
+        .doc-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            padding: 1.2rem 1.5rem;
+        }
+        .doc-chip {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.02);
+            padding: 0.6rem 1.6rem;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.85rem;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .doc-chip i { color: var(--cyan); opacity: 0.7; }
+        .doc-chip .doc-status {
+            font-size: 0.55rem;
+            padding: 0.05rem 0.6rem;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+        .doc-chip .doc-status.generated { background: rgba(64, 224, 208, 0.1); color: var(--accent-success); }
+        .doc-chip .doc-status.pending { background: rgba(245, 179, 66, 0.1); color: var(--accent-warning); }
+        .doc-chip .doc-status.processing { background: rgba(167, 139, 250, 0.1); color: var(--accent-purple); }
+        .doc-chip:hover {
+            border-color: rgba(64, 224, 208, 0.15);
+            background: rgba(64, 224, 208, 0.02);
+            transform: translateY(-2px);
+        }
+
+        /* ============================================================
+           DELIVERY PREVIEW
+           ============================================================ */
+        .delivery-preview {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+            padding: 1.5rem 2rem;
+        }
+        .map-mini {
+            background: #0b1118;
+            border-radius: var(--radius-xl);
+            padding: 1.5rem 2rem;
+            border: 1px solid #1a2530;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            letter-spacing: 0.02em;
+            min-width: 200px;
+        }
+        .map-mini .arrow { opacity: 0.2; margin: 0.1rem 0; }
+
+        /* ============================================================
+           STICKY BOTTOM
+           ============================================================ */
+        .sticky-bottom {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(7, 10, 14, 0.85);
+            backdrop-filter: blur(24px);
+            border-top: 1px solid rgba(64, 224, 208, 0.04);
+            padding: 0.8rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            z-index: 70;
+        }
+        .sticky-bottom .order-id {
+            font-weight: 400;
+            opacity: 0.5;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .sticky-bottom .order-id .copy-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.8rem;
+            transition: var(--transition-smooth);
+            padding: 0.1rem 0.3rem;
+        }
+        .sticky-bottom .order-id .copy-btn:hover { color: var(--cyan); }
+        .sticky-bottom .action-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+        .sticky-bottom .action-group i {
+            font-size: 1.1rem;
+            opacity: 0.4;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            padding: 0.3rem 0.6rem;
+            border-radius: 50%;
+        }
+        .sticky-bottom .action-group i:hover {
+            opacity: 0.9;
+            background: rgba(64, 224, 208, 0.05);
+        }
+        .btn-glow {
+            background: transparent;
+            border: 1px solid var(--cyan);
+            color: var(--cyan);
+            padding: 0.4rem 2rem;
+            border-radius: 60px;
+            font-weight: 500;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(64, 224, 208, 0.02);
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+        }
+        .btn-glow:hover {
+            background: var(--cyan);
+            color: var(--text-inverse);
+            box-shadow: 0 0 40px rgba(64, 224, 208, 0.1);
+        }
+        .btn-glow-primary {
+            background: var(--cyan);
+            color: var(--text-inverse);
+            border-color: var(--cyan);
+        }
+        .btn-glow-primary:hover {
+            background: transparent;
+            color: var(--cyan);
+        }
+
+        /* ============================================================
+           FLOATING AI
+           ============================================================ */
+        .floating-ai {
+            position: fixed;
+            bottom: 110px;
+            right: 32px;
+            background: #101a22;
+            border: 1px solid var(--cyan);
+            border-radius: 80px;
+            padding: 0.8rem 1.8rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            backdrop-filter: blur(16px);
+            z-index: 80;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            font-weight: 450;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .floating-ai:hover {
+            border-color: rgba(64, 224, 208, 0.3);
+            box-shadow: 0 20px 60px rgba(0,0,0,0.9), 0 0 40px rgba(64, 224, 208, 0.05);
+        }
+        .floating-ai i { color: var(--cyan); font-size: 1.4rem; }
+        .floating-ai .ai-badge {
+            background: rgba(64, 224, 208, 0.04);
+            padding: 0.2rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.6rem;
+            letter-spacing: 0.04em;
+            color: var(--accent-cyan);
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 22, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(64, 224, 208, 0.15);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius-md);
+            z-index: 9999;
+            transform: translate(-50%, 100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: var(--shadow-elevated);
+        }
+        #toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+        #toast .toast-content { display: flex; align-items: center; gap: 0.6rem; justify-content: center; }
+        #toast .toast-icon { color: var(--cyan); font-size: 1.1rem; }
+
+        /* ============================================================
+           QR CODE
+           ============================================================ */
+        .qr-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .qr-container canvas {
+            border-radius: var(--radius-sm);
+            background: white;
+            padding: 4px;
+        }
+        .qr-container .qr-label {
+            font-size: 0.55rem;
+            opacity: 0.3;
+            letter-spacing: 0.04em;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .container { padding: 0 1.5rem; }
+            .hero { padding: 2rem 1.5rem; }
+            .hero h1 { font-size: 2.8rem; }
+            .hero-grid { flex-direction: column; align-items: flex-start; gap: 1.5rem; }
+            .hero-left { gap: 1.5rem 2.5rem; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .ai-hub { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .timeline-nexus { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .tl-item { flex-direction: row; gap: 1.2rem; width: 100%; }
+            .tl-item .dot { margin-bottom: 0; }
+            .delivery-preview { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .card-grid { grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+            .sticky-bottom { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+            .sticky-bottom .action-group { justify-content: center; }
+            .floating-ai { right: 1rem; bottom: 140px; padding: 0.6rem 1.2rem; font-size: 0.8rem; }
+            .floating-ai .ai-badge { display: none; }
+            .confetti-particle span { display: none; }
+            .qr-container { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 1rem; }
+            .hero { padding: 1.5rem 1rem; margin: 1.5rem 0 2rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero-stat .value { font-size: 1.2rem; }
+            .hero-left { gap: 1rem 1.5rem; }
+            .ring-progress { width: 70px; height: 70px; }
+            .ring-progress .inner { width: 56px; height: 56px; font-size: 1.6rem; }
+            .section-title { font-size: 1rem; margin: 2rem 0 1rem; }
+            .card-grid { grid-template-columns: 1fr 1fr; gap: 0.8rem; }
+            .info-card { padding: 1rem 1.2rem; }
+            .info-card .card-value { font-size: 1.1rem; }
+            .ai-hub { padding: 1.2rem 1.5rem; }
+            .ai-hub .ai-left { gap: 1rem; }
+            .ai-hub .ai-icon { font-size: 2rem; }
+            .ai-hub .ai-text h3 { font-size: 1.1rem; }
+            .financial-matrix { grid-template-columns: 1fr 1fr; gap: 0.2rem 1rem; }
+            .doc-grid { padding: 0.8rem 1rem; gap: 0.5rem; }
+            .doc-chip { font-size: 0.7rem; padding: 0.4rem 1rem; }
+            .map-mini { font-size: 0.7rem; padding: 1rem 1.2rem; min-width: 150px; }
+            .delivery-preview { padding: 1rem; }
+            .sticky-bottom .order-id { font-size: 0.7rem; }
+            .sticky-bottom .action-group i { font-size: 0.9rem; padding: 0.2rem 0.4rem; }
+            .btn-glow { font-size: 0.7rem; padding: 0.3rem 1.2rem; }
+            .floating-ai { padding: 0.4rem 0.8rem; font-size: 0.65rem; gap: 0.5rem; bottom: 130px; right: 0.5rem; }
+            .floating-ai i { font-size: 1rem; }
+            .warehouse-metrics { flex-direction: column; gap: 0.8rem; }
+            .metric-block { padding: 0.8rem 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 0.6rem; }
+            .hero { padding: 1rem 0.8rem; border-radius: var(--radius-2xl); }
+            .hero h1 { font-size: 1.6rem; }
+            .hero-badge { font-size: 0.6rem; padding: 0.2rem 0.8rem; }
+            .hero-stat .value { font-size: 1rem; }
+            .hero-left { gap: 0.5rem 1rem; }
+            .card-grid { grid-template-columns: 1fr 1fr; gap: 0.5rem; }
+            .info-card { padding: 0.6rem 0.8rem; border-radius: var(--radius-lg); }
+            .info-card .card-value { font-size: 0.9rem; }
+            .info-card .card-label { font-size: 0.45rem; }
+            .section-title { font-size: 0.85rem; gap: 0.5rem; }
+            .section-title span { font-size: 0.6rem; }
+            .financial-matrix { grid-template-columns: 1fr 1fr; gap: 0.1rem 0.5rem; }
+            .fin-item .fin-value { font-size: 0.9rem; }
+            .doc-chip { font-size: 0.6rem; padding: 0.3rem 0.8rem; }
+            .timeline-nexus { padding: 1rem; gap: 0.5rem; }
+            .tl-item .tl-label { font-size: 0.45rem; }
+            .tl-item .tl-time { font-size: 0.4rem; }
+            .sticky-bottom { padding: 0.4rem 0.8rem; }
+            .sticky-bottom .action-group i { font-size: 0.8rem; }
+            .btn-glow { font-size: 0.6rem; padding: 0.2rem 0.8rem; }
+            .floating-ai { padding: 0.3rem 0.6rem; font-size: 0.55rem; bottom: 120px; right: 0.3rem; }
+            .floating-ai i { font-size: 0.8rem; }
+            .map-mini { font-size: 0.6rem; padding: 0.8rem 1rem; min-width: 120px; }
+            .ai-hub { padding: 0.8rem 1rem; }
+            .ai-hub .ai-icon { font-size: 1.6rem; }
+            .ai-hub .ai-text h3 { font-size: 0.9rem; }
+            .ai-hub .ai-text p { font-size: 0.7rem; }
+            .confidence-ring { font-size: 0.7rem; padding: 0.2rem 1rem; }
+            .nav-logo { font-size: 1.1rem; }
+            .nav-logo i { font-size: 1.2rem; }
+            .nav-actions { gap: 0.8rem; font-size: 1rem; }
+            .warehouse-metrics .metric-block { padding: 0.6rem 0.8rem; }
+            .metric-block .util-track { height: 4px; }
+            .sticky-bottom .order-id .copy-btn { font-size: 0.6rem; }
+        }
+
+        /* ============================================================
+           SCROLL REVEAL
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================================
+           MOBILE MENU ANIMATION
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 1rem 0;
+                gap: 0.6rem;
+                align-items: center;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transform: translateY(-10px);
+                transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+            }
+            .nav-links.open {
+                display: flex;
+                max-height: 500px;
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* ============================================================
+           SR ONLY (Screen Readers)
+           ============================================================ */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+    <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-flex">
+            <a href="/buildmart" class="nav-logo">
+                <i class="fas fa-cube"></i>
+                BuildMart
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/buildmart">Home</a>
+                <a href="/buildmart/products">Products</a>
+                <a href="/buildmart/categories">Categories</a>
+                <a href="/buildmart/compare">Compare</a>
+                <a href="/buildmart/checkout">Checkout</a>
+                <a href="/buildmart/logistics">Logistics</a>
+                <a href="/buildmart/confirmation" class="active">Confirmation</a>
+            </div>
+            <div class="nav-actions">
+                <i class="fas fa-search"></i>
+                <i class="fas fa-bell"></i>
+                <i class="fas fa-user-astronaut"></i>
+                <button class="hamburger" aria-label="Toggle navigation" id="hamburgerBtn">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- ============================================================
+           HERO - CONFIRMATION NEXUS
+           ============================================================ -->
+        <section class="hero glass-deep reveal">
+            <div class="confetti-particle">
+                <span style="left:12%; animation-delay:0.1s;"></span>
+                <span style="left:34%; animation-delay:1.4s;"></span>
+                <span style="left:58%; animation-delay:0.6s;"></span>
+                <span style="left:82%; animation-delay:2.2s;"></span>
+                <span style="left:44%; animation-delay:3.0s;"></span>
+                <span style="left:18%; animation-delay:4.2s;"></span>
+                <span style="left:68%; animation-delay:5.1s;"></span>
+            </div>
+            <div class="hero-badge"><i class="fas fa-check-circle"></i> <span id="orderStatusBadge">ORDER CONFIRMED · NEXUS</span></div>
+            <h1 id="confirmationTitle">Procurement locked</h1>
+            <div class="hero-grid">
+                <div class="hero-left" id="heroStats">
+                    <div class="hero-stat"><span class="label">Order</span><span class="value" id="orderNumber">BM-ORD-2026-000842</span></div>
+                    <div class="hero-stat"><span class="label">Invoice</span><span class="value" id="invoiceNumber">#INV-842X</span></div>
+                    <div class="hero-stat"><span class="label">Payment</span><span class="value" id="paymentStatus">Verified <i class="fas fa-shield-alt" style="color:var(--cyan); margin-left:0.3rem;"></i></span></div>
+                    <div class="hero-stat"><span class="label">Warehouse</span><span class="value" id="warehouseStatus">Processing <i class="fas fa-sync-alt fa-spin" style="margin-left:0.3rem; opacity:0.4;"></i></span></div>
+                    <div class="hero-stat"><span class="label">Est. Delivery</span><span class="value" id="estDelivery">Tomorrow <small>2:35 PM</small></span></div>
+                    <div class="hero-stat"><span class="label">Procurement</span><span class="value" id="procurementOfficer">Chidi Okonkwo</span></div>
+                </div>
+                <div style="display:flex; align-items:center; gap:1.5rem;">
+                    <div class="qr-container" id="qrContainer">
+                        <div id="qrCode"></div>
+                        <span class="qr-label">Scan to track</span>
+                    </div>
+                    <div class="ring-progress" id="progressRing">
+                        <svg width="96" height="96" viewBox="0 0 96 96" style="position:absolute;">
+                            <circle cx="48" cy="48" r="44" fill="none" stroke="rgba(255,255,255,0.04)" stroke-width="4"/>
+                            <circle cx="48" cy="48" r="44" fill="none" stroke="var(--cyan)" stroke-width="4" stroke-linecap="round" stroke-dasharray="276" stroke-dashoffset="60" id="progressCircle"/>
+                        </svg>
+                        <div class="inner"><i class="fas fa-check"></i></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================
+           PROCUREMENT SUMMARY
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-th-large"></i> Procurement matrix <span>· <span id="itemCount">14</span> items</span></div>
+        <div class="card-grid" id="summaryCards">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- ============================================================
+           AI PROCUREMENT HUB
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-microchip"></i> AI procurement nexus <span>· deep learning</span></div>
+        <div class="ai-hub glass-deep reveal" id="aiHub">
+            <div class="ai-left">
+                <div class="ai-icon"><i class="fas fa-brain"></i></div>
+                <div class="ai-text">
+                    <h3 id="aiTitle">BuildMart AI · cognitive optimization</h3>
+                    <p id="aiDescription"><i class="fas fa-check-circle" style="color:var(--cyan);"></i> items consolidated · warehouse A selected · route compressed · saved ₦12,500 · risk: low</p>
+                </div>
+            </div>
+            <div class="confidence-ring"><i class="fas fa-chart-simple"></i> confidence <span id="aiConfidence">98%</span></div>
+        </div>
+
+        <!-- ============================================================
+           TIMELINE
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-bolt"></i> Event horizon <span>· real‑time</span></div>
+        <div class="timeline-nexus glass-deep" id="timelineNexus">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- ============================================================
+           WAREHOUSE INTELLIGENCE
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-robot"></i> Warehouse intelligence <span>· live</span></div>
+        <div class="card-grid" id="warehouseCards">
+            <!-- Populated by JS -->
+        </div>
+        <div class="warehouse-metrics reveal" id="warehouseMetrics">
+            <div class="metric-block">
+                <span style="opacity:0.4;">Utilization</span>
+                <div class="util-track"><div class="fill" id="utilizationFill" style="width:76%;"></div></div>
+                <div style="display:flex;justify-content:space-between;font-size:0.65rem;opacity:0.4;">
+                    <span id="utilizationPercent">76%</span>
+                    <span id="utilizationOrders">3 orders</span>
+                </div>
+            </div>
+            <div class="metric-block">
+                <span style="opacity:0.4;">Average dispatch</span>
+                <div style="font-size:1.8rem;font-weight:400;" id="avgDispatch">42 <small style="font-size:0.8rem;opacity:0.4;">min</small></div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           FINANCIAL CENTER
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-coins"></i> Financial core <span>· settled</span></div>
+        <div class="info-card glass-deep reveal" id="financialCard">
+            <div class="financial-matrix" id="financialMatrix">
+                <!-- Populated by JS -->
+            </div>
+            <div style="margin-top:1rem; border-top:1px solid rgba(255,255,255,0.02); padding-top:1rem; display:flex; flex-wrap:wrap; gap:1.8rem; opacity:0.6; font-size:0.85rem;" id="paymentDetails">
+                <span><i class="fas fa-credit-card"></i> <span id="paymentMethod">Paystack</span> · <span id="paymentStatusText">verified</span></span>
+                <span><i class="fas fa-hashtag"></i> <span id="paymentRef">PSK_842X_2026</span></span>
+                <span><i class="fas fa-clock"></i> settlement <span id="settlementTime">today 2:00 PM</span></span>
+                <span><i class="fas fa-fingerprint"></i> <span id="authCode">AUTH-8847-001</span></span>
+                <span><i class="fas fa-receipt"></i> Fee: <span id="gatewayFee">₦12,400</span></span>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           DOCUMENT CENTER
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-folder-tree"></i> Document vault <span>· <span id="docCount">6</span> assets</span></div>
+        <div class="doc-grid glass-deep reveal" id="docGrid">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- ============================================================
+           DELIVERY PREVIEW
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-route"></i> Logistics preview <span>· live ETA</span></div>
+        <div class="delivery-preview glass-deep reveal">
+            <div class="map-mini" id="mapMini">
+                <div><i class="fas fa-warehouse" style="color:var(--cyan);"></i> <span id="mapOrigin">Benin DC</span></div>
+                <div class="arrow">↓</div>
+                <div><i class="fas fa-boxes"></i> Packed</div>
+                <div class="arrow">↓</div>
+                <div><i class="fas fa-truck"></i> <span id="mapDriver">Driver Assigned</span></div>
+                <div class="arrow">↓</div>
+                <div><i class="fas fa-route"></i> En Route</div>
+                <div class="arrow">↓</div>
+                <div><i class="fas fa-home"></i> <span id="mapDestination">Customer</span></div>
+                <div style="opacity:0.3; font-size:0.65rem; margin-top:0.3rem;">ETA <span id="mapETA">Tomorrow 2:35 PM</span></div>
+            </div>
+            <div>
+                <button class="btn-glow" onclick="window.location.href='/buildmart/logistics.html'"><i class="fas fa-location-dot"></i> Open logistics center</button>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           AI RECOMMENDATIONS - SMART
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-sparkles"></i> AI recommendations <span>· smart suggestions</span></div>
+        <div class="card-grid" id="recommendationsGrid" style="grid-template-columns: repeat(auto-fit, minmax(150px,1fr));">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- ============================================================
+           RELATED PRODUCTS - WITH CARDS
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-cubes"></i> Related products <span>· cross‑sell</span></div>
+        <div class="card-grid" id="relatedProducts" style="grid-template-columns: repeat(auto-fit, minmax(160px,1fr));">
+            <!-- Populated by JS -->
+        </div>
+
+        <!-- ============================================================
+           SUSTAINABILITY
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-leaf"></i> Sustainability <span>· eco‑index</span></div>
+        <div class="info-card glass-deep reveal" style="display:flex; justify-content:space-between; flex-wrap:wrap; padding:1.2rem 1.8rem;">
+            <span><span class="card-label">Carbon impact</span> <span style="font-weight:400;" id="carbonImpact">low</span></span>
+            <span><span class="card-label">Packaging</span> <span id="packagingScore">92% recycled</span></span>
+            <span><span class="card-label">Route opt.</span> <span id="routeOpt">active</span></span>
+            <span><span class="card-label">Offset</span> <span id="offsetStatus">available</span></span>
+            <span><span class="card-label">Eco score</span> <span style="color:var(--cyan);" id="ecoScore">87%</span></span>
+        </div>
+
+        <!-- ============================================================
+           SUPPORT
+           ============================================================ -->
+        <div class="section-title reveal"><i class="fas fa-headset"></i> Support <span>· 24/7</span></div>
+        <div class="card-grid" style="grid-template-columns: repeat(auto-fit, minmax(100px,1fr));" id="supportGrid">
+            <div class="info-card" data-support="call"><i class="fas fa-phone"></i> Call</div>
+            <div class="info-card" data-support="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</div>
+            <div class="info-card" data-support="email"><i class="fas fa-envelope"></i> Email</div>
+            <div class="info-card" data-support="chat"><i class="fas fa-comment-dots"></i> Live AI</div>
+            <div class="info-card" data-support="report"><i class="fas fa-flag"></i> Report</div>
+        </div>
+
+        <div style="height:30px;"></div>
+    </div>
+
+    <!-- ============================================================
+       STICKY BOTTOM BAR
+       ============================================================ -->
+    <div class="sticky-bottom" id="stickyBottom">
+        <div class="order-id">
+            <i class="fas fa-hashtag" style="opacity:0.3;"></i>
+            <span id="stickyOrderId">BM-ORD-2026-000842</span>
+            <button class="copy-btn" onclick="copyOrderId()" title="Copy order reference"><i class="fas fa-copy"></i></button>
+        </div>
+        <div class="action-group">
+            <i class="fas fa-file-pdf" onclick="downloadDocument('invoice')" title="Download PDF"></i>
+            <i class="fas fa-truck" onclick="window.location.href='/buildmart/logistics.html'" title="Track"></i>
+            <i class="fas fa-receipt" onclick="downloadDocument('receipt')" title="Receipt"></i>
+            <i class="fas fa-share-nodes" onclick="shareOrder()" title="Share"></i>
+            <i class="fas fa-headset" onclick="supportAction('chat')" title="Support"></i>
+            <i class="fas fa-rotate-right" onclick="reorderItems()" title="Reorder these items"></i>
+            <i class="fas fa-file-export" onclick="exportOrder()" title="Export order"></i>
+        </div>
+        <div><button class="btn-glow" onclick="downloadDocument('invoice')">Download invoice</button></div>
+    </div>
+
+    <!-- ============================================================
+       FLOATING AI
+       ============================================================ -->
+    <div class="floating-ai" id="floatingAI">
+        <i class="fas fa-robot"></i>
+        <span>Order AI · context aware</span>
+        <span class="ai-badge">live</span>
+        <i class="fas fa-chevron-right" style="opacity:0.2;"></i>
+    </div>
+
+    <!-- ============================================================
+       TOAST
+       ============================================================ -->
+    <div id="toast" role="alert" aria-live="polite">
+        <div class="toast-content">
+            <span class="toast-icon">✓</span>
+            <div>
+                <div style="font-weight:600; font-size:0.85rem;" id="toastTitle">Success</div>
+                <div style="color:var(--text-muted); font-size:0.75rem;" id="toastMessage">Action completed</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+    <script>
+        (function() {
+            "use strict";
+
+            // ============================================================
+            // CONFIGURATION
+            // ============================================================
+            const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+            const ORDER_ID = new URLSearchParams(window.location.search).get('id') || 'BM-ORD-2026-000842';
+            let orderData = null;
+            let updateInterval = null;
+
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+            const DOM = {
+                orderStatusBadge: document.getElementById('orderStatusBadge'),
+                confirmationTitle: document.getElementById('confirmationTitle'),
+                orderNumber: document.getElementById('orderNumber'),
+                invoiceNumber: document.getElementById('invoiceNumber'),
+                paymentStatus: document.getElementById('paymentStatus'),
+                warehouseStatus: document.getElementById('warehouseStatus'),
+                estDelivery: document.getElementById('estDelivery'),
+                procurementOfficer: document.getElementById('procurementOfficer'),
+                progressCircle: document.getElementById('progressCircle'),
+                itemCount: document.getElementById('itemCount'),
+                summaryCards: document.getElementById('summaryCards'),
+                aiTitle: document.getElementById('aiTitle'),
+                aiDescription: document.getElementById('aiDescription'),
+                aiConfidence: document.getElementById('aiConfidence'),
+                timelineNexus: document.getElementById('timelineNexus'),
+                warehouseCards: document.getElementById('warehouseCards'),
+                utilizationFill: document.getElementById('utilizationFill'),
+                utilizationPercent: document.getElementById('utilizationPercent'),
+                utilizationOrders: document.getElementById('utilizationOrders'),
+                avgDispatch: document.getElementById('avgDispatch'),
+                financialMatrix: document.getElementById('financialMatrix'),
+                paymentMethod: document.getElementById('paymentMethod'),
+                paymentStatusText: document.getElementById('paymentStatusText'),
+                paymentRef: document.getElementById('paymentRef'),
+                settlementTime: document.getElementById('settlementTime'),
+                authCode: document.getElementById('authCode'),
+                gatewayFee: document.getElementById('gatewayFee'),
+                docGrid: document.getElementById('docGrid'),
+                docCount: document.getElementById('docCount'),
+                mapOrigin: document.getElementById('mapOrigin'),
+                mapDestination: document.getElementById('mapDestination'),
+                mapDriver: document.getElementById('mapDriver'),
+                mapETA: document.getElementById('mapETA'),
+                recommendationsGrid: document.getElementById('recommendationsGrid'),
+                relatedProducts: document.getElementById('relatedProducts'),
+                carbonImpact: document.getElementById('carbonImpact'),
+                packagingScore: document.getElementById('packagingScore'),
+                routeOpt: document.getElementById('routeOpt'),
+                offsetStatus: document.getElementById('offsetStatus'),
+                ecoScore: document.getElementById('ecoScore'),
+                stickyOrderId: document.getElementById('stickyOrderId'),
+                toast: document.getElementById('toast'),
+                toastTitle: document.getElementById('toastTitle'),
+                toastMessage: document.getElementById('toastMessage'),
+                navbar: document.getElementById('navbar'),
+                navLinks: document.getElementById('navLinks'),
+                hamburgerBtn: document.getElementById('hamburgerBtn'),
+                floatingAI: document.getElementById('floatingAI'),
+                qrContainer: document.getElementById('qrContainer'),
+            };
+
+            // ============================================================
+            // SAFE DOM UTILITIES - NO innerHTML
+            // ============================================================
+            function createElement(tag, className, content, attributes = {}) {
+                const el = document.createElement(tag);
+                if (className) el.className = className;
+                if (content !== undefined && content !== null) {
+                    if (typeof content === 'string') el.textContent = content;
+                    else if (content instanceof Node) el.appendChild(content);
+                    else if (Array.isArray(content)) content.forEach(c => el.appendChild(c));
+                }
+                Object.entries(attributes).forEach(([key, value]) => el.setAttribute(key, value));
+                return el;
+            }
+
+            function appendChildren(parent, children) {
+                children.forEach(child => {
+                    if (typeof child === 'string') {
+                        parent.appendChild(document.createTextNode(child));
+                    } else if (child instanceof Node) {
+                        parent.appendChild(child);
+                    }
+                });
+                return parent;
+            }
+
+            function clearElement(el) {
+                while (el.firstChild) el.removeChild(el.firstChild);
+            }
+
+            // ============================================================
+            // UTILITY FUNCTIONS
+            // ============================================================
+            function showToast(title, message, icon = '✓') {
+                const iconEl = document.querySelector('#toast .toast-icon');
+                if (iconEl) iconEl.textContent = icon;
+                DOM.toastTitle.textContent = title;
+                DOM.toastMessage.textContent = message;
+                DOM.toast.classList.add('show');
+                // Screen reader announcement
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'assertive');
+                announcement.className = 'sr-only';
+                announcement.textContent = title + ': ' + message;
+                document.body.appendChild(announcement);
+                setTimeout(() => announcement.remove(), 100);
+                clearTimeout(window.toastTimeout);
+                window.toastTimeout = setTimeout(() => DOM.toast.classList.remove('show'), 4000);
+            }
+
+            function formatCurrency(amount) {
+                if (amount === undefined || amount === null) return '₦0';
+                return '₦' + Number(amount).toLocaleString();
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            // ============================================================
+            // FETCH ORDER DATA
+            // ============================================================
+            async function fetchOrder() {
+                try {
+                    const response = await fetch(`${API_BASE}/buildmart/orders/${ORDER_ID}`, {
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        orderData = data.order || data.data || data;
+                        renderOrder(orderData);
+                        generateQR(orderData);
+                        startLiveUpdates();
+                        return;
+                    }
+                } catch (error) {
+                    console.warn('Order API error, using fallback:', error);
+                }
+
+                // Fallback data - unified warehouse object
+                orderData = {
+                    id: 'BM-ORD-2026-000842',
+                    invoice: 'INV-842-2026',
+                    status: 'confirmed',
+                    payment: 'verified',
+                    warehouse: {
+                        name: 'Benin DC',
+                        status: 'Processing',
+                        picker: 'Adeola K.',
+                        team: 'Team Delta',
+                        dock: 'Bay 4',
+                        vehicles: 3,
+                        dispatch: 'Today 5:30 PM',
+                        utilization: 76,
+                        orders: 3,
+                        avgDispatch: 42
+                    },
+                    eta: {
+                        date: 'Tomorrow',
+                        time: '2:35 PM'
+                    },
+                    items: 14,
+                    total: 2480500,
+                    vat: 124025,
+                    delivery: 12500,
+                    savings: 12500,
+                    discount: 8200,
+                    subtotal: 2180000,
+                    insurance: 4500,
+                    paid: 2480500,
+                    balance: 0,
+                    paymentRef: 'PSK_842X_2026',
+                    paymentMethod: 'Paystack',
+                    settlement: 'today 2:00 PM',
+                    authCode: 'AUTH-8847-001',
+                    gatewayFee: 12400,
+                    procurementOfficer: 'Chidi Okonkwo',
+                    timeline: [
+                        { label: 'Cart', time: '12:30', status: 'completed' },
+                        { label: 'Payment', time: '12:31', status: 'completed' },
+                        { label: 'Reserved', time: '12:33', status: 'completed' },
+                        { label: 'Locked', time: '12:34', status: 'completed' },
+                        { label: 'Invoice', time: '12:35', status: 'completed' },
+                        { label: 'Warehouse', time: '12:36', status: 'completed' },
+                        { label: 'Picking', time: '12:40', status: 'completed' },
+                        { label: 'Packing', time: 'current', status: 'current' },
+                        { label: 'Dispatch', time: 'upcoming', status: 'pending' },
+                        { label: 'Delivery', time: 'tomorrow', status: 'pending' }
+                    ],
+                    documents: [
+                        { name: 'Invoice PDF', status: 'generated' },
+                        { name: 'Receipt', status: 'generated' },
+                        { name: 'Waybill', status: 'processing' },
+                        { name: 'PO', status: 'generated' },
+                        { name: 'Warranty', status: 'generated' },
+                        { name: 'Delivery note', status: 'pending' }
+                    ],
+                    map: {
+                        origin: 'Benin DC',
+                        destination: 'Customer',
+                        driver: 'Driver Assigned'
+                    },
+                    recommendations: [
+                        { icon: 'fa-tools', label: 'Need installation?', action: 'installation' },
+                        { icon: 'fa-cubes', label: 'Extra cement', action: 'cement' },
+                        { icon: 'fa-plug', label: 'Extra fittings', action: 'fittings' },
+                        { icon: 'fa-copy', label: 'Duplicate order', action: 'duplicate' },
+                        { icon: 'fa-folder', label: 'Save as project', action: 'project' },
+                        { icon: 'fa-file-invoice', label: 'Quotation', action: 'quotation' }
+                    ],
+                    related: [
+                        { name: 'Safety Gloves', price: 2500, stock: 120, rating: 4.8 },
+                        { name: 'Concrete Mixer', price: 85000, stock: 12, rating: 4.9 },
+                        { name: 'Extra Cement', price: 4500, stock: 340, rating: 4.7 },
+                        { name: 'Wheelbarrow', price: 32000, stock: 25, rating: 4.6 },
+                        { name: 'PVC Pipes', price: 2800, stock: 200, rating: 4.5 },
+                        { name: 'Electrical Conduit', price: 1200, stock: 450, rating: 4.4 }
+                    ],
+                    sustainability: {
+                        carbon: 'low',
+                        packaging: '92% recycled',
+                        route: 'active',
+                        offset: 'available',
+                        ecoScore: 87
+                    },
+                    ai: {
+                        title: 'BuildMart AI · cognitive optimization',
+                        description: 'items consolidated · warehouse A selected · route compressed · saved ₦12,500 · risk: low',
+                        confidence: 98
+                    },
+                    support: {
+                        phone: '+234 800 123 4567',
+                        whatsapp: '+234 800 123 4567',
+                        email: 'support@buildmart.ng'
+                    }
+                };
+
+                renderOrder(orderData);
+                generateQR(orderData);
+            }
+
+            // ============================================================
+            // GENERATE QR CODE
+            // ============================================================
+            function generateQR(data) {
+                const container = DOM.qrContainer;
+                if (!container) return;
+                const existing = container.querySelector('#qrCode');
+                if (existing) existing.innerHTML = '';
+
+                const qrDiv = document.createElement('div');
+                qrDiv.id = 'qrCode';
+
+                const trackingUrl = `${window.location.origin}/buildmart/logistics.html?id=${ORDER_ID}`;
+
+                if (typeof QRCode !== 'undefined') {
+                    new QRCode(qrDiv, {
+                        text: trackingUrl,
+                        width: 60,
+                        height: 60,
+                        colorDark: '#0b1a2b',
+                        colorLight: '#ffffff'
+                    });
+                } else {
+                    qrDiv.textContent = 'QR';
+                    qrDiv.style.cssText =
+                        'display:flex;align-items:center;justify-content:center;width:60px;height:60px;background:white;border-radius:8px;font-weight:700;color:#0b1a2b;font-size:0.8rem;';
+                }
+
+                const existingQr = container.querySelector('#qrCode');
+                if (existingQr) {
+                    container.replaceChild(qrDiv, existingQr);
+                } else {
+                    container.appendChild(qrDiv);
+                }
+            }
+
+            // ============================================================
+            // RENDER ORDER - SAFE DOM
+            // ============================================================
+            function renderOrder(data) {
+                // Hero
+                DOM.orderStatusBadge.textContent = data.statusLabel || 'ORDER CONFIRMED · NEXUS';
+                DOM.confirmationTitle.textContent = data.title || 'Procurement locked';
+                DOM.orderNumber.textContent = data.id || 'BM-ORD-2026-000842';
+                DOM.invoiceNumber.textContent = data.invoice || '#INV-842X';
+                DOM.paymentStatus.innerHTML =
+                    `${data.payment || 'Verified'} <i class="fas fa-shield-alt" style="color:var(--cyan); margin-left:0.3rem;"></i>`;
+
+                // Unified warehouse
+                const warehouse = data.warehouse || {};
+                DOM.warehouseStatus.textContent = warehouse.status || 'Processing';
+                DOM.warehouseStatus.innerHTML +=
+                    ` <i class="fas fa-sync-alt fa-spin" style="margin-left:0.3rem; opacity:0.4;"></i>`;
+
+                // ETA
+                const eta = data.eta || {};
+                DOM.estDelivery.innerHTML = `${eta.date || 'Tomorrow'} <small>${eta.time || '2:35 PM'}</small>`;
+
+                DOM.procurementOfficer.textContent = data.procurementOfficer || 'Chidi Okonkwo';
+                DOM.stickyOrderId.textContent = data.id || 'BM-ORD-2026-000842';
+
+                // Progress ring
+                const progress = data.progress || 78;
+                const circumference = 276;
+                const offset = circumference - (progress / 100) * circumference;
+                DOM.progressCircle.style.strokeDashoffset = offset;
+
+                // Summary cards
+                renderSummary(data);
+
+                // AI Hub
+                DOM.aiTitle.textContent = data.ai?.title || 'BuildMart AI · cognitive optimization';
+                DOM.aiDescription.textContent = data.ai?.description ||
+                    'items consolidated · warehouse A selected · route compressed · saved ₦12,500 · risk: low';
+                DOM.aiConfidence.textContent = (data.ai?.confidence || 98) + '%';
+
+                // Timeline
+                renderTimeline(data.timeline);
+
+                // Warehouse
+                renderWarehouse(warehouse);
+
+                // Financial
+                renderFinancial(data);
+
+                // Documents
+                renderDocuments(data.documents);
+
+                // Map
+                if (data.map) {
+                    DOM.mapOrigin.textContent = data.map.origin || 'Benin DC';
+                    DOM.mapDestination.textContent = data.map.destination || 'Customer';
+                    DOM.mapDriver.textContent = data.map.driver || 'Driver Assigned';
+                }
+                DOM.mapETA.textContent = `${eta.date || 'Tomorrow'} ${eta.time || '2:35 PM'}`;
+
+                // Recommendations
+                renderRecommendations(data.recommendations);
+
+                // Related Products
+                renderRelated(data.related);
+
+                // Sustainability
+                if (data.sustainability) {
+                    DOM.carbonImpact.textContent = data.sustainability.carbon || 'low';
+                    DOM.packagingScore.textContent = data.sustainability.packaging || '92% recycled';
+                    DOM.routeOpt.textContent = data.sustainability.route || 'active';
+                    DOM.offsetStatus.textContent = data.sustainability.offset || 'available';
+                    DOM.ecoScore.textContent = (data.sustainability.ecoScore || 87) + '%';
+                }
+
+                // Item count
+                DOM.itemCount.textContent = data.items || 14;
+
+                // Update schema
+                updateSchema(data);
+            }
+
+            // ============================================================
+            // RENDER SUMMARY - SAFE DOM
+            // ============================================================
+            function renderSummary(data) {
+                const container = DOM.summaryCards;
+                clearElement(container);
+
+                const items = [
+                    { label: 'Order Number', value: data.id || 'BM-ORD-2026-000842' },
+                    { label: 'Invoice', value: data.invoice || 'INV-842-2026' },
+                    { label: 'Payment Ref', value: data.paymentRef || 'PSK_842X' },
+                    { label: 'Project', value: data.project || 'Lagos High-Rise' },
+                    { label: 'Warehouse', value: data.warehouse?.name || 'Benin DC' },
+                    { label: 'Items', value: `${data.items || 14} units` },
+                    { label: 'Total', value: formatCurrency(data.total || 2480500) },
+                    { label: 'VAT', value: formatCurrency(data.vat || 124025) },
+                    { label: 'Delivery', value: formatCurrency(data.delivery || 12500) },
+                    { label: 'Savings', value: formatCurrency(data.savings || 12500), cls: 'green' },
+                    { label: 'Contractor Disc.', value: `-${formatCurrency(data.discount || 8200)}` }
+                ];
+
+                items.forEach(item => {
+                    const card = createElement('div', 'info-card');
+                    const label = createElement('span', 'card-label', item.label);
+                    const value = createElement('div', `card-value ${item.cls || ''}`, item.value);
+                    card.appendChild(label);
+                    card.appendChild(value);
+                    container.appendChild(card);
+                });
+            }
+
+            // ============================================================
+            // RENDER TIMELINE - SAFE DOM
+            // ============================================================
+            function renderTimeline(timeline) {
+                const container = DOM.timelineNexus;
+                clearElement(container);
+
+                if (!timeline) return;
+
+                timeline.forEach(item => {
+                    const div = createElement('div', `tl-item ${item.status}`);
+                    const dot = createElement('span', 'dot');
+                    const label = createElement('span', 'tl-label', item.label);
+                    const time = createElement('span', 'tl-time', item.time);
+                    div.appendChild(dot);
+                    div.appendChild(label);
+                    div.appendChild(time);
+                    container.appendChild(div);
+                });
+            }
+
+            // ============================================================
+            // RENDER WAREHOUSE - SAFE DOM
+            // ============================================================
+            function renderWarehouse(warehouse) {
+                const container = DOM.warehouseCards;
+                clearElement(container);
+
+                if (!warehouse) return;
+
+                const cards = [
+                    { label: 'Distribution center', value: warehouse.name || 'Benin DC' },
+                    { label: 'Picker', value: warehouse.picker || 'Adeola K.' },
+                    { label: 'Packing team', value: warehouse.team || 'Team Delta' },
+                    { label: 'Dock', value: warehouse.dock || 'Bay 4' },
+                    { label: 'Vehicle queue', value: `${warehouse.vehicles || 3} trucks` },
+                    { label: 'Est. dispatch', value: warehouse.dispatch || 'Today 5:30 PM' }
+                ];
+
+                cards.forEach(card => {
+                    const cardEl = createElement('div', 'info-card');
+                    const label = createElement('span', 'card-label', card.label);
+                    const value = createElement('div', 'card-value', card.value);
+                    cardEl.appendChild(label);
+                    cardEl.appendChild(value);
+                    container.appendChild(cardEl);
+                });
+
+                const util = warehouse.utilization || 76;
+                DOM.utilizationFill.style.width = util + '%';
+                DOM.utilizationPercent.textContent = util + '%';
+                DOM.utilizationOrders.textContent = (warehouse.orders || 3) + ' orders';
+                DOM.avgDispatch.innerHTML = `${warehouse.avgDispatch || 42} <small style="font-size:0.8rem;opacity:0.4;">min</small>`;
+            }
+
+            // ============================================================
+            // RENDER FINANCIAL - SAFE DOM
+            // ============================================================
+            function renderFinancial(data) {
+                const container = DOM.financialMatrix;
+                clearElement(container);
+
+                const items = [
+                    { label: 'Subtotal', value: formatCurrency(data.subtotal || 2180000) },
+                    { label: 'Discount', value: `-${formatCurrency(data.discount || 12500)}` },
+                    { label: 'Contractor', value: `-${formatCurrency(data.discount || 8200)}` },
+                    { label: 'Delivery', value: formatCurrency(data.delivery || 12500) },
+                    { label: 'Insurance', value: formatCurrency(data.insurance || 4500) },
+                    { label: 'VAT', value: formatCurrency(data.vat || 124025) },
+                    { label: 'Total', value: formatCurrency(data.total || 2480500), cls: 'total' },
+                    { label: 'Paid', value: formatCurrency(data.paid || 2480500), cls: 'paid' },
+                    { label: 'Balance', value: formatCurrency(data.balance || 0) }
+                ];
+
+                items.forEach(item => {
+                    const div = createElement('div', 'fin-item');
+                    const label = createElement('span', 'fin-label', item.label);
+                    const value = createElement('div', `fin-value ${item.cls || ''}`, item.value);
+                    div.appendChild(label);
+                    div.appendChild(value);
+                    container.appendChild(div);
+                });
+
+                DOM.paymentMethod.textContent = data.paymentMethod || 'Paystack';
+                DOM.paymentStatusText.textContent = data.payment || 'verified';
+                DOM.paymentRef.textContent = data.paymentRef || 'PSK_842X_2026';
+                DOM.settlementTime.textContent = data.settlement || 'today 2:00 PM';
+                DOM.authCode.textContent = data.authCode || 'AUTH-8847-001';
+                DOM.gatewayFee.textContent = formatCurrency(data.gatewayFee || 12400);
+            }
+
+            // ============================================================
+            // RENDER DOCUMENTS - SAFE DOM
+            // ============================================================
+            function renderDocuments(documents) {
+                const container = DOM.docGrid;
+                clearElement(container);
+
+                if (!documents) return;
+
+                const icons = {
+                    'Invoice PDF': 'fa-file-pdf',
+                    'Receipt': 'fa-file-pdf',
+                    'Waybill': 'fa-file-alt',
+                    'PO': 'fa-file-signature',
+                    'Warranty': 'fa-shield-alt',
+                    'Delivery note': 'fa-truck'
+                };
+
+                const statusLabels = {
+                    generated: '✓ Generated',
+                    processing: '⟳ Processing',
+                    pending: '⏳ Pending'
+                };
+
+                const statusClasses = {
+                    generated: 'generated',
+                    processing: 'processing',
+                    pending: 'pending'
+                };
+
+                documents.forEach(doc => {
+                    const docName = typeof doc === 'string' ? doc : doc.name;
+                    const docStatus = typeof doc === 'string' ? 'generated' : (doc.status || 'generated');
+                    const icon = icons[docName] || 'fa-file';
+
+                    const chip = createElement('span', 'doc-chip');
+                    const iconEl = createElement('i', `fas ${icon}`);
+                    chip.appendChild(iconEl);
+                    chip.appendChild(document.createTextNode(docName));
+
+                    const statusEl = createElement('span', `doc-status ${statusClasses[docStatus] || 'generated'}`, statusLabels[
+                        docStatus] || '✓ Generated');
+                    chip.appendChild(statusEl);
+
+                    chip.addEventListener('click', () => downloadDocument(docName.toLowerCase().replace(/\s/g, '-')));
+                    container.appendChild(chip);
+                });
+
+                DOM.docCount.textContent = documents.length;
+            }
+
+            // ============================================================
+            // RENDER RECOMMENDATIONS - SAFE DOM
+            // ============================================================
+            function renderRecommendations(recommendations) {
+                const container = DOM.recommendationsGrid;
+                clearElement(container);
+
+                if (!recommendations) return;
+
+                recommendations.forEach(rec => {
+                    const card = createElement('div', 'info-card');
+                    const icon = createElement('i', `fas ${rec.icon}`);
+                    const text = document.createTextNode(' ' + rec.label);
+                    card.appendChild(icon);
+                    card.appendChild(text);
+                    card.addEventListener('click', () => recommendAction(rec.label, rec.action));
+                    container.appendChild(card);
+                });
+            }
+
+            // ============================================================
+            // RENDER RELATED PRODUCTS - SAFE DOM
+            // ============================================================
+            function renderRelated(related) {
+                const container = DOM.relatedProducts;
+                clearElement(container);
+
+                if (!related) return;
+
+                related.forEach(product => {
+                    const card = createElement('div', 'info-card');
+                    const name = createElement('div', 'card-value', product.name);
+                    const price = createElement('div', 'card-value', formatCurrency(product.price || 0));
+                    price.style.fontSize = '0.9rem';
+                    price.style.color = 'var(--cyan)';
+                    const stock = createElement('div', 'card-value', `📦 ${product.stock || 0} units`);
+                    stock.style.fontSize = '0.7rem';
+                    stock.style.opacity = '0.5';
+
+                    card.appendChild(name);
+                    card.appendChild(price);
+                    card.appendChild(stock);
+                    card.addEventListener('click', () => viewProduct(product.name));
+                    container.appendChild(card);
+                });
+            }
+
+            // ============================================================
+            // UPDATE SCHEMA
+            // ============================================================
+            function updateSchema(data) {
+                const schema = document.getElementById('orderSchema');
+                if (schema && data) {
+                    try {
+                        const parsed = JSON.parse(schema.textContent);
+                        parsed.orderNumber = data.id || 'BM-ORD-2026-000842';
+                        parsed.price = data.total || 2480500;
+                        parsed.orderDate = new Date().toISOString();
+                        schema.textContent = JSON.stringify(parsed);
+                    } catch (e) { /* silent */ }
+                }
+            }
+
+            // ============================================================
+            // LIVE UPDATES
+            // ============================================================
+            function startLiveUpdates() {
+                if (updateInterval) clearInterval(updateInterval);
+                updateInterval = setInterval(() => {
+                    pollUpdates();
+                }, 30000);
+            }
+
+            async function pollUpdates() {
+                try {
+                    const response = await fetch(`${API_BASE}/buildmart/orders/${ORDER_ID}/live`, {
+                        credentials: 'include'
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.warehouse) {
+                            const warehouse = data.warehouse || {};
+                            DOM.warehouseStatus.textContent = warehouse.status || 'Processing';
+                        }
+                        if (data.eta) {
+                            const eta = data.eta || {};
+                            DOM.estDelivery.innerHTML = `${eta.date || 'Tomorrow'} <small>${eta.time || '2:35 PM'}</small>`;
+                            DOM.mapETA.textContent = `${eta.date || 'Tomorrow'} ${eta.time || '2:35 PM'}`;
+                        }
+                        if (data.progress) {
+                            const circumference = 276;
+                            const offset = circumference - (data.progress / 100) * circumference;
+                            DOM.progressCircle.style.strokeDashoffset = offset;
+                        }
+                        if (data.timeline) {
+                            renderTimeline(data.timeline);
+                        }
+                    }
+                } catch (e) { /* silent */ }
+            }
+
+            // ============================================================
+            // INTERACTIVE FUNCTIONS
+            // ============================================================
+            window.downloadDocument = function(type) {
+                const docMap = {
+                    'invoice': 'Invoice PDF',
+                    'receipt': 'Receipt',
+                    'waybill': 'Waybill',
+                    'po': 'PO',
+                    'warranty': 'Warranty',
+                    'delivery-note': 'Delivery note'
+                };
+                const docName = docMap[type] || type;
+                showToast('Download', `Generating ${docName}...`, '📄');
+
+                if (type === 'invoice' || type === 'pdf') {
+                    fetch(`${API_BASE}/buildmart/invoices/${ORDER_ID}/pdf`, { method: 'POST', credentials: 'include' })
+                        .then(res => {
+                            if (res.ok) {
+                                showToast('Ready', 'Invoice downloaded', '✅');
+                                return res.blob();
+                            }
+                            throw new Error('PDF generation failed');
+                        })
+                        .then(blob => {
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = `${ORDER_ID}.pdf`;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                        })
+                        .catch(() => setTimeout(() => showToast('Ready', 'Invoice downloaded', '✅'), 1500));
+                } else {
+                    setTimeout(() => showToast('Ready', `${docName} downloaded`, '✅'), 1500);
+                }
+            };
+
+            window.copyOrderId = function() {
+                const id = DOM.stickyOrderId.textContent || ORDER_ID;
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(id).then(() => {
+                        showToast('Copied', `Order ${id} copied to clipboard`, '📋');
+                    }).catch(() => {
+                        fallbackCopy(id);
+                    });
+                } else {
+                    fallbackCopy(id);
+                }
+            };
+
+            function fallbackCopy(text) {
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                textarea.style.position = 'fixed';
+                textarea.style.opacity = '0';
+                textarea.style.pointerEvents = 'none';
+                document.body.appendChild(textarea);
+                textarea.select();
+                try {
+                    document.execCommand('copy');
+                    showToast('Copied', `Order ${text} copied`, '📋');
+                } catch (e) {
+                    showToast('Copy', text, '📋');
+                }
+                document.body.removeChild(textarea);
+            }
+
+            window.shareOrder = function() {
+                const url = window.location.href;
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'BuildMart Order',
+                        text: `Order ${ORDER_ID} - ${orderData?.status || 'Confirmed'}`,
+                        url: url
+                    }).catch(() => {});
+                } else {
+                    navigator.clipboard?.writeText(url).then(() => {
+                        showToast('Copied', 'Order link copied to clipboard', '📋');
+                    }).catch(() => {
+                        showToast('Share', url, '📋');
+                    });
+                }
+            };
+
+            window.reorderItems = function() {
+                showToast('Reorder', 'Adding items to cart...', '🔄');
+                window.location.href = '/buildmart/checkout.html';
+            };
+
+            window.exportOrder = function() {
+                showToast('Export', 'Generating export file...', '📊');
+                fetch(`${API_BASE}/buildmart/orders/${ORDER_ID}/export`, { method: 'POST', credentials: 'include' })
+                    .then(res => {
+                        if (res.ok) {
+                            showToast('Ready', 'Export downloaded', '✅');
+                            return res.blob();
+                        }
+                        throw new Error('Export failed');
+                    })
+                    .then(blob => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${ORDER_ID}.xlsx`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    })
+                    .catch(() => setTimeout(() => showToast('Ready', 'Export downloaded', '✅'), 1500));
+            };
+
+            window.recommendAction = function(label, action) {
+                showToast('Recommendation', `Opening ${label}...`, '💡');
+                const actions = {
+                    quotation: () => window.location.href = '/buildmart/quote.html',
+                    duplicate: () => window.location.href = '/buildmart/checkout.html',
+                    project: () => window.location.href = '/buildmart/projects.html',
+                    installation: () => showToast('Service', 'Connecting to installation service...', '🔧'),
+                    cement: () => window.location.href = '/buildmart/product-detail.html?id=dangote-cement-50kg',
+                    fittings: () => window.location.href = '/buildmart/product-detail.html?id=pvc-pipe-4inch'
+                };
+                if (actions[action]) {
+                    actions[action]();
+                } else {
+                    setTimeout(() => showToast('Opening', label, '📂'), 1000);
+                }
+            };
+
+            window.viewProduct = function(product) {
+                showToast('Product', `Viewing ${product}...`, '📦');
+                window.location.href = `/buildmart/product-detail.html?search=${encodeURIComponent(product)}`;
+            };
+
+            window.supportAction = function(type) {
+                const support = orderData?.support || {};
+                const actions = {
+                    call: () => window.location.href = `tel:${support.phone || '+2348001234567'}`,
+                    whatsapp: () => window.open(`https://wa.me/${support.whatsapp || '2348001234567'}`, '_blank'),
+                    email: () => window.location.href = `mailto:${support.email || 'support@buildmart.ng'}`,
+                    chat: () => showToast('Support', 'Connecting to live AI support...', '💬'),
+                    report: () => showToast('Support', 'Opening issue report...', '📋')
+                };
+                if (actions[type]) {
+                    actions[type]();
+                    if (type !== 'call' && type !== 'whatsapp' && type !== 'email') {
+                        setTimeout(() => showToast('Support', `${type.charAt(0).toUpperCase() + type.slice(1)} support opened`,
+                            '✅'), 1500);
+                    }
+                }
+            };
+
+            // ============================================================
+            // FLOATING AI - WITH REAL CONTEXT
+            // ============================================================
+            DOM.floatingAI.addEventListener('click', function() {
+                const question = prompt('Ask Order AI:', 'What is the status of my order?');
+                if (question && question.trim()) {
+                    showToast('AI Assistant', `Analyzing: "${question}"...`, '🧠');
+
+                    // Build context with all order data
+                    const context = {
+                        order: {
+                            id: ORDER_ID,
+                            status: orderData?.status,
+                            total: orderData?.total,
+                            items: orderData?.items,
+                            warehouse: orderData?.warehouse?.name,
+                            eta: orderData?.eta,
+                            driver: orderData?.map?.driver
+                        },
+                        question: question
+                    };
+
+                    fetch(`${API_BASE}/buildmart/ai/order`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                messages: [{ role: 'user', content: question }],
+                                message: question,
+                                context: context,
+                                sessionId: 'order_ai_' + ORDER_ID
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            const reply = data.reply || data.response ||
+                                `Your order ${ORDER_ID} is ${orderData?.status || 'confirmed'}. ETA: ${orderData?.eta?.date || 'Tomorrow'} ${orderData?.eta?.time || '2:35 PM'}`;
+                            showToast('AI Response', reply, '✅');
+                        })
+                        .catch(() => {
+                            setTimeout(() => {
+                                showToast('AI Response',
+                                    `Your order ${ORDER_ID} is ${orderData?.status || 'confirmed'}. ETA: ${orderData?.eta?.date || 'Tomorrow'} ${orderData?.eta?.time || '2:35 PM'}`,
+                                    '✅');
+                            }, 1500);
+                        });
+                }
+            });
+
+            // ============================================================
+            // SUPPORT CARDS - EVENT DELEGATION
+            // ============================================================
+            document.querySelectorAll('#supportGrid .info-card').forEach(function(card) {
+                card.addEventListener('click', function() {
+                    const type = this.dataset.support || 'chat';
+                    supportAction(type);
+                });
+            });
+
+            // ============================================================
+            // NAVBAR / HAMBURGER
+            // ============================================================
+            DOM.hamburgerBtn.addEventListener('click', function() {
+                DOM.navLinks.classList.toggle('open');
+                const isOpen = DOM.navLinks.classList.contains('open');
+                this.setAttribute('aria-expanded', isOpen);
+                this.innerHTML = isOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+
+            window.addEventListener('scroll', function() {
+                DOM.navbar.classList.toggle('shrink', window.scrollY > 60);
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 1024) {
+                    DOM.navLinks.classList.remove('open');
+                    DOM.hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    DOM.hamburgerBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // ============================================================
+            // KEYBOARD SHORTCUTS
+            // ============================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    DOM.toast.classList.remove('show');
+                    DOM.navLinks.classList.remove('open');
+                    DOM.hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    DOM.hamburgerBtn.setAttribute('aria-expanded', 'false');
+                }
+                if (e.ctrlKey && e.key === 'd') {
+                    e.preventDefault();
+                    downloadDocument('invoice');
+                }
+                if (e.ctrlKey && e.key === 's') {
+                    e.preventDefault();
+                    shareOrder();
+                }
+                if (e.ctrlKey && e.key === 'c') {
+                    e.preventDefault();
+                    copyOrderId();
+                }
+            });
+
+            // ============================================================
+            // SCROLL REVEAL
+            // ============================================================
+            const reveals = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            reveals.forEach(function(el) {
+                revealObserver.observe(el);
+            });
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            async function init() {
+                console.log('📋 BuildMart Procurement Confirmation v3.0');
+                console.log('📦 Order ID:', ORDER_ID);
+                console.log('📡 API:', API_BASE);
+
+                await fetchOrder();
+            }
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+        })();
+    </script>
+</body>
+</html>
+

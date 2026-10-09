@@ -1,0 +1,1229 @@
+<!DOCTYPE html>
+<html lang="en" data-page="staff-activity">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="theme-color" content="#000308">
+
+  <!-- ===== PWA META TAGS ===== -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Staff Hub">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/staff/manifest.json">
+  <link rel="apple-touch-icon" href="/staff-icons/icon-192x192.png">
+  <link rel="apple-touch-startup-image" href="/staff-icons/icon-512x512.png">
+
+  <!-- ===== STAFF PORTAL META ===== -->
+  <meta name="staff-portal" content="true">
+  <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+  
+  <!-- ===== FAVICONS & ICONS ===== -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/staff-icons/icon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/staff-icons/icon-96x96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/staff-icons/icon-48x48.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="/staff-icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/staff-icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/staff-icons/icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/staff-icons/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/staff-icons/icon-192x192.png">
+  <link rel="manifest" href="/staff/manifest.json">
+  
+  <title>Activity Log | PrimeShieldHub Staff</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://api.primeshieldhub.com">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-deep: #000308;
+      --surface-primary: rgba(6, 10, 22, 0.88);
+      --glass-edge: rgba(0, 247, 255, 0.18);
+      --neon-cyan: #00f7ff;
+      --neon-gold: #ffd966;
+      --accent-success: #33ffaa;
+      --accent-warning: #ffaa33;
+      --accent-danger: #ff3366;
+      --text-primary: #f0f3ff;
+      --text-secondary: #8892a4;
+      --text-muted: #5a6377;
+      --gradient-cyan-purple: linear-gradient(135deg, #00f7ff 0%, #b200ff 100%);
+      --gradient-gold: linear-gradient(135deg, #ffd966 0%, #ffaa33 100%);
+      --radius-xl: 2rem;
+      --radius-md: 1rem;
+      --radius-sm: 0.75rem;
+      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+    }
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 10% 0%, rgba(0,247,255,0.04) 0%, transparent 50%);
+      pointer-events: none; z-index: 0;
+    }
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+    ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
+
+    #app { position: relative; z-index: 10; display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: 260px; min-height: 100vh;
+      background: var(--surface-primary);
+      backdrop-filter: blur(24px);
+      border-right: 1px solid var(--glass-edge);
+      padding: 1.5rem 0;
+      display: flex; flex-direction: column;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .sidebar-brand { padding: 0 1.5rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 1rem; }
+    .sidebar-brand a { font-size: 1.2rem; font-weight: 800; background: var(--gradient-gold); -webkit-background-clip: text; background-clip: text; color: transparent; font-family: 'Orbitron', monospace; text-decoration: none; }
+    .sidebar-brand span { font-size: 0.6rem; color: var(--text-muted); display: block; margin-top: 2px; }
+    .sidebar-user { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); margin-bottom: 0.5rem; }
+    .sidebar-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--gradient-cyan-purple); display: flex; align-items: center; justify-content: center; font-weight: 700; color: white; overflow: hidden; }
+    .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .sidebar-user-info { flex: 1; min-width: 0; }
+    .sidebar-user-name { font-weight: 600; font-size: 0.85rem; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sidebar-user-role { font-size: 0.65rem; color: var(--neon-cyan); text-transform: uppercase; }
+    .sidebar-nav { flex: 1; padding: 0.5rem 0; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: var(--text-secondary); text-decoration: none; font-size: 0.82rem; transition: var(--transition-smooth); border-left: 3px solid transparent; }
+    .sidebar-nav a:hover { color: var(--text-primary); background: rgba(255,255,255,0.03); }
+    .sidebar-nav a.active { color: var(--neon-cyan); background: rgba(0,247,255,0.06); border-left-color: var(--neon-cyan); }
+    .sidebar-nav a i { width: 20px; text-align: center; }
+    .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .sidebar-footer a { display: flex; align-items: center; gap: 0.8rem; color: var(--accent-danger); text-decoration: none; font-size: 0.82rem; cursor: pointer; }
+
+    /* ===== CHAT NAV LINK WITH BADGE ===== */
+    .sidebar-nav a .nav-badge {
+      background: var(--accent-danger);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0.1rem 0.5rem;
+      border-radius: 1rem;
+      margin-left: auto;
+      display: none;
+    }
+    .sidebar-nav a .nav-badge.show {
+      display: inline-block;
+    }
+
+    .main-content { flex: 1; padding: 2rem; max-width: 1000px; }
+    .page-title { font-size: 1.8rem; font-weight: 800; font-family: 'Orbitron', monospace; margin-bottom: 0.3rem; }
+    .page-subtitle { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 2rem; }
+
+    .activity-card {
+      background: var(--surface-primary);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--glass-edge);
+    }
+    .activity-card-header { padding: 1.5rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 1rem; justify-content: space-between; flex-wrap: wrap; }
+    .activity-card-header h3 { font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); }
+    .activity-card-body { padding: 0; }
+
+    .activity-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .activity-table th { text-align: left; padding: 0.7rem 1.5rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.05); background: rgba(0,0,0,0.2); }
+    .activity-table td { padding: 0.8rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .activity-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .activity-table .time { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--text-muted); white-space: nowrap; }
+    .activity-table .action-badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 1rem; font-size: 0.65rem; font-weight: 600; }
+    .action-badge.session { background: rgba(0,247,255,0.15); color: var(--neon-cyan); }
+    .action-badge.payment { background: rgba(51,255,170,0.15); color: var(--accent-success); }
+    .action-badge.profile { background: rgba(255,217,102,0.15); color: var(--neon-gold); }
+    .action-badge.system { background: rgba(178,0,255,0.15); color: #b200ff; }
+
+    .filter-bar { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+    .filter-btn { padding: 0.4rem 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 2rem; color: var(--text-secondary); font-size: 0.75rem; cursor: pointer; transition: var(--transition-smooth); font-family: 'Inter', sans-serif; }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--neon-cyan); color: var(--neon-cyan); background: rgba(0,247,255,0.08); }
+
+    .empty-state { text-align: center; padding: 3rem; color: var(--text-muted); }
+    .empty-state i { font-size: 3rem; opacity: 0.3; margin-bottom: 1rem; display: block; }
+
+    /* ===== CHAT WIDGET PANEL ===== */
+    .panel {
+      background: var(--surface-primary);
+      backdrop-filter: blur(16px);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--glass-edge);
+      margin-top: 1.5rem;
+      overflow: hidden;
+    }
+    .panel-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .panel-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+    }
+    .panel-title .badge {
+      display: none;
+      background: var(--accent-danger);
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+      padding: 0.1rem 0.5rem;
+      border-radius: 1rem;
+    }
+    .panel-title .badge.show {
+      display: inline-block;
+    }
+    .btn {
+      padding: 0.4rem 1rem;
+      border: none;
+      border-radius: 2rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      font-family: 'Inter', sans-serif;
+      background: rgba(255,255,255,0.05);
+      color: var(--text-secondary);
+    }
+    .btn-primary {
+      background: var(--gradient-cyan-purple);
+      color: white;
+    }
+    .btn-primary:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(0,247,255,0.2);
+    }
+    .btn-sm { padding: 0.3rem 0.8rem; font-size: 0.7rem; }
+
+    .chat-preview {
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 0.5rem 1.5rem;
+    }
+    .chat-preview::-webkit-scrollbar { width: 3px; }
+    .chat-preview::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+    .chat-preview::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
+    .chat-preview .empty-state {
+      padding: 1rem;
+    }
+    .chat-preview .empty-state i {
+      font-size: 1.5rem;
+      opacity: 0.3;
+    }
+    .chat-preview .empty-state p {
+      font-size: 0.8rem;
+    }
+    .chat-message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-size: 0.75rem;
+    }
+    .chat-message .sender {
+      font-weight: 600;
+      color: var(--neon-cyan);
+      flex-shrink: 0;
+    }
+    .chat-message .text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text-secondary);
+    }
+    .chat-message .time {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; }
+    .toast { padding: 1rem 1.5rem; background: var(--surface-primary); backdrop-filter: blur(20px); border-radius: var(--radius-md); border: 1px solid var(--glass-edge); display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem; animation: slideIn 0.4s ease; }
+    .toast.success { border-left: 3px solid var(--accent-success); }
+    .toast.error { border-left: 3px solid var(--accent-danger); }
+    @keyframes slideIn { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+
+    /* ===== PWA INSTALL BANNER ===== */
+    .pwa-install-banner {
+      display:none;
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      z-index:9998;
+      background:linear-gradient(135deg,#12122a,#1a2045);
+      border-top:1px solid rgba(214,178,94,0.2);
+      padding:12px 20px;
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      animation:slideUp 0.4s ease;
+    }
+    .pwa-install-banner.show { display:flex; }
+    .pwa-install-banner .pwa-content {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      max-width:800px;
+      margin:0 auto;
+      width:100%;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .pwa-install-banner .pwa-text {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex:1;
+      min-width:200px;
+    }
+    .pwa-install-banner .pwa-icon {
+      font-size:24px;
+      flex-shrink:0;
+    }
+    .pwa-install-banner .pwa-title {
+      font-weight:600;
+      font-size:0.85rem;
+      color:#e8edff;
+    }
+    .pwa-install-banner .pwa-desc {
+      font-size:0.7rem;
+      color:#9aa3d4;
+    }
+    .pwa-install-banner .pwa-actions {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .pwa-install-banner .pwa-btn {
+      padding:8px 18px;
+      border:none;
+      border-radius:10px;
+      font-weight:600;
+      font-size:0.75rem;
+      cursor:pointer;
+      transition:all 0.3s ease;
+      font-family:'Inter',sans-serif;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .pwa-install-banner .pwa-btn-install {
+      background:linear-gradient(135deg,#d6b25e,#f3d27b);
+      color:#000;
+    }
+    .pwa-install-banner .pwa-btn-install:hover {
+      transform:translateY(-1px);
+      box-shadow:0 4px 15px rgba(214,178,94,0.3);
+    }
+    .pwa-install-banner .pwa-btn-dismiss {
+      background:rgba(255,255,255,0.05);
+      color:#9aa3d4;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .pwa-install-banner .pwa-btn-dismiss:hover {
+      background:rgba(255,255,255,0.08);
+    }
+    @keyframes slideUp {
+      from { transform:translateY(100%); opacity:0; }
+      to { transform:translateY(0); opacity:1; }
+    }
+    @-moz-keyframes slideUp {
+      from { transform:translateY(100%); opacity:0; }
+      to { transform:translateY(0); opacity:1; }
+    }
+    @-webkit-keyframes slideUp {
+      from { transform:translateY(100%); opacity:0; }
+      to { transform:translateY(0); opacity:1; }
+    }
+
+    /* Offline Banner */
+    .offline-banner {
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      background:#ff4d6a;
+      color:#fff;
+      text-align:center;
+      padding:10px;
+      z-index:100000;
+      transform:translateY(-100%);
+      transition:transform 0.3s ease;
+      font-family:'Inter',sans-serif;
+      font-size:0.85rem;
+    }
+    .offline-banner.show { transform:translateY(0); }
+
+    @media (max-width: 900px) {
+      #app { flex-direction: column; }
+      .sidebar { width: 100%; min-height: auto; flex-direction: row; flex-wrap: wrap; padding: 0.8rem 1rem; gap: 0.5rem; }
+      .sidebar-brand, .sidebar-user, .sidebar-footer { display: none; }
+      .sidebar-nav { display: flex; flex-wrap: wrap; gap: 0.3rem; padding: 0; flex-direction: row; }
+      .sidebar-nav a { padding: 0.4rem 0.8rem; font-size: 0.72rem; border-left: none; border-radius: 2rem; }
+      .main-content { padding: 1rem; }
+      .activity-table th, .activity-table td { padding: 0.5rem 0.8rem; }
+      .panel-header { flex-direction: column; align-items: stretch; }
+      .chat-message { flex-wrap: wrap; }
+      .pwa-install-banner .pwa-content { flex-direction:column; align-items:stretch; gap:8px; }
+      .pwa-install-banner .pwa-actions { justify-content:stretch; }
+      .pwa-install-banner .pwa-btn { flex:1; text-align:center; }
+    }
+    @media (max-width: 480px) {
+      .pwa-install-banner { padding:10px 14px; }
+      .pwa-install-banner .pwa-title { font-size:0.75rem; }
+      .pwa-install-banner .pwa-desc { font-size:0.65rem; }
+      .filter-bar { gap:0.3rem; }
+      .filter-btn { padding:0.3rem 0.7rem; font-size:0.65rem; }
+      .activity-table { font-size:0.7rem; }
+      .activity-table th, .activity-table td { padding:0.4rem 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== OFFLINE BANNER ===== -->
+  <div class="offline-banner" id="offlineBanner">📡 You are offline. Some features may be unavailable.</div>
+
+  <!-- ===== PWA INSTALL BANNER ===== -->
+  <div class="pwa-install-banner" id="pwaInstallBanner">
+    <div class="pwa-content">
+      <div class="pwa-text">
+        <span class="pwa-icon">📱</span>
+        <div>
+          <div class="pwa-title">Install Staff Hub</div>
+          <div class="pwa-desc">Get faster access to your staff dashboard</div>
+        </div>
+      </div>
+      <div class="pwa-actions">
+        <button class="pwa-btn pwa-btn-install" id="pwaInstallBtn">
+          <i class="fas fa-download"></i> Install
+        </button>
+        <button class="pwa-btn pwa-btn-dismiss" id="pwaDismissBtn">Not now</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="app">
+    <aside class="sidebar">
+      <div class="sidebar-brand"><a href="/staff/">🛸 PrimeShieldHub <span>STAFF PORTAL</span></a></div>
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">S</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebarName">Staff</div>
+          <div class="sidebar-user-role" id="sidebarRole">STAFF</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/staff/dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
+        <a href="/staff/charge"><i class="fas fa-bolt"></i> Charging Station</a>
+        <a href="/staff/profile"><i class="fas fa-user-circle"></i> My Profile</a>
+        <a href="/staff/activity" class="active"><i class="fas fa-history"></i> Activity Log</a>
+        <a href="/staff/settings"><i class="fas fa-cog"></i> Settings</a>
+        <!-- ===== CHAT NAV LINK WITH UNREAD BADGE ===== -->
+        <a href="/staff/chat" id="chatNavLink">
+          <i class="fas fa-comments"></i> Chat
+          <span id="sidebarUnreadBadge" class="nav-badge">0</span>
+        </a>
+        <a href="/"><i class="fas fa-home"></i> Back to Site</a>
+      </nav>
+      <div class="sidebar-footer"><a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a></div>
+    </aside>
+
+    <main class="main-content">
+      <h1 class="page-title">Activity Log</h1>
+      <p class="page-subtitle">Track all your actions and system events</p>
+
+      <div class="activity-card">
+        <div class="activity-card-header">
+          <h3><i class="fas fa-history" style="color:var(--neon-cyan);"></i> Recent Activity <span id="activityCount" style="color:var(--text-muted);font-size:0.7rem;font-weight:400;">(0)</span></h3>
+          <div class="filter-bar">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="session">Sessions</button>
+            <button class="filter-btn" data-filter="payment">Payments</button>
+            <button class="filter-btn" data-filter="profile">Profile</button>
+            <button class="filter-btn" data-filter="system">System</button>
+          </div>
+        </div>
+        <div class="activity-card-body">
+          <div style="overflow-x:auto;">
+            <table class="activity-table">
+              <thead>
+                <tr>
+                  <th>Time</th>
+                  <th>Action</th>
+                  <th>Type</th>
+                  <th>Details</th>
+                </tr>
+              </thead>
+              <tbody id="activityTableBody">
+                <tr><td colspan="4"><div class="empty-state"><i class="fas fa-history"></i><p>Loading activity data...</p></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== CHAT WIDGET ===== -->
+      <div class="panel" id="chatWidget">
+        <div class="panel-header">
+          <div class="panel-title">
+            <i class="fas fa-comments" style="color:var(--neon-cyan);"></i> 
+            Team Chat 
+            <span id="chatUnreadBadge" class="badge">0</span>
+          </div>
+          <button class="btn btn-sm btn-primary" id="openChatBtn">
+            <i class="fas fa-external-link-alt"></i> Open Chat
+          </button>
+        </div>
+        <div class="chat-preview" id="chatPreview">
+          <div class="empty-state">
+            <i class="fas fa-comment"></i>
+            <p>Loading recent messages...</p>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ===== PWA INSTALL SCRIPT ===== -->
+  <script>
+    (function() {
+      'use strict';
+
+      let deferredPrompt = null;
+      const banner = document.getElementById('pwaInstallBanner');
+      const installBtn = document.getElementById('pwaInstallBtn');
+      const dismissBtn = document.getElementById('pwaDismissBtn');
+
+      if (window.navigator.standalone === true || 
+          window.matchMedia('(display-mode: standalone)').matches) {
+          if (banner) banner.style.display = 'none';
+          console.log('📱 Staff Hub already installed (standalone mode)');
+          return;
+      }
+
+      const dismissed = localStorage.getItem('psh_staff_pwa_dismissed') === 'true';
+      const installed = localStorage.getItem('psh_staff_pwa_installed') === 'true';
+      
+      if (dismissed || installed) {
+          if (banner) banner.style.display = 'none';
+          console.log('📱 Staff Hub banner suppressed');
+          return;
+      }
+
+      window.addEventListener('beforeinstallprompt', (e) => {
+          console.log('📱 🔔 beforeinstallprompt event fired!');
+          e.preventDefault();
+          deferredPrompt = e;
+          if (banner && !banner.classList.contains('show')) {
+              console.log('📱 Showing install banner');
+              banner.classList.add('show');
+          }
+      });
+
+      setTimeout(() => {
+          const dismissedNow = localStorage.getItem('psh_staff_pwa_dismissed') === 'true';
+          const installedNow = localStorage.getItem('psh_staff_pwa_installed') === 'true';
+          
+          if (!dismissedNow && !installedNow && banner && !banner.classList.contains('show')) {
+              const isStandalone = window.navigator.standalone === true || 
+                                  window.matchMedia('(display-mode: standalone)').matches;
+              if (!isStandalone) {
+                  console.log('📱 🔔 FALLBACK: Showing install banner');
+                  banner.classList.add('show');
+              }
+          }
+      }, 2000);
+
+      window.addEventListener('appinstalled', () => {
+          console.log('📱 ✅ Staff Hub installed!');
+          if (banner) banner.classList.remove('show');
+          localStorage.setItem('psh_staff_pwa_installed', 'true');
+      });
+
+      if (installBtn) {
+          installBtn.addEventListener('click', async () => {
+              console.log('📱 Install button clicked');
+              if (deferredPrompt) {
+                  deferredPrompt.prompt();
+                  const result = await deferredPrompt.userChoice;
+                  console.log('📱 User choice:', result.outcome);
+                  if (result.outcome === 'accepted') {
+                      if (banner) banner.classList.remove('show');
+                      localStorage.setItem('psh_staff_pwa_installed', 'true');
+                  } else {
+                      if (banner) banner.classList.remove('show');
+                      localStorage.setItem('psh_staff_pwa_dismissed', 'true');
+                  }
+                  deferredPrompt = null;
+              } else {
+                  const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge/.test(navigator.userAgent);
+                  const isEdge = /Edg/.test(navigator.userAgent);
+                  const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+                  
+                  if (isChrome || isEdge) {
+                      alert('📱 To install Staff Hub:\n\n' +
+                            '1. Look for the install icon (⊕) in the address bar\n' +
+                            '2. Click "Install" or "Add to Home Screen"\n' +
+                            '3. Follow the prompts to install');
+                  } else if (isSafari) {
+                      alert('📱 To install Staff Hub on iPhone:\n\n' +
+                            '1. Tap the Share button (⬆️) at the bottom\n' +
+                            '2. Scroll down and tap "Add to Home Screen"\n' +
+                            '3. Tap "Add" in the top right corner');
+                  } else {
+                      alert('📱 To install Staff Hub:\n\n' +
+                            '1. Open your browser menu\n' +
+                            '2. Look for "Install App" or "Add to Home Screen"\n' +
+                            '3. Follow the prompts to install');
+                  }
+              }
+          });
+      }
+
+      if (dismissBtn) {
+          dismissBtn.addEventListener('click', () => {
+              console.log('📱 User dismissed banner');
+              if (banner) banner.classList.remove('show');
+              localStorage.setItem('psh_staff_pwa_dismissed', 'true');
+          });
+      }
+
+      function updateOnlineStatus() {
+          const banner = document.getElementById('offlineBanner');
+          if (!banner) return;
+          if (!navigator.onLine) {
+              banner.classList.add('show');
+              banner.textContent = '📡 You are offline. Some features may be unavailable.';
+          } else {
+              banner.classList.remove('show');
+          }
+      }
+
+      window.addEventListener('online', updateOnlineStatus);
+      window.addEventListener('offline', updateOnlineStatus);
+      updateOnlineStatus();
+
+      console.log('📱 Staff PWA Install handler ready');
+      window.showStaffInstallBanner = function() {
+          if (banner && !banner.classList.contains('show')) {
+              banner.classList.add('show');
+              console.log('📱 Banner shown manually');
+          }
+      };
+    })();
+  </script>
+
+  <!-- ===== STAFF APP - PWA Entry Point ===== -->
+  <script type="module" src="/js/staff-app.js"></script>
+
+  <script type="module">
+    // ================================================================ //
+    // STAFF ACTIVITY LOG - UNIFIED CONFIG & BACKEND SYNC               //
+    // ================================================================ //
+
+    import { CONFIG } from '../js/config.js';
+    import { auth } from '../js/auth.js';
+
+    (function() {
+        'use strict';
+
+        // ===== UNIFIED CONFIG =====
+        const API_BASE = CONFIG.apiBase;
+        const STORAGE_KEYS = CONFIG.STORAGE_KEYS;
+        const TOKEN_KEY = STORAGE_KEYS?.TOKEN || 'psh_auth_token';
+        const USER_KEY = STORAGE_KEYS?.USER || 'psh_user';
+
+        // ===== DOM REFS =====
+        const $ = id => document.getElementById(id);
+        const tbody = $('activityTableBody');
+        const toastContainer = $('toastContainer');
+        const activityCount = $('activityCount');
+
+        // ===== AUTH HELPERS =====
+        function getAuthToken() {
+            try {
+                const token = auth.getToken ? auth.getToken() : null;
+                if (token) return token;
+            } catch(e) {}
+            
+            return localStorage.getItem(TOKEN_KEY) || 
+                   localStorage.getItem('psh_staff_token') || 
+                   localStorage.getItem('psh_auth_token') || 
+                   null;
+        }
+
+        function getUser() {
+            try {
+                const user = auth.getUser ? auth.getUser() : null;
+                if (user) return user;
+            } catch(e) {}
+            
+            try {
+                const stored = localStorage.getItem(USER_KEY);
+                if (stored) return JSON.parse(stored);
+            } catch(e) {}
+            
+            try {
+                const stored = localStorage.getItem('psh_staff_user');
+                if (stored) return JSON.parse(stored);
+            } catch(e) {}
+            
+            return null;
+        }
+
+        function isStaffOrAdmin() {
+            const user = getUser();
+            if (!user) return false;
+            return user.role === 'staff' || user.role === 'admin';
+        }
+
+        // ===== TOAST =====
+        function showToast(message, type = 'info', duration = 4000) {
+            const icons = { 
+                success: 'fa-check-circle', 
+                error: 'fa-exclamation-circle', 
+                warning: 'fa-exclamation-triangle', 
+                info: 'fa-info-circle' 
+            };
+            const colors = { 
+                success: 'var(--accent-success)', 
+                error: 'var(--accent-danger)', 
+                warning: 'var(--accent-warning)', 
+                info: 'var(--neon-cyan)' 
+            };
+            
+            if (!toastContainer) return;
+
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            toast.innerHTML = `
+                <span style="font-size:1.1rem;color:${colors[type]};">
+                    <i class="fas ${icons[type]}"></i>
+                </span>
+                <span>${message}</span>
+                <button style="margin-left:auto;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;padding:0 4px;" onclick="this.parentElement.remove()">&times;</button>
+            `;
+            toastContainer.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transform = 'translateX(100px)';
+                toast.style.transition = 'all 0.3s ease';
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        }
+
+        // ===== API CALL =====
+        async function apiFetch(path, options = {}) {
+            const token = getAuthToken();
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            };
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+            if (csrfToken && options.method && !['GET', 'HEAD'].includes(options.method)) {
+                headers['x-csrf-token'] = csrfToken;
+            }
+
+            const url = path.startsWith('http') ? path : `${API_BASE}${path}`;
+
+            try {
+                const response = await fetch(url, {
+                    ...options,
+                    headers,
+                    credentials: 'include'
+                });
+
+                if (response.status === 401) {
+                    try { if (auth.logout) auth.logout(); } catch(e) {}
+                    localStorage.removeItem(TOKEN_KEY);
+                    localStorage.removeItem(USER_KEY);
+                    window.location.href = '/staff/';
+                    throw new Error('Session expired');
+                }
+
+                const data = await response.json();
+                if (!response.ok) {
+                    throw new Error(data.error || data.message || `HTTP ${response.status}`);
+                }
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // ===== SIDEBAR =====
+        function updateSidebar() {
+            const user = getUser();
+            if (user) {
+                const name = user.name || user.email?.split('@')[0] || 'Staff';
+                const sidebarName = $('sidebarName');
+                const sidebarRole = $('sidebarRole');
+                const sidebarAvatar = $('sidebarAvatar');
+                
+                if (sidebarName) sidebarName.textContent = name;
+                if (sidebarRole) sidebarRole.textContent = (user.role || 'staff').toUpperCase();
+                if (sidebarAvatar) sidebarAvatar.textContent = name.charAt(0).toUpperCase();
+            }
+        }
+
+        // ===== LOGOUT =====
+        function setupLogout() {
+            const logoutBtn = $('logoutBtn');
+            if (logoutBtn) {
+                logoutBtn.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    if (confirm('Logout?')) {
+                        try { if (auth.logout) auth.logout(); } catch(e) {}
+                        localStorage.removeItem(TOKEN_KEY);
+                        localStorage.removeItem(USER_KEY);
+                        localStorage.removeItem('psh_staff_token');
+                        localStorage.removeItem('psh_staff_user');
+                        window.location.href = '/staff/';
+                    }
+                });
+            }
+        }
+
+        // ================================================================ //
+        // TYPE BADGE CLASSES                                                //
+        // ================================================================ //
+
+        const typeBadgeClasses = {
+            'session': 'session',
+            'payment': 'payment',
+            'profile': 'profile',
+            'system': 'system',
+            'login': 'system',
+            'logout': 'system',
+            'registered': 'profile',
+            'clock_in': 'session',
+            'clock_out': 'session',
+            'PASSWORD_RESET_REQUESTED': 'system',
+            'PASSWORD_RESET_COMPLETED': 'system',
+        };
+
+        const typeIcons = {
+            'session': 'fa-plug',
+            'payment': 'fa-credit-card',
+            'profile': 'fa-user-edit',
+            'system': 'fa-cog',
+            'login': 'fa-sign-in-alt',
+            'logout': 'fa-sign-out-alt',
+            'registered': 'fa-user-plus',
+            'clock_in': 'fa-clock',
+            'clock_out': 'fa-clock',
+        };
+
+        function getBadgeClass(type) {
+            return typeBadgeClasses[type] || 'system';
+        }
+
+        function getTypeIcon(type) {
+            return typeIcons[type] || 'fa-circle';
+        }
+
+        // ================================================================ //
+        // FORMAT FUNCTIONS                                                  //
+        // ================================================================ //
+
+        function formatDate(dateStr) {
+            if (!dateStr) return 'N/A';
+            const d = new Date(dateStr);
+            return d.toLocaleString('en-NG', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function timeAgo(dateStr) {
+            if (!dateStr) return '';
+            const now = Date.now();
+            const then = new Date(dateStr).getTime();
+            const diff = Math.floor((now - then) / 1000);
+            if (diff < 60) return 'Just now';
+            if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+            if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+            if (diff < 604800) return `${Math.floor(diff / 86400)}d ago`;
+            return formatDate(dateStr);
+        }
+
+        function formatAction(action, details) {
+            if (!action) return 'Action';
+            
+            const formatted = action
+                .replace(/_/g, ' ')
+                .toLowerCase()
+                .split(' ')
+                .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+                .join(' ');
+            
+            return formatted;
+        }
+
+        // ================================================================ //
+        // LOAD ACTIVITY - REAL API                                        //
+        // ================================================================ //
+
+        let currentFilter = 'all';
+        let allActivities = [];
+
+        async function loadActivity(filter = 'all') {
+            currentFilter = filter;
+            
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="4">
+                        <div class="empty-state">
+                            <i class="fas fa-spinner fa-spin"></i>
+                            <p>Loading activity data...</p>
+                        </div>
+                    </td>
+                </tr>
+            `;
+
+            try {
+                const data = await apiFetch('/staff/activity');
+                
+                if (data && Array.isArray(data)) {
+                    allActivities = data;
+                } else if (data && data.activities && Array.isArray(data.activities)) {
+                    allActivities = data.activities;
+                } else if (data && data.data && Array.isArray(data.data)) {
+                    allActivities = data.data;
+                } else {
+                    allActivities = data || [];
+                }
+
+                renderActivities(filter);
+
+            } catch (error) {
+                console.error('Load activity error:', error);
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4">
+                            <div class="empty-state">
+                                <i class="fas fa-exclamation-circle" style="color:var(--accent-danger);"></i>
+                                <p>Failed to load activity data: ${error.message}</p>
+                                <button class="filter-btn" style="margin-top:1rem;" onclick="window.loadActivity(currentFilter)">
+                                    <i class="fas fa-sync-alt"></i> Retry
+                                </button>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                showToast('Failed to load activity: ' + error.message, 'error');
+            }
+        }
+
+        function renderActivities(filter = 'all') {
+            let filtered = allActivities;
+
+            if (filter !== 'all') {
+                filtered = allActivities.filter(a => {
+                    const type = a.type || a.action_type || a.category || 'system';
+                    return type.toLowerCase() === filter;
+                });
+            }
+
+            if (!filtered || filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="4">
+                            <div class="empty-state">
+                                <i class="fas fa-history"></i>
+                                <p>No activity found${filter !== 'all' ? ` for filter: ${filter}` : ''}</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                if (activityCount) activityCount.textContent = '(0)';
+                return;
+            }
+
+            filtered.sort((a, b) => {
+                const dateA = new Date(a.timestamp || a.created_at || a.date || 0);
+                const dateB = new Date(b.timestamp || b.created_at || b.date || 0);
+                return dateB - dateA;
+            });
+
+            tbody.innerHTML = filtered.map(a => {
+                const timestamp = a.timestamp || a.created_at || a.date || a.time;
+                const type = a.type || a.action_type || a.category || 'system';
+                const action = a.action || a.action_name || a.name || 'Action';
+                const details = a.details || a.description || a.message || '';
+                const badgeClass = getBadgeClass(type);
+                const icon = getTypeIcon(type);
+                const timeDisplay = timestamp ? timeAgo(timestamp) : 'N/A';
+                const fullDate = timestamp ? formatDate(timestamp) : '';
+
+                return `
+                    <tr>
+                        <td class="time" title="${fullDate}">${timeDisplay}</td>
+                        <td>
+                            <i class="fas ${icon}" style="color:var(--neon-cyan);margin-right:6px;font-size:0.75rem;"></i>
+                            <strong>${formatAction(action)}</strong>
+                        </td>
+                        <td>
+                            <span class="action-badge ${badgeClass}">${type.toUpperCase()}</span>
+                        </td>
+                        <td style="color:var(--text-muted);font-size:0.78rem;">${details || '—'}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            if (activityCount) {
+                activityCount.textContent = `(${filtered.length})`;
+            }
+        }
+
+        // ================================================================ //
+        // FILTER BUTTONS                                                    //
+        // ================================================================ //
+
+        function setupFilters() {
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                    btn.classList.add('active');
+                    const filter = btn.dataset.filter;
+                    renderActivities(filter);
+                });
+            });
+        }
+
+        // ================================================================ //
+        // AUTO-REFRESH                                                      //
+        // ================================================================ //
+
+        let refreshInterval = null;
+
+        function startAutoRefresh(interval = 30000) {
+            if (refreshInterval) clearInterval(refreshInterval);
+            refreshInterval = setInterval(() => {
+                const filter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+                loadActivity(filter).catch(() => {});
+            }, interval);
+        }
+
+        // ================================================================ //
+        // KEYBOARD SHORTCUTS                                                //
+        // ================================================================ //
+
+        function setupKeyboardShortcuts() {
+            document.addEventListener('keydown', (e) => {
+                if (e.ctrlKey && e.key === 'r') {
+                    e.preventDefault();
+                    const filter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+                    loadActivity(filter);
+                    showToast('🔄 Refreshed', 'success', 1500);
+                }
+                if (e.key >= '1' && e.key <= '5') {
+                    const filters = ['all', 'session', 'payment', 'profile', 'system'];
+                    const index = parseInt(e.key) - 1;
+                    if (index < filters.length) {
+                        const targetFilter = filters[index];
+                        document.querySelectorAll('.filter-btn').forEach(b => {
+                            b.classList.toggle('active', b.dataset.filter === targetFilter);
+                        });
+                        renderActivities(targetFilter);
+                    }
+                }
+            });
+        }
+
+        // ================================================================ //
+        // CONNECTION STATUS                                                 //
+        // ================================================================ //
+
+        function setupConnectionStatus() {
+            window.addEventListener('online', () => {
+                showToast('🟢 Connection restored', 'success', 2000);
+                const filter = document.querySelector('.filter-btn.active')?.dataset.filter || 'all';
+                loadActivity(filter);
+            });
+            
+            window.addEventListener('offline', () => {
+                showToast('🔴 You are offline. Some features may be unavailable.', 'error', 4000);
+            });
+        }
+
+        // ================================================================ //
+        // ===== CHAT WIDGET =====                                          //
+        // ================================================================ //
+
+        // Load recent chat messages for widget
+        async function loadChatPreview() {
+            const container = document.getElementById('chatPreview');
+            if (!container) return;
+
+            try {
+                const token = getAuthToken();
+                if (!token) {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-lock"></i><p>Login to view chat</p></div>';
+                    return;
+                }
+
+                const response = await fetch(`${API_BASE}/api/chat/messages?roomId=room-general&limit=5`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success && data.messages && data.messages.length > 0) {
+                    const messages = data.messages.slice(0, 5);
+                    container.innerHTML = messages.map(msg => `
+                        <div class="chat-message">
+                            <span class="sender">${msg.sender_name || 'Staff'}:</span>
+                            <span class="text">${msg.message}</span>
+                            <span class="time">${new Date(msg.created_at).toLocaleTimeString()}</span>
+                        </div>
+                    `).join('');
+                } else {
+                    container.innerHTML = '<div class="empty-state"><i class="fas fa-comment"></i><p>No messages yet. Start the conversation!</p></div>';
+                }
+            } catch (error) {
+                console.error('Chat preview error:', error);
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle" style="color:var(--accent-danger);"></i><p>Could not load messages</p></div>';
+            }
+        }
+
+        // Load unread count
+        async function loadUnreadCount() {
+            try {
+                const token = getAuthToken();
+                if (!token) return;
+
+                const response = await fetch(`${API_BASE}/api/chat/unread`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                const data = await response.json();
+                const badge = document.getElementById('chatUnreadBadge');
+                const sidebarBadge = document.getElementById('sidebarUnreadBadge');
+                
+                if (data.success && data.total > 0) {
+                    if (badge) {
+                        badge.textContent = data.total;
+                        badge.classList.add('show');
+                    }
+                    if (sidebarBadge) {
+                        sidebarBadge.textContent = data.total;
+                        sidebarBadge.classList.add('show');
+                    }
+                } else {
+                    if (badge) badge.classList.remove('show');
+                    if (sidebarBadge) sidebarBadge.classList.remove('show');
+                }
+            } catch (error) {
+                console.error('Unread count error:', error);
+            }
+        }
+
+        // Open chat
+        function openChat() {
+            window.location.href = '/staff/chat';
+        }
+
+        // Setup chat event listeners
+        function setupChatWidget() {
+            const openBtn = document.getElementById('openChatBtn');
+            if (openBtn) {
+                openBtn.addEventListener('click', openChat);
+            }
+        }
+
+        // ================================================================ //
+        // EXPOSE FOR ONCLICK                                                //
+        // ================================================================ //
+
+        window.loadActivity = loadActivity;
+        window.currentFilter = currentFilter;
+        window.loadChatPreview = loadChatPreview;
+        window.loadUnreadCount = loadUnreadCount;
+
+        // ================================================================ //
+        // INIT                                                              //
+        // ================================================================ //
+
+        async function init() {
+            console.log('🚀 Staff Activity Log v2.0 — Unified Config & Real API');
+            console.log('📍 API Base:', API_BASE);
+            console.log('💬 Chat widget integrated');
+            
+            const token = getAuthToken();
+            if (!token || !isStaffOrAdmin()) {
+                window.location.href = '/staff/';
+                return;
+            }
+
+            updateSidebar();
+            setupLogout();
+            setupFilters();
+            setupKeyboardShortcuts();
+            setupConnectionStatus();
+            setupChatWidget();
+
+            await loadActivity('all');
+            startAutoRefresh(30000);
+
+            // Load chat data
+            loadChatPreview();
+            loadUnreadCount();
+
+            // Auto-refresh chat every 30 seconds
+            setInterval(() => {
+                loadChatPreview();
+                loadUnreadCount();
+            }, 30000);
+
+            console.log('✅ Staff Activity Log ready');
+            console.log('🔄 Auto-refresh: 30s');
+            console.log('⌨️  Keyboard shortcuts: Ctrl+R to refresh, 1-5 to filter');
+            console.log('💬 Chat widget active');
+        }
+
+        window.addEventListener('beforeunload', () => {
+            if (refreshInterval) {
+                clearInterval(refreshInterval);
+                refreshInterval = null;
+            }
+        });
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+    })();
+  </script>
+</body>
+</html>

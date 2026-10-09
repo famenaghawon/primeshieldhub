@@ -1,0 +1,16 @@
+{
+  "@context": "https://schema.org",
+  "@type": "ImageObject",
+  "@id": "https://primeshieldhub.com/photograph.webp",
+  "contentUrl": "https://primeshieldhub.com/photograph.webp",
+  "name": "Freedom Evbakoe Amenaghawon - Founder and CEO of PrimeShieldHub Gadgets Limited",
+  "description": "Official portrait of Freedom Evbakoe Amenaghawon, Nigerian entrepreneur, Founder and Chief Executive Officer of PrimeShieldHub Gadgets Limited.",
+  "creator": {
+    "@id": "https://primeshieldhub.com/founder#person"
+  },
+  "copyrightHolder": {
+    "@id": "https://primeshieldhub.com/company#organization"
+  },
+  "license": "https://primeshieldhub.com/media-kit",
+  "keywords": "Freedom Evbakoe Amenaghawon, PrimeShieldHub Founder, CEO Portrait, Nigerian Entrepreneur"
+}

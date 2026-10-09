@@ -1,0 +1,1927 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-quantum-version="11.4" data-theme="search-gold">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="BuildMart Enterprise Search - AI-powered procurement search for materials, contractors, knowledge, calculators, and more.">
+    <meta name="theme-color" content="#010205">
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}">
+    
+    <title>BuildMart Â· Enterprise Search</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES - BUILDMART BRAND
+           ============================================================ */
+        :root {
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --gold-dark: #D97706;
+            --gold-glow: rgba(245, 158, 11, 0.12);
+            --gold-border: rgba(245, 158, 11, 0.12);
+            
+            --cyan: #00D4FF;
+            --cyan-dark: #0099CC;
+            --cyan-glow: rgba(0, 212, 255, 0.08);
+            
+            --blue: #3B82F6;
+            --blue-dark: #1D4ED8;
+            
+            --bg-deep: #010205;
+            --bg-primary: #060E1A;
+            --bg-elevated: #0A1A2E;
+            --bg-card: rgba(6, 14, 33, 0.55);
+            --bg-input: rgba(0, 0, 0, 0.4);
+            
+            --text-primary: #EEF4FF;
+            --text-secondary: #99B0D6;
+            --text-muted: #657A9E;
+            --text-inverse: #010205;
+            
+            --accent-success: #10B981;
+            --accent-cyan: #00D4FF;
+            --accent-purple: #8B5CF6;
+            --accent-warning: #F59E0B;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-xs: 6px;
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 48px;
+            --radius-3xl: 64px;
+            
+            --shadow-card: 0 40px 90px rgba(0, 100, 255, 0.06);
+            --shadow-glow: 0 0 40px rgba(0, 180, 255, 0.03);
+            --shadow-elevated: 0 20px 60px rgba(0,0,0,0.4);
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: radial-gradient(ellipse at 30% 10%, #0B142C, var(--bg-deep));
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            min-height: 100vh;
+            padding: 1.8rem;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        /* ============================================================
+           AMBIENT BACKGROUND
+           ============================================================ */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background: 
+                radial-gradient(ellipse 60% 40% at 20% 0%, rgba(245, 158, 11, 0.04) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 35% at 80% 100%, rgba(0, 212, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 30% at 50% 50%, rgba(59, 130, 246, 0.02) 0%, transparent 60%);
+            pointer-events: none; z-index: -2;
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: 
+                radial-gradient(rgba(245, 158, 11, 0.015) 1px, transparent 1px),
+                radial-gradient(rgba(0, 212, 255, 0.01) 1px, transparent 1px);
+            background-size: 35px 35px, 50px 50px;
+            background-position: 0 0, 17px 25px;
+            pointer-events: none; z-index: -1;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 10%, transparent 55%);
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-light); }
+        ::selection { background: rgba(245, 158, 11, 0.25); color: var(--text-primary); }
+
+        /* ============================================================
+           UTILITY CLASSES
+           ============================================================ */
+        .gold-gradient {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .cyan-gradient {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gold-text { color: var(--gold); }
+        .cyan-text { color: var(--cyan); }
+
+        /* ============================================================
+           MAIN CONTAINER
+           ============================================================ */
+        .search-container {
+            max-width: 1440px;
+            width: 100%;
+            background: var(--bg-card);
+            backdrop-filter: blur(36px) saturate(180%);
+            -webkit-backdrop-filter: blur(36px) saturate(180%);
+            border: 1px solid rgba(245, 158, 11, 0.08);
+            box-shadow: var(--shadow-card), 0 0 0 1px rgba(245, 158, 11, 0.03);
+            border-radius: var(--radius-3xl);
+            padding: 2.6rem 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .search-container::before {
+            content: '';
+            position: absolute;
+            top: -40%;
+            left: -20%;
+            width: 100%;
+            height: 80%;
+            background: radial-gradient(circle at 70% 30%, rgba(245, 158, 11, 0.03), transparent 70%);
+            pointer-events: none;
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .nav-header {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+            margin-bottom: 1.6rem;
+            position: relative;
+            z-index: 2;
+            flex-wrap: wrap;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+        }
+        .nav-logo img {
+            height: 40px;
+            width: auto;
+            border-radius: 8px;
+        }
+        .nav-logo .logo-placeholder {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 10px;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 1.1rem;
+            color: var(--text-inverse);
+        }
+        .nav-logo .logo-text {
+            font-weight: 800;
+            font-size: 1.2rem;
+            font-family: var(--font-display);
+            letter-spacing: 0.5px;
+            color: var(--text-primary);
+        }
+        .nav-logo .logo-text em {
+            font-style: normal;
+            color: var(--gold);
+        }
+        .nav-logo .logo-badge {
+            background: var(--gold);
+            color: var(--text-inverse);
+            font-size: 0.5rem;
+            font-weight: 800;
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 0.1rem;
+            margin-left: 1rem;
+            flex-wrap: wrap;
+        }
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.4rem 0.9rem;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+        }
+        .nav-link:hover {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.04);
+        }
+        .nav-link.active {
+            color: var(--gold);
+            background: rgba(245, 158, 11, 0.06);
+        }
+        .nav-actions {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .btn-nav-prime {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.4rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-nav-prime:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        /* ============================================================
+           SEARCH STATS STRIP
+           ============================================================ */
+        .search-stats {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            padding: 0.3rem 0 1rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            margin-bottom: 1rem;
+        }
+        .search-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .search-stats span i {
+            color: var(--gold);
+            font-size: 0.7rem;
+        }
+        .search-stats .stat-highlight {
+            color: var(--text-primary);
+            font-weight: 600;
+        }
+        .search-stats .stat-response {
+            color: var(--cyan);
+            font-family: var(--font-mono);
+        }
+
+        /* ============================================================
+           SEARCH BAR
+           ============================================================ */
+        .search-bar {
+            background: var(--bg-input);
+            backdrop-filter: blur(30px);
+            border: 1px solid rgba(245, 158, 11, 0.2);
+            border-radius: var(--radius-2xl);
+            display: flex;
+            align-items: center;
+            padding: 0.2rem 0.2rem 0.2rem 1.8rem;
+            margin-bottom: 1rem;
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.05);
+            position: relative;
+            z-index: 3;
+            transition: var(--transition-smooth);
+            flex-wrap: wrap;
+        }
+        .search-bar:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 20px 50px rgba(245, 158, 11, 0.1), 0 0 40px var(--gold-glow);
+        }
+        .search-bar input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            font-size: 1.1rem;
+            padding: 1rem 0;
+            color: var(--text-primary);
+            outline: none;
+            font-weight: 350;
+            font-family: var(--font-sans);
+            min-width: 150px;
+        }
+        .search-bar input::placeholder {
+            color: var(--text-muted);
+            font-weight: 300;
+        }
+        .search-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding-right: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .search-actions .action-icon {
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            padding: 0.4rem;
+            border-radius: 50%;
+            color: var(--text-muted);
+        }
+        .search-actions .action-icon:hover {
+            color: var(--gold);
+            background: rgba(245, 158, 11, 0.06);
+        }
+        .btn-search {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            font-weight: 700;
+            padding: 0.6rem 1.8rem;
+            border-radius: var(--radius-2xl);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            font-family: var(--font-sans);
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .btn-search:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.3);
+        }
+
+        /* ============================================================
+           BOQ UPLOAD CARD
+           ============================================================ */
+        .boq-upload-card {
+            background: rgba(0, 212, 255, 0.03);
+            border: 1px dashed rgba(0, 212, 255, 0.2);
+            border-radius: var(--radius-xl);
+            padding: 1.2rem 2rem;
+            margin-bottom: 1.2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .boq-upload-card:hover {
+            border-color: var(--cyan);
+            background: rgba(0, 212, 255, 0.05);
+        }
+        .boq-upload-card .boq-left {
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+        .boq-upload-card .boq-left .boq-icon {
+            font-size: 2rem;
+            color: var(--cyan);
+        }
+        .boq-upload-card .boq-left .boq-text h4 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+        .boq-upload-card .boq-left .boq-text p {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+        .boq-upload-card .boq-left .boq-formats {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+        .boq-upload-card .boq-left .boq-formats span {
+            background: rgba(255,255,255,0.04);
+            padding: 0.1rem 0.6rem;
+            border-radius: 4px;
+        }
+        .boq-upload-card .btn-boq-upload {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--text-inverse);
+            font-weight: 700;
+            padding: 0.5rem 1.5rem;
+            border-radius: var(--radius-2xl);
+            border: none;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+        .boq-upload-card .btn-boq-upload:hover {
+            transform: scale(1.04);
+            box-shadow: 0 8px 30px rgba(0, 212, 255, 0.3);
+        }
+
+        /* ============================================================
+           SEARCH SUGGESTIONS
+           ============================================================ */
+        .search-suggestions {
+            display: none;
+            background: var(--bg-elevated);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 158, 11, 0.08);
+            border-radius: var(--radius-lg);
+            padding: 0.5rem 0;
+            margin-bottom: 1rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .search-suggestions.active {
+            display: block;
+        }
+        .search-suggestions .suggestion-item {
+            padding: 0.5rem 1.5rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .search-suggestions .suggestion-item:hover {
+            background: rgba(245, 158, 11, 0.04);
+            color: var(--text-primary);
+        }
+        .search-suggestions .suggestion-item .sugg-icon {
+            color: var(--gold);
+            font-size: 0.8rem;
+        }
+        .search-suggestions .suggestion-item .sugg-type {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.04);
+            padding: 0.05rem 0.6rem;
+            border-radius: 50px;
+            margin-left: auto;
+        }
+
+        /* ============================================================
+           RECENT SEARCHES
+           ============================================================ */
+        .recent-searches {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        .recent-tag {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 0.2rem 1rem;
+            border-radius: var(--radius-2xl);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .recent-tag:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .recent-tag .clear-tag {
+            cursor: pointer;
+            opacity: 0.5;
+            font-size: 0.6rem;
+        }
+        .recent-tag .clear-tag:hover {
+            opacity: 1;
+        }
+
+        /* ============================================================
+           AI ANSWER PANEL
+           ============================================================ */
+        .ai-answer-panel {
+            background: linear-gradient(145deg, #001C3A, #000B1F);
+            border-radius: var(--radius-2xl);
+            padding: 1.8rem;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid var(--gold);
+            box-shadow: 0 0 50px var(--gold-glow);
+            display: none;
+        }
+        .ai-answer-panel.visible {
+            display: block;
+            animation: fadeSlideIn 0.4s ease;
+        }
+        @keyframes fadeSlideIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .ai-answer-panel .ai-header {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+            margin-bottom: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .ai-answer-panel .ai-header i {
+            font-size: 2rem;
+            color: var(--gold);
+            filter: drop-shadow(0 0 20px var(--gold-glow));
+        }
+        .ai-answer-panel .ai-header .ai-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            font-family: var(--font-display);
+        }
+        .ai-answer-panel .ai-header .ai-badge {
+            background: rgba(245, 158, 11, 0.1);
+            color: var(--gold);
+            font-size: 0.6rem;
+            padding: 0.1rem 0.8rem;
+            border-radius: 50px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .ai-answer-panel .ai-confidence {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+        .ai-answer-panel .ai-confidence .confidence-bar {
+            width: 60px;
+            height: 4px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .ai-answer-panel .ai-confidence .confidence-bar .confidence-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            border-radius: 4px;
+            width: 98%;
+        }
+        .ai-answer-panel .ai-summary {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+        .ai-answer-panel .ai-summary strong {
+            color: var(--gold);
+        }
+        .ai-answer-panel .ai-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 0.8rem;
+            margin: 1rem 0;
+        }
+        .ai-answer-panel .ai-detail-item {
+            background: rgba(0,0,0,0.3);
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .ai-answer-panel .ai-detail-item .detail-label {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .ai-answer-panel .ai-detail-item .detail-value {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+        .ai-answer-panel .ai-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 0.8rem;
+        }
+        .ai-answer-panel .ai-actions button {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-2xl);
+            padding: 0.3rem 1.2rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+        }
+        .ai-answer-panel .ai-actions button:hover {
+            background: rgba(245, 158, 11, 0.06);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .ai-answer-panel .ai-actions .action-primary {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .ai-answer-panel .ai-actions .action-primary:hover {
+            background: var(--gold);
+            color: var(--text-inverse);
+        }
+
+        /* ============================================================
+           COMMAND PALETTE
+           ============================================================ */
+        .command-palette-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            backdrop-filter: blur(8px);
+            z-index: 9998;
+        }
+        .command-palette-overlay.active {
+            display: block;
+        }
+        .command-palette {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 90%;
+            max-width: 600px;
+            background: var(--bg-elevated);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-xl);
+            box-shadow: var(--shadow-elevated);
+            z-index: 9999;
+            padding: 1.2rem;
+            display: none;
+        }
+        .command-palette.active {
+            display: block;
+            animation: fadeSlideIn 0.25s ease;
+        }
+        .command-palette .palette-search {
+            width: 100%;
+            padding: 0.8rem 1.2rem;
+            background: var(--bg-input);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-lg);
+            color: var(--text-primary);
+            font-size: 1rem;
+            outline: none;
+            font-family: var(--font-sans);
+            margin-bottom: 0.8rem;
+        }
+        .command-palette .palette-search:focus {
+            border-color: var(--gold);
+        }
+        .command-palette .palette-items {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .command-palette .palette-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.6rem 1rem;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            color: var(--text-secondary);
+        }
+        .command-palette .palette-item:hover {
+            background: rgba(245, 158, 11, 0.06);
+            color: var(--text-primary);
+        }
+        .command-palette .palette-item .palette-icon {
+            color: var(--gold);
+            width: 24px;
+            text-align: center;
+        }
+        .command-palette .palette-item .palette-shortcut {
+            margin-left: auto;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+            background: rgba(255,255,255,0.04);
+            padding: 0.05rem 0.6rem;
+            border-radius: 4px;
+        }
+        .command-palette .palette-hint {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-align: center;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            margin-top: 0.5rem;
+        }
+
+        /* ============================================================
+           RESULTS
+           ============================================================ */
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .results-header .results-count {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+        .results-header .results-count strong {
+            color: var(--text-primary);
+        }
+        .results-tabs {
+            display: flex;
+            gap: 0.2rem;
+            background: rgba(0,0,0,0.2);
+            padding: 0.2rem;
+            border-radius: var(--radius-2xl);
+        }
+        .results-tabs button {
+            background: transparent;
+            border: none;
+            padding: 0.3rem 1.2rem;
+            border-radius: var(--radius-2xl);
+            color: var(--text-muted);
+            font-size: 0.75rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+        }
+        .results-tabs button:hover {
+            color: var(--text-primary);
+        }
+        .results-tabs button.active {
+            background: rgba(245, 158, 11, 0.08);
+            color: var(--gold);
+        }
+
+        /* ============================================================
+           RESULT CARDS - MIXED TYPES WITH DISTINCTION
+           ============================================================ */
+        .results-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .result-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: var(--radius-lg);
+            padding: 1.2rem 1.5rem;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+        .result-card:hover {
+            border-color: var(--gold-border);
+            background: rgba(245, 158, 11, 0.02);
+        }
+        .result-card .result-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: var(--radius-sm);
+            display: grid;
+            place-items: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+        .result-card .result-icon.product { background: rgba(245, 158, 11, 0.1); color: var(--gold); }
+        .result-card .result-icon.knowledge { background: rgba(0, 212, 255, 0.1); color: var(--cyan); }
+        .result-card .result-icon.contractor { background: rgba(139, 92, 246, 0.1); color: var(--accent-purple); }
+        .result-card .result-icon.calculator { background: rgba(16, 185, 129, 0.1); color: var(--accent-success); }
+        .result-card .result-icon.category { background: rgba(59, 130, 246, 0.1); color: var(--blue); }
+        .result-card .result-icon.video { background: rgba(239, 68, 68, 0.1); color: #EF4444; }
+        .result-card .result-icon.supplier { background: rgba(245, 158, 11, 0.1); color: var(--gold-dark); }
+        
+        .result-card .result-content { flex: 1; min-width: 0; }
+        .result-card .result-content .result-title {
+            font-weight: 600;
+            font-size: 0.95rem;
+            color: var(--text-primary);
+        }
+        .result-card .result-content .result-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-top: 0.1rem;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .result-card .result-content .result-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+            flex-wrap: wrap;
+        }
+        .result-card .result-content .result-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .result-card .result-content .result-meta .meta-tag {
+            background: rgba(255,255,255,0.04);
+            padding: 0.05rem 0.5rem;
+            border-radius: 50px;
+        }
+        .result-card .result-tag {
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            flex-shrink: 0;
+        }
+        .result-tag.product { background: rgba(245, 158, 11, 0.08); color: var(--gold); }
+        .result-tag.knowledge { background: rgba(0, 212, 255, 0.08); color: var(--cyan); }
+        .result-tag.contractor { background: rgba(139, 92, 246, 0.08); color: var(--accent-purple); }
+        .result-tag.calculator { background: rgba(16, 185, 129, 0.08); color: var(--accent-success); }
+        .result-tag.category { background: rgba(59, 130, 246, 0.08); color: var(--blue); }
+        .result-tag.video { background: rgba(239, 68, 68, 0.08); color: #EF4444; }
+        .result-tag.supplier { background: rgba(245, 158, 11, 0.08); color: var(--gold-dark); }
+
+        .result-card .result-actions {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.4rem;
+            flex-wrap: wrap;
+        }
+        .result-card .result-actions button {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: var(--radius-2xl);
+            padding: 0.1rem 0.8rem;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+        }
+        .result-card .result-actions button:hover {
+            background: rgba(245, 158, 11, 0.06);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .result-card .result-actions .action-primary {
+            background: rgba(245, 158, 11, 0.06);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .result-card .result-actions .action-primary:hover {
+            background: var(--gold);
+            color: var(--text-inverse);
+        }
+
+        /* ============================================================
+           PROMPT CHIPS
+           ============================================================ */
+        .prompt-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin: 0.5rem 0 1rem;
+        }
+        .prompt-chip {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 0.3rem 1.2rem;
+            border-radius: var(--radius-2xl);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .prompt-chip:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(245, 158, 11, 0.04);
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(10, 22, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 158, 11, 0.15);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            z-index: 9999;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 400px;
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 992px) {
+            .search-container { padding: 1.5rem; border-radius: var(--radius-2xl); }
+            .nav-links { margin-left: 0; }
+            .nav-link { font-size: 0.7rem; padding: 0.3rem 0.6rem; }
+            .search-bar { padding: 0.2rem 0.2rem 0.2rem 1rem; }
+            .search-bar input { font-size: 1rem; padding: 0.8rem 0; }
+            .boq-upload-card { padding: 1rem 1.2rem; }
+            .boq-upload-card .boq-left .boq-formats { display: none; }
+        }
+        @media (max-width: 768px) {
+            body { padding: 0.8rem; }
+            .search-container { padding: 1rem; border-radius: var(--radius-xl); }
+            .nav-header { gap: 0.8rem; }
+            .nav-logo .logo-text { font-size: 1rem; }
+            .nav-links { gap: 0.1rem; }
+            .search-actions { gap: 0.4rem; }
+            .btn-search { padding: 0.4rem 1rem; font-size: 0.75rem; }
+            .btn-search span { display: none; }
+            .search-actions .action-icon { font-size: 1rem; }
+            .ai-answer-panel { padding: 1.2rem; }
+            .ai-answer-panel .ai-details { grid-template-columns: 1fr 1fr; }
+            .result-card { padding: 1rem; flex-wrap: wrap; }
+            .results-tabs button { padding: 0.2rem 0.8rem; font-size: 0.65rem; }
+            .boq-upload-card { flex-direction: column; align-items: flex-start; }
+            .boq-upload-card .btn-boq-upload { width: 100%; justify-content: center; }
+            .search-stats { gap: 0.8rem; font-size: 0.65rem; }
+        }
+        @media (max-width: 480px) {
+            .ai-answer-panel .ai-details { grid-template-columns: 1fr; }
+            .result-card .result-icon { width: 32px; height: 32px; font-size: 0.9rem; }
+            .search-bar input { font-size: 0.9rem; }
+            .prompt-chips { gap: 0.4rem; }
+            .prompt-chip { font-size: 0.7rem; padding: 0.2rem 0.8rem; }
+            .command-palette { padding: 0.8rem; }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     COMMAND PALETTE OVERLAY
+     ============================================================ -->
+<div class="command-palette-overlay" id="commandOverlay"></div>
+
+<!-- ============================================================
+     COMMAND PALETTE
+     ============================================================ -->
+<div class="command-palette" id="commandPalette">
+    <input class="palette-search" type="text" placeholder="Search commands..." id="paletteInput" />
+    <div class="palette-items" id="paletteItems">
+        <!-- Populated by JS -->
+    </div>
+    <div class="palette-hint">âŒ˜+K to open Â· Esc to close Â· Enter to execute</div>
+</div>
+
+<!-- ============================================================
+     MAIN CONTAINER
+     ============================================================ -->
+<div class="search-container">
+
+    <!-- ============================================================
+         NAVIGATION
+         ============================================================ -->
+    <header class="nav-header">
+        <a href="/buildmart" class="nav-logo">
+            <img src="company_logo.png" alt="BuildMart" onerror="this.style.display='none'; this.nextElementSibling.style.display='grid';" />
+            <div class="logo-placeholder" style="display:none;">ðŸ—ï¸</div>
+            <div class="logo-text"><em>Build</em>Mart</div>
+            <span class="logo-badge">Search</span>
+        </a>
+        <div class="nav-links">
+            <a href="/buildmart" class="nav-link">Home</a>
+            <a href="/buildmart/products.html" class="nav-link">Products</a>
+            <a href="/buildmart/categories.html" class="nav-link">Categories</a>
+            <a href="/buildmart/search.html" class="nav-link active">Search</a>
+            <a href="/buildmart/knowledge.html" class="nav-link">Knowledge</a>
+            <a href="/buildmart/projects.html" class="nav-link">Projects</a>
+            <a href="/buildmart/contact.html" class="nav-link">Contact</a>
+        </div>
+        <div class="nav-actions">
+            <a href="/buildmart/quote.html" class="btn-nav-prime">
+                <i class="fas fa-file-invoice"></i> <span>Get Quote</span>
+            </a>
+        </div>
+    </header>
+
+    <!-- ============================================================
+         SEARCH STATS STRIP
+         ============================================================ -->
+    <div class="search-stats" id="searchStats">
+        <span><i class="fas fa-cube"></i> <span class="stat-highlight">2,184</span> Products</span>
+        <span><i class="fas fa-tag"></i> <span class="stat-highlight">146</span> Brands</span>
+        <span><i class="fas fa-book-open"></i> <span class="stat-highlight">318</span> Guides</span>
+        <span><i class="fas fa-calculator"></i> <span class="stat-highlight">37</span> Calculators</span>
+        <span><i class="fas fa-hard-hat"></i> <span class="stat-highlight">84</span> Contractors</span>
+        <span><i class="fas fa-clock"></i> <span class="stat-highlight stat-response">0.07</span> sec</span>
+    </div>
+
+    <!-- ============================================================
+         SEARCH BAR
+         ============================================================ -->
+    <div class="search-bar" id="searchBar">
+        <i class="fas fa-search" style="color:var(--gold); opacity:0.5; font-size:1.1rem;"></i>
+        <input type="text" placeholder="Search products, brands, contractors, projects, BOQs, guides, calculators or ask BuildMart AI..." id="searchInput" autofocus />
+        <div class="search-actions">
+            <i class="fas fa-microphone action-icon" onclick="showToast('Voice', 'Voice search activated...')" title="Voice search"></i>
+            <i class="fas fa-camera action-icon" onclick="showToast('Image', 'Image search ready...')" title="Image search"></i>
+            <button class="btn-search" onclick="performSearch()">
+                <i class="fas fa-arrow-right"></i> <span>Search</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         BOQ UPLOAD CARD
+         ============================================================ -->
+    <div class="boq-upload-card" onclick="document.getElementById('boqInput').click()">
+        <div class="boq-left">
+            <div class="boq-icon"><i class="fas fa-file-upload"></i></div>
+            <div class="boq-text">
+                <h4>Upload BOQ for AI Analysis</h4>
+                <p>Drag or click to upload PDF, Excel, or Word Â· Get material estimates, suppliers, and quotation</p>
+            </div>
+            <div class="boq-formats">
+                <span>PDF</span>
+                <span>Excel</span>
+                <span>Word</span>
+            </div>
+        </div>
+        <button class="btn-boq-upload" onclick="event.stopPropagation(); document.getElementById('boqInput').click();">
+            <i class="fas fa-cloud-upload-alt"></i> Upload BOQ
+        </button>
+        <input type="file" id="boqInput" accept=".pdf,.xlsx,.xls,.docx" style="display:none;">
+    </div>
+
+    <!-- ============================================================
+         SEARCH SUGGESTIONS
+         ============================================================ -->
+    <div class="search-suggestions" id="searchSuggestions">
+        <!-- Populated by JS -->
+    </div>
+
+    <!-- ============================================================
+         RECENT SEARCHES
+         ============================================================ -->
+    <div class="recent-searches" id="recentSearches">
+        <!-- Populated by JS -->
+    </div>
+
+    <!-- ============================================================
+         PROMPT CHIPS
+         ============================================================ -->
+    <div class="prompt-chips" id="promptChips">
+        <!-- Populated by JS -->
+    </div>
+
+    <!-- ============================================================
+         AI ANSWER PANEL
+         ============================================================ -->
+    <div class="ai-answer-panel" id="aiAnswerPanel">
+        <div class="ai-header">
+            <i class="fas fa-brain"></i>
+            <span class="ai-title">AI Procurement Assistant</span>
+            <span class="ai-badge">Recommended</span>
+            <div class="ai-confidence">
+                <span>98% confidence</span>
+                <div class="confidence-bar">
+                    <div class="confidence-fill"></div>
+                </div>
+            </div>
+        </div>
+        <div class="ai-summary" id="aiSummary">
+            For a <strong>3-bedroom bungalow foundation</strong>, you'll need approximately <strong>1,200 bags of Dangote Cement</strong> and <strong>8.4 tons of 16mm rebar</strong>. 
+            Estimated total: <strong style="color:var(--gold);">â‚¦8.4M</strong>.
+        </div>
+        <div class="ai-details" id="aiDetails">
+            <div class="ai-detail-item">
+                <div class="detail-label">Estimated Cost</div>
+                <div class="detail-value" style="color:var(--gold);">â‚¦8.4M</div>
+            </div>
+            <div class="ai-detail-item">
+                <div class="detail-label">Materials</div>
+                <div class="detail-value">12 items</div>
+            </div>
+            <div class="ai-detail-item">
+                <div class="detail-label">Delivery</div>
+                <div class="detail-value">2-3 days</div>
+            </div>
+            <div class="ai-detail-item">
+                <div class="detail-label">Alternative Brands</div>
+                <div class="detail-value">BUA, Lafarge</div>
+            </div>
+        </div>
+        <div class="ai-actions">
+            <button class="action-primary" onclick="showToast('Quote', 'Generating quotation...')">
+                <i class="fas fa-file-invoice"></i> Generate Quote
+            </button>
+            <button onclick="showToast('Compare', 'Comparing products...')">
+                <i class="fas fa-exchange-alt"></i> Compare Products
+            </button>
+            <button onclick="showToast('Suppliers', 'Finding suppliers...')">
+                <i class="fas fa-truck"></i> Find Suppliers
+            </button>
+            <button onclick="showToast('Contractors', 'Finding contractors...')">
+                <i class="fas fa-hard-hat"></i> Find Contractors
+            </button>
+            <button onclick="showToast('Estimate', 'Estimating project cost...')">
+                <i class="fas fa-calculator"></i> Estimate Project Cost
+            </button>
+            <button onclick="showToast('Export', 'Exporting PDF...')">
+                <i class="fas fa-file-pdf"></i> Export PDF
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         RESULTS
+         ============================================================ -->
+    <div class="results-header">
+        <div class="results-count" id="resultsCount">
+            <strong>0</strong> results found
+        </div>
+        <div class="results-tabs" id="resultsTabs">
+            <button class="active" data-tab="all">All</button>
+            <button data-tab="products">Products</button>
+            <button data-tab="knowledge">Knowledge</button>
+            <button data-tab="contractors">Contractors</button>
+            <button data-tab="calculators">Calculators</button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+         RESULTS GRID
+         ============================================================ -->
+    <div class="results-grid" id="resultsGrid">
+        <!-- Populated by JS -->
+    </div>
+
+</div>
+
+<!-- ============================================================
+     TOAST
+     ============================================================ -->
+<div id="toast">
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+        <span style="color:var(--gold); font-size:1.2rem;">âœ“</span>
+        <div>
+            <div style="font-weight:700; font-size:0.9rem;" id="toastTitle">Success</div>
+            <div style="color:var(--text-muted); font-size:0.8rem;" id="toastMessage">Action completed</div>
+        </div>
+        <button onclick="closeToast()" style="background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; padding:0 4px;">âœ•</button>
+    </div>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+    // =========================================================================
+    // 1. CONFIGURATION
+    // =========================================================================
+    const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+    const RECENT_SEARCHES_KEY = 'buildmart_recent_searches';
+
+    // =========================================================================
+    // 2. DATA
+    // =========================================================================
+    const DATA = {
+        prompts: [
+            'Materials for a 3-bedroom bungalow',
+            'Roofing for 450sqm',
+            'Estimate blocks for fence',
+            'Concrete mix for columns',
+            'Compare 16mm rods',
+            'Best waterproof paint',
+            'Foundation for duplex',
+            'Plumbing materials for 4-bedroom'
+        ],
+        suggestions: {
+            'dan': ['Dangote Cement 50kg', 'Dangote 42.5', 'Dangote 32.5', 'Dangote Bulk Order', 'Dangote Price Today'],
+            'roof': ['Roofing sheets', 'Roofing nails', 'Roofing insulation', 'Roofing contractors'],
+            'cement': ['Dangote Cement', 'BUA Cement', 'Lafarge Cement', 'Cement calculator'],
+            'steel': ['16mm Rebar', '12mm Rebar', 'Steel weight calculator', 'Steel suppliers']
+        },
+        results: [
+            { 
+                id: 1, 
+                type: 'product', 
+                title: 'Dangote Cement 50kg', 
+                desc: 'Premium 42.5 grade cement for all construction applications. 50kg bag, high strength and durability.',
+                meta: ['â­ 4.9/5', 'ðŸ“ Lagos Â· 12,000 units', 'â‚¦5,200/bag'],
+                tag: 'In Stock',
+                tagClass: 'product',
+                actions: ['Add to Quote', 'Compare', 'View Stock'],
+                price: 'â‚¦5,200/bag'
+            },
+            { 
+                id: 2, 
+                type: 'knowledge', 
+                title: 'Concrete Mix Guide: 1mÂ³ Formula', 
+                desc: 'Complete guide to concrete mixing ratios, water-cement ratio, and strength testing for construction projects.',
+                meta: ['ðŸ“„ 8 min read', 'ðŸ“… Updated 2026', 'ðŸ“Š 1,245 reads'],
+                tag: 'Popular',
+                tagClass: 'knowledge',
+                actions: ['Read', 'Download PDF', 'Save'],
+                author: 'BuildMart Engineering Team'
+            },
+            { 
+                id: 3, 
+                type: 'contractor', 
+                title: 'ABC Construction Ltd', 
+                desc: 'Specialized in residential and commercial concrete work. 12 years experience. Completed 150+ projects.',
+                meta: ['â­ 4.8/5', 'ðŸ“ Lagos & Ogun', 'ðŸ“ž Available now'],
+                tag: 'Top Rated',
+                tagClass: 'contractor',
+                actions: ['Contact', 'View Projects', 'Request Quote'],
+                projects: '150+ completed'
+            },
+            { 
+                id: 4, 
+                type: 'calculator', 
+                title: 'Concrete Volume Calculator', 
+                desc: 'Calculate exact concrete volume for slabs, columns, and foundations. Includes material estimation.',
+                meta: ['âš¡ 3-step calculation', 'ðŸ“Š 2,340 uses'],
+                tag: 'Popular',
+                tagClass: 'calculator',
+                actions: ['Launch Calculator', 'Save Result'],
+                uses: '2,340 uses'
+            },
+            { 
+                id: 5, 
+                type: 'category', 
+                title: 'Cement & Concrete', 
+                desc: 'Explore all cement products, brands, and concrete solutions available through BuildMart.',
+                meta: ['ðŸ“¦ 24 products', 'ðŸ·ï¸ 6 brands'],
+                tag: 'Category',
+                tagClass: 'category',
+                actions: ['Browse', 'Compare']
+            },
+            { 
+                id: 6, 
+                type: 'video', 
+                title: 'How to Pour a Foundation', 
+                desc: 'Step-by-step video guide for pouring a residential foundation. Includes materials and best practices.',
+                meta: ['â–¶ï¸ 14 min video', 'ðŸ‘€ 4,812 views'],
+                tag: 'Trending',
+                tagClass: 'video',
+                actions: ['Watch', 'Download'],
+                views: '4,812 views'
+            },
+            { 
+                id: 7, 
+                type: 'supplier', 
+                title: 'Lafarge Distributor - Lagos', 
+                desc: 'Authorized Lafarge distributor in Lagos. Bulk supply available with dedicated logistics support.',
+                meta: ['ðŸ“ Ikeja, Lagos', 'ðŸšš Same-day dispatch'],
+                tag: 'Verified',
+                tagClass: 'supplier',
+                actions: ['Contact', 'View Catalog']
+            },
+            { 
+                id: 8, 
+                type: 'product', 
+                title: 'BUA Cement 50kg', 
+                desc: 'Alternative 42.5 grade cement offering competitive pricing and reliable quality for construction projects.',
+                meta: ['â­ 4.7/5', 'ðŸ“ Abuja Â· 8,400 units', 'â‚¦4,950/bag'],
+                tag: 'In Stock',
+                tagClass: 'product',
+                actions: ['Add to Quote', 'Compare', 'View Stock'],
+                price: 'â‚¦4,950/bag'
+            },
+            { 
+                id: 9, 
+                type: 'knowledge', 
+                title: 'Steel Reinforcement Guide', 
+                desc: 'Complete guide to steel reinforcement types, grades, and applications in construction.',
+                meta: ['ðŸ“„ 12 min read', 'ðŸ“… Updated 2026', 'ðŸ“Š 987 reads'],
+                tag: 'Updated',
+                tagClass: 'knowledge',
+                actions: ['Read', 'Download PDF'],
+                author: 'BuildMart Engineering Team'
+            },
+            { 
+                id: 10, 
+                type: 'contractor', 
+                title: 'Prime Structures Ltd', 
+                desc: 'Full-service construction company specializing in commercial and industrial projects across Nigeria.',
+                meta: ['â­ 4.9/5', 'ðŸ“ Nationwide', 'ðŸ“ž 24/7 support'],
+                tag: 'Premium',
+                tagClass: 'contractor',
+                actions: ['Contact', 'View Projects'],
+                projects: '85+ completed'
+            }
+        ]
+    };
+
+    // =========================================================================
+    // 3. COMMAND PALETTE
+    // =========================================================================
+    const COMMANDS = [
+        { icon: 'fa-search', label: 'Search Products', shortcut: 'P', action: 'search_products' },
+        { icon: 'fa-tag', label: 'Search Brands', shortcut: 'B', action: 'search_brands' },
+        { icon: 'fa-file-upload', label: 'Upload BOQ', shortcut: 'U', action: 'upload_boq' },
+        { icon: 'fa-file-invoice', label: 'Request Quote', shortcut: 'Q', action: 'request_quote' },
+        { icon: 'fa-calculator', label: 'Open Calculator', shortcut: 'C', action: 'open_calculator' },
+        { icon: 'fa-hard-hat', label: 'Find Contractors', shortcut: 'F', action: 'find_contractors' },
+        { icon: 'fa-book-open', label: 'View Knowledge Base', shortcut: 'K', action: 'view_knowledge' },
+        { icon: 'fa-truck', label: 'Track Delivery', shortcut: 'D', action: 'track_delivery' }
+    ];
+
+    function renderCommandPalette() {
+        const container = document.getElementById('paletteItems');
+        container.innerHTML = COMMANDS.map(cmd => `
+            <div class="palette-item" data-action="${cmd.action}" onclick="executeCommand('${cmd.action}')">
+                <span class="palette-icon"><i class="fas ${cmd.icon}"></i></span>
+                ${cmd.label}
+                <span class="palette-shortcut">${cmd.shortcut}</span>
+            </div>
+        `).join('');
+    }
+
+    function openCommandPalette() {
+        document.getElementById('commandOverlay').classList.add('active');
+        document.getElementById('commandPalette').classList.add('active');
+        document.getElementById('paletteInput').value = '';
+        document.getElementById('paletteInput').focus();
+        renderCommandPalette();
+    }
+
+    function closeCommandPalette() {
+        document.getElementById('commandOverlay').classList.remove('active');
+        document.getElementById('commandPalette').classList.remove('active');
+    }
+
+    function executeCommand(action) {
+        closeCommandPalette();
+        const actions = {
+            'search_products': () => { document.getElementById('searchInput').value = 'products'; performSearch(); },
+            'search_brands': () => { document.getElementById('searchInput').value = 'brands'; performSearch(); },
+            'upload_boq': () => { document.getElementById('boqInput').click(); },
+            'request_quote': () => { window.location.href = '/buildmart/quote.html'; },
+            'open_calculator': () => { showToast('Calculator', 'Opening calculator...'); },
+            'find_contractors': () => { document.getElementById('searchInput').value = 'contractors'; performSearch(); },
+            'view_knowledge': () => { window.location.href = '/buildmart/knowledge.html'; },
+            'track_delivery': () => { showToast('Delivery', 'Opening delivery tracker...'); }
+        };
+        if (actions[action]) actions[action]();
+    }
+
+    // Palette keyboard shortcuts
+    document.getElementById('paletteInput')?.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            const firstItem = document.querySelector('.palette-item');
+            if (firstItem) executeCommand(firstItem.dataset.action);
+        }
+        if (e.key === 'Escape') closeCommandPalette();
+    });
+
+    // Filter palette items
+    document.getElementById('paletteInput')?.addEventListener('input', function() {
+        const query = this.value.toLowerCase();
+        const items = document.querySelectorAll('.palette-item');
+        items.forEach(item => {
+            const text = item.textContent.toLowerCase();
+            item.style.display = text.includes(query) ? 'flex' : 'none';
+        });
+    });
+
+    // =========================================================================
+    // 4. RENDER FUNCTIONS
+    // =========================================================================
+    function renderPrompts() {
+        const container = document.getElementById('promptChips');
+        container.innerHTML = DATA.prompts.map(p => `
+            <span class="prompt-chip" onclick="searchPrompt('${p}')">${p}</span>
+        `).join('');
+    }
+
+    function renderRecentSearches() {
+        const container = document.getElementById('recentSearches');
+        const searches = getRecentSearches();
+        if (searches.length === 0) {
+            container.innerHTML = '';
+            return;
+        }
+        container.innerHTML = searches.map(s => `
+            <span class="recent-tag" onclick="searchRecent('${s}')">
+                <i class="fas fa-history" style="font-size:0.6rem;"></i>
+                ${s}
+                <span class="clear-tag" onclick="event.stopPropagation(); removeRecentSearch('${s}')">âœ•</span>
+            </span>
+        `).join('');
+    }
+
+    function renderResults(query) {
+        const container = document.getElementById('resultsGrid');
+        const count = document.getElementById('resultsCount');
+        
+        let results = DATA.results;
+        if (query) {
+            const q = query.toLowerCase();
+            results = results.filter(r => 
+                r.title.toLowerCase().includes(q) || 
+                r.desc.toLowerCase().includes(q)
+            );
+        }
+        
+        count.innerHTML = `<strong>${results.length}</strong> results found`;
+        
+        if (results.length === 0) {
+            container.innerHTML = `
+                <div style="text-align:center; padding:3rem 1rem; color:var(--text-muted);">
+                    <i class="fas fa-search" style="font-size:2.5rem; margin-bottom:1rem; display:block; opacity:0.3;"></i>
+                    <p style="font-size:1.1rem;">No results found for "<strong style="color:var(--text-primary);">${query || ''}</strong>"</p>
+                    <p style="font-size:0.85rem; margin-top:0.3rem;">Try adjusting your search or browse our categories above.</p>
+                </div>
+            `;
+            return;
+        }
+
+        container.innerHTML = results.map(r => `
+            <div class="result-card" onclick="handleResultClick('${r.type}', ${r.id})">
+                <div class="result-icon ${r.type}">
+                    <i class="fas ${getIcon(r.type)}"></i>
+                </div>
+                <div class="result-content">
+                    <div class="result-title">${r.title}</div>
+                    <div class="result-desc">${r.desc}</div>
+                    <div class="result-meta">
+                        ${r.meta.map(m => `<span>${m}</span>`).join('')}
+                        ${r.author ? `<span class="meta-tag">âœï¸ ${r.author}</span>` : ''}
+                        ${r.price ? `<span class="meta-tag" style="color:var(--gold);">${r.price}</span>` : ''}
+                        ${r.projects ? `<span class="meta-tag">ðŸ—ï¸ ${r.projects}</span>` : ''}
+                        ${r.uses ? `<span class="meta-tag">ðŸ“Š ${r.uses}</span>` : ''}
+                        ${r.views ? `<span class="meta-tag">ðŸ‘€ ${r.views}</span>` : ''}
+                    </div>
+                    ${r.actions ? `
+                        <div class="result-actions">
+                            ${r.actions.map(a => `
+                                <button class="${a === 'Add to Quote' || a === 'Contact' ? 'action-primary' : ''}" 
+                                        onclick="event.stopPropagation(); showToast('Action', '${a}...')">
+                                    ${a}
+                                </button>
+                            `).join('')}
+                        </div>
+                    ` : ''}
+                </div>
+                <span class="result-tag ${r.tagClass}">${r.tag}</span>
+            </div>
+        `).join('');
+    }
+
+    function getIcon(type) {
+        const icons = {
+            product: 'fa-cube',
+            knowledge: 'fa-book-open',
+            contractor: 'fa-hard-hat',
+            calculator: 'fa-calculator',
+            category: 'fa-tag',
+            video: 'fa-play-circle',
+            supplier: 'fa-truck'
+        };
+        return icons[type] || 'fa-circle';
+    }
+
+    function renderSuggestions(query) {
+        const container = document.getElementById('searchSuggestions');
+        const q = query.toLowerCase();
+        let suggestions = [];
+        
+        for (const [key, values] of Object.entries(DATA.suggestions)) {
+            if (key.includes(q) || q.includes(key)) {
+                suggestions = values;
+                break;
+            }
+        }
+        
+        const productMatches = DATA.results
+            .filter(r => r.type === 'product' && r.title.toLowerCase().includes(q))
+            .slice(0, 3)
+            .map(r => r.title);
+        
+        const allSuggestions = [...new Set([...suggestions, ...productMatches])];
+        
+        if (allSuggestions.length === 0 || q.length < 2) {
+            container.classList.remove('active');
+            return;
+        }
+        
+        container.innerHTML = allSuggestions.map(s => `
+            <div class="suggestion-item" onclick="searchSuggestion('${s}')">
+                <span class="sugg-icon"><i class="fas fa-search"></i></span>
+                ${s}
+                <span class="sugg-type">Quick search</span>
+            </div>
+        `).join('');
+        container.classList.add('active');
+    }
+
+    // =========================================================================
+    // 5. SEARCH FUNCTIONS
+    // =========================================================================
+    function performSearch() {
+        const input = document.getElementById('searchInput');
+        const query = input.value.trim();
+        if (!query) {
+            showToast('Search', 'Please enter a search term.');
+            return;
+        }
+        
+        addRecentSearch(query);
+        renderRecentSearches();
+        showAIAnswer(query);
+        renderResults(query);
+        document.getElementById('searchSuggestions').classList.remove('active');
+        showToast('Search', `Showing results for "${query}"`);
+    }
+
+    function searchPrompt(query) {
+        document.getElementById('searchInput').value = query;
+        performSearch();
+    }
+
+    function searchRecent(query) {
+        document.getElementById('searchInput').value = query;
+        performSearch();
+    }
+
+    function searchSuggestion(query) {
+        document.getElementById('searchInput').value = query;
+        performSearch();
+    }
+
+    function handleResultClick(type, id) {
+        const labels = {
+            product: 'product',
+            knowledge: 'knowledge article',
+            contractor: 'contractor profile',
+            calculator: 'calculator',
+            category: 'category',
+            video: 'video',
+            supplier: 'supplier'
+        };
+        showToast(type, `Viewing ${labels[type] || 'result'}...`);
+    }
+
+    // =========================================================================
+    // 6. AI ANSWER PANEL
+    // =========================================================================
+    function showAIAnswer(query) {
+        const panel = document.getElementById('aiAnswerPanel');
+        const summary = document.getElementById('aiSummary');
+        panel.classList.add('visible');
+        
+        const responses = {
+            'bungalow': `For a <strong>3-bedroom bungalow</strong>, you'll need approximately <strong>1,200 bags of Dangote Cement</strong>, <strong>8.4 tons of 16mm rebar</strong>, and <strong>12,000 blocks</strong>. 
+            Estimated total: <strong style="color:var(--gold);">â‚¦8.4M</strong>.`,
+            'roofing': `For <strong>450sqm roofing</strong>, you'll need approximately <strong>450 sheets of Long Span roofing</strong>, <strong>1,200 roofing nails</strong>, and <strong>150 lengths of ridge capping</strong>.
+            Estimated total: <strong style="color:var(--gold);">â‚¦5.6M</strong>.`,
+            'blocks': `For a <strong>fence</strong>, you'll need approximately <strong>2,800 blocks</strong>, <strong>140 bags of cement</strong>, and <strong>8 tons of sand</strong>.
+            Estimated total: <strong style="color:var(--gold);">â‚¦2.2M</strong>.`,
+            'concrete': `For <strong>columns</strong>, you'll need approximately <strong>18 bags of cement per 1mÂ³</strong>, <strong>0.45mÂ³ sand</strong>, and <strong>0.75mÂ³ granite</strong>.
+            Estimated total per column: <strong style="color:var(--gold);">â‚¦85,000</strong>.`,
+            'compare': `Comparing <strong>16mm rods</strong>: Dangote (â‚¦775,000/ton), BUA (â‚¦785,000/ton), Lafarge (â‚¦795,000/ton).
+            <strong style="color:var(--gold);">Dangote offers best value</strong> with bulk discount available.`,
+            'paint': `For <strong>best waterproof paint</strong>, we recommend <strong>Dulux Weathershield</strong> (â‚¦45,000/20L) or <strong>Berger Super Paint</strong> (â‚¦42,000/20L).
+            Both offer excellent durability and water resistance.`
+        };
+        
+        let response = `For your query about <strong>"${query}"</strong>, I've analyzed our database and found relevant information. 
+        Would you like a detailed breakdown of materials and pricing?`;
+        
+        for (const [key, value] of Object.entries(responses)) {
+            if (query.toLowerCase().includes(key)) {
+                response = value;
+                break;
+            }
+        }
+        
+        summary.innerHTML = response;
+        
+        const details = document.getElementById('aiDetails');
+        const costMatch = response.match(/â‚¦[\d,.]+[M]?/);
+        details.innerHTML = `
+            <div class="ai-detail-item">
+                <div class="detail-label">Estimated Cost</div>
+                <div class="detail-value" style="color:var(--gold);">${costMatch ? costMatch[0] : 'â‚¦8.4M'}</div>
+            </div>
+            <div class="ai-detail-item">
+                <div class="detail-label">Materials</div>
+                <div class="detail-value">12 items</div>
+            </div>
+            <div class="ai-detail-item">
+                <div class="detail-label">Delivery</div>
+                <div class="detail-value">2-3 days</div>
+            </div>
+            <div class="ai-detail-item">
+                <div class="detail-label">Alternative Brands</div>
+                <div class="detail-value">BUA, Lafarge</div>
+            </div>
+        `;
+    }
+
+    // =========================================================================
+    // 7. BOQ UPLOAD
+    // =========================================================================
+    document.getElementById('boqInput')?.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+        
+        const validTypes = ['application/pdf', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'application/msword'];
+        if (!validTypes.includes(file.type) && !file.name.match(/\.(pdf|xlsx|xls|docx)$/i)) {
+            showToast('Error', 'Please upload a PDF, Excel, or Word document.');
+            return;
+        }
+        
+        showToast('BOQ Upload', `ðŸ“„ "${file.name}" uploaded successfully. AI analyzing...`);
+        
+        setTimeout(() => {
+            const panel = document.getElementById('aiAnswerPanel');
+            const summary = document.getElementById('aiSummary');
+            panel.classList.add('visible');
+            summary.innerHTML = `
+                <strong>BOQ Analysis Complete:</strong> Identified <strong>23 materials</strong> across <strong>4 categories</strong>.
+                Estimated procurement cost: <strong style="color:var(--gold);">â‚¦12.4M</strong>
+                <br><span style="font-size:0.85rem;color:var(--text-muted);">ðŸ“‹ 3 suppliers recommended Â· Delivery: 2-3 days</span>
+            `;
+            document.getElementById('aiDetails').innerHTML = `
+                <div class="ai-detail-item">
+                    <div class="detail-label">Total Cost</div>
+                    <div class="detail-value" style="color:var(--gold);">â‚¦12.4M</div>
+                </div>
+                <div class="ai-detail-item">
+                    <div class="detail-label">Materials</div>
+                    <div class="detail-value">23 items</div>
+                </div>
+                <div class="ai-detail-item">
+                    <div class="detail-label">Categories</div>
+                    <div class="detail-value">4</div>
+                </div>
+                <div class="ai-detail-item">
+                    <div class="detail-label">Suppliers</div>
+                    <div class="detail-value">3 recommended</div>
+                </div>
+            `;
+            showToast('BOQ Analysis', 'Procurement estimate ready. View AI recommendations above.');
+        }, 2000);
+        
+        this.value = '';
+    });
+
+    // =========================================================================
+    // 8. RECENT SEARCHES (localStorage)
+    // =========================================================================
+    function getRecentSearches() {
+        try {
+            const data = localStorage.getItem(RECENT_SEARCHES_KEY);
+            return data ? JSON.parse(data) : [];
+        } catch {
+            return [];
+        }
+    }
+
+    function addRecentSearch(query) {
+        if (!query) return;
+        let searches = getRecentSearches();
+        searches = searches.filter(s => s.toLowerCase() !== query.toLowerCase());
+        searches.unshift(query);
+        if (searches.length > 10) searches.pop();
+        localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(searches));
+    }
+
+    function removeRecentSearch(query) {
+        let searches = getRecentSearches();
+        searches = searches.filter(s => s !== query);
+        localStorage.setItem(RECENT_SEARCHES_KEY, JSON.stringify(searches));
+        renderRecentSearches();
+    }
+
+    // =========================================================================
+    // 9. SEARCH SUGGESTIONS (debounced)
+    // =========================================================================
+    let suggestionTimeout;
+    document.getElementById('searchInput')?.addEventListener('input', function() {
+        clearTimeout(suggestionTimeout);
+        const query = this.value.trim();
+        if (query.length >= 2) {
+            suggestionTimeout = setTimeout(() => {
+                renderSuggestions(query);
+            }, 200);
+        } else {
+            document.getElementById('searchSuggestions').classList.remove('active');
+        }
+    });
+
+    // =========================================================================
+    // 10. RESULTS TABS
+    // =========================================================================
+    document.querySelectorAll('.results-tabs button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.results-tabs button').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            const tab = this.dataset.tab;
+            const query = document.getElementById('searchInput').value.trim();
+            
+            let results = DATA.results;
+            if (query) {
+                const q = query.toLowerCase();
+                results = results.filter(r => 
+                    r.title.toLowerCase().includes(q) || 
+                    r.desc.toLowerCase().includes(q)
+                );
+            }
+            if (tab !== 'all') {
+                results = results.filter(r => r.type === tab);
+            }
+            
+            const container = document.getElementById('resultsGrid');
+            const count = document.getElementById('resultsCount');
+            count.innerHTML = `<strong>${results.length}</strong> results found`;
+            
+            if (results.length === 0) {
+                container.innerHTML = `
+                    <div style="text-align:center; padding:2rem 1rem; color:var(--text-muted);">
+                        <p>No ${tab} results found.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = results.map(r => `
+                <div class="result-card" onclick="handleResultClick('${r.type}', ${r.id})">
+                    <div class="result-icon ${r.type}">
+                        <i class="fas ${getIcon(r.type)}"></i>
+                    </div>
+                    <div class="result-content">
+                        <div class="result-title">${r.title}</div>
+                        <div class="result-desc">${r.desc}</div>
+                        <div class="result-meta">
+                            ${r.meta.map(m => `<span>${m}</span>`).join('')}
+                            ${r.author ? `<span class="meta-tag">âœï¸ ${r.author}</span>` : ''}
+                            ${r.price ? `<span class="meta-tag" style="color:var(--gold);">${r.price}</span>` : ''}
+                        </div>
+                        ${r.actions ? `
+                            <div class="result-actions">
+                                ${r.actions.map(a => `
+                                    <button class="${a === 'Add to Quote' || a === 'Contact' ? 'action-primary' : ''}" 
+                                            onclick="event.stopPropagation(); showToast('Action', '${a}...')">
+                                        ${a}
+                                    </button>
+                                `).join('')}
+                            </div>
+                        ` : ''}
+                    </div>
+                    <span class="result-tag ${r.tagClass}">${r.tag}</span>
+                </div>
+            `).join('');
+        });
+    });
+
+    // =========================================================================
+    // 11. KEYBOARD SHORTCUTS
+    // =========================================================================
+    document.addEventListener('keydown', function(e) {
+        // Command Palette: âŒ˜+K or Ctrl+K
+        if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+            e.preventDefault();
+            if (document.getElementById('commandPalette').classList.contains('active')) {
+                closeCommandPalette();
+            } else {
+                openCommandPalette();
+            }
+        }
+        if (e.key === 'Escape') {
+            if (document.getElementById('commandPalette').classList.contains('active')) {
+                closeCommandPalette();
+            } else {
+                closeToast();
+                document.getElementById('searchSuggestions').classList.remove('active');
+            }
+        }
+        if (e.key === 'Enter' && document.activeElement === document.getElementById('searchInput')) {
+            performSearch();
+        }
+        // Single key shortcuts when palette is open
+        if (document.getElementById('commandPalette').classList.contains('active') && e.key.length === 1) {
+            const items = document.querySelectorAll('.palette-item');
+            const shortcut = e.key.toUpperCase();
+            items.forEach(item => {
+                const shortcutEl = item.querySelector('.palette-shortcut');
+                if (shortcutEl && shortcutEl.textContent === shortcut) {
+                    executeCommand(item.dataset.action);
+                }
+            });
+        }
+    });
+
+    // =========================================================================
+    // 12. TOAST
+    // =========================================================================
+    function showToast(title, message) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastTitle').textContent = title;
+        document.getElementById('toastMessage').textContent = message;
+        toast.classList.add('show');
+        clearTimeout(window.toastTimeout);
+        window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    function closeToast() {
+        document.getElementById('toast').classList.remove('show');
+    }
+
+    // =========================================================================
+    // 13. INITIALIZATION
+    // =========================================================================
+    function init() {
+        console.log('ðŸ” BuildMart Â· Enterprise Search');
+        console.log('ðŸ“Š Search across 2,184 products, 146 brands, 318 guides, 37 calculators, 84 contractors');
+        console.log('ðŸ¤– AI-powered search with BOQ upload');
+        console.log('âŒ¨ï¸ Shortcuts: âŒ˜+K / Ctrl+K for command palette Â· Esc to close');
+        
+        renderPrompts();
+        renderRecentSearches();
+        renderResults('');
+        renderCommandPalette();
+        
+        setTimeout(() => {
+            document.getElementById('searchInput').focus();
+        }, 500);
+
+        setTimeout(() => {
+            showToast('ðŸ” Enterprise Search', 'Search products, contractors, knowledge, and more.');
+        }, 1500);
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
+

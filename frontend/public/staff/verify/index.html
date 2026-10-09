@@ -1,0 +1,1611 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  
+  <!-- ===== PWA META TAGS ===== -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Staff Hub">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/staff/manifest.json">
+  <link rel="apple-touch-icon" href="/staff-icons/icon-192x192.png">
+  <link rel="apple-touch-startup-image" href="/staff-icons/icon-512x512.png">
+  
+  <!-- ===== STAFF PORTAL META ===== -->
+  <meta name="staff-portal" content="true">
+  <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+  <meta name="csrf-token" content="">
+  
+  <!-- ===== FAVICONS & ICONS ===== -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/staff-icons/icon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/staff-icons/icon-96x96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/staff-icons/icon-48x48.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="/staff-icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/staff-icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/staff-icons/icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/staff-icons/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/staff-icons/icon-192x192.png">
+  <link rel="manifest" href="/staff/manifest.json">
+  
+  <title>Staff Verification | PrimeShieldHub</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://api.primeshieldhub.com">
+  
+  <style>
+    /* ============================================================
+       GOLD & BLACK THEME
+       ============================================================ */
+    :root {
+      --gold: #d6b25e;
+      --gold-light: #f0d78c;
+      --gold-dark: #b8942e;
+      --bg-deep: #0a0806;
+      --bg-card: rgba(16, 12, 8, 0.85);
+      --bg-input: rgba(255,255,255,0.03);
+      --border: rgba(214,178,94,0.18);
+      --border-glow: rgba(214,178,94,0.35);
+      --text: #f5efe6;
+      --text-dim: #c4b8a8;
+      --text-muted: #8a7d6e;
+      --success: #33ffaa;
+      --success-glow: rgba(51,255,170,0.3);
+      --error: #ff6b6b;
+      --error-glow: rgba(255,107,107,0.3);
+      --warning: #f0a500;
+      --info: #4d9fff;
+      --radius-sm: 12px;
+      --radius: 20px;
+      --radius-lg: 28px;
+      --radius-xl: 36px;
+      --transition: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+      --shadow-card: 0 40px 80px rgba(0,0,0,0.7), 0 0 0 1px rgba(214,178,94,0.1), 0 0 120px rgba(214,178,94,0.06);
+      --shadow-card-hover: 0 50px 100px rgba(0,0,0,0.8), 0 0 0 1px rgba(214,178,94,0.2), 0 0 160px rgba(214,178,94,0.1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: var(--bg-deep);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* Luxury animated background */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: -50%;
+      background: 
+        radial-gradient(ellipse at 25% 35%, rgba(214,178,94,0.07) 0%, transparent 45%),
+        radial-gradient(ellipse at 75% 25%, rgba(214,178,94,0.05) 0%, transparent 45%),
+        radial-gradient(ellipse at 50% 70%, rgba(214,178,94,0.04) 0%, transparent 45%),
+        radial-gradient(ellipse at 85% 80%, rgba(214,178,94,0.03) 0%, transparent 40%);
+      pointer-events: none;
+      z-index: 0;
+      animation: ambientShift 20s ease-in-out infinite alternate;
+    }
+
+    @keyframes ambientShift {
+      0% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-2%, 1%) scale(1.05); }
+      100% { transform: translate(1%, -1%) scale(1.02); }
+    }
+
+    body::after {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(214,178,94,0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(214,178,94,0.05) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(ellipse at 50% 50%, black 20%, transparent 65%);
+    }
+
+    /* Floating particles */
+    .particle {
+      position: fixed;
+      border-radius: 50%;
+      pointer-events: none;
+      z-index: 0;
+      animation: float 15s ease-in-out infinite;
+    }
+    .particle-1 {
+      width: 4px; height: 4px;
+      background: var(--gold);
+      top: 15%; left: 10%;
+      animation-delay: 0s;
+      opacity: 0.5;
+    }
+    .particle-2 {
+      width: 6px; height: 6px;
+      background: var(--success);
+      top: 75%; right: 15%;
+      animation-delay: -5s;
+      opacity: 0.4;
+    }
+    .particle-3 {
+      width: 3px; height: 3px;
+      background: var(--gold-light);
+      top: 40%; left: 80%;
+      animation-delay: -8s;
+      opacity: 0.6;
+    }
+    .particle-4 {
+      width: 5px; height: 5px;
+      background: var(--info);
+      bottom: 20%; left: 30%;
+      animation-delay: -3s;
+      opacity: 0.35;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -40px) scale(1.5); }
+      50% { transform: translate(-20px, -80px) scale(1); }
+      75% { transform: translate(-50px, -30px) scale(0.8); }
+    }
+
+    .container {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    /* Main Card - Gold & Black */
+    .verification-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(40px) saturate(200%);
+      -webkit-backdrop-filter: blur(40px) saturate(200%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-xl);
+      padding: 3rem 2.8rem;
+      box-shadow: var(--shadow-card);
+      transition: all var(--transition);
+      animation: cardReveal 0.7s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .verification-card:hover {
+      box-shadow: var(--shadow-card-hover);
+    }
+
+    @keyframes cardReveal {
+      from { opacity: 0; transform: translateY(40px) scale(0.97); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Brand Header - Gold & Black with Logo */
+    .brand-header {
+      text-align: center;
+      margin-bottom: 2.2rem;
+    }
+
+    .logo-emblem {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1.2rem;
+      background: linear-gradient(145deg, rgba(214,178,94,0.2), rgba(214,178,94,0.05));
+      border: 2px solid rgba(214,178,94,0.35);
+      border-radius: 22px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.2rem;
+      position: relative;
+      animation: emblemGlow 4s ease-in-out infinite;
+    }
+
+    .logo-emblem img {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      object-fit: contain;
+    }
+
+    .logo-emblem::after {
+      content: "";
+      position: absolute;
+      inset: -4px;
+      border-radius: 26px;
+      background: linear-gradient(135deg, var(--gold), transparent, var(--gold-dark));
+      opacity: 0;
+      transition: opacity 0.5s;
+      z-index: -1;
+      filter: blur(12px);
+    }
+
+    .verification-card:hover .logo-emblem::after {
+      opacity: 0.4;
+    }
+
+    @keyframes emblemGlow {
+      0%, 100% { box-shadow: 0 0 30px rgba(214,178,94,0.2), inset 0 0 30px rgba(214,178,94,0.05); }
+      50% { box-shadow: 0 0 55px rgba(214,178,94,0.4), inset 0 0 40px rgba(214,178,94,0.08); }
+    }
+
+    .company-name {
+      font-family: 'Playfair Display', 'Georgia', serif;
+      font-size: 1.8rem;
+      font-weight: 700;
+      font-style: italic;
+      background: linear-gradient(135deg, var(--gold-light) 0%, var(--gold) 40%, var(--gold-dark) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.5px;
+      line-height: 1.2;
+    }
+
+    .company-subtitle {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    .verification-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 20px;
+      background: rgba(51,255,170,0.08);
+      border: 1px solid rgba(51,255,170,0.25);
+      border-radius: 50px;
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--success);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 1rem;
+    }
+
+    .verification-badge .dot {
+      width: 8px;
+      height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+
+    @keyframes dotPulse {
+      0%, 100% { box-shadow: 0 0 6px var(--success); }
+      50% { box-shadow: 0 0 16px var(--success), 0 0 24px var(--success-glow); }
+    }
+
+    /* Input Section */
+    .input-section {
+      margin: 2rem 0;
+    }
+
+    .input-group label {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2.5px;
+      color: var(--text-dim);
+      margin-bottom: 0.6rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper .search-icon {
+      position: absolute;
+      left: 1.2rem;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.1rem;
+      color: var(--text-muted);
+      transition: color var(--transition);
+      pointer-events: none;
+    }
+
+    .input-wrapper input {
+      width: 100%;
+      padding: 1.1rem 1.2rem 1.1rem 3rem;
+      background: var(--bg-input);
+      border: 1.5px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: 'JetBrains Mono', 'Inter', monospace;
+      font-size: 1rem;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      outline: none;
+      transition: all var(--transition);
+    }
+
+    .input-wrapper input:focus {
+      border-color: var(--border-glow);
+      box-shadow: 0 0 40px rgba(214,178,94,0.1), 0 0 0 4px rgba(214,178,94,0.03);
+      background: rgba(255,255,255,0.05);
+    }
+
+    .input-wrapper input:focus ~ .search-icon {
+      color: var(--gold);
+    }
+
+    .input-wrapper input::placeholder {
+      color: rgba(255,255,255,0.15);
+      letter-spacing: 0.3px;
+      font-weight: 400;
+    }
+
+    .verify-btn {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 1.1rem;
+      background: linear-gradient(135deg, var(--gold) 0%, var(--gold-dark) 100%);
+      border: none;
+      border-radius: var(--radius);
+      color: #0a0a0a;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      transition: all var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .verify-btn::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold));
+      opacity: 0;
+      transition: opacity var(--transition);
+    }
+
+    .verify-btn:hover:not(:disabled)::before {
+      opacity: 1;
+    }
+
+    .verify-btn:hover:not(:disabled) {
+      transform: translateY(-3px);
+      box-shadow: 0 24px 48px rgba(214,178,94,0.35);
+    }
+
+    .verify-btn:active:not(:disabled) {
+      transform: translateY(-1px);
+    }
+
+    .verify-btn:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    .verify-btn .btn-content {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .verify-btn .spinner {
+      display: none;
+      width: 22px;
+      height: 22px;
+      border: 2.5px solid rgba(0,0,0,0.2);
+      border-top-color: #000;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    .verify-btn.loading .spinner {
+      display: block;
+    }
+
+    .verify-btn.loading .btn-text {
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Error Message */
+    .error-inline {
+      text-align: center;
+      color: var(--error);
+      font-size: 0.8rem;
+      font-weight: 500;
+      margin-top: 0.8rem;
+      display: none;
+      letter-spacing: 0.3px;
+    }
+
+    .error-inline.show {
+      display: block;
+      animation: shake 0.5s ease;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      20% { transform: translateX(-6px); }
+      40% { transform: translateX(6px); }
+      60% { transform: translateX(-4px); }
+      80% { transform: translateX(4px); }
+    }
+
+    /* Result Section */
+    .result-section {
+      display: none;
+      animation: resultReveal 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .result-section.show {
+      display: block;
+    }
+
+    @keyframes resultReveal {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .result-card {
+      border-radius: var(--radius-lg);
+      padding: 2rem;
+      margin-top: 1.5rem;
+      border: 1.5px solid;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .result-card.verified {
+      background: linear-gradient(160deg, rgba(51,255,170,0.04) 0%, rgba(51,255,170,0.01) 60%, transparent 100%);
+      border-color: rgba(51,255,170,0.25);
+    }
+
+    .result-card.not-verified {
+      background: linear-gradient(160deg, rgba(255,107,107,0.04) 0%, rgba(255,107,107,0.01) 60%, transparent 100%);
+      border-color: rgba(255,107,107,0.25);
+    }
+
+    .result-card.verified::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      right: -30%;
+      width: 250px;
+      height: 250px;
+      background: radial-gradient(circle, rgba(51,255,170,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .result-header {
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .result-icon {
+      font-size: 3.5rem;
+      margin-bottom: 0.3rem;
+      animation: iconPop 0.5s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    }
+
+    @keyframes iconPop {
+      from { transform: scale(0); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .result-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+    }
+
+    .verified .result-title { color: var(--success); }
+    .not-verified .result-title { color: var(--error); }
+
+    .result-subtitle {
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-top: 0.3rem;
+    }
+
+    /* Staff Details Grid */
+    .details-grid {
+      display: grid;
+      gap: 0;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      transition: background var(--transition);
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-row:hover {
+      background: rgba(255,255,255,0.015);
+      margin: 0 -0.5rem;
+      padding: 0.9rem 0.5rem;
+      border-radius: 8px;
+    }
+
+    .detail-label {
+      font-size: 0.68rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 1.8px;
+      color: var(--text-dim);
+      flex-shrink: 0;
+    }
+
+    .detail-value {
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: var(--text);
+      text-align: right;
+      margin-left: 1rem;
+    }
+
+    .detail-value.highlight {
+      font-size: 1.05rem;
+      color: var(--gold-light);
+      font-weight: 700;
+    }
+
+    .detail-value.mono {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    /* Status Badge */
+    .status-badge {
+      display: inline-block;
+      padding: 5px 14px;
+      border-radius: 50px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+    }
+
+    .status-badge.active {
+      background: rgba(51,255,170,0.12);
+      color: var(--success);
+      border: 1px solid rgba(51,255,170,0.25);
+    }
+
+    .status-badge.inactive {
+      background: rgba(240,165,0,0.12);
+      color: var(--warning);
+      border: 1px solid rgba(240,165,0,0.25);
+    }
+
+    .status-badge.suspended {
+      background: rgba(255,107,107,0.12);
+      color: var(--error);
+      border: 1px solid rgba(255,107,107,0.25);
+    }
+
+    /* Branch Info Card */
+    .branch-card {
+      margin-top: 1.2rem;
+      padding: 1.2rem;
+      background: rgba(255,255,255,0.02);
+      border-radius: var(--radius);
+      border: 1px solid rgba(255,255,255,0.05);
+      display: none;
+    }
+
+    .branch-card .branch-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--text-dim);
+      margin-bottom: 0.6rem;
+    }
+
+    .branch-card .branch-name {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: var(--text);
+    }
+
+    .branch-card .branch-address {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+      line-height: 1.5;
+    }
+
+    .branch-card .branch-badge {
+      display: inline-block;
+      padding: 3px 10px;
+      border-radius: 50px;
+      font-size: 0.6rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin-top: 0.5rem;
+    }
+
+    .branch-badge.hq {
+      background: rgba(214,178,94,0.15);
+      color: var(--gold);
+      border: 1px solid rgba(214,178,94,0.3);
+    }
+
+    .branch-badge.retail {
+      background: rgba(77,159,255,0.12);
+      color: var(--info);
+      border: 1px solid rgba(77,159,255,0.25);
+    }
+
+    .branch-badge.buildmart {
+      background: rgba(240,165,0,0.12);
+      color: var(--warning);
+      border: 1px solid rgba(240,165,0,0.25);
+    }
+
+    /* Verification Footer */
+    .verification-footer {
+      margin-top: 1.5rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      text-align: center;
+    }
+
+    .proof-section {
+      margin-bottom: 0.8rem;
+    }
+
+    .proof-hash {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      word-break: break-all;
+      background: rgba(0,0,0,0.3);
+      padding: 0.5rem 0.8rem;
+      border-radius: 8px;
+      display: inline-block;
+    }
+
+    .timestamp {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-top: 0.4rem;
+    }
+
+    .divisions {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 0.8rem;
+    }
+
+    .division-tag {
+      padding: 4px 12px;
+      border-radius: 50px;
+      font-size: 0.6rem;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      background: rgba(214,178,94,0.08);
+      color: var(--gold-light);
+      border: 1px solid rgba(214,178,94,0.2);
+    }
+
+    .issuer-text {
+      font-size: 0.62rem;
+      color: var(--text-muted);
+      margin-top: 0.8rem;
+      letter-spacing: 1px;
+    }
+
+    /* ===== PWA INSTALL BANNER - GOLD & BLACK ===== */
+    .pwa-install-banner {
+      display:none;
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      z-index:9998;
+      background:linear-gradient(135deg,#14100c,#1c1712);
+      border-top:1px solid rgba(214,178,94,0.2);
+      padding:12px 20px;
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      animation:slideUp 0.4s ease;
+    }
+    .pwa-install-banner.show { display:flex; }
+    .pwa-install-banner .pwa-content {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      max-width:800px;
+      margin:0 auto;
+      width:100%;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .pwa-install-banner .pwa-text {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex:1;
+      min-width:200px;
+    }
+    .pwa-install-banner .pwa-icon {
+      font-size:24px;
+      flex-shrink:0;
+    }
+    .pwa-install-banner .pwa-title {
+      font-weight:600;
+      font-size:0.85rem;
+      color:#f5efe6;
+    }
+    .pwa-install-banner .pwa-desc {
+      font-size:0.7rem;
+      color:#c4b8a8;
+    }
+    .pwa-install-banner .pwa-actions {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .pwa-install-banner .pwa-btn {
+      padding:8px 18px;
+      border:none;
+      border-radius:10px;
+      font-weight:600;
+      font-size:0.75rem;
+      cursor:pointer;
+      transition:all 0.3s ease;
+      font-family:'Inter',sans-serif;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .pwa-install-banner .pwa-btn-install {
+      background:linear-gradient(135deg,#d6b25e,#f3d27b);
+      color:#000;
+    }
+    .pwa-install-banner .pwa-btn-install:hover {
+      transform:translateY(-1px);
+      box-shadow:0 4px 15px rgba(214,178,94,0.3);
+    }
+    .pwa-install-banner .pwa-btn-dismiss {
+      background:rgba(255,255,255,0.05);
+      color:#c4b8a8;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .pwa-install-banner .pwa-btn-dismiss:hover {
+      background:rgba(255,255,255,0.08);
+    }
+    @keyframes slideUp {
+      from { transform:translateY(100%); opacity:0; }
+      to { transform:translateY(0); opacity:1; }
+    }
+
+    /* Offline Banner */
+    .offline-banner {
+      position:fixed;
+      top:0;
+      left:0;
+      right:0;
+      background:#ff4d6a;
+      color:#fff;
+      text-align:center;
+      padding:10px;
+      z-index:100000;
+      transform:translateY(-100%);
+      transition:transform 0.3s ease;
+      font-family:'Inter',sans-serif;
+      font-size:0.85rem;
+    }
+    .offline-banner.show { transform:translateY(0); }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      .verification-card {
+        padding: 2rem 1.5rem;
+        border-radius: var(--radius-lg);
+      }
+      .company-name {
+        font-size: 1.4rem;
+      }
+      .detail-value.highlight {
+        font-size: 0.9rem;
+      }
+      .result-card {
+        padding: 1.5rem;
+      }
+      .pwa-install-banner .pwa-content {
+        flex-direction:column;
+        align-items:stretch;
+        gap:8px;
+      }
+      .pwa-install-banner .pwa-actions {
+        justify-content:stretch;
+      }
+      .pwa-install-banner .pwa-btn {
+        flex:1;
+        text-align:center;
+      }
+      .pwa-install-banner {
+        padding:10px 14px;
+      }
+      .pwa-install-banner .pwa-title {
+        font-size:0.75rem;
+      }
+      .pwa-install-banner .pwa-desc {
+        font-size:0.65rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- ===== OFFLINE BANNER ===== -->
+  <div class="offline-banner" id="offlineBanner">📡 You are offline. Some features may be unavailable.</div>
+
+  <!-- ===== PWA INSTALL BANNER ===== -->
+  <div class="pwa-install-banner" id="pwaInstallBanner">
+    <div class="pwa-content">
+      <div class="pwa-text">
+        <span class="pwa-icon">📱</span>
+        <div>
+          <div class="pwa-title">Install Staff Hub</div>
+          <div class="pwa-desc">Get faster access to your staff dashboard</div>
+        </div>
+      </div>
+      <div class="pwa-actions">
+        <button class="pwa-btn pwa-btn-install" id="pwaInstallBtn">
+          <i class="fas fa-download"></i> Install
+        </button>
+        <button class="pwa-btn pwa-btn-dismiss" id="pwaDismissBtn">Not now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Ambient Particles -->
+  <div class="particle particle-1"></div>
+  <div class="particle particle-2"></div>
+  <div class="particle particle-3"></div>
+  <div class="particle particle-4"></div>
+
+  <div class="container">
+    <div class="verification-card">
+      <!-- Brand Header - Gold & Black with Logo -->
+      <div class="brand-header">
+        <div class="logo-emblem">
+          <img src="/company_logo.png" alt="PrimeShieldHub Logo" onerror="this.innerHTML='🛡️'">
+        </div>
+        <div class="company-name">PrimeShieldHub</div>
+        <div class="company-subtitle">Gadgets Limited</div>
+        <div class="verification-badge">
+          <span class="dot"></span>
+          Staff Identity Verification
+        </div>
+      </div>
+
+      <!-- Input Section -->
+      <div class="input-section">
+        <div class="input-group">
+          <label>Staff ID or Email Address</label>
+          <div class="input-wrapper">
+            <span class="search-icon">🔍</span>
+            <input 
+              type="text" 
+              id="staffIdInput" 
+              placeholder="Enter Staff ID (e.g. PSH-EMP-123)"
+              autocomplete="off"
+              spellcheck="false"
+            >
+          </div>
+        </div>
+        <button class="verify-btn" id="verifyBtn">
+          <span class="btn-content">
+            <span class="spinner"></span>
+            <span class="btn-text">Verify Staff Identity</span>
+          </span>
+        </button>
+        <div class="error-inline" id="errorMessage"></div>
+      </div>
+
+      <!-- Result Section -->
+      <div class="result-section" id="resultSection">
+        <div class="result-card" id="resultCard">
+          <div class="result-header">
+            <div class="result-icon" id="statusIcon"></div>
+            <div class="result-title" id="statusText"></div>
+            <div class="result-subtitle" id="statusSubtitle"></div>
+          </div>
+          <div class="details-grid" id="staffDetails"></div>
+          <div class="branch-card" id="branchCard"></div>
+          <div class="verification-footer" id="verificationFooter"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== PWA INSTALL SCRIPT - FULLY PRESERVED ===== -->
+  <script>
+      (function() {
+          'use strict';
+
+          let deferredPrompt = null;
+          const banner = document.getElementById('pwaInstallBanner');
+          const installBtn = document.getElementById('pwaInstallBtn');
+          const dismissBtn = document.getElementById('pwaDismissBtn');
+
+          // ================================================================ //
+          // CHECK IF ALREADY INSTALLED                                       //
+          // ================================================================ //
+          if (window.navigator.standalone === true || 
+              window.matchMedia('(display-mode: standalone)').matches) {
+              if (banner) banner.style.display = 'none';
+              console.log('📱 Staff Hub already installed (standalone mode)');
+              return;
+          }
+
+          // ================================================================ //
+          // CHECK Dismissed/Installed flags                                  //
+          // ================================================================ //
+          const dismissed = localStorage.getItem('psh_staff_pwa_dismissed') === 'true';
+          const installed = localStorage.getItem('psh_staff_pwa_installed') === 'true';
+          
+          if (dismissed || installed) {
+              if (banner) banner.style.display = 'none';
+              console.log('📱 Staff Hub banner suppressed (dismissed:', dismissed, 'installed:', installed, ')');
+              return;
+          }
+
+          // ================================================================ //
+          // LISTEN FOR INSTALL PROMPT                                       //
+          // ================================================================ //
+          window.addEventListener('beforeinstallprompt', (e) => {
+              console.log('📱 🔔 beforeinstallprompt event fired!');
+              e.preventDefault();
+              deferredPrompt = e;
+              
+              if (banner && !banner.classList.contains('show')) {
+                  console.log('📱 Showing install banner (from beforeinstallprompt)');
+                  banner.classList.add('show');
+              }
+          });
+
+          // ================================================================ //
+          // FALLBACK: Force show banner after page loads                    //
+          // ================================================================ //
+          // This is the key fix - if beforeinstallprompt doesn't fire,
+          // we show the banner anyway after a delay.
+          setTimeout(() => {
+              // Re-check dismissed/installed flags
+              const dismissedNow = localStorage.getItem('psh_staff_pwa_dismissed') === 'true';
+              const installedNow = localStorage.getItem('psh_staff_pwa_installed') === 'true';
+              
+              if (!dismissedNow && !installedNow && banner && !banner.classList.contains('show')) {
+                  // Check if the app is already installed
+                  const isStandalone = window.navigator.standalone === true || 
+                                      window.matchMedia('(display-mode: standalone)').matches;
+                  
+                  if (!isStandalone) {
+                      console.log('📱 🔔 FALLBACK: Showing install banner (beforeinstallprompt did not fire)');
+                      banner.classList.add('show');
+                  }
+              }
+          }, 2000);
+
+          // ================================================================ //
+          // APP INSTALLED EVENT                                             //
+          // ================================================================ //
+          window.addEventListener('appinstalled', () => {
+              console.log('📱 ✅ Staff Hub installed!');
+              if (banner) banner.classList.remove('show');
+              localStorage.setItem('psh_staff_pwa_installed', 'true');
+              
+              // Show success toast
+              const toast = document.createElement('div');
+              toast.style.cssText = `
+                  position: fixed;
+                  bottom: 80px;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  background: linear-gradient(135deg, #14100c, #1c1712);
+                  border: 1px solid rgba(214, 178, 94, 0.3);
+                  border-radius: 12px;
+                  padding: 16px 24px;
+                  color: #f5efe6;
+                  font-family: 'Inter', sans-serif;
+                  font-size: 0.9rem;
+                  z-index: 99999;
+                  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+                  backdrop-filter: blur(20px);
+                  animation: slideUp 0.4s ease;
+                  text-align: center;
+                  max-width: 400px;
+              `;
+              toast.innerHTML = `
+                  <div style="font-size: 28px;">✅</div>
+                  <div style="font-weight: 600; color: #d6b25e; margin-top: 4px;">Staff Hub Installed!</div>
+                  <div style="font-size: 0.8rem; color: #c4b8a8;">You can now access from your home screen</div>
+              `;
+              document.body.appendChild(toast);
+              setTimeout(() => {
+                  toast.style.opacity = '0';
+                  toast.style.transition = 'opacity 0.3s ease';
+                  setTimeout(() => toast.remove(), 300);
+              }, 4000);
+          });
+
+          // ================================================================ //
+          // INSTALL BUTTON                                                   //
+          // ================================================================ //
+          if (installBtn) {
+              installBtn.addEventListener('click', async () => {
+                  console.log('📱 Install button clicked');
+                  
+                  if (deferredPrompt) {
+                      console.log('📱 Showing install prompt (from beforeinstallprompt)');
+                      deferredPrompt.prompt();
+                      const result = await deferredPrompt.userChoice;
+                      console.log('📱 User choice:', result.outcome);
+                      
+                      if (result.outcome === 'accepted') {
+                          console.log('📱 User accepted install');
+                          if (banner) banner.classList.remove('show');
+                          localStorage.setItem('psh_staff_pwa_installed', 'true');
+                      } else {
+                          console.log('📱 User dismissed install');
+                          if (banner) banner.classList.remove('show');
+                          localStorage.setItem('psh_staff_pwa_dismissed', 'true');
+                      }
+                      deferredPrompt = null;
+                  } else {
+                      console.log('📱 No deferredPrompt - showing manual instructions');
+                      
+                      // Check if we can manually trigger the install
+                      const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge/.test(navigator.userAgent);
+                      const isEdge = /Edg/.test(navigator.userAgent);
+                      const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+                      
+                      if (isChrome || isEdge) {
+                          // Try to show the install banner manually by checking SW
+                          if ('serviceWorker' in navigator) {
+                              try {
+                                  const registration = await navigator.serviceWorker.ready;
+                                  // Try to trigger the install prompt via service worker message
+                                  if (registration.active) {
+                                      registration.active.postMessage({ type: 'trigger-install' });
+                                  }
+                              } catch(e) {
+                                  console.log('📱 Could not trigger SW install:', e);
+                              }
+                          }
+                          
+                          // Show the manual install instructions anyway
+                          alert('📱 To install Staff Hub:\n\n' +
+                                '1. Look for the install icon (⊕) in the address bar\n' +
+                                '2. Click "Install" or "Add to Home Screen"\n' +
+                                '3. Follow the prompts to install\n\n' +
+                                'Alternatively, tap the menu (⋮) and select "Install App"');
+                      } else if (isSafari) {
+                          alert('📱 To install Staff Hub on iPhone:\n\n' +
+                                '1. Tap the Share button (⬆️) at the bottom\n' +
+                                '2. Scroll down and tap "Add to Home Screen"\n' +
+                                '3. Tap "Add" in the top right corner\n\n' +
+                                'Then open from your home screen!');
+                      } else {
+                          alert('📱 To install Staff Hub:\n\n' +
+                                '1. Open your browser menu\n' +
+                                '2. Look for "Install App" or "Add to Home Screen"\n' +
+                                '3. Follow the prompts to install');
+                      }
+                  }
+              });
+          }
+
+          // ================================================================ //
+          // DISMISS BUTTON                                                   //
+          // ================================================================ //
+          if (dismissBtn) {
+              dismissBtn.addEventListener('click', () => {
+                  console.log('📱 User dismissed banner');
+                  if (banner) banner.classList.remove('show');
+                  localStorage.setItem('psh_staff_pwa_dismissed', 'true');
+              });
+          }
+
+          // ================================================================ //
+          // OFFLINE STATUS                                                   //
+          // ================================================================ //
+          function updateOnlineStatus() {
+              const banner = document.getElementById('offlineBanner');
+              if (!banner) return;
+
+              if (!navigator.onLine) {
+                  banner.classList.add('show');
+                  banner.textContent = '📡 You are offline. Some features may be unavailable.';
+              } else {
+                  banner.classList.remove('show');
+              }
+          }
+
+          window.addEventListener('online', updateOnlineStatus);
+          window.addEventListener('offline', updateOnlineStatus);
+          updateOnlineStatus();
+
+          // ================================================================ //
+          // DEBUG INFO                                                       //
+          // ================================================================ //
+          console.log('📱 Staff PWA Install handler ready');
+          console.log('📱 Manifest URL:', document.querySelector('link[rel="manifest"]')?.href);
+          console.log('📱 Service Worker:', navigator.serviceWorker ? 'available' : 'not available');
+          console.log('📱 Standalone:', window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches);
+          console.log('📱 Dismissed:', dismissed);
+          console.log('📱 Installed:', installed);
+          console.log('📱 Banner element:', banner ? 'found' : 'not found');
+
+          // ================================================================ //
+          // ADD A MANUAL TRIGGER FOR DEBUGGING                               //
+          // ================================================================ //
+          // Expose a global function to show the install banner manually
+          window.showStaffInstallBanner = function() {
+              if (banner && !banner.classList.contains('show')) {
+                  banner.classList.add('show');
+                  console.log('📱 Banner shown manually');
+              } else {
+                  console.log('📱 Banner already showing or not available');
+              }
+          };
+          
+          console.log('📱 Run showStaffInstallBanner() to show banner manually');
+      })();
+  </script>
+
+  <script type="module">
+    // ================================================================ //
+    // STAFF VERIFICATION - UNIFIED CONFIG & BACKEND SYNC               //
+    // ================================================================ //
+
+    import { CONFIG } from '../../js/config.js';
+
+    // ===== UNIFIED CONFIG =====
+    const API_BASE = CONFIG.apiBase;
+
+    console.log('🚀 Staff Verification Portal v2.0 — Unified Config');
+    console.log('📍 API Base:', API_BASE);
+    console.log('📦 Using unified config from:', CONFIG.apiBase);
+    console.log('⌨️  Ctrl+Enter to verify, Escape to clear');
+    console.log('📱 PWA Staff App ready for installation');
+
+    // ================================================================ //
+    // DOM REFS                                                         //
+    // ================================================================ //
+
+    const staffInput = document.getElementById('staffIdInput');
+    const verifyBtn = document.getElementById('verifyBtn');
+    const errorMsg = document.getElementById('errorMessage');
+    const resultSection = document.getElementById('resultSection');
+
+    // ================================================================ //
+    // HELPER FUNCTIONS                                                  //
+    // ================================================================ //
+
+    function showError(message) {
+        errorMsg.textContent = message;
+        errorMsg.classList.add('show');
+        setTimeout(() => errorMsg.classList.remove('show'), 5000);
+    }
+
+    function hideError() {
+        errorMsg.classList.remove('show');
+    }
+
+    function setLoading(isLoading) {
+        if (isLoading) {
+            verifyBtn.classList.add('loading');
+            verifyBtn.disabled = true;
+        } else {
+            verifyBtn.classList.remove('loading');
+            verifyBtn.disabled = false;
+        }
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return dateString;
+        return date.toLocaleDateString('en-GB', { 
+            year: 'numeric', 
+            month: 'long', 
+            day: 'numeric' 
+        });
+    }
+
+    function formatDateTime(dateString) {
+        if (!dateString) return 'N/A';
+        const date = new Date(dateString);
+        if (isNaN(date.getTime())) return dateString;
+        return date.toLocaleString('en-GB', { 
+            year: 'numeric', 
+            month: 'short', 
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+        }) + ' UTC';
+    }
+
+    function escapeHTML(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#039;');
+    }
+
+    // ================================================================ //
+    // VERIFICATION FUNCTION - FIXED API PATH                           //
+    // ================================================================ //
+
+    async function verifyStaff() {
+        const staffId = staffInput.value.trim();
+        
+        hideError();
+        resultSection.classList.remove('show');
+        
+        if (!staffId || staffId.length < 2) {
+            showError('Please enter a valid Staff ID or Email address');
+            staffInput.focus();
+            return;
+        }
+
+        // Show loading state
+        setLoading(true);
+        
+        // Disable input
+        staffInput.disabled = true;
+
+        try {
+            // ================================================================ //
+            // FIXED: Endpoint path - API_BASE already includes /api           //
+            // ================================================================ //
+            const endpoint = `/staff/verify-public/${encodeURIComponent(staffId)}`;
+            const url = `${API_BASE}${endpoint}`;
+
+            console.log(`🔍 Verifying staff: ${staffId} at ${url}`);
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            // ================================================================ //
+            // FIXED: Better error handling for specific status codes          //
+            // ================================================================ //
+
+            // Handle rate limiting
+            if (response.status === 429) {
+                const retryAfter = response.headers.get('Retry-After') || '30';
+                showError(`Too many requests. Please wait ${retryAfter} seconds before trying again.`);
+                setLoading(false);
+                staffInput.disabled = false;
+                return;
+            }
+
+            // Handle not found
+            if (response.status === 404) {
+                displayNotVerified({ 
+                    message: 'No staff member found with this ID.',
+                    suggestions: 'Please verify the Staff ID and try again. Contact HR if you believe this is an error.'
+                });
+                setLoading(false);
+                staffInput.disabled = false;
+                return;
+            }
+
+            // Handle server errors
+            if (response.status >= 500) {
+                showError('Server error. Please try again later.');
+                setLoading(false);
+                staffInput.disabled = false;
+                return;
+            }
+
+            // Handle non-JSON responses
+            const contentType = response.headers.get('content-type');
+            if (!contentType || !contentType.includes('application/json')) {
+                const text = await response.text();
+                console.warn('Non-JSON response:', text.substring(0, 200));
+                showError('Unexpected response from server. Please try again.');
+                setLoading(false);
+                staffInput.disabled = false;
+                return;
+            }
+
+            const data = await response.json();
+
+            if (!response.ok) {
+                throw new Error(data.error || data.message || `HTTP ${response.status}`);
+            }
+
+            if (data.verified && data.staff) {
+                displayVerified(data);
+            } else {
+                displayNotVerified(data || { message: 'Staff record not found.' });
+            }
+
+        } catch (error) {
+            console.error('Verification error:', error);
+            
+            // Check if offline
+            if (!navigator.onLine) {
+                showError('You are offline. Please check your internet connection and try again.');
+            } else {
+                showError(error.message || 'Unable to connect to verification service. Please try again.');
+            }
+        } finally {
+            setLoading(false);
+            staffInput.disabled = false;
+        }
+    }
+
+    // ================================================================ //
+    // DISPLAY FUNCTIONS                                                //
+    // ================================================================ //
+
+    function displayVerified(data) {
+        const staff = data.staff;
+        const branch = staff.branch || {};
+        const resultCard = document.getElementById('resultCard');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusText = document.getElementById('statusText');
+        const statusSubtitle = document.getElementById('statusSubtitle');
+        const staffDetails = document.getElementById('staffDetails');
+        const branchCard = document.getElementById('branchCard');
+        const verificationFooter = document.getElementById('verificationFooter');
+        
+        resultCard.className = 'result-card verified';
+        statusIcon.textContent = '✅';
+        statusText.textContent = 'Verified Staff Member';
+        statusSubtitle.textContent = 'Employment Confirmed';
+        
+        const statusClass = staff.is_active ? 'active' : (staff.status === 'suspended' ? 'suspended' : 'inactive');
+        const statusLabel = staff.status ? staff.status.toUpperCase() : 'ACTIVE';
+        
+        const empTypeLabel = staff.employment_type === 'full-time' ? 'Full-Time' :
+                             staff.employment_type === 'part-time' ? 'Part-Time' :
+                             staff.employment_type === 'contract' ? 'Contract' :
+                             (staff.employment_type || 'Full-Time');
+        
+        staffDetails.innerHTML = `
+            <div class="detail-row">
+                <span class="detail-label">Full Name</span>
+                <span class="detail-value highlight">${escapeHTML(staff.name)}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Staff ID</span>
+                <span class="detail-value mono">${escapeHTML(staff.display_id || staff.staff_id)}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Designation</span>
+                <span class="detail-value">${escapeHTML(staff.designation || staff.role)}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Department</span>
+                <span class="detail-value">${escapeHTML(staff.department || 'General')}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Role</span>
+                <span class="detail-value">${escapeHTML(staff.role)}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Employment Type</span>
+                <span class="detail-value">${empTypeLabel}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Status</span>
+                <span class="detail-value"><span class="status-badge ${statusClass}">${statusLabel}</span></span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Duration</span>
+                <span class="detail-value">${escapeHTML(staff.employment_duration || '—')}</span>
+            </div>
+            <div class="detail-row">
+                <span class="detail-label">Joined</span>
+                <span class="detail-value">${formatDate(staff.joined_date)}</span>
+            </div>
+        `;
+        
+        // Branch Card
+        const branchTypeLabel = branch.type === 'headquarters' ? 'HEADQUARTERS' :
+                                branch.type === 'buildmart' ? 'BUILDMART DIVISION' :
+                                branch.type === 'retail' ? 'RETAIL BRANCH' :
+                                (branch.type || 'BRANCH').toUpperCase();
+        
+        const branchBadgeClass = branch.type === 'headquarters' ? 'hq' :
+                                  branch.type === 'buildmart' ? 'buildmart' : 'retail';
+        
+        branchCard.style.display = 'block';
+        branchCard.innerHTML = `
+            <div class="branch-title">📍 Assigned Branch</div>
+            <div class="branch-name">${escapeHTML(branch.name || 'Headquarters')}</div>
+            <div class="branch-address">${escapeHTML(branch.address || '108 Newton Street, Benin City, Edo State, Nigeria')}</div>
+            <div style="font-size:0.72rem;color:var(--text-dim);margin-top:0.2rem;">
+                ${escapeHTML(branch.city || 'Benin City')}, ${escapeHTML(branch.state || 'Edo')} State, ${escapeHTML(branch.country || 'Nigeria')}
+            </div>
+            ${branch.is_headquarters ? '<span class="branch-badge hq">🏢 Headquarters</span>' : ''}
+            <span class="branch-badge ${branchBadgeClass}">${branchTypeLabel}</span>
+        `;
+        
+        // Footer
+        const proof = data.verification || {};
+        const divisions = proof.divisions || ['PrimeShieldHub Gadgets', 'PrimeShieldHub BuildMart'];
+        
+        verificationFooter.innerHTML = `
+            <div class="proof-section">
+                <div class="proof-hash">Proof: ${escapeHTML(proof.hash || 'N/A')}</div>
+            </div>
+            <div class="timestamp">Verified: ${formatDateTime(proof.verified_at || new Date().toISOString())}</div>
+            <div class="timestamp">Valid until: ${formatDateTime(proof.valid_until || 'N/A')}</div>
+            <div class="divisions">
+                ${divisions.map(d => `<span class="division-tag">${escapeHTML(d)}</span>`).join('')}
+            </div>
+            <div class="issuer-text">
+                Issued by ${escapeHTML(proof.issuer || 'PrimeShieldHub Gadgets Limited')} · ${escapeHTML(proof.issuer_registration || 'RC 9283954')}
+            </div>
+        `;
+        
+        resultSection.classList.add('show');
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function displayNotVerified(data) {
+        const resultCard = document.getElementById('resultCard');
+        const statusIcon = document.getElementById('statusIcon');
+        const statusText = document.getElementById('statusText');
+        const statusSubtitle = document.getElementById('statusSubtitle');
+        const staffDetails = document.getElementById('staffDetails');
+        const branchCard = document.getElementById('branchCard');
+        const verificationFooter = document.getElementById('verificationFooter');
+        
+        resultCard.className = 'result-card not-verified';
+        statusIcon.textContent = '❌';
+        statusText.textContent = 'Not Verified';
+        statusSubtitle.textContent = data.message || 'Staff Record Not Found';
+        
+        staffDetails.innerHTML = `
+            <div style="text-align:center; padding: 1.5rem 0; color: var(--text-dim);">
+                <p style="font-size: 0.9rem; margin-bottom: 0.6rem; color: var(--text);">
+                    No staff member found with this ID.
+                </p>
+                <p style="font-size: 0.78rem; line-height: 1.6;">
+                    ${escapeHTML(data.suggestions || 'Please verify the Staff ID and try again.')}<br>
+                    If you believe this is an error, contact<br>
+                    <strong style="color: var(--gold-light);">Human Resources</strong> for assistance.
+                </p>
+            </div>
+        `;
+        
+        branchCard.style.display = 'none';
+        
+        verificationFooter.innerHTML = `
+            <div class="divisions">
+                <span class="division-tag">PrimeShieldHub Gadgets</span>
+                <span class="division-tag">PrimeShieldHub BuildMart</span>
+            </div>
+            <div class="issuer-text">
+                PrimeShieldHub Gadgets Limited · RC 9283954
+            </div>
+        `;
+        
+        resultSection.classList.add('show');
+        resultCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    // ================================================================ //
+    // EVENT LISTENERS                                                  //
+    // ================================================================ //
+
+    // ===== FIXED: Click handler for Verify button =====
+    verifyBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        verifyStaff();
+    });
+
+    // Enter key support
+    staffInput.addEventListener('keypress', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            verifyStaff();
+        }
+    });
+
+    // Focus on load
+    staffInput.focus();
+
+    // Clear error on input
+    staffInput.addEventListener('input', function() {
+        hideError();
+        if (resultSection.classList.contains('show')) {
+            resultSection.classList.remove('show');
+        }
+    });
+
+    // ================================================================ //
+    // KEYBOARD SHORTCUTS                                                //
+    // ================================================================ //
+
+    document.addEventListener('keydown', (e) => {
+        // Ctrl+Enter = Verify
+        if (e.ctrlKey && e.key === 'Enter') {
+            e.preventDefault();
+            verifyStaff();
+        }
+        // Escape = Clear input and reset
+        if (e.key === 'Escape') {
+            staffInput.value = '';
+            staffInput.focus();
+            hideError();
+            resultSection.classList.remove('show');
+        }
+    });
+
+    // ================================================================ //
+    // CONNECTION STATUS                                                 //
+    // ================================================================ //
+
+    window.addEventListener('online', () => {
+        console.log('🟢 Connection restored');
+    });
+
+    window.addEventListener('offline', () => {
+        showError('🔴 You are offline. Please check your internet connection.');
+    });
+
+    // ================================================================ //
+    // EXPOSE FOR ONCLICK (Fallback for inline onclick)                 //
+    // ================================================================ //
+
+    window.verifyStaff = verifyStaff;
+
+  </script>
+</body>
+</html>

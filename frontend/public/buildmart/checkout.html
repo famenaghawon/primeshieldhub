@@ -1,0 +1,2335 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-theme="checkout">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="description" content="BuildMart Enterprise Checkout - AI-powered procurement with live inventory, risk analysis, and intelligent logistics." />
+    <meta name="theme-color" content="#050510" />
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api" />
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}" />
+    
+    <title>BuildMart · Enterprise Checkout</title>
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "CheckoutPage",
+        "name": "BuildMart Enterprise Checkout",
+        "description": "AI-powered procurement checkout with live inventory, risk analysis, and intelligent logistics.",
+        "url": "https://primeshieldhub.com/buildmart/checkout.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "PRIMESHIELDHUB BUILDMART",
+            "url": "https://primeshieldhub.com/buildmart"
+        }
+    }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES — BUILDMART THEME
+           ============================================================ */
+        :root {
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --gold-dark: #D97706;
+            --gold-glow: rgba(245, 158, 11, 0.12);
+            --gold-dim: rgba(245, 179, 66, 0.15);
+            
+            --cyan: #00D4FF;
+            --cyan-glow: rgba(0, 212, 255, 0.08);
+            
+            --bg-deep: #050510;
+            --bg-primary: #0a1628;
+            --bg-card: rgba(12, 12, 30, 0.7);
+            --bg-input: rgba(0, 0, 0, 0.4);
+            --bg-glass: rgba(18, 18, 35, 0.55);
+            
+            --text-primary: #f0f0f5;
+            --text-secondary: #b0b0c0;
+            --text-muted: #6a6a80;
+            --text-inverse: #050510;
+            
+            --accent-success: #69f0ae;
+            --accent-warning: #F59E0B;
+            --accent-danger: #ff5252;
+            --accent-purple: #b388ff;
+            --accent-cyan: #00e5ff;
+            --accent-blue: #4a7aff;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 48px;
+            --radius-3xl: 64px;
+            
+            --shadow-card: 0 40px 70px -30px rgba(0,0,0,0.9);
+            --shadow-glow: 0 0 40px rgba(245, 179, 66, 0.15);
+            --shadow-elevated: 0 30px 60px rgba(0,0,0,0.6);
+            
+            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-luxe: 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 20% 20%, rgba(245, 179, 66, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 229, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(179, 136, 255, 0.02) 0%, transparent 60%);
+            background-attachment: fixed;
+            padding: 0;
+            animation: ambientShift 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes ambientShift {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridPulse 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::selection { background: rgba(245, 158, 11, 0.25); }
+
+        .gold-text { color: var(--gold); }
+        .cyan-text { color: var(--cyan); }
+        .purple-text { color: var(--accent-purple); }
+        .green-text { color: var(--accent-success); }
+        .gold-gradient {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ============================================================
+           GLASS CARD
+           ============================================================ */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(28px) saturate(220%);
+            -webkit-backdrop-filter: blur(28px) saturate(220%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-3xl);
+            box-shadow: var(--shadow-card), inset 0 0 0 1px rgba(255,255,255,0.02);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius-3xl);
+            padding: 1px;
+            background: conic-gradient(from 0deg at 50% 50%, rgba(245, 179, 66, 0.15), rgba(0, 229, 255, 0.06), rgba(245, 179, 66, 0.15));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .glass-card:hover {
+            border-color: rgba(245, 179, 66, 0.2);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+        }
+
+        .container {
+            max-width: 1480px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           PARTICLES CANVAS
+           ============================================================ */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        .navbar {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(245, 179, 66, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 5, 16, 0.7);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            box-shadow: 0 20px 50px -20px rgba(0,0,0,0.9);
+            transition: all 0.3s ease;
+        }
+        .navbar.shrink { padding: 0.4rem 0; background: rgba(5, 5, 16, 0.92); }
+        .nav-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            max-width: 1480px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .nav-logo i { color: var(--gold); filter: drop-shadow(0 0 15px rgba(245, 179, 66, 0.8)); }
+        .nav-logo .logo-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            animation: dotBlink 2s infinite;
+        }
+        @keyframes dotBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 0.3rem 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--gold); }
+        .nav-links a.active::after { width: 100%; }
+
+        .nav-actions { display: flex; gap: 1rem; align-items: center; }
+        .nav-badge {
+            background: rgba(0,229,255,0.1);
+            border: 1px solid rgba(0,229,255,0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            animation: livePulse 1.5s infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.8); }
+        }
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #d1d8e5;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 0.2rem 0.4rem;
+        }
+
+        /* ============================================================
+           PROGRESS TIMELINE
+           ============================================================ */
+        .progress-timeline {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+        .step {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+            letter-spacing: 0.02em;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .step:hover { color: var(--text-secondary); }
+        .step.active { color: var(--gold); }
+        .step.done { color: var(--accent-success); }
+        .step .circle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,215,120,0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: var(--transition-smooth);
+        }
+        .step.active .circle {
+            background: var(--gold);
+            color: var(--text-inverse);
+            border-color: var(--gold);
+            box-shadow: 0 0 30px rgba(245, 179, 66, 0.3);
+        }
+        .step.done .circle {
+            background: rgba(43, 122, 75, 0.3);
+            border-color: var(--accent-success);
+            color: var(--accent-success);
+        }
+        .step.done .circle i { font-size: 0.6rem; }
+        .line {
+            width: 30px;
+            height: 2px;
+            background: rgba(255,215,120,0.08);
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+        .line.done { background: var(--accent-success); }
+
+        /* ============================================================
+           CHECKOUT GRID
+           ============================================================ */
+        .checkout-grid {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 2.5rem;
+            margin-top: 0.5rem;
+        }
+        @media (max-width: 1100px) {
+            .checkout-grid { grid-template-columns: 1fr; }
+        }
+
+        .left-col { display: flex; flex-direction: column; gap: 2rem; }
+
+        /* ============================================================
+           SECTION ACCORDION
+           ============================================================ */
+        .section-accordion {
+            border: 1px solid rgba(255,215,120,0.04);
+            border-radius: var(--radius-2xl);
+            overflow: hidden;
+            transition: var(--transition-smooth);
+        }
+        .section-accordion:hover { border-color: rgba(255,215,120,0.08); }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.2rem 1.8rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            background: rgba(255,255,255,0.01);
+        }
+        .section-header:hover { background: rgba(255,255,255,0.02); }
+        .section-header .left {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .section-header .left .num {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: rgba(245, 179, 66, 0.1);
+            border: 1px solid rgba(245, 179, 66, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        .section-header .left .num.done {
+            background: rgba(105, 240, 174, 0.1);
+            border-color: var(--accent-success);
+            color: var(--accent-success);
+        }
+        .section-header .left h3 {
+            font-weight: 500;
+            font-size: 1rem;
+            letter-spacing: -0.01em;
+        }
+        .section-header .status-badge {
+            font-size: 0.6rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 40px;
+            font-weight: 600;
+        }
+        .status-badge.complete { background: rgba(105, 240, 174, 0.1); color: var(--accent-success); }
+        .status-badge.incomplete { background: rgba(245, 179, 66, 0.1); color: var(--gold); }
+        .status-badge.pending { background: rgba(255, 82, 82, 0.1); color: var(--accent-danger); }
+
+        .section-content {
+            padding: 0 1.8rem 1.8rem;
+            display: none;
+        }
+        .section-content.open { display: block; }
+        .section-content .expand-icon {
+            transition: var(--transition-smooth);
+            color: var(--text-muted);
+        }
+        .section-content .expand-icon.open { transform: rotate(180deg); }
+
+        /* ============================================================
+           CUSTOMER & PROJECT INFO
+           ============================================================ */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem 1.2rem;
+        }
+        @media (max-width: 768px) { .info-grid { grid-template-columns: 1fr; } }
+
+        .field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+        .field label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .field input, .field select {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,215,120,0.05);
+            border-radius: 24px;
+            padding: 0.7rem 1.2rem;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            outline: none;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+            width: 100%;
+        }
+        .field input:focus, .field select:focus {
+            border-color: rgba(245, 179, 66, 0.25);
+            box-shadow: 0 0 0 3px rgba(245, 179, 66, 0.02);
+        }
+        .field input::placeholder { color: var(--text-muted); }
+
+        /* ============================================================
+           RISK SCORE
+           ============================================================ */
+        .risk-score {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            padding: 1rem 0;
+            flex-wrap: wrap;
+        }
+        .risk-score .score-ring {
+            position: relative;
+            width: 80px;
+            height: 80px;
+        }
+        .risk-score .score-ring svg {
+            transform: rotate(-90deg);
+            width: 80px;
+            height: 80px;
+        }
+        .risk-score .score-ring .bg {
+            fill: none;
+            stroke: rgba(255,255,255,0.04);
+            stroke-width: 6;
+        }
+        .risk-score .score-ring .fg {
+            fill: none;
+            stroke-width: 6;
+            stroke-linecap: round;
+            stroke-dasharray: 226;
+            transition: stroke-dashoffset 1.5s ease;
+        }
+        .risk-score .score-ring .fg.low { stroke: var(--accent-success); }
+        .risk-score .score-ring .fg.medium { stroke: var(--gold); }
+        .risk-score .score-ring .fg.high { stroke: var(--accent-danger); }
+        .risk-score .score-ring .center {
+            position: absolute;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+        .risk-score .risk-details {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+        }
+        .risk-score .risk-details .risk-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .risk-score .risk-details .risk-item i { font-size: 0.7rem; }
+        .risk-score .risk-details .risk-item .check { color: var(--accent-success); }
+        .risk-score .risk-details .risk-item .warn { color: var(--accent-warning); }
+
+        /* ============================================================
+           INVENTORY TIMELINE
+           ============================================================ */
+        .inventory-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            padding: 0.5rem 0;
+        }
+        .inventory-timeline .inv-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            padding: 0.3rem 0.6rem;
+            border-radius: var(--radius-sm);
+            background: rgba(255,255,255,0.01);
+        }
+        .inventory-timeline .inv-item .inv-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .inventory-timeline .inv-item .inv-dot.green { background: var(--accent-success); }
+        .inventory-timeline .inv-item .inv-dot.amber { background: var(--gold); }
+        .inventory-timeline .inv-item .inv-dot.blue { background: var(--accent-cyan); }
+        .inventory-timeline .inv-item .inv-dot.purple { background: var(--accent-purple); }
+        .inventory-timeline .inv-item .inv-value { font-weight: 600; color: var(--text-primary); margin-left: auto; }
+
+        /* ============================================================
+           DELIVERY INTELLIGENCE
+           ============================================================ */
+        .delivery-intel {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+        .delivery-intel .intel-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.3rem 0.6rem;
+            background: rgba(255,255,255,0.01);
+            border-radius: var(--radius-sm);
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .delivery-intel .intel-row .intel-label { display: flex; align-items: center; gap: 0.5rem; }
+        .delivery-intel .intel-row .intel-value { font-weight: 600; color: var(--text-primary); }
+        .delivery-intel .intel-row .intel-value.green { color: var(--accent-success); }
+        .delivery-intel .intel-row .intel-value.amber { color: var(--gold); }
+
+        /* ============================================================
+           COMPARISON BARS
+           ============================================================ */
+        .compare-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+        }
+        .compare-bars .bar-row {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .compare-bars .bar-row .bar-label {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            min-width: 80px;
+        }
+        .compare-bars .bar-row .bar-track {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 10px;
+            overflow: hidden;
+            position: relative;
+        }
+        .compare-bars .bar-row .bar-track .bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        .compare-bars .bar-row .bar-track .bar-fill.gold { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+        .compare-bars .bar-row .bar-track .bar-fill.cyan { background: linear-gradient(90deg, var(--cyan), var(--accent-cyan)); }
+        .compare-bars .bar-row .bar-track .bar-fill.green { background: linear-gradient(90deg, var(--accent-success), #4ade80); }
+        .compare-bars .bar-row .bar-track .bar-fill.purple { background: linear-gradient(90deg, var(--accent-purple), #c7adff); }
+        .compare-bars .bar-row .bar-value {
+            font-size: 0.7rem;
+            font-weight: 600;
+            min-width: 60px;
+            text-align: right;
+            color: var(--text-secondary);
+        }
+        .compare-bars .bar-row .bar-value.gold { color: var(--gold); }
+
+        /* ============================================================
+           ENTERPRISE PAYMENT
+           ============================================================ */
+        .payment-enterprise {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin: 0.5rem 0 1rem;
+        }
+        .payment-enterprise .pm-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,215,120,0.04);
+            border-radius: 60px;
+            padding: 0.5rem 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .payment-enterprise .pm-item:hover { border-color: rgba(255,215,120,0.15); }
+        .payment-enterprise .pm-item i { font-size: 1rem; }
+        .payment-enterprise .pm-item.active {
+            border-color: var(--gold);
+            background: rgba(245, 179, 66, 0.06);
+            color: var(--text-primary);
+        }
+        .payment-enterprise .pm-item .pm-badge {
+            font-size: 0.5rem;
+            padding: 0.05rem 0.4rem;
+            border-radius: 40px;
+            background: rgba(245, 179, 66, 0.1);
+            color: var(--gold);
+        }
+        .payment-enterprise .pm-item .pm-detail {
+            font-size: 0.5rem;
+            color: var(--text-muted);
+            display: block;
+            margin-top: 0.1rem;
+        }
+
+        /* ============================================================
+           TRUST BADGES
+           ============================================================ */
+        .trust-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem 1rem;
+            justify-content: center;
+            padding: 0.5rem 0;
+            border-top: 1px solid rgba(255,215,120,0.03);
+            margin-top: 0.5rem;
+        }
+        .trust-badges .trust-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+        .trust-badges .trust-item i { color: var(--gold); font-size: 0.7rem; }
+
+        /* ============================================================
+           SUMMARY CARD
+           ============================================================ */
+        .summary-sticky {
+            position: sticky;
+            top: 80px;
+            align-self: start;
+        }
+        @media (max-width: 1100px) {
+            .summary-sticky { position: relative; top: 0; }
+        }
+
+        .summary-card {
+            padding: 2rem 1.8rem;
+            background: rgba(10, 18, 30, 0.7);
+            backdrop-filter: blur(22px);
+            border-radius: var(--radius-3xl);
+            border: 1px solid rgba(255,215,120,0.06);
+        }
+        .summary-card h4 {
+            font-weight: 400;
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255,215,120,0.03);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        .summary-row.total {
+            border-bottom: none;
+            font-weight: 700;
+            font-size: 1.4rem;
+            margin-top: 0.5rem;
+            color: var(--text-primary);
+        }
+        .summary-row .value.discount { color: var(--accent-success); }
+
+        .savings-badge {
+            background: rgba(123, 207, 166, 0.06);
+            color: var(--accent-success);
+            padding: 0.8rem 1.2rem;
+            border-radius: 60px;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin: 1.2rem 0;
+            border: 1px solid rgba(123, 207, 166, 0.08);
+        }
+        .savings-badge i { font-size: 1.4rem; }
+
+        .summary-extra {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            margin: 0.8rem 0;
+        }
+        .summary-extra .extra-item {
+            background: rgba(255,255,255,0.02);
+            padding: 0.4rem 0.6rem;
+            border-radius: var(--radius-sm);
+            text-align: center;
+        }
+        .summary-extra .extra-item .extra-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+        .summary-extra .extra-item .extra-label {
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            letter-spacing: 0.5px;
+        }
+
+        .procurement-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.3rem;
+            margin: 1rem 0;
+            padding: 0.6rem 0.8rem;
+            background: rgba(255,255,255,0.01);
+            border-radius: var(--radius-md);
+        }
+        .procurement-timeline .pt-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+        .procurement-timeline .pt-item .pt-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+        .procurement-timeline .pt-item .pt-dot.done { background: var(--accent-success); }
+        .procurement-timeline .pt-item .pt-dot.active { background: var(--gold); animation: pulse 1.5s infinite; }
+        .procurement-timeline .pt-item .pt-dot.pending { background: var(--text-muted); }
+
+        /* ============================================================
+           SUCCESS ANIMATION
+           ============================================================ */
+        .success-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(5,5,16,0.9);
+            backdrop-filter: blur(30px);
+            z-index: 9998;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .success-overlay.show { display: flex; }
+        .success-overlay .success-content {
+            text-align: center;
+            max-width: 500px;
+            padding: 2rem;
+        }
+        .success-overlay .success-icon {
+            font-size: 5rem;
+            color: var(--accent-success);
+            margin-bottom: 1rem;
+            animation: successPop 0.6s ease;
+        }
+        @keyframes successPop {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.3); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        .success-overlay .success-timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            margin: 1.5rem 0;
+            text-align: left;
+            padding: 1rem;
+            background: rgba(255,255,255,0.02);
+            border-radius: var(--radius-md);
+        }
+        .success-overlay .success-timeline .st-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            opacity: 0.3;
+            transition: opacity 0.5s ease;
+        }
+        .success-overlay .success-timeline .st-item.done {
+            opacity: 1;
+            color: var(--accent-success);
+        }
+        .success-overlay .success-timeline .st-item.done i { color: var(--accent-success); }
+        .success-overlay .success-timeline .st-item .st-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--text-muted);
+            flex-shrink: 0;
+        }
+        .success-overlay .success-timeline .st-item.done .st-dot { background: var(--accent-success); }
+        .success-overlay .success-timeline .st-item.active .st-dot {
+            background: var(--gold);
+            animation: pulse 1s infinite;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.8rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: var(--transition-smooth);
+            border: none;
+            cursor: pointer;
+            font-family: var(--font-sans);
+            text-decoration: none;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            box-shadow: 0 8px 24px rgba(245, 179, 66, 0.15);
+            width: 100%;
+        }
+        .btn-gold:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 35px rgba(245, 179, 66, 0.25);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,215,120,0.06);
+            color: var(--text-secondary);
+        }
+        .btn-outline:hover {
+            border-color: var(--gold);
+            color: var(--text-primary);
+        }
+
+        .coupon-input {
+            display: flex;
+            gap: 0.5rem;
+            margin: 1rem 0;
+        }
+        .coupon-input input {
+            flex: 1;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,215,120,0.04);
+            border-radius: 60px;
+            padding: 0.7rem 1.2rem;
+            color: var(--text-primary);
+            font-size: 0.85rem;
+            outline: none;
+            font-family: var(--font-sans);
+        }
+        .coupon-input input:focus { border-color: rgba(245, 179, 66, 0.2); }
+        .coupon-input .apply-btn {
+            background: rgba(255,215,120,0.03);
+            border: 1px solid rgba(255,215,120,0.04);
+            border-radius: 60px;
+            padding: 0.7rem 1.2rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .coupon-input .apply-btn:hover {
+            border-color: var(--gold);
+            color: var(--text-primary);
+        }
+
+        /* ============================================================
+           AI FLOATING ASSISTANT
+           ============================================================ */
+        .ai-floating {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            background: rgba(16, 28, 48, 0.8);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(255,215,120,0.08);
+            border-radius: 80px;
+            padding: 0.8rem 1.6rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            color: var(--text-primary);
+            font-weight: 450;
+            box-shadow: 0 30px 60px -20px #000000cc;
+            z-index: 999;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .ai-floating:hover {
+            border-color: var(--gold);
+            box-shadow: 0 30px 60px -20px #000000cc, 0 0 40px rgba(245, 179, 66, 0.05);
+        }
+        .ai-floating i { color: var(--gold); font-size: 1.4rem; }
+        .ai-floating .ai-context {
+            display: flex;
+            flex-direction: column;
+            gap: 0.1rem;
+        }
+        .ai-floating .ai-context .ai-main { font-size: 0.8rem; }
+        .ai-floating .ai-context .ai-sub {
+            font-size: 0.6rem;
+            color: var(--text-muted);
+        }
+        .ai-floating .ai-optimize {
+            background: rgba(245, 179, 66, 0.08);
+            padding: 0.1rem 0.8rem;
+            border-radius: 40px;
+            font-size: 0.6rem;
+            color: var(--gold);
+            border: 1px solid rgba(245, 179, 66, 0.08);
+            font-weight: 500;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: rgba(10, 22, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 179, 66, 0.15);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--radius-sm);
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 420px;
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #toast .toast-content { display: flex; align-items: center; gap: 0.6rem; }
+        #toast .toast-icon { color: var(--gold); font-size: 1.1rem; }
+
+        /* ============================================================
+           LOADING SKELETON
+           ============================================================ */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.02) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.8s infinite;
+            border-radius: var(--radius-sm);
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .container { padding: 0 1rem; }
+            .nav-flex { padding: 0 1rem; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .checkout-grid { gap: 1.5rem; }
+            .section-header { padding: 1rem 1.2rem; }
+            .section-content { padding: 0 1.2rem 1.2rem; }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 0.8rem; }
+            .checkout-grid { gap: 1rem; }
+            .section-header { padding: 0.8rem 1rem; }
+            .section-header .left h3 { font-size: 0.85rem; }
+            .section-content { padding: 0 1rem 1rem; }
+            .risk-score { flex-direction: column; gap: 0.5rem; }
+            .compare-bars .bar-row { flex-wrap: wrap; }
+            .compare-bars .bar-row .bar-label { min-width: 60px; font-size: 0.65rem; }
+            .compare-bars .bar-row .bar-value { font-size: 0.65rem; min-width: 50px; }
+            .summary-extra { grid-template-columns: 1fr 1fr; }
+            .payment-enterprise { gap: 0.3rem; }
+            .payment-enterprise .pm-item { font-size: 0.65rem; padding: 0.3rem 0.8rem; }
+            .ai-floating { padding: 0.6rem 1rem; font-size: 0.7rem; bottom: 1rem; right: 1rem; }
+            .ai-floating .ai-optimize { display: none; }
+            .ai-floating .ai-context .ai-sub { display: none; }
+            .progress-timeline { gap: 0.3rem; }
+            .step { font-size: 0.6rem; gap: 0.3rem; }
+            .step .circle { width: 24px; height: 24px; font-size: 0.6rem; }
+            .line { width: 16px; }
+            .summary-card { padding: 1.2rem; }
+            .info-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 480px) {
+            .container { padding: 0 0.4rem; }
+            .section-header { padding: 0.6rem 0.8rem; }
+            .section-header .left .num { width: 22px; height: 22px; font-size: 0.6rem; }
+            .section-header .left h3 { font-size: 0.75rem; }
+            .section-content { padding: 0 0.8rem 0.8rem; }
+            .risk-score .score-ring { width: 60px; height: 60px; }
+            .risk-score .score-ring svg { width: 60px; height: 60px; }
+            .risk-score .score-ring .center { font-size: 0.9rem; }
+            .summary-extra { grid-template-columns: 1fr; }
+            .payment-enterprise .pm-item { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
+            .payment-enterprise .pm-item i { font-size: 0.7rem; }
+            .trust-badges { gap: 0.3rem 0.6rem; }
+            .trust-badges .trust-item { font-size: 0.5rem; }
+            .inventory-timeline .inv-item { font-size: 0.7rem; }
+            .delivery-intel .intel-row { font-size: 0.7rem; }
+            .procurement-timeline .pt-item { font-size: 0.6rem; }
+            .coupon-input { flex-direction: column; }
+            .coupon-input .apply-btn { text-align: center; }
+            .ai-floating { padding: 0.4rem 0.8rem; gap: 0.5rem; }
+            .ai-floating i { font-size: 1rem; }
+            .ai-floating .ai-context .ai-main { font-size: 0.65rem; }
+            .progress-timeline { gap: 0.15rem; }
+            .step { font-size: 0.5rem; }
+            .step .circle { width: 20px; height: 20px; font-size: 0.5rem; }
+            .line { width: 10px; }
+            .success-overlay .success-content { padding: 1rem; }
+            .success-overlay .success-icon { font-size: 3rem; }
+        }
+
+        /* ============================================================
+           SCROLL REVEAL
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================================
+           ANIMATIONS
+           ============================================================ */
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(1.2); }
+        }
+
+        /* ============================================================
+           DELIVERY SEGMENTED
+           ============================================================ */
+        .delivery-segmented {
+            display: flex;
+            gap: 0.3rem;
+            background: rgba(0,0,0,0.3);
+            padding: 0.2rem;
+            border-radius: 60px;
+            width: fit-content;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+        .seg-item {
+            padding: 0.4rem 1.2rem;
+            border-radius: 40px;
+            font-size: 0.75rem;
+            background: transparent;
+            color: var(--text-secondary);
+            transition: var(--transition-smooth);
+            font-weight: 450;
+            cursor: pointer;
+        }
+        .seg-item:hover { color: var(--text-primary); }
+        .seg-item.active {
+            background: var(--gold);
+            color: var(--text-inverse);
+            font-weight: 600;
+            box-shadow: 0 0 24px rgba(245, 179, 66, 0.2);
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+    <div class="grid-overlay"></div>
+    <canvas id="particles-canvas" role="presentation" aria-hidden="true"></canvas>
+
+    <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-flex">
+            <a href="/buildmart" class="nav-logo">
+                <i class="fas fa-cubes" aria-hidden="true"></i>
+                PRIMESHIELDHUB<span style="font-weight:300;opacity:0.6;">BUILDMART</span>
+                <span class="logo-dot" aria-hidden="true"></span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/buildmart">Home</a>
+                <a href="/buildmart/products">Products</a>
+                <a href="/buildmart/categories">Categories</a>
+                <a href="/buildmart/compare">Compare</a>
+                <a href="/buildmart/checkout" class="active">Checkout</a>
+                <a href="/buildmart/quote">Quote</a>
+            </div>
+            <div class="nav-actions">
+                <span class="nav-badge"><span class="live-dot" aria-hidden="true"></span> ENTERPRISE</span>
+                <button class="hamburger" aria-label="Toggle navigation" id="hamburgerBtn">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+       MAIN CONTENT
+       ============================================================ -->
+    <div class="container">
+
+        <!-- ============================================================
+           PROGRESS TIMELINE
+           ============================================================ -->
+        <div class="progress-timeline reveal" id="progressTimeline">
+            <div class="step done" data-step="1"><span class="circle"><i class="fas fa-check"></i></span> Cart</div>
+            <div class="line done"></div>
+            <div class="step active" data-step="2"><span class="circle">2</span> Delivery</div>
+            <div class="line"></div>
+            <div class="step" data-step="3"><span class="circle">3</span> Payment</div>
+            <div class="line"></div>
+            <div class="step" data-step="4"><span class="circle">4</span> Invoice</div>
+            <div class="line"></div>
+            <div class="step" data-step="5"><span class="circle">5</span> Review</div>
+        </div>
+
+        <!-- ============================================================
+           CHECKOUT GRID
+           ============================================================ -->
+        <div class="checkout-grid">
+
+            <!-- ======== LEFT COLUMN ======== -->
+            <div class="left-col">
+
+                <!-- ======== SECTION 1: ORDER ======== -->
+                <div class="section-accordion glass-card reveal" id="sectionOrder">
+                    <div class="section-header" onclick="toggleSection('sectionOrder')">
+                        <div class="left">
+                            <span class="num done"><i class="fas fa-check"></i></span>
+                            <h3>Order Review</h3>
+                            <span class="status-badge complete">Complete</span>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon open"></i>
+                    </div>
+                    <div class="section-content open" id="orderContent">
+                        <div id="orderItems">
+                            <!-- Populated by API -->
+                        </div>
+                        <div style="padding:0.5rem 0;font-size:0.75rem;color:var(--text-muted);border-top:1px solid rgba(255,215,120,0.03);margin-top:0.5rem;display:flex;align-items:center;gap:0.5rem;">
+                            <i class="fas fa-sync-alt" style="color:var(--accent-cyan);"></i>
+                            <span id="altText">Loading alternatives...</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======== SECTION 2: DELIVERY ======== -->
+                <div class="section-accordion glass-card reveal" id="sectionDelivery">
+                    <div class="section-header" onclick="toggleSection('sectionDelivery')">
+                        <div class="left">
+                            <span class="num active">2</span>
+                            <h3>Delivery Corridor</h3>
+                            <span class="status-badge incomplete">In Progress</span>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon open"></i>
+                    </div>
+                    <div class="section-content open" id="deliveryContent">
+                        <div class="delivery-segmented" id="deliverySegments">
+                            <span class="seg-item" data-mode="pickup">Pickup</span>
+                            <span class="seg-item" data-mode="standard">Standard</span>
+                            <span class="seg-item active" data-mode="express">Express</span>
+                            <span class="seg-item" data-mode="scheduled">Scheduled</span>
+                        </div>
+
+                        <!-- Delivery Intelligence -->
+                        <div class="delivery-intel" id="deliveryIntel">
+                            <div class="intel-row">
+                                <span class="intel-label"><i class="fas fa-truck" style="color:var(--gold);"></i> Departure</span>
+                                <span class="intel-value" id="deliveryDeparture">Loading...</span>
+                            </div>
+                            <div class="intel-row">
+                                <span class="intel-label"><i class="fas fa-flag-checkered" style="color:var(--gold);"></i> Arrival</span>
+                                <span class="intel-value" id="deliveryArrival">Loading...</span>
+                            </div>
+                            <div class="intel-row">
+                                <span class="intel-label"><i class="fas fa-user" style="color:var(--gold);"></i> Driver</span>
+                                <span class="intel-value" id="deliveryDriver">Assigning...</span>
+                            </div>
+                            <div class="intel-row">
+                                <span class="intel-label"><i class="fas fa-route" style="color:var(--gold);"></i> Route</span>
+                                <span class="intel-value green" id="deliveryRoute">Optimizing...</span>
+                            </div>
+                            <div class="intel-row">
+                                <span class="intel-label"><i class="fas fa-clock" style="color:var(--gold);"></i> Delay Risk</span>
+                                <span class="intel-value green" id="deliveryRisk">Calculating...</span>
+                            </div>
+                        </div>
+
+                        <!-- Delivery Comparison -->
+                        <div style="margin:0.8rem 0;padding:0.8rem;background:rgba(255,215,120,0.03);border-radius:var(--radius-md);border:1px solid rgba(255,215,120,0.04);">
+                            <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.3rem;">Delivery Cost Comparison</div>
+                            <div class="compare-bars" id="deliveryCompare">
+                                <div class="bar-row">
+                                    <span class="bar-label">Standard</span>
+                                    <div class="bar-track"><div class="bar-fill gold" style="width:60%;"></div></div>
+                                    <span class="bar-value gold" id="deliveryStandardCost">₦15,000</span>
+                                </div>
+                                <div class="bar-row">
+                                    <span class="bar-label">Express</span>
+                                    <div class="bar-track"><div class="bar-fill cyan" style="width:100%;"></div></div>
+                                    <span class="bar-value gold" id="deliveryExpressCost">₦28,000</span>
+                                </div>
+                                <div class="bar-row">
+                                    <span class="bar-label">Scheduled</span>
+                                    <div class="bar-track"><div class="bar-fill purple" style="width:80%;"></div></div>
+                                    <span class="bar-value gold" id="deliveryScheduledCost">₦22,000</span>
+                                </div>
+                            </div>
+                            <div style="font-size:0.65rem;color:var(--text-muted);margin-top:0.3rem;">
+                                <i class="fas fa-robot" style="color:var(--gold);"></i>
+                                <span id="deliveryRecommendation">Loading recommendation...</span>
+                            </div>
+                        </div>
+
+                        <div class="delivery-row" style="display:flex;flex-wrap:wrap;gap:1rem 1.8rem;margin:0.5rem 0;">
+                            <div class="field" style="flex:1 0 160px;"><label>Delivery Date</label><input type="date" id="deliveryDate" /></div>
+                            <div class="field" style="flex:1 0 160px;"><label>Time Slot</label>
+                                <select id="timeSlot">
+                                    <option>8:00 – 12:00</option>
+                                    <option>12:00 – 16:00</option>
+                                    <option>16:00 – 20:00</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="field" style="margin-bottom:0.5rem;">
+                            <label>Delivery Address</label>
+                            <input type="text" id="deliveryAddress" placeholder="Enter delivery address" />
+                        </div>
+                        <div class="delivery-row">
+                            <div class="field"><label>Nearest Landmark</label><input type="text" id="landmark" placeholder="Landmark" /></div>
+                            <div class="field"><label>Project Site</label><input type="text" id="projectSite" placeholder="Site name" /></div>
+                        </div>
+                        <div class="delivery-info" style="display:flex;flex-wrap:wrap;gap:0.5rem 1rem;margin-top:0.8rem;">
+                            <span><i class="fas fa-traffic-light"></i> Traffic: <span id="trafficStatus">Loading...</span></span>
+                            <span><i class="fas fa-cloud-sun"></i> Weather: <span id="weatherStatus">Loading...</span></span>
+                            <span><i class="fas fa-route"></i> Distance: <span id="distanceStatus">Calculating...</span></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======== SECTION 3: CUSTOMER ======== -->
+                <div class="section-accordion glass-card reveal" id="sectionCustomer">
+                    <div class="section-header" onclick="toggleSection('sectionCustomer')">
+                        <div class="left">
+                            <span class="num">3</span>
+                            <h3>Customer &amp; Project</h3>
+                            <span class="status-badge pending">Required</span>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="section-content" id="customerContent">
+                        <div style="font-size:0.75rem;color:var(--text-muted);margin-bottom:0.8rem;">Enter your details and project information</div>
+                        <div class="info-grid">
+                            <div class="field"><label>Customer Name</label><input type="text" id="customerName" placeholder="Full name" /></div>
+                            <div class="field"><label>Company</label><input type="text" id="customerCompany" placeholder="Company name" /></div>
+                            <div class="field"><label>Phone</label><input type="tel" id="customerPhone" placeholder="Phone number" /></div>
+                            <div class="field"><label>Email</label><input type="email" id="customerEmail" placeholder="Email address" /></div>
+                            <div class="field"><label>Procurement Officer</label><input type="text" id="procurementOfficer" placeholder="Officer name" /></div>
+                            <div class="field"><label>Site Contact</label><input type="text" id="siteContact" placeholder="Site contact" /></div>
+                            <div class="field"><label>Project Name</label><input type="text" id="projectName" placeholder="Project name" /></div>
+                            <div class="field"><label>Project Code</label><input type="text" id="projectCode" placeholder="Project code" /></div>
+                            <div class="field"><label>Site Engineer</label><input type="text" id="siteEngineer" placeholder="Engineer name" /></div>
+                            <div class="field"><label>Consultant</label><input type="text" id="consultant" placeholder="Consultant name" /></div>
+                            <div class="field"><label>Contract Number</label><input type="text" id="contractNumber" placeholder="Contract #" /></div>
+                            <div class="field"><label>Phase</label>
+                                <select id="projectPhase">
+                                    <option>Foundation</option>
+                                    <option>Structure</option>
+                                    <option>Roofing</option>
+                                    <option>Finishing</option>
+                                    <option>Handover</option>
+                                </select>
+                            </div>
+                            <div class="field"><label>Tender Number</label><input type="text" id="tenderNumber" placeholder="Tender #" /></div>
+                            <div class="field"><label>Cost Center</label><input type="text" id="costCenter" placeholder="Cost center" /></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======== SECTION 4: PAYMENT ======== -->
+                <div class="section-accordion glass-card reveal" id="sectionPayment">
+                    <div class="section-header" onclick="toggleSection('sectionPayment')">
+                        <div class="left">
+                            <span class="num">4</span>
+                            <h3>Payment &amp; Enterprise Terms</h3>
+                            <span class="status-badge pending">Pending</span>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="section-content" id="paymentContent">
+                        <div class="payment-enterprise" id="paymentMethods">
+                            <span class="pm-item active" data-method="paystack"><i class="fas fa-bolt"></i> Paystack <span class="pm-detail">Instant · Cards · Transfer</span></span>
+                            <span class="pm-item" data-method="flutterwave"><i class="fas fa-wind"></i> Flutterwave <span class="pm-detail">Cards · USSD · Bank</span></span>
+                            <span class="pm-item" data-method="bank"><i class="fas fa-university"></i> Bank Transfer <span class="pm-detail">1-2 business days</span></span>
+                            <span class="pm-item" data-method="corporate"><i class="fas fa-building"></i> Corporate Credit <span class="pm-detail">Net 15</span></span>
+                            <span class="pm-item" data-method="po"><i class="fas fa-file-invoice"></i> Purchase Order <span class="pm-detail">PO required</span></span>
+                            <span class="pm-item" data-method="credit30"><i class="fas fa-calendar-alt"></i> 30-Day Credit <span class="pm-detail">Approval needed</span></span>
+                            <span class="pm-item" data-method="split"><i class="fas fa-divide"></i> Split Payment <span class="pm-detail">40/60</span></span>
+                            <span class="pm-item" data-method="escrow"><i class="fas fa-shield-alt"></i> Escrow <span class="pm-badge">Secure</span><span class="pm-detail">Milestone release</span></span>
+                        </div>
+
+                        <!-- Risk Analysis -->
+                        <div style="background:rgba(255,215,120,0.02);border-radius:var(--radius-xl);padding:1rem;border:1px solid rgba(255,215,120,0.04);">
+                            <div style="font-size:0.7rem;color:var(--text-muted);margin-bottom:0.3rem;">Procurement Risk Analysis</div>
+                            <div class="risk-score" id="riskScore">
+                                <div class="score-ring">
+                                    <svg viewBox="0 0 80 80">
+                                        <circle class="bg" cx="40" cy="40" r="36"/>
+                                        <circle class="fg low" cx="40" cy="40" r="36" style="stroke-dashoffset:18;"/>
+                                    </svg>
+                                    <div class="center" id="riskScoreValue">96%</div>
+                                </div>
+                                <div class="risk-details" id="riskDetails">
+                                    <div class="risk-item"><i class="fas fa-check-circle check"></i> Loading risk factors...</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem; margin-top:1rem;">
+                            <div class="field"><label>Invoice Type</label>
+                                <select id="invoiceType">
+                                    <option>Individual</option>
+                                    <option selected>Company</option>
+                                    <option>Government</option>
+                                </select>
+                            </div>
+                            <div class="field"><label>Company Name</label><input type="text" id="companyName" placeholder="Company name" /></div>
+                            <div class="field"><label>TIN</label><input type="text" id="tinNumber" placeholder="Tax ID" /></div>
+                            <div class="field"><label>VAT Number</label><input type="text" id="vatNumber" placeholder="VAT #" /></div>
+                            <div class="field"><label>CAC</label><input type="text" id="cacNumber" placeholder="CAC #" /></div>
+                            <div class="field"><label>Invoice Email</label><input type="email" id="companyEmail" placeholder="Invoice email" /></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======== SECTION 5: INVOICE ======== -->
+                <div class="section-accordion glass-card reveal" id="sectionInvoice">
+                    <div class="section-header" onclick="toggleSection('sectionInvoice')">
+                        <div class="left">
+                            <span class="num">5</span>
+                            <h3>Invoice Details</h3>
+                            <span class="status-badge pending">Pending</span>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="section-content" id="invoiceContent">
+                        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.8rem;">
+                            <div class="field"><label>Invoice Number</label><input type="text" id="invoiceNumber" disabled style="opacity:0.7;" /></div>
+                            <div class="field"><label>Invoice Date</label><input type="date" id="invoiceDate" /></div>
+                            <div class="field"><label>Due Date</label><input type="date" id="dueDate" /></div>
+                            <div class="field"><label>PO Reference</label><input type="text" id="poReference" placeholder="PO #" /></div>
+                            <div class="field"><label>Payment Terms</label>
+                                <select id="paymentTerms">
+                                    <option>Net 30</option>
+                                    <option selected>Net 15</option>
+                                    <option>Net 60</option>
+                                    <option>Immediate</option>
+                                </select>
+                            </div>
+                            <div class="field"><label>Currency</label>
+                                <select id="currency">
+                                    <option selected>NGN</option>
+                                    <option>USD</option>
+                                    <option>EUR</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ======== SECTION 6: REVIEW ======== -->
+                <div class="section-accordion glass-card reveal" id="sectionReview">
+                    <div class="section-header" onclick="toggleSection('sectionReview')">
+                        <div class="left">
+                            <span class="num">6</span>
+                            <h3>Review &amp; Confirm</h3>
+                            <span class="status-badge pending">Ready</span>
+                        </div>
+                        <i class="fas fa-chevron-down expand-icon"></i>
+                    </div>
+                    <div class="section-content" id="reviewContent">
+                        <div style="display:flex;flex-wrap:wrap;gap:1rem;padding:0.5rem 0;">
+                            <div style="flex:1;min-width:180px;background:rgba(255,255,255,0.01);padding:1rem;border-radius:var(--radius-md);">
+                                <div style="font-size:0.65rem;color:var(--text-muted);">Order Summary</div>
+                                <div style="font-size:1.2rem;font-weight:700;color:var(--gold);" id="reviewTotal">Loading...</div>
+                                <div style="font-size:0.7rem;color:var(--text-secondary);"><span id="reviewItems">0 items</span> · <span id="reviewDelivery">-</span></div>
+                            </div>
+                            <div style="flex:1;min-width:180px;background:rgba(255,255,255,0.01);padding:1rem;border-radius:var(--radius-md);">
+                                <div style="font-size:0.65rem;color:var(--text-muted);">Delivery</div>
+                                <div style="font-weight:600;" id="reviewAddress">No address set</div>
+                                <div style="font-size:0.7rem;color:var(--text-secondary);">ETA: <span id="reviewETA">-</span></div>
+                            </div>
+                            <div style="flex:1;min-width:180px;background:rgba(255,255,255,0.01);padding:1rem;border-radius:var(--radius-md);">
+                                <div style="font-size:0.65rem;color:var(--text-muted);">Payment</div>
+                                <div style="font-weight:600;" id="reviewPayment">Paystack</div>
+                                <div style="font-size:0.7rem;color:var(--text-secondary);"><span id="reviewInvoice">Company Invoice</span></div>
+                            </div>
+                        </div>
+
+                        <!-- Procurement Timeline -->
+                        <div class="procurement-timeline" id="procurementTimeline">
+                            <div class="pt-item"><span class="pt-dot done"></span> Order Created</div>
+                            <div class="pt-item"><span class="pt-dot done"></span> Inventory Reserved</div>
+                            <div class="pt-item"><span class="pt-dot active"></span> Finance Approval</div>
+                            <div class="pt-item"><span class="pt-dot pending"></span> Supplier Confirmed</div>
+                            <div class="pt-item"><span class="pt-dot pending"></span> Warehouse Packed</div>
+                            <div class="pt-item"><span class="pt-dot pending"></span> Dispatch</div>
+                            <div class="pt-item"><span class="pt-dot pending"></span> Delivered</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Actions -->
+                <div style="display:flex;flex-wrap:wrap;gap:0.6rem;align-items:center;padding:1rem 0;border-top:1px solid rgba(255,215,120,0.04);">
+                    <a href="/buildmart/products.html" style="color:var(--text-muted);text-decoration:none;font-size:0.85rem;display:flex;align-items:center;gap:0.5rem;transition:var(--transition-smooth);">
+                        <i class="fas fa-arrow-left"></i> Continue Shopping
+                    </a>
+                    <div style="display:flex;gap:0.6rem;flex-wrap:wrap;margin-left:auto;">
+                        <button class="btn btn-outline" style="padding:0.4rem 1.2rem;font-size:0.75rem;" onclick="generateQuote()"><i class="far fa-file-pdf"></i> Quote</button>
+                        <button class="btn btn-outline" style="padding:0.4rem 1.2rem;font-size:0.75rem;" onclick="generateInvoice()"><i class="far fa-file-alt"></i> Invoice</button>
+                        <button class="btn btn-gold" style="padding:0.5rem 1.8rem;font-size:0.8rem;width:auto;" onclick="confirmCheckout()"><i class="fas fa-lock"></i> Confirm</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== RIGHT COLUMN - Summary ======== -->
+            <div class="summary-sticky">
+                <div class="summary-card">
+                    <h4><i class="fas fa-chart-pie" style="color:var(--gold);"></i> Live Order Summary</h4>
+                    <div id="summaryContent">
+                        <!-- Populated by API -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+       AI FLOATING ASSISTANT
+       ============================================================ -->
+    <div class="ai-floating" id="aiFloating" role="button" tabindex="0">
+        <i class="fas fa-comment-dots"></i>
+        <div class="ai-context">
+            <span class="ai-main">Loading AI insights...</span>
+            <span class="ai-sub">Analyzing your order</span>
+        </div>
+        <span class="ai-optimize" id="aiOptimizeBtn">Optimize</span>
+    </div>
+
+    <!-- ============================================================
+       SUCCESS OVERLAY
+       ============================================================ -->
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-content">
+            <div class="success-icon"><i class="fas fa-check-circle"></i></div>
+            <h2 style="font-size:1.8rem;font-weight:700;margin-bottom:0.3rem;">Order Submitted!</h2>
+            <p style="color:var(--text-secondary);margin-bottom:1rem;">Your procurement request is being processed.</p>
+            <div class="success-timeline" id="successTimeline">
+                <div class="st-item"><span class="st-dot"></span> Order Created</div>
+                <div class="st-item"><span class="st-dot"></span> Inventory Reserved</div>
+                <div class="st-item"><span class="st-dot"></span> Invoice Generated</div>
+                <div class="st-item"><span class="st-dot"></span> Payment Verified</div>
+                <div class="st-item"><span class="st-dot"></span> Warehouse Assigned</div>
+                <div class="st-item"><span class="st-dot"></span> Dispatch Scheduled</div>
+                <div class="st-item"><span class="st-dot"></span> Tracking Ready</div>
+            </div>
+            <button class="btn btn-gold" style="width:auto;padding:0.6rem 2rem;" onclick="closeSuccess()">
+                <i class="fas fa-arrow-right"></i> Continue
+            </button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       TOAST
+       ============================================================ -->
+    <div id="toast">
+        <div class="toast-content">
+            <span class="toast-icon">✓</span>
+            <div>
+                <div style="font-weight:600;font-size:0.85rem;" id="toastTitle">Success</div>
+                <div style="color:var(--text-muted);font-size:0.75rem;" id="toastMessage">Action completed</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+    <script>
+        (function() {
+            "use strict";
+
+            // ============================================================
+            // CONFIGURATION
+            // ============================================================
+            const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+            let cartItems = [];
+            let summaryData = {};
+            let currentSection = 'sectionOrder';
+            let riskData = {};
+            let deliveryData = {};
+
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+            const DOM = {
+                orderItems: document.getElementById('orderItems'),
+                summaryContent: document.getElementById('summaryContent'),
+                altText: document.getElementById('altText'),
+                toast: document.getElementById('toast'),
+                toastTitle: document.getElementById('toastTitle'),
+                toastMessage: document.getElementById('toastMessage'),
+                aiFloating: document.getElementById('aiFloating'),
+                aiOptimizeBtn: document.getElementById('aiOptimizeBtn'),
+                reviewTotal: document.getElementById('reviewTotal'),
+                reviewItems: document.getElementById('reviewItems'),
+                reviewDelivery: document.getElementById('reviewDelivery'),
+                reviewAddress: document.getElementById('reviewAddress'),
+                reviewETA: document.getElementById('reviewETA'),
+                reviewPayment: document.getElementById('reviewPayment'),
+                reviewInvoice: document.getElementById('reviewInvoice'),
+                riskScoreValue: document.getElementById('riskScoreValue'),
+                riskDetails: document.getElementById('riskDetails'),
+                deliveryDeparture: document.getElementById('deliveryDeparture'),
+                deliveryArrival: document.getElementById('deliveryArrival'),
+                deliveryDriver: document.getElementById('deliveryDriver'),
+                deliveryRoute: document.getElementById('deliveryRoute'),
+                deliveryRisk: document.getElementById('deliveryRisk'),
+                deliveryRecommendation: document.getElementById('deliveryRecommendation'),
+                trafficStatus: document.getElementById('trafficStatus'),
+                weatherStatus: document.getElementById('weatherStatus'),
+                distanceStatus: document.getElementById('distanceStatus'),
+                successOverlay: document.getElementById('successOverlay'),
+                successTimeline: document.getElementById('successTimeline'),
+            };
+
+            // ============================================================
+            // PARTICLES SYSTEM
+            // ============================================================
+            function initParticles() {
+                const canvas = document.getElementById('particles-canvas');
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+                let w, h;
+                const isMobile = window.innerWidth < 768;
+                const count = isMobile ? 25 : 60;
+
+                function resize() {
+                    w = canvas.width = window.innerWidth;
+                    h = canvas.height = window.innerHeight;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                class Particle {
+                    constructor() { this.reset(); }
+                    reset() {
+                        this.x = Math.random() * w;
+                        this.y = Math.random() * h;
+                        this.size = Math.random() * 2 + 0.5;
+                        this.speedX = (Math.random() - 0.5) * 0.3;
+                        this.speedY = (Math.random() - 0.5) * 0.3;
+                        this.opacity = Math.random() * 0.3 + 0.05;
+                    }
+                    update() {
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+                        if (this.x < 0 || this.x > w) this.speedX *= -1;
+                        if (this.y < 0 || this.y > h) this.speedY *= -1;
+                    }
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(245, 179, 66, ${this.opacity})`;
+                        ctx.fill();
+                    }
+                }
+
+                for (let i = 0; i < count; i++) particles.push(new Particle());
+
+                let animId = null;
+
+                function animate() {
+                    ctx.clearRect(0, 0, w, h);
+                    particles.forEach(p => { p.update(); p.draw(); });
+                    animId = requestAnimationFrame(animate);
+                }
+                animate();
+
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden && animId) cancelAnimationFrame(animId);
+                    else if (!document.hidden) animate();
+                });
+            }
+
+            // ============================================================
+            // UTILITY FUNCTIONS
+            // ============================================================
+            function showToast(title, message, icon = '✓') {
+                document.querySelector('#toast .toast-icon').textContent = icon;
+                DOM.toastTitle.textContent = title;
+                DOM.toastMessage.textContent = message;
+                DOM.toast.classList.add('show');
+                clearTimeout(window.toastTimeout);
+                window.toastTimeout = setTimeout(() => DOM.toast.classList.remove('show'), 4000);
+            }
+
+            function formatCurrency(amount) {
+                if (amount === undefined || amount === null) return '₦0';
+                return '₦' + Number(amount).toLocaleString();
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            // ============================================================
+            // SECTION ACCORDION
+            // ============================================================
+            window.toggleSection = function(id) {
+                const section = document.getElementById(id);
+                if (!section) return;
+                const content = section.querySelector('.section-content');
+                const icon = section.querySelector('.expand-icon');
+                const isOpen = content.classList.contains('open');
+
+                document.querySelectorAll('.section-content').forEach(c => c.classList.remove('open'));
+                document.querySelectorAll('.expand-icon').forEach(i => i.classList.remove('open'));
+
+                if (!isOpen) {
+                    content.classList.add('open');
+                    if (icon) icon.classList.add('open');
+                    const num = section.querySelector('.num');
+                    if (num) {
+                        document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+                        const stepNum = num.textContent.trim();
+                        const stepEl = document.querySelector(`.step[data-step="${stepNum}"]`);
+                        if (stepEl) stepEl.classList.add('active');
+                    }
+                }
+                currentSection = id;
+            };
+
+            // ============================================================
+            // FETCH ALL DATA
+            // ============================================================
+            async function fetchAllData() {
+                try {
+                    // Fetch cart
+                    const cartResponse = await fetch(`${API_BASE}/cart`, {
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    if (cartResponse.ok) {
+                        const cartData = await cartResponse.json();
+                        cartItems = cartData.items || cartData.data || [];
+                        summaryData = cartData.summary || {};
+                    }
+
+                    // Fetch checkout analysis
+                    const analysisResponse = await fetch(`${API_BASE}/checkout/analyze`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ items: cartItems })
+                    });
+
+                    if (analysisResponse.ok) {
+                        const analysisData = await analysisResponse.json();
+                        riskData = analysisData.risk || {};
+                        deliveryData = analysisData.delivery || {};
+                        // Merge with summary
+                        summaryData = { ...summaryData, ...analysisData.summary };
+                    }
+
+                } catch (error) {
+                    console.warn('API error, using fallback:', error);
+                    // Fallback data
+                    cartItems = [{
+                        id: 'plywood-18mm',
+                        name: '18mm Marine Plywood',
+                        sku: 'BLD-PLY-018',
+                        warehouse: 'WH-A',
+                        stock: 387,
+                        qty: 24,
+                        price: 45000,
+                        eta: 'Tomorrow 8:40 AM',
+                        icon: 'fa-cubes',
+                        alternative: 'Prime Cement, 98% similar, save ₦180k'
+                    }, {
+                        id: 'cement-50kg',
+                        name: 'Premium Cement 50kg',
+                        sku: 'BLD-CEM-50',
+                        warehouse: 'WH-B',
+                        stock: 204,
+                        qty: 12,
+                        price: 8500,
+                        eta: 'Tomorrow 10:15 AM',
+                        icon: 'fa-trowel',
+                        moq: 10,
+                        alternative: null
+                    }];
+
+                    summaryData = {
+                        subtotal: 2450000,
+                        discount: 187000,
+                        promo: 0,
+                        delivery: 28000,
+                        vat: 169875,
+                        insurance: 6200,
+                        total: 2467075,
+                        savings: 186420,
+                        ecoScore: 89,
+                        aiInsight: 'Warehouse B saves ₦28k delivery',
+                        confidence: 96,
+                        historicalSavings: 4200000,
+                        procurementScore: 'A+'
+                    };
+
+                    riskData = {
+                        score: 96,
+                        factors: [
+                            'High inventory availability',
+                            'Stable supplier relationship',
+                            'Low delivery delay risk',
+                            'Price stable (0.3% variance)',
+                            '98% fulfillment confidence'
+                        ]
+                    };
+
+                    deliveryData = {
+                        departure: '8:20 AM',
+                        arrival: '11:35 AM',
+                        driver: 'Chidi Okonkwo',
+                        route: 'Optimal',
+                        delayRisk: '2%',
+                        standardCost: 15000,
+                        expressCost: 28000,
+                        scheduledCost: 22000,
+                        recommendation: 'Standard saves ₦13,000 with +4hr delay',
+                        traffic: 'moderate',
+                        weather: 'clear',
+                        distance: '12.4 km'
+                    };
+                }
+
+                renderCart(cartItems);
+                renderSummary(summaryData);
+                renderRisk(riskData);
+                renderDelivery(deliveryData);
+                updateReview(summaryData);
+                updateAIInsights(summaryData, deliveryData);
+            }
+
+            // ============================================================
+            // RENDER CART
+            // ============================================================
+            function renderCart(items) {
+                if (!items || items.length === 0) {
+                    DOM.orderItems.innerHTML = `
+                        <div style="padding:1.5rem;text-align:center;color:var(--text-muted);">
+                            <i class="fas fa-shopping-cart" style="font-size:2rem;display:block;margin-bottom:0.5rem;"></i>
+                            Your cart is empty
+                            <a href="/buildmart/products.html" class="btn btn-gold" style="margin-top:0.5rem;display:inline-block;padding:0.4rem 1.2rem;font-size:0.75rem;text-decoration:none;">Browse Products</a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                DOM.orderItems.innerHTML = items.map((item, index) => `
+                    <div class="product-card" style="padding:0.8rem 1rem;display:flex;flex-wrap:wrap;gap:0.8rem;align-items:center;margin-bottom:0.5rem;background:rgba(16,28,44,0.4);border-radius:var(--radius-xl);border:1px solid rgba(255,215,120,0.04);transition:var(--transition-smooth);">
+                        <div class="product-thumb" style="width:56px;height:56px;background:linear-gradient(145deg,#1b2a3e,#101c2c);border-radius:var(--radius-md);display:flex;align-items:center;justify-content:center;font-size:1.4rem;color:var(--gold);flex-shrink:0;"><i class="fas ${item.icon || 'fa-cube'}"></i></div>
+                        <div class="product-info" style="flex:1;min-width:120px;">
+                            <h4 style="font-weight:600;font-size:0.9rem;letter-spacing:-0.01em;">${escapeHtml(item.name)}</h4>
+                            <div style="color:var(--text-muted);font-size:0.6rem;letter-spacing:0.3px;font-weight:400;">SKU: ${escapeHtml(item.sku)} · ${escapeHtml(item.warehouse)} · stock ${item.stock || 0}</div>
+                            <div style="display:flex;flex-wrap:wrap;gap:0.3rem 0.8rem;font-size:0.65rem;color:var(--text-secondary);margin-top:0.1rem;">
+                                <span><i class="far fa-clock"></i> ETA: ${escapeHtml(item.eta || 'Tomorrow')}</span>
+                                ${item.moq ? `<span><i class="fas fa-chart-line"></i> MOQ ${item.moq}</span>` : ''}
+                            </div>
+                        </div>
+                        <div class="qty-control" style="display:flex;align-items:center;gap:0.5rem;background:rgba(0,0,0,0.35);padding:0.1rem 0.6rem 0.1rem 0.8rem;border-radius:60px;border:1px solid rgba(255,215,120,0.04);">
+                            <button onclick="updateQty('${item.id}', -1, ${index})" style="background:none;border:none;color:var(--text-secondary);font-size:0.9rem;cursor:pointer;padding:0.1rem 0.1rem;transition:var(--transition-smooth);">−</button>
+                            <span class="qty-num" id="qty-${index}" style="font-weight:600;min-width:24px;text-align:center;font-size:0.85rem;">${item.qty || 1}</span>
+                            <button onclick="updateQty('${item.id}', 1, ${index})" style="background:none;border:none;color:var(--text-secondary);font-size:0.9rem;cursor:pointer;padding:0.1rem 0.1rem;transition:var(--transition-smooth);">+</button>
+                            ${item.alternative ? `<span style="background:rgba(245,179,66,0.08);padding:0.05rem 0.6rem;border-radius:40px;font-size:0.55rem;color:var(--gold);border:1px solid rgba(245,179,66,0.1);font-weight:500;white-space:nowrap;"><i class="fas fa-robot"></i> ${escapeHtml(item.alternative.split(',')[0])}</span>` : ''}
+                        </div>
+                        <div style="display:flex;gap:0.6rem;color:var(--text-muted);font-size:0.75rem;">
+                            <i class="far fa-star" onclick="wishlistItem('${item.id}')" style="cursor:pointer;transition:var(--transition-smooth);"></i>
+                            <i class="far fa-copy" onclick="duplicateItem('${item.id}')" style="cursor:pointer;transition:var(--transition-smooth);"></i>
+                        </div>
+                    </div>
+                `).join('');
+
+                const firstItem = items.find(i => i.alternative);
+                if (firstItem) {
+                    DOM.altText.textContent = firstItem.alternative;
+                } else {
+                    DOM.altText.textContent = 'All items optimized for best value';
+                }
+            }
+
+            // ============================================================
+            // RENDER SUMMARY
+            // ============================================================
+            function renderSummary(data) {
+                if (!data) return;
+
+                const confidence = data.confidence || 96;
+                const confidenceColor = confidence > 90 ? 'var(--accent-success)' : confidence > 70 ? 'var(--gold)' : 'var(--accent-danger)';
+
+                DOM.summaryContent.innerHTML = `
+                    <div class="summary-row"><span>Subtotal</span><span>${formatCurrency(data.subtotal || 0)}</span></div>
+                    ${data.discount ? `<div class="summary-row"><span>Contractor discount</span><span class="value discount">-${formatCurrency(data.discount)}</span></div>` : ''}
+                    ${data.promo ? `<div class="summary-row"><span>Promo</span><span>-${formatCurrency(data.promo)}</span></div>` : ''}
+                    <div class="summary-row"><span>Delivery</span><span>${formatCurrency(data.delivery || 0)}</span></div>
+                    <div class="summary-row"><span>VAT (7.5%)</span><span>${formatCurrency(data.vat || 0)}</span></div>
+                    <div class="summary-row"><span>Insurance</span><span>${formatCurrency(data.insurance || 0)}</span></div>
+                    <div class="summary-row total"><span>Total</span><span>${formatCurrency(data.total || 0)}</span></div>
+
+                    <div class="savings-badge">
+                        <i class="fas fa-leaf"></i>
+                        <div>
+                            <strong>You saved ${formatCurrency(data.savings || 0)}</strong>
+                            <span style="font-size:0.7rem;color:var(--text-muted);">green procurement</span>
+                        </div>
+                    </div>
+
+                    <div class="summary-extra">
+                        <div class="extra-item">
+                            <div class="extra-value">${formatCurrency(data.historicalSavings || 4200000)}</div>
+                            <div class="extra-label">Historical Savings</div>
+                        </div>
+                        <div class="extra-item">
+                            <div class="extra-value" style="color:${confidenceColor};">${confidence}%</div>
+                            <div class="extra-label">AI Confidence</div>
+                        </div>
+                        <div class="extra-item">
+                            <div class="extra-value">${data.procurementScore || 'A+'}</div>
+                            <div class="extra-label">Procurement Score</div>
+                        </div>
+                        <div class="extra-item">
+                            <div class="extra-value">${data.ecoScore || 89}%</div>
+                            <div class="extra-label">Eco Score</div>
+                        </div>
+                    </div>
+
+                    ${data.aiInsight ? `
+                    <div style="background:rgba(245,179,66,0.02);padding:0.8rem 1rem;border-radius:var(--radius-xl);margin:1rem 0;border-left:3px solid var(--gold);">
+                        <div style="display:flex;gap:0.6rem;align-items:center;">
+                            <i class="fas fa-robot" style="color:var(--gold);"></i>
+                            <span style="font-size:0.85rem;">AI: ${escapeHtml(data.aiInsight)}</span>
+                        </div>
+                        <div style="margin-top:0.2rem;font-size:0.7rem;color:var(--text-muted);">
+                            <i class="fas fa-sync-alt"></i> <span onclick="optimizeOrder()" style="cursor:pointer;color:var(--gold);">Optimize order</span>
+                        </div>
+                    </div>
+                    ` : ''}
+
+                    <div class="coupon-input">
+                        <input type="text" id="couponInput" placeholder="Coupon code" />
+                        <button class="apply-btn" onclick="applyCoupon()">Apply</button>
+                    </div>
+
+                    <button class="btn btn-gold" onclick="confirmCheckout()">
+                        <i class="fas fa-check-circle"></i> Confirm & Pay
+                    </button>
+
+                    <div class="trust-badges">
+                        <span class="trust-item"><i class="fas fa-lock"></i> 256-bit Encryption</span>
+                        <span class="trust-item"><i class="fas fa-shield-alt"></i> PCI DSS Compliant</span>
+                        <span class="trust-item"><i class="fas fa-file-invoice"></i> VAT-Compliant</span>
+                        <span class="trust-item"><i class="fas fa-check-circle"></i> Verified Supplier</span>
+                        <span class="trust-item"><i class="fas fa-shield"></i> Procurement Protected</span>
+                    </div>
+                `;
+            }
+
+            // ============================================================
+            // RENDER RISK
+            // ============================================================
+            function renderRisk(data) {
+                if (!data) return;
+                DOM.riskScoreValue.textContent = data.score + '%';
+
+                const color = data.score > 90 ? 'low' : data.score > 70 ? 'medium' : 'high';
+                const ring = document.querySelector('.risk-score .fg');
+                if (ring) {
+                    ring.className = 'fg ' + color;
+                    const circumference = 226;
+                    const offset = circumference - (data.score / 100) * circumference;
+                    ring.style.strokeDashoffset = offset;
+                }
+
+                if (data.factors && data.factors.length > 0) {
+                    DOM.riskDetails.innerHTML = data.factors.map(f =>
+                        `<div class="risk-item"><i class="fas fa-check-circle check"></i> ${escapeHtml(f)}</div>`
+                    ).join('');
+                }
+            }
+
+            // ============================================================
+            // RENDER DELIVERY
+            // ============================================================
+            function renderDelivery(data) {
+                if (!data) return;
+                DOM.deliveryDeparture.textContent = data.departure || '8:20 AM';
+                DOM.deliveryArrival.textContent = data.arrival || '11:35 AM';
+                DOM.deliveryDriver.textContent = data.driver || 'Chidi Okonkwo';
+                DOM.deliveryRoute.textContent = data.route || 'Optimal';
+                DOM.deliveryRoute.className = 'intel-value ' + (data.route === 'Optimal' ? 'green' : 'amber');
+
+                const risk = parseInt(data.delayRisk) || 2;
+                DOM.deliveryRisk.textContent = data.delayRisk || '2%';
+                DOM.deliveryRisk.className = 'intel-value ' + (risk < 5 ? 'green' : 'amber');
+
+                DOM.deliveryStandardCost.textContent = formatCurrency(data.standardCost || 15000);
+                DOM.deliveryExpressCost.textContent = formatCurrency(data.expressCost || 28000);
+                DOM.deliveryScheduledCost.textContent = formatCurrency(data.scheduledCost || 22000);
+                DOM.deliveryRecommendation.textContent = data.recommendation || 'Standard saves ₦13,000 with +4hr delay';
+
+                DOM.trafficStatus.textContent = data.traffic || 'moderate';
+                DOM.weatherStatus.textContent = data.weather || 'clear';
+                DOM.distanceStatus.textContent = data.distance || '12.4 km';
+
+                // Update delivery date to today + 3 days
+                const dateInput = document.getElementById('deliveryDate');
+                if (dateInput) {
+                    const d = new Date();
+                    d.setDate(d.getDate() + 3);
+                    dateInput.value = d.toISOString().split('T')[0];
+                }
+            }
+
+            // ============================================================
+            // UPDATE REVIEW SECTION
+            // ============================================================
+            function updateReview(data) {
+                if (!data) return;
+                DOM.reviewTotal.textContent = formatCurrency(data.total || 0);
+                DOM.reviewItems.textContent = `${cartItems.length} items`;
+                DOM.reviewDelivery.textContent = document.querySelector('.seg-item.active')?.dataset.mode || 'Express';
+                DOM.reviewAddress.textContent = document.getElementById('deliveryAddress')?.value || 'No address set';
+                DOM.reviewETA.textContent = document.getElementById('deliveryDate')?.value + ', ' + (document.getElementById(
+                    'timeSlot')?.value || '8:00 – 12:00');
+                DOM.reviewPayment.textContent = document.querySelector('.pm-item.active')?.dataset.method || 'Paystack';
+                DOM.reviewInvoice.textContent = document.getElementById('invoiceType')?.value === 'Company' ?
+                    'Company Invoice' : 'Individual Invoice';
+            }
+
+            // ============================================================
+            // UPDATE AI INSIGHTS
+            // ============================================================
+            function updateAIInsights(summary, delivery) {
+                if (summary.aiInsight) {
+                    DOM.aiFloating.querySelector('.ai-main').textContent = summary.aiInsight;
+                }
+                if (delivery && delivery.recommendation) {
+                    DOM.aiFloating.querySelector('.ai-sub').textContent = delivery.recommendation;
+                }
+            }
+
+            // ============================================================
+            // INTERACTIVE FUNCTIONS
+            // ============================================================
+            window.updateQty = function(id, delta, index) {
+                const qtyEl = document.getElementById(`qty-${index}`);
+                if (!qtyEl) return;
+                let newQty = parseInt(qtyEl.textContent) + delta;
+                if (newQty < 1) newQty = 1;
+                qtyEl.textContent = newQty;
+                showToast('Updated', `Quantity updated to ${newQty}`, '🔄');
+                // In production: PATCH /api/cart/items/${id}
+            };
+
+            window.wishlistItem = function(id) { showToast('Wishlist', 'Item added to wishlist', '⭐'); };
+            window.duplicateItem = function(id) { showToast('Duplicated', 'Item added to cart again', '📋'); };
+
+            window.applyCoupon = function() {
+                const code = document.getElementById('couponInput').value.trim();
+                if (!code) { showToast('Coupon', 'Please enter a coupon code', '⚠️'); return; }
+                showToast('Coupon', `Coupon "${code}" applied!`, '✅');
+                // In production: POST /api/cart/discount
+            };
+
+            window.optimizeOrder = function() {
+                showToast('Optimizing', 'AI is optimizing your order...', '🧠');
+                setTimeout(() => {
+                    // In production: POST /api/checkout/optimize
+                    const standardEl = document.querySelector('.seg-item[data-mode="standard"]');
+                    if (standardEl) {
+                        document.querySelectorAll('.seg-item').forEach(s => s.classList.remove('active'));
+                        standardEl.classList.add('active');
+                        summaryData.delivery = 15000;
+                        summaryData.total = summaryData.subtotal - (summaryData.discount || 0) + 15000 + (summaryData
+                            .vat || 0) + (summaryData.insurance || 0);
+                        renderSummary(summaryData);
+                        updateReview(summaryData);
+                        showToast('Optimized!', 'Switched to Standard saving ₦13,000', '✅');
+                    }
+                }, 1500);
+            };
+
+            window.generateQuote = function() {
+                showToast('Quote', 'Generating professional quotation...', '📄');
+                // In production: POST /api/checkout/quote
+                setTimeout(() => { showToast('Ready', 'Quote PDF downloaded', '✅'); }, 1500);
+            };
+
+            window.generateInvoice = function() {
+                showToast('Invoice', 'Generating invoice...', '📄');
+                // In production: POST /api/checkout/invoice
+                setTimeout(() => { showToast('Ready', 'Invoice downloaded', '✅'); }, 1500);
+            };
+
+            window.confirmCheckout = function() {
+                showToast('Processing', 'Processing your order...', '🔄');
+                // In production: POST /api/orders
+                setTimeout(() => {
+                    showSuccessAnimation();
+                }, 2000);
+            };
+
+            // ============================================================
+            // SUCCESS ANIMATION
+            // ============================================================
+            function showSuccessAnimation() {
+                DOM.successOverlay.classList.add('show');
+                const items = DOM.successTimeline.querySelectorAll('.st-item');
+                items.forEach((item, index) => {
+                    setTimeout(() => {
+                        item.classList.add('done');
+                        if (index === items.length - 1) {
+                            setTimeout(() => {
+                                showToast('🎉 Order Complete!', 'Your order has been processed successfully',
+                                    '✅');
+                            }, 500);
+                        }
+                    }, 300 + index * 400);
+                });
+            }
+
+            window.closeSuccess = function() {
+                DOM.successOverlay.classList.remove('show');
+                window.location.href = '/buildmart/order-confirmation.html';
+            };
+
+            // ============================================================
+            // DELIVERY SEGMENT SELECTION
+            // ============================================================
+            document.querySelectorAll('.seg-item').forEach(el => {
+                el.addEventListener('click', function() {
+                    document.querySelectorAll('.seg-item').forEach(s => s.classList.remove('active'));
+                    this.classList.add('active');
+                    const mode = this.dataset.mode;
+                    const costs = { pickup: 0, standard: 15000, express: 28000, scheduled: 22000 };
+                    const newCost = costs[mode] || 28000;
+                    summaryData.delivery = newCost;
+                    summaryData.total = summaryData.subtotal - (summaryData.discount || 0) + newCost + (summaryData
+                        .vat || 0) + (summaryData.insurance || 0);
+                    renderSummary(summaryData);
+                    updateReview(summaryData);
+                    showToast('Delivery', `${mode.charAt(0).toUpperCase() + mode.slice(1)} selected (${formatCurrency(newCost)})`,
+                        '🚚');
+
+                    // Update delivery intelligence
+                    const etas = { pickup: 'Today', standard: '2-3 days', express: '1 day', scheduled: 'Custom' };
+                    DOM.deliveryArrival.textContent = etas[mode] || '1 day';
+                    const risks = { pickup: '0%', standard: '5%', express: '2%', scheduled: '8%' };
+                    DOM.deliveryRisk.textContent = risks[mode] || '2%';
+                    DOM.deliveryRisk.className = 'intel-value ' + (parseInt(risks[mode]) < 5 ? 'green' : 'amber');
+
+                    // In production: POST /api/checkout/delivery/update
+                });
+            });
+
+            // ============================================================
+            // PAYMENT METHOD SELECTION
+            // ============================================================
+            document.querySelectorAll('.pm-item').forEach(el => {
+                el.addEventListener('click', function() {
+                    document.querySelectorAll('.pm-item').forEach(p => p.classList.remove('active'));
+                    this.classList.add('active');
+                    const method = this.dataset.method;
+                    showToast('Payment', `${method.charAt(0).toUpperCase() + method.slice(1)} selected`, '💳');
+                    updateReview(summaryData);
+                    // In production: POST /api/checkout/payment/update
+                });
+            });
+
+            // ============================================================
+            // AI FLOATING - CONTEXTUAL OPTIMIZATION
+            // ============================================================
+            DOM.aiOptimizeBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                optimizeOrder();
+            });
+
+            DOM.aiFloating.addEventListener('click', function(e) {
+                if (e.target.closest('.ai-optimize')) return;
+                showToast('AI Assistant', 'How can I help with your procurement?', '🤖');
+                // In production: open AI chat widget
+            });
+
+            // ============================================================
+            // EVENT LISTENERS FOR UPDATES
+            // ============================================================
+            document.getElementById('deliveryAddress')?.addEventListener('change', function() {
+                updateReview(summaryData);
+            });
+            document.getElementById('deliveryDate')?.addEventListener('change', function() {
+                updateReview(summaryData);
+            });
+            document.getElementById('timeSlot')?.addEventListener('change', function() {
+                updateReview(summaryData);
+            });
+            document.getElementById('invoiceType')?.addEventListener('change', function() {
+                updateReview(summaryData);
+            });
+
+            // ============================================================
+            // NAVBAR / HAMBURGER
+            // ============================================================
+            document.getElementById('hamburgerBtn')?.addEventListener('click', () => {
+                const links = document.getElementById('navLinks');
+                const isOpen = links.style.display === 'flex';
+                links.style.display = isOpen ? 'none' : 'flex';
+                if (!isOpen) {
+                    links.style.flexDirection = 'column';
+                    links.style.width = '100%';
+                    links.style.padding = '1rem 0';
+                    links.style.gap = '0.6rem';
+                    links.style.alignItems = 'center';
+                }
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('navbar').classList.toggle('shrink', window.scrollY > 60);
+            });
+
+            // ============================================================
+            // KEYBOARD SHORTCUTS
+            // ============================================================
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    DOM.toast.classList.remove('show');
+                    DOM.successOverlay.classList.remove('show');
+                }
+                if (e.key === 'Enter' && document.activeElement === document.getElementById('couponInput')) {
+                    e.preventDefault();
+                    applyCoupon();
+                }
+                if (e.key === 'Enter' && e.ctrlKey) {
+                    e.preventDefault();
+                    confirmCheckout();
+                }
+            });
+
+            // ============================================================
+            // SCROLL REVEAL
+            // ============================================================
+            const reveals = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            reveals.forEach(el => revealObserver.observe(el));
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            async function init() {
+                console.log('🛒 BuildMart Enterprise Checkout v5.0');
+                console.log('📡 API:', API_BASE);
+
+                initParticles();
+                await fetchAllData();
+
+                // Open first section by default
+                setTimeout(() => {
+                    const firstSection = document.getElementById('sectionOrder');
+                    if (firstSection) {
+                        const content = firstSection.querySelector('.section-content');
+                        const icon = firstSection.querySelector('.expand-icon');
+                        if (content) content.classList.add('open');
+                        if (icon) icon.classList.add('open');
+                    }
+                }, 500);
+            }
+
+            // Expose functions globally
+            window.toggleSection = toggleSection;
+            window.updateQty = updateQty;
+            window.wishlistItem = wishlistItem;
+            window.duplicateItem = duplicateItem;
+            window.applyCoupon = applyCoupon;
+            window.optimizeOrder = optimizeOrder;
+            window.generateQuote = generateQuote;
+            window.generateInvoice = generateInvoice;
+            window.confirmCheckout = confirmCheckout;
+            window.closeSuccess = closeSuccess;
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+        })();
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,1132 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="8.0.0">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="PrimeShieldHub Quantum Product Portal">
+  <title>PrimeShieldHub | Quantum Product</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css" />
+  
+  <!-- Three.js -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+      }
+    }
+  </script>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-deep: #010105;
+      --surface-dark: rgba(8, 12, 25, 0.75);
+      --glass-edge: rgba(0, 247, 255, 0.25);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --accent-success: #33ffaa;
+      --accent-danger: #ff3366;
+      --text-primary: #f0f3ff;
+      --text-secondary: #9ca3cf;
+      --gradient-primary: linear-gradient(135deg, #00f7ff, #b200ff);
+      --gradient-gold: linear-gradient(135deg, #ffd966, #ffaa33);
+      --shadow-glow: 0 0 20px rgba(0,247,255,0.3);
+      --radius-card: 2rem;
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', 'Space Grotesk', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* 3D Canvas Background */
+    #quantum-bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    /* Animated Grid Overlay */
+    .quantum-grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0,247,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,247,255,0.08) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+      animation: gridShift 20s linear infinite;
+    }
+
+    @keyframes gridShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    /* Main Container */
+    .quantum-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Back Button */
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--neon-cyan);
+      text-decoration: none;
+      margin-bottom: 2rem;
+      transition: var(--transition-smooth);
+    }
+    .back-link:hover {
+      color: var(--neon-gold);
+      transform: translateX(-5px);
+    }
+
+    /* Product Grid */
+    .product-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 2rem;
+      margin-bottom: 3rem;
+    }
+
+    @media (max-width: 768px) {
+      .product-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    /* Gallery Section */
+    .gallery-container {
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--glass-edge);
+      padding: 1rem;
+    }
+
+    .main-image {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 1rem;
+      overflow: hidden;
+      margin-bottom: 1rem;
+      cursor: zoom-in;
+      position: relative;
+      background: rgba(0,0,0,0.3);
+    }
+
+    .main-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s;
+    }
+
+    .thumbnail-list {
+      display: flex;
+      gap: 1rem;
+      overflow-x: auto;
+      padding-bottom: 0.5rem;
+    }
+
+    .thumbnail {
+      width: 80px;
+      height: 80px;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      border: 2px solid transparent;
+      transition: var(--transition-smooth);
+      object-fit: cover;
+      flex-shrink: 0;
+      background: rgba(0,0,0,0.2);
+    }
+
+    .thumbnail.active {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 12px var(--neon-cyan);
+    }
+
+    /* Product Info */
+    .product-info {
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--glass-edge);
+      padding: 2rem;
+    }
+
+    .product-category {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      color: var(--neon-cyan);
+      margin-bottom: 0.5rem;
+    }
+
+    .product-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    .product-price {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--neon-cyan);
+      margin-bottom: 1rem;
+    }
+
+    .stock-badge {
+      display: inline-block;
+      padding: 0.3rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+    }
+    .stock-badge.in-stock { background: #33ffaa20; color: #33ffaa; }
+    .stock-badge.low-stock { background: #ffaa3320; color: #ffaa33; }
+    .stock-badge.out-of-stock { background: #ff336620; color: #ff3366; }
+
+    .product-description {
+      color: var(--text-secondary);
+      line-height: 1.6;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Quantity Selector */
+    .quantity-selector {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    .qty-btn {
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--glass-edge);
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      color: white;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    .qty-btn:hover {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+    .qty-input {
+      width: 60px;
+      text-align: center;
+      background: transparent;
+      border: none;
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 600;
+    }
+    .qty-input:focus {
+      outline: none;
+    }
+
+    /* Add to Cart Button */
+    .add-to-cart {
+      width: 100%;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: 2rem;
+      padding: 1rem;
+      font-weight: bold;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+    .add-to-cart:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0,247,255,0.6);
+    }
+    .add-to-cart:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    /* Share Section */
+    .share-section {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 1rem;
+    }
+    .share-btn {
+      background: transparent;
+      border: 1px solid var(--glass-edge);
+      border-radius: 2rem;
+      padding: 0.5rem 1rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+    }
+    .share-btn:hover {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+    }
+
+    /* Related Products */
+    .related-section {
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--glass-edge);
+      padding: 2rem;
+      margin-top: 2rem;
+    }
+    .related-title {
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    .related-card {
+      background: rgba(0,0,0,0.4);
+      border-radius: 1rem;
+      padding: 1rem;
+      text-align: center;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+    }
+    .related-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-glow);
+    }
+    .related-card img {
+      width: 100%;
+      aspect-ratio: 1;
+      object-fit: cover;
+      border-radius: 0.5rem;
+      margin-bottom: 0.5rem;
+      background: rgba(0,0,0,0.2);
+    }
+    .related-card h4 {
+      font-size: 0.9rem;
+      margin-bottom: 0.3rem;
+      color: var(--text-primary);
+    }
+    .related-card .price {
+      color: var(--neon-cyan);
+      font-weight: bold;
+    }
+
+    /* Error State */
+    .error-state {
+      text-align: center;
+      padding: 4rem 2rem;
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--glass-edge);
+    }
+    .error-state i {
+      font-size: 4rem;
+      color: var(--accent-danger);
+      margin-bottom: 1rem;
+    }
+    .error-state h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+    .error-state p {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+    .error-state .btn-home {
+      display: inline-block;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: 2rem;
+      padding: 0.8rem 2rem;
+      color: white;
+      font-weight: bold;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+    .error-state .btn-home:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0,247,255,0.6);
+    }
+
+    /* Loading Overlay */
+    .loading-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(5px);
+      z-index: 9999;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .loading-overlay.active {
+      display: flex;
+    }
+    .quantum-loader {
+      width: 60px;
+      height: 60px;
+      border: 3px solid var(--glass-edge);
+      border-top-color: var(--neon-cyan);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+    .loading-overlay .loading-text {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--neon-cyan);
+      border-radius: 2rem;
+      padding: 1rem 2rem;
+      color: var(--neon-cyan);
+      z-index: 10000;
+      animation: slideIn 0.3s ease;
+      display: none;
+      max-width: 400px;
+    }
+    .toast.error {
+      border-color: var(--accent-danger);
+      color: var(--accent-danger);
+    }
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 480px) {
+      .product-title {
+        font-size: 1.6rem;
+      }
+      .product-price {
+        font-size: 1.5rem;
+      }
+      .product-info {
+        padding: 1.5rem;
+      }
+      .related-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+      }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <canvas id="quantum-bg-canvas"></canvas>
+  <div class="quantum-grid-overlay"></div>
+
+  <div class="loading-overlay" id="loadingOverlay">
+    <div class="quantum-loader"></div>
+    <div class="loading-text">Loading product...</div>
+  </div>
+
+  <div class="quantum-container">
+    <a href="/products" class="back-link">
+      <i class="fas fa-arrow-left"></i> Return to Quantum Nexus
+    </a>
+
+    <!-- Product Grid -->
+    <div class="product-grid" id="productGrid">
+      <!-- Gallery -->
+      <div class="gallery-container">
+        <div class="main-image" id="mainImage">
+          <img id="mainImg" src="" alt="Product">
+        </div>
+        <div class="thumbnail-list" id="thumbnailList"></div>
+      </div>
+
+      <!-- Product Info -->
+      <div class="product-info">
+        <div class="product-category" id="productCategory">--</div>
+        <h1 class="product-title" id="productTitle">Loading...</h1>
+        <div class="product-price" id="productPrice">â‚¦0</div>
+        <div class="stock-badge" id="stockBadge">--</div>
+        <div class="product-description" id="productDescription"></div>
+        
+        <div class="quantity-selector">
+          <button class="qty-btn" id="qtyMinus"><i class="fas fa-minus"></i></button>
+          <input type="number" id="quantity" class="qty-input" value="1" min="1" max="99">
+          <button class="qty-btn" id="qtyPlus"><i class="fas fa-plus"></i></button>
+        </div>
+        
+        <button class="add-to-cart" id="addToCartBtn">
+          <i class="fas fa-cart-plus"></i> Add to Quantum Cart
+        </button>
+        
+        <div class="share-section">
+          <button class="share-btn" id="shareBtn"><i class="fas fa-share-alt"></i> Share</button>
+          <button class="share-btn" id="wishlistBtn"><i class="fas fa-heart"></i> Wishlist</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Error State -->
+    <div class="error-state" id="errorState" style="display: none;">
+      <i class="fas fa-exclamation-triangle"></i>
+      <h2>Product Not Found</h2>
+      <p>The product you're looking for doesn't exist or has been removed.</p>
+      <a href="/products" class="btn-home">
+        <i class="fas fa-arrow-left"></i> Browse Products
+      </a>
+    </div>
+
+    <!-- Related Products -->
+    <div class="related-section" id="relatedSection" style="display: none;">
+      <h2 class="related-title">Quantum Entanglement: You May Also Like</h2>
+      <div class="related-grid" id="relatedGrid"></div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">âœ¨ Added to cart</div>
+
+  <script type="module">
+    import * as THREE from 'three';
+     
+    // Add this at the beginning of your script
+    console.log('ðŸ” Product Detail Page Loaded');
+    console.log('ðŸ“ Current URL:', window.location.href);
+    console.log('ðŸ“ URL Parameters:', new URLSearchParams(window.location.search).toString());
+
+    const testId = new URLSearchParams(window.location.search).get('id');
+    const testSlug = new URLSearchParams(window.location.search).get('slug');
+
+    console.log('ðŸ†” Product ID from URL:', testId);
+    console.log('ðŸ”— Product Slug from URL:', testSlug);
+
+    if (!testId && !testSlug) {
+        console.warn('âš ï¸ No product ID or slug found in URL!');
+        // Show a more helpful message
+        document.querySelector('.error-state h2').textContent = 'No Product Selected';
+        document.querySelector('.error-state p').textContent = 
+            'Please click on a product from the home page or browse our products.';
+    }
+    
+    // ================================================================
+    // 1. CONFIGURATION - Matches your Cloudflare Worker API
+    // ================================================================
+    const API_BASE = 'https://api.primeshieldhub.com/api';
+    const CART_KEY = 'psh_cart';
+    const WISHLIST_KEY = 'psh_wishlist';
+
+    // ================================================================
+    // 2. DOM REFS
+    // ================================================================
+    const loadingOverlay = document.getElementById('loadingOverlay');
+    const mainImg = document.getElementById('mainImg');
+    const thumbnailList = document.getElementById('thumbnailList');
+    const productCategory = document.getElementById('productCategory');
+    const productTitle = document.getElementById('productTitle');
+    const productPrice = document.getElementById('productPrice');
+    const stockBadge = document.getElementById('stockBadge');
+    const productDescription = document.getElementById('productDescription');
+    const quantityInput = document.getElementById('quantity');
+    const qtyMinus = document.getElementById('qtyMinus');
+    const qtyPlus = document.getElementById('qtyPlus');
+    const addToCartBtn = document.getElementById('addToCartBtn');
+    const shareBtn = document.getElementById('shareBtn');
+    const wishlistBtn = document.getElementById('wishlistBtn');
+    const relatedSection = document.getElementById('relatedSection');
+    const relatedGrid = document.getElementById('relatedGrid');
+    const errorState = document.getElementById('errorState');
+    const productGrid = document.getElementById('productGrid');
+    const toast = document.getElementById('toast');
+
+    let currentProduct = null;
+    let currentImages = [];
+    let toastTimeout = null;
+
+    // ================================================================
+    // 3. TOAST SYSTEM
+    // ================================================================
+    function showToast(message, isError = false) {
+      if (toastTimeout) {
+        clearTimeout(toastTimeout);
+        toast.style.display = 'none';
+      }
+      toast.textContent = message;
+      toast.className = 'toast' + (isError ? ' error' : '');
+      toast.style.display = 'block';
+      toastTimeout = setTimeout(() => {
+        toast.style.display = 'none';
+        toastTimeout = null;
+      }, 3000);
+    }
+
+    // ================================================================
+    // 4. LOADING OVERLAY
+    // ================================================================
+    function showLoading(show, text = 'Loading product...') {
+      if (show) {
+        loadingOverlay.querySelector('.loading-text').textContent = text;
+        loadingOverlay.classList.add('active');
+      } else {
+        loadingOverlay.classList.remove('active');
+      }
+    }
+
+    // ================================================================
+    // 5. GET PRODUCT ID/SLUG FROM URL
+    // ================================================================
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+    const productSlug = urlParams.get('slug');
+
+    if (!productId && !productSlug) {
+      productGrid.style.display = 'none';
+      errorState.style.display = 'block';
+    }
+
+    // ================================================================
+    // 6. FETCH PRODUCT - REST API (NO FIREBASE)
+    // ================================================================
+    async function fetchProductById(id) {
+      try {
+        const response = await fetch(`${API_BASE}/products/${id}`);
+        if (!response.ok) {
+          if (response.status === 404) return null;
+          throw new Error(`HTTP ${response.status}`);
+        }
+        const data = await response.json();
+        return data;
+      } catch (error) {
+        console.error('Error fetching product by ID:', error);
+        return null;
+      }
+    }
+
+    async function fetchProductBySlug(slug) {
+      try {
+        const response = await fetch(`${API_BASE}/products`);
+        if (!response.ok) throw new Error('Failed to fetch products');
+        const data = await response.json();
+        
+        // Handle both array and object responses
+        let products = [];
+        if (Array.isArray(data)) {
+          products = data;
+        } else if (data && data.products && Array.isArray(data.products)) {
+          products = data.products;
+        } else if (data && data.data && Array.isArray(data.data)) {
+          products = data.data;
+        } else {
+          for (const key of Object.keys(data)) {
+            if (Array.isArray(data[key])) {
+              products = data[key];
+              break;
+            }
+          }
+        }
+        
+        // Find product by slug (case-insensitive)
+        return products.find(p => 
+          p.slug?.toLowerCase() === slug.toLowerCase() ||
+          p.name?.toLowerCase().replace(/[^a-z0-9]+/g, '-') === slug.toLowerCase()
+        ) || null;
+      } catch (error) {
+        console.error('Error fetching product by slug:', error);
+        return null;
+      }
+    }
+
+    // ================================================================
+    // 7. LOAD PRODUCT
+    // ================================================================
+    async function loadProduct() {
+      showLoading(true);
+      
+      let product = null;
+      
+      if (productId) {
+        product = await fetchProductById(productId);
+      } else if (productSlug) {
+        product = await fetchProductBySlug(productSlug);
+      }
+      
+      showLoading(false);
+      
+      if (!product) {
+        productGrid.style.display = 'none';
+        errorState.style.display = 'block';
+        return;
+      }
+      
+      // Normalize product data for consistent display
+      currentProduct = {
+        id: product.id || product._id,
+        name: product.name || 'Product',
+        price: typeof product.price === 'string' ? parseFloat(product.price) : (product.price || 0),
+        originalPrice: product.original_price ? parseFloat(product.original_price) : null,
+        category: product.category || 'Uncategorized',
+        stock: product.stock || 0,
+        description: product.description || 'No description available.',
+        images: product.images && product.images.length ? product.images : 
+                (product.image_url ? [product.image_url] : 
+                ['https://placehold.co/600x600/1a1a2e/00f7ff?text=No+Image']),
+        rating: product.rating || 0,
+        reviewCount: product.reviewCount || 0,
+        specifications: product.specifications || product.specs || {},
+        slug: product.slug || product.name?.toLowerCase().replace(/[^a-z0-9]+/g, '-') || `product-${Date.now()}`
+      };
+      
+      renderProduct();
+      loadRelatedProducts(currentProduct.category);
+    }
+
+    // ================================================================
+    // 8. RENDER PRODUCT
+    // ================================================================
+    function renderProduct() {
+      const p = currentProduct;
+      
+      productCategory.textContent = p.category || 'Uncategorized';
+      productTitle.textContent = p.name;
+      productPrice.textContent = `â‚¦ ${p.price.toLocaleString()}`;
+      productDescription.textContent = p.description || 'No description available.';
+      
+      // Stock status
+      const stock = p.stock || 0;
+      if (stock > 10) {
+        stockBadge.textContent = 'âœ… In Stock';
+        stockBadge.className = 'stock-badge in-stock';
+        addToCartBtn.disabled = false;
+      } else if (stock > 0) {
+        stockBadge.textContent = `âš ï¸ Low Stock (${stock} left)`;
+        stockBadge.className = 'stock-badge low-stock';
+        addToCartBtn.disabled = false;
+      } else {
+        stockBadge.textContent = 'âŒ Out of Stock';
+        stockBadge.className = 'stock-badge out-of-stock';
+        addToCartBtn.disabled = true;
+      }
+      
+      // Images
+      currentImages = p.images && p.images.length ? p.images : ['https://placehold.co/600x600/1a1a2e/00f7ff?text=No+Image'];
+      mainImg.src = currentImages[0];
+      mainImg.alt = p.name;
+      
+      thumbnailList.innerHTML = currentImages.map((img, idx) => `
+        <img src="${img}" class="thumbnail ${idx === 0 ? 'active' : ''}" data-index="${idx}" alt="Thumbnail ${idx + 1}">
+      `).join('');
+      
+      // Thumbnail click
+      document.querySelectorAll('.thumbnail').forEach(thumb => {
+        thumb.addEventListener('click', (e) => {
+          const idx = parseInt(thumb.dataset.index);
+          mainImg.src = currentImages[idx];
+          document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+          thumb.classList.add('active');
+        });
+      });
+      
+      // Main image click - zoom/open lightbox
+      document.getElementById('mainImage').addEventListener('click', () => {
+        if (currentImages.length > 0) {
+          window.open(currentImages[0], '_blank');
+        }
+      });
+      
+      updateWishlistButton();
+    }
+
+    // ================================================================
+    // 9. WISHLIST
+    // ================================================================
+    function getWishlist() {
+      try {
+        return JSON.parse(localStorage.getItem(WISHLIST_KEY) || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function updateWishlistButton() {
+      if (!currentProduct) return;
+      const wishlist = getWishlist();
+      const exists = wishlist.some(item => item.id === currentProduct.id);
+      wishlistBtn.innerHTML = exists ? 
+        '<i class="fas fa-heart" style="color:#ff3366;"></i> In Wishlist' : 
+        '<i class="fas fa-heart"></i> Wishlist';
+    }
+
+    function toggleWishlist() {
+      if (!currentProduct) return;
+      let wishlist = getWishlist();
+      const index = wishlist.findIndex(item => item.id === currentProduct.id);
+      
+      if (index !== -1) {
+        wishlist.splice(index, 1);
+        showToast('ðŸ’” Removed from wishlist');
+      } else {
+        wishlist.push({
+          id: currentProduct.id,
+          name: currentProduct.name,
+          price: currentProduct.price,
+          originalPrice: currentProduct.originalPrice || null,
+          image: currentProduct.images && currentProduct.images[0] ? currentProduct.images[0] : '',
+          category: currentProduct.category || 'general',
+          brand: currentProduct.brand || 'Unknown',
+          stock: currentProduct.stock || 0,
+          rating: currentProduct.rating || 0,
+          addedAt: Date.now()
+        });
+        showToast('â¤ï¸ Added to wishlist!');
+      }
+      
+      localStorage.setItem(WISHLIST_KEY, JSON.stringify(wishlist));
+      updateWishlistButton();
+    }
+
+    wishlistBtn.addEventListener('click', toggleWishlist);
+
+    // ================================================================
+    // 10. RELATED PRODUCTS - REST API
+    // ================================================================
+    async function loadRelatedProducts(category) {
+      if (!category) {
+        relatedSection.style.display = 'none';
+        return;
+      }
+      
+      try {
+        const response = await fetch(`${API_BASE}/products?category=${encodeURIComponent(category)}&limit=5`);
+        if (!response.ok) throw new Error('Failed to fetch related products');
+        const data = await response.json();
+        
+        let related = Array.isArray(data) ? data : (data.products || data.data || []);
+        related = related
+          .filter(p => (p.id || p._id) !== (currentProduct.id || currentProduct._id))
+          .slice(0, 4);
+        
+        if (related.length === 0) {
+          relatedSection.style.display = 'none';
+          return;
+        }
+        
+        relatedSection.style.display = 'block';
+        relatedGrid.innerHTML = related.map(p => `
+          <div class="related-card" data-id="${p.id || p._id}" data-slug="${p.slug || ''}">
+            <img src="${p.images?.[0] || p.image_url || 'https://placehold.co/200/1a1a2e/00f7ff?text=Product'}" alt="${p.name}">
+            <h4>${p.name}</h4>
+            <div class="price">â‚¦ ${(p.price || 0).toLocaleString()}</div>
+          </div>
+        `).join('');
+        
+        document.querySelectorAll('.related-card').forEach(card => {
+          card.addEventListener('click', () => {
+            const id = card.dataset.id;
+            const slug = card.dataset.slug;
+            if (slug) {
+              window.location.href = `/product-detail.html?slug=${encodeURIComponent(slug)}`;
+            } else if (id) {
+              window.location.href = `/product-detail.html?id=${encodeURIComponent(id)}`;
+            }
+          });
+        });
+      } catch (err) {
+        console.warn('Failed to load related products:', err);
+        relatedSection.style.display = 'none';
+      }
+    }
+
+    // ================================================================
+    // 11. CART FUNCTIONS
+    // ================================================================
+    function getCart() {
+      try {
+        return JSON.parse(localStorage.getItem(CART_KEY) || '[]');
+      } catch {
+        return [];
+      }
+    }
+
+    function addToCart() {
+      if (!currentProduct) return;
+      
+      const quantity = parseInt(quantityInput.value);
+      if (isNaN(quantity) || quantity < 1) {
+        showToast('Invalid quantity', true);
+        return;
+      }
+      
+      const stock = currentProduct.stock || 0;
+      if (stock < quantity) {
+        showToast(`Only ${stock} left in stock`, true);
+        return;
+      }
+      
+      let cart = getCart();
+      const existingIndex = cart.findIndex(item => item.id === currentProduct.id);
+      
+      if (existingIndex !== -1) {
+        cart[existingIndex].quantity += quantity;
+      } else {
+        cart.push({
+          id: currentProduct.id,
+          name: currentProduct.name,
+          price: currentProduct.price,
+          image: currentProduct.images && currentProduct.images[0] ? currentProduct.images[0] : '',
+          quantity: quantity
+        });
+      }
+      
+      localStorage.setItem(CART_KEY, JSON.stringify(cart));
+      
+      // Dispatch event for cart count update
+      window.dispatchEvent(new CustomEvent('cartUpdated'));
+      
+      showToast(`âœ… ${quantity} Ã— ${currentProduct.name} added to cart!`);
+      
+      // Button feedback animation
+      addToCartBtn.innerHTML = '<i class="fas fa-check"></i> Added!';
+      setTimeout(() => {
+        addToCartBtn.innerHTML = '<i class="fas fa-cart-plus"></i> Add to Quantum Cart';
+      }, 2000);
+    }
+
+    // ================================================================
+    // 12. SHARE
+    // ================================================================
+    async function shareProduct() {
+      if (!currentProduct) return;
+      
+      const shareData = {
+        title: currentProduct.name,
+        text: `${currentProduct.name} - â‚¦${currentProduct.price.toLocaleString()}`,
+        url: window.location.href
+      };
+      
+      if (navigator.share) {
+        try {
+          await navigator.share(shareData);
+        } catch (err) {
+          console.log('Share cancelled');
+        }
+      } else {
+        try {
+          await navigator.clipboard.writeText(window.location.href);
+          showToast('ðŸ“‹ Link copied to clipboard!');
+        } catch {
+          showToast('Share not supported on this device', true);
+        }
+      }
+    }
+
+    // ================================================================
+    // 13. QUANTITY CONTROLS
+    // ================================================================
+    qtyMinus.addEventListener('click', () => {
+      let val = parseInt(quantityInput.value);
+      if (val > 1) quantityInput.value = val - 1;
+    });
+    
+    qtyPlus.addEventListener('click', () => {
+      let val = parseInt(quantityInput.value);
+      const max = currentProduct?.stock || 99;
+      if (val < max) quantityInput.value = val + 1;
+    });
+    
+    quantityInput.addEventListener('change', () => {
+      let val = parseInt(quantityInput.value);
+      if (isNaN(val)) val = 1;
+      if (val < 1) val = 1;
+      if (currentProduct && val > currentProduct.stock) val = currentProduct.stock;
+      quantityInput.value = val;
+    });
+
+    // ================================================================
+    // 14. EVENT BINDING
+    // ================================================================
+    addToCartBtn.addEventListener('click', addToCart);
+    shareBtn.addEventListener('click', shareProduct);
+
+    // Listen for cart updates from other tabs
+    window.addEventListener('storage', (e) => {
+      if (e.key === CART_KEY) {
+        // Optional: update cart count if needed
+      }
+    });
+
+    // ================================================================
+    // 15. THREE.JS BACKGROUND
+    // ================================================================
+    (function initThreeBackground() {
+      const canvas = document.getElementById('quantum-bg-canvas');
+      if (!canvas) return;
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer.setClearColor(0x000000, 0);
+      
+      const geometry = new THREE.TorusKnotGeometry(1.5, 0.4, 200, 32, 3, 4);
+      const material = new THREE.MeshStandardMaterial({ 
+        color: 0x00f7ff, 
+        emissive: 0x0066aa, 
+        emissiveIntensity: 0.6, 
+        metalness: 0.8, 
+        roughness: 0.2 
+      });
+      const knot = new THREE.Mesh(geometry, material);
+      knot.position.x = 0.5;
+      scene.add(knot);
+      
+      const wireMat = new THREE.MeshBasicMaterial({ 
+        color: 0xff66cc, 
+        wireframe: true, 
+        transparent: true, 
+        opacity: 0.3 
+      });
+      const wireKnot = new THREE.Mesh(geometry, wireMat);
+      wireKnot.position.x = 0.5;
+      scene.add(wireKnot);
+      
+      const starGeo = new THREE.BufferGeometry();
+      const starCount = 1500;
+      const starPos = [];
+      for (let i = 0; i < starCount; i++) {
+        starPos.push((Math.random() - 0.5) * 200);
+        starPos.push((Math.random() - 0.5) * 100);
+        starPos.push((Math.random() - 0.5) * 100 - 50);
+      }
+      starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
+      const starMat = new THREE.PointsMaterial({ 
+        color: 0xffffff, 
+        size: 0.2, 
+        transparent: true, 
+        opacity: 0.6 
+      });
+      const stars = new THREE.Points(starGeo, starMat);
+      stars.position.x = 0.5;
+      scene.add(stars);
+      
+      const ambientLight = new THREE.AmbientLight(0x222222);
+      scene.add(ambientLight);
+      const pointLight = new THREE.PointLight(0x00ffff, 1);
+      pointLight.position.set(5, 5, 5);
+      scene.add(pointLight);
+      const backLight = new THREE.PointLight(0xff66cc, 0.8);
+      backLight.position.set(-3, 2, -4);
+      scene.add(backLight);
+      
+      camera.position.z = 5;
+      
+      let time = 0;
+      function animate() {
+        requestAnimationFrame(animate);
+        time += 0.01;
+        knot.rotation.x = time * 0.5;
+        knot.rotation.y = time * 0.8;
+        wireKnot.rotation.x = time * 0.5;
+        wireKnot.rotation.y = time * 0.8;
+        stars.rotation.y = time * 0.05;
+        stars.rotation.x = Math.sin(time * 0.1) * 0.1;
+        renderer.render(scene, camera);
+      }
+      animate();
+      
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    })();
+
+    // ================================================================
+    // 16. INIT
+    // ================================================================
+    loadProduct();
+
+    console.log('ðŸš€ Quantum Product Detail v2.0 â€” REST API (No Firebase)');
+    console.log('âœ… API Base: ' + API_BASE);
+    console.log('âœ… Cart key: ' + CART_KEY);
+    console.log('âœ… Matches your Cloudflare Worker + D1 setup');
+  </script>
+</body>
+</html>
+

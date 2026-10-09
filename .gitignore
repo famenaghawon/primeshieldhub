@@ -1,0 +1,181 @@
+# ============================================================================
+# PrimeShieldHub .gitignore (Cloudflare Native v10.0)
+# ============================================================================
+
+# ------------------- Terraform (GCP - being migrated away) -------------------
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/terraform-key.json
+terraform/backup-*.tfstate
+terraform/versions.tf.backup
+
+# ------------------- Node.js -------------------
+node_modules/
+functions/node_modules/
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
+
+# ------------------- Cloudflare -------------------
+.wrangler/
+.dev.vars
+*.dev.vars
+/.pages/
+/__pages__/
+.r2/
+
+# ------------------- Worker build outputs -------------------
+# NOTE: Keep dist/ and lib/ only if you actually generate them
+dist/
+*.tsbuildinfo
+
+# ------------------- D1 local database -------------------
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.backup.sql
+
+# ------------------- Environment Files (CRITICAL) -------------------
+.env
+.env.*
+!.env.example
+*.env
+.env.local
+.env.*.local
+
+# ------------------- Secrets & Keys (SPECIFIC ONLY) -------------------
+# Do NOT use wildcards like *key* or *secret* —
+# they silently ignore files like keyboard-shortcuts.js
+gcp-key.json
+service-account-key.json
+service-account.json
+credentials.json
+api-keys.json
+apikeys.txt
+secrets.json
+*.key
+*.secret
+*.pem
+*.crt
+*.pfx
+secrets/
+id_rsa
+id_ed25519
+
+# ------------------- IDE -------------------
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.code-workspace
+
+# ------------------- Logs -------------------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+wrangler.log
+wrangler-*.log
+
+# ------------------- Build Outputs -------------------
+build/
+out/
+*.js.map
+*.d.ts.map
+.cache/
+
+# ------------------- Coverage & Testing -------------------
+coverage/
+.nyc_output/
+.vitest/
+*.lcov
+test-results/
+
+# ------------------- OS Generated -------------------
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ------------------- Application Specific -------------------
+psh_cart_backup.json
+users.json
+products.json
+resellers.json
+reseller_codes.json
+settings.json
+exports/*.json
+!exports/.gitkeep
+/public/uploads/
+/public/files/
+/storage/
+contracts/
+*.contract.txt
+*.sql
+!schema.sql
+!migrations/*.sql
+!init.sql
+backups/
+*.backup
+*.backup.sql
+db-exports/
+
+# ------------------- Deploy Scripts -------------------
+.temp/
+*.tmp
+deploy-*.json
+
+# ------------------- Authentication & Session -------------------
+*.session
+*.jwt
+auth-token.txt
+
+# ------------------- AI & ML -------------------
+*.onnx
+*.bin
+*.pt
+*.h5
+*.pkl
+
+# ------------------- Keep Examples & Templates -------------------
+!.env.example
+!.dev.vars.example
+!exports/.gitkeep
+!storage/.gitkeep
+!backups/.gitkeep
+!migrations/.gitkeep
+!scripts/.gitkeep
+
+# ------------------- Product Images (belong in R2, not Git) -------------------
+# These are managed separately and served from CDN/R2
+assets/products/
+backend/assets/products/
+frontend/public/assets/products/
+
+
+!assets/products/.gitkeep
+
+
+frontend/public-backup-rename/
+
+# Generated signature images
+frontend/public/signature.png
+
+# Design assets that aren't part of the deployed site
+signature.html
+
+# ------------------- Product Images (belong in R2, not Git) -------------------
+assets/products/
+backend/assets/products/
+frontend/public/assets/products/
+frontend/public-backup-rename/
+frontend/public/signature.png
+signature.html

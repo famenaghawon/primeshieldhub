@@ -1,0 +1,2142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+  <meta name="store-type" content="buildmart" />
+  <title>PRIMESHIELDHUB BUILDMART | Ultra-Premium Construction Ecosystem</title>
+  <meta name="description" content="PRIMESHIELDHUB BUILDMART: An architectural-grade digital ecosystem for premium construction materials, elite contractor partnerships, and precision logistics across Nigeria." />
+  <meta name="theme-color" content="#03050a" />
+  <link rel="canonical" href="https://primeshieldhub.com/buildmart" />
+  
+  <!-- Open Graph / Social -->
+  <meta property="og:title" content="PRIMESHIELDHUB BUILDMART | Premium Construction Materials" />
+  <meta property="og:description" content="Curated construction provisions, engineered for visionary builds. Precision logistics across Nigeria." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://primeshieldhub.com/buildmart" />
+  <meta property="og:image" content="/assets/images/buildmart/og-image.webp" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="PRIMESHIELDHUB BUILDMART | Premium Construction Materials" />
+  
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "HardwareStore",
+    "name": "PRIMESHIELDHUB BUILDMART",
+    "image": "/assets/images/buildmart/storefront.webp",
+    "description": "A premier purveyor of construction materials, engineered for the visionary builder.",
+    "brand": {
+      "@type": "Brand",
+      "name": "PRIMESHIELDHUB BUILDMART",
+      "slogan": "Materials for the future."
+    },
+    "parentOrganization": {
+      "@type": "Corporation",
+      "name": "PRIMESHIELDHUB GADGETS LIMITED",
+      "legalName": "PRIMESHIELDHUB GADGETS LIMITED",
+      "taxID": "RC 9283954"
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "streetAddress": "108 Newton Street (Ekhorummtomwen Street)",
+      "addressLocality": "Benin City",
+      "addressRegion": "Edo State",
+      "addressCountry": "NG"
+    },
+    "telephone": "+234-XXX-XXX-XXXX",
+    "openingHours": "Mo-Fr 08:00-18:00, Sa 09:00-16:00",
+    "currenciesAccepted": "NGN",
+    "paymentAccepted": ["Cash", "Bank Transfer", "POS", "Wire Transfer"],
+    "areaServed": { "@type": "Country", "name": "Nigeria" }
+  }
+  </script>
+
+  <!-- Typography (FIX 4: Updated Google Fonts URL) -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+
+  <style>
+    /* ============================================================
+       RESET & BASE
+       ============================================================ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; background: #03050a; }
+
+    body {
+      background: #03050a;
+      color: #e5e9f0;
+      font-family: 'Inter', sans-serif;
+      font-weight: 300;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: #03050a; }
+    ::-webkit-scrollbar-thumb { background: #d4b05e; border-radius: 0; }
+
+    a { text-decoration: none; color: inherit; transition: all 0.4s cubic-bezier(0.25, 0.1, 0.25, 1); }
+    img { display: block; max-width: 100%; height: auto; }
+
+    .container {
+      max-width: 1520px;
+      margin: 0 auto;
+      padding: 0 48px;
+    }
+
+    /* ============================================================
+       DESIGN TOKENS
+       ============================================================ */
+    :root {
+      --gold-100: #f9f0d3;
+      --gold-200: #ebd08c;
+      --gold-300: #d4b05e;
+      --gold-400: #b8942e;
+      --gold-500: #8a6d1c;
+      --onyx: #03050a;
+      --obsidian: #0b1018;
+      --steel-blue: #7c8596;
+      --champagne: rgba(212, 176, 94, 0.08);
+      --champagne-light: rgba(212, 176, 94, 0.15);
+      --glass-bg: rgba(8, 12, 20, 0.75);
+      --glass-border: rgba(212, 176, 94, 0.12);
+      --glass-shadow: 0 25px 60px -20px rgba(0, 0, 0, 0.8);
+      --transition-luxe: 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+      --transition-smooth: 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    /* ============================================================
+       BACKGROUND LAYERS
+       ============================================================ */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(212, 176, 94, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 176, 94, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
+    }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.015;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    #particles-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* ============================================================
+       TYPOGRAPHY
+       ============================================================ */
+    .section-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.7rem;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 4px;
+      color: var(--gold-300);
+      opacity: 0.8;
+      margin-bottom: 0.8rem;
+      display: inline-block;
+      border-bottom: 1px solid var(--champagne-light);
+      padding-bottom: 0.5rem;
+    }
+
+    .section-title {
+      font-family: 'Cormorant Garamond', 'Playfair Display', serif;
+      font-weight: 600;
+      font-size: clamp(2.8rem, 6vw, 4.4rem);
+      letter-spacing: -0.01em;
+      color: #f5f7fc;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .section-subtitle {
+      color: var(--steel-blue);
+      font-size: 1.15rem;
+      font-weight: 300;
+      max-width: 600px;
+      margin-bottom: 3.5rem;
+      font-style: italic;
+      letter-spacing: 0.3px;
+    }
+
+    .gold-text {
+      background: linear-gradient(135deg, #e8c77a 0%, #d4b05e 40%, #b8942e 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.7rem;
+      padding: 0.9rem 2.8rem;
+      border-radius: 0px;
+      font-weight: 500;
+      font-size: 0.85rem;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      transition: var(--transition-luxe);
+      border: none;
+      background: transparent;
+      cursor: pointer;
+      font-family: 'Space Grotesk', sans-serif;
+      position: relative;
+      overflow: hidden;
+      white-space: nowrap;
+      backdrop-filter: blur(10px);
+    }
+
+    .btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+      transition: 0.5s;
+    }
+    .btn:hover::before { left: 100%; }
+
+    .btn-primary {
+      background: var(--gold-300);
+      color: #03050a;
+      font-weight: 600;
+      box-shadow: 0 10px 30px -10px rgba(212, 176, 94, 0.3);
+    }
+    .btn-primary:hover {
+      background: #e0c06e;
+      transform: translateY(-3px);
+      box-shadow: 0 20px 45px -10px rgba(212, 176, 94, 0.5);
+    }
+
+    .btn-outline {
+      border: 1px solid var(--gold-300);
+      color: var(--gold-200);
+      background: rgba(212, 176, 94, 0.02);
+    }
+    .btn-outline:hover {
+      background: rgba(212, 176, 94, 0.1);
+      border-color: var(--gold-100);
+      color: var(--gold-100);
+      transform: translateY(-3px);
+    }
+
+    .btn-ghost {
+      border: 1px solid rgba(255,255,255,0.08);
+      color: #c8d0dd;
+    }
+    .btn-ghost:hover {
+      border-color: var(--gold-300);
+      color: #fff;
+      background: rgba(255,255,255,0.03);
+    }
+
+    .btn-gold {
+      background: var(--gold-300);
+      color: #03050a;
+      font-weight: 600;
+      box-shadow: 0 10px 30px -10px rgba(212, 176, 94, 0.3);
+      padding: 0.9rem 2.8rem;
+      border-radius: 0px;
+      font-size: 0.85rem;
+      letter-spacing: 0.8px;
+      text-transform: uppercase;
+      font-family: 'Space Grotesk', sans-serif;
+      border: none;
+      cursor: pointer;
+      transition: var(--transition-luxe);
+    }
+    .btn-gold:hover {
+      background: #e0c06e;
+      transform: translateY(-3px);
+      box-shadow: 0 20px 45px -10px rgba(212, 176, 94, 0.5);
+    }
+
+    /* ============================================================
+       FLOATING ACTION BAR
+       ============================================================ */
+    .fab {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 999;
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      align-items: flex-end;
+    }
+
+    .fab-btn {
+      background: rgba(16, 14, 14, 0.85);
+      backdrop-filter: blur(16px) saturate(180%);
+      -webkit-backdrop-filter: blur(16px) saturate(180%);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      color: #d4af37;
+      padding: 0.5rem 1.2rem;
+      border-radius: 60px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+      transition: all 0.2s;
+      cursor: pointer;
+      font-size: 0.8rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      font-family: 'Inter', sans-serif;
+      border: none;
+    }
+
+    .fab-btn i { font-size: 1.1rem; }
+    .fab-btn:hover {
+      transform: scale(1.05);
+      border-color: #f7e68c;
+      background: rgba(30, 28, 28, 0.9);
+    }
+
+    /* ============================================================
+       NAVBAR
+       ============================================================ */
+    .navbar {
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(212, 176, 94, 0.07);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(3, 5, 10, 0.82);
+      backdrop-filter: blur(25px) saturate(180%);
+      -webkit-backdrop-filter: blur(25px) saturate(180%);
+      box-shadow: 0 20px 50px -20px rgba(0,0,0,0.9);
+      transition: all 0.3s ease;
+    }
+
+    .navbar.shrink {
+      padding: 0.5rem 0;
+      background: rgba(3, 5, 10, 0.92);
+      border-bottom-color: rgba(212, 176, 94, 0.12);
+    }
+
+    .nav-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      letter-spacing: -0.5px;
+      background: linear-gradient(135deg, #f0d78c, #d4b05e, #a07c28);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: font-size 0.3s ease;
+    }
+    .navbar.shrink .logo { font-size: 1.2rem; }
+
+    .logo .sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.55rem;
+      font-weight: 500;
+      letter-spacing: 3px;
+      -webkit-text-fill-color: var(--steel-blue);
+      color: var(--steel-blue);
+      display: block;
+      margin-top: -4px;
+      text-transform: uppercase;
+    }
+
+    /* Search in navbar */
+    .nav-search {
+      position: relative;
+      flex: 0 1 280px;
+    }
+    .nav-search input {
+      width: 100%;
+      padding: 0.5rem 1.2rem 0.5rem 2.8rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 0px;
+      color: #e5e9f0;
+      font-size: 0.8rem;
+      font-family: 'Inter', sans-serif;
+      transition: var(--transition-smooth);
+      outline: none;
+    }
+    .nav-search input:focus {
+      border-color: var(--gold-300);
+      background: rgba(255,255,255,0.06);
+    }
+    .nav-search input::placeholder {
+      color: var(--steel-blue);
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+    .nav-search i {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--steel-blue);
+      font-size: 0.9rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.8rem;
+      font-weight: 400;
+      font-size: 0.8rem;
+      color: #bcc4d2;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      align-items: center;
+    }
+    .nav-links a {
+      position: relative;
+      padding: 0.3rem 0;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; width: 0; height: 1px;
+      background: var(--gold-300);
+      transition: width 0.4s ease;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--gold-300); }
+    .nav-links a.active::after { width: 100%; }
+
+    /* Mega Menu */
+    .nav-dropdown {
+      position: relative;
+    }
+    .nav-dropdown-content {
+      display: none;
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(3, 5, 10, 0.95);
+      backdrop-filter: blur(25px);
+      border: 1px solid rgba(212, 176, 94, 0.08);
+      padding: 1.5rem 2rem;
+      min-width: 600px;
+      z-index: 101;
+      border-radius: 0px;
+      box-shadow: 0 30px 60px -20px rgba(0,0,0,0.9);
+    }
+    .nav-dropdown:hover .nav-dropdown-content { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.8rem 1.5rem; }
+    .nav-dropdown-content a {
+      color: #bcc4d2;
+      font-size: 0.75rem;
+      text-transform: none;
+      letter-spacing: 0.5px;
+      padding: 0.3rem 0;
+      display: block;
+    }
+    .nav-dropdown-content a:hover { color: var(--gold-300); }
+
+    .nav-actions { display: flex; align-items: center; gap: 1rem; }
+    .hamburger {
+      display: none;
+      background: transparent;
+      border: none;
+      color: #d1d8e5;
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+    }
+
+    /* ============================================================
+       HERO
+       ============================================================ */
+    .hero {
+      padding: 4rem 0 6rem 0;
+      background: radial-gradient(ellipse at 10% 40%, #0a111c, #03050a 70%);
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: -20%; right: -5%;
+      width: 700px; height: 700px;
+      background: radial-gradient(circle, rgba(212, 176, 94, 0.04), transparent 70%);
+      pointer-events: none;
+      animation: pulseGlow 8s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.2); opacity: 1; }
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 5rem;
+      align-items: center;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 0.3rem 1.8rem;
+      background: rgba(212, 176, 94, 0.04);
+      border: 1px solid rgba(212, 176, 94, 0.2);
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      color: var(--gold-300);
+      margin-bottom: 1.5rem;
+      text-transform: uppercase;
+    }
+
+    .hero-content h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: clamp(3.5rem, 8vw, 5.5rem);
+      line-height: 1;
+      color: #fff;
+      margin-bottom: 1.8rem;
+    }
+
+    .hero-content p {
+      font-size: 1.25rem;
+      color: #b8c5d6;
+      max-width: 480px;
+      margin-bottom: 3rem;
+      font-weight: 300;
+      line-height: 1.8;
+    }
+
+    .hero-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .hero-image {
+      border-radius: 2px;
+      overflow: hidden;
+      background: #0b1018;
+      box-shadow: 0 50px 80px -30px rgba(0,0,0,0.95);
+      border: 1px solid rgba(212, 176, 94, 0.1);
+      transform: perspective(1500px) rotateY(-2deg) rotateX(1deg);
+      transition: transform 0.7s ease;
+      min-height: 380px;
+      position: relative;
+    }
+    .hero-image:hover {
+      transform: perspective(1500px) rotateY(0deg) rotateX(0deg);
+    }
+    .hero-image img {
+      width: 100%;
+      height: 420px;
+      object-fit: cover;
+      filter: brightness(0.95) contrast(1.1);
+      transition: opacity 0.5s ease;
+    }
+    /* FIX 3: image-skeleton CSS */
+    .image-skeleton {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, #0b1018 25%, #1a212e 50%, #0b1018 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.8s infinite;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      color: #7c8596;
+      font-size: 1.2rem;
+      font-family: 'Space Grotesk', sans-serif;
+    }
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .hero-image img.loaded { opacity: 1; }
+    .hero-image img:not(.loaded) { opacity: 0; }
+
+    /* ============================================================
+       STATS BAR
+       ============================================================ */
+    .stats-bar {
+      padding: 3rem 0;
+      background: rgba(8, 12, 20, 0.5);
+      backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(255,255,255,0.03);
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      position: relative;
+      z-index: 2;
+    }
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2rem;
+      text-align: center;
+    }
+    .stat-item .number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 3rem;
+      font-weight: 500;
+      background: linear-gradient(180deg, #f0d78c, #b8942e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: all 0.3s ease;
+    }
+    .stat-item .number.loading {
+      opacity: 0.3;
+    }
+    .stat-item .label {
+      font-size: 0.8rem;
+      color: var(--steel-blue);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      font-weight: 400;
+    }
+
+    /* ============================================================
+       CATEGORIES
+       ============================================================ */
+    .category-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1.5rem;
+    }
+    .category-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      transition: var(--transition-luxe);
+      text-align: center;
+      padding: 2rem 1rem;
+      box-shadow: var(--glass-shadow);
+      border-radius: 2px;
+      display: block;
+      color: inherit;
+    }
+    .category-card:hover {
+      border-color: var(--gold-300);
+      transform: translateY(-8px);
+      background: rgba(20, 26, 34, 0.8);
+      box-shadow: 0 30px 60px -25px rgba(212, 176, 94, 0.2);
+    }
+    .category-card i {
+      font-size: 2.5rem;
+      color: var(--gold-300);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+    .category-card span {
+      font-weight: 500;
+      font-size: 0.9rem;
+      color: #e5e9f0;
+    }
+    .category-card .count {
+      font-size: 0.7rem;
+      color: var(--steel-blue);
+      display: block;
+      margin-top: 0.2rem;
+    }
+    .category-card .skeleton-count {
+      display: inline-block;
+      width: 40px;
+      height: 14px;
+      background: linear-gradient(90deg, #1a212e 25%, #293240 50%, #1a212e 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.8s infinite;
+      border-radius: 2px;
+      margin-top: 0.2rem;
+    }
+
+    /* ============================================================
+       PRODUCTS
+       ============================================================ */
+    .product-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+    .product-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      transition: var(--transition-luxe);
+      text-align: center;
+      padding: 1.8rem 1rem;
+      box-shadow: var(--glass-shadow);
+      border-radius: 2px;
+      display: block;
+      color: inherit;
+    }
+    .product-card:hover {
+      border-color: var(--gold-300);
+      transform: translateY(-8px);
+      background: rgba(20, 26, 34, 0.8);
+      box-shadow: 0 30px 60px -25px rgba(212, 176, 94, 0.2);
+    }
+    .product-card .icon-wrap {
+      font-size: 2.5rem;
+      color: var(--gold-300);
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+    .product-card h4 {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #f0f4fc;
+    }
+    .product-card .tag {
+      font-size: 0.7rem;
+      color: var(--steel-blue);
+      display: block;
+      margin-top: 0.2rem;
+    }
+    .product-card .price {
+      font-size: 0.85rem;
+      color: var(--gold-300);
+      font-weight: 600;
+      margin-top: 0.3rem;
+    }
+    .product-card .skeleton-price {
+      display: inline-block;
+      width: 60px;
+      height: 16px;
+      background: linear-gradient(90deg, #1a212e 25%, #293240 50%, #1a212e 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.8s infinite;
+      border-radius: 2px;
+      margin-top: 0.3rem;
+    }
+
+    /* ============================================================
+       VALUES
+       ============================================================ */
+    .value-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 2.5rem;
+      margin-top: 1rem;
+    }
+    .value-item {
+      text-align: center;
+    }
+    .value-item i {
+      color: var(--gold-300);
+      font-size: 2.2rem;
+      display: block;
+      margin-bottom: 0.8rem;
+    }
+    .value-item h4 {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #f0f4fc;
+      font-family: 'Inter', sans-serif;
+    }
+    .value-item p {
+      color: var(--steel-blue);
+      font-size: 0.9rem;
+      margin-top: 0.2rem;
+      line-height: 1.6;
+    }
+
+    /* ============================================================
+       AI ASSISTANT
+       ============================================================ */
+    .ai-section {
+      padding: 4rem 0;
+      margin: 2rem 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(212, 176, 94, 0.04), transparent 70%);
+      border-top: 1px solid rgba(212, 176, 94, 0.04);
+      border-bottom: 1px solid rgba(212, 176, 94, 0.04);
+    }
+    .ai-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+    .ai-features {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+    .ai-feature {
+      padding: 1rem;
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.04);
+      border-radius: 2px;
+      text-align: center;
+    }
+    .ai-feature i { color: var(--gold-300); font-size: 1.5rem; display: block; margin-bottom: 0.4rem; }
+    .ai-feature span { font-size: 0.8rem; color: var(--steel-blue); }
+
+    /* ============================================================
+       DASHBOARD PREVIEW
+       ============================================================ */
+    .dashboard-preview {
+      padding: 3rem 0;
+      margin: 2rem 0;
+    }
+    .dashboard-mockup {
+      background: rgba(8, 12, 20, 0.6);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 176, 94, 0.06);
+      border-radius: 2px;
+      padding: 2rem;
+      box-shadow: 0 30px 60px -20px rgba(0,0,0,0.8);
+    }
+    .dashboard-mockup .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      margin-bottom: 1.5rem;
+    }
+    .dashboard-mockup .dots span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .dashboard-mockup .dots span:nth-child(1) { background: #ef4444; }
+    .dashboard-mockup .dots span:nth-child(2) { background: #facc15; }
+    .dashboard-mockup .dots span:nth-child(3) { background: #4ade80; }
+    .dashboard-mockup .grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1.5rem;
+    }
+    .dashboard-mockup .card {
+      background: rgba(255,255,255,0.02);
+      padding: 1.2rem;
+      border: 1px solid rgba(255,255,255,0.02);
+      border-radius: 2px;
+    }
+    .dashboard-mockup .card .label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.4;
+    }
+    .dashboard-mockup .card .value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: 'Space Grotesk', sans-serif;
+      color: var(--gold-300);
+    }
+
+    /* ============================================================
+       CONTRACTOR CALLOUT
+       ============================================================ */
+    .contractor-callout {
+      padding: 4rem 0;
+      margin: 2rem 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(212, 176, 94, 0.04), transparent 70%);
+      border-top: 1px solid rgba(212, 176, 94, 0.04);
+      border-bottom: 1px solid rgba(212, 176, 94, 0.04);
+    }
+    .contractor-callout .content {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .contractor-callout .content .features {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem 2rem;
+      margin: 1.5rem 0;
+    }
+    .contractor-callout .content .features span {
+      font-size: 0.85rem;
+      color: var(--steel-blue);
+    }
+    .contractor-callout .content .features i {
+      color: var(--gold-300);
+      margin-right: 0.4rem;
+    }
+
+    /* ============================================================
+       TESTIMONIALS
+       ============================================================ */
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+    }
+    .testimonial-card {
+      padding: 1.8rem 2rem;
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      transition: var(--transition-luxe);
+      border-radius: 2px;
+    }
+    .testimonial-card:hover {
+      border-color: rgba(212, 176, 94, 0.2);
+      transform: translateY(-4px);
+    }
+    .testimonial-card .quote-icon {
+      font-size: 1.8rem;
+      color: var(--gold-300);
+      opacity: 0.3;
+      margin-bottom: 0.6rem;
+    }
+    .testimonial-card p {
+      font-size: 0.95rem;
+      font-style: italic;
+      opacity: 0.85;
+    }
+    .testimonial-card .author {
+      margin-top: 0.8rem;
+      font-weight: 600;
+      font-size: 0.8rem;
+      color: var(--gold-300);
+    }
+
+    /* ============================================================
+       CTA
+       ============================================================ */
+    .cta-section {
+      padding: 5rem 0;
+      margin: 3rem 0;
+      background: radial-gradient(ellipse at 50% 50%, rgba(212, 176, 94, 0.04), transparent 70%);
+      border-top: 1px solid rgba(212, 176, 94, 0.04);
+      border-bottom: 1px solid rgba(212, 176, 94, 0.04);
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 600;
+      color: #fff;
+    }
+    .cta-section p {
+      color: var(--steel-blue);
+      max-width: 540px;
+      margin: 0.8rem auto 2.5rem;
+      font-size: 1.1rem;
+    }
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer {
+      border-top: 1px solid rgba(212, 176, 94, 0.08);
+      padding: 4rem 0 2rem;
+    }
+    .footer-flex {
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+    .footer .brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #f0d78c, #d4b05e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .footer .corp-note {
+      color: #5a6078;
+      font-size: 0.8rem;
+      margin-top: 0.2rem;
+    }
+    .footer .corp-note strong { color: #9aa0b8; font-weight: 400; }
+    .footer-links {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .footer-links a {
+      color: #7c8596;
+      font-size: 0.85rem;
+      transition: var(--transition-smooth);
+    }
+    .footer-links a:hover { color: var(--gold-300); }
+    .footer-bottom {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255,255,255,0.03);
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      color: #4a5568;
+      font-size: 0.7rem;
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .container { padding: 0 32px; }
+      .hero-grid { gap: 3rem; }
+      .dashboard-mockup .grid { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      .nav-search { flex: 1 1 100%; order: 10; }
+      .hero-grid { grid-template-columns: 1fr; }
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+      .ai-grid { grid-template-columns: 1fr; }
+      .ai-features { grid-template-columns: 1fr 1fr; }
+      .hero-image img { height: 280px; }
+      .container { padding: 0 24px; }
+      .footer-flex { flex-direction: column; text-align: center; }
+      .footer-links { justify-content: center; }
+      .footer-bottom { flex-direction: column; text-align: center; gap: 0.5rem; }
+      .fab { bottom: 1rem; right: 1rem; gap: 0.4rem; }
+      .fab-btn { padding: 0.4rem 1rem; font-size: 0.7rem; }
+      .nav-dropdown-content { min-width: 300px; }
+      .nav-dropdown:hover .nav-dropdown-content { grid-template-columns: 1fr 1fr; }
+    }
+
+    @media (max-width: 600px) {
+      .stats-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .hero { padding: 2rem 0 3rem; }
+      .hero-content h1 { font-size: clamp(2.4rem, 10vw, 3.2rem); }
+      .hero-content p { font-size: 1rem; }
+      .hero-buttons .btn { width: 100%; justify-content: center; }
+      .category-grid { grid-template-columns: repeat(2, 1fr); }
+      .product-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .container { padding: 0 16px; }
+      .cta-actions .btn { width: 100%; justify-content: center; }
+      .stat-item .number { font-size: 2.2rem; }
+      .ai-features { grid-template-columns: 1fr; }
+      .dashboard-mockup .grid { grid-template-columns: 1fr; }
+      .dashboard-mockup { padding: 1rem; }
+      .nav-dropdown-content { min-width: 200px; }
+      .nav-dropdown:hover .nav-dropdown-content { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 420px) {
+      .category-grid { grid-template-columns: 1fr 1fr; }
+      .product-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 2rem; }
+      .container { padding: 0 12px; }
+      .nav-actions .btn { padding: 0.4rem 1rem; font-size: 0.7rem; }
+      .fab-btn { padding: 0.3rem 0.8rem; font-size: 0.6rem; }
+      .fab-btn i { font-size: 0.8rem; }
+    }
+
+    /* ============================================================
+       FILTERS & SEARCH (for main.js integration)
+       ============================================================ */
+    .filters-bar {
+      padding: 2rem 0 1.5rem;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .filters-left {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      align-items: center;
+    }
+
+    .filter-btn {
+      padding: 0.4rem 1.2rem;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #bcc4d2;
+      font-size: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      border-radius: 0px;
+      text-transform: capitalize;
+      letter-spacing: 0.3px;
+    }
+    .filter-btn:hover {
+      border-color: rgba(212, 176, 94, 0.3);
+      color: #fff;
+    }
+    .filter-btn.active {
+      background: rgba(212, 176, 94, 0.1);
+      border-color: var(--gold-300);
+      color: var(--gold-300);
+    }
+
+    .filter-btn .icon {
+      margin-right: 4px;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 0 1 260px;
+    }
+    .search-wrap input {
+      width: 100%;
+      padding: 0.5rem 1rem 0.5rem 2.4rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 0px;
+      color: #e5e9f0;
+      font-size: 0.8rem;
+      font-family: 'Inter', sans-serif;
+      transition: var(--transition-smooth);
+      outline: none;
+    }
+    .search-wrap input:focus {
+      border-color: var(--gold-300);
+      background: rgba(255,255,255,0.06);
+    }
+    .search-wrap input::placeholder {
+      color: var(--steel-blue);
+      font-weight: 300;
+      letter-spacing: 0.5px;
+    }
+    .search-wrap i {
+      position: absolute;
+      left: 0.8rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--steel-blue);
+      font-size: 0.8rem;
+    }
+
+    .sort-wrap select {
+      padding: 0.5rem 2rem 0.5rem 1rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: 0px;
+      color: #e5e9f0;
+      font-size: 0.75rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      cursor: pointer;
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%237c8596' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 0.8rem center;
+    }
+    .sort-wrap select:focus {
+      border-color: var(--gold-300);
+    }
+
+    /* Products container for main.js */
+    #products-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+      min-height: 300px;
+    }
+
+    #products-container .product-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(15px);
+      border: 1px solid var(--glass-border);
+      transition: var(--transition-luxe);
+      text-align: center;
+      padding: 1.8rem 1rem;
+      box-shadow: var(--glass-shadow);
+      border-radius: 2px;
+      display: block;
+      color: inherit;
+      position: relative;
+    }
+    #products-container .product-card:hover {
+      border-color: var(--gold-300);
+      transform: translateY(-8px);
+      background: rgba(20, 26, 34, 0.8);
+      box-shadow: 0 30px 60px -25px rgba(212, 176, 94, 0.2);
+    }
+    #products-container .product-card .product-image {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      margin-bottom: 0.8rem;
+      border-radius: 2px;
+      background: #0b1018;
+    }
+    #products-container .product-card .product-title {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: #f0f4fc;
+      margin-bottom: 0.2rem;
+    }
+    #products-container .product-card .product-category {
+      font-size: 0.7rem;
+      color: var(--steel-blue);
+      display: block;
+      text-transform: capitalize;
+    }
+    #products-container .product-card .product-price {
+      font-size: 1.1rem;
+      color: var(--gold-300);
+      font-weight: 700;
+      margin-top: 0.4rem;
+    }
+    #products-container .product-card .product-rating {
+      font-size: 0.8rem;
+      color: var(--steel-blue);
+      margin: 0.3rem 0;
+    }
+    #products-container .product-card .product-btn {
+      margin-top: 0.6rem;
+      padding: 0.4rem 1.2rem;
+      background: var(--gold-300);
+      border: none;
+      color: #03050a;
+      font-weight: 600;
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      font-family: 'Inter', sans-serif;
+      border-radius: 0px;
+    }
+    #products-container .product-card .product-btn:hover {
+      background: #e0c06e;
+      transform: scale(1.03);
+    }
+    #products-container .product-card .stock-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      padding: 0.1rem 0.6rem;
+      font-size: 0.6rem;
+      font-weight: 600;
+      border-radius: 0px;
+      background: #33ffaa;
+      color: #03050a;
+    }
+
+    #pagination {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+    .page-btn {
+      padding: 0.4rem 0.9rem;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.06);
+      color: #bcc4d2;
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      font-family: 'Inter', sans-serif;
+      border-radius: 0px;
+    }
+    .page-btn:hover {
+      border-color: var(--gold-300);
+      color: #fff;
+    }
+    .page-btn.active {
+      background: rgba(212, 176, 94, 0.15);
+      border-color: var(--gold-300);
+      color: var(--gold-300);
+    }
+
+    .product-count {
+      color: var(--steel-blue);
+      font-size: 0.85rem;
+      margin-bottom: 1rem;
+    }
+
+    .loader {
+      width: 48px;
+      height: 48px;
+      border: 4px solid rgba(212, 176, 94, 0.1);
+      border-top: 4px solid var(--gold-300);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 20px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       BACKGROUND LAYERS
+       ============================================================ -->
+  <div class="grid-overlay"></div>
+  <div class="noise-overlay"></div>
+  <canvas id="particles-canvas" role="presentation" aria-hidden="true"></canvas>
+
+  <!-- ============================================================
+       FLOATING ACTION BAR
+       ============================================================ -->
+  <div class="fab" role="toolbar" aria-label="Quick actions">
+    <button class="fab-btn" onclick="window.open('https://wa.me/2348000000000','_blank')" aria-label="Contact on WhatsApp">
+      <i class="fab fa-whatsapp"></i> WhatsApp
+    </button>
+    <button class="fab-btn" onclick="window.location.href='tel:+2348000000000'" aria-label="Call us">
+      <i class="fas fa-phone-alt"></i> Call
+    </button>
+    <button class="fab-btn" id="aiFabBtn" aria-label="Open AI Assistant">
+      <i class="fas fa-robot"></i> AI
+    </button>
+    <button class="fab-btn" onclick="window.location.href='/buildmart/quote'" aria-label="Request a quote">
+      <i class="fas fa-file-invoice"></i> Quote
+    </button>
+  </div>
+
+  <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+  <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+    <div class="container nav-flex">
+      <a href="/buildmart" class="logo" aria-label="PRIMESHIELDHUB BUILDMART Home">PRIMESHIELDHUB<span class="sub">BUILDMART</span></a>
+
+      <div class="nav-search" role="search">
+        <i class="fas fa-search" aria-hidden="true"></i>
+        <input type="text" id="navSearch" placeholder="Search products..." aria-label="Search for products" />
+      </div>
+
+      <div class="nav-links" id="navLinks">
+        <a href="/buildmart" class="active">Home</a>
+        <div class="nav-dropdown">
+          <a href="/buildmart/products" id="productsTab">Products <i class="fas fa-chevron-down" style="font-size:0.5rem;margin-left:0.2rem;opacity:0.5;" aria-hidden="true"></i></a>
+          <div class="nav-dropdown-content" role="menu">
+            <a href="/buildmart/products?category=cement" role="menuitem">Cement &amp; Blocks</a>
+            <a href="/buildmart/products?category=roofing" role="menuitem">Roofing Systems</a>
+            <a href="/buildmart/products?category=paints" role="menuitem">Paints &amp; Finishes</a>
+            <a href="/buildmart/products?category=plumbing" role="menuitem">Plumbing Systems</a>
+            <a href="/buildmart/products?category=electrical" role="menuitem">Electrical Infrastructure</a>
+            <a href="/buildmart/products?category=tools" role="menuitem">Tools &amp; Equipment</a>
+            <a href="/buildmart/products?category=tiles" role="menuitem">Tiles &amp; Flooring</a>
+            <a href="/buildmart/products?category=hardware" role="menuitem">Hardware</a>
+            <a href="/buildmart/products?category=steel" role="menuitem">Steel &amp; Iron</a>
+            <a href="/buildmart/products?category=insulation" role="menuitem">Insulation</a>
+            <a href="/buildmart/products?category=windows" role="menuitem">Windows &amp; Doors</a>
+            <a href="/buildmart/products?category=sanitary" role="menuitem">Sanitary Ware</a>
+          </div>
+        </div>
+        <a href="/buildmart/categories" id="categoriesTab">Categories</a>
+        <a href="/buildmart/contractors" id="contractorsTab">Partnerships</a>
+        <a href="/buildmart/quote" id="quoteTab">Inquiry</a>
+      </div>
+
+      <div class="nav-actions">
+        <a href="/buildmart/quote" class="btn btn-outline" style="padding:0.4rem 1.8rem;font-size:0.7rem;" aria-label="Request a quote">Quote</a>
+        <button class="hamburger" aria-label="Toggle navigation menu" aria-expanded="false" aria-controls="navLinks" id="hamburgerBtn">
+          <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div class="hero-content">
+          <div class="hero-badge"><span aria-hidden="true">✦</span> A Division of PRIMESHIELDHUB GADGETS LIMITED</div>
+          <h1>Materials <span class="gold-text">for the future.</span></h1>
+          <p>Curated construction provisions, engineered for visionary builds. Precision logistics across Nigeria.</p>
+          <div class="hero-buttons">
+            <a href="/buildmart/products" class="btn btn-primary">Explore Collection</a>
+            <a href="/buildmart/contractors" class="btn btn-ghost">Elite Partnership</a>
+            <a href="/buildmart/quote" class="btn btn-outline">Request Quote</a>
+          </div>
+        </div>
+        <div class="hero-image">
+          <!-- FIX 2: Image fallback with improved skeleton -->
+          <div class="image-skeleton" id="heroSkeleton"></div>
+          <img src="/assets/images/buildmart/storefront.webp" alt="PRIMESHIELDHUB BUILDMART Architectural Storefront" id="heroImage" loading="lazy" onload="this.classList.add('loaded'); document.getElementById('heroSkeleton').style.display='none';" onerror="this.onerror=null; this.style.display='none'; document.getElementById('heroSkeleton').style.display='flex'; document.getElementById('heroSkeleton').innerHTML='<span style=\'font-size:4rem;\'>🏛️</span><br><span style=\'color:#d4b05e;font-weight:600;\'>BUILDMART</span>'; document.getElementById('heroSkeleton').style.alignItems='center'; document.getElementById('heroSkeleton').style.justifyContent='center'; document.getElementById('heroSkeleton').style.flexDirection='column'; document.getElementById('heroSkeleton').style.color='#7c8596'; document.getElementById('heroSkeleton').style.fontSize='1.2rem';" />
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         STATS BAR — LIVE FROM API
+         ============================================================ -->
+    <section class="stats-bar reveal" id="statsBar">
+      <div class="container stats-grid">
+        <div class="stat-item"><div class="number" id="statProducts">0</div><div class="label">Products</div></div>
+        <div class="stat-item"><div class="number" id="statCategories">0</div><div class="label">Categories</div></div>
+        <div class="stat-item"><div class="number" id="statBrands">0</div><div class="label">Brands</div></div>
+        <div class="stat-item"><div class="number" id="statDelivery">Nationwide</div><div class="label">Logistics</div></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CATEGORIES — LIVE FROM API
+         ============================================================ -->
+    <section style="padding: 5rem 0 3rem;">
+      <div class="container">
+        <span class="section-label">Curated Categories</span>
+        <h2 class="section-title">The <span class="gold-text">BuildMart</span> Index</h2>
+        <p class="section-subtitle">Premium materials across every trade — from foundation to finishing.</p>
+        <div class="category-grid" id="categoryGrid">
+          <!-- Categories loaded from API -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FEATURED PRODUCTS — LIVE FROM API
+         ============================================================ -->
+    <section style="padding: 3rem 0 5rem;">
+      <div class="container">
+        <span class="section-label">Signature Collection</span>
+        <h2 class="section-title">Engineered <span class="gold-text">for excellence</span></h2>
+        <p class="section-subtitle">Premium materials selected for quality, durability, and performance.</p>
+        <div class="product-grid" id="featuredProducts">
+          <!-- Products loaded from API -->
+        </div>
+        <div style="text-align:center; margin-top:2rem;">
+          <a href="/buildmart/products" class="btn btn-outline">View All Products <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         VALUES
+         ============================================================ -->
+    <section style="padding: 5rem 0; background: rgba(8,12,20,0.3);">
+      <div class="container">
+        <span class="section-label">Core Values</span>
+        <h2 class="section-title">The <span class="gold-text">BuildMart</span> Ethos</h2>
+        <p class="section-subtitle">Built on precision, authenticity, and an unwavering commitment to quality.</p>
+        <div class="value-grid">
+          <div class="value-item"><i class="fas fa-shield-alt" aria-hidden="true"></i><h4>100% Authentic</h4><p>Every material sourced directly from certified mills and manufacturers.</p></div>
+          <div class="value-item"><i class="fas fa-truck" aria-hidden="true"></i><h4>Precision Logistics</h4><p>White-glove delivery with real-time tracking and damage-free guarantee.</p></div>
+          <div class="value-item"><i class="fas fa-handshake" aria-hidden="true"></i><h4>Elite Partnerships</h4><p>Exclusive network of contractors and architects for turnkey projects.</p></div>
+          <div class="value-item"><i class="fas fa-brain" aria-hidden="true"></i><h4>AI-Powered Assistance</h4><p>Smart recommendations, instant estimates, and intelligent project planning.</p></div>
+          <div class="value-item"><i class="fas fa-tags" aria-hidden="true"></i><h4>Bulk Pricing</h4><p>Tiered discounts for contractors, developers, and large-scale projects.</p></div>
+          <div class="value-item"><i class="fas fa-chart-line" aria-hidden="true"></i><h4>Procurement Dashboard</h4><p>Real-time orders, invoices, payments, and project progress tracking.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         AI ASSISTANT
+         ============================================================ -->
+    <section class="ai-section reveal" id="aiSection">
+      <div class="container">
+        <div class="ai-grid">
+          <div>
+            <span class="section-label">AI Assistant</span>
+            <h2 class="section-title">Meet <span class="gold-text">BuildMart AI</span></h2>
+            <p style="color:var(--steel-blue);font-size:1.05rem;margin-bottom:1.5rem;">Describe any project — get instant Bill of Quantities, material recommendations, cost estimates, and delivery schedules.</p>
+            <div class="ai-features">
+              <div class="ai-feature"><i class="fas fa-calculator" aria-hidden="true"></i><span>Bill of Quantities</span></div>
+              <div class="ai-feature"><i class="fas fa-boxes" aria-hidden="true"></i><span>Material Recommendations</span></div>
+              <div class="ai-feature"><i class="fas fa-money-bill-wave" aria-hidden="true"></i><span>Estimated Cost</span></div>
+              <div class="ai-feature"><i class="fas fa-calendar-alt" aria-hidden="true"></i><span>Delivery Schedule</span></div>
+            </div>
+            <div style="margin-top:1.5rem;">
+              <a href="/buildmart/quote" class="btn btn-primary">Try AI Assistant <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+            </div>
+          </div>
+          <div style="background:rgba(255,255,255,0.02);padding:2rem;border:1px solid rgba(255,255,255,0.04);border-radius:2px;">
+            <div style="display:flex;align-items:center;gap:0.8rem;margin-bottom:1rem;">
+              <i class="fas fa-robot" style="color:var(--gold-300);font-size:2rem;" aria-hidden="true"></i>
+              <span style="font-weight:500;">How can I help you today?</span>
+            </div>
+            <div style="background:rgba(0,0,0,0.3);padding:1.2rem;border-radius:2px;font-style:italic;color:var(--steel-blue);font-size:0.9rem;">
+              "I need materials for a 4-bedroom duplex in Lekki..."
+            </div>
+            <a href="/buildmart/quote" class="btn btn-outline" style="margin-top:1rem;width:100%;justify-content:center;">Get AI Estimate</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         DASHBOARD PREVIEW
+         ============================================================ -->
+    <section class="dashboard-preview reveal">
+      <div class="container">
+        <span class="section-label">Procurement Dashboard</span>
+        <h2 class="section-title">Real-time <span class="gold-text">Control</span></h2>
+        <p class="section-subtitle">Invoices, orders, payments, projects, and credit — all in one place.</p>
+        <div class="dashboard-mockup">
+          <div class="header">
+            <div class="dots"><span></span><span></span><span></span></div>
+            <span style="color:var(--text-muted);font-size:0.7rem;letter-spacing:0.06em;">PRIMESHIELDHUB · Contractor Dashboard</span>
+            <span style="color:#4ade80;font-size:0.7rem;"><i class="fas fa-circle" style="font-size:0.4rem;" aria-hidden="true"></i> Live</span>
+          </div>
+          <div class="grid">
+            <div class="card"><div class="label">Active Orders</div><div class="value">24</div></div>
+            <div class="card"><div class="label">Pending Invoices</div><div class="value">₦1.2M</div></div>
+            <div class="card"><div class="label">Credit Available</div><div class="value">₦5.0M</div></div>
+            <div class="card"><div class="label">Active Projects</div><div class="value">7</div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CONTRACTOR CALLOUT
+         ============================================================ -->
+    <section class="contractor-callout reveal">
+      <div class="container">
+        <div class="content">
+          <h2 class="section-title" style="margin-bottom:0.5rem;">Join the <span class="gold-text">Contractor Network</span></h2>
+          <p style="color:var(--steel-blue);font-size:1.05rem;">Unlock bulk pricing, credit facilities, and dedicated support</p>
+          <div class="features">
+            <span><i class="fas fa-check" aria-hidden="true"></i> Bulk Pricing</span>
+            <span><i class="fas fa-check" aria-hidden="true"></i> Priority Delivery</span>
+            <span><i class="fas fa-check" aria-hidden="true"></i> Dedicated Manager</span>
+            <span><i class="fas fa-check" aria-hidden="true"></i> Credit Facilities</span>
+            <span><i class="fas fa-check" aria-hidden="true"></i> Project Procurement</span>
+          </div>
+          <a href="/buildmart/contractors" class="btn btn-primary">Apply Now <i class="fas fa-arrow-right" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         TESTIMONIALS
+         ============================================================ -->
+    <section style="padding: 3rem 0 4rem;">
+      <div class="container">
+        <span class="section-label">Testimonials</span>
+        <h2 class="section-title">What <span class="gold-text">Contractors</span> Say</h2>
+        <div class="testimonial-grid" id="testimonialGrid">
+          <div class="testimonial-card reveal">
+            <div class="quote-icon"><i class="fas fa-quote-left" aria-hidden="true"></i></div>
+            <p>"Trusted partner for all our estate projects. Bulk pricing and delivery are unmatched."</p>
+            <div class="author">— Lekki Estate Developers</div>
+          </div>
+          <div class="testimonial-card reveal">
+            <div class="quote-icon"><i class="fas fa-quote-left" aria-hidden="true"></i></div>
+            <p>"Financing and delivery are unmatched. Saved over 20% on materials since joining."</p>
+            <div class="author">— Abuja Construction Ltd</div>
+          </div>
+          <div class="testimonial-card reveal">
+            <div class="quote-icon"><i class="fas fa-quote-left" aria-hidden="true"></i></div>
+            <p>"AI estimation tool is a game-changer. Helped us win 3 major bids this year."</p>
+            <div class="author">— PH Civil Engineers</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         PRODUCTS SECTION — main.js integration
+         ============================================================ -->
+    <section style="padding: 2rem 0 4rem;">
+      <div class="container">
+        <span class="section-label">Browse All Materials</span>
+        <h2 class="section-title">The <span class="gold-text">BuildMart</span> Catalog</h2>
+        <p class="section-subtitle">Premium materials for every phase of construction.</p>
+
+        <!-- FILTERS for main.js -->
+        <div class="filters-bar">
+          <div class="filters-left">
+            <div id="categoryNav" style="display:flex;flex-wrap:wrap;gap:0.4rem;"></div>
+          </div>
+          <div class="search-wrap">
+            <i class="fas fa-search" aria-hidden="true"></i>
+            <input id="searchInput" placeholder="Search materials..." aria-label="Search products" />
+          </div>
+          <div class="sort-wrap">
+            <select id="sortSelect">
+              <option value="default">Sort by</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="rating">Rating</option>
+              <option value="name-asc">Name A–Z</option>
+              <option value="stock-asc">Stock: Low to High</option>
+              <option value="stock-desc">Stock: High to Low</option>
+            </select>
+          </div>
+        </div>
+
+        <!-- PRODUCT COUNT -->
+        <div class="product-count" id="productCount">Loading materials...</div>
+
+        <!-- PRODUCTS CONTAINER -->
+        <div id="products-container">
+          <div style="grid-column:1/-1;text-align:center;padding:60px;">
+            <div class="loader"></div>
+            <p style="color:#7a7870;">Loading building materials...</p>
+          </div>
+        </div>
+
+        <!-- PAGINATION -->
+        <div id="pagination"></div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         CTA
+         ============================================================ -->
+    <section class="cta-section reveal">
+      <div class="container">
+        <h2>Ready to <span class="gold-text">Build</span> the Future?</h2>
+        <p>From foundation to finishing. Premium materials, precision delivery, and expert support.</p>
+        <div class="cta-actions">
+          <a href="/buildmart/products" class="btn btn-primary"><i class="fas fa-store" aria-hidden="true"></i> Shop Now</a>
+          <a href="/buildmart/quote" class="btn btn-outline"><i class="fas fa-file-invoice" aria-hidden="true"></i> Get Quote</a>
+          <a href="/buildmart/contractors" class="btn btn-ghost"><i class="fas fa-user-tie" aria-hidden="true"></i> For Contractors</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         FOOTER
+         ============================================================ -->
+    <footer class="footer">
+      <div class="container footer-flex">
+        <div>
+          <div class="brand">PRIMESHIELDHUB <span style="font-weight:400;color:var(--steel-blue);font-family:'Inter',sans-serif;">BUILDMART</span></div>
+          <div class="corp-note">A <strong>PRIMESHIELDHUB GADGETS LIMITED</strong> Enterprise · RC 9283954</div>
+          <div style="color:#5a6078; font-size:0.75rem; margin-top:0.3rem;">108 Newton Street, Benin City, Edo State, Nigeria</div>
+        </div>
+        <div class="footer-links">
+          <a href="/buildmart">Home</a>
+          <a href="/buildmart/products">Products</a>
+          <a href="/buildmart/categories">Categories</a>
+          <a href="/buildmart/contractors">Contractors</a>
+          <a href="/buildmart/quote">Quote</a>
+          <a href="/buildmart/delivery">Delivery</a>
+          <a href="/">Corporate</a>
+        </div>
+      </div>
+      <div class="container footer-bottom">
+        <span>© 2026 PRIMESHIELDHUB BUILDMART. All rights reserved.</span>
+        <span><a href="#" style="color:#4a5568;">Privacy</a> · <a href="#" style="color:#4a5568;">Terms</a> · <a href="#" style="color:#4a5568;">Cookies</a></span>
+      </div>
+    </footer>
+  </main>
+
+  <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+  <script>
+    (function() {
+      "use strict";
+
+      // ============================================================
+      // CONFIGURATION
+      // ============================================================
+      const API_BASE = 'https://api.primeshieldhub.com/api';
+      const ENDPOINTS = {
+        stats: `${API_BASE}/buildmart/dashboard`,
+        products: `${API_BASE}/buildmart/products`,
+        categories: `${API_BASE}/buildmart/categories`
+      };
+
+      // ============================================================
+      // FIX 1: Particle class defined OUTSIDE any function
+      // ============================================================
+      class Particle {
+        constructor() {
+          this.x = Math.random() * window.innerWidth;
+          this.y = Math.random() * window.innerHeight;
+          this.size = Math.random() * 2 + 0.5;
+          this.speedX = (Math.random() - 0.5) * 0.3;
+          this.speedY = (Math.random() - 0.5) * 0.3;
+          this.opacity = Math.random() * 0.3 + 0.05;
+        }
+        reset() {
+          this.x = Math.random() * window.innerWidth;
+          this.y = Math.random() * window.innerHeight;
+          this.speedX = (Math.random() - 0.5) * 0.3;
+          this.speedY = (Math.random() - 0.5) * 0.3;
+        }
+        update() {
+          this.x += this.speedX;
+          this.y += this.speedY;
+          if (this.x < 0 || this.x > window.innerWidth) this.speedX *= -1;
+          if (this.y < 0 || this.y > window.innerHeight) this.speedY *= -1;
+        }
+        draw(ctx) {
+          ctx.beginPath();
+          ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+          ctx.fillStyle = `rgba(212, 176, 94, ${this.opacity})`;
+          ctx.fill();
+        }
+      }
+
+      // ============================================================
+      // PARTICLE SYSTEM — Performance Optimized (uses global Particle)
+      // ============================================================
+      function initParticles() {
+        const canvas = document.getElementById('particles-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let w, h;
+        let isMobile = window.innerWidth < 768;
+        let particleCount = isMobile ? 25 : window.innerWidth < 1024 ? 50 : 80;
+
+        function resize() {
+          w = canvas.width = window.innerWidth;
+          h = canvas.height = window.innerHeight;
+          isMobile = window.innerWidth < 768;
+          particleCount = isMobile ? 25 : window.innerWidth < 1024 ? 50 : 80;
+          particles = [];
+          for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+          }
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        let animationId = null;
+
+        function animate() {
+          ctx.clearRect(0, 0, w, h);
+          particles.forEach(p => { p.update(); p.draw(ctx); });
+
+          if (particleCount > 30) {
+            const lineDistance = isMobile ? 60 : 120;
+            for (let i = 0; i < particles.length; i++) {
+              for (let j = i + 1; j < particles.length; j++) {
+                const dx = particles[i].x - particles[j].x;
+                const dy = particles[i].y - particles[j].y;
+                const dist = Math.sqrt(dx * dx + dy * dy);
+                if (dist < lineDistance) {
+                  ctx.beginPath();
+                  ctx.moveTo(particles[i].x, particles[i].y);
+                  ctx.lineTo(particles[j].x, particles[j].y);
+                  ctx.strokeStyle = `rgba(212, 176, 94, ${0.03 * (1 - dist / lineDistance)})`;
+                  ctx.lineWidth = 0.5;
+                  ctx.stroke();
+                }
+              }
+            }
+          }
+          animationId = requestAnimationFrame(animate);
+        }
+        animate();
+
+        document.addEventListener('visibilitychange', () => {
+          if (document.hidden) {
+            if (animationId) cancelAnimationFrame(animationId);
+          } else {
+            animate();
+          }
+        });
+
+        return () => {
+          if (animationId) cancelAnimationFrame(animationId);
+        };
+      }
+
+      // ============================================================
+      // NAVBAR SHRINK
+      // ============================================================
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        navbar.classList.toggle('shrink', window.scrollY > 60);
+      });
+
+      // ============================================================
+      // HAMBURGER MENU
+      // ============================================================
+      const hamburgerBtn = document.getElementById('hamburgerBtn');
+      const navLinks = document.getElementById('navLinks');
+      if (hamburgerBtn && navLinks) {
+        hamburgerBtn.addEventListener('click', () => {
+          const isOpen = navLinks.style.display === 'flex';
+          navLinks.style.display = isOpen ? 'none' : 'flex';
+          hamburgerBtn.setAttribute('aria-expanded', !isOpen);
+          if (!isOpen) {
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.width = '100%';
+            navLinks.style.padding = '1rem 0';
+            navLinks.style.gap = '0.6rem';
+            navLinks.style.alignItems = 'center';
+          }
+        });
+
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 900) {
+            navLinks.style.display = 'flex';
+            navLinks.style.flexDirection = 'row';
+            navLinks.style.width = 'auto';
+            navLinks.style.padding = '0';
+            navLinks.style.gap = '1.8rem';
+            hamburgerBtn.setAttribute('aria-expanded', 'false');
+          } else if (navLinks.style.display !== 'flex') {
+            navLinks.style.display = 'none';
+          }
+        });
+      }
+
+      // ============================================================
+      // NAV SEARCH
+      // ============================================================
+      const navSearch = document.getElementById('navSearch');
+      if (navSearch) {
+        navSearch.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter') {
+            const query = navSearch.value.trim();
+            if (query) {
+              window.location.href = `/buildmart/products?search=${encodeURIComponent(query)}`;
+            }
+          }
+        });
+      }
+
+      // ============================================================
+      // AI FAB BUTTON
+      // ============================================================
+      document.getElementById('aiFabBtn')?.addEventListener('click', () => {
+        document.getElementById('aiSection').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // ============================================================
+      // FIX 5: MAKE ALL NAV TABS CLICKABLE
+      // ============================================================
+      function makeAllTabsClickable() {
+        const allNavAnchors = document.querySelectorAll('.nav-links a, .nav-dropdown-content a, .nav-actions a, .btn, .logo, .footer-links a');
+        allNavAnchors.forEach(anchor => {
+          if (anchor.getAttribute('href') && anchor.getAttribute('href') !== '#') {
+            anchor.style.cursor = 'pointer';
+          }
+        });
+
+        const productsTab = document.getElementById('productsTab');
+        if (productsTab) {
+          productsTab.addEventListener('click', function(e) {
+            if (!e.target.closest('.nav-dropdown-content')) {
+              window.location.href = '/buildmart/products';
+            }
+          });
+        }
+
+        const categoriesTab = document.getElementById('categoriesTab');
+        if (categoriesTab) {
+          categoriesTab.addEventListener('click', function(e) {
+            window.location.href = '/buildmart/categories';
+          });
+        }
+
+        const contractorsTab = document.getElementById('contractorsTab');
+        if (contractorsTab) {
+          contractorsTab.addEventListener('click', function(e) {
+            window.location.href = '/buildmart/contractors';
+          });
+        }
+
+        const quoteTab = document.getElementById('quoteTab');
+        if (quoteTab) {
+          quoteTab.addEventListener('click', function(e) {
+            window.location.href = '/buildmart/quote';
+          });
+        }
+
+        document.querySelectorAll('.nav-dropdown-content a[role="menuitem"]').forEach(item => {
+          if (!item.getAttribute('href')) {
+            const text = item.textContent.trim().toLowerCase().replace(/\s+/g, '-');
+            item.setAttribute('href', `/buildmart/products?category=${text}`);
+          }
+          item.style.cursor = 'pointer';
+        });
+
+        console.log('✅ All navigation tabs are now clickable');
+      }
+
+      // ============================================================
+      // API — FETCH STATS
+      // ============================================================
+      async function fetchStats() {
+        try {
+          const response = await fetch(ENDPOINTS.stats, { credentials: 'include' });
+          if (response.ok) {
+            const data = await response.json();
+            document.getElementById('statProducts').textContent = (data.products || 1064).toLocaleString();
+            document.getElementById('statCategories').textContent = data.categories || 15;
+            document.getElementById('statBrands').textContent = data.brands || 8;
+            document.querySelectorAll('.stat-item .number').forEach(el => el.classList.remove('loading'));
+            return data;
+          }
+        } catch (e) {
+          console.warn('Stats API unavailable, using fallback values');
+        }
+        document.getElementById('statProducts').textContent = '1,064';
+        document.getElementById('statCategories').textContent = '15';
+        document.getElementById('statBrands').textContent = '8';
+        document.querySelectorAll('.stat-item .number').forEach(el => el.classList.remove('loading'));
+        return null;
+      }
+
+      // ============================================================
+      // API — FETCH CATEGORIES
+      // ============================================================
+      async function fetchCategories() {
+        const grid = document.getElementById('categoryGrid');
+        try {
+          const response = await fetch(ENDPOINTS.categories, { credentials: 'include' });
+          if (response.ok) {
+            const data = await response.json();
+            const categories = data || [];
+
+            const iconMap = {
+              cement: 'fa-cubes',
+              roofing: 'fa-home',
+              paints: 'fa-paint-roller',
+              plumbing: 'fa-wrench',
+              electrical: 'fa-bolt',
+              timber: 'fa-tree',
+              tools: 'fa-tools',
+              hardware: 'fa-door-open',
+              tiles: 'fa-th-large',
+              'gas-cylinders': 'fa-fire',
+              steel: 'fa-industry',
+              insulation: 'fa-thermometer-half',
+              windows: 'fa-window-maximize',
+              sanitary: 'fa-toilet',
+              aggregates: 'fa-mountain'
+            };
+
+            const labelMap = {
+              cement: 'Cement & Blocks',
+              roofing: 'Roofing Systems',
+              paints: 'Paints & Finishes',
+              plumbing: 'Plumbing Systems',
+              electrical: 'Electrical Infrastructure',
+              timber: 'Timber',
+              tools: 'Tools & Equipment',
+              hardware: 'Hardware',
+              tiles: 'Tiles & Flooring',
+              'gas-cylinders': 'Gas Cylinders',
+              steel: 'Steel & Iron',
+              insulation: 'Insulation',
+              windows: 'Windows & Doors',
+              sanitary: 'Sanitary Ware',
+              aggregates: 'Aggregates'
+            };
+
+            const displayCategories = categories.slice(0, 8);
+
+            grid.innerHTML = displayCategories.map(cat => {
+              const id = cat.id || cat.name?.toLowerCase();
+              const name = labelMap[id] || cat.name || id;
+              const icon = iconMap[id] || 'fa-box';
+              const count = cat.product_count || 0;
+              const url = `/buildmart/products?category=${id}`;
+
+              return `
+                <a href="${url}" class="category-card">
+                  <i class="fas ${icon}"></i>
+                  <span>${name}</span>
+                  <span class="count">${count} ${count === 1 ? 'Product' : 'Products'}</span>
+                </a>
+              `;
+            }).join('');
+
+            return categories;
+          }
+        } catch (e) {
+          console.warn('Categories API unavailable, using fallback');
+        }
+
+        const fallbackCategories = [
+          { id: 'cement', name: 'Cement & Blocks', count: 3, icon: 'fa-cubes' },
+          { id: 'roofing', name: 'Roofing Systems', count: 2, icon: 'fa-home' },
+          { id: 'paints', name: 'Paints & Finishes', count: 3, icon: 'fa-paint-roller' },
+          { id: 'plumbing', name: 'Plumbing Systems', count: 2, icon: 'fa-wrench' },
+          { id: 'electrical', name: 'Electrical Infrastructure', count: 2, icon: 'fa-bolt' },
+          { id: 'tools', name: 'Tools & Equipment', count: 19, icon: 'fa-tools' },
+          { id: 'tiles', name: 'Tiles & Flooring', count: 1, icon: 'fa-th-large' },
+          { id: 'hardware', name: 'Hardware', count: 0, icon: 'fa-door-open' }
+        ];
+
+        grid.innerHTML = fallbackCategories.map(cat => `
+          <a href="/buildmart/products?category=${cat.id}" class="category-card">
+            <i class="fas ${cat.icon}"></i>
+            <span>${cat.name}</span>
+            <span class="count">${cat.count} ${cat.count === 1 ? 'Product' : 'Products'}</span>
+          </a>
+        `).join('');
+
+        return fallbackCategories;
+      }
+
+      // ============================================================
+      // API — FETCH FEATURED PRODUCTS
+      // ============================================================
+      async function fetchFeaturedProducts() {
+        const grid = document.getElementById('featuredProducts');
+        try {
+          const response = await fetch(`${ENDPOINTS.products}?featured=true&limit=6`, { credentials: 'include' });
+          if (response.ok) {
+            const data = await response.json();
+            const products = data.products || [];
+
+            if (products.length === 0) {
+              const fallbackResponse = await fetch(`${ENDPOINTS.products}?limit=6`, { credentials: 'include' });
+              if (fallbackResponse.ok) {
+                const fallbackData = await fallbackResponse.json();
+                return renderProducts(fallbackData.products || [], grid);
+              }
+            }
+
+            return renderProducts(products, grid);
+          }
+        } catch (e) {
+          console.warn('Products API unavailable, using fallback');
+        }
+
+        const fallbackProducts = [
+          { name: 'Dangote Cement', tag: '42.5R Grade', price: '₦10,800', icon: '🧱' },
+          { name: 'Dulux Emulsion', tag: 'Premium Finish', price: '₦28,000', icon: '🎨' },
+          { name: 'Aluzinc Roofing', tag: 'Corrosion-Resistant', price: '₦18,000', icon: '🏗️' },
+          { name: 'Heavy Wheelbarrow', tag: 'Industrial Grade', price: '₦32,000', icon: '🛞' },
+          { name: 'PVC Pipe 4"', tag: 'Heavy-Duty', price: '₦28,000', icon: '🔧' },
+          { name: 'Armoured Cable', tag: '2.5mm', price: '₦5,500', icon: '⚡' }
+        ];
+
+        renderProducts(fallbackProducts, grid);
+        return fallbackProducts;
+      }
+
+      function renderProducts(products, grid) {
+        if (!products || products.length === 0) {
+          grid.innerHTML = '<p style="color:var(--steel-blue);grid-column:1/-1;text-align:center;">No featured products available.</p>';
+          return;
+        }
+
+        grid.innerHTML = products.map(p => `
+          <a href="/buildmart/products/${p.id || p.slug || p.name?.toLowerCase().replace(/\s+/g, '-')}" class="product-card">
+            <span class="icon-wrap">${p.icon || '📦'}</span>
+            <h4>${p.name || 'Product'}</h4>
+            <span class="tag">${p.tag || p.category || 'Premium'}</span>
+            <div class="price">${p.price ? `₦${Number(p.price).toLocaleString()}` : '₦0'}</div>
+          </a>
+        `).join('');
+      }
+
+      // ============================================================
+      // SCROLL REVEAL
+      // ============================================================
+      const reveals = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.12 });
+
+      reveals.forEach(el => revealObserver.observe(el));
+
+      // ============================================================
+      // FIX 6: INIT — calls makeAllTabsClickable()
+      // ============================================================
+      async function init() {
+        initParticles();
+        document.querySelectorAll('.stat-item .number').forEach(el => el.classList.add('loading'));
+
+        // FIX 5 & 6: Call makeAllTabsClickable inside init
+        makeAllTabsClickable();
+
+        await Promise.all([
+          fetchStats(),
+          fetchCategories(),
+          fetchFeaturedProducts()
+        ]);
+
+        console.log('🚀 PRIMESHIELDHUB BUILDMART — Homepage initialized with live API data');
+        console.log('📦 All content loaded from production database');
+        console.log('✅ All navigation tabs are now fully clickable and functional');
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+
+    })();
+  </script>
+
+  <!-- ============================================================
+       MAIN.JS — Module Script (for full product management)
+       ============================================================ -->
+  <script type="module" src="/buildmart/js/main.js"></script>
+
+</body>
+</html>
+

@@ -1,0 +1,1508 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-theme="dark-2026">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="PrimeShieldHub Shipping & Delivery â€” Nationwide premium gadget delivery with real-time tracking, express options, and reliable logistics across all 36 states of Nigeria. Free shipping on orders over â‚¦500,000.">
+    <meta name="keywords" content="PrimeShieldHub Shipping, Gadget Delivery Nigeria, Express Delivery Lagos, Nationwide Shipping Nigeria, PrimeShieldHub Logistics, Shipping Calculator, Free Shipping Nigeria">
+    <meta name="author" content="Freedom Evbakoe Amenaghawon">
+    <meta name="robots" content="index, follow">
+    <meta name="theme-color" content="#0b0b0d">
+    <title>Shipping & Delivery | PrimeShieldHub Gadgets Limited</title>
+    <link rel="canonical" href="https://primeshieldhub.com/shipping">
+    <link rel="icon" href="/company_logo.png">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+
+    <!-- Auth Storage -->
+    <script type="module" src="../js/auth-storage.js"></script>
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Shipping & Delivery | PrimeShieldHub">
+    <meta property="og:description" content="Nationwide premium gadget delivery with real-time tracking, express options, and AI-powered logistics. Free shipping on orders over â‚¦500,000.">
+    <meta property="og:image" content="https://primeshieldhub.com/company_logo.png">
+    <meta property="og:url" content="https://primeshieldhub.com/shipping">
+
+    <!-- Breadcrumb Schema -->
+    <script type="application/ld+json">
+    {
+        "@context":"https://schema.org",
+        "@type":"BreadcrumbList",
+        "itemListElement":[
+            {"@type":"ListItem","position":1,"name":"Home","item":"https://primeshieldhub.com"},
+            {"@type":"ListItem","position":2,"name":"Shipping & Delivery"}
+        ]
+    }
+    </script>
+
+    <style>
+        /* ================================================================ */
+        /* COMPLETE STYLES - PRESERVED FROM ORIGINAL                       */
+        /* ================================================================ */
+        
+        :root{
+            --bg-deep:#060608;
+            --bg-primary:#0a0a0d;
+            --bg-elevated:#0f0f14;
+            --bg-card:#141419;
+            --bg-card-hover:#1a1a20;
+            --bg-input:#0d0d12;
+            --gold-soft:#c4a04a;
+            --gold-core:#d6b25e;
+            --gold-bright:#e8c97a;
+            --gold-light:#f3dba0;
+            --gold-glow-subtle:rgba(214,178,94,0.05);
+            --gold-glow-medium:rgba(214,178,94,0.12);
+            --gold-glow-strong:rgba(214,178,94,0.2);
+            --gold-border-subtle:rgba(214,178,94,0.08);
+            --gold-border:rgba(214,178,94,0.18);
+            --gold-border-bright:rgba(214,178,94,0.3);
+            --success:#00d68f;
+            --success-glow:rgba(0,214,143,0.12);
+            --warning:#ffb74d;
+            --danger:#ff4d6a;
+            --danger-glow:rgba(255,77,106,0.12);
+            --info:#5d8aff;
+            --text-primary:#f0efe8;
+            --text-secondary:#b8b6ad;
+            --text-muted:#7a7870;
+            --text-inverse:#0a0a0d;
+            --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+            --font-mono:'JetBrains Mono',monospace;
+            --font-serif:'Cormorant Garamond',Georgia,serif;
+            --radius-xs:8px;
+            --radius-sm:12px;
+            --radius-md:18px;
+            --radius-lg:24px;
+            --radius-xl:32px;
+            --radius-full:50%;
+            --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
+            --duration-fast:0.25s;
+            --duration-medium:0.4s;
+            --duration-slow:0.8s;
+        }
+
+        @keyframes quantumPulse{0%,100%{opacity:1;}50%{opacity:0.7;}}
+        @keyframes quantumFloat{0%,100%{transform:translateY(0) rotate(0deg);}25%{transform:translateY(-10px) rotate(1deg);}50%{transform:translateY(0) rotate(0deg);}75%{transform:translateY(-5px) rotate(-1deg);}}
+        @keyframes quantumOrbit{0%{transform:rotate(0deg) translateX(100px) rotate(0deg);}100%{transform:rotate(360deg) translateX(100px) rotate(-360deg);}}
+        @keyframes quantumShimmer{0%{background-position:-1000px 0;}100%{background-position:1000px 0;}}
+        @keyframes quantumScan{0%{transform:translateY(-100%);}100%{transform:translateY(400%);}}
+        @keyframes quantumDataFlow{0%{stroke-dashoffset:1000;}100%{stroke-dashoffset:0;}}
+        @keyframes quantumNotification{0%,100%{transform:translateX(0) scale(1);}10%,30%,50%,70%,90%{transform:translateX(-5px) scale(1.02);}20%,40%,60%,80%{transform:translateX(5px) scale(1.02);}}
+        @keyframes orbPulse{0%,100%{opacity:0.35;transform:translate(-50%,-50%) scale(1);}50%{opacity:0.6;transform:translate(-50%,-50%) scale(1.07);}}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+        @keyframes floatParticle{0%{transform:translateY(100vh) rotate(0deg);}100%{transform:translateY(-100px) rotate(360deg);}}
+        @keyframes gridShift{0%{transform:translate(0,0);}100%{transform:translate(50px,50px);}}
+        @keyframes spin{to{transform:rotate(360deg);}}
+
+        *{margin:0;padding:0;box-sizing:border-box;}
+        html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+
+        body{
+            font-family:var(--font-sans);
+            background:var(--bg-deep);
+            color:var(--text-primary);
+            min-height:100vh;
+            overflow-x:hidden;
+            -webkit-font-smoothing:antialiased;
+            -moz-osx-font-smoothing:grayscale;
+            line-height:1.6;
+            display:flex;
+            flex-direction:column;
+            position:relative;
+        }
+
+        .quantum-bg{
+            position:fixed;top:0;left:0;width:100%;height:100%;z-index:-2;
+            background:radial-gradient(circle at 20% 30%,rgba(214,178,94,0.05) 0%,transparent 50%),
+                       radial-gradient(circle at 80% 70%,rgba(214,178,94,0.04) 0%,transparent 50%),
+                       linear-gradient(180deg,var(--bg-deep) 0%,#070708 30%,#0a0a0b 100%);
+            overflow:hidden;
+        }
+
+        .quantum-grid{
+            position:fixed;top:0;left:0;width:100%;height:100%;z-index:-1;opacity:0.08;
+            background-image:linear-gradient(rgba(214,178,94,0.12) 1px,transparent 1px),
+                            linear-gradient(90deg,rgba(214,178,94,0.12) 1px,transparent 1px);
+            background-size:50px 50px;
+            animation:gridShift 20s linear infinite;
+        }
+
+        .quantum-particle{
+            position:absolute;border-radius:50%;
+            background:var(--gold-core);
+            filter:blur(2px);
+            animation:quantumOrbit linear infinite;
+        }
+
+        ::-webkit-scrollbar{width:4px;}
+        ::-webkit-scrollbar-track{background:var(--bg-deep);}
+        ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold-soft),var(--gold-bright));border-radius:2px;}
+        ::selection{background:var(--gold-glow-strong);color:var(--text-primary);}
+
+        main{flex:1;}
+        .container,.quantum-container{max-width:1440px;margin:0 auto;padding:0 32px;}
+        .section{padding:80px 0;}
+
+        .gold-gradient,.quantum-text-primary{
+            background:linear-gradient(135deg,var(--gold-soft),var(--gold-bright),var(--gold-light));
+            -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+        }
+
+        .section-badge{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:8px 20px;background:var(--gold-glow-subtle);
+            border:1px solid var(--gold-border-subtle);color:var(--gold-core);
+            border-radius:100px;font-size:0.72rem;font-weight:700;
+            letter-spacing:0.14em;text-transform:uppercase;
+            font-family:var(--font-mono);margin-bottom:16px;
+        }
+
+        .section-header{text-align:center;margin-bottom:50px;}
+        .section-title{
+            font-family:var(--font-serif);font-size:clamp(2rem,4.5vw,3.5rem);
+            font-weight:600;line-height:1.15;letter-spacing:-0.02em;margin-bottom:10px;
+        }
+        .section-title .gold{color:var(--gold-core);}
+        .section-subtitle{color:var(--text-muted);font-size:0.95rem;max-width:600px;margin:0 auto;}
+
+        /* ===== HEADER ===== */
+        .page-header{
+            position:sticky;top:0;z-index:1000;
+            background:rgba(10,10,13,0.95);backdrop-filter:blur(20px) saturate(180%);
+            -webkit-backdrop-filter:blur(20px) saturate(180%);
+            border-bottom:1px solid var(--gold-border-subtle);
+            padding:20px 0;box-shadow:0 10px 30px rgba(0,0,0,0.3);
+        }
+        .header-inner{
+            display:flex;align-items:center;justify-content:space-between;
+            max-width:1440px;margin:0 auto;padding:0 32px;flex-wrap:wrap;gap:12px;
+        }
+        .header-brand{display:flex;align-items:center;gap:14px;text-decoration:none;}
+        .header-brand img{width:44px;height:44px;border-radius:var(--radius-sm);}
+        .header-brand-text{font-family:var(--font-mono);font-weight:700;font-size:1rem;color:var(--text-primary);}
+        .header-brand-text span{color:var(--gold-core);}
+        .header-nav{display:flex;align-items:center;gap:8px;flex-wrap:wrap;}
+        .header-link{
+            color:var(--text-secondary);text-decoration:none;font-weight:600;
+            font-size:0.85rem;padding:10px 16px;border-radius:var(--radius-sm);
+            transition:all var(--duration-fast);display:flex;align-items:center;gap:6px;
+        }
+        .header-link:hover,.header-link.active{color:var(--gold-core);background:var(--gold-glow-subtle);}
+        .header-cta{
+            display:inline-flex;align-items:center;gap:8px;
+            padding:11px 22px;background:linear-gradient(135deg,var(--gold-soft),var(--gold-core));
+            color:var(--text-inverse);text-decoration:none;border-radius:var(--radius-sm);
+            font-weight:700;font-size:0.82rem;font-family:var(--font-mono);
+            transition:all var(--duration-fast) var(--ease-out-expo);box-shadow:0 8px 20px var(--gold-glow-subtle);
+        }
+        .header-cta:hover{transform:translateY(-2px);box-shadow:0 15px 35px var(--gold-glow-medium);}
+
+        /* ===== AUTHORITY BAR ===== */
+        .authority-bar{
+            background:rgba(8,12,25,0.95);backdrop-filter:blur(10px);
+            border-top:1px solid rgba(214,178,94,0.2);border-bottom:1px solid rgba(214,178,94,0.2);
+            padding:12px 0;display:flex;justify-content:center;gap:24px;flex-wrap:wrap;
+        }
+        .authority-bar a{
+            color:var(--text-secondary);text-decoration:none;font-size:0.75rem;
+            font-family:var(--font-mono);transition:all 0.3s ease;
+        }
+        .authority-bar a:hover{color:var(--gold-core);}
+        .authority-bar .sep{color:var(--text-dim);font-size:0.6rem;}
+
+        /* ===== HERO ===== */
+        .hero-section{padding:120px 0 80px;text-align:center;position:relative;overflow:hidden;}
+        .hero-orb{
+            position:absolute;width:600px;height:600px;border-radius:50%;
+            background:radial-gradient(circle,rgba(214,178,94,0.06) 0%,transparent 65%);
+            top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
+            animation:orbPulse 10s ease-in-out infinite;
+        }
+        .hero-title{
+            font-family:var(--font-serif);font-size:clamp(2.8rem,7vw,5rem);
+            font-weight:600;line-height:1.05;letter-spacing:-0.02em;margin-bottom:20px;
+        }
+        .hero-subtitle{
+            font-size:1.15rem;color:var(--text-secondary);max-width:800px;margin:0 auto 40px;line-height:1.8;
+        }
+
+        .hero-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:28px;margin-top:40px;}
+        .hero-card{
+            background:var(--bg-card);border:1px solid var(--gold-border-subtle);
+            border-radius:var(--radius-lg);padding:35px;text-align:left;
+            position:relative;overflow:hidden;
+            transition:all var(--duration-fast) var(--ease-out-expo);
+        }
+        .hero-card::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:1px;
+            background:linear-gradient(90deg,transparent,var(--gold-core),transparent);
+            opacity:0;transition:opacity var(--duration-fast);
+        }
+        .hero-card:hover{transform:translateY(-8px);border-color:var(--gold-border);box-shadow:0 25px 60px rgba(0,0,0,0.4);}
+        .hero-card:hover::before{opacity:1;}
+        .hero-icon{
+            width:70px;height:70px;border-radius:var(--radius-md);
+            background:var(--gold-glow-subtle);display:grid;place-items:center;
+            margin-bottom:22px;font-size:1.8rem;color:var(--gold-core);
+        }
+        .hero-card h3{font-size:1.25rem;margin-bottom:12px;}
+        .hero-card p{color:var(--text-secondary);font-size:0.95rem;line-height:1.7;}
+
+        /* ===== CARDS ===== */
+        .card,.glass-card{
+            background:var(--bg-card);border:1px solid var(--gold-border-subtle);
+            border-radius:var(--radius-lg);padding:32px;
+            transition:all var(--duration-fast) var(--ease-out-expo);
+        }
+        .card:hover,.glass-card:hover{
+            border-color:var(--gold-border);background:var(--bg-card-hover);
+            transform:translateY(-4px);box-shadow:0 20px 50px rgba(0,0,0,0.35);
+        }
+
+        /* ===== TRACKING ===== */
+        .track-input-group{display:flex;gap:14px;margin-bottom:24px;}
+        .track-input{
+            flex:1;padding:16px 22px;background:var(--bg-input);
+            border:1px solid var(--gold-border-subtle);border-radius:var(--radius-sm);
+            color:var(--text-primary);font-family:var(--font-mono);font-size:0.95rem;
+            outline:none;transition:all var(--duration-fast);
+        }
+        .track-input:focus{border-color:var(--gold-border-bright);box-shadow:0 0 0 4px var(--gold-glow-subtle);}
+        .tracking-result{display:none;margin-top:28px;}
+        .tracking-result.active{display:block;animation:fadeIn 0.5s ease;}
+
+        .status-badge{
+            display:inline-flex;align-items:center;gap:6px;
+            padding:8px 18px;border-radius:100px;font-weight:700;
+            font-size:0.78rem;font-family:var(--font-mono);
+        }
+        .status-badge.transit{background:rgba(255,183,77,0.12);color:var(--warning);border:1px solid rgba(255,183,77,0.2);}
+        .status-badge.delivered{background:var(--success-glow);color:var(--success);border:1px solid rgba(0,214,143,0.2);}
+        .status-badge.pending{background:var(--gold-glow-subtle);color:var(--gold-core);border:1px solid var(--gold-border);}
+        .status-badge.processing{background:rgba(93,138,255,0.12);color:var(--info);border:1px solid rgba(93,138,255,0.2);}
+
+        /* ===== TIMELINE ===== */
+        .timeline{position:relative;padding-left:35px;margin:24px 0;}
+        .timeline::before{content:'';position:absolute;left:11px;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.08);}
+        .timeline-item{position:relative;margin-bottom:24px;padding-bottom:18px;border-bottom:1px solid rgba(255,255,255,0.03);}
+        .timeline-item::before{
+            content:'';position:absolute;left:-30px;top:4px;
+            width:15px;height:15px;border-radius:50%;
+            background:var(--bg-card);border:2px solid rgba(255,255,255,0.15);z-index:1;
+        }
+        .timeline-item.completed::before{background:var(--success);border-color:var(--success);box-shadow:0 0 14px var(--success-glow);}
+        .timeline-item.active::before{background:var(--gold-core);border-color:var(--gold-core);box-shadow:0 0 18px var(--gold-glow-medium);animation:quantumPulse 2s infinite;}
+        .timeline-time{font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono);margin-bottom:4px;}
+        .timeline-event{font-size:0.95rem;font-weight:500;color:var(--text-primary);}
+        .timeline-location{font-size:0.82rem;color:var(--text-muted);margin-top:3px;}
+
+        /* ===== MAP ===== */
+        .map-container{
+            height:400px;border-radius:var(--radius-md);overflow:hidden;
+            margin-top:24px;border:1px solid var(--gold-border-subtle);position:relative;
+        }
+        .map-container .leaflet-container{height:100%;width:100%;background:var(--bg-elevated);}
+        .map-overlay{
+            position:absolute;top:18px;left:18px;z-index:1000;
+            background:rgba(10,10,13,0.92);padding:14px 18px;
+            border-radius:var(--radius-sm);border:1px solid var(--gold-border-subtle);
+            backdrop-filter:blur(12px);font-size:0.82rem;
+        }
+
+        /* ===== PROGRESS ===== */
+        .progress-bar{height:8px;background:rgba(255,255,255,0.05);border-radius:4px;overflow:hidden;margin-top:18px;}
+        .progress-fill{height:100%;background:linear-gradient(90deg,var(--gold-soft),var(--gold-bright));border-radius:4px;transition:width 0.5s ease;}
+
+        /* ===== DELIVERY CARDS - FIXED THRESHOLDS ===== */
+        .delivery-card{text-align:center;padding:38px 28px;position:relative;}
+        .delivery-card.featured{border-color:var(--gold-border);background:var(--gold-glow-subtle);}
+        .delivery-card.featured::after{
+            content:'POPULAR';position:absolute;top:14px;right:14px;
+            background:linear-gradient(135deg,var(--gold-soft),var(--gold-core));
+            color:var(--text-inverse);padding:4px 12px;border-radius:100px;
+            font-size:0.62rem;font-weight:800;letter-spacing:0.1em;
+        }
+        .delivery-icon{
+            width:75px;height:75px;border-radius:var(--radius-full);
+            background:var(--gold-glow-subtle);display:grid;place-items:center;
+            margin:0 auto 20px;font-size:2rem;color:var(--gold-core);
+        }
+        .delivery-price-label{
+            font-family:var(--font-mono);font-size:0.8rem;color:var(--text-muted);
+            margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;
+        }
+        .delivery-price{
+            font-family:var(--font-mono);font-size:2rem;font-weight:700;color:var(--gold-core);margin:0 0 6px 0;
+        }
+        .delivery-price-sub{font-size:0.75rem;color:var(--text-muted);margin-bottom:12px;}
+        .delivery-price-sub .free-highlight{color:var(--success);font-weight:600;}
+        .delivery-features{list-style:none;margin:18px 0;text-align:left;}
+        .delivery-features li{margin-bottom:10px;display:flex;align-items:center;gap:10px;color:var(--text-muted);font-size:0.9rem;}
+        .delivery-features li i{color:var(--success);font-size:0.75rem;}
+
+        /* ===== STATS ===== */
+        .stat-card{text-align:center;padding:30px 22px;}
+        .stat-value{font-family:var(--font-mono);font-size:2.6rem;font-weight:700;color:var(--gold-core);line-height:1;}
+        .stat-label{font-size:0.78rem;color:var(--text-muted);margin-top:8px;text-transform:uppercase;letter-spacing:0.08em;}
+
+        /* ===== FREE SHIPPING BANNER ===== */
+        .free-shipping-banner{
+            background:rgba(0,214,143,0.06);border:1px solid rgba(0,214,143,0.2);
+            border-radius:var(--radius-sm);padding:14px 18px;
+            text-align:center;margin:16px 0;
+        }
+        .free-shipping-banner i{color:var(--success);margin-right:6px;}
+        .free-shipping-banner span{color:var(--success);font-weight:600;}
+
+        /* ===== CALCULATOR ===== */
+        .dimension-row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+        .calc-price{font-family:var(--font-mono);font-size:3.2rem;font-weight:700;color:var(--gold-core);line-height:1;}
+        .calc-detail{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.03);font-size:0.92rem;}
+        .calc-detail:last-child{border-bottom:none;}
+
+        .form-group{margin-bottom:18px;}
+        .form-label{display:block;font-size:0.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:7px;font-family:var(--font-mono);}
+        .form-input,.form-select{
+            width:100%;padding:14px 18px;background:var(--bg-input);
+            border:1px solid var(--gold-border-subtle);border-radius:var(--radius-sm);
+            color:var(--text-primary);font-size:0.92rem;outline:none;
+            transition:all var(--duration-fast);
+        }
+        .form-input:focus,.form-select:focus{border-color:var(--gold-border-bright);box-shadow:0 0 0 4px var(--gold-glow-subtle);}
+        .form-select{
+            appearance:none;
+            background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath d='M6 8L1 3h10z' fill='%237a7870'/%3E%3C/svg%3E");
+            background-repeat:no-repeat;background-position:right 18px center;
+            padding-right:44px;cursor:pointer;
+        }
+
+        /* ===== COVERAGE ===== */
+        .coverage-stat{text-align:center;padding:26px 20px;}
+        .coverage-value{font-family:var(--font-mono);font-size:2.4rem;font-weight:700;color:var(--gold-core);}
+        .coverage-label{font-size:0.78rem;color:var(--text-muted);margin-top:6px;text-transform:uppercase;letter-spacing:0.06em;}
+
+        /* ===== BUTTONS ===== */
+        .btn-primary{
+            display:inline-flex;align-items:center;justify-content:center;gap:8px;
+            padding:15px 32px;background:linear-gradient(135deg,var(--gold-soft),var(--gold-core));
+            color:var(--text-inverse);text-decoration:none;border-radius:100px;
+            font-weight:700;font-size:0.9rem;font-family:var(--font-mono);
+            transition:all var(--duration-fast) var(--ease-out-expo);border:none;cursor:pointer;
+        }
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 14px 35px var(--gold-glow-medium);}
+        .btn-primary:disabled{opacity:0.5;cursor:not-allowed;transform:none;box-shadow:none;}
+        .btn-secondary{
+            display:inline-flex;align-items:center;justify-content:center;gap:8px;
+            padding:15px 32px;background:transparent;color:var(--gold-core);
+            text-decoration:none;border-radius:100px;font-weight:700;font-size:0.9rem;
+            font-family:var(--font-mono);border:1px solid var(--gold-border);
+            transition:all var(--duration-fast) var(--ease-out-expo);cursor:pointer;
+        }
+        .btn-secondary:hover{background:var(--gold-glow-subtle);transform:translateY(-3px);border-color:var(--gold-border-bright);}
+        .btn-row{display:flex;gap:14px;flex-wrap:wrap;}
+        .btn-row-center{justify-content:center;}
+
+        /* ===== TOAST ===== */
+        .toast{
+            position:fixed;bottom:30px;right:30px;z-index:10000;
+            background:var(--bg-card);border:1px solid var(--gold-border);
+            border-radius:var(--radius-md);padding:18px 26px;
+            font-family:var(--font-mono);font-size:0.85rem;color:var(--text-primary);
+            box-shadow:0 25px 60px rgba(0,0,0,0.5);
+            transform:translateY(120px);opacity:0;
+            transition:all var(--duration-medium) var(--ease-out-expo);
+            display:flex;align-items:center;gap:12px;
+        }
+        .toast.show{transform:translateY(0);opacity:1;}
+        .toast.success{border-color:var(--success);}
+        .toast.error{border-color:var(--danger);}
+        .toast.warning{border-color:var(--warning);}
+
+        .quantum-notification{
+            position:fixed;top:100px;right:32px;padding:16px 24px;
+            border-radius:var(--radius-sm);backdrop-filter:blur(12px);
+            z-index:9999;display:flex;align-items:center;gap:12px;
+            max-width:420px;transform:translateX(120%);opacity:0;
+            transition:transform 0.3s ease,opacity 0.3s ease;
+            box-shadow:0 15px 40px rgba(0,0,0,0.4);
+            animation:quantumNotification 0.5s ease;
+        }
+        .quantum-notification.show{transform:translateX(0);opacity:1;}
+        .quantum-notification.success{background:rgba(0,214,143,0.1);border:1px solid rgba(0,214,143,0.2);color:var(--success);}
+        .quantum-notification.warning{background:rgba(255,183,77,0.1);border:1px solid rgba(255,183,77,0.2);color:var(--warning);}
+        .quantum-notification.info{background:rgba(214,178,94,0.08);border:1px solid var(--gold-border);color:var(--gold-core);}
+
+        /* ===== LOADING ===== */
+        .loading-overlay{
+            display:none;position:absolute;inset:0;
+            background:rgba(10,10,13,0.8);backdrop-filter:blur(4px);
+            z-index:10;align-items:center;justify-content:center;border-radius:var(--radius-lg);
+        }
+        .loading-overlay.active{display:flex;}
+        .loading-spinner{
+            width:40px;height:40px;border:3px solid var(--gold-border-subtle);
+            border-top-color:var(--gold-core);border-radius:50%;
+            animation:spin 0.8s linear infinite;
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer{
+            background:var(--bg-elevated);border-top:1px solid rgba(255,255,255,0.04);
+            padding:60px 0 30px;position:relative;
+        }
+        .site-footer::before{
+            content:'';position:absolute;top:0;left:0;right:0;height:1px;
+            background:linear-gradient(90deg,transparent,var(--gold-core),transparent);opacity:0.3;
+        }
+        .footer-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:40px;margin-bottom:40px;}
+        .footer-grid h4{
+            font-family:var(--font-mono);font-size:0.75rem;color:var(--gold-core);
+            text-transform:uppercase;letter-spacing:0.12em;margin-bottom:18px;
+            position:relative;padding-bottom:10px;
+        }
+        .footer-grid h4::after{content:'';position:absolute;bottom:0;left:0;width:35px;height:2px;background:var(--gold-core);border-radius:2px;}
+        .footer-grid a{display:block;color:var(--text-muted);text-decoration:none;font-size:0.85rem;margin-bottom:10px;transition:all var(--duration-fast);}
+        .footer-grid a:hover{color:var(--gold-core);transform:translateX(5px);}
+        .footer-bottom{text-align:center;padding-top:25px;border-top:1px solid rgba(255,255,255,0.03);color:var(--text-muted);font-size:0.8rem;}
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width:1200px){.hero-title{font-size:2.4rem;}}
+        @media(max-width:992px){
+            .header-inner{flex-direction:column;padding:16px 32px;}
+            .header-nav{margin-top:12px;justify-content:center;}
+            .hero-section{padding:160px 0 60px;}
+            .track-input-group{flex-direction:column;}
+            .track-input,.btn-primary{width:100%;}
+            .dimension-row{grid-template-columns:1fr;}
+            .authority-bar{gap:12px;padding:10px 16px;}
+            .authority-bar a{font-size:0.6rem;}
+        }
+        @media(max-width:768px){
+            .container{padding:0 20px;}.section{padding:50px 0;}
+            .hero-title{font-size:2rem;}.section-title{font-size:1.8rem;}
+            .hero-grid,.grid{grid-template-columns:1fr;}
+            .btn-row{flex-direction:column;}.btn-primary,.btn-secondary{width:100%;}
+            .footer-grid{grid-template-columns:1fr 1fr;}
+            .calc-price{font-size:2.4rem;}
+            .delivery-card{padding:28px 20px;}
+        }
+        @media(max-width:576px){
+            .hero-title{font-size:1.7rem;}.section-title{font-size:1.5rem;}
+            .hero-card{padding:24px 18px;}.hero-icon{width:50px;height:50px;font-size:1.3rem;}
+            .footer-grid{grid-template-columns:1fr;}
+            .header-nav{gap:4px;}.header-link{font-size:0.75rem;padding:8px 12px;}
+            .container{padding:0 16px;}.card{padding:22px 16px;}
+            .authority-bar{gap:8px;padding:8px 12px;}
+            .authority-bar a{font-size:0.55rem;}
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== QUANTUM BACKGROUND ==================== -->
+<div class="quantum-bg" id="quantumBg"></div>
+<div class="quantum-grid"></div>
+
+<!-- ==================== TOAST ==================== -->
+<div class="toast" id="toast"></div>
+
+<!-- ==================== HEADER ==================== -->
+<header class="page-header">
+    <div class="header-inner">
+        <a href="/" class="header-brand">
+            <img src="/company_logo.png" alt="PrimeShieldHub">
+            <span class="header-brand-text"><span>PRIME</span>SHIELDHUB</span>
+        </a>
+        <nav class="header-nav">
+            <a href="/" class="header-link"><i class="fas fa-home"></i> Home</a>
+            <a href="/products" class="header-link"><i class="fas fa-box"></i> Products</a>
+            <a href="/cart" class="header-link"><i class="fas fa-shopping-cart"></i> Cart</a>
+            <a href="/checkout" class="header-link"><i class="fas fa-credit-card"></i> Checkout</a>
+            <a href="/shipping" class="header-link active"><i class="fas fa-shipping-fast"></i> Shipping</a>
+            <a href="/dashboard" class="header-link"><i class="fas fa-chart-pie"></i> Dashboard</a>
+            <a href="/profile" class="header-link"><i class="fas fa-user"></i> Profile</a>
+            <a href="/account" class="header-link"><i class="fas fa-cog"></i> Account</a>
+            <a href="/orders" class="header-link"><i class="fas fa-receipt"></i> Orders</a>
+            <a href="/wishlist" class="header-link"><i class="fas fa-heart"></i> Wishlist</a>
+            <a href="/addresses" class="header-link"><i class="fas fa-map-marker-alt"></i> Addresses</a>
+            <a href="/invoice" class="header-link"><i class="fas fa-file-invoice"></i> Invoices</a>
+            <a href="/support" class="header-link"><i class="fas fa-headset"></i> Support</a>
+            <a href="/reseller-dashboard" class="header-link"><i class="fas fa-user-tie"></i> Reseller</a>
+            <a href="https://wa.me/2348103535978" target="_blank" class="header-cta"><i class="fab fa-whatsapp"></i> Support</a>
+        </nav>
+    </div>
+</header>
+
+<!-- ==================== AUTHORITY BAR ==================== -->
+<div class="authority-bar">
+    <a href="/freedom-evbakoe-amenaghawon">Personal Profile</a>
+    <span class="sep">â€¢</span>
+    <a href="/biography">Official Biography</a>
+    <span class="sep">â€¢</span>
+    <a href="/founder">Corporate Founder Profile</a>
+    <span class="sep">â€¢</span>
+    <a href="/company">Company Overview</a>
+    <span class="sep">â€¢</span>
+    <a href="/leadership">Leadership</a>
+    <span class="sep">â€¢</span>
+    <a href="/knowledge-graph">Knowledge Graph</a>
+    <span class="sep">â€¢</span>
+    <a href="/media-kit">Media Kit</a>
+    <span class="sep">â€¢</span>
+    <a href="/press">Press Center</a>
+</div>
+
+<main>
+    <!-- ==================== HERO ==================== -->
+    <section class="hero-section">
+        <div class="hero-orb"></div>
+        <div class="container">
+            <span class="section-badge"><i class="fas fa-shipping-fast"></i> Delivery</span>
+            <h1 class="hero-title">Shipping & <span class="gold-gradient">Delivery</span></h1>
+            <p class="hero-subtitle">
+                Experience Nigeria's most advanced delivery system with real-time tracking, express options, and AI-powered logistics across all 36 states. <strong style="color:var(--success);">Free shipping on orders over â‚¦500,000.</strong> All orders ship from our HQ at 108 Ekhorutomwen St, Uselu, Benin City.
+            </p>
+
+            <div class="hero-grid">
+                <div class="hero-card">
+                    <div class="hero-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Lightning Speed</h3>
+                    <p>AI-optimized routes reduce delivery times by up to 68%. Same-day delivery available across major Nigerian cities with real-time driver tracking and instant notifications.</p>
+                </div>
+                <div class="hero-card">
+                    <div class="hero-icon"><i class="fas fa-satellite-dish"></i></div>
+                    <h3>Real-Time Tracking</h3>
+                    <p>Advanced GPS tracking with live map updates. Know exactly where your package is at every stage of the delivery journey. Enter your tracking ID below to get started.</p>
+                </div>
+                <div class="hero-card">
+                    <div class="hero-icon"><i class="fas fa-robot"></i></div>
+                    <h3>AI Logistics</h3>
+                    <p>Self-learning algorithms predict optimal delivery windows and automatically prevent delays before they happen. Smart routing saves you time and money.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FREE SHIPPING BANNER ==================== -->
+    <section class="section" style="padding-top:0;padding-bottom:0;">
+        <div class="container">
+            <div class="free-shipping-banner">
+                <i class="fas fa-gift"></i>
+                <span>FREE STANDARD SHIPPING</span> on orders over â‚¦500,000 | 
+                <span>FREE EXPRESS SHIPPING</span> on orders over â‚¦1,000,000 | 
+                <span>FREE ECONOMY SHIPPING</span> on orders over â‚¦200,000
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== TRACKING ==================== -->
+    <section class="section" id="track">
+        <div class="container">
+            <div class="card" style="max-width:900px;margin:0 auto;position:relative;">
+                <div class="section-header" style="margin-bottom:24px;">
+                    <span class="section-badge">Track</span>
+                    <h3 style="font-family:var(--font-serif);font-size:1.5rem;">Live Package <span class="gold-gradient">Tracking</span></h3>
+                    <p style="color:var(--text-muted);font-size:0.82rem;">Enter your tracking ID from your order confirmation</p>
+                </div>
+                <div class="track-input-group">
+                    <input type="text" class="track-input" id="trackingNumber" placeholder="Enter tracking ID (e.g., PSH-20260621-A7B3)" autocomplete="off">
+                    <button class="btn-primary" id="trackBtn"><i class="fas fa-satellite-dish"></i> Track Package</button>
+                </div>
+
+                <!-- Loading Overlay -->
+                <div class="loading-overlay" id="trackingLoading">
+                    <div class="loading-spinner"></div>
+                </div>
+
+                <!-- Tracking Result -->
+                <div class="tracking-result" id="trackingResult">
+                    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <div>
+                            <span style="font-family:var(--font-mono);color:var(--gold-core);font-size:1.05rem;display:block;" id="displayTrackingId">---</span>
+                            <span style="font-size:0.72rem;color:var(--text-muted);" id="displayOrderRef"></span>
+                        </div>
+                        <span class="status-badge pending" id="displayStatus"><i class="fas fa-clock"></i> Searching...</span>
+                    </div>
+
+                    <!-- Customer Info -->
+                    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;margin-bottom:18px;padding:14px;background:rgba(255,255,255,0.02);border-radius:var(--radius-sm);">
+                        <div><span style="color:var(--text-muted);font-size:0.72rem;">Customer</span><br><span id="displayCustomer" style="font-weight:600;">---</span></div>
+                        <div><span style="color:var(--text-muted);font-size:0.72rem;">Amount</span><br><span id="displayAmount" style="font-weight:600;color:var(--gold-core);">---</span></div>
+                        <div><span style="color:var(--text-muted);font-size:0.72rem;">Payment</span><br><span id="displayPaymentMethod" style="font-weight:600;">---</span></div>
+                        <div><span style="color:var(--text-muted);font-size:0.72rem;">Est. Delivery</span><br><span id="displayEstDelivery" style="font-weight:600;color:var(--success);">---</span></div>
+                    </div>
+
+                    <!-- Timeline -->
+                    <div class="timeline" id="deliveryTimeline">
+                        <div class="timeline-item" id="timelineItem1">
+                            <div class="timeline-time">---</div>
+                            <div class="timeline-event">Order Placed</div>
+                            <div class="timeline-location">PrimeShieldHub HQ, 108 Ekhorutomwen St, Uselu, Benin City</div>
+                        </div>
+                        <div class="timeline-item" id="timelineItem2">
+                            <div class="timeline-time">---</div>
+                            <div class="timeline-event">Payment Confirmed</div>
+                            <div class="timeline-location">Awaiting confirmation</div>
+                        </div>
+                        <div class="timeline-item" id="timelineItem3">
+                            <div class="timeline-time">---</div>
+                            <div class="timeline-event">Processing</div>
+                            <div class="timeline-location">Preparing your order</div>
+                        </div>
+                        <div class="timeline-item" id="timelineItem4">
+                            <div class="timeline-time">---</div>
+                            <div class="timeline-event">In Transit</div>
+                            <div class="timeline-location">En route to destination</div>
+                        </div>
+                        <div class="timeline-item" id="timelineItem5">
+                            <div class="timeline-time">---</div>
+                            <div class="timeline-event">Delivered</div>
+                            <div class="timeline-location">Package delivered</div>
+                        </div>
+                    </div>
+
+                    <div class="progress-bar"><div class="progress-fill" id="progressBar" style="width:20%;"></div></div>
+                    <p style="text-align:right;font-family:var(--font-mono);font-size:0.78rem;color:var(--gold-core);margin-top:8px;" id="progressText">20% Complete</p>
+
+                    <!-- Delivery Route Map -->
+                    <div class="map-container">
+                        <div class="map-overlay">
+                            <div style="display:flex;align-items:center;gap:8px;">
+                                <i class="fas fa-truck" style="color:var(--gold-core);"></i>
+                                <div>
+                                    <div style="font-weight:600;font-size:0.88rem;">Delivery Route</div>
+                                    <div style="font-size:0.72rem;color:var(--text-muted);" id="mapRouteLabel">Benin City HQ â†’ Destination</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="deliveryMap"></div>
+                    </div>
+
+                    <!-- Track another / Checkout CTA -->
+                    <div class="btn-row" style="margin-top:24px;">
+                        <button class="btn-primary" onclick="document.getElementById('trackingNumber').value='';document.getElementById('trackingResult').classList.remove('active');document.getElementById('trackingNumber').focus();">
+                            <i class="fas fa-redo"></i> Track Another
+                        </button>
+                        <a href="/checkout" class="btn-secondary">
+                            <i class="fas fa-shopping-cart"></i> Go to Checkout
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Error State -->
+                <div class="tracking-result" id="trackingError" style="text-align:center;">
+                    <div style="font-size:3rem;color:var(--danger);margin-bottom:16px;"><i class="fas fa-exclamation-circle"></i></div>
+                    <h3 style="margin-bottom:8px;">Tracking ID Not Found</h3>
+                    <p style="color:var(--text-muted);margin-bottom:20px;" id="trackingErrorMessage">Please check your tracking ID and try again.</p>
+                    <div class="btn-row btn-row-center">
+                        <button class="btn-secondary" onclick="document.getElementById('trackingError').classList.remove('active');document.getElementById('trackingResult').classList.remove('active');document.getElementById('trackingNumber').focus();">
+                            <i class="fas fa-redo"></i> Try Again
+                        </button>
+                        <a href="/checkout" class="btn-primary">Go to Checkout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== DELIVERY OPTIONS - FIXED THRESHOLDS ==================== -->
+    <section class="section" id="options" style="background:var(--bg-primary);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Options</span>
+                <h2 class="section-title">Delivery <span class="gold">Options</span></h2>
+                <p class="section-subtitle">Choose the delivery speed that works for you â€” nationwide coverage guaranteed</p>
+            </div>
+            <div class="grid" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;">
+                <!-- Express Delivery -->
+                <div class="card delivery-card">
+                    <div class="delivery-icon"><i class="fas fa-bolt"></i></div>
+                    <h3>Express Delivery</h3>
+                    <div class="delivery-price-label">From</div>
+                    <div class="delivery-price">â‚¦2,500</div>
+                    <div class="delivery-price-sub"><span class="free-highlight">FREE</span> on orders over â‚¦1,000,000</div>
+                    <ul class="delivery-features">
+                        <li><i class="fas fa-check-circle"></i> Same-day delivery (Lagos, Abuja, PH, Benin)</li>
+                        <li><i class="fas fa-check-circle"></i> 2-hour delivery windows</li>
+                        <li><i class="fas fa-check-circle"></i> AI priority routing</li>
+                        <li><i class="fas fa-check-circle"></i> Real-time driver tracking</li>
+                        <li><i class="fas fa-check-circle"></i> Signature confirmation</li>
+                    </ul>
+                    <a href="/checkout.html?shipping=express" class="btn-primary" style="width:100%;margin-top:14px;text-decoration:none;">
+                        <i class="fas fa-rocket"></i> Select Express
+                    </a>
+                </div>
+                <!-- Standard Delivery -->
+                <div class="card delivery-card featured">
+                    <div class="delivery-icon"><i class="fas fa-truck"></i></div>
+                    <h3>Standard Delivery</h3>
+                    <div class="delivery-price-label">From</div>
+                    <div class="delivery-price">â‚¦1,500</div>
+                    <div class="delivery-price-sub"><span class="free-highlight">FREE</span> on orders over â‚¦500,000</div>
+                    <ul class="delivery-features">
+                        <li><i class="fas fa-check-circle"></i> 1-3 business days</li>
+                        <li><i class="fas fa-check-circle"></i> All 36 states covered</li>
+                        <li><i class="fas fa-check-circle"></i> AI-optimized routes</li>
+                        <li><i class="fas fa-check-circle"></i> Delivery notifications</li>
+                        <li><i class="fas fa-check-circle"></i> Safe drop-off option</li>
+                    </ul>
+                    <a href="/checkout.html?shipping=standard" class="btn-primary" style="width:100%;margin-top:14px;text-decoration:none;">
+                        <i class="fas fa-check"></i> Select Standard
+                    </a>
+                </div>
+                <!-- Economy Delivery -->
+                <div class="card delivery-card">
+                    <div class="delivery-icon"><i class="fas fa-clock"></i></div>
+                    <h3>Economy Delivery</h3>
+                    <div class="delivery-price-label">From</div>
+                    <div class="delivery-price">â‚¦1,000</div>
+                    <div class="delivery-price-sub"><span class="free-highlight">FREE</span> on orders over â‚¦200,000</div>
+                    <ul class="delivery-features">
+                        <li><i class="fas fa-check-circle"></i> 3-5 business days</li>
+                        <li><i class="fas fa-check-circle"></i> All 36 states covered</li>
+                        <li><i class="fas fa-check-circle"></i> Standard tracking</li>
+                        <li><i class="fas fa-check-circle"></i> Email notifications</li>
+                        <li><i class="fas fa-check-circle"></i> Budget-friendly</li>
+                    </ul>
+                    <a href="/checkout.html?shipping=economy" class="btn-secondary" style="width:100%;margin-top:14px;text-decoration:none;">
+                        <i class="fas fa-wallet"></i> Select Economy
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== AI STATS ==================== -->
+    <section class="section" id="ai">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Performance</span>
+                <h2 class="section-title">AI Logistics <span class="gold">Dashboard</span></h2>
+                <p class="section-subtitle">Real-time delivery performance metrics â€” live data from our logistics network</p>
+            </div>
+            <div class="grid-4" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;">
+                <div class="card stat-card"><div class="stat-value" id="activeDeliveries">0</div><div class="stat-label">Active Deliveries</div></div>
+                <div class="card stat-card"><div class="stat-value" id="onTimeRate">0%</div><div class="stat-label">On-Time Rate</div></div>
+                <div class="card stat-card"><div class="stat-value" id="avgDeliveryTime">0h</div><div class="stat-label">Avg. Time</div></div>
+                <div class="card stat-card"><div class="stat-value" id="aiEfficiency">0%</div><div class="stat-label">Route Optimization</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== CALCULATOR ==================== -->
+    <section class="section" id="calculator" style="background:var(--bg-primary);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Calculator</span>
+                <h2 class="section-title">Shipping <span class="gold">Calculator</span></h2>
+                <p class="section-subtitle">Get an instant delivery quote with all costs included</p>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;">
+                <div class="card">
+                    <div class="form-group"><label class="form-label">Pickup Location</label><select class="form-select" id="pickupLocation"><option value="benin">Benin City (HQ) â€” 108 Ekhorutomwen St, Uselu</option><option value="lagos">Lagos</option><option value="abuja">Abuja</option></select></div>
+                    <div class="form-group"><label class="form-label">Delivery Destination</label><select class="form-select" id="deliveryDestination"><option value="lagos">Lagos</option><option value="abuja">Abuja</option><option value="port-harcourt">Port Harcourt</option><option value="ibadan">Ibadan</option><option value="kano">Kano</option><option value="enugu">Enugu</option><option value="benin">Benin City</option><option value="owerri">Owerri</option></select></div>
+                    <div class="form-group">
+                        <label class="form-label">Package Weight: <span id="weightValue" style="color:var(--gold-core);">2kg</span></label>
+                        <input type="range" class="form-input" id="packageWeight" min="0.1" max="50" step="0.1" value="2" style="padding:0;height:6px;cursor:pointer;border:none;">
+                        <div style="display:flex;justify-content:space-between;margin-top:8px;font-size:0.72rem;color:var(--text-muted);"><span>0.1kg</span><span>50kg</span></div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Package Dimensions (cm)</label>
+                        <div class="dimension-row">
+                            <input type="number" class="form-input" id="packageLength" placeholder="Length" value="30" min="1" max="200">
+                            <input type="number" class="form-input" id="packageWidth" placeholder="Width" value="20" min="1" max="200">
+                            <input type="number" class="form-input" id="packageHeight" placeholder="Height" value="15" min="1" max="200">
+                        </div>
+                    </div>
+                    <div class="form-group"><label class="form-label">Delivery Speed</label><select class="form-select" id="deliverySpeed"><option value="express">Express (Same Day)</option><option value="standard" selected>Standard (1-3 Days)</option><option value="economy">Economy (3-5 Days)</option></select></div>
+                    <button class="btn-primary" style="width:100%;" onclick="calculateShipping()"><i class="fas fa-calculator"></i> Calculate Shipping Cost</button>
+                </div>
+                <div class="card" style="text-align:center;">
+                    <h3 style="font-family:var(--font-serif);font-size:1.4rem;margin-bottom:16px;">Your <span class="gold-gradient">Quote</span></h3>
+                    <div class="calc-price" id="calculatedPrice">â‚¦1,500</div>
+                    <p style="color:var(--text-muted);font-size:0.88rem;margin-bottom:12px;">All-inclusive with insurance and handling</p>
+                    <div class="free-shipping-banner" id="freeShippingNote" style="display:none;">
+                        <i class="fas fa-gift"></i> <span>This order qualifies for FREE SHIPPING!</span>
+                    </div>
+                    <div style="text-align:left;">
+                        <div class="calc-detail"><span>Base Rate</span><span id="baseCost">â‚¦1,500</span></div>
+                        <div class="calc-detail"><span>Distance Charge</span><span id="distanceCost">â‚¦0</span></div>
+                        <div class="calc-detail"><span>Weight Adjustment</span><span id="weightCost">â‚¦0</span></div>
+                        <div class="calc-detail"><span>Speed Premium</span><span id="speedCost">â‚¦0</span></div>
+                        <div class="calc-detail"><span>Insurance (0.5%)</span><span id="insuranceCost">â‚¦8</span></div>
+                        <div class="calc-detail" style="font-weight:700;border-bottom:none;padding-top:12px;font-size:1rem;"><span>Total</span><span style="color:var(--gold-core);" id="totalCost">â‚¦1,508</span></div>
+                    </div>
+                    <a href="/checkout" id="proceedCheckoutLink" class="btn-primary" style="width:100%;margin-top:24px;text-decoration:none;">
+                        <i class="fas fa-shopping-cart"></i> Proceed to Checkout
+                    </a>
+                    <button class="btn-secondary" style="width:100%;margin-top:12px;" onclick="window.open('https://wa.me/2348103535978?text=Hello%20PrimeShieldHub,%20I%20want%20to%20ship%20a%20package','_blank')">
+                        <i class="fab fa-whatsapp"></i> Order via WhatsApp
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== COVERAGE ==================== -->
+    <section class="section" id="coverage">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Coverage</span>
+                <h2 class="section-title">Nationwide <span class="gold">Coverage</span></h2>
+                <p class="section-subtitle">Serving all 36 states and 774 local government areas across Nigeria â€” shipping from Benin City HQ</p>
+            </div>
+            <div class="grid-4" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin-bottom:32px;">
+                <div class="card coverage-stat"><div class="coverage-value">36</div><div class="coverage-label">States</div></div>
+                <div class="card coverage-stat"><div class="coverage-value">774</div><div class="coverage-label">LGAs</div></div>
+                <div class="card coverage-stat"><div class="coverage-value">98%</div><div class="coverage-label">Population</div></div>
+                <div class="card coverage-stat"><div class="coverage-value">24/7</div><div class="coverage-label">Operations</div></div>
+            </div>
+            <div class="map-container" style="height:500px;">
+                <div class="map-overlay">
+                    <div style="display:flex;align-items:center;gap:8px;">
+                        <i class="fas fa-map-marked-alt" style="color:var(--gold-core);"></i>
+                        <div>
+                            <div style="font-weight:600;font-size:0.88rem;">Nigeria Coverage Map</div>
+                            <div style="font-size:0.72rem;color:var(--text-muted);">Real-time service availability across all zones</div>
+                        </div>
+                    </div>
+                </div>
+                <div id="coverageMap"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==================== FLEET NETWORK ==================== -->
+    <section class="section" id="drone" style="background:var(--bg-primary);">
+        <div class="container">
+            <div class="section-header">
+                <span class="section-badge">Fleet</span>
+                <h2 class="section-title">Delivery <span class="gold">Fleet Network</span></h2>
+                <p class="section-subtitle">Real-time fleet status and performance metrics â€” monitored 24/7</p>
+            </div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:28px;">
+                <div class="card">
+                    <h3 style="font-family:var(--font-serif);font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-truck-fast" style="color:var(--gold-core);"></i> Fleet Status</h3>
+                    <div class="drone-metric"><span class="drone-metric-label">Active Vehicles</span><span class="drone-metric-value" id="activeDrones">0</span></div>
+                    <div class="drone-metric"><span class="drone-metric-label">Currently In Transit</span><span class="drone-metric-value" id="inFlight">0</span></div>
+                    <div class="drone-metric"><span class="drone-metric-label">Average Speed</span><span class="drone-metric-value" id="avgSpeed">0 km/h</span></div>
+                    <div class="drone-metric"><span class="drone-metric-label">Weather Conditions</span><span class="drone-metric-value" id="weatherStatus">Clear</span></div>
+                </div>
+                <div class="card">
+                    <h3 style="font-family:var(--font-serif);font-size:1.3rem;margin-bottom:18px;"><i class="fas fa-chart-line" style="color:var(--gold-core);"></i> Today's Performance</h3>
+                    <div class="drone-metric"><span class="drone-metric-label">Deliveries Completed</span><span class="drone-metric-value" id="todayDeliveries">0</span></div>
+                    <div class="drone-metric"><span class="drone-metric-label">Success Rate</span><span class="drone-metric-value" id="successRate">0%</span></div>
+                    <div class="drone-metric"><span class="drone-metric-label">Avg. Delivery Time</span><span class="drone-metric-value" id="droneDeliveryTime">0 min</span></div>
+                    <div class="drone-metric"><span class="drone-metric-label">Carbon Offset</span><span class="drone-metric-value" id="carbonSaved">0 kg</span></div>
+                </div>
+            </div>
+            <div style="text-align:center;margin-top:32px;">
+                <a href="/checkout" class="btn-primary">
+                    <i class="fas fa-calendar-alt"></i> Place an Order Now
+                </a>
+                <p style="color:var(--text-muted);font-size:0.82rem;margin-top:12px;">
+                    Available nationwide â€¢ Express options in Lagos, Abuja, Port Harcourt, Benin City, Ibadan, Kano
+                </p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>Shipping Services</h4>
+                <p style="color:var(--text-muted);font-size:0.82rem;line-height:1.7;">Nationwide premium gadget delivery with real-time tracking and express options.</p>
+                <a href="/shipping"><i class="fas fa-shipping-fast"></i> Shipping Info</a>
+                <a href="/shipping.html#track"><i class="fas fa-map-marker-alt"></i> Track Order</a>
+                <a href="/checkout"><i class="fas fa-credit-card"></i> Checkout</a>
+                <a href="/account"><i class="fas fa-cog"></i> Account</a>
+                <a href="/profile"><i class="fas fa-user"></i> Profile</a>
+                <a href="/dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a>
+            </div>
+            <div>
+                <h4>Shop</h4>
+                <a href="/products"><i class="fas fa-box"></i> All Products</a>
+                <a href="/categories"><i class="fas fa-th-large"></i> Categories</a>
+                <a href="/wholesale"><i class="fas fa-tags"></i> Wholesale</a>
+                <a href="/reseller"><i class="fas fa-user-tie"></i> Reseller</a>
+                <a href="/cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                <a href="/wishlist"><i class="fas fa-heart"></i> Wishlist</a>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <a href="/founder"><i class="fas fa-user"></i> Founder</a>
+                <a href="/company"><i class="fas fa-building"></i> Company</a>
+                <a href="/biography"><i class="fas fa-book"></i> Biography</a>
+                <a href="/leadership"><i class="fas fa-users"></i> Leadership</a>
+                <a href="/mission"><i class="fas fa-flag"></i> Mission</a>
+                <a href="/vision"><i class="fas fa-eye"></i> Vision</a>
+                <a href="/press"><i class="fas fa-newspaper"></i> Press</a>
+                <a href="/media-kit"><i class="fas fa-image"></i> Media Kit</a>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <a href="mailto:ceo@primeshieldhub.com"><i class="fas fa-envelope"></i> ceo@primeshieldhub.com</a>
+                <a href="tel:+2348103535978"><i class="fas fa-phone"></i> +234 810 353 5978</a>
+                <a href="https://wa.me/2348103535978" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp Support</a>
+                <a href="/faq"><i class="fas fa-question-circle"></i> FAQ</a>
+                <a href="/returns"><i class="fas fa-undo-alt"></i> Returns</a>
+                <a href="/shipping"><i class="fas fa-truck"></i> Shipping</a>
+                <a href="/track-order"><i class="fas fa-map-marker-alt"></i> Track Order</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Â© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954 Â· TIN 2621297539968. All Rights Reserved.
+        </div>
+    </div>
+</footer>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script type="module" src="../js/auth-storage.js"></script>
+<script>
+    // ================================================================ //
+    // SHIPPING PAGE - FULL BACKEND SYNCHRONIZATION                    //
+    // ================================================================ //
+
+    (function() {
+        'use strict';
+
+        // ===== CONFIG - SYNCED WITH checkout.html =====
+        var API_BASE = 'https://api.primeshieldhub.com/api';
+        var FREE_SHIPPING_THRESHOLD = 500000;
+        var FREE_EXPRESS_THRESHOLD = 1000000;
+        var FREE_ECONOMY_THRESHOLD = 200000;
+        var MID_SHIPPING_THRESHOLD = 50000;
+        var MID_SHIPPING_MAX = 300000;
+        var deliveryMap = null;
+        var vehicleMarker = null;
+
+        // ===== SHIPPING ZONES - SYNCED WITH checkout.html =====
+        var SHIPPING_ZONES = {
+            'Edo':          { zoneId: 'z1', base: 2000,  days: '1',   region: 'Home' },
+            'Delta':        { zoneId: 'z2', base: 2500,  days: '1-2', region: 'Neighbor' },
+            'Lagos':        { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Ogun':         { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Oyo':          { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Osun':         { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Ondo':         { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Ekiti':        { zoneId: 'z3', base: 4500,  days: '1-2', region: 'South-West' },
+            'Rivers':       { zoneId: 'z4', base: 5000,  days: '2-3', region: 'South-South' },
+            'Bayelsa':      { zoneId: 'z4', base: 5000,  days: '2-3', region: 'South-South' },
+            'Akwa Ibom':    { zoneId: 'z4', base: 5000,  days: '2-3', region: 'South-South' },
+            'Cross River':  { zoneId: 'z4', base: 5000,  days: '2-3', region: 'South-South' },
+            'Anambra':      { zoneId: 'z5', base: 5500,  days: '2-3', region: 'South-East' },
+            'Imo':          { zoneId: 'z5', base: 5500,  days: '2-3', region: 'South-East' },
+            'Abia':         { zoneId: 'z5', base: 5500,  days: '2-3', region: 'South-East' },
+            'Enugu':        { zoneId: 'z5', base: 5500,  days: '2-3', region: 'South-East' },
+            'Ebonyi':       { zoneId: 'z5', base: 5500,  days: '2-3', region: 'South-East' },
+            'Abuja FCT':    { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Kwara':        { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Kogi':         { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Nasarawa':     { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Niger':        { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Plateau':      { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Benue':        { zoneId: 'z6', base: 6500,  days: '3-4', region: 'North-Central' },
+            'Kaduna':       { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Kano':         { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Katsina':      { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Sokoto':       { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Zamfara':      { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Kebbi':        { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Jigawa':       { zoneId: 'z7', base: 8500,  days: '4-5', region: 'North-West' },
+            'Adamawa':      { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' },
+            'Bauchi':       { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' },
+            'Borno':        { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' },
+            'Gombe':        { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' },
+            'Taraba':       { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' },
+            'Yobe':         { zoneId: 'z8', base: 9500,  days: '4-6', region: 'North-East' }
+        };
+
+        // ===== AUTH =====
+        function getAuthToken() {
+            if (window.AuthStorage) {
+                var session = window.AuthStorage.getSession();
+                if (session && session.token) return session.token;
+            }
+            return localStorage.getItem('psh_auth_token') || null;
+        }
+
+        function getUser() {
+            if (window.AuthStorage) {
+                var session = window.AuthStorage.getSession();
+                if (session && session.user) return session.user;
+            }
+            try {
+                var stored = localStorage.getItem('psh_user');
+                if (stored) return JSON.parse(stored);
+            } catch(e) {}
+            return null;
+        }
+
+        // ===== HELPERS =====
+        function formatCurrency(amount) {
+            return 'â‚¦' + Number(amount).toLocaleString('en-NG');
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '---';
+            var d = new Date(dateStr);
+            if (isNaN(d.getTime())) return '---';
+            return d.toLocaleDateString('en-NG', { year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' });
+        }
+
+        function showToast(msg, type) {
+            type = type || '';
+            var t = document.getElementById('toast');
+            t.innerHTML = msg;
+            t.className = 'toast ' + type + ' show';
+            clearTimeout(t._timer);
+            t._timer = setTimeout(function() { t.classList.remove('show'); }, 3500);
+        }
+
+        function showQuantumNotification(msg, type) {
+            type = type || 'info';
+            document.querySelectorAll('.quantum-notification').forEach(function(n) { n.remove(); });
+            var n = document.createElement('div');
+            n.className = 'quantum-notification ' + type;
+            var icons = { success: 'âœ“', warning: 'âš ', info: 'â„¹' };
+            n.innerHTML = '<div style="font-size:20px;">' + (icons[type] || icons.info) + '</div><div>' + msg + '</div>';
+            document.body.appendChild(n);
+            setTimeout(function() {
+                n.style.transform = 'translateX(0)';
+                n.style.opacity = '1';
+            }, 20);
+            setTimeout(function() {
+                n.style.transform = 'translateX(120%)';
+                n.style.opacity = '0';
+                setTimeout(function() { n.remove(); }, 300);
+            }, 5000);
+        }
+
+        // ===== API CALL - TRACK ORDER =====
+        async function trackOrder(trackingId) {
+            var token = getAuthToken();
+            var headers = { 'Content-Type': 'application/json', 'Accept': 'application/json' };
+            if (token) headers['Authorization'] = 'Bearer ' + token;
+
+            var loadingEl = document.getElementById('trackingLoading');
+            var resultEl = document.getElementById('trackingResult');
+            var errorEl = document.getElementById('trackingError');
+
+            resultEl.classList.remove('active');
+            errorEl.classList.remove('active');
+            loadingEl.classList.add('active');
+
+            try {
+                var response = await fetch(API_BASE + '/orders/track?trackingId=' + encodeURIComponent(trackingId), { headers: headers });
+                
+                if (response.status === 401) {
+                    if (window.AuthStorage) window.AuthStorage.clearAllSessions();
+                    localStorage.removeItem('psh_auth_token');
+                    localStorage.removeItem('psh_user');
+                    loadingEl.classList.remove('active');
+                    errorEl.classList.add('active');
+                    document.getElementById('trackingErrorMessage').textContent = 'Session expired. Please login again.';
+                    return;
+                }
+
+                var data = await response.json();
+                loadingEl.classList.remove('active');
+
+                if (data.success && data.tracking) {
+                    displayTrackingResult(data.tracking);
+                    resultEl.classList.add('active');
+                    resultEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    showQuantumNotification('Tracking information loaded successfully!', 'success');
+                } else {
+                    errorEl.classList.add('active');
+                    document.getElementById('trackingErrorMessage').textContent = data.message || 'Tracking ID not found. Please check and try again.';
+                }
+            } catch (e) {
+                loadingEl.classList.remove('active');
+                errorEl.classList.add('active');
+                document.getElementById('trackingErrorMessage').textContent = 'Unable to connect. Please check your internet and try again.';
+                console.error('Tracking error:', e);
+            }
+        }
+
+        function displayTrackingResult(tracking) {
+            // Tracking ID & Status
+            document.getElementById('displayTrackingId').textContent = tracking.trackingId || tracking.reference || '---';
+            document.getElementById('displayOrderRef').textContent = 'Order: ' + (tracking.reference || '---');
+
+            var statusEl = document.getElementById('displayStatus');
+            var status = tracking.status || 'pending';
+            var statusLabels = {
+                'order_placed': 'Order Placed',
+                'awaiting_payment': 'Awaiting Payment',
+                'payment_confirmed': 'Payment Confirmed',
+                'processing': 'Processing',
+                'shipped': 'Shipped',
+                'in_transit': 'In Transit',
+                'delivered': 'Delivered',
+                'cancelled': 'Cancelled'
+            };
+            var statusLabel = statusLabels[status] || status.replace(/_/g, ' ');
+
+            if (status === 'delivered') {
+                statusEl.className = 'status-badge delivered';
+                statusEl.innerHTML = '<i class="fas fa-check-circle"></i> Delivered';
+            } else if (status === 'in_transit' || status === 'shipped') {
+                statusEl.className = 'status-badge transit';
+                statusEl.innerHTML = '<i class="fas fa-truck-fast"></i> ' + statusLabel;
+            } else if (status === 'processing' || status === 'payment_confirmed') {
+                statusEl.className = 'status-badge processing';
+                statusEl.innerHTML = '<i class="fas fa-cog"></i> ' + statusLabel;
+            } else {
+                statusEl.className = 'status-badge pending';
+                statusEl.innerHTML = '<i class="fas fa-clock"></i> ' + statusLabel;
+            }
+
+            // Customer Info
+            document.getElementById('displayCustomer').textContent = tracking.customerName || tracking.customer_name || '---';
+            document.getElementById('displayAmount').textContent = formatCurrency(tracking.total || tracking.amount || 0);
+            var pmLabels = { 'paystack': 'ðŸ’³ Paystack', 'bank': 'ðŸ¦ Bank Transfer', 'crypto': 'â‚¿ Crypto', 'whatsapp': 'ðŸ“± WhatsApp' };
+            document.getElementById('displayPaymentMethod').textContent = pmLabels[tracking.paymentMethod] || tracking.paymentMethod || '---';
+            document.getElementById('displayEstDelivery').textContent = formatDate(tracking.estimatedDelivery || tracking.estimated_delivery);
+
+            // Map Label
+            var destCity = tracking.destination ? (tracking.destination.city || 'Destination') : 'Destination';
+            document.getElementById('mapRouteLabel').textContent = 'Benin City HQ â†’ ' + destCity;
+
+            // Timeline
+            var statusOrder = ['order_placed', 'payment_confirmed', 'processing', 'shipped', 'in_transit', 'delivered'];
+            var currentIdx = statusOrder.indexOf(status);
+            if (currentIdx < 0) currentIdx = 0;
+
+            var timelineItems = document.querySelectorAll('#deliveryTimeline .timeline-item');
+            var timelineLabels = ['Order Placed', 'Payment Confirmed', 'Processing', 'Shipped', 'In Transit', 'Delivered'];
+            var timelineLocations = [
+                'PrimeShieldHub HQ, 108 Ekhorutomwen St, Uselu, Benin City',
+                'Payment verified and confirmed',
+                'Order being prepared for shipment',
+                'Package handed to courier',
+                'En route to ' + destCity,
+                'Package delivered successfully!'
+            ];
+
+            timelineItems.forEach(function(item, i) {
+                item.classList.remove('completed', 'active');
+                if (i < currentIdx) {
+                    item.classList.add('completed');
+                    var historyItem = tracking.history && tracking.history[i] ? tracking.history[i] : null;
+                    item.querySelector('.timeline-time').textContent = historyItem ? formatDate(historyItem.timestamp) : (tracking.createdAt ? formatDate(tracking.createdAt) : '---');
+                } else if (i === currentIdx) {
+                    item.classList.add('active');
+                    item.querySelector('.timeline-time').textContent = 'In Progress';
+                } else {
+                    item.querySelector('.timeline-time').textContent = 'Pending';
+                }
+                item.querySelector('.timeline-event').textContent = timelineLabels[i] || '---';
+                item.querySelector('.timeline-location').textContent = (tracking.history && tracking.history[i] && tracking.history[i].location) || timelineLocations[i] || '---';
+            });
+
+            // Progress
+            var progress = Math.round(((currentIdx + 1) / statusOrder.length) * 100);
+            document.getElementById('progressBar').style.width = progress + '%';
+            document.getElementById('progressText').textContent = progress + '% Complete';
+
+            // Map
+            var origin = tracking.origin || { lat: 6.3350, lng: 5.6037 };
+            var dest = tracking.destination || { lat: 6.5244, lng: 3.3792 };
+            initDeliveryMap(origin.lat, origin.lng, dest.lat, dest.lng);
+        }
+
+        // ===== MAP FUNCTIONS =====
+        function initDeliveryMap(originLat, originLng, destLat, destLng) {
+            if (deliveryMap) { deliveryMap.remove(); }
+            deliveryMap = L.map('deliveryMap').setView([(originLat + destLat) / 2, (originLng + destLng) / 2], 8);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: 'Â© OpenStreetMap' }).addTo(deliveryMap);
+
+            L.marker([originLat, originLng]).addTo(deliveryMap).bindPopup('<b>PrimeShieldHub HQ</b><br>108 Ekhorutomwen St, Uselu, Benin City');
+            L.marker([destLat, destLng]).addTo(deliveryMap).bindPopup('<b>Delivery Destination</b>');
+
+            var route = [];
+            var steps = 8;
+            for (var i = 0; i <= steps; i++) {
+                var lat = originLat + (destLat - originLat) * (i / steps);
+                var lng = originLng + (destLng - originLng) * (i / steps);
+                route.push([lat, lng]);
+            }
+            L.polyline(route, { color: '#d6b25e', weight: 3, opacity: 0.5, dashArray: '10,10' }).addTo(deliveryMap);
+
+            vehicleMarker = L.marker([originLat, originLng], {
+                icon: L.divIcon({
+                    html: '<div style="background:#d6b25e;width:18px;height:18px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 14px rgba(214,178,94,0.5);"></div>',
+                    className: 'vehicle-marker'
+                })
+            }).addTo(deliveryMap);
+
+            var pos = 0;
+            setInterval(function() {
+                if (!vehicleMarker) return;
+                pos = (pos + 0.15) % (route.length - 1);
+                var idx = Math.floor(pos);
+                var frac = pos - idx;
+                var lat = route[idx][0] + (route[idx + 1][0] - route[idx][0]) * frac;
+                var lng = route[idx][1] + (route[idx + 1][1] - route[idx][1]) * frac;
+                vehicleMarker.setLatLng([lat, lng]);
+            }, 1500);
+        }
+
+        // ===== TRACKING EVENTS =====
+        document.getElementById('trackBtn').addEventListener('click', function() {
+            var trackingId = document.getElementById('trackingNumber').value.trim();
+            if (!trackingId) {
+                showToast('Please enter a tracking ID', 'error');
+                return;
+            }
+            trackOrder(trackingId);
+        });
+
+        document.getElementById('trackingNumber').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') document.getElementById('trackBtn').click();
+        });
+
+        // Check URL for tracking ID
+        (function() {
+            var params = new URLSearchParams(window.location.search);
+            var trackingId = params.get('trackingId') || params.get('track') || params.get('ref');
+            if (trackingId) {
+                document.getElementById('trackingNumber').value = trackingId;
+                setTimeout(function() { trackOrder(trackingId); }, 500);
+            }
+        })();
+
+        // ===== MAPS =====
+        setTimeout(function() {
+            if (!deliveryMap) {
+                deliveryMap = L.map('deliveryMap').setView([6.4350, 4.9795], 7);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: 'Â© OpenStreetMap' }).addTo(deliveryMap);
+                L.marker([6.3350, 5.6037]).addTo(deliveryMap).bindPopup('<b>PrimeShieldHub HQ</b><br>108 Ekhorutomwen St, Uselu, Benin City');
+                L.marker([6.5244, 3.3792]).addTo(deliveryMap).bindPopup('<b>Lagos Distribution Hub</b>');
+            }
+        }, 800);
+
+        // Coverage map
+        setTimeout(function() {
+            var coverageMap = L.map('coverageMap').setView([9.0820, 8.6753], 6);
+            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(coverageMap);
+            var cities = [
+                { name: 'Lagos', c: [6.5244, 3.3792], r: 18000 },
+                { name: 'Abuja', c: [9.0765, 7.3986], r: 22000 },
+                { name: 'Port Harcourt', c: [4.8156, 7.0498], r: 12000 },
+                { name: 'Ibadan', c: [7.3775, 3.9470], r: 14000 },
+                { name: 'Kano', c: [12.0022, 8.5920], r: 20000 },
+                { name: 'Enugu', c: [6.4584, 7.5464], r: 10000 },
+                { name: 'Benin City', c: [6.3350, 5.6037], r: 11000 },
+                { name: 'Owerri', c: [5.4836, 7.0333], r: 9000 }
+            ];
+            cities.forEach(function(city) {
+                L.circle(city.c, { color: '#d6b25e', fillColor: '#d6b25e', fillOpacity: 0.06, radius: city.r }).addTo(coverageMap).bindPopup('<b>' + city.name + '</b><br>Delivery Zone');
+                L.marker(city.c).addTo(coverageMap).bindPopup('<b>' + city.name + '</b><br>Distribution Hub');
+            });
+            L.marker([6.3350, 5.6037], {
+                icon: L.divIcon({ html: '<div style="background:#ffd700;width:20px;height:20px;border-radius:50%;border:3px solid #fff;box-shadow:0 0 20px gold;"></div>', className: 'hq-marker' })
+            }).addTo(coverageMap).bindPopup('<b>ðŸ¢ HQ</b><br>108 Ekhorutomwen St, Uselu, Benin City');
+        }, 1000);
+
+        // ===== CALCULATOR - SYNCED WITH checkout.html logic =====
+        // Make calculateShipping globally accessible
+        window.calculateShipping = function() {
+            var base = 1500;
+            var dest = document.getElementById('deliveryDestination').value;
+            var w = parseFloat(document.getElementById('packageWeight').value) || 2;
+            var speed = document.getElementById('deliverySpeed').value;
+
+            var multipliers = { lagos: 1, abuja: 1.8, 'port-harcourt': 1.5, ibadan: 1.2, kano: 2.2, enugu: 1.7, benin: 1.3, owerri: 1.6 };
+            var dCost = Math.round(base * ((multipliers[dest] || 1) - 1));
+            
+            var wCost = Math.round(Math.max(0, (w - 2) * 200));
+            
+            var speedPremiums = { express: 1000, standard: 0, economy: -200 };
+            var sCost = speedPremiums[speed] || 0;
+            
+            var sub = base + dCost + wCost + sCost;
+            
+            // Apply free shipping based on speed and thresholds
+            var isFree = false;
+            var freeThreshold = 0;
+            if (speed === 'express') {
+                freeThreshold = 1000000;
+            } else if (speed === 'standard') {
+                freeThreshold = 500000;
+            } else if (speed === 'economy') {
+                freeThreshold = 200000;
+            }
+            
+            if (sub >= freeThreshold) {
+                isFree = true;
+                var total = 0;
+                document.getElementById('baseCost').textContent = 'â‚¦0 (Free)';
+                document.getElementById('distanceCost').textContent = 'â‚¦0';
+                document.getElementById('weightCost').textContent = 'â‚¦0';
+                document.getElementById('speedCost').textContent = 'â‚¦0';
+                document.getElementById('insuranceCost').textContent = 'â‚¦0';
+                document.getElementById('totalCost').textContent = 'â‚¦0 â€” FREE SHIPPING!';
+                document.getElementById('calculatedPrice').textContent = 'â‚¦0 FREE';
+                var freeNote = document.getElementById('freeShippingNote');
+                if (freeNote) freeNote.style.display = 'block';
+                return;
+            }
+
+            // Insurance (0.5%)
+            var ins = Math.round(sub * 0.005);
+            var total = sub + ins;
+
+            // Apply mid-tier shipping discount
+            if (sub >= 50000 && sub <= 300000) {
+                total = Math.max(1000, total);
+            }
+
+            // Apply 50% off for â‚¦300K-â‚¦500K
+            if (sub > 300000 && sub < 500000) {
+                total = Math.round(total * 0.5);
+                document.getElementById('speedCost').textContent = '50% off';
+            }
+
+            document.getElementById('baseCost').textContent = 'â‚¦' + base.toLocaleString();
+            document.getElementById('distanceCost').textContent = 'â‚¦' + dCost.toLocaleString();
+            document.getElementById('weightCost').textContent = 'â‚¦' + wCost.toLocaleString();
+            document.getElementById('speedCost').textContent = 'â‚¦' + sCost.toLocaleString();
+            document.getElementById('insuranceCost').textContent = 'â‚¦' + ins.toLocaleString();
+            document.getElementById('totalCost').textContent = 'â‚¦' + total.toLocaleString();
+            document.getElementById('calculatedPrice').textContent = 'â‚¦' + total.toLocaleString();
+
+            var freeNote = document.getElementById('freeShippingNote');
+            if (freeNote) {
+                freeNote.style.display = 'none';
+            }
+
+            var checkoutLink = document.getElementById('proceedCheckoutLink');
+            if (checkoutLink) {
+                checkoutLink.href = '/checkout.html?shipping=' + speed;
+            }
+        };
+
+        // Expose calculateShipping globally
+        window.calculateShipping = window.calculateShipping;
+
+        // ===== LIVE STATS - FETCH FROM API =====
+        async function fetchShippingStats() {
+            try {
+                var token = getAuthToken();
+                var headers = { 'Content-Type': 'application/json' };
+                if (token) headers['Authorization'] = 'Bearer ' + token;
+
+                // Try the real API endpoint
+                var response = await fetch(API_BASE + '/shipping/stats', { headers: headers });
+                if (!response.ok) throw new Error('Failed to fetch stats');
+                
+                var data = await response.json();
+                
+                if (data && data.stats) {
+                    document.getElementById('activeDeliveries').textContent = data.stats.activeDeliveries || 0;
+                    document.getElementById('onTimeRate').textContent = (data.stats.onTimeRate || 0) + '%';
+                    document.getElementById('avgDeliveryTime').textContent = (data.stats.avgDeliveryTime || 0) + 'h';
+                    document.getElementById('aiEfficiency').textContent = (data.stats.aiEfficiency || 0) + '%';
+                    document.getElementById('activeDrones').textContent = data.stats.activeDrones || 0;
+                    document.getElementById('inFlight').textContent = data.stats.inFlight || 0;
+                    document.getElementById('avgSpeed').textContent = (data.stats.avgSpeed || 0) + ' km/h';
+                    document.getElementById('todayDeliveries').textContent = data.stats.todayDeliveries || 0;
+                    document.getElementById('successRate').textContent = (data.stats.successRate || 0) + '%';
+                    document.getElementById('droneDeliveryTime').textContent = (data.stats.droneDeliveryTime || 0) + ' min';
+                    document.getElementById('carbonSaved').textContent = (data.stats.carbonSaved || 0) + ' kg';
+                    document.getElementById('weatherStatus').textContent = data.stats.weatherStatus || 'Clear';
+                }
+            } catch (e) {
+                console.warn('Could not fetch shipping stats from API, using fallback:', e);
+                // Fallback - show placeholder values (not random, just "N/A")
+                var statIds = ['activeDeliveries', 'onTimeRate', 'avgDeliveryTime', 'aiEfficiency', 
+                               'activeDrones', 'inFlight', 'avgSpeed', 'todayDeliveries', 
+                               'successRate', 'droneDeliveryTime', 'carbonSaved'];
+                statIds.forEach(function(id) {
+                    var el = document.getElementById(id);
+                    if (el) {
+                        if (id === 'onTimeRate' || id === 'successRate' || id === 'aiEfficiency') {
+                            el.textContent = '--%';
+                        } else if (id === 'avgDeliveryTime' || id === 'droneDeliveryTime') {
+                            el.textContent = '-- min';
+                        } else if (id === 'avgSpeed') {
+                            el.textContent = '-- km/h';
+                        } else if (id === 'carbonSaved') {
+                            el.textContent = '-- kg';
+                        } else {
+                            el.textContent = '--';
+                        }
+                    }
+                });
+                document.getElementById('weatherStatus').textContent = '--';
+            }
+        }
+
+        // ===== QUANTUM PARTICLES =====
+        (function() {
+            var bg = document.getElementById('quantumBg');
+            for (var i = 0; i < 50; i++) {
+                var p = document.createElement('div');
+                p.className = 'quantum-particle';
+                var size = Math.random() * 4 + 1;
+                var duration = Math.random() * 30 + 20;
+                var delay = Math.random() * 30;
+                p.style.cssText = 'width:' + size + 'px;height:' + size + 'px;animation:quantumOrbit ' + duration + 's linear ' + delay + 's infinite;opacity:' + (Math.random() * 0.2 + 0.06) + ';';
+                bg.appendChild(p);
+            }
+        })();
+
+        // ===== INIT =====
+        document.getElementById('footerYear').textContent = new Date().getFullYear();
+        // Initial calculation
+        window.calculateShipping();
+
+        // Fetch real stats from API
+        fetchShippingStats();
+        // Refresh stats every 30 seconds
+        setInterval(fetchShippingStats, 30000);
+
+        // Welcome notification
+        setTimeout(function() {
+            showQuantumNotification('Live Tracking Active. Enter your tracking ID to check your order status.', 'info');
+        }, 1500);
+
+        console.log('ðŸš€ PrimeShieldHub Shipping v2.2 â€” Fully Backend Synchronized');
+        console.log('âœ… Free Express threshold: â‚¦' + FREE_EXPRESS_THRESHOLD.toLocaleString());
+        console.log('âœ… Free Standard threshold: â‚¦' + FREE_SHIPPING_THRESHOLD.toLocaleString());
+        console.log('âœ… Free Economy threshold: â‚¦' + FREE_ECONOMY_THRESHOLD.toLocaleString());
+        console.log('âœ… Mid shipping: â‚¦' + MID_SHIPPING_THRESHOLD.toLocaleString() + ' - â‚¦' + MID_SHIPPING_MAX.toLocaleString());
+        console.log('âœ… Shipping zones: ' + Object.keys(SHIPPING_ZONES).length + ' states');
+    })();
+</script>
+
+</body>
+</html>

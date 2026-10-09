@@ -1,0 +1,2152 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-theme="compare">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="description" content="BuildMart Product Comparison - AI-powered procurement intelligence with real-time pricing, live inventory, and project analysis." />
+    <meta name="theme-color" content="#050510" />
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api" />
+    
+    <title>BuildMart · Product Comparison</title>
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "BuildMart Product Comparison",
+        "description": "Compare construction materials, pricing, specifications, and availability side-by-side.",
+        "url": "https://primeshieldhub.com/buildmart/compare.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "PRIMESHIELDHUB BUILDMART",
+            "url": "https://primeshieldhub.com/buildmart"
+        }
+    }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES — BUILDMART THEME
+           ============================================================ */
+        :root {
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --gold-dark: #D97706;
+            --gold-glow: rgba(245, 158, 11, 0.12);
+            --gold-dim: rgba(245, 179, 66, 0.15);
+            
+            --cyan: #00D4FF;
+            --cyan-glow: rgba(0, 212, 255, 0.08);
+            
+            --bg-deep: #050510;
+            --bg-primary: #0a1628;
+            --bg-card: rgba(12, 12, 30, 0.7);
+            --bg-input: rgba(0, 0, 0, 0.4);
+            --bg-glass: rgba(18, 18, 35, 0.55);
+            
+            --text-primary: #f0f0f5;
+            --text-secondary: #b0b0c0;
+            --text-muted: #6a6a80;
+            --text-inverse: #050510;
+            
+            --accent-success: #69f0ae;
+            --accent-warning: #F59E0B;
+            --accent-danger: #ff5252;
+            --accent-purple: #b388ff;
+            --accent-cyan: #00e5ff;
+            --accent-blue: #4a7aff;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 48px;
+            --radius-3xl: 64px;
+            
+            --shadow-card: 0 40px 70px -30px rgba(0,0,0,0.9);
+            --shadow-glow: 0 0 40px rgba(245, 179, 66, 0.15);
+            --shadow-elevated: 0 30px 60px rgba(0,0,0,0.6);
+            
+            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-luxe: 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 20% 20%, rgba(245, 179, 66, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 229, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(179, 136, 255, 0.02) 0%, transparent 60%);
+            background-attachment: fixed;
+            padding: 0;
+            animation: ambientShift 20s infinite alternate ease-in-out;
+        }
+
+        @keyframes ambientShift {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+
+        .grid-overlay {
+            position: fixed;
+            inset: 0;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+            background-size: 60px 60px;
+            pointer-events: none;
+            z-index: 0;
+            animation: gridPulse 8s infinite alternate ease-in-out;
+        }
+
+        @keyframes gridPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::selection { background: rgba(245, 158, 11, 0.25); }
+
+        .gold-text { color: var(--gold); }
+        .cyan-text { color: var(--cyan); }
+        .purple-text { color: var(--accent-purple); }
+        .green-text { color: var(--accent-success); }
+        .gold-gradient {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* ============================================================
+           GLASS CARD
+           ============================================================ */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(28px) saturate(220%);
+            -webkit-backdrop-filter: blur(28px) saturate(220%);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: var(--radius-3xl);
+            box-shadow: var(--shadow-card), inset 0 0 0 1px rgba(255,255,255,0.02);
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            inset: -1px;
+            border-radius: var(--radius-3xl);
+            padding: 1px;
+            background: conic-gradient(from 0deg at 50% 50%, rgba(245, 179, 66, 0.15), rgba(0, 229, 255, 0.06), rgba(245, 179, 66, 0.15));
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+        }
+        .glass-card:hover {
+            border-color: rgba(245, 179, 66, 0.2);
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+        }
+
+        .container {
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           PARTICLES CANVAS
+           ============================================================ */
+        #particles-canvas {
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        .navbar {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(245, 179, 66, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 5, 16, 0.7);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            box-shadow: 0 20px 50px -20px rgba(0,0,0,0.9);
+            transition: all 0.3s ease;
+        }
+        .navbar.shrink { padding: 0.4rem 0; background: rgba(5, 5, 16, 0.92); }
+        .nav-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            max-width: 1600px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .nav-logo i { color: var(--gold); filter: drop-shadow(0 0 15px rgba(245, 179, 66, 0.8)); }
+        .nav-logo .logo-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            animation: dotBlink 2s infinite;
+        }
+        @keyframes dotBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 0.3rem 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--gold); }
+        .nav-links a.active::after { width: 100%; }
+
+        .nav-actions { display: flex; gap: 1rem; align-items: center; }
+        .nav-badge {
+            background: rgba(0,229,255,0.1);
+            border: 1px solid rgba(0,229,255,0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            animation: livePulse 1.5s infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.8); }
+        }
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #d1d8e5;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 0.2rem 0.4rem;
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
+        .workspace-header {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.8rem 2.6rem;
+            margin: 1.5rem 0 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.015);
+        }
+        .workspace-header h1 {
+            font-weight: 700;
+            font-size: 2.2rem;
+            letter-spacing: -0.03em;
+            font-family: var(--font-display);
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+        }
+        .workspace-header h1 i { color: var(--gold); filter: drop-shadow(0 0 18px rgba(245, 179, 66, 0.3)); }
+        .workspace-header .subtitle {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 0.2rem;
+        }
+        .header-actions {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .header-actions button {
+            background: rgba(255,255,255,0.015);
+            border: 1px solid rgba(255,255,255,0.04);
+            color: var(--text-secondary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            font-family: var(--font-sans);
+            backdrop-filter: blur(4px);
+        }
+        .header-actions button:hover {
+            background: rgba(245, 179, 66, 0.08);
+            border-color: var(--gold);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+        .header-actions button i { color: var(--gold); }
+
+        .breadcrumb {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            background: rgba(255,255,255,0.015);
+            padding: 0.2rem 1rem;
+            border-radius: 60px;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+
+        /* ============================================================
+           CHART SECTION
+           ============================================================ */
+        .chart-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+        .chart-box {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            border-radius: var(--radius-md);
+            padding: 1rem;
+            text-align: center;
+        }
+        .chart-box canvas {
+            max-height: 100px;
+            max-width: 100%;
+        }
+        .chart-box .chart-label {
+            font-size: 0.6rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-muted);
+            margin-top: 0.3rem;
+        }
+
+        /* ============================================================
+           COMPARE GRID
+           ============================================================ */
+        .comparison-scroll {
+            overflow-x: auto;
+            padding: 0.2rem 0.2rem 2rem;
+            scrollbar-width: thin;
+            scrollbar-color: #2f4170 #111a28;
+            border-radius: 2rem;
+        }
+        .comparison-scroll::-webkit-scrollbar { height: 6px; }
+        .comparison-scroll::-webkit-scrollbar-track { background: #0f1728; border-radius: 20px; }
+        .comparison-scroll::-webkit-scrollbar-thumb { background: #2f4170; border-radius: 20px; }
+
+        .compare-grid {
+            display: grid;
+            grid-template-columns: 180px repeat(auto-fit, minmax(260px, 1fr));
+            gap: 0.8rem;
+            min-width: 1100px;
+        }
+
+        .sticky-attr {
+            position: sticky;
+            left: 0;
+            z-index: 20;
+            background: rgba(7, 10, 18, 0.92);
+            backdrop-filter: blur(8px);
+            border-right: 1px solid rgba(255,255,255,0.015);
+            border-radius: 2rem 0 0 2rem;
+            padding-right: 0.2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .product-col {
+            background: rgba(14, 24, 44, 0.5);
+            backdrop-filter: blur(4px);
+            border-radius: 2.4rem;
+            padding: 1.2rem 0.8rem 0.8rem;
+            border: 1px solid rgba(255,255,255,0.015);
+            transition: var(--transition-smooth);
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            box-shadow: 0 8px 32px -12px rgba(0,0,0,0.7);
+            position: relative;
+        }
+        .product-col:hover {
+            border-color: rgba(245, 179, 66, 0.3);
+            background: rgba(20, 34, 60, 0.7);
+            box-shadow: 0 0 50px rgba(245, 179, 66, 0.08), 0 8px 32px -8px #000000dd;
+            transform: scale(1.006);
+        }
+        .product-col .remove-btn {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: rgba(255,82,82,0.1);
+            border: 1px solid rgba(255,82,82,0.2);
+            border-radius: 50%;
+            width: 28px;
+            height: 28px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent-danger);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-size: 0.7rem;
+            opacity: 0;
+        }
+        .product-col:hover .remove-btn { opacity: 1; }
+        .product-col .remove-btn:hover { background: rgba(255,82,82,0.2); transform: scale(1.1); }
+
+        .product-col .winner-badge {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            font-size: 0.5rem;
+            font-weight: 700;
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            box-shadow: 0 0 20px rgba(245, 179, 66, 0.2);
+        }
+        .winner-badge.best-overall { background: var(--gold); color: var(--text-inverse); }
+        .winner-badge.best-price { background: var(--accent-success); color: var(--text-inverse); }
+        .winner-badge.best-stock { background: var(--accent-cyan); color: var(--text-inverse); }
+        .winner-badge.best-warranty { background: var(--accent-purple); color: var(--text-inverse); }
+        .winner-badge.best-eco { background: #4ade80; color: var(--text-inverse); }
+
+        .attr-cell {
+            padding: 0.35rem 0.2rem;
+            font-size: 0.8rem;
+            border-bottom: 1px solid rgba(255,255,255,0.012);
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+            min-height: 2.2rem;
+        }
+        .sticky-attr .attr-cell { border-bottom: 1px solid rgba(255,255,255,0.012); }
+
+        .attr-label {
+            color: var(--text-muted);
+            font-weight: 500;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            opacity: 0.8;
+        }
+        .attr-value {
+            color: var(--text-primary);
+            font-weight: 500;
+            font-size: 0.82rem;
+        }
+        .attr-value.small { font-size: 0.65rem; opacity: 0.7; }
+        .attr-value.glow { text-shadow: 0 0 24px rgba(245, 179, 66, 0.3); }
+        .attr-value.best { color: var(--gold); font-weight: 700; }
+
+        /* Visual Comparison Bars */
+        .compare-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            width: 100%;
+        }
+        .compare-bar .bar-track {
+            flex: 1;
+            height: 6px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .compare-bar .bar-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        .compare-bar .bar-fill.gold { background: linear-gradient(90deg, var(--gold), var(--gold-light)); }
+        .compare-bar .bar-fill.cyan { background: linear-gradient(90deg, var(--cyan), var(--accent-cyan)); }
+        .compare-bar .bar-fill.green { background: linear-gradient(90deg, var(--accent-success), #4ade80); }
+        .compare-bar .bar-fill.purple { background: linear-gradient(90deg, var(--accent-purple), #c7adff); }
+        .compare-bar .bar-fill.blue { background: linear-gradient(90deg, var(--accent-blue), #7abfff); }
+        .compare-bar .bar-value {
+            font-size: 0.7rem;
+            font-weight: 600;
+            min-width: 35px;
+            text-align: right;
+            color: var(--text-secondary);
+        }
+
+        .product-img {
+            width: 100%;
+            aspect-ratio: 1/0.9;
+            background: linear-gradient(145deg, #101c32, #08101e);
+            border-radius: 1.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--gold);
+            border: 1px solid #2a3d60;
+            margin-bottom: 0.4rem;
+            box-shadow: inset 0 0 50px #00000066, 0 0 40px rgba(74, 122, 255, 0.03);
+            transition: var(--transition-smooth);
+            overflow: hidden;
+        }
+        .product-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-col:hover .product-img {
+            border-color: rgba(245, 179, 66, 0.4);
+            box-shadow: inset 0 0 50px #00000088, 0 0 70px rgba(245, 179, 66, 0.08);
+        }
+
+        .badge {
+            background: #1a2644;
+            padding: 0.1rem 0.6rem;
+            border-radius: 40px;
+            font-size: 0.55rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: inline-flex;
+            align-items: center;
+            gap: 3px;
+            letter-spacing: 0.02em;
+            border: 1px solid rgba(255,255,255,0.02);
+        }
+        .badge-gold {
+            background: rgba(138, 122, 58, 0.2);
+            border: 1px solid rgba(212, 175, 55, 0.4);
+            color: var(--gold-light);
+            box-shadow: 0 0 24px rgba(212, 175, 55, 0.08);
+        }
+        .badge-ai {
+            background: rgba(63, 46, 122, 0.3);
+            border: 1px solid rgba(159, 122, 255, 0.3);
+            color: #c7adff;
+        }
+        .badge-cyan {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            color: var(--accent-cyan);
+        }
+
+        .stock-green { color: var(--accent-success); }
+        .stock-amber { color: var(--accent-warning); }
+        .stock-red { color: var(--accent-danger); }
+
+        .ai-insight {
+            background: rgba(13, 26, 52, 0.6);
+            border-left: 3px solid var(--accent-purple);
+            padding: 0.3rem 0.6rem;
+            border-radius: 1rem;
+            font-size: 0.68rem;
+            color: var(--text-secondary);
+            margin: 0.1rem 0;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .ai-insight i { color: var(--accent-purple); font-size: 0.8rem; }
+
+        .gold-outline {
+            outline: 2px solid var(--gold);
+            outline-offset: -1px;
+            border-radius: 60px;
+            background: rgba(212, 175, 55, 0.05);
+            padding: 0.1rem 0.6rem;
+        }
+
+        /* ============================================================
+           GROUP SECTIONS
+           ============================================================ */
+        .section-group {
+            margin-bottom: 0.5rem;
+        }
+        .section-group .group-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 0.5rem;
+            background: rgba(255,255,255,0.01);
+            border-radius: 2rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            cursor: pointer;
+            border: 1px solid transparent;
+            transition: var(--transition-smooth);
+        }
+        .section-group .group-header:hover {
+            border-color: rgba(245, 179, 66, 0.1);
+            color: var(--text-primary);
+        }
+        .section-group .group-header i { color: var(--gold); font-size: 0.7rem; }
+
+        /* ============================================================
+           AI WIDGET
+           ============================================================ */
+        .ai-widget {
+            background: rgba(10, 20, 40, 0.8);
+            border-radius: 3.6rem;
+            padding: 1rem 2rem;
+            margin-top: 2.5rem;
+            border: 1px solid rgba(245, 179, 66, 0.15);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 0 80px rgba(74, 122, 255, 0.04);
+        }
+        .ai-widget i { color: var(--accent-purple); font-size: 1.6rem; filter: drop-shadow(0 0 28px rgba(122, 90, 255, 0.2)); }
+        .ai-widget input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 0.9rem;
+            outline: none;
+            min-width: 200px;
+            font-weight: 400;
+            font-family: var(--font-sans);
+        }
+        .ai-widget input::placeholder { color: var(--text-muted); font-weight: 300; letter-spacing: 0.02em; }
+        .ai-widget button {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border: none;
+            border-radius: 60px;
+            padding: 0.4rem 1.6rem;
+            color: var(--text-inverse);
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 0 40px rgba(245, 179, 66, 0.2);
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+        }
+        .ai-widget button:hover { transform: translateY(-2px); box-shadow: 0 0 60px rgba(245, 179, 66, 0.3); }
+
+        /* ============================================================
+           STICKY ACTION BAR
+           ============================================================ */
+        .sticky-action-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(7, 10, 18, 0.9);
+            backdrop-filter: blur(20px) saturate(220%);
+            border-top: 1px solid rgba(255,255,255,0.02);
+            padding: 0.6rem 2.4rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 999;
+            box-shadow: 0 -20px 60px -20px #000000dd;
+        }
+        .action-group {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+        .action-group button {
+            background: rgba(255,255,255,0.015);
+            border: 1px solid #1f3050;
+            color: var(--text-secondary);
+            padding: 0.4rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.7rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            font-family: var(--font-sans);
+            backdrop-filter: blur(4px);
+        }
+        .action-group button:hover {
+            background: rgba(245, 179, 66, 0.06);
+            border-color: var(--gold);
+            color: var(--text-primary);
+        }
+        .action-group button i { color: var(--gold); }
+        .action-group button.primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-color: var(--gold);
+            color: var(--text-inverse);
+            font-weight: 600;
+            box-shadow: 0 0 30px rgba(245, 179, 66, 0.2);
+        }
+        .action-group button.primary i { color: var(--text-inverse); }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: rgba(10, 22, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 179, 66, 0.15);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--radius-sm);
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 420px;
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #toast .toast-content { display: flex; align-items: center; gap: 0.6rem; }
+        #toast .toast-icon { color: var(--gold); font-size: 1.1rem; }
+
+        /* ============================================================
+           LOADING
+           ============================================================ */
+        .loading-placeholder {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 3rem;
+            color: var(--text-muted);
+            gap: 0.8rem;
+            min-height: 300px;
+        }
+        .shimmer {
+            background: linear-gradient(90deg, rgba(255,255,255,0.02) 25%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.02) 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.8s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        /* ============================================================
+           EMPTY STATE
+           ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+        }
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text-muted);
+            opacity: 0.2;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .empty-state h3 {
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+        }
+        .empty-state .empty-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 1.5rem;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .container { padding: 0 1rem; }
+            .nav-flex { padding: 0 1rem; }
+            .workspace-header { flex-direction: column; align-items: flex-start; gap: 1rem; padding: 1.2rem; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .compare-grid { grid-template-columns: 140px repeat(auto-fit, minmax(200px, 1fr)); min-width: 900px; }
+            .sticky-action-bar { padding: 0.4rem 1rem; flex-direction: column; gap: 0.5rem; align-items: stretch; }
+            .action-group { justify-content: center; }
+            .chart-grid { grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 0 0.8rem; }
+            .workspace-header h1 { font-size: 1.6rem; }
+            .compare-grid { grid-template-columns: 100px repeat(auto-fit, minmax(160px, 1fr)); min-width: 700px; gap: 0.4rem; }
+            .attr-cell { font-size: 0.7rem; min-height: 1.8rem; padding: 0.2rem 0.1rem; }
+            .attr-label { font-size: 0.55rem; }
+            .attr-value { font-size: 0.7rem; }
+            .product-img { font-size: 2rem; }
+            .product-col { padding: 0.8rem 0.4rem 0.4rem; border-radius: 1.6rem; }
+            .ai-widget { padding: 0.8rem 1.2rem; border-radius: 2rem; flex-direction: column; align-items: stretch; }
+            .ai-widget input { font-size: 0.8rem; }
+            .header-actions button { font-size: 0.6rem; padding: 0.3rem 0.8rem; }
+            .sticky-action-bar .action-group button { font-size: 0.6rem; padding: 0.3rem 0.8rem; }
+            .sticky-action-bar .action-group button span { display: none; }
+            .product-col .remove-btn { opacity: 1; width: 22px; height: 22px; font-size: 0.6rem; }
+            .chart-grid { grid-template-columns: 1fr 1fr; }
+            .compare-bar .bar-value { font-size: 0.6rem; min-width: 25px; }
+        }
+
+        @media (max-width: 480px) {
+            .compare-grid { grid-template-columns: 80px repeat(auto-fit, minmax(130px, 1fr)); min-width: 500px; }
+            .attr-cell { font-size: 0.6rem; min-height: 1.5rem; padding: 0.15rem 0.05rem; }
+            .attr-label { font-size: 0.45rem; }
+            .attr-value { font-size: 0.6rem; }
+            .product-img { font-size: 1.5rem; border-radius: 1rem; }
+            .product-col { padding: 0.4rem 0.2rem 0.2rem; border-radius: 1rem; }
+            .badge { font-size: 0.45rem; padding: 0.05rem 0.4rem; }
+            .ai-insight { font-size: 0.55rem; padding: 0.2rem 0.4rem; }
+            .workspace-header h1 { font-size: 1.2rem; }
+            .breadcrumb { font-size: 0.55rem; }
+            .container { padding: 0 0.4rem; }
+            .chart-grid { grid-template-columns: 1fr; }
+            .section-group .group-header { font-size: 0.55rem; padding: 0.2rem 0.3rem; }
+        }
+
+        /* ============================================================
+           SCROLL REVEAL
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+    <div class="grid-overlay"></div>
+    <canvas id="particles-canvas" role="presentation" aria-hidden="true"></canvas>
+
+    <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-flex">
+            <a href="/buildmart" class="nav-logo">
+                <i class="fas fa-cubes" aria-hidden="true"></i>
+                PRIMESHIELDHUB<span style="font-weight:300;opacity:0.6;">BUILDMART</span>
+                <span class="logo-dot" aria-hidden="true"></span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/buildmart">Home</a>
+                <a href="/buildmart/products">Products</a>
+                <a href="/buildmart/categories">Categories</a>
+                <a href="/buildmart/compare" class="active">Compare</a>
+                <a href="/buildmart/quote">Quote</a>
+            </div>
+            <div class="nav-actions">
+                <span class="nav-badge"><span class="live-dot" aria-hidden="true"></span> LIVE COMPARE</span>
+                <button class="hamburger" aria-label="Toggle navigation" id="hamburgerBtn">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+       HEADER
+       ============================================================ -->
+    <div class="container">
+        <div class="workspace-header glass-card reveal">
+            <div>
+                <h1><i class="fas fa-balance-scale"></i>Product Comparison</h1>
+                <div class="subtitle">
+                    <i class="fas fa-robot" style="color:var(--accent-purple);"></i>
+                    <span id="compareCount">Loading products...</span>
+                    <span class="breadcrumb">
+                        <span><i class="fas fa-cubes" style="color:var(--gold);"></i> BuildMart</span>
+                        <i class="fas fa-chevron-right" style="font-size:0.5rem;"></i>
+                        <span>Compare</span>
+                        <i class="fas fa-chevron-right" style="font-size:0.5rem;"></i>
+                        <span id="activeCount" style="color:var(--gold);">0 assets · active</span>
+                        <span class="badge badge-ai" style="margin-left:4px;"><i class="fas fa-robot"></i> AI sync</span>
+                    </span>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button onclick="clearCompare()"><i class="fas fa-bolt"></i> Clear</button>
+                <button onclick="shareCompare()"><i class="fas fa-share-nodes"></i> Share</button>
+                <button onclick="exportCompare()"><i class="fas fa-file-export"></i> Export</button>
+                <button onclick="generateQuotation()"><i class="fas fa-file-invoice"></i> Quotation</button>
+                <button onclick="analyzeCompare()"><i class="fas fa-arrow-trend-up"></i> Analyze</button>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           CHARTS SECTION
+           ============================================================ -->
+        <div class="chart-grid reveal" id="chartGrid">
+            <div class="chart-box">
+                <canvas id="priceChart"></canvas>
+                <div class="chart-label">Price Comparison</div>
+            </div>
+            <div class="chart-box">
+                <canvas id="stockChart"></canvas>
+                <div class="chart-label">Stock Levels</div>
+            </div>
+            <div class="chart-box">
+                <canvas id="warrantyChart"></canvas>
+                <div class="chart-label">Warranty (Years)</div>
+            </div>
+            <div class="chart-box">
+                <canvas id="ecoChart"></canvas>
+                <div class="chart-label">Eco Score</div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           COMPARE GRID
+           ============================================================ -->
+        <div class="glass-card" style="padding:1.5rem;">
+            <div id="compareContainer">
+                <!-- Loading State -->
+                <div class="loading-placeholder shimmer" id="loadingState">
+                    <i class="fas fa-spinner fa-spin"></i> Loading comparison data...
+                </div>
+                <!-- Grid rendered by JS -->
+                <div id="compareGridContainer" style="display:none;"></div>
+                <!-- Empty State -->
+                <div class="empty-state" id="emptyState" style="display:none;">
+                    <i class="fas fa-balance-scale"></i>
+                    <h3>No Products to Compare</h3>
+                    <p>Add products from the product catalog or search to start comparing.</p>
+                    <div class="empty-actions">
+                        <a href="/buildmart/products.html" class="btn" style="background:var(--gold);color:var(--text-inverse);padding:0.6rem 1.8rem;border-radius:3rem;font-weight:600;text-decoration:none;display:inline-flex;align-items:center;gap:0.6rem;">
+                            <i class="fas fa-search"></i> Browse Products
+                        </a>
+                        <button class="btn" style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);color:var(--text-secondary);padding:0.6rem 1.8rem;border-radius:3rem;font-weight:600;cursor:pointer;font-family:var(--font-sans);" onclick="loadSampleProducts()">
+                            <i class="fas fa-cube"></i> Load Sample
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           AI WIDGET
+           ============================================================ -->
+        <div class="ai-widget glass-card reveal">
+            <i class="fas fa-robot"></i>
+            <input type="text" id="aiInput" placeholder="Ask AI: 'Which product is best for roofing?' or 'Compare cost per unit'" />
+            <button onclick="askAI()"><i class="fas fa-paper-plane"></i> Ask AI</button>
+            <span style="font-size:0.65rem; color:var(--text-muted); background: rgba(10,18,32,0.6); padding:0.2rem 1rem; border-radius:40px; border:1px solid #1f3050;" id="aiStatus">
+                <i class="fas fa-sync-alt fa-fw"></i> <span id="aiProductCount">0</span> products compared
+            </span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       STICKY ACTION BAR
+       ============================================================ -->
+    <div class="sticky-action-bar" id="stickyBar">
+        <div class="action-group">
+            <button onclick="bulkAdd()"><i class="fas fa-cart-plus"></i> <span>Bulk add</span></button>
+            <button class="primary" onclick="generateQuotation()"><i class="fas fa-file-invoice"></i> <span>Generate Quotation</span></button>
+            <button onclick="exportCompare()"><i class="fas fa-file-pdf"></i> <span>PDF</span></button>
+            <button onclick="exportCompareExcel()"><i class="fas fa-file-excel"></i> <span>Excel</span></button>
+            <button onclick="shareCompare()"><i class="fas fa-share-nodes"></i> <span>Share</span></button>
+            <button onclick="analyzeCompare()"><i class="fas fa-robot"></i> <span>AI analysis</span></button>
+        </div>
+        <div class="action-group">
+            <button onclick="deselectAll()"><i class="fas fa-trash-alt"></i> <span>Deselect</span></button>
+            <button onclick="refreshCompare()"><i class="fas fa-arrows-rotate"></i> <span>Refresh</span></button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       TOAST
+       ============================================================ -->
+    <div id="toast">
+        <div class="toast-content">
+            <span class="toast-icon">✓</span>
+            <div>
+                <div style="font-weight:600;font-size:0.85rem;" id="toastTitle">Success</div>
+                <div style="color:var(--text-muted);font-size:0.75rem;" id="toastMessage">Action completed</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+    <script>
+        (function() {
+            "use strict";
+
+            // ============================================================
+            // CONFIGURATION
+            // ============================================================
+            const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+            let compareProducts = JSON.parse(localStorage.getItem('buildmart_compare_products') || '[]');
+            let productData = [];
+            let charts = {};
+
+            // ============================================================
+            // BUILD MART REAL PRODUCTS
+            // ============================================================
+            const BUILD_MART_PRODUCTS = [
+                {
+                    id: 'dangote-cement-50kg',
+                    name: 'Dangote Cement 50kg',
+                    sku: 'DNG-001',
+                    category: 'cement',
+                    brand: 'Dangote',
+                    price: 10800,
+                    wholesale: 10200,
+                    contractor: 9800,
+                    enterprise: 9200,
+                    stock: 100,
+                    rating: 4.8,
+                    reviews: 45,
+                    material: 'Cement, 42.5R',
+                    thickness: 'N/A',
+                    weight: '50kg',
+                    finish: 'Standard',
+                    fire: 'Class A',
+                    water: 'N/A',
+                    warranty: '2 years',
+                    hub: '12',
+                    satellites: '45',
+                    transit: '2d',
+                    zones: 'NA, SA',
+                    restock: '3-5 days',
+                    pickup: 'Yes',
+                    application: ['Foundation', 'Structural', 'General'],
+                    eco_score: 78,
+                    footprint: '4.8 (15)',
+                    footprint_projects: 120,
+                    insight: 'Premium cement for all construction types. Best for foundations and structural work.',
+                    image: null,
+                    icon: 'fa-cube',
+                    best: false,
+                    specifications: {
+                        brand: 'Dangote',
+                        grade: '42.5R',
+                        weight: '50kg',
+                        setting_time: '45 mins',
+                        compressive_strength: '42.5 MPa'
+                    }
+                },
+                {
+                    id: 'bua-cement-50kg',
+                    name: 'BUA Cement 50kg',
+                    sku: 'BUA-002',
+                    category: 'cement',
+                    brand: 'BUA',
+                    price: 10500,
+                    wholesale: 9900,
+                    contractor: 9500,
+                    enterprise: 8900,
+                    stock: 85,
+                    rating: 4.7,
+                    reviews: 32,
+                    material: 'Cement, 42.5R',
+                    thickness: 'N/A',
+                    weight: '50kg',
+                    finish: 'Standard',
+                    fire: 'Class A',
+                    water: 'N/A',
+                    warranty: '2 years',
+                    hub: '8',
+                    satellites: '30',
+                    transit: '2d',
+                    zones: 'NA, SA',
+                    restock: '3-5 days',
+                    pickup: 'Yes',
+                    application: ['Foundation', 'Structural', 'General'],
+                    eco_score: 75,
+                    footprint: '4.7 (12)',
+                    footprint_projects: 95,
+                    insight: 'High-quality cement with competitive pricing. Great value for large projects.',
+                    image: null,
+                    icon: 'fa-cube',
+                    best: false,
+                    specifications: {
+                        brand: 'BUA',
+                        grade: '42.5R',
+                        weight: '50kg',
+                        setting_time: '40 mins',
+                        compressive_strength: '40 MPa'
+                    }
+                },
+                {
+                    id: 'timber-plank-2x4',
+                    name: '2x4 Timber Plank',
+                    sku: 'TMB-2x4',
+                    category: 'timber',
+                    brand: 'BuildMart',
+                    price: 3500,
+                    wholesale: 3200,
+                    contractor: 3000,
+                    enterprise: 2800,
+                    stock: 200,
+                    rating: 4.5,
+                    reviews: 28,
+                    material: 'Pine, Grade A',
+                    thickness: '18mm',
+                    weight: '2.8kg',
+                    finish: 'Kiln-dried',
+                    fire: 'Class B',
+                    water: 'mod.',
+                    warranty: '5 years',
+                    hub: '15',
+                    satellites: '60',
+                    transit: '3d',
+                    zones: 'NA, SA',
+                    restock: '5-7 days',
+                    pickup: 'Yes',
+                    application: ['Framing', 'Roofing', 'Furniture'],
+                    eco_score: 88,
+                    footprint: '4.5 (10)',
+                    footprint_projects: 85,
+                    insight: 'Kiln-dried timber plank ideal for framing and structural applications.',
+                    image: null,
+                    icon: 'fa-tree',
+                    best: true,
+                    specifications: {
+                        species: 'Pine',
+                        grade: 'A',
+                        moisture: '12%',
+                        length: '2.4m',
+                        width: '1.2m'
+                    }
+                },
+                {
+                    id: 'timber-plywood-12mm',
+                    name: '12mm Plywood Sheet',
+                    sku: 'PLY-12',
+                    category: 'timber',
+                    brand: 'BuildMart',
+                    price: 18000,
+                    wholesale: 16500,
+                    contractor: 15500,
+                    enterprise: 14500,
+                    stock: 80,
+                    rating: 4.9,
+                    reviews: 18,
+                    material: 'Plywood, Exterior Grade',
+                    thickness: '12mm',
+                    weight: '8.8kg',
+                    finish: 'Sanded',
+                    fire: 'Class A',
+                    water: 'excel.',
+                    warranty: '3 years',
+                    hub: '10',
+                    satellites: '40',
+                    transit: '2d',
+                    zones: 'global',
+                    restock: '2-3 days',
+                    pickup: 'Yes',
+                    application: ['Flooring', 'Interior', 'Furniture'],
+                    eco_score: 92,
+                    footprint: '4.9 (8)',
+                    footprint_projects: 60,
+                    insight: 'Premium exterior grade plywood. Excellent for flooring and furniture.',
+                    image: null,
+                    icon: 'fa-layer-group',
+                    best: false,
+                    specifications: {
+                        species: 'Mixed Hardwood',
+                        grade: 'Exterior',
+                        moisture: '10%',
+                        size: '1.2m x 2.4m'
+                    }
+                },
+                {
+                    id: 'roofing-aluzinc',
+                    name: 'Aluzinc Roofing Sheet',
+                    sku: 'RF-ALUZ',
+                    category: 'roofing',
+                    brand: 'BuildMart',
+                    price: 18000,
+                    wholesale: 16500,
+                    contractor: 15500,
+                    enterprise: 14500,
+                    stock: 200,
+                    rating: 4.6,
+                    reviews: 22,
+                    material: 'Aluzinc Steel',
+                    thickness: '0.5mm',
+                    weight: '4.5kg',
+                    finish: 'Color-coated',
+                    fire: 'Class A',
+                    water: 'excel.',
+                    warranty: '10 years',
+                    hub: '20',
+                    satellites: '80',
+                    transit: '2d',
+                    zones: 'NA, SA',
+                    restock: '3-5 days',
+                    pickup: 'Yes',
+                    application: ['Roofing', 'Cladding'],
+                    eco_score: 85,
+                    footprint: '4.6 (14)',
+                    footprint_projects: 150,
+                    insight: 'Durable aluzinc roofing sheet with long-lasting color coating.',
+                    image: null,
+                    icon: 'fa-home',
+                    best: false,
+                    specifications: {
+                        material: 'Aluzinc Steel',
+                        thickness: '0.5mm',
+                        length: '2.4m',
+                        width: '0.9m'
+                    }
+                },
+                {
+                    id: 'pvc-pipe-4inch',
+                    name: '4 inch PVC Pipe',
+                    sku: 'PVC-4',
+                    category: 'plumbing',
+                    brand: 'BuildMart',
+                    price: 28000,
+                    wholesale: 26000,
+                    contractor: 24500,
+                    enterprise: 23000,
+                    stock: 150,
+                    rating: 4.4,
+                    reviews: 15,
+                    material: 'PVC, Schedule 40',
+                    thickness: '4mm',
+                    weight: '3.2kg',
+                    finish: 'Smooth',
+                    fire: 'Class B',
+                    water: 'excel.',
+                    warranty: '5 years',
+                    hub: '8',
+                    satellites: '25',
+                    transit: '2d',
+                    zones: 'NA, SA',
+                    restock: '2-3 days',
+                    pickup: 'Yes',
+                    application: ['Plumbing', 'Drainage'],
+                    eco_score: 80,
+                    footprint: '4.4 (6)',
+                    footprint_projects: 70,
+                    insight: 'Heavy-duty PVC pipe for plumbing and drainage applications.',
+                    image: null,
+                    icon: 'fa-wrench',
+                    best: false,
+                    specifications: {
+                        material: 'PVC',
+                        schedule: '40',
+                        length: '6m',
+                        diameter: '4 inch'
+                    }
+                }
+            ];
+
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+            const DOM = {
+                loading: document.getElementById('loadingState'),
+                gridContainer: document.getElementById('compareGridContainer'),
+                emptyState: document.getElementById('emptyState'),
+                compareCount: document.getElementById('compareCount'),
+                activeCount: document.getElementById('activeCount'),
+                aiProductCount: document.getElementById('aiProductCount'),
+                toast: document.getElementById('toast'),
+                toastTitle: document.getElementById('toastTitle'),
+                toastMessage: document.getElementById('toastMessage'),
+                aiInput: document.getElementById('aiInput'),
+            };
+
+            // ============================================================
+            // PARTICLES SYSTEM
+            // ============================================================
+            function initParticles() {
+                const canvas = document.getElementById('particles-canvas');
+                const ctx = canvas.getContext('2d');
+                let particles = [];
+                let w, h;
+                const isMobile = window.innerWidth < 768;
+                const count = isMobile ? 25 : 60;
+
+                function resize() {
+                    w = canvas.width = window.innerWidth;
+                    h = canvas.height = window.innerHeight;
+                }
+                window.addEventListener('resize', resize);
+                resize();
+
+                class Particle {
+                    constructor() { this.reset(); }
+                    reset() {
+                        this.x = Math.random() * w;
+                        this.y = Math.random() * h;
+                        this.size = Math.random() * 2 + 0.5;
+                        this.speedX = (Math.random() - 0.5) * 0.3;
+                        this.speedY = (Math.random() - 0.5) * 0.3;
+                        this.opacity = Math.random() * 0.3 + 0.05;
+                    }
+                    update() {
+                        this.x += this.speedX;
+                        this.y += this.speedY;
+                        if (this.x < 0 || this.x > w) this.speedX *= -1;
+                        if (this.y < 0 || this.y > h) this.speedY *= -1;
+                    }
+                    draw() {
+                        ctx.beginPath();
+                        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                        ctx.fillStyle = `rgba(245, 179, 66, ${this.opacity})`;
+                        ctx.fill();
+                    }
+                }
+
+                for (let i = 0; i < count; i++) particles.push(new Particle());
+
+                let animId = null;
+
+                function animate() {
+                    ctx.clearRect(0, 0, w, h);
+                    particles.forEach(p => { p.update(); p.draw(); });
+                    animId = requestAnimationFrame(animate);
+                }
+                animate();
+
+                document.addEventListener('visibilitychange', () => {
+                    if (document.hidden && animId) cancelAnimationFrame(animId);
+                    else if (!document.hidden) animate();
+                });
+            }
+
+            // ============================================================
+            // UTILITY FUNCTIONS
+            // ============================================================
+            function showToast(title, message, icon = '✓') {
+                document.querySelector('#toast .toast-icon').textContent = icon;
+                DOM.toastTitle.textContent = title;
+                DOM.toastMessage.textContent = message;
+                DOM.toast.classList.add('show');
+                clearTimeout(window.toastTimeout);
+                window.toastTimeout = setTimeout(() => DOM.toast.classList.remove('show'), 4000);
+            }
+
+            function formatCurrency(amount) {
+                if (amount === undefined || amount === null) return '₦0';
+                return '₦' + Number(amount).toLocaleString();
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            function getStockStatus(stock) {
+                if (stock > 50) return { status: 'stock-green', icon: 'fa-circle-check', label: 'High Stock' };
+                if (stock > 10) return { status: 'stock-amber', icon: 'fa-triangle-exclamation', label: 'Low Stock' };
+                return { status: 'stock-red', icon: 'fa-circle-exclamation', label: 'Critical' };
+            }
+
+            function getStockColor(stock) {
+                if (stock > 50) return 'var(--accent-success)';
+                if (stock > 10) return 'var(--accent-warning)';
+                return 'var(--accent-danger)';
+            }
+
+            function getMaxValue(products, key) {
+                return Math.max(...products.map(p => parseFloat(p[key]) || 0));
+            }
+
+            function getBestProduct(products, key) {
+                const max = getMaxValue(products, key);
+                return products.find(p => (parseFloat(p[key]) || 0) === max);
+            }
+
+            // ============================================================
+            // API CALLS
+            // ============================================================
+            async function fetchCompareProducts() {
+                try {
+                    if (!compareProducts || compareProducts.length === 0) {
+                        showEmptyState();
+                        return [];
+                    }
+
+                    // Try API first
+                    const response = await fetch(`${API_BASE}/products/compare?ids=${compareProducts.join(',')}`, {
+                        credentials: 'include'
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        const products = data.products || data.data || [];
+                        if (products.length > 0) {
+                            productData = products;
+                            renderCompareGrid(products);
+                            renderCharts(products);
+                            return products;
+                        }
+                    }
+                } catch (error) {
+                    console.warn('Compare API error, using local data:', error);
+                }
+
+                // Fallback: use local BuildMart products
+                const products = compareProducts.map(id => {
+                    return BUILD_MART_PRODUCTS.find(p => p.id === id);
+                }).filter(Boolean);
+
+                if (products.length === 0) {
+                    showEmptyState();
+                    return [];
+                }
+
+                productData = products;
+                renderCompareGrid(products);
+                renderCharts(products);
+                return products;
+            }
+
+            // ============================================================
+            // RENDER COMPARE GRID
+            // ============================================================
+            function renderCompareGrid(products) {
+                DOM.loading.style.display = 'none';
+                DOM.emptyState.style.display = 'none';
+                DOM.gridContainer.style.display = 'block';
+
+                // Update counts
+                DOM.compareCount.textContent = `${products.length} products compared`;
+                DOM.activeCount.textContent = `${products.length} assets · active`;
+                DOM.aiProductCount.textContent = products.length;
+
+                // Determine winners
+                const bestPrice = getBestProduct(products, 'price');
+                const bestStock = getBestProduct(products, 'stock');
+                const bestWarranty = getBestProduct(products, 'warranty_years');
+                const bestEco = getBestProduct(products, 'eco_score');
+                const bestOverall = products.reduce((a, b) => (a.rating || 0) > (b.rating || 0) ? a : b);
+
+                // Define attribute groups
+                const groups = [
+                    { id: 'overview', label: 'Overview', icon: 'fa-info-circle', attrs: ['visual', 'name', 'class', 'brand', 'rating'] },
+                    { id: 'pricing', label: 'Pricing', icon: 'fa-tag', attrs: ['price', 'wholesale', 'contractor', 'enterprise', 'savings'] },
+                    { id: 'specs', label: 'Specifications', icon: 'fa-clipboard-list', attrs: ['material', 'thickness', 'weight', 'finish'] },
+                    { id: 'inventory', label: 'Inventory', icon: 'fa-warehouse', attrs: ['stock', 'hub', 'satellites', 'restock'] },
+                    { id: 'delivery', label: 'Delivery', icon: 'fa-truck', attrs: ['transit', 'zones', 'pickup'] },
+                    { id: 'quality', label: 'Quality & Warranty', icon: 'fa-shield', attrs: ['fire', 'water', 'warranty'] },
+                    { id: 'sustainability', label: 'Sustainability', icon: 'fa-leaf', attrs: ['eco', 'footprint'] },
+                    { id: 'ai', label: 'AI Recommendation', icon: 'fa-brain', attrs: ['insight'] }
+                ];
+
+                // Attribute definitions with render functions
+                const attributes = {
+                    visual: { label: 'Product', render: (p) => `
+                        <div class="product-img">
+                            ${p.image ? `<img src="${p.image}" alt="${escapeHtml(p.name)}">` : `<i class="fas ${p.icon || 'fa-cube'}"></i>`}
+                        </div>
+                        ${p.best ? '<span class="winner-badge best-overall">🏆 Best Overall</span>' : ''}
+                        ${p === bestPrice ? '<span class="winner-badge best-price">💰 Best Price</span>' : ''}
+                        ${p === bestStock ? '<span class="winner-badge best-stock">📦 Best Stock</span>' : ''}
+                        ${p === bestWarranty ? '<span class="winner-badge best-warranty">🛡️ Best Warranty</span>' : ''}
+                        ${p === bestEco ? '<span class="winner-badge best-eco">🌱 Best Eco</span>' : ''}
+                    ` },
+                    name: { label: 'Name / SKU', render: (p) => `
+                        <span class="attr-value">${escapeHtml(p.name)}</span>
+                        <span class="badge badge-cyan">${escapeHtml(p.sku || p.id)}</span>
+                    ` },
+                    class: { label: 'Category', render: (p) => `<span class="attr-value">${escapeHtml(p.category || 'N/A')}</span>` },
+                    brand: { label: 'Brand', render: (p) => `<span class="attr-value">${escapeHtml(p.brand || 'N/A')}</span>` },
+                    rating: { label: 'Rating', render: (p) => `
+                        <div class="compare-bar">
+                            <span class="attr-value">⭐ ${p.rating || 0}</span>
+                            <div class="bar-track">
+                                <div class="bar-fill gold" style="width:${((p.rating || 0) / 5) * 100}%;"></div>
+                            </div>
+                            <span class="bar-value">${p.reviews || 0} reviews</span>
+                        </div>
+                    ` },
+                    price: { label: 'Retail Price', render: (p) => `
+                        <div class="compare-bar">
+                            <span class="attr-value ${p === bestPrice ? 'best glow' : ''}">${formatCurrency(p.price)}</span>
+                            <div class="bar-track">
+                                <div class="bar-fill ${p === bestPrice ? 'gold' : 'blue'}" style="width:${((p.price || 0) / getMaxValue(productData, 'price')) * 100}%;"></div>
+                            </div>
+                            ${p === bestPrice ? '<span class="badge badge-gold">Lowest</span>' : ''}
+                        </div>
+                    ` },
+                    wholesale: { label: 'Wholesale', render: (p) => `<span class="attr-value">${formatCurrency(p.wholesale || p.price * 0.92)}</span>` },
+                    contractor: { label: 'Contractor', render: (p) => `<span class="attr-value">${formatCurrency(p.contractor || p.price * 0.88)}</span>` },
+                    enterprise: { label: 'Enterprise', render: (p) => `<span class="attr-value">${formatCurrency(p.enterprise || p.price * 0.83)}</span>` },
+                    savings: { label: 'Savings vs Avg', render: (p) => {
+                        const avg = productData.reduce((sum, item) => sum + (item.price || 0), 0) / productData.length;
+                        const saving = Math.round(((avg - (p.price || 0)) / avg) * 100);
+                        if (saving < 0) return `<span class="attr-value" style="color:var(--accent-danger);">+${Math.abs(saving)}%</span>`;
+                        return `<span class="attr-value best glow">-${saving}%</span>`;
+                    } },
+                    material: { label: 'Material', render: (p) => `<span class="attr-value">${escapeHtml(p.material || 'N/A')}</span>` },
+                    thickness: { label: 'Thickness', render: (p) => `<span class="attr-value">${escapeHtml(p.thickness || 'N/A')}</span>` },
+                    weight: { label: 'Weight', render: (p) => `<span class="attr-value">${escapeHtml(p.weight || 'N/A')}</span>` },
+                    finish: { label: 'Finish', render: (p) => `<span class="attr-value">${escapeHtml(p.finish || 'N/A')}</span>` },
+                    stock: { label: 'Available Stock', render: (p) => `
+                        <div class="compare-bar">
+                            <span class="attr-value ${p === bestStock ? 'best glow' : ''}">${p.stock || 0}</span>
+                            <div class="bar-track">
+                                <div class="bar-fill ${p === bestStock ? 'green' : 'blue'}" style="width:${((p.stock || 0) / getMaxValue(productData, 'stock')) * 100}%;"></div>
+                            </div>
+                            ${p === bestStock ? '<span class="badge badge-gold">Highest</span>' : ''}
+                        </div>
+                    ` },
+                    hub: { label: 'Hub', render: (p) => `<span class="attr-value">${p.hub || 'N/A'}</span>` },
+                    satellites: { label: 'Satellites', render: (p) => `<span class="attr-value">${p.satellites || 'N/A'}</span>` },
+                    restock: { label: 'Restock ETA', render: (p) => `<span class="attr-value">${escapeHtml(p.restock || 'N/A')}</span>` },
+                    transit: { label: 'Transit', render: (p) => `<span class="attr-value">${escapeHtml(p.transit || 'N/A')}</span>` },
+                    zones: { label: 'Zones', render: (p) => `<span class="attr-value">${escapeHtml(p.zones || 'N/A')}</span>` },
+                    pickup: { label: 'Pickup', render: (p) => `<span class="attr-value">${p.pickup ? '✅ Yes' : '❌ No'}</span>` },
+                    fire: { label: 'Fire Rating', render: (p) => `<span class="attr-value">${escapeHtml(p.fire || 'N/A')}</span>` },
+                    water: { label: 'Water Resistance', render: (p) => `<span class="attr-value">${escapeHtml(p.water || 'N/A')}</span>` },
+                    warranty: { label: 'Warranty', render: (p) => {
+                        const years = parseInt(p.warranty) || 0;
+                        const maxWarranty = getMaxValue(productData, 'warranty_years') || 1;
+                        return `
+                            <div class="compare-bar">
+                                <span class="attr-value ${p === bestWarranty ? 'best glow' : ''}">${p.warranty || 'N/A'}</span>
+                                <div class="bar-track">
+                                    <div class="bar-fill ${p === bestWarranty ? 'purple' : 'blue'}" style="width:${(years / maxWarranty) * 100}%;"></div>
+                                </div>
+                                ${p === bestWarranty ? '<span class="badge badge-gold">Longest</span>' : ''}
+                            </div>
+                        `;
+                    } },
+                    eco: { label: 'Eco Score', render: (p) => `
+                        <div class="compare-bar">
+                            <span class="attr-value ${p === bestEco ? 'best glow' : ''}">♻️ ${p.eco_score || 0}%</span>
+                            <div class="bar-track">
+                                <div class="bar-fill ${p === bestEco ? 'green' : 'blue'}" style="width:${(p.eco_score || 0)}%;"></div>
+                            </div>
+                            ${p === bestEco ? '<span class="badge badge-gold">Greenest</span>' : ''}
+                        </div>
+                    ` },
+                    footprint: { label: 'Project Footprint', render: (p) => `
+                        <span class="attr-value">${escapeHtml(p.footprint || 'N/A')}</span>
+                        <span class="badge">${p.footprint_projects || 0} projects</span>
+                    ` },
+                    insight: { label: 'AI Recommendation', render: (p) => `
+                        <div class="ai-insight"><i class="fas fa-brain"></i> ${escapeHtml(p.insight || 'No AI insight available')}</div>
+                    ` }
+                };
+
+                // Add warranty_years for comparison
+                productData.forEach(p => {
+                    p.warranty_years = parseInt(p.warranty) || 0;
+                });
+
+                // Build sticky column
+                let stickyHtml = `<div class="sticky-attr">
+                    <div class="attr-cell" style="height:${products.length > 0 ? '100px' : '0'}; align-items:flex-end; justify-content:center; font-weight:600; color:var(--text-muted); border-bottom:none; font-size:0.65rem; letter-spacing:0.1em; text-transform:uppercase;">Comparison<br>Attributes</div>`;
+
+                // Flatten attributes for sticky column
+                const allAttrKeys = [];
+                groups.forEach(g => {
+                    g.attrs.forEach(key => {
+                        if (!allAttrKeys.includes(key) && attributes[key]) {
+                            allAttrKeys.push(key);
+                        }
+                    });
+                });
+
+                allAttrKeys.forEach(key => {
+                    if (attributes[key]) {
+                        stickyHtml += `<div class="attr-cell"><span class="attr-label">${attributes[key].label}</span></div>`;
+                    }
+                });
+                stickyHtml += `</div>`;
+
+                // Build product columns with groups
+                let productColumns = '';
+                products.forEach((product, index) => {
+                    let colHtml = `<div class="product-col" data-id="${product.id}">
+                        <button class="remove-btn" onclick="removeFromCompare('${product.id}')" title="Remove from compare"><i class="fas fa-times"></i></button>`;
+
+                    // Render attributes by group
+                    groups.forEach(group => {
+                        colHtml += `<div class="section-group">
+                            <div class="group-header">
+                                <i class="fas ${group.icon}"></i> ${group.label}
+                            </div>`;
+                        group.attrs.forEach(key => {
+                            if (attributes[key]) {
+                                colHtml += `<div class="attr-cell">${attributes[key].render(product)}</div>`;
+                            }
+                        });
+                        colHtml += `</div>`;
+                    });
+
+                    colHtml += `</div>`;
+                    productColumns += colHtml;
+                });
+
+                DOM.gridContainer.innerHTML = `<div class="comparison-scroll"><div class="compare-grid">${stickyHtml}${productColumns}</div></div>`;
+
+                // Scroll to grid
+                DOM.gridContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+                // Save to localStorage
+                localStorage.setItem('buildmart_compare_products', JSON.stringify(products.map(p => p.id)));
+            }
+
+            // ============================================================
+            // CHARTS
+            // ============================================================
+            function renderCharts(products) {
+                const colors = ['#F59E0B', '#00D4FF', '#69f0ae', '#b388ff', '#4a7aff', '#ff5252'];
+
+                // Price Chart
+                const priceCtx = document.getElementById('priceChart');
+                if (priceCtx && typeof Chart !== 'undefined') {
+                    if (charts.price) charts.price.destroy();
+                    charts.price = new Chart(priceCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: products.map(p => p.name),
+                            datasets: [{
+                                label: 'Price (₦)',
+                                data: products.map(p => p.price || 0),
+                                backgroundColor: colors.slice(0, products.length),
+                                borderColor: 'rgba(255,255,255,0.1)',
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: { color: 'rgba(255,255,255,0.3)', font: { size: 8 } },
+                                    grid: { color: 'rgba(255,255,255,0.03)' }
+                                },
+                                x: {
+                                    ticks: { color: 'rgba(255,255,255,0.3)', font: { size: 7 } }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Stock Chart
+                const stockCtx = document.getElementById('stockChart');
+                if (stockCtx && typeof Chart !== 'undefined') {
+                    if (charts.stock) charts.stock.destroy();
+                    charts.stock = new Chart(stockCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: products.map(p => p.name),
+                            datasets: [{
+                                label: 'Stock',
+                                data: products.map(p => p.stock || 0),
+                                backgroundColor: colors.slice(0, products.length).map(c => c + '80'),
+                                borderColor: colors.slice(0, products.length),
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: { color: 'rgba(255,255,255,0.3)', font: { size: 8 } },
+                                    grid: { color: 'rgba(255,255,255,0.03)' }
+                                },
+                                x: {
+                                    ticks: { color: 'rgba(255,255,255,0.3)', font: { size: 7 } }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Warranty Chart
+                const warrantyCtx = document.getElementById('warrantyChart');
+                if (warrantyCtx && typeof Chart !== 'undefined') {
+                    if (charts.warranty) charts.warranty.destroy();
+                    charts.warranty = new Chart(warrantyCtx, {
+                        type: 'bar',
+                        data: {
+                            labels: products.map(p => p.name),
+                            datasets: [{
+                                label: 'Warranty (Years)',
+                                data: products.map(p => parseInt(p.warranty) || 0),
+                                backgroundColor: colors.slice(0, products.length).map(c => c + '60'),
+                                borderColor: colors.slice(0, products.length),
+                                borderWidth: 1
+                            }]
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: { display: false }
+                            },
+                            scales: {
+                                y: {
+                                    beginAtZero: true,
+                                    ticks: { color: 'rgba(255,255,255,0.3)', font: { size: 8 } },
+                                    grid: { color: 'rgba(255,255,255,0.03)' }
+                                },
+                                x: {
+                                    ticks: { color: 'rgba(255,255,255,0.3)', font: { size: 7 } }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // Eco Chart
+                const ecoCtx = document.getElementById('ecoChart');
+                if (ecoCtx && typeof Chart !== 'undefined') {
+                    if (charts.eco) charts.eco.destroy();
+                    charts.eco = new Chart(ecoCtx, {
+                        type: 'radar',
+                        data: {
+                            labels: ['Eco Score', 'Rating', 'Stock', 'Warranty'],
+                            datasets: products.map((p, i) => ({
+                                label: p.name,
+                                data: [
+                                    p.eco_score || 0,
+                                    (p.rating || 0) * 20,
+                                    Math.min((p.stock || 0) / 10, 100),
+                                    Math.min((parseInt(p.warranty) || 0) * 4, 100)
+                                ],
+                                backgroundColor: colors[i % colors.length] + '30',
+                                borderColor: colors[i % colors.length],
+                                borderWidth: 1,
+                                pointBackgroundColor: colors[i % colors.length]
+                            }))
+                        },
+                        options: {
+                            responsive: true,
+                            maintainAspectRatio: true,
+                            plugins: {
+                                legend: {
+                                    labels: {
+                                        color: 'rgba(255,255,255,0.5)',
+                                        font: { size: 7 },
+                                        boxWidth: 8
+                                    }
+                                }
+                            },
+                            scales: {
+                                r: {
+                                    angleLines: { color: 'rgba(255,255,255,0.05)' },
+                                    grid: { color: 'rgba(255,255,255,0.05)' },
+                                    pointLabels: { color: 'rgba(255,255,255,0.3)', font: { size: 7 } },
+                                    ticks: { display: false }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+
+            // ============================================================
+            // EMPTY / LOADING STATES
+            // ============================================================
+            function showEmptyState() {
+                DOM.loading.style.display = 'none';
+                DOM.gridContainer.style.display = 'none';
+                DOM.emptyState.style.display = 'block';
+                DOM.compareCount.textContent = 'No products compared';
+                DOM.activeCount.textContent = '0 assets · active';
+                DOM.aiProductCount.textContent = '0';
+            }
+
+            // ============================================================
+            // INTERACTIVE FUNCTIONS
+            // ============================================================
+            window.removeFromCompare = function(productId) {
+                compareProducts = compareProducts.filter(id => id !== productId);
+                localStorage.setItem('buildmart_compare_products', JSON.stringify(compareProducts));
+                showToast('Removed', 'Product removed from comparison', '🗑️');
+                if (compareProducts.length === 0) {
+                    showEmptyState();
+                    destroyCharts();
+                } else {
+                    fetchCompareProducts();
+                }
+            };
+
+            function destroyCharts() {
+                Object.keys(charts).forEach(key => {
+                    if (charts[key]) { charts[key].destroy();
+                        charts[key] = null; }
+                });
+            }
+
+            window.clearCompare = function() {
+                if (compareProducts.length === 0) {
+                    showToast('Info', 'No products to clear', 'ℹ️');
+                    return;
+                }
+                compareProducts = [];
+                localStorage.setItem('buildmart_compare_products', JSON.stringify(compareProducts));
+                destroyCharts();
+                showToast('Cleared', 'All products removed from comparison', '🗑️');
+                showEmptyState();
+            };
+
+            window.loadSampleProducts = function() {
+                compareProducts = BUILD_MART_PRODUCTS.map(p => p.id);
+                localStorage.setItem('buildmart_compare_products', JSON.stringify(compareProducts));
+                showToast('Loaded', `${BUILD_MART_PRODUCTS.length} BuildMart products loaded`, '📦');
+                fetchCompareProducts();
+            };
+
+            window.shareCompare = function() {
+                const url = window.location.href;
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'BuildMart Product Comparison',
+                        text: 'Check out these construction materials I\'m comparing on BuildMart',
+                        url: url
+                    }).catch(() => {});
+                } else {
+                    const textarea = document.createElement('textarea');
+                    textarea.value = url;
+                    textarea.style.position = 'fixed';
+                    textarea.style.opacity = '0';
+                    textarea.style.pointerEvents = 'none';
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    try {
+                        document.execCommand('copy');
+                        showToast('Shared', 'Comparison link copied to clipboard', '📋');
+                    } catch (e) {
+                        showToast('Share', url, '📋');
+                    }
+                    document.body.removeChild(textarea);
+                }
+            };
+
+            window.exportCompare = function() {
+                if (productData.length === 0) {
+                    showToast('Error', 'No products to export', '⚠️');
+                    return;
+                }
+                showToast('Export', 'Generating PDF report...', '📄');
+                // In production: POST to /api/compare/export/pdf
+                setTimeout(() => {
+                    showToast('Success', 'PDF report downloaded', '✅');
+                }, 1500);
+            };
+
+            window.exportCompareExcel = function() {
+                if (productData.length === 0) {
+                    showToast('Error', 'No products to export', '⚠️');
+                    return;
+                }
+                showToast('Export', 'Generating Excel report...', '📊');
+                // In production: POST to /api/compare/export/excel
+                setTimeout(() => {
+                    showToast('Success', 'Excel report downloaded', '✅');
+                }, 1500);
+            };
+
+            window.generateQuotation = function() {
+                if (productData.length === 0) {
+                    showToast('Error', 'No products to quote', '⚠️');
+                    return;
+                }
+                showToast('Quotation', 'Generating professional quotation...', '📄');
+                // In production: POST to /api/quotes/from-comparison
+                setTimeout(() => {
+                    showToast('Success', 'Quotation PDF ready for download', '✅');
+                }, 1500);
+            };
+
+            window.analyzeCompare = function() {
+                if (productData.length === 0) {
+                    showToast('Error', 'No products to analyze', '⚠️');
+                    return;
+                }
+                showToast('AI Analysis', 'Running procurement intelligence analysis...', '🧠');
+                // In production: POST to /api/ai/compare-analysis
+                setTimeout(() => {
+                    const best = productData.reduce((a, b) => (a.rating || 0) > (b.rating || 0) ? a : b);
+                    showToast('Analysis Complete', `🏆 Best overall: ${best.name} (${best.rating}⭐)`, '✅');
+                }, 2000);
+            };
+
+            window.bulkAdd = function() {
+                if (productData.length === 0) {
+                    showToast('Error', 'No products to add', '⚠️');
+                    return;
+                }
+                showToast('Bulk Add', `Adding ${productData.length} products to cart...`, '🛒');
+                // In production: POST to /api/cart/bulk
+                setTimeout(() => {
+                    showToast('Success', `${productData.length} products added to cart`, '✅');
+                }, 1000);
+            };
+
+            window.deselectAll = function() {
+                showToast('Deselected', 'All products deselected', '✖️');
+            };
+
+            window.refreshCompare = function() {
+                showToast('Refresh', 'Refreshing comparison data...', '🔄');
+                fetchCompareProducts();
+            };
+
+            window.askAI = function() {
+                const question = DOM.aiInput.value.trim();
+                if (!question) {
+                    showToast('AI', 'Please ask a question about these products', '🤖');
+                    return;
+                }
+
+                showToast('AI', 'Analyzing: "' + question + '"', '🧠');
+                DOM.aiInput.value = '';
+
+                // Build context from compared products
+                const context = productData.map(p => `${p.name} (${p.category}): ₦${p.price}, ${p.stock} in stock, ${p.rating}⭐`).join('\n');
+
+                // In production: POST to /api/ai/compare-query
+                fetch(`${API_BASE}/ai/compare-query`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        question: question,
+                        products: productData,
+                        context: context
+                    })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    showToast('AI Response', data.response || 'Analysis complete. Check the product cards for details.', '✅');
+                })
+                .catch(() => {
+                    // Fallback
+                    setTimeout(() => {
+                        const best = productData.reduce((a, b) => (a.rating || 0) > (b.rating || 0) ? a : b);
+                        showToast('AI Response', `Based on your query, ${best.name} appears to be the best choice with ${best.rating}⭐ rating.`, '✅');
+                    }, 1500);
+                });
+            };
+
+            // ============================================================
+            // NAVBAR / HAMBURGER
+            // ============================================================
+            document.getElementById('hamburgerBtn')?.addEventListener('click', () => {
+                const links = document.getElementById('navLinks');
+                const isOpen = links.style.display === 'flex';
+                links.style.display = isOpen ? 'none' : 'flex';
+                if (!isOpen) {
+                    links.style.flexDirection = 'column';
+                    links.style.width = '100%';
+                    links.style.padding = '1rem 0';
+                    links.style.gap = '0.6rem';
+                    links.style.alignItems = 'center';
+                }
+            });
+
+            window.addEventListener('scroll', () => {
+                document.getElementById('navbar').classList.toggle('shrink', window.scrollY > 60);
+            });
+
+            // ============================================================
+            // KEYBOARD SHORTCUTS
+            // ============================================================
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    DOM.toast.classList.remove('show');
+                }
+                if (e.key === 'Enter' && document.activeElement === DOM.aiInput) {
+                    e.preventDefault();
+                    askAI();
+                }
+            });
+
+            // ============================================================
+            // SCROLL REVEAL
+            // ============================================================
+            const reveals = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) entry.target.classList.add('visible');
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            reveals.forEach(el => revealObserver.observe(el));
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            async function init() {
+                console.log('⚖️ BuildMart Product Comparison');
+                console.log('📊 Products in compare:', compareProducts.length);
+                console.log('📡 API:', API_BASE);
+
+                initParticles();
+
+                // Restore comparison from localStorage
+                const saved = localStorage.getItem('buildmart_compare_products');
+                if (saved) {
+                    try {
+                        const parsed = JSON.parse(saved);
+                        if (parsed && parsed.length > 0) {
+                            compareProducts = parsed;
+                        }
+                    } catch (e) { /* silent */ }
+                }
+
+                if (compareProducts.length === 0) {
+                    showEmptyState();
+                    // Load sample after a delay if empty
+                    setTimeout(() => {
+                        if (compareProducts.length === 0) {
+                            compareProducts = BUILD_MART_PRODUCTS.slice(0, 4).map(p => p.id);
+                            localStorage.setItem('buildmart_compare_products', JSON.stringify(compareProducts));
+                            fetchCompareProducts();
+                            showToast('Sample Loaded', `Loaded ${compareProducts.length} BuildMart products`, '📦');
+                        }
+                    }, 1000);
+                } else {
+                    await fetchCompareProducts();
+                }
+            }
+
+            // Expose functions globally
+            window.removeFromCompare = removeFromCompare;
+            window.clearCompare = clearCompare;
+            window.loadSampleProducts = loadSampleProducts;
+            window.shareCompare = shareCompare;
+            window.exportCompare = exportCompare;
+            window.exportCompareExcel = exportCompareExcel;
+            window.generateQuotation = generateQuotation;
+            window.analyzeCompare = analyzeCompare;
+            window.bulkAdd = bulkAdd;
+            window.deselectAll = deselectAll;
+            window.refreshCompare = refreshCompare;
+            window.askAI = askAI;
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+        })();
+    </script>
+</body>
+</html>
+

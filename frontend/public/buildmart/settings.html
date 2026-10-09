@@ -1,0 +1,1959 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="description" content="BuildMart Admin Center - Enterprise workspace management with real-time settings, user governance, and complete system control." />
+    <meta name="theme-color" content="#06080b" />
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api" />
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}" />
+    
+    <title>BuildMart · Admin Center</title>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "BuildMart Admin Center",
+        "description": "Enterprise workspace management with real-time settings, user governance, and complete system control.",
+        "url": "https://primeshieldhub.com/buildmart/settings.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "PRIMESHIELDHUB BUILDMART",
+            "url": "https://primeshieldhub.com/buildmart"
+        }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES — GOLD EDITION
+           ============================================================ */
+        :root {
+            --gold: #f5d76e;
+            --gold-light: #f5e6b0;
+            --gold-dark: #b8860b;
+            --gold-glow: rgba(212, 168, 67, 0.15);
+            --gold-glow-strong: rgba(212, 168, 67, 0.3);
+            
+            --teal: #00e5b0;
+            --teal-glow: rgba(0, 229, 176, 0.1);
+            
+            --blue: #3b82f6;
+            --blue-light: #60a5fa;
+            
+            --bg-deep: #06080b;
+            --bg-card: rgba(12, 16, 22, 0.65);
+            --bg-elevated: rgba(0, 0, 0, 0.15);
+            --bg-input: rgba(0, 0, 0, 0.25);
+            
+            --text-primary: #eef2f6;
+            --text-secondary: #e8f0ff;
+            --text-muted: #97acc9;
+            --text-dim: #6a7f9e;
+            --text-inverse: #06080b;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-sm: 12px;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-xl: 28px;
+            --radius-2xl: 32px;
+            --radius-3xl: 48px;
+            --radius-4xl: 56px;
+            --radius-full: 9999px;
+            
+            --shadow-card: 0 40px 100px rgba(0, 0, 0, 0.9);
+            --shadow-elevated: 0 40px 100px rgba(0, 0, 0, 0.9);
+            --shadow-glow: 0 0 80px rgba(212, 168, 67, 0.03);
+            
+            --transition-smooth: all 0.25s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(212, 168, 67, 0.06) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(100, 130, 255, 0.06) 0%, transparent 60%),
+                radial-gradient(circle at 50% 50%, rgba(212, 168, 67, 0.02) 0%, transparent 70%);
+            background-attachment: fixed;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: rgba(212, 168, 67, 0.25); border-radius: 20px; }
+        ::-webkit-scrollbar-thumb:hover { background: rgba(212, 168, 67, 0.4); }
+        ::selection { background: rgba(212, 168, 67, 0.25); }
+
+        /* ============================================================
+           SHELL
+           ============================================================ */
+        .admin-shell {
+            max-width: 1480px;
+            width: 100%;
+            background: var(--bg-card);
+            backdrop-filter: blur(48px) saturate(200%);
+            -webkit-backdrop-filter: blur(48px) saturate(200%);
+            border-radius: var(--radius-4xl);
+            border: 1px solid rgba(212, 168, 67, 0.06);
+            box-shadow: var(--shadow-card), 0 0 0 1px rgba(212, 168, 67, 0.03) inset, var(--shadow-glow);
+            padding: 28px 34px 34px 34px;
+            transition: var(--transition-smooth);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-shell::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 70% 30%, rgba(212, 168, 67, 0.02), transparent 60%);
+            pointer-events: none;
+        }
+
+        /* ============================================================
+           LIVE INDICATOR
+           ============================================================ */
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulseDot 1.5s ease-in-out infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.7); }
+        }
+
+        /* ============================================================
+           HEADER
+           ============================================================ */
+        .admin-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 22px;
+            border-bottom: 1px solid rgba(212, 168, 67, 0.06);
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .brand-symbol {
+            font-size: 30px;
+            background: linear-gradient(145deg, var(--gold-light), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            filter: drop-shadow(0 0 12px var(--gold-glow-strong));
+        }
+
+        .brand-word {
+            font-weight: 800;
+            font-size: 24px;
+            font-family: var(--font-display);
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--gold-light), #d4a843, var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .brand-pulse {
+            background: rgba(212, 168, 67, 0.06);
+            border: 1px solid rgba(212, 168, 67, 0.10);
+            padding: 4px 16px;
+            border-radius: var(--radius-full);
+            font-size: 10px;
+            font-weight: 600;
+            color: var(--gold-light);
+            letter-spacing: 0.6px;
+            text-transform: uppercase;
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .brand-pulse .live-dot { width: 6px; height: 6px; }
+
+        /* Global Search */
+        .global-search {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(212, 168, 67, 0.06);
+            border-radius: var(--radius-full);
+            padding: 6px 18px;
+            gap: 10px;
+            min-width: 260px;
+            transition: var(--transition-smooth);
+            flex: 1;
+            max-width: 420px;
+        }
+        .global-search:focus-within {
+            border-color: rgba(212, 168, 67, 0.15);
+            box-shadow: 0 0 30px rgba(212, 168, 67, 0.03);
+        }
+        .global-search i {
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+        .global-search input {
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 13px;
+            font-family: var(--font-sans);
+            outline: none;
+            width: 100%;
+            padding: 6px 0;
+        }
+        .global-search input::placeholder {
+            color: var(--text-dim);
+            font-weight: 400;
+        }
+        .global-search .kbd-hint {
+            font-size: 10px;
+            color: var(--text-dim);
+            font-family: var(--font-mono);
+            background: rgba(255,255,255,0.04);
+            padding: 2px 8px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .header-actions .icon-btn {
+            font-size: 16px;
+            color: var(--text-dim);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--radius-full);
+            background: rgba(255, 255, 255, 0.01);
+            border: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .header-actions .icon-btn:hover {
+            color: var(--gold-light);
+            background: rgba(212, 168, 67, 0.05);
+        }
+
+        .header-actions .icon-btn .badge-dot {
+            position: absolute;
+            top: 2px;
+            right: 2px;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #ef4444;
+            border: 2px solid var(--bg-deep);
+        }
+
+        .avatar-quantum {
+            width: 46px;
+            height: 46px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, var(--gold-light), var(--gold-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 16px;
+            color: var(--text-inverse);
+            box-shadow: 0 0 0 2px rgba(212, 168, 67, 0.12), 0 0 30px var(--gold-glow-strong);
+            cursor: pointer;
+            position: relative;
+            font-family: var(--font-display);
+            transition: var(--transition-smooth);
+        }
+        .avatar-quantum:hover { transform: scale(1.05); }
+        .avatar-quantum::after {
+            content: '';
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            bottom: 0;
+            right: 0;
+            border: 2px solid var(--bg-deep);
+        }
+
+        /* ============================================================
+           LAYOUT
+           ============================================================ */
+        .admin-layout {
+            display: flex;
+            gap: 32px;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ============================================================
+           SIDEBAR
+           ============================================================ */
+        .admin-sidebar {
+            width: 260px;
+            flex-shrink: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding-right: 6px;
+        }
+
+        .sidebar-category {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            color: #445873;
+            font-weight: 700;
+            padding: 16px 16px 10px 16px;
+        }
+
+        .sidebar-item {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 10px 16px;
+            border-radius: var(--radius-lg);
+            font-weight: 500;
+            font-size: 13px;
+            color: var(--text-muted);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            border: 1px solid transparent;
+            position: relative;
+            text-decoration: none;
+            background: none;
+            width: 100%;
+            text-align: left;
+            font-family: var(--font-sans);
+        }
+
+        .sidebar-item i {
+            width: 22px;
+            font-size: 15px;
+            color: #5b7397;
+            transition: var(--transition-smooth);
+        }
+
+        .sidebar-item:hover {
+            background: rgba(212, 168, 67, 0.03);
+            color: var(--gold-light);
+            border-color: rgba(212, 168, 67, 0.05);
+        }
+
+        .sidebar-item:hover i { color: var(--gold-light); }
+
+        .sidebar-item.active {
+            background: rgba(212, 168, 67, 0.06);
+            border-color: rgba(212, 168, 67, 0.08);
+            color: var(--gold-light);
+            box-shadow: 0 0 30px rgba(212, 168, 67, 0.02);
+        }
+
+        .sidebar-item.active i { color: var(--gold-light); }
+
+        .sidebar-item .badge-neon {
+            margin-left: auto;
+            background: rgba(212, 168, 67, 0.06);
+            color: var(--gold-light);
+            font-size: 10px;
+            padding: 2px 12px;
+            border-radius: var(--radius-full);
+            font-weight: 700;
+            border: 1px solid rgba(212, 168, 67, 0.05);
+        }
+
+        .sidebar-item .badge-neon.green {
+            background: rgba(52, 211, 153, 0.06);
+            color: #6ee7b7;
+            border-color: rgba(52, 211, 153, 0.05);
+        }
+
+        .sidebar-item .badge-neon.pulse {
+            animation: badgePulse 2s ease-in-out infinite;
+        }
+        @keyframes badgePulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.4; }
+        }
+
+        /* ============================================================
+           CONTENT AREA
+           ============================================================ */
+        .admin-content {
+            flex: 1;
+            background: var(--bg-elevated);
+            border-radius: var(--radius-2xl);
+            padding: 32px 36px 36px 36px;
+            border: 1px solid rgba(212, 168, 67, 0.03);
+            backdrop-filter: blur(8px);
+            min-height: 560px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .admin-content::before {
+            content: '';
+            position: absolute;
+            top: -30%;
+            right: -20%;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(212, 168, 67, 0.03), transparent 70%);
+            pointer-events: none;
+        }
+
+        .content-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 16px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .content-top h2 {
+            font-weight: 700;
+            font-size: 24px;
+            font-family: var(--font-display);
+            letter-spacing: -0.4px;
+            background: linear-gradient(135deg, var(--gold-light), #d4a843);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .content-top .sub {
+            font-size: 13px;
+            color: var(--text-dim);
+            margin-top: 2px;
+            font-weight: 400;
+        }
+
+        .content-top .action-pill {
+            background: rgba(212, 168, 67, 0.04);
+            border: 1px solid rgba(212, 168, 67, 0.06);
+            padding: 8px 24px;
+            border-radius: var(--radius-full);
+            font-weight: 500;
+            font-size: 12px;
+            color: var(--gold-light);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-family: var(--font-sans);
+        }
+
+        .content-top .action-pill:hover {
+            background: rgba(212, 168, 67, 0.08);
+            border-color: rgba(212, 168, 67, 0.12);
+            box-shadow: 0 0 30px rgba(212, 168, 67, 0.05);
+        }
+
+        /* ============================================================
+           SECTION CONTENT
+           ============================================================ */
+        .section-content {
+            position: relative;
+            z-index: 2;
+            display: none;
+            animation: fadeSlide 0.3s ease;
+        }
+        .section-content.active { display: block; }
+
+        @keyframes fadeSlide {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-card {
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: var(--radius-xl);
+            padding: 20px 24px;
+            border: 1px solid rgba(212, 168, 67, 0.03);
+            margin-bottom: 16px;
+            transition: var(--transition-smooth);
+        }
+        .section-card:hover {
+            background: rgba(212, 168, 67, 0.01);
+            border-color: rgba(212, 168, 67, 0.05);
+        }
+
+        .section-card .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        .section-card .card-header h4 {
+            font-weight: 600;
+            font-size: 15px;
+            color: var(--text-secondary);
+            font-family: var(--font-display);
+        }
+        .section-card .card-header .card-action {
+            font-size: 11px;
+            color: var(--gold-light);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .section-card .card-header .card-action:hover { opacity: 0.7; }
+
+        .section-card .card-body {
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.7;
+        }
+
+        .section-card .card-body .field-row {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-bottom: 10px;
+        }
+        .section-card .card-body .field-row .field {
+            flex: 1;
+            min-width: 140px;
+        }
+        .section-card .card-body .field-row .field .field-label {
+            font-size: 10px;
+            text-transform: uppercase;
+            color: var(--text-dim);
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+        .section-card .card-body .field-row .field .field-value {
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-top: 2px;
+            font-size: 14px;
+        }
+
+        .section-card .toggle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 8px 0;
+            border-bottom: 1px solid rgba(212, 168, 67, 0.02);
+        }
+        .section-card .toggle-row .toggle-label {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        .section-card .toggle-row .toggle-switch {
+            width: 40px;
+            height: 22px;
+            background: #1a2a3a;
+            border-radius: var(--radius-full);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            position: relative;
+        }
+        .section-card .toggle-row .toggle-switch.active {
+            background: var(--gold);
+        }
+        .section-card .toggle-row .toggle-switch .toggle-knob {
+            width: 16px;
+            height: 16px;
+            background: white;
+            border-radius: 50%;
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            transition: var(--transition-smooth);
+        }
+        .section-card .toggle-row .toggle-switch.active .toggle-knob {
+            left: 21px;
+        }
+
+        /* ============================================================
+           COMMAND PALETTE OVERLAY
+           ============================================================ */
+        .command-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(12px);
+            z-index: 9999;
+            display: none;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 12vh;
+            opacity: 0;
+            transition: opacity 0.25s ease;
+        }
+        .command-overlay.active {
+            display: flex;
+            opacity: 1;
+        }
+        .command-modal {
+            width: 100%;
+            max-width: 620px;
+            background: var(--bg-card);
+            backdrop-filter: blur(24px);
+            border: 1px solid rgba(212, 168, 67, 0.10);
+            border-radius: var(--radius-xl);
+            padding: 20px 24px 16px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.9);
+            transform: translateY(-20px);
+            transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .command-overlay.active .command-modal {
+            transform: translateY(0);
+        }
+        .command-modal .cmd-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid rgba(212, 168, 67, 0.04);
+            padding-bottom: 12px;
+        }
+        .command-modal .cmd-header i {
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+        .command-modal .cmd-header .cmd-input {
+            flex: 1;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            font-size: 16px;
+            outline: none;
+            padding: 4px 0;
+        }
+        .command-modal .cmd-header .cmd-input::placeholder {
+            color: var(--text-muted);
+            font-weight: 400;
+        }
+        .command-modal .cmd-header .cmd-kbd {
+            color: var(--text-dim);
+            font-family: var(--font-mono);
+            font-size: 11px;
+            background: rgba(255,255,255,0.04);
+            padding: 2px 10px;
+            border-radius: 4px;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .command-modal .cmd-results {
+            max-height: 400px;
+            overflow-y: auto;
+            margin-top: 12px;
+        }
+        .command-modal .cmd-results .cmd-group {
+            font-size: 10px;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            color: var(--text-dim);
+            padding: 8px 4px 4px;
+            font-weight: 600;
+        }
+        .command-modal .cmd-results .cmd-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 8px 12px;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            color: var(--text-secondary);
+            font-size: 13px;
+        }
+        .command-modal .cmd-results .cmd-item:hover,
+        .command-modal .cmd-results .cmd-item.selected {
+            background: rgba(212, 168, 67, 0.06);
+            color: var(--text-primary);
+        }
+        .command-modal .cmd-results .cmd-item i {
+            width: 20px;
+            color: var(--text-dim);
+            font-size: 14px;
+        }
+        .command-modal .cmd-results .cmd-item .cmd-desc {
+            color: var(--text-dim);
+            font-size: 12px;
+            margin-left: auto;
+        }
+        .command-modal .cmd-footer {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 12px;
+            border-top: 1px solid rgba(212, 168, 67, 0.04);
+            font-size: 10px;
+            color: var(--text-dim);
+            margin-top: 4px;
+        }
+
+        /* ============================================================
+           TOAST — Shared from ../js/toast.js
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(6, 8, 11, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 168, 67, 0.08);
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            z-index: 9999;
+            transform: translateY(80px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 380px;
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #toast .toast-content { display: flex; align-items: center; gap: 10px; }
+        #toast .toast-icon { color: var(--gold-light); font-size: 0.85rem; }
+        #toast .toast-title { font-weight: 600; font-size: 0.8rem; }
+        #toast .toast-message { color: var(--text-muted); font-size: 0.7rem; }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1100px) {
+            .admin-shell { padding: 22px; }
+            .admin-sidebar { width: 220px; }
+            .admin-content { padding: 24px; }
+        }
+
+        @media (max-width: 850px) {
+            .admin-layout { flex-direction: column; }
+            .admin-sidebar {
+                width: 100%;
+                flex-direction: row;
+                flex-wrap: wrap;
+                gap: 2px;
+                padding-right: 0;
+            }
+            .sidebar-category { display: none; }
+            .sidebar-item { flex: 1 0 auto; padding: 8px 14px; font-size: 12px; }
+            .sidebar-item .badge-neon { display: none; }
+            .admin-content { padding: 18px; }
+            .content-top { flex-direction: column; align-items: flex-start; }
+            .global-search { min-width: unset; max-width: unset; width: 100%; }
+        }
+
+        @media (max-width: 600px) {
+            .admin-shell { padding: 14px; border-radius: var(--radius-2xl); }
+            .header-brand .brand-pulse { display: none; }
+            .header-actions .icon-btn { display: none; }
+            .admin-content { padding: 14px; border-radius: var(--radius-xl); }
+            .content-top h2 { font-size: 20px; }
+            .section-card { padding: 14px 16px; }
+            .section-card .card-body .field-row { flex-direction: column; }
+            .command-modal { margin: 0 16px; max-width: 100%; }
+        }
+
+        @media (max-width: 400px) {
+            .admin-shell { padding: 10px; border-radius: var(--radius-xl); }
+            .avatar-quantum { width: 36px; height: 36px; font-size: 12px; }
+            .brand-word { font-size: 18px; }
+            .brand-symbol { font-size: 22px; }
+            .sidebar-item { font-size: 11px; padding: 6px 10px; }
+            .content-top h2 { font-size: 17px; }
+        }
+
+        @supports (-webkit-touch-callout: none) {
+            .admin-shell, .admin-content {
+                backdrop-filter: blur(24px);
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            * { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+            .admin-shell::before { animation: none !important; }
+            .live-dot { animation: none !important; }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+    <div class="admin-shell" id="adminShell">
+        <!-- ============================================================
+           HEADER
+           ============================================================ -->
+        <header class="admin-header">
+            <div class="header-brand">
+                <span class="brand-symbol"><i class="fas fa-crown"></i></span>
+                <span class="brand-word">BuildMart</span>
+                <span class="brand-pulse"><span class="live-dot"></span> Admin Center</span>
+            </div>
+
+            <!-- Global Search -->
+            <div class="global-search" id="globalSearch">
+                <i class="fas fa-search"></i>
+                <input type="text" id="globalSearchInput" placeholder="Search projects, suppliers, invoices, users..." />
+                <span class="kbd-hint">⌘K</span>
+            </div>
+
+            <div class="header-actions">
+                <button class="icon-btn" id="notifBtn" aria-label="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="badge-dot"></span>
+                </button>
+                <button class="icon-btn" id="refreshBtn" aria-label="Refresh"><i class="fas fa-sync-alt"></i></button>
+                <div class="avatar-quantum" id="avatarDisplay">FA</div>
+            </div>
+        </header>
+
+        <!-- ============================================================
+           LAYOUT
+           ============================================================ -->
+        <div class="admin-layout">
+            <!-- SIDEBAR -->
+            <nav class="admin-sidebar" id="adminSidebar">
+                <div class="sidebar-category">Workspace</div>
+                <button class="sidebar-item active" data-section="profile"><i class="fas fa-user-astronaut"></i> Profile</button>
+                <button class="sidebar-item" data-section="company"><i class="fas fa-city"></i> Company</button>
+                <button class="sidebar-item" data-section="workspace"><i class="fas fa-cog"></i> Workspace</button>
+                <button class="sidebar-item" data-section="users"><i class="fas fa-user-shield"></i> Users &amp; Roles <span class="badge-neon" id="userBadge">12</span></button>
+
+                <div class="sidebar-category">Security &amp; Intelligence</div>
+                <button class="sidebar-item" data-section="security"><i class="fas fa-lock"></i> Security</button>
+                <button class="sidebar-item" data-section="notifications"><i class="fas fa-bell"></i> Notifications</button>
+                <button class="sidebar-item" data-section="ai"><i class="fas fa-brain"></i> AI Workspace <span class="badge-neon green pulse">active</span></button>
+
+                <div class="sidebar-category">Procurement &amp; Finance</div>
+                <button class="sidebar-item" data-section="procurement"><i class="fas fa-truck"></i> Procurement</button>
+                <button class="sidebar-item" data-section="billing"><i class="fas fa-credit-card"></i> Billing</button>
+
+                <div class="sidebar-category">Advanced</div>
+                <button class="sidebar-item" data-section="integrations"><i class="fas fa-plug"></i> Integrations</button>
+                <button class="sidebar-item" data-section="data"><i class="fas fa-database"></i> Data</button>
+                <button class="sidebar-item" data-section="audit"><i class="fas fa-clipboard-check"></i> Audit</button>
+            </nav>
+
+            <!-- CONTENT -->
+            <main class="admin-content" id="adminContent">
+                <!-- ============================================================
+                   SECTION: PROFILE
+                   ============================================================ -->
+                <div class="section-content active" id="section-profile">
+                    <div class="content-top">
+                        <div>
+                            <h2>Profile &amp; Identity</h2>
+                            <div class="sub">Biometric, blockchain‑anchored · zero‑trust ready</div>
+                        </div>
+                        <div class="action-pill"><i class="fas fa-crown"></i> Gold Access</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-id-card" style="color:var(--gold-light);margin-right:8px;"></i> Personal Information</h4>
+                            <span class="card-action" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'Edit Profile', message: 'Profile editing will be available soon' } }))">Edit</span>
+                        </div>
+                        <div class="card-body" id="profileFields">
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Full Name</div><div class="field-value" id="profileName">—</div></div>
+                                <div class="field"><div class="field-label">Role</div><div class="field-value" id="profileRole">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Email</div><div class="field-value" id="profileEmail">—</div></div>
+                                <div class="field"><div class="field-label">Phone</div><div class="field-value" id="profilePhone">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Employee ID</div><div class="field-value" id="profileEmployeeId">—</div></div>
+                                <div class="field"><div class="field-label">Department</div><div class="field-value" id="profileDepartment">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Member Since</div><div class="field-value" id="profileMemberSince">—</div></div>
+                                <div class="field"><div class="field-label">Last Active</div><div class="field-value" id="profileLastActive">—</div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header">
+                            <h4><i class="fas fa-fingerprint" style="color:var(--gold-light);margin-right:8px;"></i> Digital Identity</h4>
+                            <span class="card-action" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'Blockchain Identity', message: 'View on-chain verification' } }))">Verify</span>
+                        </div>
+                        <div class="card-body">
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">DID</div><div class="field-value" style="font-family:var(--font-mono);color:var(--gold-light);" id="profileDID">—</div></div>
+                                <div class="field"><div class="field-label">Signature</div><div class="field-value" id="profileSignature">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Biometric</div><div class="field-value" id="profileBiometric">—</div></div>
+                                <div class="field"><div class="field-label">Trust Score</div><div class="field-value" id="profileTrustScore">—</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: COMPANY
+                   ============================================================ -->
+                <div class="section-content" id="section-company">
+                    <div class="content-top">
+                        <div>
+                            <h2>Company Profile</h2>
+                            <div class="sub">Organization details · verified entity</div>
+                        </div>
+                        <div class="action-pill" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'Edit Company', message: 'Company settings will be available soon' } }))"><i class="fas fa-edit"></i> Edit</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header"><h4>Organization Information</h4></div>
+                        <div class="card-body" id="companyFields">
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Company Name</div><div class="field-value" id="companyName">—</div></div>
+                                <div class="field"><div class="field-label">Registration</div><div class="field-value" id="companyRC">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">TIN</div><div class="field-value" id="companyTIN">—</div></div>
+                                <div class="field"><div class="field-label">VAT</div><div class="field-value" id="companyVAT">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Employees</div><div class="field-value" id="companyEmployees">—</div></div>
+                                <div class="field"><div class="field-label">Annual Capacity</div><div class="field-value" id="companyCapacity">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Branches</div><div class="field-value" id="companyBranches">—</div></div>
+                                <div class="field"><div class="field-label">Equipment</div><div class="field-value" id="companyEquipment">—</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: WORKSPACE
+                   ============================================================ -->
+                <div class="section-content" id="section-workspace">
+                    <div class="content-top">
+                        <div>
+                            <h2>Workspace Settings</h2>
+                            <div class="sub">Preferences · localization · AI personality</div>
+                        </div>
+                        <div class="action-pill" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'Workspace Saved', message: 'Settings updated successfully' } }))"><i class="fas fa-save"></i> Save</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header"><h4>Preferences</h4></div>
+                        <div class="card-body" id="workspaceFields">
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Language</div><div class="field-value" id="wsLanguage">—</div></div>
+                                <div class="field"><div class="field-label">Currency</div><div class="field-value" id="wsCurrency">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Measurement</div><div class="field-value" id="wsMeasurement">—</div></div>
+                                <div class="field"><div class="field-label">Theme</div><div class="field-value" id="wsTheme">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">AI Personality</div><div class="field-value" id="wsPersonality">—</div></div>
+                                <div class="field"><div class="field-label">Timezone</div><div class="field-value" id="wsTimezone">—</div></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header"><h4>Features</h4></div>
+                        <div class="card-body">
+                            <div class="toggle-row">
+                                <span class="toggle-label">AI Recommendations</span>
+                                <div class="toggle-switch active" onclick="toggleSwitch(this)"><span class="toggle-knob"></span></div>
+                            </div>
+                            <div class="toggle-row">
+                                <span class="toggle-label">Real-time Analytics</span>
+                                <div class="toggle-switch active" onclick="toggleSwitch(this)"><span class="toggle-knob"></span></div>
+                            </div>
+                            <div class="toggle-row">
+                                <span class="toggle-label">Biometric Authentication</span>
+                                <div class="toggle-switch" onclick="toggleSwitch(this)"><span class="toggle-knob"></span></div>
+                            </div>
+                            <div class="toggle-row">
+                                <span class="toggle-label">Blockchain Audit Trail</span>
+                                <div class="toggle-switch active" onclick="toggleSwitch(this)"><span class="toggle-knob"></span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: USERS
+                   ============================================================ -->
+                <div class="section-content" id="section-users">
+                    <div class="content-top">
+                        <div>
+                            <h2>Users &amp; Roles</h2>
+                            <div class="sub">Manage team members · permissions · access control</div>
+                        </div>
+                        <div class="action-pill" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'Add User', message: 'User invitation form will open' } }))"><i class="fas fa-user-plus"></i> Invite</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header"><h4>Team Members</h4><span class="card-action" id="userCountLabel">12 members</span></div>
+                        <div class="card-body" id="usersList">
+                            <div style="text-align:center;padding:20px;color:var(--text-dim);">Loading users...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: SECURITY
+                   ============================================================ -->
+                <div class="section-content" id="section-security">
+                    <div class="content-top">
+                        <div>
+                            <h2>Security</h2>
+                            <div class="sub">Zero-trust · encryption · access policies</div>
+                        </div>
+                        <div class="action-pill" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'Security Settings', message: 'Advanced security controls' } }))"><i class="fas fa-shield-alt"></i> Configure</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header"><h4>Security Status</h4></div>
+                        <div class="card-body" id="securityFields">
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">2FA Status</div><div class="field-value" style="color:#6ee7b7;" id="sec2FA">✓ Enabled</div></div>
+                                <div class="field"><div class="field-label">Devices</div><div class="field-value" id="secDevices">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Active Sessions</div><div class="field-value" id="secSessions">—</div></div>
+                                <div class="field"><div class="field-label">API Keys</div><div class="field-value" id="secApiKeys">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Encryption</div><div class="field-value" id="secEncryption">—</div></div>
+                                <div class="field"><div class="field-label">Zero-Trust</div><div class="field-value" style="color:#6ee7b7;" id="secZeroTrust">✓ Active</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: NOTIFICATIONS
+                   ============================================================ -->
+                <div class="section-content" id="section-notifications">
+                    <div class="content-top">
+                        <div>
+                            <h2>Notifications</h2>
+                            <div class="sub">Alerts · mentions · system updates</div>
+                        </div>
+                        <div class="action-pill" onclick="markAllRead()"><i class="fas fa-check-double"></i> Mark all read</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-body" id="notificationsList">
+                            <div style="text-align:center;padding:20px;color:var(--text-dim);">Loading notifications...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: AI
+                   ============================================================ -->
+                <div class="section-content" id="section-ai">
+                    <div class="content-top">
+                        <div>
+                            <h2>AI Workspace</h2>
+                            <div class="sub">Neural intelligence · automation · insights</div>
+                        </div>
+                        <div class="action-pill" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'AI Workspace', message: 'Opening neural intelligence...' } }))"><i class="fas fa-brain"></i> Launch</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header"><h4><i class="fas fa-robot" style="color:var(--gold-light);margin-right:8px;"></i> AI Assistant</h4></div>
+                        <div class="card-body" id="aiFields">
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Status</div><div class="field-value" style="color:#6ee7b7;" id="aiStatus">● Active</div></div>
+                                <div class="field"><div class="field-label">Model</div><div class="field-value" id="aiModel">Gemini 2.5 Flash</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Latency</div><div class="field-value" id="aiLatency">—</div></div>
+                                <div class="field"><div class="field-label">Intelligence Score</div><div class="field-value" id="aiScore">—</div></div>
+                            </div>
+                            <div style="margin-top:12px;display:flex;gap:8px;flex-wrap:wrap;">
+                                <span class="action-pill" style="font-size:11px;padding:4px 16px;" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'AI', message: 'Generating BOQ...' } }))">Generate BOQ</span>
+                                <span class="action-pill" style="font-size:11px;padding:4px 16px;" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'AI', message: 'Analyzing suppliers...' } }))">Analyze Suppliers</span>
+                                <span class="action-pill" style="font-size:11px;padding:4px 16px;" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'AI', message: 'Predicting costs...' } }))">Predict Costs</span>
+                                <span class="action-pill" style="font-size:11px;padding:4px 16px;" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'AI', message: 'Generating report...' } }))">Generate Report</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: PROCUREMENT
+                   ============================================================ -->
+                <div class="section-content" id="section-procurement">
+                    <div class="content-top">
+                        <div>
+                            <h2>Procurement Settings</h2>
+                            <div class="sub">Supplier management · purchase workflows · approvals</div>
+                        </div>
+                        <div class="action-pill" onclick="window.location.href='/buildmart/bulk.html'"><i class="fas fa-arrow-right"></i> Open</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header"><h4>Procurement Status</h4></div>
+                        <div class="card-body" id="procurementFields">
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Total Suppliers</div><div class="field-value" id="procSuppliers">—</div></div>
+                                <div class="field"><div class="field-label">Active Orders</div><div class="field-value" id="procOrders">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Total Spend</div><div class="field-value" id="procSpend">—</div></div>
+                                <div class="field"><div class="field-label">Avg. Savings</div><div class="field-value" id="procSavings">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Pending Approvals</div><div class="field-value" id="procApprovals">—</div></div>
+                                <div class="field"><div class="field-label">AI Recommendations</div><div class="field-value" id="procRecs">—</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: BILLING
+                   ============================================================ -->
+                <div class="section-content" id="section-billing">
+                    <div class="content-top">
+                        <div>
+                            <h2>Billing &amp; Subscription</h2>
+                            <div class="sub">Invoices · payments · subscription tier</div>
+                        </div>
+                        <div class="action-pill" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'Billing', message: 'Opening billing portal...' } }))"><i class="fas fa-credit-card"></i> Manage</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header"><h4>Subscription</h4></div>
+                        <div class="card-body" id="billingFields">
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Plan</div><div class="field-value" style="color:var(--gold-light);" id="billingPlan">—</div></div>
+                                <div class="field"><div class="field-label">Status</div><div class="field-value" style="color:#6ee7b7;" id="billingStatus">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Next Billing</div><div class="field-value" id="billingNext">—</div></div>
+                                <div class="field"><div class="field-label">Amount</div><div class="field-value" id="billingAmount">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Invoices</div><div class="field-value" id="billingInvoices">—</div></div>
+                                <div class="field"><div class="field-label">Payment Method</div><div class="field-value" id="billingMethod">—</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: INTEGRATIONS
+                   ============================================================ -->
+                <div class="section-content" id="section-integrations">
+                    <div class="content-top">
+                        <div>
+                            <h2>Integrations</h2>
+                            <div class="sub">Connect · sync · automate</div>
+                        </div>
+                        <div class="action-pill" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'Integrations', message: 'Opening integration marketplace...' } }))"><i class="fas fa-plug"></i> Add</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-body" id="integrationsList">
+                            <div style="text-align:center;padding:20px;color:var(--text-dim);">Loading integrations...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: DATA
+                   ============================================================ -->
+                <div class="section-content" id="section-data">
+                    <div class="content-top">
+                        <div>
+                            <h2>Data Management</h2>
+                            <div class="sub">Backup · export · privacy</div>
+                        </div>
+                        <div class="action-pill" onclick="window.dispatchEvent(new CustomEvent('toast', { detail: { title: 'Data Export', message: 'Preparing data export...' } }))"><i class="fas fa-download"></i> Export</div>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-header"><h4>Data Controls</h4></div>
+                        <div class="card-body" id="dataFields">
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Storage Used</div><div class="field-value" id="dataStorage">—</div></div>
+                                <div class="field"><div class="field-label">Records</div><div class="field-value" id="dataRecords">—</div></div>
+                            </div>
+                            <div class="field-row">
+                                <div class="field"><div class="field-label">Last Backup</div><div class="field-value" id="dataBackup">—</div></div>
+                                <div class="field"><div class="field-label">Data Privacy</div><div class="field-value" style="color:#6ee7b7;" id="dataPrivacy">✓ Compliant</div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   SECTION: AUDIT
+                   ============================================================ -->
+                <div class="section-content" id="section-audit">
+                    <div class="content-top">
+                        <div>
+                            <h2>Audit Trail</h2>
+                            <div class="sub">Complete activity history · quantum‑verified</div>
+                        </div>
+                        <span class="action-pill" id="auditLiveBadge"><span class="live-dot"></span> Live</span>
+                    </div>
+
+                    <div class="section-card">
+                        <div class="card-body" id="auditList">
+                            <div style="text-align:center;padding:20px;color:var(--text-dim);">Loading audit trail...</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- ============================================================
+                   AI FLOATING INDICATOR
+                   ============================================================ -->
+                <div class="section-card" style="margin-top:16px;border-color:rgba(212,168,67,0.05);background:rgba(212,168,67,0.01);">
+                    <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;">
+                        <span class="live-dot"></span>
+                        <i class="fas fa-robot" style="color:var(--gold-light);"></i>
+                        <span style="font-size:12px;color:var(--text-muted);" id="aiFooterStatus">AI identity shield · active</span>
+                        <span style="font-family:var(--font-mono);font-size:11px;color:var(--gold-light);" id="aiFooterDID">0x7f9e…3a1c</span>
+                        <span style="font-size:10px;background:rgba(212,168,67,0.06);padding:2px 14px;border-radius:var(--radius-full);color:var(--gold-light);border:1px solid rgba(212,168,67,0.05);">Gold Tier</span>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       COMMAND PALETTE OVERLAY
+       ============================================================ -->
+    <div class="command-overlay" id="commandOverlay">
+        <div class="command-modal">
+            <div class="cmd-header">
+                <i class="fas fa-search"></i>
+                <input class="cmd-input" id="cmdInput" placeholder="Search everything..." autofocus />
+                <span class="cmd-kbd">⌘K</span>
+            </div>
+            <div class="cmd-results" id="cmdResults">
+                <div class="cmd-group">Quick Actions</div>
+                <div class="cmd-item" onclick="handleCommand('Create Project')"><i class="fas fa-folder-open"></i> Create Project <span class="cmd-desc">New construction project</span></div>
+                <div class="cmd-item" onclick="handleCommand('Invite Supplier')"><i class="fas fa-truck"></i> Invite Supplier <span class="cmd-desc">Add new supplier</span></div>
+                <div class="cmd-item" onclick="handleCommand('Generate BOQ')"><i class="fas fa-list-ul"></i> Generate BOQ <span class="cmd-desc">Bill of quantities</span></div>
+                <div class="cmd-item" onclick="handleCommand('View Hospital Project')"><i class="fas fa-building"></i> View Hospital Project <span class="cmd-desc">Open project</span></div>
+                <div class="cmd-item" onclick="handleCommand('Open Procurement')"><i class="fas fa-cart-plus"></i> Open Procurement <span class="cmd-desc">Procurement dashboard</span></div>
+                <div class="cmd-item" onclick="handleCommand('Search Invoices')"><i class="fas fa-file-invoice"></i> Search Invoices <span class="cmd-desc">Find invoices</span></div>
+                <div class="cmd-item" onclick="handleCommand('Add Employee')"><i class="fas fa-user-plus"></i> Add Employee <span class="cmd-desc">Hire team member</span></div>
+                <div class="cmd-item" onclick="handleCommand('Switch Workspace')"><i class="fas fa-cog"></i> Switch Workspace <span class="cmd-desc">Change workspace</span></div>
+                <div class="cmd-item" onclick="handleCommand('Open AI')"><i class="fas fa-brain"></i> Open AI <span class="cmd-desc">AI workspace</span></div>
+                <div class="cmd-item" onclick="handleCommand('Backup Workspace')"><i class="fas fa-database"></i> Backup Workspace <span class="cmd-desc">Create backup</span></div>
+            </div>
+            <div class="cmd-footer">
+                <span><i class="fas fa-arrow-up"></i><i class="fas fa-arrow-down"></i> navigate · <i class="fas fa-enter"></i> select</span>
+                <span><i class="fas fa-esc"></i> close</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       TOAST — Using shared toast system
+       ============================================================ -->
+    <div id="toast">
+        <div class="toast-content">
+            <span class="toast-icon">✓</span>
+            <div>
+                <div class="toast-title" id="toastTitle">Success</div>
+                <div class="toast-message" id="toastMessage">Action completed</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS — Using shared platform modules
+       ============================================================ -->
+    <script type="module">
+        // ============================================================
+        // IMPORTS — Shared platform modules
+        // ============================================================
+        import { CONFIG } from '../js/config.js';
+        import { auth } from '../js/auth.js';
+        import { api } from '../js/api.js';
+        import { toast } from '../js/toast.js';
+        import { ws } from '../js/websocket.js';
+
+        // ============================================================
+        // CONFIG — Using shared CONFIG
+        // ============================================================
+        const API_BASE = CONFIG.apiBase;
+        const WS_BASE = CONFIG.wsBase;
+
+        console.log('🧠 BuildMart Admin Center');
+        console.log('📡 API:', API_BASE);
+        console.log('🔌 WS:', WS_BASE);
+        console.log('🔐 Auth:', auth.isAuthenticated ? '✓' : '✗');
+
+        // ============================================================
+        // DOM REFS
+        // ============================================================
+        const $ = (id) => document.getElementById(id);
+
+        // ============================================================
+        // STATE
+        // ============================================================
+        let currentSection = 'profile';
+        let wsConnection = null;
+        let reconnectAttempts = 0;
+        const MAX_RECONNECT_DELAY = 30000;
+
+        // ============================================================
+        // TOAST — Using shared toast system
+        // ============================================================
+        // The shared toast module is imported above.
+        // We'll use toast.show() throughout.
+
+        // ============================================================
+        // AUTH — Using shared auth
+        // ============================================================
+        function getAuthToken() {
+            return auth.getToken ? auth.getToken() : localStorage.getItem('buildmart_token');
+        }
+
+        // ============================================================
+        // DATA — Fallback
+        // ============================================================
+        function getFallbackData() {
+            return {
+                profile: {
+                    name: 'Freedom Amenaghawon',
+                    role: 'CEO · PrimeShield BuildMart',
+                    email: 'freedom@primeshieldhub.com',
+                    phone: '+234 810 353 5978',
+                    employeeId: 'BM-2210-04',
+                    department: 'Executive',
+                    memberSince: 'Mar 2021',
+                    lastActive: '2 min ago',
+                    did: '0x7f9e…3a1c',
+                    signature: 'RSA-4096 · quantum-safe',
+                    biometric: '✓ Verified',
+                    trustScore: '98.7%'
+                },
+                company: {
+                    name: 'PrimeShield BuildMart',
+                    rc: 'RC 147258',
+                    tin: '12345678-0001',
+                    vat: 'NG-0123456',
+                    employees: 142,
+                    capacity: '₦2.8B',
+                    branches: '4 (Lagos, Abuja, PH, Ibadan)',
+                    equipment: '41 units'
+                },
+                workspace: {
+                    language: 'English',
+                    currency: 'NGN (₦)',
+                    measurement: 'Metric',
+                    theme: 'Dark Gold',
+                    personality: 'Proactive',
+                    timezone: 'WAT (UTC+1)'
+                },
+                security: {
+                    devices: 3,
+                    sessions: 2,
+                    apiKeys: 4,
+                    encryption: 'AES-256-GCM',
+                    zeroTrust: true
+                },
+                procurement: {
+                    suppliers: 189,
+                    orders: 47,
+                    spend: '₦842M',
+                    savings: '18%',
+                    approvals: 7,
+                    recs: 47
+                },
+                billing: {
+                    plan: 'Gold Enterprise',
+                    status: 'Active',
+                    nextBilling: 'Aug 15, 2026',
+                    amount: '₦12,500/mo',
+                    invoices: '24',
+                    method: 'Bank Transfer'
+                },
+                data: {
+                    storage: '4.2 GB / 50 GB',
+                    records: '12,847',
+                    backup: 'Today, 02:00'
+                },
+                users: [
+                    { name: 'James Delaney', role: 'Project Manager', status: 'Active', email: 'j.delaney@buildmart.io' },
+                    { name: 'Sarah Chen', role: 'Senior Engineer', status: 'Active', email: 's.chen@buildmart.io' },
+                    { name: 'Michael Okafor', role: 'Procurement Lead', status: 'Active', email: 'm.okafor@buildmart.io' },
+                    { name: 'Aisha Ibrahim', role: 'Financial Analyst', status: 'Active', email: 'a.ibrahim@buildmart.io' },
+                    { name: 'David Adeyemi', role: 'Site Manager', status: 'Active', email: 'd.adeyemi@buildmart.io' }
+                ],
+                notifications: [
+                    { icon: 'fa-bell', text: 'New user registered: Samuel Ogunleye', time: '5 min ago' },
+                    { icon: 'fa-file-invoice', text: 'Invoice #INV-2026-0042 approved', time: '12 min ago' },
+                    { icon: 'fa-truck', text: 'Steel shipment arriving tomorrow', time: '28 min ago' },
+                    { icon: 'fa-user', text: 'Permission request from Adebayo', time: '1h ago' },
+                    { icon: 'fa-cog', text: 'System update completed v3.2.1', time: '2h ago' }
+                ],
+                audit: [
+                    { icon: 'fa-sign-in-alt', text: 'Login · new device (M1)', badge: 'Approved', time: '2h ago' },
+                    { icon: 'fa-edit', text: 'Profile update · signature', badge: 'Self', time: '1d ago' },
+                    { icon: 'fa-fingerprint', text: 'Biometric re‑verify', badge: 'Blockchain', time: '3d ago' },
+                    { icon: 'fa-shield-alt', text: 'Security audit passed', badge: 'Compliant', time: '5d ago' },
+                    { icon: 'fa-user-plus', text: 'New user: Sarah Chen added', badge: 'Admin', time: '6d ago' }
+                ],
+                integrations: [
+                    { name: 'AutoCAD', status: 'Connected', icon: 'fa-cube' },
+                    { name: 'Revit', status: 'Connected', icon: 'fa-cube' },
+                    { name: 'Excel', status: 'Connected', icon: 'fa-file-excel' },
+                    { name: 'Paystack', status: 'Connected', icon: 'fa-credit-card' },
+                    { name: 'SAP', status: 'Disconnected', icon: 'fa-plug' }
+                ]
+            };
+        }
+
+        // ============================================================
+        // RENDER FUNCTIONS — Per Section
+        // ============================================================
+        function renderProfile(data) {
+            const p = data || getFallbackData().profile;
+            document.getElementById('profileName').textContent = p.name || '—';
+            document.getElementById('profileRole').textContent = p.role || '—';
+            document.getElementById('profileEmail').textContent = p.email || '—';
+            document.getElementById('profilePhone').textContent = p.phone || '—';
+            document.getElementById('profileEmployeeId').textContent = p.employeeId || '—';
+            document.getElementById('profileDepartment').textContent = p.department || '—';
+            document.getElementById('profileMemberSince').textContent = p.memberSince || '—';
+            document.getElementById('profileLastActive').textContent = p.lastActive || '—';
+            document.getElementById('profileDID').textContent = p.did || '—';
+            document.getElementById('profileSignature').textContent = p.signature || '—';
+            document.getElementById('profileBiometric').textContent = p.biometric || '—';
+            document.getElementById('profileTrustScore').textContent = p.trustScore || '—';
+            
+            const initials = p.name ? p.name.split(' ').map(n => n[0]).join('').toUpperCase() : 'FA';
+            document.getElementById('avatarDisplay').textContent = initials;
+        }
+
+        function renderCompany(data) {
+            const c = data || getFallbackData().company;
+            document.getElementById('companyName').textContent = c.name || '—';
+            document.getElementById('companyRC').textContent = c.rc || '—';
+            document.getElementById('companyTIN').textContent = c.tin || '—';
+            document.getElementById('companyVAT').textContent = c.vat || '—';
+            document.getElementById('companyEmployees').textContent = c.employees || '—';
+            document.getElementById('companyCapacity').textContent = c.capacity || '—';
+            document.getElementById('companyBranches').textContent = c.branches || '—';
+            document.getElementById('companyEquipment').textContent = c.equipment || '—';
+        }
+
+        function renderWorkspace(data) {
+            const w = data || getFallbackData().workspace;
+            document.getElementById('wsLanguage').textContent = w.language || '—';
+            document.getElementById('wsCurrency').textContent = w.currency || '—';
+            document.getElementById('wsMeasurement').textContent = w.measurement || '—';
+            document.getElementById('wsTheme').textContent = w.theme || '—';
+            document.getElementById('wsPersonality').textContent = w.personality || '—';
+            document.getElementById('wsTimezone').textContent = w.timezone || '—';
+        }
+
+        function renderUsers(data) {
+            const users = data || getFallbackData().users;
+            const container = document.getElementById('usersList');
+            document.getElementById('userCountLabel').textContent = users.length + ' members';
+            document.getElementById('userBadge').textContent = users.length;
+            
+            if (users.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-dim);">No users found</div>';
+                return;
+            }
+            
+            container.innerHTML = users.map(u => `
+                <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(212,168,67,0.02);">
+                    <div>
+                        <div style="font-weight:600;color:var(--text-secondary);">${u.name}</div>
+                        <div style="font-size:12px;color:var(--text-dim);">${u.email} · ${u.role}</div>
+                    </div>
+                    <span style="font-size:10px;color:#6ee7b7;">${u.status}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderSecurity(data) {
+            const s = data || getFallbackData().security;
+            document.getElementById('secDevices').textContent = s.devices + ' active';
+            document.getElementById('secSessions').textContent = s.sessions;
+            document.getElementById('secApiKeys').textContent = s.apiKeys;
+            document.getElementById('secEncryption').textContent = s.encryption || 'AES-256-GCM';
+        }
+
+        function renderProcurement(data) {
+            const p = data || getFallbackData().procurement;
+            document.getElementById('procSuppliers').textContent = p.suppliers || '—';
+            document.getElementById('procOrders').textContent = p.orders || '—';
+            document.getElementById('procSpend').textContent = p.spend || '—';
+            document.getElementById('procSavings').textContent = p.savings || '—';
+            document.getElementById('procApprovals').textContent = p.approvals || '—';
+            document.getElementById('procRecs').textContent = p.recs || '—';
+        }
+
+        function renderBilling(data) {
+            const b = data || getFallbackData().billing;
+            document.getElementById('billingPlan').textContent = b.plan || '—';
+            document.getElementById('billingStatus').textContent = b.status || '—';
+            document.getElementById('billingNext').textContent = b.nextBilling || '—';
+            document.getElementById('billingAmount').textContent = b.amount || '—';
+            document.getElementById('billingInvoices').textContent = b.invoices || '—';
+            document.getElementById('billingMethod').textContent = b.method || '—';
+        }
+
+        function renderData(data) {
+            const d = data || getFallbackData().data;
+            document.getElementById('dataStorage').textContent = d.storage || '—';
+            document.getElementById('dataRecords').textContent = d.records || '—';
+            document.getElementById('dataBackup').textContent = d.backup || '—';
+        }
+
+        function renderNotifications(data) {
+            const notifs = data || getFallbackData().notifications;
+            const container = document.getElementById('notificationsList');
+            
+            if (notifs.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-dim);">No notifications</div>';
+                return;
+            }
+            
+            container.innerHTML = notifs.map(n => `
+                <div style="display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(212,168,67,0.02);">
+                    <i class="fas ${n.icon}" style="color:var(--gold-light);width:20px;"></i>
+                    <div style="flex:1;">
+                        <div style="font-size:13px;color:var(--text-secondary);">${n.text}</div>
+                        <div style="font-size:11px;color:var(--text-dim);">${n.time}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderAudit(data) {
+            const audit = data || getFallbackData().audit;
+            const container = document.getElementById('auditList');
+            
+            if (audit.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-dim);">No audit records</div>';
+                return;
+            }
+            
+            container.innerHTML = audit.map(a => `
+                <div class="audit-entry" style="display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid rgba(212,168,67,0.02);">
+                    <div style="display:flex;align-items:center;gap:12px;">
+                        <i class="fas ${a.icon}" style="color:var(--text-dim);width:18px;"></i>
+                        <span style="font-size:13px;">${a.text}</span>
+                    </div>
+                    <span style="font-size:10px;color:var(--gold-light);background:rgba(212,168,67,0.04);padding:2px 12px;border-radius:var(--radius-full);">${a.badge}</span>
+                    <span style="font-size:12px;color:var(--text-dim);">${a.time}</span>
+                </div>
+            `).join('');
+        }
+
+        function renderIntegrations(data) {
+            const ints = data || getFallbackData().integrations;
+            const container = document.getElementById('integrationsList');
+            
+            if (ints.length === 0) {
+                container.innerHTML = '<div style="text-align:center;padding:20px;color:var(--text-dim);">No integrations</div>';
+                return;
+            }
+            
+            container.innerHTML = ints.map(i => `
+                <div style="display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid rgba(212,168,67,0.02);">
+                    <i class="fas ${i.icon}" style="color:var(--gold-light);width:24px;font-size:18px;"></i>
+                    <div style="flex:1;">
+                        <div style="font-weight:600;color:var(--text-secondary);">${i.name}</div>
+                        <div style="font-size:12px;color:${i.status === 'Connected' ? '#6ee7b7' : '#ef4444'};">${i.status}</div>
+                    </div>
+                    <span class="action-pill" style="font-size:10px;padding:2px 14px;" onclick="toast.show('Integration', 'Managing ${i.name}...')">Manage</span>
+                </div>
+            `).join('');
+        }
+
+        function renderAI(data) {
+            const ai = data || {};
+            document.getElementById('aiStatus').textContent = ai.status || '● Active';
+            document.getElementById('aiModel').textContent = ai.model || 'Gemini 2.5 Flash';
+            document.getElementById('aiLatency').textContent = ai.latency || '12ms';
+            document.getElementById('aiScore').textContent = ai.score || '98.7%';
+            document.getElementById('aiFooterStatus').textContent = 'AI identity shield · active';
+            document.getElementById('aiFooterDID').textContent = ai.did || '0x7f9e…3a1c';
+        }
+
+        // ============================================================
+        // SECTION LOADING — Lazy Loading
+        // ============================================================
+        const loadedSections = new Set();
+
+        async function loadSection(section) {
+            if (loadedSections.has(section)) return;
+            
+            try {
+                const response = await api.get(`/buildmart/settings/${section}`);
+                const data = response.data;
+                
+                const renderMap = {
+                    profile: renderProfile,
+                    company: renderCompany,
+                    workspace: renderWorkspace,
+                    users: renderUsers,
+                    security: renderSecurity,
+                    procurement: renderProcurement,
+                    billing: renderBilling,
+                    data: renderData,
+                    notifications: renderNotifications,
+                    audit: renderAudit,
+                    integrations: renderIntegrations,
+                    ai: renderAI
+                };
+                
+                if (renderMap[section]) {
+                    renderMap[section](data);
+                }
+                loadedSections.add(section);
+            } catch (error) {
+                console.warn(`Section ${section} fetch error, using fallback:`, error);
+                const fallback = getFallbackData();
+                const renderMap = {
+                    profile: renderProfile,
+                    company: renderCompany,
+                    workspace: renderWorkspace,
+                    users: renderUsers,
+                    security: renderSecurity,
+                    procurement: renderProcurement,
+                    billing: renderBilling,
+                    data: renderData,
+                    notifications: renderNotifications,
+                    audit: renderAudit,
+                    integrations: renderIntegrations,
+                    ai: renderAI
+                };
+                if (renderMap[section]) {
+                    renderMap[section](fallback[section]);
+                }
+                loadedSections.add(section);
+            }
+        }
+
+        // ============================================================
+        // SIDEBAR NAVIGATION
+        // ============================================================
+        document.querySelectorAll('.sidebar-item').forEach(item => {
+            item.addEventListener('click', function() {
+                const section = this.dataset.section;
+                if (!section) return;
+                
+                document.querySelectorAll('.sidebar-item').forEach(el => el.classList.remove('active'));
+                this.classList.add('active');
+                
+                document.querySelectorAll('.section-content').forEach(el => el.classList.remove('active'));
+                const target = document.getElementById(`section-${section}`);
+                if (target) {
+                    target.classList.add('active');
+                    currentSection = section;
+                    loadSection(section);
+                    
+                    if (history.pushState) {
+                        history.pushState(null, null, `#${section}`);
+                    }
+                }
+            });
+        });
+
+        // ============================================================
+        // GLOBAL SEARCH — Using shared toast
+        // ============================================================
+        document.getElementById('globalSearchInput').addEventListener('focus', function() {
+            openCommandPalette();
+        });
+
+        // ============================================================
+        // COMMAND PALETTE
+        // ============================================================
+        function openCommandPalette() {
+            const overlay = document.getElementById('commandOverlay');
+            overlay.classList.add('active');
+            document.getElementById('cmdInput').value = '';
+            setTimeout(() => document.getElementById('cmdInput').focus(), 100);
+        }
+
+        function closeCommandPalette() {
+            document.getElementById('commandOverlay').classList.remove('active');
+        }
+
+        document.getElementById('globalSearchInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                openCommandPalette();
+            }
+        });
+
+        document.getElementById('cmdInput').addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeCommandPalette();
+            if (e.key === 'Enter') {
+                const first = document.querySelector('.cmd-item');
+                if (first) first.click();
+            }
+        });
+
+        document.getElementById('commandOverlay').addEventListener('click', (e) => {
+            if (e.target === e.currentTarget) closeCommandPalette();
+        });
+
+        window.handleCommand = function(cmd) {
+            closeCommandPalette();
+            toast.show('Command', `Executing: ${cmd}`, '⚡');
+            const cmdMap = {
+                'Create Project': 'projects',
+                'Invite Supplier': 'users',
+                'Generate BOQ': 'procurement',
+                'Open Procurement': 'procurement',
+                'Search Invoices': 'billing',
+                'Add Employee': 'users',
+                'Switch Workspace': 'workspace',
+                'Open AI': 'ai',
+                'Backup Workspace': 'data'
+            };
+            const section = cmdMap[cmd];
+            if (section) {
+                const sidebarItem = document.querySelector(`.sidebar-item[data-section="${section}"]`);
+                if (sidebarItem) sidebarItem.click();
+            }
+        };
+
+        // ============================================================
+        // TOGGLE SWITCH
+        // ============================================================
+        window.toggleSwitch = function(el) {
+            el.classList.toggle('active');
+            const isActive = el.classList.contains('active');
+            toast.show('Setting Updated', isActive ? 'Enabled' : 'Disabled', isActive ? '✅' : '⛔');
+        };
+
+        // ============================================================
+        // MARK ALL NOTIFICATIONS READ
+        // ============================================================
+        window.markAllRead = function() {
+            toast.show('Notifications', 'All marked as read', '✓');
+        };
+
+        // ============================================================
+        // WEBSOCKET — Using shared ws module with exponential backoff
+        // ============================================================
+        function connectWebSocket() {
+            try {
+                const wsUrl = `${WS_BASE}/ws/admin`;
+                
+                wsConnection = ws.connect(wsUrl, {
+                    onOpen: () => {
+                        console.log('🔌 Admin WebSocket connected');
+                        reconnectAttempts = 0;
+                    },
+                    onMessage: (data) => {
+                        if (data.type === 'audit') {
+                            const entry = data.entry;
+                            if (entry) {
+                                const container = document.getElementById('auditList');
+                                const div = document.createElement('div');
+                                div.className = 'audit-entry';
+                                div.style.cssText = 'display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid rgba(212,168,67,0.02);';
+                                div.innerHTML = `
+                                    <div style="display:flex;align-items:center;gap:12px;">
+                                        <i class="fas ${entry.icon || 'fa-bolt'}" style="color:var(--text-dim);width:18px;"></i>
+                                        <span style="font-size:13px;">${entry.text || 'Update'}</span>
+                                    </div>
+                                    <span style="font-size:10px;color:var(--gold-light);background:rgba(212,168,67,0.04);padding:2px 12px;border-radius:var(--radius-full);">${entry.badge || 'New'}</span>
+                                    <span style="font-size:12px;color:var(--text-dim);">${entry.time || 'now'}</span>
+                                `;
+                                container.insertBefore(div, container.firstChild);
+                                while (container.children.length > 12) {
+                                    container.removeChild(container.lastChild);
+                                }
+                            }
+                        } else if (data.type === 'user') {
+                            if (data.count !== undefined) {
+                                document.getElementById('userBadge').textContent = data.count;
+                            }
+                        } else if (data.type === 'notification') {
+                            const notif = data.notification;
+                            if (notif) {
+                                const container = document.getElementById('notificationsList');
+                                const div = document.createElement('div');
+                                div.style.cssText = 'display:flex;align-items:center;gap:12px;padding:8px 0;border-bottom:1px solid rgba(212,168,67,0.02);';
+                                div.innerHTML = `
+                                    <i class="fas ${notif.icon || 'fa-bell'}" style="color:var(--gold-light);width:20px;"></i>
+                                    <div style="flex:1;">
+                                        <div style="font-size:13px;color:var(--text-secondary);">${notif.text || 'Update'}</div>
+                                        <div style="font-size:11px;color:var(--text-dim);">${notif.time || 'now'}</div>
+                                    </div>
+                                `;
+                                container.insertBefore(div, container.firstChild);
+                                while (container.children.length > 12) {
+                                    container.removeChild(container.lastChild);
+                                }
+                            }
+                        }
+                    },
+                    onClose: () => {
+                        console.log('🔌 Admin WebSocket disconnected');
+                        const delay = Math.min(1000 * Math.pow(2, reconnectAttempts), MAX_RECONNECT_DELAY);
+                        reconnectAttempts++;
+                        setTimeout(connectWebSocket, delay);
+                    },
+                    onError: (error) => {
+                        console.warn('Admin WebSocket error:', error);
+                    }
+                });
+            } catch (error) {
+                console.warn('WebSocket connection failed:', error);
+            }
+        }
+
+        // ============================================================
+        // KEYBOARD SHORTCUTS
+        // ============================================================
+        document.addEventListener('keydown', (e) => {
+            if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+                e.preventDefault();
+                openCommandPalette();
+            }
+            if ((e.metaKey || e.ctrlKey) && e.key === 'r') {
+                e.preventDefault();
+                toast.show('Refreshing', 'Syncing data...', '🔄');
+                if (currentSection) {
+                    loadedSections.delete(currentSection);
+                    loadSection(currentSection);
+                }
+            }
+            if (e.key === 'Escape') {
+                if (document.getElementById('commandOverlay').classList.contains('active')) {
+                    closeCommandPalette();
+                }
+            }
+        });
+
+        // ============================================================
+        // HASH ROUTING
+        // ============================================================
+        function handleHash() {
+            const hash = window.location.hash.replace('#', '');
+            if (hash) {
+                const sidebarItem = document.querySelector(`.sidebar-item[data-section="${hash}"]`);
+                if (sidebarItem) {
+                    sidebarItem.click();
+                }
+            }
+        }
+
+        window.addEventListener('hashchange', handleHash);
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        async function init() {
+            // Check authentication using shared auth
+            if (!auth.isAuthenticated()) {
+                toast.show('Not Authenticated', 'Please log in to access Admin Center', '⚠️', true);
+                setTimeout(() => {
+                    window.location.href = '/buildmart/auth/login.html';
+                }, 2000);
+                return;
+            }
+
+            // Load initial section (Profile)
+            await loadSection('profile');
+
+            // Load other sections in background
+            const sections = ['company', 'workspace', 'users', 'security', 'procurement', 'billing', 'data', 'notifications', 'audit', 'integrations', 'ai'];
+            sections.forEach(section => {
+                setTimeout(() => {
+                    loadSection(section);
+                }, 500);
+            });
+
+            // Connect WebSocket using shared ws module
+            connectWebSocket();
+
+            // Handle initial hash
+            handleHash();
+
+            toast.show('Admin Center', 'Workspace settings loaded', '⚙️');
+        }
+
+        // ============================================================
+        // START
+        // ============================================================
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        console.log('✅ BuildMart Admin Center v1.0 loaded with shared platform modules');
+    </script>
+</body>
+</html>
+

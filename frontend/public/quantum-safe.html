@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PrimeShield Hub – Page Title</title>
+    
+    <!-- Cloudflare Turnstile (replaces reCAPTCHA) -->
+    <script src="https://challenges.cloudflare.com/turnstile/v0/api.js" async defer></script>
+    
+    <!-- Link to your global CSS -->
+    <link rel="stylesheet" href="/styles.css">
+    
+    <!-- Meta tags for configuration -->
+    <meta name="paystack-public-key" content="pk_live_4a622e5159e14bb0537ba7066320f44d6b6984de">
+    <meta name="turnstile-site-key" content="0x4AAAAAAC_YEMkjRgNCHKH3">
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+    <!-- ===== HEADER SECTION ===== -->
+    <header>
+        <!-- Logo -->
+        <div class="logo">
+            <a href="/">
+                <img src="/images/logo.png" alt="PrimeShieldHub" width="150" height="50">
+            </a>
+        </div>
+        
+        <!-- Main Navigation -->
+        <nav>
+            <ul>
+                <li><a href="/">Home</a></li>
+                <li><a href="/products">Products</a></li>
+                <li><a href="/categories">Categories</a></li>
+                <li><a href="/about">About</a></li>
+                <li><a href="/contact">Contact</a></li>
+                <li><a href="#wholesale" class="reseller-btn">Wholesale</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Cart Icon -->
+        <div class="cart-icon">
+            <a href="/cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </a>
+        </div>
+        
+        <!-- Auth Status -->
+        <div class="auth-status" id="authStatus">
+            <span>Loading...</span>
+        </div>
+        
+        <!-- User Menu (shown when logged in) -->
+        <div class="user-menu" id="userMenu" style="display: none;">
+            <button id="userMenuBtn">
+                <i class="fas fa-user"></i>
+                <span id="userEmail"></span>
+            </button>
+            <div class="user-dropdown" id="userDropdown">
+                <a href="/account">My Account</a>
+                <a href="/orders">My Orders</a>
+                <a href="/wishlist">Wishlist</a>
+                <hr>
+                <button id="logoutBtn">Sign Out</button>
+            </div>
+        </div>
+        
+        <!-- Login Button (shown when logged out) -->
+        <div class="login-btn" id="loginBtn" style="display: none;">
+            <a href="/login" class="btn btn-primary">Sign In</a>
+        </div>
+    </header>
+
+
+    <main>
+        <h1>Page Title</h1>
+        <!-- Page‑specific content goes here -->
+    </main>
+
+
+    <!-- ===== FOOTER SECTION ===== -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>About PrimeShieldHub</h4>
+                <p>Your trusted source for premium gadgets and electronics.</p>
+            </div>
+            <div class="footer-section">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/contact">Contact</a></li>
+                    <li><a href="/privacy">Privacy Policy</a></li>
+                    <li><a href="/terms">Terms & Conditions</a></li>
+                    <li><a href="/returns">Returns Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Contact Us</h4>
+                <p>Email: support@primeshieldhub.com</p>
+                <p>Phone: +234 810 353 5978</p>
+                <div class="social-links">
+                    <a href="https://wa.me/2348103535978" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    <a href="https://t.me/primeshieldhub" target="_blank"><i class="fab fa-telegram"></i></a>
+                    <a href="https://instagram.com/primeshieldhub" target="_blank"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2026 PrimeShieldHub. All rights reserved.</p>
+        </div>
+    </footer>
+
+
+    <!-- Bundled shared module (Cloudflare version) -->
+    <script type="module" src="../js/config.js"></script>
+
+
+    <!-- Page‑specific script -->
+    <script type="module">
+        import { initShared, getUser, onAuthStateChanged, signOut } from "../js/config.js";
+        
+        // Initialize shared module
+        initShared();
+        
+        // Auth state handling
+        function updateAuthUI(user) {
+            const authStatus = document.getElementById('authStatus');
+            const userMenu = document.getElementById('userMenu');
+            const loginBtn = document.getElementById('loginBtn');
+            const userEmail = document.getElementById('userEmail');
+            
+            if (user) {
+                // User is logged in
+                if (authStatus) authStatus.style.display = 'none';
+                if (userMenu) userMenu.style.display = 'block';
+                if (loginBtn) loginBtn.style.display = 'none';
+                if (userEmail) userEmail.textContent = user.email;
+            } else {
+                // User is logged out
+                if (authStatus) {
+                    authStatus.style.display = 'block';
+                    authStatus.textContent = 'Not signed in';
+                }
+                if (userMenu) userMenu.style.display = 'none';
+                if (loginBtn) loginBtn.style.display = 'block';
+            }
+        }
+        
+        // Listen for auth state changes
+        onAuthStateChanged((user) => {
+            updateAuthUI(user);
+        });
+        
+        // Initial auth check
+        const currentUser = getUser();
+        updateAuthUI(currentUser);
+        
+        // Logout handler
+        const logoutBtn = document.getElementById('logoutBtn');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', async () => {
+                await signOut();
+                window.location.href = '/';
+            });
+        }
+        
+        // User menu dropdown toggle
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        
+        if (userMenuBtn && userDropdown) {
+            userMenuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', () => {
+                userDropdown.classList.remove('show');
+            });
+        }
+        
+        // Update cart count (example - implement your cart logic)
+        function updateCartCount() {
+            const cartCount = document.getElementById('cartCount');
+            if (cartCount) {
+                const cart = JSON.parse(localStorage.getItem('psh_cart') || '[]');
+                const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                cartCount.textContent = count;
+                cartCount.style.display = count > 0 ? 'inline' : 'none';
+            }
+        }
+        
+        updateCartCount();
+        
+        // Listen for cart updates
+        window.addEventListener('storage', (e) => {
+            if (e.key === 'psh_cart') {
+                updateCartCount();
+            }
+        });
+        
+        console.log('Page initialized with Cloudflare auth');
+    </script>
+</body>
+</html>
+
+
+

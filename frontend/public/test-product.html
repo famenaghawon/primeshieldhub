@@ -1,0 +1,65 @@
+<!-- test-product.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Test Product Detail</title>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+    <h1>Test Product Page</h1>
+    <div id="product-detail"></div>
+    
+    <script>
+        async function testProductDetail() {
+            const productId = new URLSearchParams(window.location.search).get('id');
+            console.log('Testing product ID:', productId);
+            
+            if (!productId) {
+                document.getElementById('product-detail').innerHTML = 
+                    '<p>No product ID provided. Try: test-product.html?id=1</p>';
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/products/${productId}`);
+                const data = await response.json();
+                console.log('Product data:', data);
+                
+                if (data.success) {
+                    document.getElementById('product-detail').innerHTML = `
+                        <h2>${data.product.name}</h2>
+                        <p>Price: $${data.product.price}</p>
+                        <p>Description: ${data.product.description}</p>
+                        <img src="${data.product.image_url}" alt="${data.product.name}">
+                    `;
+                } else {
+                    document.getElementById('product-detail').innerHTML = 
+                        `<p>Error: ${data.message}</p>`;
+                }
+            } catch (error) {
+                document.getElementById('product-detail').innerHTML = 
+                    `<p>Error: ${error.message}</p>`;
+            }
+        }
+        
+        // Run when page loads
+        testProductDetail();
+    </script>
+</body>
+</html>
+

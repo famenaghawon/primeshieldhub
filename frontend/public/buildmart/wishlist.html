@@ -1,0 +1,2050 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-theme="workspace-dark">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="description" content="BuildMart Procurement Workspace - AI-powered procurement intelligence with live wishlist, budget analytics, and supplier insights." />
+    <meta name="theme-color" content="#050510" />
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api" />
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}" />
+    
+    <title>BuildMart · Procurement Workspace</title>
+    
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "BuildMart Procurement Workspace",
+        "description": "AI-powered procurement intelligence with live wishlist, budget analytics, and supplier insights.",
+        "url": "https://primeshieldhub.com/buildmart/wishlist.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "PRIMESHIELDHUB BUILDMART",
+            "url": "https://primeshieldhub.com/buildmart"
+        }
+    }
+    </script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES — DARK THEME
+           ============================================================ */
+        :root {
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --gold-dark: #D97706;
+            --gold-glow: rgba(245, 158, 11, 0.12);
+            --gold-dim: rgba(245, 179, 66, 0.15);
+            
+            --cyan: #00D4FF;
+            --cyan-glow: rgba(0, 212, 255, 0.08);
+            
+            --purple: #6c3cff;
+            --purple-glow: rgba(108, 60, 255, 0.08);
+            
+            --bg-deep: #050510;
+            --bg-primary: #0a1228;
+            --bg-card: rgba(12, 20, 36, 0.7);
+            --bg-input: rgba(10, 18, 30, 0.6);
+            --bg-glass: rgba(18, 18, 35, 0.55);
+            --bg-elevated: rgba(25, 25, 50, 0.6);
+            
+            --text-primary: #f0f0f5;
+            --text-secondary: #b0b0c0;
+            --text-muted: #6a6a80;
+            --text-inverse: #050510;
+            
+            --accent-success: #69f0ae;
+            --accent-warning: #F59E0B;
+            --accent-danger: #ff5252;
+            --accent-purple: #b388ff;
+            --accent-cyan: #00e5ff;
+            --accent-blue: #4a7aff;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 48px;
+            --radius-3xl: 56px;
+            
+            --shadow-card: 0 20px 48px -16px rgba(0, 0, 0, 0.6);
+            --shadow-glow: 0 0 40px rgba(245, 179, 66, 0.04);
+            --shadow-elevated: 0 32px 64px -20px rgba(0, 0, 0, 0.7);
+            
+            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-luxe: 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(ellipse at 20% 20%, rgba(245, 179, 66, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 80%, rgba(0, 229, 255, 0.03) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(179, 136, 255, 0.02) 0%, transparent 60%);
+            background-attachment: fixed;
+            padding: 1.2rem 1.8rem;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::selection { background: rgba(245, 158, 11, 0.25); }
+
+        .gold-text { color: var(--gold); }
+        .purple-text { color: var(--accent-purple); }
+        .green-text { color: var(--accent-success); }
+
+        /* ============================================================
+           GLASS
+           ============================================================ */
+        .glass {
+            background: var(--bg-card);
+            backdrop-filter: blur(24px) saturate(200%);
+            -webkit-backdrop-filter: blur(24px) saturate(200%);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            box-shadow: var(--shadow-card), 0 0 0 1px rgba(255,255,255,0.02) inset;
+        }
+
+        .glass-light {
+            background: rgba(18, 18, 35, 0.45);
+            backdrop-filter: blur(16px) saturate(160%);
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+
+        .card {
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(16px) saturate(160%);
+            -webkit-backdrop-filter: blur(16px) saturate(160%);
+            border-radius: var(--radius-2xl);
+            padding: 1.4rem 1.6rem;
+            border: 1px solid rgba(255,255,255,0.04);
+            box-shadow: 0 12px 32px -12px rgba(0, 0, 0, 0.3);
+            transition: var(--transition-smooth);
+        }
+        .card:hover {
+            background: rgba(25, 25, 50, 0.6);
+            border-color: rgba(245, 179, 66, 0.15);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-elevated);
+        }
+
+        /* ============================================================
+           BADGES
+           ============================================================ */
+        .badge {
+            padding: 0.3rem 1.2rem;
+            border-radius: 100px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(255,255,255,0.04);
+            text-transform: uppercase;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--text-secondary);
+        }
+        .badge-success {
+            background: rgba(105, 240, 174, 0.1);
+            color: var(--accent-success);
+            border-color: rgba(105, 240, 174, 0.15);
+        }
+        .badge-warning {
+            background: rgba(245, 179, 66, 0.1);
+            color: var(--accent-warning);
+            border-color: rgba(245, 179, 66, 0.15);
+        }
+        .badge-ai {
+            background: rgba(108, 60, 255, 0.1);
+            color: var(--accent-purple);
+            border-color: rgba(108, 60, 255, 0.15);
+        }
+        .badge-cyan {
+            background: rgba(0, 229, 255, 0.08);
+            color: var(--accent-cyan);
+            border-color: rgba(0, 229, 255, 0.15);
+        }
+
+        /* ============================================================
+           GRIDS
+           ============================================================ */
+        .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.8rem; }
+        .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.8rem; }
+        .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
+
+        @media (max-width: 1024px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+        }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+            padding: 0.5rem 1.4rem;
+            border-radius: 80px;
+            font-weight: 500;
+            font-size: 0.8rem;
+            backdrop-filter: blur(4px);
+            transition: var(--transition-smooth);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+            letter-spacing: -0.01em;
+            font-family: var(--font-sans);
+        }
+        .btn:hover {
+            background: rgba(255,255,255,0.04);
+            border-color: rgba(245, 179, 66, 0.15);
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border: 1px solid var(--gold);
+            color: var(--text-inverse);
+            box-shadow: 0 6px 20px rgba(245, 179, 66, 0.15);
+        }
+        .btn-primary:hover {
+            box-shadow: 0 8px 28px rgba(245, 179, 66, 0.25);
+            background: var(--gold-light);
+        }
+        .btn-ghost {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .btn-ai {
+            background: linear-gradient(145deg, #6c3cff, #9b6dff);
+            border: none;
+            color: var(--text-inverse);
+            box-shadow: 0 8px 24px rgba(108, 60, 255, 0.2);
+        }
+        .btn-ai:hover { box-shadow: 0 12px 32px rgba(108, 60, 255, 0.3); }
+
+        /* ============================================================
+           NAVBAR
+           ============================================================ */
+        .navbar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.8rem 2rem;
+            border-radius: 80px;
+            background: rgba(10, 16, 28, 0.7);
+            backdrop-filter: blur(32px) saturate(220%);
+            -webkit-backdrop-filter: blur(32px) saturate(220%);
+            border: 1px solid rgba(255,255,255,0.04);
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+        }
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .nav-brand {
+            font-weight: 800;
+            font-size: 1.2rem;
+            letter-spacing: -0.03em;
+            font-family: var(--font-display);
+            color: var(--text-primary);
+        }
+        .nav-brand i { color: var(--gold); }
+        .nav-stats {
+            display: flex;
+            gap: 2rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+        .nav-stats span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            opacity: 0.7;
+            color: var(--text-secondary);
+        }
+        .nav-stats span i { opacity: 0.5; }
+        .nav-actions {
+            display: flex;
+            gap: 0.6rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            color: var(--text-secondary);
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 0.2rem 0.4rem;
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero {
+            padding: 2rem 2.5rem;
+            border-radius: var(--radius-3xl);
+            background: radial-gradient(ellipse at 20% 30%, rgba(245, 179, 66, 0.04), transparent 60%),
+                        radial-gradient(ellipse at 80% 70%, rgba(108, 60, 255, 0.03), transparent 50%);
+            backdrop-filter: blur(32px);
+            border: 1px solid rgba(255,255,255,0.04);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 12px 40px -12px rgba(0, 0, 0, 0.3);
+        }
+        .hero-left h1 {
+            font-size: 2.2rem;
+            font-weight: 800;
+            letter-spacing: -0.04em;
+            font-family: var(--font-display);
+            background: linear-gradient(135deg, #f0f0f5, #b0b0c0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero-left .meta {
+            display: flex;
+            gap: 2rem;
+            margin-top: 0.3rem;
+            font-weight: 500;
+            opacity: 0.6;
+            color: var(--text-secondary);
+            flex-wrap: wrap;
+        }
+        .hero-score {
+            background: rgba(255,255,255,0.02);
+            border-radius: 120px;
+            padding: 0.3rem 1.8rem 0.3rem 1rem;
+            border: 1px solid rgba(255,255,255,0.04);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            gap: 1.2rem;
+        }
+        .score-ring {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--text-inverse);
+            font-size: 0.9rem;
+            box-shadow: 0 0 0 2px rgba(255,255,255,0.04);
+            transition: var(--transition-smooth);
+        }
+
+        /* ============================================================
+           AI BANNER
+           ============================================================ */
+        .ai-banner {
+            padding: 1rem 2rem;
+            border-radius: 60px;
+            background: linear-gradient(135deg, rgba(108, 60, 255, 0.04), rgba(60, 130, 255, 0.03));
+            border: 1px solid rgba(108, 60, 255, 0.08);
+            margin-bottom: 1.8rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            backdrop-filter: blur(12px);
+        }
+        .ai-banner .insight-list {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .ai-banner .insight-list span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+        .ai-banner .confidence {
+            background: rgba(105, 240, 174, 0.06);
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            color: var(--accent-success);
+            border: 1px solid rgba(105, 240, 174, 0.08);
+        }
+
+        /* ============================================================
+           TOOLBAR
+           ============================================================ */
+        .toolbar {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 1.2rem;
+            margin-bottom: 2rem;
+            padding: 0.8rem 1.6rem;
+            border-radius: 80px;
+            background: rgba(10, 16, 28, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .search-wrap {
+            flex: 1;
+            min-width: 180px;
+            display: flex;
+            align-items: center;
+            background: rgba(0,0,0,0.3);
+            border-radius: 80px;
+            padding: 0 1.2rem;
+            border: 1px solid rgba(255,255,255,0.04);
+            backdrop-filter: blur(4px);
+        }
+        .search-wrap i { opacity: 0.4; color: var(--text-muted); }
+        .search-wrap input {
+            border: none;
+            background: transparent;
+            padding: 0.6rem 0.8rem;
+            width: 100%;
+            font-family: var(--font-sans);
+            outline: none;
+            font-size: 0.85rem;
+            font-weight: 400;
+            color: var(--text-primary);
+        }
+        .search-wrap input::placeholder { color: var(--text-muted); }
+        .toolbar-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+        /* ============================================================
+           WISHLIST GRID
+           ============================================================ */
+        .wishlist-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.8rem;
+            margin: 2rem 0;
+        }
+        .product-card {
+            border-radius: var(--radius-2xl);
+            padding: 1.5rem 1.5rem 1.2rem;
+            background: rgba(20, 20, 40, 0.5);
+            backdrop-filter: blur(16px) saturate(160%);
+            border: 1px solid rgba(255,255,255,0.04);
+            transition: var(--transition-smooth);
+            box-shadow: 0 8px 24px -12px rgba(0, 0, 0, 0.2);
+        }
+        .product-card:hover {
+            transform: translateY(-6px) scale(1.005);
+            box-shadow: var(--shadow-elevated);
+            border-color: rgba(245, 179, 66, 0.12);
+        }
+        .product-card .top {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .product-card .product-thumb {
+            width: 72px;
+            height: 72px;
+            border-radius: var(--radius-md);
+            background: linear-gradient(145deg, #1a1a30, #101020);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            color: var(--text-muted);
+            flex-shrink: 0;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .product-card .product-thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .product-card .title-area {
+            flex: 1;
+            min-width: 0;
+        }
+        .product-card .title {
+            font-weight: 700;
+            font-size: 1rem;
+            letter-spacing: -0.02em;
+            font-family: var(--font-display);
+            margin-bottom: 0.1rem;
+        }
+        .product-card .sku {
+            font-size: 0.6rem;
+            opacity: 0.4;
+            letter-spacing: 0.04em;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .product-card .supplier {
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+        .product-card .price-block {
+            display: flex;
+            gap: 1rem;
+            margin-top: 0.6rem;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+        .product-card .price {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: var(--gold);
+        }
+        .product-card .bulk {
+            font-size: 0.75rem;
+            opacity: 0.5;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .product-card .qty-block {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-top: 0.4rem;
+        }
+        .product-card .qty-block .qty-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            border: 1px solid rgba(255,255,255,0.06);
+            background: rgba(255,255,255,0.02);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-smooth);
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+        .product-card .qty-block .qty-btn:hover {
+            background: var(--gold);
+            color: var(--text-inverse);
+        }
+        .product-card .qty-block .qty-value {
+            font-weight: 700;
+            min-width: 30px;
+            text-align: center;
+            font-size: 1rem;
+            color: var(--text-primary);
+        }
+        .product-card .subtotal {
+            font-size: 0.75rem;
+            opacity: 0.6;
+            margin-top: 0.2rem;
+            color: var(--text-muted);
+        }
+        .product-card .ai-tag {
+            background: rgba(108, 60, 255, 0.05);
+            border-radius: 60px;
+            padding: 0.2rem 1rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            display: inline-block;
+            border: 1px solid rgba(108, 60, 255, 0.05);
+            margin: 0.4rem 0;
+            backdrop-filter: blur(4px);
+            color: var(--accent-purple);
+        }
+        .product-card .supplier-compare {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin: 0.3rem 0;
+            font-size: 0.7rem;
+        }
+        .product-card .supplier-compare .s-item {
+            background: rgba(255,255,255,0.02);
+            padding: 0.1rem 0.6rem;
+            border-radius: 40px;
+            border: 1px solid rgba(255,255,255,0.04);
+            color: var(--text-secondary);
+        }
+        .product-card .supplier-compare .s-item.best {
+            border-color: var(--accent-success);
+            background: rgba(105, 240, 174, 0.05);
+            color: var(--accent-success);
+        }
+        .product-card .boq-tag {
+            font-size: 0.55rem;
+            padding: 0.1rem 0.6rem;
+            border-radius: 40px;
+            background: rgba(108, 60, 255, 0.08);
+            color: var(--accent-purple);
+            border: 1px solid rgba(108, 60, 255, 0.08);
+            display: inline-block;
+            margin-top: 0.2rem;
+        }
+        .product-card .actions {
+            display: flex;
+            gap: 0.4rem;
+            margin-top: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .product-card .actions .btn { padding: 0.3rem 1rem; font-size: 0.7rem; }
+        .expand-detail {
+            margin-top: 0.8rem;
+            border-top: 1px solid rgba(255,255,255,0.03);
+            padding-top: 0.8rem;
+            font-size: 0.65rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem 1.2rem;
+            opacity: 0.6;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .expand-detail span i { margin-right: 0.3rem; opacity: 0.4; }
+
+        /* ============================================================
+           ANALYTICS
+           ============================================================ */
+        .analytics-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        @media (max-width: 1024px) { .analytics-grid { grid-template-columns: 1fr 1fr; } }
+        @media (max-width: 768px) { .analytics-grid { grid-template-columns: 1fr; } }
+
+        .analytics-item {
+            background: rgba(20, 20, 40, 0.4);
+            backdrop-filter: blur(12px);
+            padding: 1rem 1.4rem;
+            border-radius: var(--radius-xl);
+            border: 1px solid rgba(255,255,255,0.04);
+        }
+        .analytics-item .label {
+            font-size: 0.6rem;
+            opacity: 0.4;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .analytics-item .value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            letter-spacing: -0.03em;
+            font-family: var(--font-display);
+            color: var(--gold);
+        }
+        .progress-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255,255,255,0.04);
+            border-radius: 20px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            border-radius: 20px;
+            background: linear-gradient(90deg, var(--gold), var(--gold-light));
+            transition: width 1s ease;
+        }
+
+        /* ============================================================
+           STICKY BAR
+           ============================================================ */
+        .sticky-bar {
+            position: sticky;
+            bottom: 1.8rem;
+            margin-top: 2.5rem;
+            padding: 1rem 2rem;
+            border-radius: 80px;
+            background: rgba(8, 24, 44, 0.7);
+            backdrop-filter: blur(32px) saturate(220%);
+            -webkit-backdrop-filter: blur(32px) saturate(220%);
+            border: 1px solid rgba(255,255,255,0.04);
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-primary);
+            box-shadow: 0 16px 48px -12px rgba(0, 0, 0, 0.6);
+            z-index: 50;
+        }
+        .sticky-bar .left {
+            display: flex;
+            gap: 1.8rem;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .sticky-bar .left .badge {
+            background: rgba(255,255,255,0.04);
+            color: var(--text-secondary);
+            border: none;
+        }
+        .sticky-bar .left .badge-cyan {
+            background: rgba(0, 229, 255, 0.06);
+            color: var(--accent-cyan);
+            border: none;
+        }
+        .sticky-bar .right {
+            display: flex;
+            gap: 0.6rem;
+            flex-wrap: wrap;
+        }
+        .sticky-bar .right .btn {
+            border-color: rgba(255,255,255,0.04);
+            color: var(--text-secondary);
+        }
+        .sticky-bar .right .btn-primary {
+            background: var(--gold);
+            color: var(--text-inverse);
+            border: none;
+            font-weight: 600;
+        }
+
+        /* ============================================================
+           FLOATING AI
+           ============================================================ */
+        .floating-ai {
+            position: fixed;
+            bottom: 120px;
+            right: 36px;
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: linear-gradient(145deg, #6c3cff, #9b6dff);
+            box-shadow: 0 16px 48px rgba(108, 60, 255, 0.2), 0 0 0 1px rgba(255,255,255,0.04) inset;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.8rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border: none;
+            z-index: 80;
+            animation: pulse-glow 3s infinite alternate;
+        }
+        @keyframes pulse-glow {
+            0% { box-shadow: 0 16px 48px rgba(108, 60, 255, 0.2); }
+            100% { box-shadow: 0 24px 64px rgba(108, 60, 255, 0.35); }
+        }
+        .floating-ai:hover { transform: scale(1.08); }
+
+        /* ============================================================
+           EMPTY STATE
+           ============================================================ */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: var(--text-muted);
+            grid-column: 1 / -1;
+        }
+        .empty-state i {
+            font-size: 4rem;
+            color: var(--text-muted);
+            opacity: 0.15;
+            margin-bottom: 1rem;
+            display: block;
+        }
+        .empty-state h3 {
+            color: var(--text-primary);
+            font-size: 1.4rem;
+            margin-bottom: 0.3rem;
+            font-family: var(--font-display);
+        }
+        .empty-state p {
+            max-width: 400px;
+            margin: 0 auto 1.5rem;
+            color: var(--text-secondary);
+        }
+        .empty-state .empty-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(10, 22, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(245, 179, 66, 0.12);
+            padding: 0.8rem 1.5rem;
+            border-radius: var(--radius-md);
+            z-index: 9999;
+            transform: translate(-50%, 100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 500px;
+            text-align: center;
+            box-shadow: var(--shadow-elevated);
+        }
+        #toast.show {
+            transform: translate(-50%, 0);
+            opacity: 1;
+        }
+        #toast .toast-content { display: flex; align-items: center; gap: 0.6rem; justify-content: center; }
+        #toast .toast-icon { color: var(--gold); font-size: 1.1rem; }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1024px) {
+            body { padding: 0.8rem 1rem; }
+            .navbar { padding: 0.6rem 1.2rem; border-radius: 60px; }
+            .nav-left { gap: 1rem; }
+            .nav-stats { gap: 1rem; }
+            .nav-stats span { font-size: 0.7rem; }
+            .hero { padding: 1.2rem 1.5rem; }
+            .hero-left h1 { font-size: 1.6rem; }
+            .hero-score { padding: 0.2rem 1rem; }
+            .score-ring { width: 44px; height: 44px; font-size: 0.7rem; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .ai-banner { flex-direction: column; align-items: flex-start; gap: 0.8rem; }
+            .ai-banner .insight-list { gap: 1rem; }
+            .toolbar { border-radius: 60px; padding: 0.6rem 1rem; }
+            .wishlist-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+            .sticky-bar { flex-direction: column; align-items: stretch; gap: 0.6rem; padding: 0.8rem 1.2rem; }
+            .sticky-bar .right { justify-content: center; }
+            .sticky-bar .left { justify-content: center; }
+            .floating-ai { right: 1rem; bottom: 130px; width: 50px; height: 50px; font-size: 1.4rem; }
+            .product-card .product-thumb { width: 56px; height: 56px; font-size: 1.5rem; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0.6rem; }
+            .navbar { flex-direction: column; align-items: stretch; gap: 0.6rem; }
+            .nav-left { flex-wrap: wrap; justify-content: center; }
+            .nav-actions { justify-content: center; }
+            .hero { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .hero-left .meta { gap: 1rem; font-size: 0.8rem; }
+            .hero-score { align-self: flex-start; }
+            .wishlist-grid { grid-template-columns: 1fr; }
+            .toolbar .search-wrap { min-width: 120px; }
+            .toolbar-actions { gap: 0.2rem; }
+            .toolbar-actions .btn { font-size: 0.65rem; padding: 0.3rem 0.8rem; }
+            .card { padding: 1rem; }
+            .sticky-bar .left .badge { font-size: 0.5rem; padding: 0.1rem 0.6rem; }
+            .sticky-bar .right .btn { font-size: 0.6rem; padding: 0.2rem 0.8rem; }
+            .sticky-bar .right .btn span { display: none; }
+            .floating-ai { bottom: 120px; right: 0.5rem; width: 44px; height: 44px; font-size: 1.2rem; }
+            .analytics-item .value { font-size: 1.4rem; }
+            .ai-banner .insight-list span { font-size: 0.7rem; }
+            .ai-banner .confidence { font-size: 0.65rem; padding: 0.2rem 0.8rem; }
+            .product-card .title { font-size: 0.9rem; }
+            .product-card .price { font-size: 1.1rem; }
+            .product-card .product-thumb { width: 48px; height: 48px; font-size: 1.2rem; }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 0.4rem; }
+            .navbar { padding: 0.4rem 0.8rem; border-radius: 40px; }
+            .nav-brand { font-size: 1rem; }
+            .nav-stats span { font-size: 0.6rem; gap: 0.1rem; }
+            .nav-stats { gap: 0.5rem; }
+            .hero { padding: 0.8rem 1rem; border-radius: var(--radius-2xl); }
+            .hero-left h1 { font-size: 1.2rem; }
+            .hero-left .meta { font-size: 0.65rem; gap: 0.5rem; }
+            .hero-score { padding: 0.1rem 0.6rem; gap: 0.5rem; }
+            .score-ring { width: 36px; height: 36px; font-size: 0.6rem; }
+            .ai-banner { padding: 0.6rem 0.8rem; border-radius: 40px; }
+            .ai-banner .insight-list span { font-size: 0.6rem; gap: 0.2rem; }
+            .toolbar { border-radius: 40px; padding: 0.4rem 0.6rem; gap: 0.3rem; }
+            .toolbar .search-wrap { padding: 0 0.6rem; }
+            .toolbar .search-wrap input { font-size: 0.7rem; padding: 0.3rem 0.4rem; }
+            .toolbar-actions .btn { font-size: 0.55rem; padding: 0.2rem 0.6rem; }
+            .product-card { padding: 0.8rem; border-radius: var(--radius-xl); }
+            .product-card .actions .btn { font-size: 0.55rem; padding: 0.15rem 0.6rem; }
+            .product-card .product-thumb { width: 40px; height: 40px; font-size: 1rem; }
+            .product-card .top { gap: 0.6rem; }
+            .expand-detail { font-size: 0.55rem; gap: 0.3rem 0.6rem; }
+            .card { padding: 0.6rem 0.8rem; border-radius: var(--radius-xl); }
+            .analytics-item { padding: 0.6rem 0.8rem; }
+            .analytics-item .value { font-size: 1.2rem; }
+            .sticky-bar { padding: 0.4rem 0.6rem; border-radius: 60px; bottom: 0.8rem; }
+            .sticky-bar .left { gap: 0.5rem; }
+            .sticky-bar .left .badge { font-size: 0.4rem; padding: 0.05rem 0.4rem; }
+            .sticky-bar .right .btn { font-size: 0.5rem; padding: 0.15rem 0.5rem; }
+            .floating-ai { width: 36px; height: 36px; font-size: 0.9rem; bottom: 110px; right: 0.3rem; }
+            .badge { font-size: 0.5rem; padding: 0.15rem 0.6rem; }
+            .empty-state i { font-size: 3rem; }
+            .empty-state h3 { font-size: 1.1rem; }
+            .empty-state .empty-actions .btn { font-size: 0.65rem; padding: 0.3rem 0.8rem; }
+        }
+
+        /* ============================================================
+           SCROLL REVEAL
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================================
+           MOBILE MENU
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 0.5rem 0;
+                gap: 0.4rem;
+                align-items: center;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transform: translateY(-10px);
+                transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+            }
+            .nav-links.open {
+                display: flex;
+                max-height: 500px;
+                opacity: 1;
+                transform: translateY(0);
+            }
+            .nav-links a {
+                color: var(--text-secondary);
+                text-decoration: none;
+                font-weight: 500;
+                font-size: 0.8rem;
+                padding: 0.3rem 0;
+            }
+            .nav-links a:hover { color: var(--text-primary); }
+        }
+
+        /* ============================================================
+           SR ONLY
+           ============================================================ */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            border: 0;
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+    <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+    <nav class="navbar" id="navbar">
+        <div class="nav-left">
+            <span class="nav-brand"><i class="fas fa-cubes" style="margin-right:0.5rem;"></i>BuildMart · Procurement</span>
+            <div class="nav-stats" id="navStats">
+                <span><i class="fas fa-box"></i> <span id="navItems">0</span> items</span>
+                <span><i class="fas fa-naira-sign"></i> <span id="navTotal">₦0</span></span>
+                <span><i class="fas fa-chart-line"></i> ₦<span id="navSavings">0</span> saved</span>
+                <span><i class="fas fa-robot" style="color:var(--accent-purple);"></i> AI 2.0</span>
+            </div>
+        </div>
+        <div class="nav-actions">
+            <span class="badge"><i class="fas fa-project-diagram"></i> <span id="navProject">Airport Terminal II</span></span>
+            <span class="badge badge-ai"><i class="fas fa-microchip"></i> AI Ready</span>
+            <button class="hamburger" id="hamburgerBtn" aria-label="Toggle navigation">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="/buildmart">Home</a>
+            <a href="/buildmart/products">Products</a>
+            <a href="/buildmart/compare">Compare</a>
+            <a href="/buildmart/wishlist" class="active">Procurement</a>
+            <a href="/buildmart/checkout">Checkout</a>
+            <a href="/buildmart/logistics">Logistics</a>
+            <a href="/buildmart/quote">Quote</a>
+        </div>
+    </nav>
+
+    <!-- ============================================================
+       HERO
+       ============================================================ -->
+    <div class="hero reveal" id="hero">
+        <div class="hero-left">
+            <h1>Procurement Intelligence Workspace</h1>
+            <div class="meta" id="heroMeta">
+                <span><i class="fas fa-boxes"></i> <span id="heroItems">0</span> items saved</span>
+                <span><i class="fas fa-naira-sign"></i> ₦<span id="heroPlanned">0</span> planned</span>
+                <span style="color:var(--accent-success);"><i class="fas fa-tag"></i> AI savings ₦<span id="heroSavings">0</span></span>
+            </div>
+        </div>
+        <div class="hero-score">
+            <div class="score-ring" id="procurementScore" style="background: conic-gradient(#1a1a30 0% 0%, #2a2a40 0% 100%);">0%</div>
+            <div><strong>Ready for Purchase</strong><br><span style="font-size:0.65rem;opacity:0.4;color:var(--text-muted);">Procurement score · <span id="confidenceScore">0%</span> confidence</span></div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       AI INSIGHTS BANNER
+       ============================================================ -->
+    <div class="ai-banner reveal" id="aiBanner">
+        <div class="insight-list" id="insightList">
+            <span><i class="fas fa-check-circle" style="color:var(--accent-success);"></i> <span id="insight1">0 materials consolidated</span></span>
+            <span><i class="fas fa-merge"></i> <span id="insight2">0 suppliers merged</span></span>
+            <span><i class="fas fa-naira-sign"></i> ₦<span id="insight3">0</span> savings</span>
+            <span><i class="fas fa-shield-alt"></i> Risk: <span id="insight4">Low</span></span>
+            <span><i class="fas fa-clock"></i> Delivery optimized</span>
+        </div>
+        <div class="confidence"><i class="fas fa-robot"></i> Confidence <span id="aiConfidence">0%</span></div>
+    </div>
+
+    <!-- ============================================================
+       TOOLBAR
+       ============================================================ -->
+    <div class="toolbar reveal" id="toolbar">
+        <div class="search-wrap">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search materials, SKU, supplier, category..." />
+        </div>
+        <div class="toolbar-actions">
+            <button class="btn" onclick="filterItems()"><i class="fas fa-sliders-h"></i> Filter</button>
+            <button class="btn" onclick="sortItems()"><i class="fas fa-sort"></i> Sort</button>
+            <button class="btn" onclick="toggleView()"><i class="fas fa-th"></i> Grid</button>
+            <button class="btn" onclick="shareWishlist()"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="btn" onclick="exportWishlist()"><i class="fas fa-file-export"></i> Export</button>
+            <button class="btn btn-primary" onclick="generateRFQ()"><i class="fas fa-file-invoice"></i> Generate RFQ</button>
+            <button class="btn btn-ai" onclick="analyzeWishlist()"><i class="fas fa-robot"></i> AI Analyze</button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       WISHLIST GRID
+       ============================================================ -->
+    <div class="wishlist-grid" id="wishlistGrid">
+        <!-- Populated by JS -->
+    </div>
+
+    <!-- ============================================================
+       BUDGET ANALYTICS + SUPPLIER INTELLIGENCE
+       ============================================================ -->
+    <div class="grid-2 reveal" style="margin:1.8rem 0;" id="analyticsRow">
+        <div class="card" id="budgetCard">
+            <div style="display:flex; justify-content:space-between; flex-wrap:wrap; gap:0.5rem;">
+                <span style="color:var(--text-secondary);"><i class="fas fa-coins" style="color:var(--gold);"></i> Budget Analytics · Live</span>
+                <span class="badge badge-success"><i class="fas fa-arrow-down"></i> ₦<span id="budgetSavings">0</span> saved</span>
+            </div>
+            <div style="margin:0.8rem 0 0.5rem;" id="budgetDetails">
+                <div style="display:flex; justify-content:space-between; padding:0.2rem 0; color:var(--text-secondary);"><span>Budget</span><strong style="color:var(--text-primary);" id="budgetTotal">₦5,000,000</strong></div>
+                <div style="display:flex; justify-content:space-between; padding:0.2rem 0; color:var(--text-secondary);"><span>Current</span><strong style="color:var(--text-primary);" id="budgetCurrent">₦0</strong></div>
+                <div style="display:flex; justify-content:space-between; padding:0.2rem 0; color:var(--text-secondary);"><span>Remaining</span><strong style="color:var(--text-primary);" id="budgetRemaining">₦5,000,000</strong></div>
+                <div style="display:flex; justify-content:space-between; padding:0.2rem 0; color:var(--accent-success);"><span>AI Savings</span><strong id="budgetAISavings">₦0</strong></div>
+                <div style="display:flex; justify-content:space-between; padding:0.2rem 0; color:var(--text-secondary);"><span>Contractor discount</span><strong id="budgetDiscount">₦0</strong></div>
+                <div style="display:flex; justify-content:space-between; padding:0.2rem 0; color:var(--text-secondary);"><span>Tax estimate</span><strong id="budgetTax">₦0</strong></div>
+            </div>
+            <div class="progress-bar"><div class="progress-fill" id="budgetProgress" style="width:0%;"></div></div>
+            <div style="font-size:0.65rem; margin-top:0.3rem; color:var(--text-muted);"><span id="budgetUtilization">0%</span> utilized · ₦0 remaining · AI forecast: on track</div>
+        </div>
+
+        <div class="card" id="supplierCard">
+            <div style="color:var(--text-secondary);"><i class="fas fa-truck" style="color:var(--gold);"></i> Supplier Intelligence</div>
+            <div style="display:flex; justify-content:space-between; margin-top:0.8rem; flex-wrap:wrap; gap:0.5rem;" id="supplierTop">
+                <div><span class="badge" style="background:var(--gold);color:var(--text-inverse);" id="supplierName">—</span> <span class="badge" id="supplierRating">—</span></div>
+                <div><span class="badge"><i class="fas fa-warehouse"></i> <span id="supplierWarehouse">—</span></span> <span style="color:var(--text-muted);" id="supplierDistance">—</span></div>
+            </div>
+            <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; margin-top:0.8rem;" id="supplierMetrics">
+                <div><span style="font-size:0.6rem; color:var(--text-muted);">Avg delivery</span> <strong style="color:var(--text-primary);" id="supplierDelivery">—</strong></div>
+                <div><span style="font-size:0.6rem; color:var(--text-muted);">Reliability</span> <strong style="color:var(--text-primary);" id="supplierReliability">—</strong></div>
+                <div><span style="font-size:0.6rem; color:var(--text-muted);">Current stock</span> <strong style="color:var(--text-primary);" id="supplierStock">—</strong></div>
+                <div><span style="font-size:0.6rem; color:var(--text-muted);">Reserved</span> <strong style="color:var(--text-primary);" id="supplierReserved">—</strong></div>
+            </div>
+            <div class="badge badge-warning" style="margin-top:0.5rem;" id="supplierAlert"><i class="fas fa-clock"></i> No items in wishlist</div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       PRICE INTELLIGENCE + AVAILABILITY + ALTERNATIVES
+       ============================================================ -->
+    <div class="grid-3 reveal" style="margin:1.8rem 0;" id="intelligenceRow">
+        <div class="card" id="priceCard">
+            <span style="color:var(--text-secondary);"><i class="fas fa-chart-line" style="color:var(--gold);"></i> Price Intelligence</span>
+            <div style="margin:0.8rem 0;" id="priceHistory">
+                <div style="display:flex; justify-content:space-between; padding:0.1rem 0; color:var(--text-secondary);"><span>Jun</span> ₦<span id="priceJun">—</span></div>
+                <div style="display:flex; justify-content:space-between; padding:0.1rem 0; color:var(--text-secondary);"><span>Jul</span> ₦<span id="priceJul">—</span></div>
+                <div style="display:flex; justify-content:space-between; padding:0.1rem 0; color:#b45309;"><span>Forecast</span> ₦<span id="priceForecast">—</span></div>
+            </div>
+            <span class="badge badge-ai"><i class="fas fa-clock"></i> <span id="priceRecommendation">Add items to see price intelligence</span></span>
+        </div>
+
+        <div class="card" id="availabilityCard">
+            <span style="color:var(--text-secondary);"><i class="fas fa-box" style="color:var(--gold);"></i> Availability Forecast · AI</span>
+            <div style="margin-top:0.6rem;" id="availabilityDetails">
+                <div style="color:var(--text-secondary);">Current <span style="color:var(--text-primary);" id="availCurrent">0</span> · Reserved <span style="color:var(--text-primary);" id="availReserved">0</span></div>
+                <div style="color:var(--text-secondary);">Incoming <span style="color:var(--text-primary);" id="availIncoming">0</span></div>
+                <div class="badge badge-warning" style="margin-top:0.4rem;" id="availAlert">No items to forecast</div>
+                <div style="font-size:0.65rem; margin-top:0.3rem; color:var(--text-muted);"><i class="fas fa-robot"></i> Add items for AI recommendations</div>
+            </div>
+        </div>
+
+        <div class="card" id="alternativesCard">
+            <span style="color:var(--text-secondary);"><i class="fas fa-copy" style="color:var(--gold);"></i> Equivalent Products · AI ranked</span>
+            <div style="margin-top:0.5rem;" id="alternativesList">
+                <div style="color:var(--text-muted);">Add items to see alternatives</div>
+            </div>
+            <span class="badge badge-ai" style="margin-top:0.5rem;"><i class="fas fa-robot"></i> <span id="altConfidence">—</span> match confidence</span>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       PROJECT ALLOCATION + RECENT ACTIVITY
+       ============================================================ -->
+    <div class="grid-2 reveal" style="margin:1.8rem 0;" id="activityRow">
+        <div class="card" id="projectCard">
+            <span style="color:var(--text-secondary);"><i class="fas fa-project-diagram" style="color:var(--gold);"></i> Project Allocation · Multi‑project</span>
+            <div style="display:flex; flex-wrap:wrap; gap:1rem; margin-top:0.8rem;" id="projectList">
+                <div><span class="badge" style="background:var(--gold);color:var(--text-inverse);">Airport</span> <span id="projectAirport">0</span> items</div>
+                <div><span class="badge">School</span> <span id="projectSchool">0</span> items</div>
+                <div><span class="badge">Hospital</span> <span id="projectHospital">0</span> items</div>
+                <div><span class="badge">Bridge</span> <span id="projectBridge">0</span> items</div>
+            </div>
+            <div style="font-size:0.65rem; margin-top:0.5rem; color:var(--text-muted);"><i class="fas fa-arrows-alt-h"></i> Add items to allocate to projects</div>
+        </div>
+
+        <div class="card" id="activityCard">
+            <span style="color:var(--text-secondary);"><i class="fas fa-bolt" style="color:var(--gold);"></i> Recent Activity · Live feed</span>
+            <div style="margin-top:0.5rem; font-size:0.85rem; line-height:1.8; color:var(--text-secondary);" id="activityFeed">
+                <div style="color:var(--text-muted);">No recent activity</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       STICKY BAR
+       ============================================================ -->
+    <div class="sticky-bar" id="stickyBar">
+        <div class="left">
+            <span><i class="fas fa-boxes"></i> <span id="stickyItems">0</span> Items</span>
+            <span><i class="fas fa-naira-sign"></i> ₦<span id="stickyTotal">0</span></span>
+            <span class="badge"><i class="fas fa-robot"></i> AI active</span>
+            <span class="badge badge-cyan"><i class="fas fa-sync-alt fa-fw"></i> Live sync</span>
+        </div>
+        <div class="right">
+            <button class="btn" onclick="generateRFQ()"><i class="fas fa-file-invoice"></i> RFQ</button>
+            <button class="btn btn-primary" onclick="moveToCart()"><i class="fas fa-cart-plus"></i> Move to Cart</button>
+            <button class="btn" onclick="generateQuote()"><i class="fas fa-file-invoice-dollar"></i> Quote</button>
+            <button class="btn" onclick="generatePO()"><i class="fas fa-file-pdf"></i> PO</button>
+            <button class="btn" onclick="shareWishlist()"><i class="fas fa-share-alt"></i> Share</button>
+            <button class="btn" onclick="clearWishlist()"><i class="fas fa-trash-alt"></i></button>
+            <button class="btn btn-ai" onclick="openAIAssistant()"><i class="fas fa-robot"></i> <span>AI Assistant</span></button>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       FLOATING AI
+       ============================================================ -->
+    <div class="floating-ai" id="floatingAI">
+        <i class="fas fa-robot"></i>
+    </div>
+
+    <!-- ============================================================
+       TOAST
+       ============================================================ -->
+    <div id="toast" role="alert" aria-live="polite">
+        <div class="toast-content">
+            <span class="toast-icon">✓</span>
+            <div>
+                <div style="font-weight:600; font-size:0.85rem;" id="toastTitle">Success</div>
+                <div style="color:var(--text-muted); font-size:0.75rem;" id="toastMessage">Action completed</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS - FULL COMPLETE SCRIPT
+       ============================================================ -->
+    <script>
+        (function() {
+            "use strict";
+
+            // ============================================================
+            // CONFIGURATION
+            // ============================================================
+            const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+            let wishlistItems = [];
+            let updateInterval = null;
+
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+            const DOM = {
+                wishlistGrid: document.getElementById('wishlistGrid'),
+                navItems: document.getElementById('navItems'),
+                navTotal: document.getElementById('navTotal'),
+                navSavings: document.getElementById('navSavings'),
+                navProject: document.getElementById('navProject'),
+                heroItems: document.getElementById('heroItems'),
+                heroPlanned: document.getElementById('heroPlanned'),
+                heroSavings: document.getElementById('heroSavings'),
+                procurementScore: document.getElementById('procurementScore'),
+                confidenceScore: document.getElementById('confidenceScore'),
+                aiConfidence: document.getElementById('aiConfidence'),
+                budgetSavings: document.getElementById('budgetSavings'),
+                budgetTotal: document.getElementById('budgetTotal'),
+                budgetCurrent: document.getElementById('budgetCurrent'),
+                budgetRemaining: document.getElementById('budgetRemaining'),
+                budgetAISavings: document.getElementById('budgetAISavings'),
+                budgetDiscount: document.getElementById('budgetDiscount'),
+                budgetTax: document.getElementById('budgetTax'),
+                budgetProgress: document.getElementById('budgetProgress'),
+                budgetUtilization: document.getElementById('budgetUtilization'),
+                stickyItems: document.getElementById('stickyItems'),
+                stickyTotal: document.getElementById('stickyTotal'),
+                toast: document.getElementById('toast'),
+                toastTitle: document.getElementById('toastTitle'),
+                toastMessage: document.getElementById('toastMessage'),
+                floatingAI: document.getElementById('floatingAI'),
+                navLinks: document.getElementById('navLinks'),
+                hamburgerBtn: document.getElementById('hamburgerBtn'),
+                searchInput: document.getElementById('searchInput'),
+            };
+
+            // ============================================================
+            // SAMPLE DATA - FALLBACK WITH QUANTITY & IMAGES
+            // ============================================================
+            const SAMPLE_WISHLIST = [{
+                id: 'dangote-cement-50kg',
+                name: 'Dangote Cement 50kg',
+                sku: 'BM-44281',
+                supplier: 'Dangote',
+                image: '/buildmart/images/products/dangote-cement.jpg',
+                warehouse: 'Benin DC',
+                stock: 1240,
+                price: 12400,
+                bulkPrice: 11900,
+                eta: '2d',
+                rating: 4.9,
+                trend: '+4%',
+                quantity: 120,
+                aiTag: 'Buy within 48h · +4% forecast',
+                badges: ['success'],
+                boq: 'Foundation Phase',
+                alternatives: [
+                    { name: 'BUA Cement', price: 11900, best: true },
+                    { name: 'Lafarge Cement', price: 12800 }
+                ]
+            }, {
+                id: 'rebar-16mm',
+                name: 'Reinforcement Bar 16mm',
+                sku: 'BM-88912',
+                supplier: 'African Steel',
+                image: '/buildmart/images/products/rebar-16mm.jpg',
+                warehouse: 'Lagos DC',
+                stock: 680,
+                price: 8750,
+                bulkPrice: 8200,
+                eta: '5d',
+                rating: 4.7,
+                trend: '-2%',
+                quantity: 250,
+                aiTag: 'Supply risk · alternative found',
+                badges: ['warning'],
+                boq: 'Structural Steel',
+                alternatives: [
+                    { name: 'Tata Steel', price: 8500 },
+                    { name: 'Kamal Steel', price: 8200, best: true }
+                ]
+            }, {
+                id: 'armoured-cable-2.5mm',
+                name: 'Armoured Cable 2.5mm',
+                sku: 'BM-33107',
+                supplier: 'Nexans',
+                image: '/buildmart/images/products/armoured-cable.jpg',
+                warehouse: 'Abuja DC',
+                stock: 2100,
+                price: 5500,
+                bulkPrice: 5200,
+                eta: '1d',
+                rating: 4.8,
+                trend: '+1%',
+                quantity: 500,
+                aiTag: 'Eco option available',
+                badges: ['success'],
+                boq: 'Electrical Systems',
+                alternatives: [
+                    { name: 'Coleman Cable', price: 5300, best: true },
+                    { name: 'Southwire', price: 5800 }
+                ]
+            }, {
+                id: 'roofing-aluzinc',
+                name: 'Aluzinc Roofing Sheet',
+                sku: 'BM-77213',
+                supplier: 'Alucobond',
+                image: '/buildmart/images/products/roofing-aluzinc.jpg',
+                warehouse: 'Port-Harcourt',
+                stock: 340,
+                price: 18000,
+                bulkPrice: 16500,
+                eta: '3d',
+                rating: 4.6,
+                trend: '0%',
+                quantity: 80,
+                aiTag: 'Price trend: stable',
+                badges: ['warning'],
+                boq: 'Roofing',
+                alternatives: [
+                    { name: 'Stone Coated Steel', price: 17500, best: true },
+                    { name: 'Long Span', price: 16000 }
+                ]
+            }];
+
+            // ============================================================
+            // UTILITY FUNCTIONS
+            // ============================================================
+            function showToast(title, message, icon = '✓') {
+                const iconEl = document.querySelector('#toast .toast-icon');
+                if (iconEl) iconEl.textContent = icon;
+                DOM.toastTitle.textContent = title;
+                DOM.toastMessage.textContent = message;
+                DOM.toast.classList.add('show');
+                clearTimeout(window.toastTimeout);
+                window.toastTimeout = setTimeout(() => DOM.toast.classList.remove('show'), 4000);
+            }
+
+            function formatCurrency(amount) {
+                if (amount === undefined || amount === null) return '₦0';
+                return '₦' + Number(amount).toLocaleString();
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            // ============================================================
+            // FETCH WISHLIST
+            // ============================================================
+            async function fetchWishlist() {
+                try {
+                    const response = await fetch(`${API_BASE}/buildmart/wishlist`, {
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        wishlistItems = data.items || data.data || data;
+                        renderWishlist(wishlistItems);
+                        updateAnalytics(wishlistItems);
+                        return;
+                    }
+                } catch (error) {
+                    console.warn('Wishlist API error, using fallback:', error);
+                }
+
+                wishlistItems = SAMPLE_WISHLIST;
+                renderWishlist(wishlistItems);
+                updateAnalytics(wishlistItems);
+            }
+
+            // ============================================================
+            // RENDER WISHLIST - SAFE DOM WITH IMAGES, QUANTITY, SUPPLIER COMPARE
+            // ============================================================
+            function renderWishlist(items) {
+                const container = DOM.wishlistGrid;
+                container.innerHTML = '';
+
+                if (!items || items.length === 0) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <i class="fas fa-cubes"></i>
+                            <h3>Your Procurement Workspace is Empty</h3>
+                            <p>Start planning materials for your next project. Add items from the product catalog or upload a BOQ.</p>
+                            <div class="empty-actions">
+                                <a href="/buildmart/products.html" class="btn btn-primary" style="text-decoration:none;display:inline-flex;"><i class="fas fa-search"></i> Browse Materials</a>
+                                <button class="btn" onclick="showToast('BOQ', 'BOQ upload feature coming soon', '📄')"><i class="fas fa-upload"></i> Upload BOQ</button>
+                                <button class="btn btn-ai" onclick="openAIAssistant()"><i class="fas fa-robot"></i> AI Material Planner</button>
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
+
+                items.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'product-card';
+                    card.dataset.id = item.id;
+
+                    const stockBadge = item.stock > 100 ? 'badge-success' : 'badge-warning';
+                    const stockLabel = item.stock > 100 ? `${item.stock} units` : `${item.stock} units`;
+                    const imageHtml = item.image ?
+                        `<img src="${item.image}" alt="${escapeHtml(item.name)}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex';">` :
+                        '';
+                    const placeholderHtml = !item.image ?
+                        `<i class="fas fa-cube"></i>` :
+                        `<i class="fas fa-cube" style="display:none;"></i>`;
+
+                    const subtotal = (item.price || 0) * (item.quantity || 1);
+
+                    // Supplier alternatives
+                    let altHtml = '';
+                    if (item.alternatives && item.alternatives.length > 0) {
+                        altHtml = `<div class="supplier-compare">`;
+                        item.alternatives.forEach(alt => {
+                            altHtml += `
+                                <span class="s-item ${alt.best ? 'best' : ''}">
+                                    ${escapeHtml(alt.name)} ${formatCurrency(alt.price)}
+                                    ${alt.best ? '⭐' : ''}
+                                </span>
+                            `;
+                        });
+                        altHtml += `</div>`;
+                    }
+
+                    card.innerHTML = `
+                        <div class="top">
+                            <div class="product-thumb">
+                                ${imageHtml}
+                                ${placeholderHtml}
+                            </div>
+                            <div class="title-area">
+                                <div class="title">${escapeHtml(item.name)}</div>
+                                <div class="sku">SKU: ${escapeHtml(item.sku)}</div>
+                                <div><span class="supplier"><i class="fas fa-truck"></i> ${escapeHtml(item.supplier)}</span></div>
+                            </div>
+                            <span class="badge"><i class="fas fa-warehouse"></i> ${escapeHtml(item.warehouse)}</span>
+                        </div>
+                        <div class="price-block">
+                            <span class="price">${formatCurrency(item.price)}</span>
+                            <span class="bulk">Bulk ${formatCurrency(item.bulkPrice || item.price * 0.92)}</span>
+                            <span class="badge ${stockBadge}" style="font-size:0.55rem;">${stockLabel}</span>
+                        </div>
+                        <div class="qty-block">
+                            <button class="qty-btn" onclick="updateQuantity('${item.id}', -1, ${index})">−</button>
+                            <span class="qty-value" id="qty-${index}">${item.quantity || 1}</span>
+                            <button class="qty-btn" onclick="updateQuantity('${item.id}', 1, ${index})">+</button>
+                            <span class="subtotal" style="margin-left:0.5rem;">Subtotal: ${formatCurrency(subtotal)}</span>
+                        </div>
+                        ${item.boq ? `<div class="boq-tag"><i class="fas fa-file-alt"></i> ${escapeHtml(item.boq)}</div>` : ''}
+                        <div class="ai-tag"><i class="fas fa-clock"></i> ${escapeHtml(item.aiTag || 'AI recommendation available')}</div>
+                        ${altHtml}
+                        <div class="actions">
+                            <button class="btn" onclick="compareItem('${item.id}')"><i class="fas fa-chart-simple"></i> Compare</button>
+                            <button class="btn" onclick="quoteItem('${item.id}')"><i class="fas fa-quote-right"></i> Quote</button>
+                            <button class="btn" onclick="removeItem('${item.id}')"><i class="fas fa-trash-alt"></i></button>
+                            <button class="btn btn-primary" onclick="moveToCartItem('${item.id}')" style="padding:0.3rem 1rem;"><i class="fas fa-cart-plus"></i> Move</button>
+                        </div>
+                        <div class="expand-detail">
+                            <span><i class="fas fa-tag"></i> ${item.suppliers || '3'} suppliers</span>
+                            <span><i class="fas fa-clock"></i> ETA ${escapeHtml(item.eta || '2d')}</span>
+                            <span><i class="fas fa-star"></i> ${item.rating || 4.8}</span>
+                            <span><i class="fas fa-chart-line"></i> ${escapeHtml(item.trend || '+4%')}</span>
+                            ${item.aiTag ? `<span><i class="fas fa-robot"></i> AI rec</span>` : ''}
+                        </div>
+                    `;
+
+                    container.appendChild(card);
+                });
+
+                // Update counts
+                const count = items.length;
+                const total = items.reduce((sum, i) => sum + ((i.price || 0) * (i.quantity || 1)), 0);
+                DOM.navItems.textContent = count;
+                DOM.heroItems.textContent = count;
+                DOM.stickyItems.textContent = count;
+                DOM.navTotal.textContent = formatCurrency(total);
+                DOM.stickyTotal.textContent = formatCurrency(total);
+                DOM.heroPlanned.textContent = total.toLocaleString();
+            }
+
+            // ============================================================
+            // UPDATE ANALYTICS
+            // ============================================================
+            function updateAnalytics(items) {
+                if (!items || items.length === 0) {
+                    // Reset all analytics
+                    DOM.heroSavings.textContent = '0';
+                    DOM.navSavings.textContent = '0';
+                    DOM.budgetSavings.textContent = '0';
+                    DOM.budgetCurrent.textContent = formatCurrency(0);
+                    DOM.budgetRemaining.textContent = formatCurrency(5000000);
+                    DOM.budgetAISavings.textContent = formatCurrency(0);
+                    DOM.budgetDiscount.textContent = formatCurrency(0);
+                    DOM.budgetTax.textContent = formatCurrency(0);
+                    DOM.budgetProgress.style.width = '0%';
+                    DOM.budgetUtilization.textContent = '0%';
+                    DOM.procurementScore.textContent = '0%';
+                    DOM.procurementScore.style.background = 'conic-gradient(#1a1a30 0% 0%, #2a2a40 0% 100%)';
+                    DOM.confidenceScore.textContent = '0%';
+                    DOM.aiConfidence.textContent = '0%';
+                    document.getElementById('supplierName').textContent = '—';
+                    document.getElementById('supplierRating').textContent = '—';
+                    document.getElementById('supplierWarehouse').textContent = '—';
+                    document.getElementById('supplierStock').textContent = '—';
+                    document.getElementById('priceJun').textContent = '—';
+                    document.getElementById('priceJul').textContent = '—';
+                    document.getElementById('priceForecast').textContent = '—';
+                    document.getElementById('availCurrent').textContent = '0';
+                    document.getElementById('availReserved').textContent = '0';
+                    document.getElementById('availIncoming').textContent = '0';
+                    document.getElementById('projectAirport').textContent = '0';
+                    document.getElementById('projectSchool').textContent = '0';
+                    document.getElementById('projectHospital').textContent = '0';
+                    document.getElementById('projectBridge').textContent = '0';
+                    document.getElementById('activityFeed').innerHTML =
+                        '<div style="color:var(--text-muted);">No recent activity</div>';
+                    document.getElementById('supplierAlert').innerHTML =
+                        '<i class="fas fa-clock"></i> No items in wishlist';
+                    document.getElementById('priceRecommendation').textContent =
+                        'Add items to see price intelligence';
+                    document.getElementById('availAlert').textContent = 'No items to forecast';
+                    document.getElementById('alternativesList').innerHTML =
+                        '<div style="color:var(--text-muted);">Add items to see alternatives</div>';
+                    document.getElementById('altConfidence').textContent = '—';
+                    return;
+                }
+
+                const total = items.reduce((sum, i) => sum + ((i.price || 0) * (i.quantity || 1)), 0);
+                const savings = Math.round(total * 0.065);
+                const budget = 5000000;
+                const utilization = Math.min(Math.round((total / budget) * 100), 100);
+
+                // Hero
+                DOM.heroSavings.textContent = savings.toLocaleString();
+                DOM.navSavings.textContent = (savings / 1000).toFixed(0) + 'k';
+
+                // Budget
+                DOM.budgetSavings.textContent = (savings / 1000).toFixed(0) + 'k';
+                DOM.budgetTotal.textContent = formatCurrency(budget);
+                DOM.budgetCurrent.textContent = formatCurrency(total);
+                DOM.budgetRemaining.textContent = formatCurrency(Math.max(budget - total, 0));
+                DOM.budgetAISavings.textContent = formatCurrency(savings);
+                DOM.budgetDiscount.textContent = formatCurrency(Math.round(total * 0.018));
+                DOM.budgetTax.textContent = formatCurrency(Math.round(total * 0.045));
+                DOM.budgetProgress.style.width = utilization + '%';
+                DOM.budgetUtilization.textContent = utilization + '%';
+
+                // Score
+                const score = Math.min(87 + Math.floor((savings / 100000) * 5), 98);
+                DOM.procurementScore.textContent = score + '%';
+                DOM.procurementScore.style.background =
+                    `conic-gradient(#1a1a30 0% ${score}%, #2a2a40 ${score}% 100%)`;
+                const confidence = Math.min(98, 88 + Math.floor((items.length / 10) * 3));
+                DOM.confidenceScore.textContent = confidence + '%';
+                DOM.aiConfidence.textContent = confidence + '%';
+
+                // Supplier - use first item as primary
+                const primary = items[0];
+                document.getElementById('supplierName').textContent = primary.supplier || '—';
+                document.getElementById('supplierRating').textContent = '⭐ ' + (primary.rating || '—');
+                document.getElementById('supplierWarehouse').textContent = primary.warehouse || '—';
+                document.getElementById('supplierStock').textContent = primary.stock || '—';
+
+                // Price intelligence - use first item
+                const basePrice = primary.price || 12400;
+                document.getElementById('priceJun').textContent = Math.round(basePrice * 0.97);
+                document.getElementById('priceJul').textContent = basePrice;
+                document.getElementById('priceForecast').textContent = Math.round(basePrice * 1.04);
+                document.getElementById('priceRecommendation').textContent =
+                    `Buy before Friday · +${Math.round((basePrice * 0.04) / basePrice * 100)}%`;
+
+                // Availability
+                const totalStock = items.reduce((sum, i) => sum + (i.stock || 0), 0);
+                const totalReserved = items.reduce((sum, i) => sum + (i.quantity || 1), 0);
+                document.getElementById('availCurrent').textContent = totalStock;
+                document.getElementById('availReserved').textContent = totalReserved;
+                document.getElementById('availIncoming').textContent = Math.round(totalStock * 0.3);
+                document.getElementById('availAlert').textContent =
+                    totalStock > 100 ? 'Stock levels healthy' : 'Risk Medium · consider reordering';
+
+                // Project allocation
+                const boqItems = items.filter(i => i.boq);
+                const projects = {};
+                boqItems.forEach(i => {
+                    const name = i.boq || 'Unassigned';
+                    projects[name] = (projects[name] || 0) + 1;
+                });
+                document.getElementById('projectAirport').textContent = projects['Foundation Phase'] || 0;
+                document.getElementById('projectSchool').textContent = projects['Structural Steel'] || 0;
+                document.getElementById('projectHospital').textContent = projects['Electrical Systems'] || 0;
+                document.getElementById('projectBridge').textContent = projects['Roofing'] || 0;
+
+                // Activity feed
+                const feed = document.getElementById('activityFeed');
+                const activities = [];
+                items.forEach(item => {
+                    if (item.aiTag) {
+                        activities.push(`<div><i class="fas fa-robot" style="color:var(--accent-purple);"></i> ${escapeHtml(item.aiTag)}</div>`);
+                    }
+                    if (item.stock < 100) {
+                        activities.push(`<div><i class="fas fa-exclamation-triangle" style="color:var(--accent-warning);"></i> ${escapeHtml(item.name)} stock low (${item.stock})</div>`);
+                    }
+                });
+                if (activities.length === 0) {
+                    activities.push('<div style="color:var(--text-muted);">No recent activity</div>');
+                }
+                feed.innerHTML = activities.slice(0, 5).join('');
+
+                // Supplier alert
+                document.getElementById('supplierAlert').innerHTML =
+                    `<i class="fas fa-clock"></i> ${items.length} items · ${totalStock} units available`;
+
+                // Alternatives
+                const altContainer = document.getElementById('alternativesList');
+                if (items.length > 0 && items[0].alternatives) {
+                    altContainer.innerHTML = items[0].alternatives.map(alt =>
+                        `<div><span class="badge" style="background:${alt.best ? 'var(--gold)' : 'transparent'};color:${alt.best ? 'var(--text-inverse)' : 'var(--text-secondary)'};">${alt.best ? 'Best' : 'Alt'}</span> ${escapeHtml(alt.name)} ${formatCurrency(alt.price)}</div>`
+                    ).join('');
+                    document.getElementById('altConfidence').textContent = '98%';
+                } else {
+                    altContainer.innerHTML = '<div style="color:var(--text-muted);">No alternatives available</div>';
+                    document.getElementById('altConfidence').textContent = '—';
+                }
+            }
+
+            // ============================================================
+            // INTERACTIVE FUNCTIONS
+            // ============================================================
+            function updateQuantity(id, delta, index) {
+                const item = wishlistItems.find(i => i.id === id);
+                if (!item) return;
+                const newQty = Math.max(1, (item.quantity || 1) + delta);
+                item.quantity = newQty;
+                const qtyEl = document.getElementById(`qty-${index}`);
+                if (qtyEl) qtyEl.textContent = newQty;
+                updateAnalytics(wishlistItems);
+
+                // Update subtotal in card
+                const card = qtyEl?.closest('.product-card');
+                if (card) {
+                    const subtotalEl = card.querySelector('.subtotal');
+                    if (subtotalEl) {
+                        subtotalEl.textContent = `Subtotal: ${formatCurrency((item.price || 0) * newQty)}`;
+                    }
+                }
+                showToast('Updated', `${item.name} quantity: ${newQty}`, '🔄');
+            }
+
+            function compareItem(id) {
+                showToast('Compare', `Comparing ${id}...`, '⚖️');
+                window.location.href = `/buildmart/compare.html?id=${id}`;
+            }
+
+            function quoteItem(id) {
+                const item = wishlistItems.find(i => i.id === id);
+                showToast('Quote', `Generating quote for ${item?.name || id}...`, '📄');
+                window.location.href = `/buildmart/quote.html?product=${id}&qty=${item?.quantity || 1}`;
+            }
+
+            function removeItem(id) {
+                if (confirm(`Remove this item from procurement workspace?`)) {
+                    wishlistItems = wishlistItems.filter(i => i.id !== id);
+                    renderWishlist(wishlistItems);
+                    updateAnalytics(wishlistItems);
+                    showToast('Removed', 'Item removed from workspace', '🗑️');
+                    // In production: DELETE /api/buildmart/wishlist/${id}
+                }
+            }
+
+            function moveToCartItem(id) {
+                const item = wishlistItems.find(i => i.id === id);
+                if (item) {
+                    const qty = item.quantity || 1;
+                    showToast('Moved', `${item.name} × ${qty} added to cart`, '🛒');
+                    // In production: POST /api/cart/items
+                    removeItem(id);
+                }
+            }
+
+            function filterItems() {
+                showToast('Filter', 'Opening filter options...', '🔍');
+            }
+
+            function sortItems() {
+                showToast('Sort', 'Sorting procurement list...', '📊');
+                wishlistItems.sort((a, b) => ((b.price || 0) * (b.quantity || 1)) - ((a.price || 0) * (a.quantity || 1)));
+                renderWishlist(wishlistItems);
+                updateAnalytics(wishlistItems);
+            }
+
+            function toggleView() {
+                showToast('View', 'Switching view mode...', '🔄');
+            }
+
+            function shareWishlist() {
+                const url = window.location.href;
+                if (navigator.share) {
+                    navigator.share({
+                        title: 'BuildMart Procurement Workspace',
+                        text: `Check out my procurement list with ${wishlistItems.length} items`,
+                        url: url
+                    }).catch(() => {});
+                } else {
+                    navigator.clipboard?.writeText(url).then(() => {
+                        showToast('Copied', 'Workspace link copied', '📋');
+                    }).catch(() => {
+                        showToast('Share', url, '📋');
+                    });
+                }
+            }
+
+            function exportWishlist() {
+                showToast('Export', 'Generating export file...', '📊');
+                setTimeout(() => showToast('Ready', 'Procurement list exported', '✅'), 1500);
+            }
+
+            function generateRFQ() {
+                if (wishlistItems.length === 0) {
+                    showToast('Info', 'Add items to generate RFQ', 'ℹ️');
+                    return;
+                }
+                showToast('RFQ', 'Generating Request for Quotation...', '📄');
+                window.location.href = `/buildmart/quote.html?from=wishlist`;
+            }
+
+            function generateQuote() {
+                if (wishlistItems.length === 0) {
+                    showToast('Info', 'Add items to generate quote', 'ℹ️');
+                    return;
+                }
+                showToast('Quote', 'Generating professional quotation...', '📄');
+                window.location.href = `/buildmart/quote.html?from=wishlist`;
+            }
+
+            function generatePO() {
+                if (wishlistItems.length === 0) {
+                    showToast('Info', 'Add items to generate PO', 'ℹ️');
+                    return;
+                }
+                showToast('PO', 'Generating Purchase Order...', '📄');
+                setTimeout(() => showToast('Ready', 'PO generated', '✅'), 1500);
+            }
+
+            function analyzeWishlist() {
+                if (wishlistItems.length === 0) {
+                    showToast('Info', 'Add items to analyze', 'ℹ️');
+                    return;
+                }
+                showToast('AI Analysis', 'Analyzing procurement strategy...', '🧠');
+                const context = {
+                    items: wishlistItems.map(i => ({
+                        name: i.name,
+                        price: i.price,
+                        quantity: i.quantity || 1,
+                        supplier: i.supplier,
+                        stock: i.stock,
+                        boq: i.boq
+                    })),
+                    total: wishlistItems.reduce((sum, i) => sum + ((i.price || 0) * (i.quantity || 1)), 0)
+                };
+                fetch(`${API_BASE}/buildmart/ai/wishlist`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(context)
+                    })
+                    .then(res => res.json())
+                    .then(data => {
+                        const insight = data.insight ||
+                            'Optimization complete. Consider consolidating suppliers for better pricing.';
+                        showToast('AI Insight', insight, '✅');
+                    })
+                    .catch(() => {
+                        setTimeout(() => {
+                            showToast('AI Insight',
+                                `Analysis complete. ${wishlistItems.length} items analyzed. Total: ${formatCurrency(context.total)}. Consider bulk ordering for better pricing.`,
+                                '✅');
+                        }, 1500);
+                    });
+            }
+
+            function moveToCart() {
+                if (wishlistItems.length === 0) {
+                    showToast('Info', 'No items to move', 'ℹ️');
+                    return;
+                }
+                const items = wishlistItems.map(i => ({
+                    id: i.id,
+                    quantity: i.quantity || 1
+                }));
+                showToast('Moving', `Moving ${wishlistItems.length} items to cart...`, '🛒');
+                // In production: POST /api/cart/bulk
+                setTimeout(() => {
+                    wishlistItems = [];
+                    renderWishlist(wishlistItems);
+                    updateAnalytics(wishlistItems);
+                    showToast('Success', `${items.length} items moved to cart`, '✅');
+                }, 1500);
+            }
+
+            function clearWishlist() {
+                if (wishlistItems.length === 0) {
+                    showToast('Info', 'Workspace is already empty', 'ℹ️');
+                    return;
+                }
+                if (confirm('Clear all items from procurement workspace?')) {
+                    wishlistItems = [];
+                    renderWishlist(wishlistItems);
+                    updateAnalytics(wishlistItems);
+                    showToast('Cleared', 'Workspace cleared', '🗑️');
+                }
+            }
+
+            function openAIAssistant() {
+                const question = prompt('Ask AI about your procurement workspace:', 'What should I prioritize?');
+                if (question && question.trim()) {
+                    showToast('AI', `Analyzing: "${question}"...`, '🧠');
+                    const context = {
+                        items: wishlistItems.map(i => ({
+                            name: i.name,
+                            price: i.price,
+                            quantity: i.quantity || 1,
+                            supplier: i.supplier,
+                            stock: i.stock,
+                            boq: i.boq
+                        })),
+                        question: question
+                    };
+                    fetch(`${API_BASE}/buildmart/ai/wishlist/query`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(context)
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            const reply = data.response ||
+                                'Based on your procurement list, prioritize high-stock items and consolidate suppliers for better pricing.';
+                            showToast('AI Response', reply, '✅');
+                        })
+                        .catch(() => {
+                            setTimeout(() => {
+                                showToast('AI Response',
+                                    'Based on your procurement list, prioritize items with low stock and consolidate suppliers for better pricing.',
+                                    '✅');
+                            }, 1500);
+                        });
+                }
+            }
+
+            // ============================================================
+            // SEARCH
+            // ============================================================
+            DOM.searchInput.addEventListener('input', function() {
+                const query = this.value.toLowerCase().trim();
+                if (!query) {
+                    renderWishlist(wishlistItems);
+                    return;
+                }
+                const filtered = wishlistItems.filter(item =>
+                    item.name.toLowerCase().includes(query) ||
+                    item.sku.toLowerCase().includes(query) ||
+                    item.supplier.toLowerCase().includes(query) ||
+                    (item.boq && item.boq.toLowerCase().includes(query))
+                );
+                renderWishlist(filtered);
+            });
+
+            // ============================================================
+            // FLOATING AI
+            // ============================================================
+            DOM.floatingAI.addEventListener('click', function() {
+                openAIAssistant();
+            });
+
+            // ============================================================
+            // NAVBAR / HAMBURGER
+            // ============================================================
+            DOM.hamburgerBtn.addEventListener('click', function() {
+                DOM.navLinks.classList.toggle('open');
+                this.innerHTML = DOM.navLinks.classList.contains('open') ?
+                    '<i class="fas fa-times"></i>' :
+                    '<i class="fas fa-bars"></i>';
+            });
+
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 1024) {
+                    DOM.navLinks.classList.remove('open');
+                    DOM.hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+            });
+
+            // ============================================================
+            // KEYBOARD SHORTCUTS
+            // ============================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    DOM.toast.classList.remove('show');
+                    DOM.navLinks.classList.remove('open');
+                    DOM.hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                }
+                if (e.ctrlKey && e.key === 'f') {
+                    e.preventDefault();
+                    DOM.searchInput.focus();
+                }
+                if (e.ctrlKey && e.key === 'a') {
+                    e.preventDefault();
+                    openAIAssistant();
+                }
+            });
+
+            // ============================================================
+            // SCROLL REVEAL
+            // ============================================================
+            const reveals = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            reveals.forEach(function(el) {
+                revealObserver.observe(el);
+            });
+
+            // ============================================================
+            // LIVE UPDATES
+            // ============================================================
+            function startLiveUpdates() {
+                if (updateInterval) clearInterval(updateInterval);
+                updateInterval = setInterval(() => {
+                    // Update time-based metrics
+                    const now = new Date();
+                    const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit',
+                        hour12: true });
+                    document.querySelectorAll('.live-sync').forEach(el => {
+                        if (el) el.textContent = timeStr;
+                    });
+                    // Poll for updates
+                    if (wishlistItems.length > 0) {
+                        pollUpdates();
+                    }
+                }, 60000);
+            }
+
+            async function pollUpdates() {
+                try {
+                    const response = await fetch(`${API_BASE}/buildmart/wishlist/live`, {
+                        credentials: 'include'
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.stock && wishlistItems.length > 0) {
+                            // Update stock levels
+                            wishlistItems.forEach(item => {
+                                if (data.stock[item.id]) {
+                                    item.stock = data.stock[item.id];
+                                }
+                            });
+                            renderWishlist(wishlistItems);
+                            updateAnalytics(wishlistItems);
+                        }
+                    }
+                } catch (e) { /* silent */ }
+            }
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            async function init() {
+                console.log('📋 BuildMart Procurement Workspace v3.0 (Dark Theme)');
+                console.log('📡 API:', API_BASE);
+
+                await fetchWishlist();
+                startLiveUpdates();
+
+                // Log keyboard shortcuts
+                console.log('⌨️ Shortcuts: Ctrl+F Search, Ctrl+A AI Assistant');
+            }
+
+            // Expose functions globally - consistent pattern
+            window.updateQuantity = updateQuantity;
+            window.compareItem = compareItem;
+            window.quoteItem = quoteItem;
+            window.removeItem = removeItem;
+            window.moveToCartItem = moveToCartItem;
+            window.filterItems = filterItems;
+            window.sortItems = sortItems;
+            window.toggleView = toggleView;
+            window.shareWishlist = shareWishlist;
+            window.exportWishlist = exportWishlist;
+            window.generateRFQ = generateRFQ;
+            window.generateQuote = generateQuote;
+            window.generatePO = generatePO;
+            window.analyzeWishlist = analyzeWishlist;
+            window.moveToCart = moveToCart;
+            window.clearWishlist = clearWishlist;
+            window.openAIAssistant = openAIAssistant;
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+        })();
+    </script>
+</body>
+</html>
+

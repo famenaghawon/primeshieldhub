@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Premium Notification Test</title>
+  <style>
+    body { font-family: system-ui; max-width: 600px; margin: 50px auto; padding: 20px; }
+    button { padding: 12px 24px; margin: 8px; font-size: 16px; border: none; border-radius: 8px; cursor: pointer; background: #3498db; color: white; }
+    button:hover { background: #2980b9; }
+    .soft { background: #2ecc71; }
+    .crisp { background: #e67e22; }
+  </style>
+</head>
+<body>
+  <h1>🎵 Premium Notification Test</h1>
+  <button onclick="playSound('notification.wav')">▶ Premium Sound</button>
+  <button class="soft" onclick="playSound('notification-soft.wav')">▶ Soft</button>
+  <button class="crisp" onclick="playSound('notification-crisp.wav')">▶ Crisp</button>
+  
+  <script>
+    function playSound(filename) {
+      const audio = new Audio(`/sounds/${filename}`);
+      audio.volume = 0.8;
+      audio.play();
+    }
+  </script>
+</body>
+</html>
