@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0806">
+    <title>Application Status | PrimeShieldHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================================
+           GOLD & BLACK THEME
+           ============================================================ */
+        :root {
+            --bg-primary: #0a0806;
+            --bg-secondary: #14100c;
+            --bg-panel: #1c1712;
+            --bg-card: #231e18;
+            --bg-input: #110e0a;
+            --border-color: #3d3228;
+            --border-gold: #c9a84c;
+            --text-primary: #f5efe6;
+            --text-secondary: #c4b8a8;
+            --text-muted: #8a7d6e;
+            --gold-core: #d4af37;
+            --gold-soft: #c9a84c;
+            --gold-bright: #e8c97a;
+            --gold-light: #f3dba0;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --gold-border: rgba(212, 175, 55, 0.2);
+            --neon-cyan: #d4af37;
+            --neon-gold: #d4af37;
+            --neon-green: #33ffaa;
+            --neon-red: #ff6b6b;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 20px;
+            --transition: 0.25s ease;
+            --shadow-glow: 0 0 40px rgba(212, 175, 55, 0.06);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-core);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-bright);
+        }
+
+        /* ============================================================
+           HEADER - GOLD & BLACK WITH LOGO
+           ============================================================ */
+        .header {
+            background: rgba(10, 8, 6, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gold-border);
+            padding: 12px 28px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: -20px -20px 20px -20px;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            background: rgba(10, 8, 6, 0.98);
+            border-bottom-color: var(--gold-core);
+            box-shadow: 0 4px 30px rgba(212, 175, 55, 0.05);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .header-brand img {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid var(--gold-border);
+            transition: var(--transition);
+        }
+
+        .header-brand img:hover {
+            transform: scale(1.05);
+            border-color: var(--gold-core);
+        }
+
+        .header-brand span {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
+        }
+
+        .header-brand span i {
+            -webkit-text-fill-color: var(--gold-core);
+            font-size: 16px;
+        }
+
+        .header a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header a:hover {
+            color: var(--text-primary);
+        }
+
+        .header .btn-back-header {
+            padding: 8px 16px;
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .header .btn-back-header:hover {
+            background: var(--gold-border);
+            border-color: var(--gold-core);
+            color: var(--text-primary);
+        }
+
+        /* ============================================================
+           STATUS CONTAINER - GOLD & BLACK
+           ============================================================ */
+        .status-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .status-container h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .status-container .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* ============================================================
+           TRACKING SEARCH - GOLD & BLACK
+           ============================================================ */
+        .tracking-search {
+            background: var(--bg-card);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius);
+            padding: 16px;
+            margin-bottom: 20px;
+        }
+
+        .tracking-search form {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .tracking-search input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gold-border);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            transition: var(--transition);
+            min-width: 150px;
+        }
+
+        .tracking-search input:focus {
+            outline: none;
+            border-color: var(--gold-core);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .tracking-search input::placeholder {
+            color: var(--text-muted);
+            text-transform: none;
+            letter-spacing: 0;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .tracking-search .btn-track {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tracking-search .btn-track:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        /* ============================================================
+           STATUS CARD - GOLD & BLACK
+           ============================================================ */
+        .status-card {
+            background: var(--bg-card);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status-card:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-card .status-label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+        }
+
+        .status-card .status-value {
+            font-size: 20px;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        /* ============================================================
+           STATUS BADGE - GOLD & BLACK
+           ============================================================ */
+        .status-badge {
+            display: inline-block;
+            padding: 4px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .status-badge.submitted { background: rgba(212, 175, 55, 0.15); color: var(--gold-core); }
+        .status-badge.under_review { background: rgba(212, 175, 55, 0.15); color: var(--gold-bright); }
+        .status-badge.shortlisted { background: rgba(51, 255, 170, 0.15); color: var(--neon-green); }
+        .status-badge.interview_scheduled { background: rgba(212, 175, 55, 0.15); color: var(--gold-core); }
+        .status-badge.offered { background: rgba(51, 255, 170, 0.25); color: var(--neon-green); }
+        .status-badge.hired { background: rgba(51, 255, 170, 0.3); color: var(--neon-green); }
+        .status-badge.rejected { background: rgba(255, 107, 107, 0.15); color: var(--neon-red); }
+
+        /* ============================================================
+           TIMELINE - GOLD & BLACK
+           ============================================================ */
+        .status-timeline {
+            margin: 20px 0;
+            padding: 0;
+            list-style: none;
+            position: relative;
+        }
+
+        .status-timeline::before {
+            content: '';
+            position: absolute;
+            left: 10px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gold-border);
+        }
+
+        .status-timeline li {
+            padding-left: 36px;
+            position: relative;
+            padding-bottom: 20px;
+        }
+
+        .status-timeline li:last-child {
+            padding-bottom: 0;
+        }
+
+        .status-timeline li .dot {
+            position: absolute;
+            left: 4px;
+            top: 4px;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            border: 2px solid var(--gold-border);
+            background: var(--bg-secondary);
+            transition: var(--transition);
+        }
+
+        .status-timeline li.active .dot {
+            border-color: var(--gold-core);
+            background: var(--gold-core);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .status-timeline li .time {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+
+        .status-timeline li .title {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .status-timeline li .note {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-top: 2px;
+        }
+
+        /* ============================================================
+           BUTTONS - GOLD & BLACK
+           ============================================================ */
+        .btn {
+            display: inline-block;
+            padding: 10px 24px;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--gold-border);
+            font-weight: 600;
+            margin-left: 12px;
+        }
+
+        .btn-outline:hover {
+            background: var(--gold-border);
+            color: var(--text-primary);
+            box-shadow: none;
+        }
+
+        /* ============================================================
+           LOADING & ERROR STATES
+           ============================================================ */
+        .loading-spinner {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .loading-spinner .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--gold-border);
+            border-top-color: var(--gold-core);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-spinner p {
+            margin-top: 12px;
+            color: var(--text-muted);
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .error-state i {
+            font-size: 48px;
+            color: var(--neon-red);
+            margin-bottom: 16px;
+        }
+
+        .error-state h3 {
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .error-state p {
+            color: var(--text-secondary);
+        }
+
+        .error-state .btn-error {
+            margin-top: 16px;
+            display: inline-block;
+        }
+
+        /* ============================================================
+           TOAST - GOLD & BLACK
+           ============================================================ */
+        #toastContainer {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .toast {
+            background: var(--bg-panel);
+            border: 1px solid var(--gold-border);
+            color: var(--text-primary);
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid var(--gold-core);
+        }
+
+        .toast-success { border-left-color: var(--neon-green); }
+        .toast-error { border-left-color: var(--neon-red); }
+        .toast-warning { border-left-color: var(--gold-core); }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0 4px;
+            margin-left: auto;
+        }
+
+        .toast .toast-close:hover {
+            color: var(--text-primary);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .toast.fade-out {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .status-container {
+                padding: 24px;
+            }
+
+            .header {
+                padding: 12px 16px;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin: -20px -16px 20px -16px;
+            }
+
+            .header-brand span {
+                font-size: 16px;
+            }
+
+            .header-brand img {
+                width: 28px;
+                height: 28px;
+            }
+
+            .header .btn-back-header {
+                padding: 6px 12px;
+                font-size: 13px;
+            }
+
+            #toastContainer {
+                top: 70px;
+                right: 12px;
+                max-width: calc(100% - 24px);
+            }
+
+            .tracking-search form {
+                flex-direction: column;
+            }
+
+            .tracking-search .btn-track {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .status-container {
+                padding: 16px;
+            }
+
+            .status-container h1 {
+                font-size: 22px;
+            }
+
+            .status-card .status-value {
+                font-size: 16px;
+            }
+
+            .status-card {
+                padding: 14px;
+            }
+
+            .status-timeline li {
+                padding-left: 30px;
+            }
+
+            .status-timeline::before {
+                left: 8px;
+            }
+
+            .status-timeline li .dot {
+                left: 2px;
+                width: 12px;
+                height: 12px;
+            }
+
+            .btn {
+                padding: 8px 16px;
+                font-size: 13px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+
+            .header a {
+                justify-content: center;
+            }
+
+            .status-container {
+                padding: 12px;
+            }
+
+            .status-card .status-label {
+                font-size: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER - GOLD & BLACK WITH LOGO
+    ============================================================ -->
+    <header class="header" id="header">
+        <a href="/" class="header-brand">
+            <img src="/company_logo.png" alt="PrimeShieldHub Logo" onerror="this.style.display='none'">
+            <span><i class="fas fa-bolt"></i> PrimeShieldHub</span>
+        </a>
+        <a href="/careers" class="btn-back-header"><i class="fas fa-arrow-left"></i> Back to Careers</a>
+    </header>
+
+    <!-- ============================================================
+    STATUS CONTAINER
+    ============================================================ -->
+    <div class="status-container" id="statusContainer">
+        <h1>Application Status</h1>
+        <p class="subtitle">Track the progress of your application</p>
+
+        <!-- Tracking Search Form -->
+        <div class="tracking-search">
+            <form id="trackingSearchForm" onsubmit="searchTracking(event)">
+                <input type="text" id="trackingSearchInput" 
+                       placeholder="Enter your tracking code (e.g., 597BC09A1968458B)" 
+                       maxlength="20" autocomplete="off">
+                <button type="submit" class="btn-track">
+                    <i class="fas fa-search"></i> Track
+                </button>
+            </form>
+        </div>
+
+        <div id="statusContent">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading your application status...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TOAST CONTAINER
+    ============================================================ -->
+    <div id="toastContainer"></div>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        const API_BASE = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000' 
+            : 'https://api.primeshieldhub.com';
+
+        // ============================================================
+        // SMART TOKEN DETECTION
+        // ============================================================
+        const token = new URLSearchParams(window.location.search).get('token') || 
+                      window.location.pathname.split('/').pop();
+
+        // ============================================================
+        // HELPER FUNCTIONS
+        // ============================================================
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('en-NG', { 
+                day: 'numeric', 
+                month: 'short', 
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit'
+            });
+        }
+
+        function showToast(message, type = 'info', duration = 4000) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || 'ℹ️'}</span>
+                <span>${escapeHtml(message)}</span>
+                <button class="toast-close">&times;</button>
+            `;
+            container.appendChild(toast);
+
+            const close = () => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 300);
+            };
+
+            toast.querySelector('.toast-close').addEventListener('click', close);
+            setTimeout(close, duration);
+        }
+
+        // ============================================================
+        // SEARCH TRACKING
+        // ============================================================
+        function searchTracking(event) {
+            event.preventDefault();
+            const input = document.getElementById('trackingSearchInput');
+            const searchToken = input.value.trim().toUpperCase();
+            
+            if (!searchToken || searchToken.length < 6) {
+                showToast('Please enter a valid tracking code', 'error');
+                input.focus();
+                return;
+            }
+            
+            window.location.href = `/careers/apply/status/track.html?token=${searchToken}`;
+        }
+
+        // ============================================================
+        // LOAD STATUS FROM API
+        // ============================================================
+        async function loadStatus() {
+            const container = document.getElementById('statusContent');
+
+            if (!token || token === 'status' || token === '' || token === '{{token}}' || token === 'track.html') {
+                container.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>No Tracking Token</h3>
+                        <p>Please provide a valid application reference.</p>
+                        <a href="/careers" class="btn btn-error" style="margin-top:16px;display:inline-block;">
+                            <i class="fas fa-arrow-left"></i> Browse Jobs
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/api/jobs/apply/${token}`);
+                if (!response.ok) throw new Error('Application not found');
+
+                const data = await response.json();
+                renderStatus(data);
+            } catch (error) {
+                console.error('Error loading status:', error);
+                container.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Application Not Found</h3>
+                        <p>${escapeHtml(error.message)}</p>
+                        <a href="/careers" class="btn btn-error" style="margin-top:16px;display:inline-block;">
+                            <i class="fas fa-arrow-left"></i> Browse Jobs
+                        </a>
+                    </div>
+                `;
+            }
+        }
+
+        // ============================================================
+        // RENDER STATUS - GOLD & BLACK
+        // ============================================================
+        function renderStatus(data) {
+            const container = document.getElementById('statusContent');
+
+            const statusMap = {
+                'submitted': 'Submitted',
+                'under_review': 'Under Review',
+                'shortlisted': 'Shortlisted',
+                'interview_scheduled': 'Interview Scheduled',
+                'offered': 'Offered',
+                'hired': 'Hired',
+                'rejected': 'Rejected'
+            };
+
+            const statusClass = data.status || 'submitted';
+            const history = data.history || [];
+
+            const timelineHtml = history.length > 0 
+                ? history.map((item, index) => {
+                    const isActive = index === history.length - 1;
+                    return `
+                        <li class="${isActive ? 'active' : ''}">
+                            <div class="dot"></div>
+                            <div class="time">${formatDate(item.changed_at)}</div>
+                            <div class="title">${statusMap[item.status] || item.status}</div>
+                            ${item.note ? `<div class="note">${escapeHtml(item.note)}</div>` : ''}
+                        </li>
+                    `;
+                }).join('')
+                : `
+                    <li class="active">
+                        <div class="dot"></div>
+                        <div class="time">${formatDate(data.application?.applied_at || data.applied_at)}</div>
+                        <div class="title">Application Submitted</div>
+                    </li>
+                `;
+
+            container.innerHTML = `
+                <div class="status-card">
+                    <div class="status-label">Current Status</div>
+                    <div class="status-value">
+                        <span class="status-badge ${statusClass}">
+                            <i class="fas ${statusClass === 'rejected' ? 'fa-times' : 'fa-circle-check'}"></i>
+                            ${statusMap[statusClass] || statusClass}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="status-card">
+                    <div class="status-label">Application Timeline</div>
+                    <ul class="status-timeline">
+                        ${timelineHtml}
+                    </ul>
+                </div>
+
+                <div class="status-card" style="margin-bottom:0;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+                        <div>
+                            <div class="status-label">Position</div>
+                            <div style="font-weight:500;color:var(--text-primary);">${escapeHtml(data.application?.job_title || data.job_title || 'Unknown')}</div>
+                        </div>
+                        <div>
+                            <div class="status-label">Department</div>
+                            <div style="font-weight:500;color:var(--text-primary);">${escapeHtml(data.application?.department || data.department || 'General')}</div>
+                        </div>
+                        <div>
+                            <div class="status-label">Applied On</div>
+                            <div style="font-weight:500;color:var(--text-primary);">${formatDate(data.application?.applied_at || data.applied_at)}</div>
+                        </div>
+                        <div>
+                            <div class="status-label">Reference</div>
+                            <div style="font-weight:500;color:var(--gold-core);font-family:monospace;font-size:15px;">${escapeHtml(data.tracking_token || token)}</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top:20px;display:flex;gap:12px;flex-wrap:wrap;">
+                    <a href="/careers" class="btn"><i class="fas fa-arrow-left"></i> Browse Jobs</a>
+                    <a href="/" class="btn btn-outline"><i class="fas fa-home"></i> Return Home</a>
+                </div>
+            `;
+        }
+
+        // ============================================================
+        // HEADER SCROLL EFFECT
+        // ============================================================
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', loadStatus);
+
+        // Pre-fill search input with token if available
+        if (token && token !== 'status' && token !== 'track.html') {
+            document.getElementById('trackingSearchInput').value = token;
+        }
+
+        console.log('🚀 Application status page loaded');
+        console.log('📋 Tracking token:', token);
+        console.log('🏆 Gold & Black Theme');
+    </script>
+</body>
+</html>

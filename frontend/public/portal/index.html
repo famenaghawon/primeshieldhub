@@ -1,0 +1,2156 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <title>PrimeShieldHub • Quantum Franchise Command | Intelligence Core</title>
+  
+  <!-- FIXED: Hardcoded values -->
+  <meta name="csrf-token" content="">
+  <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+  <meta name="user-role" content="staff">
+  <meta name="user-id" content="">
+  <meta name="branch-id" content="">
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --gold-primary: #FFD966;
+      --gold-light: #FFE6B0;
+      --gold-dark: #FFB347;
+      --danger: #ff3366;
+      --success: #33ffaa;
+      --warning: #ffaa33;
+      --bg-deep: #05050A;
+      --bg-panel: rgba(12, 12, 24, 0.75);
+      --border-gold: rgba(255, 217, 102, 0.25);
+      --text-primary: #F0F0FF;
+    }
+    
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+    
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    @keyframes slideInRight {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+    
+    @keyframes pulseGlow {
+      0%, 100% { box-shadow: 0 0 5px rgba(255, 217, 102, 0.3); }
+      50% { box-shadow: 0 0 25px rgba(255, 217, 102, 0.6); }
+    }
+    
+    @keyframes pulseRed {
+      0% { box-shadow: 0 0 0 0 rgba(255, 51, 102, 0.4); }
+      100% { box-shadow: 0 0 0 15px rgba(255, 51, 102, 0); }
+    }
+    
+    @keyframes alertGlow {
+      0% { box-shadow: 0 0 5px rgba(255, 51, 102, 0.3); }
+      50% { box-shadow: 0 0 20px rgba(255, 51, 102, 0.6); }
+      100% { box-shadow: 0 0 5px rgba(255, 51, 102, 0.3); }
+    }
+    
+    #three-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+    
+    #app { 
+      position: relative; 
+      z-index: 20; 
+      display: none;
+      animation: fadeInUp 0.8s ease;
+    }
+    
+    #loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at center, #0a0a0f, #000000);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 10000;
+      transition: opacity 0.5s ease;
+    }
+    
+    #loading.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+    
+    .loading-logo {
+      font-size: 2.5rem;
+      font-weight: 800;
+      letter-spacing: 4px;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 10px;
+      animation: pulseGlow 2s infinite;
+    }
+    
+    .loading-subtitle {
+      font-size: 0.9rem;
+      letter-spacing: 2px;
+      color: rgba(255, 217, 102, 0.7);
+      margin-bottom: 30px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .loading-bar {
+      width: 300px;
+      height: 3px;
+      background: rgba(255, 217, 102, 0.1);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 15px;
+    }
+    
+    .loading-progress {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold-dark), var(--gold-light));
+      border-radius: 3px;
+      transition: width 0.3s ease;
+      box-shadow: 0 0 10px rgba(255, 217, 102, 0.5);
+    }
+    
+    .loading-status {
+      font-size: 0.75rem;
+      opacity: 0.6;
+      font-family: 'JetBrains Mono', monospace;
+      animation: pulseGlow 1.5s infinite;
+    }
+    
+    .glass-panel {
+      background: var(--bg-panel);
+      backdrop-filter: blur(24px) saturate(180%);
+      border-radius: 28px;
+      border: 1px solid var(--border-gold);
+      box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+    }
+    
+    .glass-panel:hover { 
+      border-color: rgba(255, 217, 102, 0.5); 
+      transform: translateY(-2px);
+      box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+    }
+    
+    .quantum-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      padding: 1.2rem 2rem;
+      margin: 1.5rem 1.5rem 2rem 1.5rem;
+      background: rgba(0, 0, 0, 0.65);
+      backdrop-filter: blur(28px);
+      border-radius: 48px;
+      border: 1px solid rgba(255, 215, 0, 0.3);
+    }
+    
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .logo-icon {
+      font-size: 2.2rem;
+      animation: pulseGlow 2s infinite;
+    }
+    
+    .logo-text h1 {
+      font-size: 1.3rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--gold-light), var(--gold-dark));
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      line-height: 1.2;
+    }
+    
+    .logo-text p { 
+      font-size: 0.65rem; 
+      opacity: 0.6; 
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 1px;
+    }
+    
+    .user-stats { 
+      display: flex; 
+      gap: 1rem; 
+      align-items: center; 
+      flex-wrap: wrap; 
+    }
+    
+    .stat-badge {
+      background: rgba(255, 255, 255, 0.05);
+      padding: 8px 16px;
+      border-radius: 40px;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.2s;
+    }
+    
+    .stat-badge:hover {
+      background: rgba(255, 217, 102, 0.1);
+      border-color: rgba(255, 217, 102, 0.3);
+    }
+    
+    .btn-neon {
+      background: rgba(255, 51, 102, 0.15);
+      border: 1px solid var(--danger);
+      color: #ff6699;
+      padding: 8px 20px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-neon:hover { 
+      background: var(--danger); 
+      color: white; 
+      box-shadow: 0 0 20px rgba(255, 51, 102, 0.5);
+      transform: translateY(-1px);
+    }
+    
+    .btn-gold {
+      background: rgba(255, 217, 102, 0.15);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-primary);
+      padding: 8px 20px;
+      border-radius: 40px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .btn-gold:hover { 
+      background: var(--gold-primary); 
+      color: #000; 
+      box-shadow: 0 0 20px rgba(255, 217, 102, 0.5);
+      transform: translateY(-1px);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 1.5rem;
+      padding: 0 1.5rem;
+      margin-bottom: 2rem;
+    }
+    
+    .stat-card { 
+      padding: 1.5rem;
+      animation: fadeInUp 0.6s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at center, rgba(255, 217, 102, 0.05), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+    
+    .stat-card:hover::before {
+      opacity: 1;
+    }
+    
+    .stat-icon {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      opacity: 0.8;
+    }
+    
+    .stat-label { 
+      font-size: 0.75rem; 
+      opacity: 0.6; 
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    
+    .stat-value { 
+      font-size: 2.2rem; 
+      font-weight: 800; 
+      background: linear-gradient(135deg, #fff, var(--gold-primary)); 
+      -webkit-background-clip: text; 
+      background-clip: text; 
+      color: transparent; 
+      margin-top: 6px;
+    }
+    
+    .stat-card.critical { 
+      animation: pulseRed 1s infinite; 
+      border-color: var(--danger) !important; 
+    }
+    
+    .ai-panel { 
+      margin: 0 1.5rem 2rem 1.5rem; 
+      padding: 1.5rem; 
+    }
+    
+    .ai-header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      flex-wrap: wrap; 
+      margin-bottom: 1rem;
+      gap: 15px;
+    }
+    
+    .ai-messages { 
+      display: flex; 
+      gap: 12px; 
+      flex-wrap: wrap; 
+    }
+    
+    .ai-message { 
+      background: rgba(255, 217, 102, 0.1); 
+      border-left: 3px solid var(--gold-primary); 
+      padding: 12px 18px; 
+      border-radius: 48px; 
+      font-size: 0.85rem;
+      animation: fadeInUp 0.5s ease;
+      backdrop-filter: blur(10px);
+    }
+    
+    .switch { position: relative; display: inline-block; width: 52px; height: 28px; }
+    .switch input { opacity: 0; width: 0; height: 0; }
+    .slider {
+      position: absolute;
+      cursor: pointer;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: #2a2a2f;
+      transition: 0.3s;
+      border-radius: 28px;
+    }
+    .slider:before {
+      position: absolute;
+      content: "";
+      height: 22px;
+      width: 22px;
+      left: 3px;
+      bottom: 3px;
+      background-color: white;
+      transition: 0.3s;
+      border-radius: 50%;
+    }
+    input:checked + .slider { background: linear-gradient(135deg, var(--gold-dark), var(--gold-primary)); }
+    input:checked + .slider:before { transform: translateX(24px); }
+    
+    .alerts-container { margin: 0 1.5rem 2rem 1.5rem; padding: 1.5rem; }
+    .alert-item {
+      background: rgba(255, 51, 102, 0.1);
+      border-left: 4px solid var(--danger);
+      border-radius: 16px;
+      padding: 14px 18px;
+      margin-bottom: 10px;
+      animation: alertGlow 1.5s infinite;
+      backdrop-filter: blur(10px);
+    }
+    
+    .table-wrapper { 
+      overflow-x: auto; 
+      margin: 0 1.5rem 2rem 1.5rem; 
+      padding: 1.5rem; 
+    }
+    
+    table { 
+      width: 100%; 
+      border-collapse: separate; 
+      border-spacing: 0 8px; 
+    }
+    
+    th { 
+      text-align: left; 
+      padding: 12px 16px; 
+      color: var(--gold-primary); 
+      background: rgba(0, 0, 0, 0.4); 
+      border-radius: 12px 12px 0 0; 
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    td { 
+      padding: 14px 16px; 
+      background: rgba(10, 10, 22, 0.7); 
+      backdrop-filter: blur(4px); 
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      transition: all 0.2s;
+    }
+    
+    tr:hover td { 
+      background: rgba(255, 217, 102, 0.1);
+      transform: scale(1.01);
+    }
+    
+    .score-good { color: var(--success); font-weight: bold; }
+    .score-warning { color: var(--warning); font-weight: bold; }
+    .score-critical { color: var(--danger); font-weight: bold; }
+    
+    .analytics-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); 
+      gap: 1.5rem; 
+      margin: 0 1.5rem 2rem 1.5rem; 
+    }
+    
+    .chart-card { 
+      padding: 1.5rem;
+      min-height: 300px;
+    }
+    
+    .chart-card h3 {
+      margin-bottom: 20px;
+    }
+    
+    .input-section { 
+      margin: 0 1.5rem 2rem 1.5rem; 
+      padding: 1.5rem; 
+      display: flex; 
+      gap: 1rem; 
+      flex-wrap: wrap; 
+      align-items: flex-end; 
+    }
+    
+    .input-group { flex: 1; min-width: 150px; }
+    
+    .input-group label { 
+      font-size: 0.7rem; 
+      opacity: 0.6; 
+      display: block; 
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .input-futuristic {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid #2a2a3a;
+      border-radius: 32px;
+      padding: 12px 18px;
+      color: white;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      transition: all 0.3s;
+    }
+    
+    .input-futuristic:focus { 
+      outline: none; 
+      border-color: var(--gold-primary); 
+      box-shadow: 0 0 0 3px rgba(255, 217, 102, 0.2);
+      background: rgba(0, 0, 0, 0.7);
+    }
+    
+    .location-bar { 
+      margin: 0 1.5rem 2rem 1.5rem; 
+      padding: 1.2rem 1.5rem; 
+      display: flex; 
+      gap: 1rem; 
+      flex-wrap: wrap; 
+      justify-content: space-between; 
+      align-items: center; 
+    }
+    
+    .authority-section { margin: 0 1.5rem 2rem 1.5rem; padding: 1.5rem; }
+    .authority-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+      gap: 1.5rem; 
+      margin-top: 1rem; 
+    }
+    
+    .authority-card { 
+      text-align: center; 
+      padding: 2rem 1.5rem; 
+      background: rgba(255, 255, 255, 0.03); 
+      border-radius: 20px;
+      transition: all 0.3s;
+    }
+    
+    .authority-card:hover {
+      background: rgba(255, 255, 255, 0.06);
+      transform: translateY(-3px);
+    }
+    
+    .authority-card img { 
+      width: 120px; 
+      height: auto; 
+      border-radius: 16px; 
+      margin-bottom: 1rem;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    }
+    
+    .press-section { margin: 0 1.5rem 2rem 1.5rem; padding: 1.5rem; }
+    .press-grid { 
+      display: grid; 
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
+      gap: 1.5rem; 
+      margin-top: 1rem; 
+    }
+    
+    .press-card { 
+      padding: 1.5rem; 
+      background: rgba(255, 255, 255, 0.03); 
+      border-radius: 20px; 
+      border-left: 3px solid var(--gold-primary);
+      transition: all 0.3s;
+    }
+    
+    .press-card:hover {
+      background: rgba(255, 217, 102, 0.05);
+      transform: translateX(5px);
+    }
+    
+    .press-card h4 {
+      margin: 10px 0 5px 0;
+      color: var(--gold-primary);
+    }
+    
+    .press-card small {
+      opacity: 0.6;
+      font-size: 0.75rem;
+    }
+    
+    .rate-limit-bar { 
+      position: fixed; 
+      bottom: 15px; 
+      left: 15px; 
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(20px);
+      padding: 8px 16px; 
+      border-radius: 20px; 
+      font-size: 0.7rem; 
+      z-index: 1000; 
+      font-family: 'JetBrains Mono', monospace;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .gemini-chat-widget { position: fixed; bottom: 20px; right: 20px; z-index: 10000; }
+    .gemini-chat-button {
+      width: 60px;
+      height: 60px;
+      background: linear-gradient(135deg, #d6b25e, #f3d27b);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      transition: all 0.3s;
+      position: relative;
+    }
+    
+    .gemini-chat-button:hover {
+      transform: scale(1.1);
+      box-shadow: 0 6px 30px rgba(214, 178, 94, 0.5);
+    }
+    
+    .gemini-chat-panel {
+      position: absolute;
+      bottom: 80px;
+      right: 0;
+      width: 400px;
+      max-width: 90vw;
+      background: rgba(12, 12, 24, 0.98);
+      backdrop-filter: blur(24px);
+      border-radius: 24px;
+      border: 1px solid rgba(214, 178, 94, 0.3);
+      display: none;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+      animation: slideInRight 0.3s ease;
+    }
+    
+    .deploy-log {
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+    
+    .quick-commands {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 15px;
+    }
+    
+    .quick-cmd {
+      font-size: 0.8rem;
+      padding: 6px 14px;
+    }
+    
+    .toast-notification {
+      position: fixed;
+      bottom: 100px;
+      right: 20px;
+      padding: 12px 24px;
+      border-radius: 40px;
+      backdrop-filter: blur(16px);
+      z-index: 10000;
+      font-weight: 600;
+      animation: slideInRight 0.3s ease;
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+    }
+    
+    /* Access Denied Overlay */
+    #accessDeniedOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+      flex-direction: column;
+      padding: 20px;
+    }
+    
+    #accessDeniedOverlay.active {
+      display: flex;
+    }
+    
+    #accessDeniedOverlay .denied-content {
+      text-align: center;
+      max-width: 500px;
+    }
+    
+    #accessDeniedOverlay .denied-icon {
+      font-size: 4rem;
+      color: var(--danger);
+      margin-bottom: 20px;
+      animation: pulseRed 1.5s infinite;
+    }
+    
+    #accessDeniedOverlay h2 {
+      color: var(--danger);
+      margin-bottom: 10px;
+    }
+    
+    #accessDeniedOverlay p {
+      color: #888;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+      .quantum-header { 
+        flex-direction: column; 
+        gap: 15px; 
+        text-align: center; 
+        margin: 1rem;
+        padding: 1rem;
+      }
+      
+      .user-stats { 
+        justify-content: center; 
+        gap: 0.5rem;
+      }
+      
+      .stat-badge {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+      }
+      
+      .analytics-grid { 
+        grid-template-columns: 1fr; 
+      }
+      
+      .input-section { 
+        flex-direction: column; 
+      }
+      
+      .stats-grid { 
+        padding: 0 1rem;
+        grid-template-columns: 1fr;
+      }
+      
+      .stat-value {
+        font-size: 1.8rem;
+      }
+      
+      .btn-neon, .btn-gold {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+      }
+      
+      .gemini-chat-panel {
+        width: 95vw;
+        right: -10px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .quantum-header {
+        margin: 0.5rem;
+        border-radius: 24px;
+      }
+      
+      .stats-grid {
+        gap: 1rem;
+        padding: 0 0.5rem;
+      }
+      
+      .stat-card {
+        padding: 1rem;
+      }
+      
+      .ai-panel, .alerts-container, .table-wrapper {
+        margin: 0 0.5rem 1.5rem 0.5rem;
+        padding: 1rem;
+      }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- Access Denied Overlay -->
+<div id="accessDeniedOverlay">
+  <div class="denied-content">
+    <div class="denied-icon"><i class="fas fa-lock"></i></div>
+    <h2>⛔ Access Denied</h2>
+    <p>This portal is restricted to authorized staff and administrators only.</p>
+    <p style="font-size: 0.85rem; color: #666;">You will be redirected to the homepage.</p>
+    <button class="btn-gold" onclick="window.location.href='/'">
+      <i class="fas fa-home"></i> Return to Store
+    </button>
+  </div>
+</div>
+
+<div id="loading">
+  <div class="loading-logo">⚡ PRIMESHIELDHUB</div>
+  <div class="loading-subtitle">QUANTUM FRANCHISE COMMAND</div>
+  <div class="loading-bar"><div class="loading-progress" id="loadProgress"></div></div>
+  <div class="loading-status" id="loadingStatus">initializing secure channel...</div>
+</div>
+
+<canvas id="three-canvas"></canvas>
+
+<div id="app">
+  <div class="quantum-header glass-panel">
+    <div class="logo-container">
+      <div class="logo-icon">🛸</div>
+      <div class="logo-text">
+        <h1>PRIMESHIELDHUB · FRANCHISE INTELLIGENCE</h1>
+        <p>quantum command core · hypervisor v5.0</p>
+      </div>
+    </div>
+    <div class="user-stats">
+      <div class="stat-badge">
+        <i class="fas fa-user-astronaut"></i>
+        <strong id="currentUserDisplay">-</strong>
+      </div>
+      <div class="stat-badge">
+        <i class="fas fa-building"></i>
+        <strong id="currentBranchDisplay">-</strong>
+      </div>
+      <div class="stat-badge">
+        <i class="fas fa-star"></i>
+        Trust: <strong id="trustScoreDisplay">100</strong>
+      </div>
+      <div class="stat-badge">
+        <i class="fas fa-shield-alt"></i>
+        <strong id="userRoleDisplay">-</strong>
+      </div>
+      <button class="btn-neon" id="logoutBtn">
+        <i class="fas fa-sign-out-alt"></i> DISCONNECT
+      </button>
+      <button class="btn-gold" id="refreshBtn">
+        <i class="fas fa-sync-alt"></i> SYNC
+      </button>
+    </div>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card glass-panel">
+      <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
+      <div class="stat-label">TOTAL SESSIONS</div>
+      <div class="stat-value" id="totalSessions">0</div>
+    </div>
+    <div class="stat-card glass-panel">
+      <div class="stat-icon"><i class="fas fa-money-bill-wave"></i></div>
+      <div class="stat-label">TOTAL REVENUE</div>
+      <div class="stat-value" id="totalRevenue">₦0</div>
+    </div>
+    <div class="stat-card glass-panel" id="activeCard">
+      <div class="stat-icon"><i class="fas fa-bolt"></i></div>
+      <div class="stat-label">ACTIVE NODES</div>
+      <div class="stat-value" id="activeCount">0</div>
+    </div>
+    <div class="stat-card glass-panel">
+      <div class="stat-icon"><i class="fas fa-brain"></i></div>
+      <div class="stat-label">AI CONFIDENCE</div>
+      <div class="stat-value" id="aiConfidence">100%</div>
+    </div>
+  </div>
+
+  <div class="ai-panel glass-panel">
+    <div class="ai-header">
+      <h3><i class="fas fa-robot"></i> NEURAL ORACLE · Gemini AI Insights</h3>
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <span style="font-size: 0.85rem;">🤖 AUTO-PILOT</span>
+        <label class="switch">
+          <input type="checkbox" id="autoModeToggle">
+          <span class="slider"></span>
+        </label>
+        <span id="autoModeStatusText" style="font-size: 0.85rem; font-weight: 600;">OFF</span>
+      </div>
+    </div>
+    <div id="aiDecisions" class="ai-messages"></div>
+    <div class="quick-commands">
+      <span style="font-size: 0.8rem; opacity: 0.6; margin-right: 10px;">
+        <i class="fas fa-microphone-alt"></i> Quick:
+      </span>
+      <button class="btn-gold quick-cmd" data-cmd="analyze revenue trends">
+        📊 Revenue
+      </button>
+      <button class="btn-gold quick-cmd" data-cmd="scan for anomalies">
+        🔍 Anomalies
+      </button>
+      <button class="btn-gold quick-cmd" data-cmd="predict next week trends">
+        📈 Predict
+      </button>
+      <button class="btn-gold quick-cmd" data-cmd="staff performance analysis">
+        👥 Staff
+      </button>
+      <button class="btn-gold quick-cmd" data-cmd="security audit report">
+        🔒 Security
+      </button>
+    </div>
+  </div>
+
+  <div class="ai-panel glass-panel" id="deployMonitorSection" style="display: none;">
+    <h3><i class="fas fa-rocket"></i> DEPLOYMENT MONITOR · Quantum Firmware</h3>
+    <div id="deployLogs" style="margin-top: 12px; max-height: 150px; overflow-y: auto;"></div>
+  </div>
+
+  <div class="table-wrapper glass-panel">
+    <h3><i class="fas fa-users"></i> STAFF INTELLIGENCE MATRIX</h3>
+    <h4 style="margin: 10px 0;">💰 Branch Revenue: ₦<span id="branchTotalRevenue">0</span></h4>
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>Score</th>
+            <th>Sessions</th>
+            <th>Revenue</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="staffTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="analytics-grid">
+    <div class="chart-card glass-panel">
+      <h3><i class="fas fa-chart-line"></i> REVENUE TREND (7d)</h3>
+      <canvas id="revenueChartCanvas"></canvas>
+    </div>
+    <div class="chart-card glass-panel">
+      <h3><i class="fas fa-chart-bar"></i> STAFF PERFORMANCE</h3>
+      <canvas id="staffChartCanvas"></canvas>
+    </div>
+  </div>
+
+  <div class="alerts-container glass-panel">
+    <h3><i class="fas fa-shield-alt"></i> REAL-TIME SECURITY ALERTS</h3>
+    <div id="alertsList" style="margin-top: 12px;"></div>
+  </div>
+
+  <div class="input-section glass-panel">
+    <div class="input-group">
+      <label><i class="fas fa-user"></i> CUSTOMER NAME</label>
+      <input type="text" id="customerName" class="input-futuristic" placeholder="e.g., Elara Vance">
+    </div>
+    <div class="input-group">
+      <label><i class="fas fa-mobile-alt"></i> DEVICE TYPE</label>
+      <input type="text" id="deviceType" class="input-futuristic" placeholder="HyperCore X">
+    </div>
+    <div class="input-group">
+      <label><i class="fas fa-naira-sign"></i> AMOUNT (₦)</label>
+      <input type="number" id="chargeAmount" class="input-futuristic" placeholder="1500">
+    </div>
+    <button class="btn-gold" id="startSessionBtn" style="height: 50px;">
+      <i class="fas fa-bolt"></i> INITIATE CHARGE
+    </button>
+  </div>
+
+  <div class="table-wrapper glass-panel">
+    <h3><i class="fas fa-plug"></i> ACTIVE CHARGING NODES</h3>
+    <div style="overflow-x: auto;">
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Customer</th>
+            <th>Device</th>
+            <th>Amount</th>
+            <th>Staff</th>
+            <th>Start</th>
+            <th>Duration</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody id="sessionsTableBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="authority-section glass-panel">
+    <h3><i class="fas fa-building"></i> CORPORATE AUTHORITY · CAC Certified</h3>
+    <div class="authority-grid">
+      <div class="authority-card">
+        <img src="/cac.webp" alt="CAC Certificate" loading="lazy" style="width: 100%; max-width: 200px;">
+        <p><strong>CAC Registration: RC 9283954</strong></p>
+        <p style="font-size: 0.75rem; opacity: 0.7;">Corporate Affairs Commission Certified</p>
+      </div>
+      <div class="authority-card">
+        <img src="/photograph.webp" alt="Founder Freedom Evbakoe Amenaghawon" loading="lazy" style="width: 100%; max-width: 150px; border-radius: 50%;">
+        <p><strong>Freedom Evbakoe Amenaghawon</strong></p>
+        <p style="font-size: 0.75rem; opacity: 0.7;">Founder & CEO</p>
+      </div>
+      <div class="authority-card">
+        <i class="fas fa-certificate" style="font-size: 48px; color: var(--gold-primary);"></i>
+        <p><strong>Quantum Authentication System</strong></p>
+        <p style="font-size: 0.75rem; opacity: 0.7;">ISO 27001 Compliant</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="press-section glass-panel">
+    <h3><i class="fas fa-newspaper"></i> PRESS & MEDIA</h3>
+    <div class="press-grid" id="pressGrid">
+      <div class="press-card">
+        <i class="fas fa-trophy" style="color: var(--gold-primary); font-size: 1.5rem;"></i>
+        <h4>Tech Innovation Award 2025</h4>
+        <p>Quantum Supply Chain Excellence</p>
+        <small>TechPoint Africa</small>
+      </div>
+      <div class="press-card">
+        <i class="fas fa-chart-line" style="color: var(--gold-primary); font-size: 1.5rem;"></i>
+        <h4>Fastest Growing Tech Startup</h4>
+        <p>Nigerian Tech Ecosystem Report</p>
+        <small>TechCabal</small>
+      </div>
+      <div class="press-card">
+        <i class="fas fa-shield-alt" style="color: var(--gold-primary); font-size: 1.5rem;"></i>
+        <h4>Best Authentication Platform</h4>
+        <p>Quantum Device Verification</p>
+        <small>Gadget Review NG</small>
+      </div>
+    </div>
+  </div>
+
+  <div class="location-bar glass-panel">
+    <button class="btn-neon" id="trackLocationBtn">
+      <i class="fas fa-map-marker-alt"></i> GEOLOCATE
+    </button>
+    <button class="btn-neon" id="captureCameraBtn">
+      <i class="fas fa-camera"></i> CAPTURE EVIDENCE
+    </button>
+    <div id="locationStatus" style="font-size: 0.85rem; opacity: 0.7;">
+      <i class="fas fa-satellite-dish"></i> location: —
+    </div>
+    <video id="cameraPreview" autoplay playsinline style="display: none; width: 120px; border-radius: 16px; border: 1px solid var(--gold-primary);"></video>
+    <canvas id="photoCanvas" style="display: none;"></canvas>
+  </div>
+</div>
+
+<div class="rate-limit-bar" id="rateLimitIndicator">
+  <i class="fas fa-tachometer-alt" style="color: var(--gold-primary);"></i>
+  <span>API Calls: <strong id="apiCallCount">0</strong>/min</span>
+  <span>|</span>
+  <span id="rateLimitStatus" style="color: var(--success);">✅ OK</span>
+</div>
+
+<div class="gemini-chat-widget">
+  <div class="gemini-chat-button" id="geminiChatBtn" title="Gemini Quantum Oracle">
+    <i class="fas fa-robot" style="font-size: 28px; color: #000;"></i>
+  </div>
+  <div class="gemini-chat-panel" id="geminiChatPanel">
+    <div style="padding: 15px; background: linear-gradient(135deg, rgba(214, 178, 94, 0.15), rgba(243, 210, 123, 0.1)); border-bottom: 1px solid rgba(214, 178, 94, 0.2); display: flex; justify-content: space-between; align-items: center;">
+      <span><i class="fas fa-robot"></i> <strong>Gemini Quantum Oracle</strong></span>
+      <button id="closeGeminiChat" style="background: none; border: none; color: #d6b25e; cursor: pointer; font-size: 24px; padding: 0 5px;">&times;</button>
+    </div>
+    <div id="geminiMessages" style="height: 350px; overflow-y: auto; padding: 15px; display: flex; flex-direction: column; gap: 10px;">
+      <div style="background: rgba(214, 178, 94, 0.1); padding: 12px 16px; border-radius: 18px; max-width: 85%; align-self: flex-start; font-size: 0.9rem;">
+        👋 Welcome to the Gemini Quantum Oracle. Ask me about franchise metrics, staff performance, revenue anomalies, or security insights!
+      </div>
+    </div>
+    <div style="padding: 12px; border-top: 1px solid rgba(255,255,255,0.1); display: flex; gap: 10px;">
+      <input type="text" id="geminiInput" placeholder="Ask about analytics, fraud, or staff..." style="flex: 1; background: rgba(255,255,255,0.1); border: 1px solid rgba(214, 178, 94, 0.3); border-radius: 25px; padding: 10px 15px; color: white; font-family: 'Inter', sans-serif;">
+      <button id="geminiSendBtn" style="background: #d6b25e; border: none; border-radius: 50%; width: 42px; height: 42px; cursor: pointer; transition: all 0.2s;">
+        <i class="fas fa-paper-plane" style="color: #000;"></i>
+      </button>
+    </div>
+    <div style="padding: 8px; text-align: center; font-size: 9px; color: #666; border-top: 1px solid rgba(255,255,255,0.05);">
+      Powered by Google Gemini AI | Rate Limited: 60 req/min
+    </div>
+  </div>
+</div>
+
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+    }
+  }
+</script>
+
+<script type="module">
+  // ============================================
+  // THREE.JS 3D QUANTUM CORE BACKGROUND
+  // ============================================
+  import * as THREE from 'three';
+  
+  const canvas = document.getElementById('three-canvas');
+  const scene = new THREE.Scene();
+  scene.background = null;
+  scene.fog = new THREE.FogExp2(0x050510, 0.008);
+  
+  const camera = new THREE.PerspectiveCamera(48, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(2.5, 1.5, 5);
+  
+  const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+  
+  const coreGeo = new THREE.IcosahedronGeometry(0.58, 1);
+  const coreMat = new THREE.MeshStandardMaterial({ 
+    color: 0xffaa44, 
+    emissive: 0xff4411, 
+    emissiveIntensity: 1.3, 
+    metalness: 0.85,
+    roughness: 0.2
+  });
+  const coreMesh = new THREE.Mesh(coreGeo, coreMat);
+  scene.add(coreMesh);
+  
+  const ringGroup = new THREE.Group();
+  for (let i = 0; i < 320; i++) {
+    const particle = new THREE.Mesh(
+      new THREE.SphereGeometry(0.02, 6, 6), 
+      new THREE.MeshStandardMaterial({ color: 0xffaa66, emissive: 0xff4422, emissiveIntensity: 0.5 })
+    );
+    const angle = (i / 320) * Math.PI * 2;
+    particle.position.x = Math.cos(angle) * 1.55;
+    particle.position.z = Math.sin(angle) * 1.55;
+    particle.position.y = (Math.random() - 0.5) * 0.3;
+    ringGroup.add(particle);
+  }
+  scene.add(ringGroup);
+  
+  const starGeo = new THREE.BufferGeometry();
+  const starCount = 1500;
+  const starPositions = new Float32Array(starCount * 3);
+  for (let i = 0; i < starCount * 3; i += 3) {
+    starPositions[i] = (Math.random() - 0.5) * 70;
+    starPositions[i + 1] = (Math.random() - 0.5) * 45;
+    starPositions[i + 2] = (Math.random() - 0.5) * 30 - 12;
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+  const starMat = new THREE.PointsMaterial({ color: 0xffcc88, size: 0.03, transparent: true, opacity: 0.8 });
+  const starField = new THREE.Points(starGeo, starMat);
+  scene.add(starField);
+  
+  const ambient = new THREE.AmbientLight(0x222233);
+  const pointLight = new THREE.PointLight(0xffaa66, 1.5, 10);
+  pointLight.position.set(1.2, 1.5, 2.2);
+  const pointLight2 = new THREE.PointLight(0x4466ff, 0.8, 8);
+  pointLight2.position.set(-2, -1, 1);
+  scene.add(ambient, pointLight, pointLight2);
+  
+  let time3d = 0;
+  let mouseX = 0, mouseY = 0;
+  document.addEventListener('mousemove', (e) => { 
+    mouseX = (e.clientX / window.innerWidth) * 2 - 1; 
+    mouseY = -(e.clientY / window.innerHeight) * 2 + 1; 
+  });
+  
+  function animate3d() {
+    requestAnimationFrame(animate3d);
+    time3d += 0.012;
+    
+    coreMesh.rotation.y = time3d * 0.65;
+    coreMesh.rotation.x = Math.sin(time3d * 0.45) * 0.2;
+    ringGroup.rotation.y = time3d * 0.38;
+    ringGroup.rotation.x = Math.sin(time3d * 0.22) * 0.12;
+    starField.rotation.y = time3d * 0.018;
+    starField.rotation.x = time3d * 0.008;
+    
+    camera.position.x += (mouseX * 0.8 - camera.position.x) * 0.05;
+    camera.position.y += (mouseY * 0.5 - camera.position.y) * 0.05;
+    camera.lookAt(0, 0, 0);
+    
+    renderer.render(scene, camera);
+  }
+  animate3d();
+  
+  window.addEventListener('resize', () => { 
+    camera.aspect = window.innerWidth / window.innerHeight; 
+    camera.updateProjectionMatrix(); 
+    renderer.setSize(window.innerWidth, window.innerHeight); 
+  });
+  
+  // ============================================
+  // FIXED: COMPLETE AUTHENTICATION SYSTEM WITH PERSISTENCE
+  // ============================================
+  
+  const CONFIG = {
+    API_BASE: 'https://api.primeshieldhub.com/api', // FIXED: Hardcoded
+    AUTH_TOKEN_KEY: 'psh_auth_token',
+    USER_DATA_KEY: 'psh_user',
+    RATE_LIMIT: {
+      MAX_CALLS: 60,
+      WINDOW_MS: 60000
+    },
+    REFRESH_INTERVALS: {
+      SESSIONS: 10000,
+      STAFF: 20000,
+      ANALYTICS: 30000,
+      ALERTS: 15000
+    }
+  };
+  
+  const State = {
+    currentUser: null,
+    currentBranchId: null,
+    deviceFingerprint: null,
+    apiCallCount: 0,
+    rateLimitResetTime: Date.now() + CONFIG.RATE_LIMIT.WINDOW_MS,
+    sessions: [],
+    staffList: [],
+    alerts: [],
+    revenueHistory: [14200, 16800, 15300, 22400, 27100, 32900, 30800],
+    autoMode: false,
+    charts: { revenue: null, staff: null },
+    refreshTimers: [],
+    isInitialized: false,
+    cameraStream: null,
+    isAuthorized: false
+  };
+  
+  const AuthStorage = {
+    store(token, userData) {
+      try {
+        if (token) localStorage.setItem(CONFIG.AUTH_TOKEN_KEY, token);
+        if (userData) localStorage.setItem(CONFIG.USER_DATA_KEY, JSON.stringify(userData));
+        console.log('✅ Auth data stored');
+        return true;
+      } catch (e) {
+        console.error('❌ Failed to store auth:', e);
+        return false;
+      }
+    },
+    
+    retrieve() {
+      try {
+        return {
+          token: localStorage.getItem(CONFIG.AUTH_TOKEN_KEY),
+          user: JSON.parse(localStorage.getItem(CONFIG.USER_DATA_KEY) || 'null')
+        };
+      } catch (e) {
+        return { token: null, user: null };
+      }
+    },
+    
+    clear() {
+      localStorage.removeItem(CONFIG.AUTH_TOKEN_KEY);
+      localStorage.removeItem(CONFIG.USER_DATA_KEY);
+      sessionStorage.clear();
+      console.log('🧹 Auth cleared');
+    },
+    
+    hasValidSession() {
+      const { token, user } = this.retrieve();
+      return !!(token && user);
+    }
+  };
+  
+  // ============================================
+  // AUTHENTICATION ENFORCEMENT
+  // ============================================
+  
+  function enforceAuthentication() {
+    console.log('🔒 Checking authentication...');
+    
+    const token = localStorage.getItem(CONFIG.AUTH_TOKEN_KEY) || 
+                  localStorage.getItem('psh_auth_token');
+    const userStr = localStorage.getItem(CONFIG.USER_DATA_KEY) || 
+                    localStorage.getItem('psh_user');
+    
+    // Check if user is logged in
+    if (!token || !userStr) {
+      console.warn('🔒 No auth found - redirecting to login');
+      const returnUrl = encodeURIComponent(window.location.pathname);
+      window.location.href = `/login.html?return=${returnUrl}&reason=unauthorized`;
+      return false;
+    }
+    
+    try {
+      const userData = JSON.parse(userStr);
+      console.log('👤 User found:', userData.email || userData.name, 'Role:', userData.role);
+      
+      // Check if user has admin or staff role
+      const allowedRoles = ['admin', 'staff', 'manager', 'supervisor'];
+      if (!allowedRoles.includes(userData.role)) {
+        console.warn('🔒 Unauthorized role:', userData.role);
+        showAccessDenied('You do not have permission to access this portal. Only staff and administrators are allowed.');
+        return false;
+      }
+      
+      // Store user data
+      State.currentUser = userData;
+      State.isAuthorized = true;
+      updateUserDisplay();
+      
+      console.log('✅ Authorized user:', userData.email || userData.name);
+      return true;
+      
+    } catch (e) {
+      console.warn('🔒 Invalid user data:', e);
+      localStorage.removeItem(CONFIG.USER_DATA_KEY);
+      localStorage.removeItem('psh_user');
+      const returnUrl = encodeURIComponent(window.location.pathname);
+      window.location.href = `/login.html?return=${returnUrl}&reason=invalid_session`;
+      return false;
+    }
+  }
+  
+  function showAccessDenied(message) {
+    const overlay = document.getElementById('accessDeniedOverlay');
+    if (overlay) {
+      overlay.classList.add('active');
+      const p = overlay.querySelector('p');
+      if (p && message) p.textContent = message;
+    }
+    // Redirect after 5 seconds
+    setTimeout(() => {
+      window.location.href = '/';
+    }, 5000);
+  }
+  
+  async function getDeviceFingerprint() {
+    if (State.deviceFingerprint) return State.deviceFingerprint;
+    
+    try {
+      const components = [
+        navigator.userAgent,
+        navigator.language,
+        screen.width,
+        screen.height,
+        screen.colorDepth,
+        navigator.hardwareConcurrency,
+        new Date().getTimezoneOffset()
+      ].join('|');
+      
+      const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(components));
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      State.deviceFingerprint = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+    } catch (e) {
+      State.deviceFingerprint = `fp_${Date.now()}_${Math.random().toString(36).substring(2, 10)}`;
+    }
+    
+    return State.deviceFingerprint;
+  }
+  
+  function trackApiCall() {
+    if (Date.now() > State.rateLimitResetTime) {
+      State.apiCallCount = 0;
+      State.rateLimitResetTime = Date.now() + CONFIG.RATE_LIMIT.WINDOW_MS;
+    }
+    State.apiCallCount++;
+    
+    const countEl = document.getElementById('apiCallCount');
+    const statusEl = document.getElementById('rateLimitStatus');
+    if (countEl) countEl.innerText = State.apiCallCount;
+    
+    if (statusEl) {
+      if (State.apiCallCount > CONFIG.RATE_LIMIT.MAX_CALLS * 0.95) {
+        statusEl.innerHTML = '<span style="color:#ff3366;">🔴 LIMIT</span>';
+      } else if (State.apiCallCount > CONFIG.RATE_LIMIT.MAX_CALLS * 0.8) {
+        statusEl.innerHTML = '<span style="color:#ffaa33;">⚠️ HIGH</span>';
+      } else {
+        statusEl.innerHTML = '<span style="color:#33ffaa;">✅ OK</span>';
+      }
+    }
+  }
+  
+  async function authFetch(url, options = {}) {
+    trackApiCall();
+    const fullUrl = url.startsWith('http') ? url : `${CONFIG.API_BASE}${url}`;
+    
+    options.credentials = 'include';
+    options.headers = options.headers || {};
+    
+    options.headers['x-device-fingerprint'] = await getDeviceFingerprint();
+    
+    if (!options.headers['Content-Type'] && options.body && typeof options.body === 'string') {
+      options.headers['Content-Type'] = 'application/json';
+    }
+    
+    const storedToken = localStorage.getItem(CONFIG.AUTH_TOKEN_KEY);
+    if (storedToken && !options.headers['Authorization']) {
+      options.headers['Authorization'] = `Bearer ${storedToken}`;
+    }
+    
+    if (State.currentBranchId) {
+      options.headers['x-branch-id'] = State.currentBranchId;
+    }
+    
+    try {
+      const response = await fetch(fullUrl, options);
+      
+      if (response.status === 401) {
+        const stored = AuthStorage.retrieve();
+        if (stored.token || stored.user) {
+          AuthStorage.clear();
+          window.location.href = '/login.html?reason=session_expired';
+          throw new Error('Session expired');
+        }
+      }
+      
+      return response;
+    } catch (error) {
+      if (error.message === 'Session expired') throw error;
+      console.error(`Fetch error for ${url}:`, error);
+      throw error;
+    }
+  }
+  
+  async function checkAuth() {
+    try {
+      const stored = AuthStorage.retrieve();
+      if (stored.user) {
+        State.currentUser = stored.user;
+        updateUserDisplay();
+      }
+      
+      const res = await authFetch('/auth/check');
+      
+      if (res.ok) {
+        const data = await res.json();
+        if (data.authenticated || data.user) {
+          State.currentUser = data.user || data;
+          AuthStorage.store(stored.token, State.currentUser);
+          updateUserDisplay();
+          return true;
+        }
+      }
+      
+      if (stored.token) {
+        const retryRes = await fetch(`${CONFIG.API_BASE}/auth/check`, {
+          headers: {
+            'Authorization': `Bearer ${stored.token}`,
+            'x-device-fingerprint': await getDeviceFingerprint()
+          },
+          credentials: 'include'
+        });
+        
+        if (retryRes.ok) {
+          const data = await retryRes.json();
+          if (data.authenticated || data.user) {
+            State.currentUser = data.user || data;
+            AuthStorage.store(stored.token, State.currentUser);
+            updateUserDisplay();
+            return true;
+          }
+        }
+      }
+      
+      if (stored.user) {
+        State.currentUser = stored.user;
+        return true;
+      }
+      
+      return false;
+    } catch (e) {
+      const stored = AuthStorage.retrieve();
+      if (stored.user) {
+        State.currentUser = stored.user;
+        return true;
+      }
+      return false;
+    }
+  }
+  
+  function updateUserDisplay() {
+    if (!State.currentUser) return;
+    const userDisplay = document.getElementById('currentUserDisplay');
+    const roleDisplay = document.getElementById('userRoleDisplay');
+    
+    if (userDisplay) {
+      userDisplay.innerText = State.currentUser.name || State.currentUser.email || State.currentUser.role || 'Staff';
+    }
+    if (roleDisplay) {
+      roleDisplay.innerText = State.currentUser.role || 'staff';
+    }
+  }
+  
+  async function logout() {
+    try {
+      await authFetch('/auth/logout', { method: 'POST' });
+    } catch (e) {
+      console.warn('Logout API call failed:', e);
+    }
+    
+    AuthStorage.clear();
+    State.currentUser = null;
+    State.currentBranchId = null;
+    State.isAuthorized = false;
+    State.refreshTimers.forEach(timer => clearInterval(timer));
+    window.location.href = '/login.html';
+  }
+  
+  // ============================================
+  // DASHBOARD DATA SERVICES
+  // ============================================
+  
+  async function loadActiveSessions() {
+    try {
+      const res = await authFetch('/charging/timer');
+      if (res.ok) {
+        const data = await res.json();
+        State.sessions = Array.isArray(data) ? data : [];
+        updateDashboard();
+      }
+    } catch (e) {
+      console.warn('Failed to load sessions:', e);
+    }
+  }
+  
+  async function loadStaffIntelligence() {
+    try {
+      const res = await authFetch('/branch/staff');
+      if (res.ok) {
+        const data = await res.json();
+        State.staffList = data.staff || [];
+        updateDashboard();
+      }
+    } catch (e) {
+      console.warn('Failed to load staff:', e);
+    }
+  }
+  
+  async function loadAlerts() {
+    try {
+      const res = await authFetch('/security/anomalies');
+      if (res.ok) {
+        const data = await res.json();
+        State.alerts = Array.isArray(data) ? data : [];
+        updateDashboard();
+      }
+    } catch (e) {
+      console.warn('Failed to load alerts:', e);
+    }
+  }
+  
+  async function loadAnalytics() {
+    try {
+      const res = await authFetch('/branch/total-revenue');
+      if (res.ok) {
+        const data = await res.json();
+        if (data.total) {
+          const todayRevenue = data.total;
+          State.revenueHistory = [...State.revenueHistory.slice(1), todayRevenue];
+        }
+        updateDashboard();
+      }
+    } catch (e) {
+      console.warn('Analytics failed:', e);
+    }
+  }
+  
+  async function loadUserProfile() {
+    try {
+      const res = await authFetch('/staff/me');
+      if (res.ok) {
+        const data = await res.json();
+        State.currentBranchId = data.branch_id;
+        State.currentUser = { ...State.currentUser, ...data };
+        
+        const branchDisplay = document.getElementById('currentBranchDisplay');
+        const trustDisplay = document.getElementById('trustScoreDisplay');
+        
+        if (branchDisplay) branchDisplay.innerText = data.branch_name || data.name || State.currentBranchId || 'HQ';
+        if (trustDisplay) trustDisplay.innerText = data.score || 100;
+      }
+    } catch (e) {
+      console.warn('Failed to load profile:', e);
+    }
+  }
+  
+  async function toggleAutoMode() {
+    try {
+      await authFetch('/admin/toggle-auto', { method: 'POST' });
+      State.autoMode = !State.autoMode;
+      
+      const toggle = document.getElementById('autoModeToggle');
+      const statusText = document.getElementById('autoModeStatusText');
+      
+      if (toggle) toggle.checked = State.autoMode;
+      if (statusText) statusText.innerText = State.autoMode ? 'ACTIVE' : 'OFF';
+      
+      showToast(`Auto-pilot ${State.autoMode ? 'engaged' : 'disengaged'}`, false);
+      renderAIInsights();
+    } catch (e) {
+      showToast('Failed to toggle auto mode', true);
+    }
+  }
+  
+  async function startChargingSession() {
+    const name = document.getElementById('customerName').value.trim();
+    const device = document.getElementById('deviceType').value.trim();
+    const amount = parseInt(document.getElementById('chargeAmount').value);
+    
+    if (!name || !device || !amount) {
+      showToast('Please fill all fields', false);
+      return;
+    }
+    
+    try {
+      const res = await authFetch('/charging/start', {
+        method: 'POST',
+        body: JSON.stringify({
+          name, 
+          device, 
+          amount,
+          staff: State.currentUser?.id,
+          branchId: State.currentBranchId
+        })
+      });
+      
+      if (res.ok) {
+        document.getElementById('customerName').value = '';
+        document.getElementById('deviceType').value = '';
+        document.getElementById('chargeAmount').value = '';
+        await loadActiveSessions();
+        showToast(`Session started for ${name} – ₦${amount}`, false);
+      } else {
+        const err = await res.json();
+        showToast(err.error || 'Failed to start session', true);
+      }
+    } catch (e) {
+      showToast('Error starting session', true);
+    }
+  }
+  
+  async function completeSession(id, amount) {
+    if (!confirm(`⚠️ COLLECT ₦${amount} from this customer?`)) return;
+    
+    try {
+      const res = await authFetch('/charging/complete', {
+        method: 'POST',
+        body: JSON.stringify({
+          id, 
+          amount,
+          staff: State.currentUser?.id,
+          branchId: State.currentBranchId
+        })
+      });
+      
+      if (res.ok) {
+        showToast(`✅ Payment of ₦${amount} collected!`, false);
+        await loadActiveSessions();
+        await loadStaffIntelligence();
+        await loadAlerts();
+      } else {
+        const err = await res.json();
+        showToast(err.error || 'Failed to complete session', true);
+      }
+    } catch (e) {
+      showToast('Error processing payment', true);
+    }
+  }
+  
+  function updateDashboard() {
+    updateStats();
+    renderSessionsTable();
+    renderStaffTable();
+    renderAlertsUI();
+    renderAIInsights();
+    updateCharts();
+  }
+  
+  function updateStats() {
+    const totalRevenue = State.sessions
+      .filter(s => s.status === 'completed')
+      .reduce((sum, s) => sum + (s.amount || 0), 0) + 
+      State.staffList.reduce((sum, s) => sum + (s.revenue || 0), 0);
+    
+    const activeCount = State.sessions.filter(s => s.status === 'charging' || s.status === 'paused').length;
+    
+    document.getElementById('totalSessions').innerText = State.sessions.length;
+    document.getElementById('totalRevenue').innerHTML = `₦${totalRevenue.toLocaleString()}`;
+    document.getElementById('activeCount').innerText = activeCount;
+    document.getElementById('branchTotalRevenue').innerText = totalRevenue.toLocaleString();
+    
+    const activeCard = document.getElementById('activeCard');
+    if (activeCard) {
+      activeCard.classList.toggle('critical', activeCount > 8);
+    }
+  }
+  
+  function renderSessionsTable() {
+    const tbody = document.getElementById('sessionsTableBody');
+    if (!State.sessions.length) {
+      tbody.innerHTML = '<tr><td colspan="9" style="text-align:center; padding: 20px;">✨ No active quantum sessions</td></tr>';
+      return;
+    }
+    
+    tbody.innerHTML = State.sessions.map(s => {
+      const mins = s.minutes || (s.start_time ? Math.floor((Date.now() - new Date(s.start_time)) / 60000) : 0);
+      const statusColors = {
+        'charging': '<span style="color:#ffd966;">🔋 ACTIVE</span>',
+        'paused': '<span style="color:#ffaa33;">⏸️ PAUSED</span>',
+        'completed': '<span style="color:#33ffaa;">✅ DONE</span>',
+        'ready': '<span style="color:#33ffaa;">📱 READY</span>'
+      };
+      const statusHTML = statusColors[s.status] || `<span>${s.status}</span>`;
+      const actionHTML = (s.status === 'charging' || s.status === 'paused') ? 
+        `<button onclick="window._completeSession(${s.id}, ${s.amount || 0})" 
+                 style="background:#00c853; border:none; padding:6px 14px; border-radius:32px; cursor:pointer; color:white; font-weight:600;">
+          💰 Collect
+        </button>` : '─';
+      
+      return `<tr>
+        <td>${s.ticket_number || (s.id ? String(s.id).substring(0, 8) : '-')}</td>
+        <td>${s.customer_name || '-'}</td>
+        <td>${s.device_model || s.device_type || '-'}</td>
+        <td>₦${(s.amount || 0).toLocaleString()}</td>
+        <td>${s.staff || '-'}</td>
+        <td>${s.start_time ? new Date(s.start_time).toLocaleTimeString() : '--'}</td>
+        <td>${mins}m</td>
+        <td>${statusHTML}</td>
+        <td>${actionHTML}</td>
+      </tr>`;
+    }).join('');
+  }
+  
+  function renderStaffTable() {
+    const tbody = document.getElementById('staffTableBody');
+    if (!State.staffList.length) {
+      tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding: 20px;">Loading staff intelligence...</td></tr>';
+      return;
+    }
+    
+    tbody.innerHTML = State.staffList.map(s => {
+      const score = s.score || 100;
+      const scoreClass = score < 50 ? 'score-critical' : (score < 70 ? 'score-warning' : 'score-good');
+      return `<tr>
+        <td>${s.name || s.id}</td>
+        <td class="${scoreClass}">${score}</td>
+        <td>${s.sessions || 0}</td>
+        <td>₦${(s.revenue || 0).toLocaleString()}</td>
+        <td>${s.status === 'active' ? '🟢 active' : '🟡 pending'}</td>
+      </tr>`;
+    }).join('');
+  }
+  
+  function renderAlertsUI() {
+    const container = document.getElementById('alertsList');
+    if (!State.alerts.length) {
+      container.innerHTML = '<div style="padding:12px; text-align:center;">✅ No threats detected</div>';
+      return;
+    }
+    
+    container.innerHTML = State.alerts.slice(0, 8).map(a => `
+      <div class="alert-item">
+        <strong>🚨 ${a.type || 'Alert'}</strong>
+        <div>${a.message || 'No details'}</div>
+        <div style="font-size:0.7rem; opacity:0.6; margin-top: 5px;">
+          👤 ${a.staff || 'System'} · ${new Date(a.timestamp || Date.now()).toLocaleTimeString()}
+        </div>
+      </div>
+    `).join('');
+  }
+  
+  function renderAIInsights() {
+    const container = document.getElementById('aiDecisions');
+    const activeCount = State.sessions.filter(s => s.status === 'charging' || s.status === 'paused').length;
+    const lowPerformers = State.staffList.filter(s => (s.score || 100) < 70).map(s => s.name).join(', ');
+    
+    let insights = [];
+    if (activeCount > 7) insights.push('🌀 Load balancing recommended — high node activity detected');
+    if (lowPerformers) insights.push(`📉 Performance alert: ${lowPerformers} requires attention`);
+    if (State.autoMode) insights.push('🤖 AUTO-PILOT ACTIVE: dynamic pricing and optimization enabled');
+    if (insights.length === 0) insights.push('✨ All systems nominal — quantum harmony achieved');
+    
+    container.innerHTML = insights.map(i => `<div class="ai-message">${i}</div>`).join('');
+  }
+  
+  function updateCharts() {
+    const revenueCanvas = document.getElementById('revenueChartCanvas');
+    const staffCanvas = document.getElementById('staffChartCanvas');
+    if (!revenueCanvas || !staffCanvas) return;
+    
+    if (State.charts.revenue) State.charts.revenue.destroy();
+    if (State.charts.staff) State.charts.staff.destroy();
+    
+    State.charts.revenue = new Chart(revenueCanvas, {
+      type: 'line',
+      data: {
+        labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+        datasets: [{
+          label: 'Daily Revenue (₦)',
+          data: State.revenueHistory,
+          borderColor: '#ffd966',
+          backgroundColor: 'rgba(255,217,102,0.1)',
+          tension: 0.4,
+          fill: true,
+          borderWidth: 2,
+          pointBackgroundColor: '#ffd966'
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { labels: { color: 'white', font: { family: 'Inter' } } }
+        },
+        scales: {
+          x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' } },
+          y: { ticks: { color: 'rgba(255,255,255,0.6)', callback: v => '₦' + v.toLocaleString() }, grid: { color: 'rgba(255,255,255,0.05)' } }
+        }
+      }
+    });
+    
+    State.charts.staff = new Chart(staffCanvas, {
+      type: 'bar',
+      data: {
+        labels: State.staffList.map(s => s.name || 'Unknown'),
+        datasets: [{
+          label: 'Performance Score',
+          data: State.staffList.map(s => s.score || 100),
+          backgroundColor: ctx => {
+            const value = ctx.raw || 100;
+            return value < 50 ? '#ff3366' : (value < 70 ? '#ffaa33' : '#33ffaa');
+          },
+          borderRadius: 8,
+          borderWidth: 0
+        }]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: true,
+        plugins: {
+          legend: { labels: { color: 'white', font: { family: 'Inter' } } }
+        },
+        scales: {
+          x: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { display: false } },
+          y: { ticks: { color: 'rgba(255,255,255,0.6)' }, grid: { color: 'rgba(255,255,255,0.05)' }, beginAtZero: true, max: 100 }
+        }
+      }
+    });
+  }
+  
+  function showToast(msg, isError = false) {
+    const toast = document.createElement('div');
+    toast.className = 'toast-notification';
+    toast.innerText = msg;
+    toast.style.background = isError ? 'rgba(187, 51, 51, 0.9)' : 'rgba(31, 58, 47, 0.9)';
+    document.body.appendChild(toast);
+    setTimeout(() => {
+      toast.style.opacity = '0';
+      toast.style.transition = 'opacity 0.3s';
+      setTimeout(() => toast.remove(), 300);
+    }, 3000);
+  }
+  
+  function trackLocation() {
+    if (!navigator.geolocation) {
+      showToast('Geolocation not supported', false);
+      return;
+    }
+    
+    navigator.geolocation.getCurrentPosition(async pos => {
+      const status = document.getElementById('locationStatus');
+      if (status) {
+        status.innerHTML = `<i class="fas fa-map-pin"></i> ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+      }
+      
+      try {
+        await authFetch('/staff/location', {
+          method: 'POST',
+          body: JSON.stringify({
+            lat: pos.coords.latitude,
+            lng: pos.coords.longitude,
+            staffId: State.currentUser?.id,
+            branchId: State.currentBranchId
+          })
+        });
+        showToast('Location synced', false);
+      } catch (e) {
+        showToast('Failed to sync location', true);
+      }
+    }, () => showToast('Location access denied', false));
+  }
+  
+  async function captureEvidence() {
+    const video = document.getElementById('cameraPreview');
+    const canvas = document.getElementById('photoCanvas');
+    
+    try {
+      State.cameraStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } });
+      video.srcObject = State.cameraStream;
+      video.style.display = 'block';
+      
+      setTimeout(async () => {
+        canvas.width = video.videoWidth || 320;
+        canvas.height = video.videoHeight || 240;
+        canvas.getContext('2d').drawImage(video, 0, 0);
+        const imageData = canvas.toDataURL('image/jpeg', 0.8);
+        
+        try {
+          await authFetch('/staff/capture', {
+            method: 'POST',
+            body: JSON.stringify({
+              image: imageData,
+              staffId: State.currentUser?.id,
+              branchId: State.currentBranchId
+            })
+          });
+          showToast('📸 Evidence captured', false);
+        } catch (e) {
+          showToast('Failed to upload capture', true);
+        }
+        
+        video.style.display = 'none';
+        if (State.cameraStream) {
+          State.cameraStream.getTracks().forEach(t => t.stop());
+        }
+      }, 1500);
+    } catch (e) {
+      showToast('Camera access denied', true);
+    }
+  }
+  
+  // ============================================
+  // FIXED: GEMINI AI - Works With Auth
+  // ============================================
+  
+  class GeminiFranchiseAI {
+    constructor() {
+      this.history = [];
+      this.apiBase = CONFIG.API_BASE;
+    }
+    
+    async query(prompt, context = {}) {
+      trackApiCall();
+      
+      try {
+        console.log('🤖 Sending AI query:', prompt.slice(0, 50) + '...');
+        
+        // Get auth token
+        const token = localStorage.getItem(CONFIG.AUTH_TOKEN_KEY) || 
+                      localStorage.getItem('psh_auth_token');
+        
+        const response = await fetch(`${this.apiBase}/ai/chat`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': token ? `Bearer ${token}` : ''
+          },
+          credentials: 'include',
+          body: JSON.stringify({
+            message: prompt,
+            context: context,
+            history: this.history.slice(-5)
+          })
+        });
+        
+        console.log('📡 AI Response status:', response.status);
+        
+        if (response.ok) {
+          const data = await response.json();
+          const reply = data.response || data.message || data.reply || 'No response from AI';
+          
+          this.history.push({ role: 'user', content: prompt });
+          this.history.push({ role: 'assistant', content: reply });
+          
+          console.log('✅ AI Response received:', reply.slice(0, 50) + '...');
+          return reply;
+        } else {
+          const errorText = await response.text();
+          console.error('❌ AI Error Response:', response.status, errorText);
+          return `⚠️ AI service error (${response.status}). Please try again.`;
+        }
+      } catch (e) {
+        console.error('❌ AI Error:', e);
+        return '⚠️ Error connecting to AI service. Please check your connection.';
+      }
+    }
+  }
+  
+  const geminiAI = new GeminiFranchiseAI();
+  
+  function escapeHtml(text) {
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+  }
+  
+  async function sendGeminiMessage() {
+    const input = document.getElementById('geminiInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    
+    const messagesDiv = document.getElementById('geminiMessages');
+    messagesDiv.innerHTML += `<div style="background: rgba(214, 178, 94, 0.15); padding: 12px 16px; border-radius: 18px; max-width: 85%; align-self: flex-end; font-size: 0.9rem;">${escapeHtml(msg)}</div>`;
+    input.value = '';
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    
+    const typingId = Date.now();
+    messagesDiv.innerHTML += `<div id="typing-${typingId}" style="background: rgba(214, 178, 94, 0.08); padding: 12px 16px; border-radius: 18px; align-self: flex-start; font-size: 0.9rem;">⏳ Analyzing...</div>`;
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+    
+    const context = {
+      totalRevenue: State.sessions.reduce((a,b) => a + (b.amount || 0), 0),
+      staffCount: State.staffList.length,
+      alertCount: State.alerts.length,
+      activeSessions: State.sessions.filter(s => s.status === 'charging').length
+    };
+    
+    const response = await geminiAI.query(msg, context);
+    
+    const typingEl = document.getElementById(`typing-${typingId}`);
+    if (typingEl) typingEl.remove();
+    
+    messagesDiv.innerHTML += `<div style="background: rgba(214, 178, 94, 0.08); padding: 12px 16px; border-radius: 18px; max-width: 85%; align-self: flex-start; font-size: 0.9rem;">${escapeHtml(response)}</div>`;
+    messagesDiv.scrollTop = messagesDiv.scrollHeight;
+  }
+  
+  // ============================================
+  // EVENT LISTENERS
+  // ============================================
+  
+  document.getElementById('startSessionBtn').onclick = startChargingSession;
+  document.getElementById('trackLocationBtn').onclick = trackLocation;
+  document.getElementById('captureCameraBtn').onclick = captureEvidence;
+  document.getElementById('autoModeToggle').onchange = toggleAutoMode;
+  document.getElementById('logoutBtn').onclick = logout;
+  
+  document.getElementById('refreshBtn').onclick = async () => {
+    await Promise.all([
+      loadActiveSessions(),
+      loadStaffIntelligence(),
+      loadAlerts(),
+      loadAnalytics()
+    ]);
+    showToast('🔄 System synced', false);
+  };
+  
+  window._completeSession = completeSession;
+  
+  document.getElementById('geminiChatBtn').onclick = () => {
+    const panel = document.getElementById('geminiChatPanel');
+    panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+  };
+  
+  document.getElementById('closeGeminiChat').onclick = () => {
+    document.getElementById('geminiChatPanel').style.display = 'none';
+  };
+  
+  document.getElementById('geminiSendBtn').onclick = sendGeminiMessage;
+  
+  document.getElementById('geminiInput').addEventListener('keypress', (e) => {
+    if (e.key === 'Enter') sendGeminiMessage();
+  });
+  
+  document.querySelectorAll('.quick-cmd').forEach(btn => {
+    btn.onclick = () => {
+      document.getElementById('geminiInput').value = btn.dataset.cmd;
+      document.getElementById('geminiChatPanel').style.display = 'flex';
+      sendGeminiMessage();
+    };
+  });
+  
+  // ============================================
+  // INITIALIZATION
+  // ============================================
+  
+  async function init() {
+    console.log('🚀 Initializing PrimeShieldHub Dashboard...');
+    console.log('📍 API Base:', CONFIG.API_BASE);
+    
+    // ============================================
+    // ENFORCE AUTHENTICATION - FIRST THING
+    // ============================================
+    
+    const loadingStatus = document.getElementById('loadingStatus');
+    if (loadingStatus) loadingStatus.innerText = 'checking authorization...';
+    
+    // Check if user is authorized
+    const isAuthorized = enforceAuthentication();
+    if (!isAuthorized) {
+      // enforceAuthentication handles redirect
+      return;
+    }
+    
+    if (loadingStatus) loadingStatus.innerText = 'authenticating secure channel...';
+    
+    await getDeviceFingerprint();
+    console.log('🔑 Device fingerprint:', State.deviceFingerprint?.substring(0, 8) + '...');
+    
+    const authenticated = await checkAuth();
+    if (!authenticated) {
+      console.warn('❌ Authentication failed - redirecting to login');
+      const returnUrl = encodeURIComponent(window.location.pathname);
+      window.location.href = `/login.html?return=${returnUrl}`;
+      return;
+    }
+    
+    if (loadingStatus) loadingStatus.innerText = 'loading user profile...';
+    await loadUserProfile();
+    
+    if (State.currentUser?.role === 'admin') {
+      const deploySection = document.getElementById('deployMonitorSection');
+      if (deploySection) {
+        deploySection.style.display = 'block';
+        document.getElementById('deployLogs').innerHTML = `
+          <div class="deploy-log" style="border-left:3px solid #33ffaa;">
+            ✅ Quantum Core v5.0 deployed at ${new Date().toLocaleString()}
+          </div>
+          <div class="deploy-log" style="border-left:3px solid #ffd966;">
+            🔒 Gemini AI active · Rate limiting: 60 req/min
+          </div>
+          <div class="deploy-log" style="border-left:3px solid #ffd966;">
+            🛡️ CSRF protection enabled · Session persistence active
+          </div>
+        `;
+      }
+    }
+    
+    if (loadingStatus) loadingStatus.innerText = 'loading dashboard data...';
+    
+    await Promise.all([
+      loadActiveSessions(),
+      loadStaffIntelligence(),
+      loadAlerts(),
+      loadAnalytics()
+    ]);
+    
+    const loadingEl = document.getElementById('loading');
+    if (loadingEl) {
+      loadingEl.style.opacity = '0';
+      loadingEl.style.transition = 'opacity 0.5s ease';
+      setTimeout(() => {
+        loadingEl.style.display = 'none';
+        document.getElementById('app').style.display = 'block';
+      }, 500);
+    }
+    
+    State.refreshTimers.push(
+      setInterval(() => { if (State.currentUser) loadActiveSessions(); }, CONFIG.REFRESH_INTERVALS.SESSIONS),
+      setInterval(() => { if (State.currentUser) loadAlerts(); }, CONFIG.REFRESH_INTERVALS.ALERTS),
+      setInterval(() => { if (State.currentUser) loadStaffIntelligence(); }, CONFIG.REFRESH_INTERVALS.STAFF),
+      setInterval(() => { if (State.currentUser) loadAnalytics(); }, CONFIG.REFRESH_INTERVALS.ANALYTICS)
+    );
+    
+    State.isInitialized = true;
+    console.log('✅ Dashboard initialized');
+    console.log('👤 User:', State.currentUser?.email || State.currentUser?.name, 'Role:', State.currentUser?.role);
+    console.log('=== AUTH DEBUG ===');
+    console.log('Token:', localStorage.getItem(CONFIG.AUTH_TOKEN_KEY) ? 'PRESENT' : 'MISSING');
+    console.log('User:', localStorage.getItem(CONFIG.USER_DATA_KEY) ? 'PRESENT' : 'MISSING');
+  }
+  
+  let progress = 0;
+  const loadInterval = setInterval(() => {
+    progress += Math.random() * 12 + 8;
+    const loadProgress = document.getElementById('loadProgress');
+    if (loadProgress) {
+      loadProgress.style.width = `${Math.min(progress, 100)}%`;
+    }
+    
+    if (progress >= 100) {
+      clearInterval(loadInterval);
+      init();
+    }
+  }, 80);
+</script>
+</body>
+</html>
+

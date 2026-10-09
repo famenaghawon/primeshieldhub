@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>PRIMESHIELD HUB | QUANTUM PAYSLIP AUTHENTICATION</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: radial-gradient(ellipse at 20% 30%, #030311 0%, #000000 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1.5rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(214, 178, 94, 0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(214, 178, 94, 0.08) 1px, transparent 1px);
+      background-size: 40px 40px;
+      pointer-events: none;
+      z-index: 0;
+      mask-image: radial-gradient(circle at 50% 50%, black 30%, transparent 80%);
+    }
+
+    .ambient-sphere {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.15;
+      z-index: 0;
+      pointer-events: none;
+    }
+    .sphere-1 {
+      width: 60vw;
+      height: 60vw;
+      background: #d6b25e;
+      top: -20%;
+      left: -15%;
+      animation: floatSphere 20s infinite alternate ease-in-out;
+    }
+    .sphere-2 {
+      width: 45vw;
+      height: 45vw;
+      background: #00d6b2;
+      bottom: -15%;
+      right: -10%;
+      animation: floatSphere 25s infinite alternate-reverse ease-in-out;
+    }
+    .sphere-3 {
+      width: 30vw;
+      height: 30vw;
+      background: #4d7cff;
+      top: 40%;
+      left: 60%;
+      animation: floatSphere 18s infinite alternate ease-in-out;
+    }
+
+    @keyframes floatSphere {
+      0% { transform: translate(0, 0) scale(1); }
+      100% { transform: translate(4vw, -3vw) scale(1.1); }
+    }
+
+    .verify-card {
+      position: relative;
+      z-index: 10;
+      background: rgba(8, 12, 30, 0.7);
+      backdrop-filter: blur(24px) saturate(180%);
+      -webkit-backdrop-filter: blur(24px) saturate(180%);
+      border: 1px solid rgba(214, 178, 94, 0.25);
+      box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(214, 178, 94, 0.15), 0 0 80px rgba(0, 214, 178, 0.25);
+      border-radius: 42px;
+      padding: 2.8rem 2.5rem;
+      max-width: 540px;
+      width: 100%;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+      animation: cardPulse 8s infinite alternate;
+    }
+
+    @keyframes cardPulse {
+      0% { box-shadow: 0 30px 60px rgba(0,0,0,0.7), 0 0 0 1px rgba(214,178,94,0.2), 0 0 80px rgba(0,214,178,0.25); }
+      100% { box-shadow: 0 35px 70px rgba(0,0,0,0.8), 0 0 0 1px rgba(214,178,94,0.5), 0 0 120px rgba(0,214,178,0.45); }
+    }
+
+    /* COMPANY LOGO */
+    .logo-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 12px;
+    }
+    .company-logo {
+      height: 50px;
+      width: auto;
+      filter: drop-shadow(0 0 18px rgba(214,178,94,0.6));
+      transition: all 0.3s ease;
+    }
+    .company-logo:hover {
+      filter: drop-shadow(0 0 28px rgba(214,178,94,0.9));
+    }
+
+    .crypto-icon {
+      font-size: 2.8rem;
+      background: linear-gradient(135deg, #d6b25e 0%, #f8e3a0 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      filter: drop-shadow(0 0 14px rgba(214,178,94,0.7));
+      letter-spacing: -1px;
+      animation: iconGlitch 3s infinite;
+      margin-bottom: 4px;
+    }
+
+    @keyframes iconGlitch {
+      0%, 100% { transform: translate(0); }
+      2% { transform: translate(-2px, 1px); }
+      4% { transform: translate(2px, -1px); }
+      6% { transform: translate(0); }
+    }
+
+    .verify-card h1 {
+      font-family: 'JetBrains Mono', 'Inter', monospace;
+      font-weight: 600;
+      font-size: 2.2rem;
+      letter-spacing: -0.5px;
+      background: linear-gradient(to right, #e5c87b, #d6b25e, #c9a04a);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin: 0 0 0.5rem;
+      text-transform: uppercase;
+      word-spacing: 6px;
+    }
+
+    .subtitle {
+      font-size: 0.85rem;
+      font-weight: 400;
+      color: rgba(255,255,255,0.45);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      margin-bottom: 1.8rem;
+    }
+
+    .ref-panel {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 60px;
+      padding: 0.9rem 1.8rem;
+      margin: 1.5rem 0 1.8rem;
+      border: 1px solid rgba(214, 178, 94, 0.4);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: inset 0 0 20px rgba(214,178,94,0.1);
+    }
+
+    .ref-label {
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.5);
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .ref-value {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 500;
+      font-size: 1rem;
+      color: #fff;
+      background: linear-gradient(90deg, #d6b25e, #f0d78c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      word-break: break-all;
+      max-width: 260px;
+      display: inline-block;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 28px;
+      border-radius: 40px;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: 0.4px;
+      margin: 12px 0 18px;
+      backdrop-filter: blur(12px);
+      transition: 0.3s;
+      text-transform: uppercase;
+      border: 1px solid transparent;
+    }
+
+    .status.valid {
+      background: rgba(0, 230, 150, 0.12);
+      color: #00e696;
+      border-color: rgba(0, 230, 150, 0.45);
+      box-shadow: 0 0 30px rgba(0, 230, 150, 0.35);
+      text-shadow: 0 0 10px rgba(0,230,150,0.6);
+    }
+
+    .status.invalid {
+      background: rgba(255, 70, 110, 0.12);
+      color: #ff4770;
+      border-color: rgba(255, 70, 110, 0.5);
+      box-shadow: 0 0 30px rgba(255, 70, 110, 0.35);
+      text-shadow: 0 0 10px rgba(255,70,110,0.6);
+    }
+
+    .status.error-state {
+      background: rgba(255, 165, 0, 0.12);
+      color: #ffa500;
+      border-color: rgba(255, 165, 0, 0.5);
+      box-shadow: 0 0 30px rgba(255, 165, 0, 0.3);
+    }
+
+    .details-panel {
+      text-align: left;
+      background: rgba(10, 14, 28, 0.65);
+      backdrop-filter: blur(20px);
+      border-radius: 28px;
+      padding: 1.8rem 1.8rem;
+      margin-top: 24px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 40px rgba(0,0,0,0.6), inset 0 0 30px rgba(214,178,94,0.06);
+      display: none;
+      animation: fadeSlide 0.5s ease;
+    }
+
+    @keyframes fadeSlide {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      padding: 0.9rem 0;
+      border-bottom: 1px solid rgba(214, 178, 94, 0.15);
+      font-size: 0.9rem;
+      letter-spacing: 0.2px;
+    }
+
+    .detail-row:last-child {
+      border-bottom: none;
+    }
+
+    .detail-label {
+      color: #8a8fa8;
+      font-weight: 400;
+      text-transform: uppercase;
+      font-size: 0.7rem;
+      letter-spacing: 1.8px;
+    }
+
+    .detail-value {
+      font-weight: 700;
+      color: #fff;
+      font-family: 'JetBrains Mono', monospace;
+      background: rgba(255,255,255,0.03);
+      padding: 0.2rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      letter-spacing: 0.2px;
+      transition: 0.2s;
+    }
+
+    .currency-highlight {
+      background: linear-gradient(135deg, #d6b25e, #f3d783);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      font-weight: 700;
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(214,178,94,0.3);
+      border-top: 2px solid #d6b25e;
+      border-radius: 50%;
+      animation: spin 0.9s linear infinite;
+      margin-right: 8px;
+    }
+
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+    .debug-info {
+      margin-top: 1.2rem;
+      font-size: 0.6rem;
+      color: rgba(255,255,255,0.3);
+      font-family: 'JetBrains Mono', monospace;
+      word-break: break-all;
+    }
+
+    @media (max-width: 500px) {
+      .verify-card {
+        padding: 2rem 1.5rem;
+      }
+      .ref-value {
+        max-width: 180px;
+        font-size: 0.8rem;
+      }
+      .company-logo {
+        height: 38px;
+      }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <div class="ambient-sphere sphere-1"></div>
+  <div class="ambient-sphere sphere-2"></div>
+  <div class="ambient-sphere sphere-3"></div>
+
+  <div class="verify-card">
+    <!-- COMPANY LOGO (loaded from same directory) -->
+    <div class="logo-wrapper">
+      <img src="company_logo.png" alt="PrimeShieldHub" class="company-logo" id="companyLogo" onerror="this.style.display='none'; document.getElementById('fallbackIcon').style.display='block';">
+      <span class="crypto-icon" id="fallbackIcon" style="display:none;">◈</span>
+    </div>
+    
+    <h1>PRIMESHIELD<span style="font-weight:300; color:#d6b25e;">//</span>HUB</h1>
+    <div class="subtitle">Quantum Payslip Authenticator</div>
+
+    <div class="ref-panel">
+      <span class="ref-label">REF</span>
+      <span class="ref-value" id="referenceDisplay">⟳ INITIALIZING</span>
+    </div>
+
+    <div id="statusContainer">
+      <span class="status" style="color:#aaa; background:rgba(255,255,255,0.05);">
+        <span class="loading-spinner"></span> VERIFYING STREAM
+      </span>
+    </div>
+
+    <div class="details-panel" id="detailsPanel"></div>
+    
+    <div class="debug-info" id="debugInfo"></div>
+    
+    <div style="margin-top: 1rem; font-size:0.65rem; color:rgba(255,255,255,0.25); letter-spacing:2px;">
+      END-TO-END CRYPTOGRAPHIC VALIDATION
+    </div>
+  </div>
+
+  <script>
+    (function() {
+      // Extract reference from URL path
+      const path = window.location.pathname;
+      const segments = path.split('/').filter(s => s.length > 0);
+      const reference = segments.length > 0 ? segments[segments.length - 1] : 'UNKNOWN_REF';
+      
+      const referenceDisplay = document.getElementById('referenceDisplay');
+      const statusContainer = document.getElementById('statusContainer');
+      const detailsPanel = document.getElementById('detailsPanel');
+      const debugInfo = document.getElementById('debugInfo');
+
+      referenceDisplay.textContent = reference;
+      
+      // ============================================
+      // CONFIGURATION - MODIFY THESE AS NEEDED
+      // ============================================
+      const API_URL = `https://api.primeshieldhub.com/api/payroll/verify-public/${reference}`; // Increased limit to find reference
+      
+      // If your API requires an auth token, add it here:
+      const AUTH_TOKEN = ''; // e.g., 'Bearer eyJhbGciOi...'
+      // Or read from cookie/localStorage:
+      // const AUTH_TOKEN = localStorage.getItem('prime_auth_token') || '';
+      // ============================================
+
+      function showDebug(message) {
+        debugInfo.textContent = 'ⓘ ' + message;
+        console.log('[PrimeShield Debug]', message);
+      }
+
+      async function performQuantumVerification() {
+        try {
+          showDebug('Initiating secure handshake...');
+          
+          // Build fetch options
+          const fetchOptions = {
+            method: 'GET',
+            headers: {
+              'Accept': 'application/json',
+              'Content-Type': 'application/json',
+            }
+          };
+          
+          // Add auth header if token exists
+          if (AUTH_TOKEN) {
+            fetchOptions.headers['Authorization'] = AUTH_TOKEN;
+            showDebug('Auth token attached');
+          } else {
+            showDebug('No auth token - API may require authentication');
+          }
+          
+          const response = await fetch(API_URL, fetchOptions);
+          
+          showDebug('Response status: ' + response.status);
+          
+          if (!response.ok) {
+            if (response.status === 401) {
+              throw new Error('AUTH_REQUIRED: API requires authentication token');
+            } else if (response.status === 403) {
+              throw new Error('FORBIDDEN: Insufficient permissions');
+            } else {
+              throw new Error(`API returned status ${response.status}`);
+            }
+          }
+          
+          const data = await response.json();
+          const payrolls = data?.payrolls || data?.data || []; // Handle different response structures
+          
+          showDebug(`Retrieved ${payrolls.length} payroll records`);
+          
+          const foundRecord = payrolls.find(p => p.reference === reference);
+          
+          statusContainer.innerHTML = '';
+          detailsPanel.style.display = 'none';
+          detailsPanel.innerHTML = '';
+          
+          if (foundRecord) {
+            // VALID PAYSLIP
+            statusContainer.innerHTML = `<span class="status valid">◈ VALID QUANTUM SLIP ◈</span>`;
+            
+            const staffName = foundRecord.staff_name || foundRecord.employee_name || 'CLASSIFIED';
+            const period = foundRecord.period || foundRecord.pay_period || 'N/A';
+            const gross = (foundRecord.gross_salary || foundRecord.gross || 0).toLocaleString();
+            const net = (foundRecord.net_salary || foundRecord.net || 0).toLocaleString();
+            const statusText = foundRecord.status || 'PROCESSED';
+            
+            let dateDisplay = 'N/A';
+            if (foundRecord.created_at) {
+              const dateObj = new Date(foundRecord.created_at);
+              if (!isNaN(dateObj.getTime())) {
+                dateDisplay = dateObj.toLocaleDateString('en-US', { 
+                  year: 'numeric', month: 'short', day: 'numeric' 
+                });
+              } else {
+                dateDisplay = foundRecord.created_at;
+              }
+            }
+            
+            detailsPanel.innerHTML = `
+              <div class="detail-row">
+                <span class="detail-label">Identity</span>
+                <span class="detail-value">${escapeHTML(staffName)}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Cycle</span>
+                <span class="detail-value">${escapeHTML(period)}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Gross Credit</span>
+                <span class="detail-value"><span class="currency-highlight">₦${escapeHTML(gross)}</span></span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Net Disbursement</span>
+                <span class="detail-value"><span class="currency-highlight">₦${escapeHTML(net)}</span></span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Ledger Status</span>
+                <span class="detail-value" style="color:#00e696;">${escapeHTML(statusText)}</span>
+              </div>
+              <div class="detail-row">
+                <span class="detail-label">Timestamp</span>
+                <span class="detail-value">${escapeHTML(dateDisplay)}</span>
+              </div>
+              <div class="detail-row" style="justify-content: center; margin-top: 8px; border: none;">
+                <span style="font-size:0.7rem; color: #d6b25e; letter-spacing:2px;">✓ BLOCKCHAIN ANCHORED</span>
+              </div>
+            `;
+            
+            detailsPanel.style.display = 'block';
+            showDebug('✓ Payslip authenticated successfully');
+            
+          } else {
+            // INVALID
+            statusContainer.innerHTML = `<span class="status invalid">⚠ INVALID SEQUENCE ⚠</span>`;
+            detailsPanel.innerHTML = `
+              <div style="text-align:center; color:#ff708d; padding:1rem; font-weight:500; letter-spacing:1px;">
+                ∿ REFERENCE NOT FOUND IN LEDGER ∿
+              </div>
+            `;
+            detailsPanel.style.display = 'block';
+            showDebug('✗ Reference not found among ' + payrolls.length + ' records');
+          }
+          
+        } catch (error) {
+          console.error('Quantum verification failure:', error);
+          
+          let errorMessage = 'NEXUS FAILURE';
+          if (error.message.includes('AUTH_REQUIRED')) {
+            errorMessage = '🔐 AUTH REQUIRED';
+            showDebug('API requires authentication token');
+          } else if (error.message.includes('Failed to fetch')) {
+            errorMessage = '🌐 NETWORK ERROR';
+            showDebug('Cannot reach API - check CORS or network');
+          } else {
+            showDebug('Error: ' + error.message);
+          }
+          
+          statusContainer.innerHTML = `<span class="status error-state">⬡ ${errorMessage} ⬡</span>`;
+          detailsPanel.innerHTML = `
+            <div style="text-align:center; color:#aaa; padding:1rem; font-size:0.8rem;">
+              ${escapeHTML(error.message)}
+            </div>
+          `;
+          detailsPanel.style.display = 'block';
+        }
+      }
+      
+      function escapeHTML(str) {
+        if (!str) return '';
+        return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+      }
+      
+      performQuantumVerification();
+    })();
+  </script>
+</body>
+</html>
+
+

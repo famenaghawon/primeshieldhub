@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="11.4" data-encryption="aes-256-gcm" data-page="staff-registration">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="PrimeShieldHub – Staff Registration | Join the Quantum Franchise Network">
+  <meta name="theme-color" content="#000000">
+  
+  <!-- ===== PWA META TAGS ===== -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Staff Hub">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/staff/manifest.json">
+  <link rel="apple-touch-icon" href="/staff-icons/icon-192x192.png">
+  <link rel="apple-touch-startup-image" href="/staff-icons/icon-512x512.png">
+  <meta name="msapplication-TileColor" content="#060608">
+  <meta name="msapplication-TileImage" content="/staff-icons/icon-144x144.png">
+  
+  <!-- Staff Portal specific meta -->
+  <meta name="staff-portal" content="true">
+  <meta name="csrf-token" content="">
+  <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+  
+  <!-- ===== FAVICONS & ICONS ===== -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/staff-icons/icon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/staff-icons/icon-96x96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/staff-icons/icon-48x48.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="/staff-icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/staff-icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/staff-icons/icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/staff-icons/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/staff-icons/icon-192x192.png">
+  <link rel="manifest" href="/staff/manifest.json">
+  
+  <title>Staff Registration | PrimeShieldHub • Quantum Onboarding</title>
+  
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://api.primeshieldhub.com">
+  
+  <!-- Fonts -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Three.js Import Map -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.157.0/build/three.module.js",
+        "three/addons/": "https://unpkg.com/three@0.157.0/examples/jsm/"
+      }
+    }
+  </script>
+  
+  <style>
+    :root {
+      --bg-deep: #000308;
+      --surface-card: rgba(6, 10, 22, 0.84);
+      --surface-input: rgba(0, 0, 0, 0.5);
+      --glass-edge: rgba(0, 247, 255, 0.22);
+      --glass-edge-hover: rgba(0, 247, 255, 0.45);
+      --glass-edge-active: rgba(51, 255, 170, 0.5);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --neon-pink: #ff2d95;
+      --accent-success: #33ffaa;
+      --accent-warning: #ffaa33;
+      --accent-danger: #ff3366;
+      --accent-info: #4488ff;
+      --text-primary: #f0f3ff;
+      --text-secondary: #8892a4;
+      --text-muted: #5a6377;
+      --gradient-cyan-purple: linear-gradient(135deg, #00f7ff 0%, #b200ff 100%);
+      --gradient-gold: linear-gradient(135deg, #ffd966 0%, #ffaa33 100%);
+      --gradient-fire: linear-gradient(135deg, #ff2d95 0%, #ff6b35 100%);
+      --gradient-success: linear-gradient(135deg, #33ffaa 0%, #00cc66 100%);
+      --radius-xl: 2.2rem;
+      --radius-lg: 1.5rem;
+      --radius-md: 1rem;
+      --radius-sm: 0.75rem;
+      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+      --shadow-card: 0 30px 70px rgba(0, 0, 0, 0.6), 0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+      --shadow-glow-cyan: 0 0 25px rgba(0, 247, 255, 0.25);
+      --shadow-glow-gold: 0 0 25px rgba(255, 217, 102, 0.25);
+      --shadow-glow-success: 0 0 25px rgba(51, 255, 170, 0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      min-height: 100dvh;
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    /* 3D Canvas */
+    #quantum-canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Cyber Grid */
+    .cyber-grid {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 247, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 247, 255, 0.05) 1px, transparent 1px);
+      background-size: 55px 55px;
+      z-index: 1;
+      pointer-events: none;
+      animation: gridDrift 25s linear infinite;
+    }
+
+    @keyframes gridDrift {
+      0% { background-position: 0 0, 0 0; }
+      100% { background-position: 55px 55px, -55px 55px; }
+    }
+
+    /* Scan Lines */
+    .scan-lines {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: repeating-linear-gradient(
+        0deg, transparent, transparent 2px,
+        rgba(0, 247, 255, 0.012) 2px, rgba(0, 247, 255, 0.012) 4px
+      );
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    /* Floating Orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.12;
+      pointer-events: none;
+      z-index: 0;
+      animation: orbFloat 10s ease-in-out infinite;
+    }
+
+    .orb-cyan { width: 350px; height: 350px; background: var(--neon-cyan); top: -80px; right: -80px; animation-delay: 0s; }
+    .orb-purple { width: 300px; height: 300px; background: var(--neon-purple); bottom: -80px; left: -80px; animation-delay: -5s; }
+    .orb-gold { width: 200px; height: 200px; background: var(--neon-gold); top: 40%; left: 60%; animation-delay: -3s; opacity: 0.06; }
+    .orb-green { width: 250px; height: 250px; background: var(--accent-success); top: 30%; left: -50px; animation-delay: -7s; opacity: 0.08; }
+
+    @keyframes orbFloat {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(25px, -25px) scale(1.08); }
+      50% { transform: translate(-15px, 15px) scale(0.95); }
+      75% { transform: translate(-25px, -15px) scale(1.05); }
+    }
+
+    /* Main Container */
+    .quantum-container {
+      width: 100%;
+      max-width: 640px;
+      z-index: 10;
+      position: relative;
+      animation: containerEntry 1s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes containerEntry {
+      from { opacity: 0; transform: translateY(50px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Main Card */
+    .quantum-card {
+      background: var(--surface-card);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--glass-edge);
+      box-shadow: var(--shadow-card), 0 0 50px rgba(0, 247, 255, 0.06);
+      padding: 2.5rem 2.8rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quantum-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--gradient-cyan-purple);
+      opacity: 0.7;
+    }
+
+    .quantum-card::after {
+      content: '';
+      position: absolute;
+      top: -120px; right: -120px;
+      width: 240px; height: 240px;
+      background: radial-gradient(circle, rgba(0, 247, 255, 0.06), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+    }
+
+    /* Header */
+    .quantum-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .logo-wrapper {
+      position: relative;
+      width: 85px; height: 85px;
+      margin: 0 auto 1rem;
+    }
+
+    .logo-hexagon {
+      width: 85px; height: 85px;
+      background: var(--gradient-cyan-purple);
+      clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2rem;
+      font-weight: 900;
+      font-family: 'Orbitron', monospace;
+      color: white;
+      box-shadow: 0 0 35px rgba(0, 247, 255, 0.45), 0 0 70px rgba(178, 0, 255, 0.25);
+      animation: logoGlow 3s ease-in-out infinite;
+    }
+
+    .logo-ring {
+      position: absolute;
+      top: -10px; left: -10px;
+      width: calc(100% + 20px); height: calc(100% + 20px);
+      border: 2px solid rgba(0, 247, 255, 0.35);
+      border-radius: 50%;
+      animation: ringRotate 4s linear infinite;
+    }
+
+    @keyframes logoGlow {
+      0%, 100% { box-shadow: 0 0 35px rgba(0, 247, 255, 0.45), 0 0 70px rgba(178, 0, 255, 0.25); }
+      50% { box-shadow: 0 0 55px rgba(0, 247, 255, 0.65), 0 0 100px rgba(178, 0, 255, 0.4); }
+    }
+
+    @keyframes ringRotate {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    .quantum-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+      font-family: 'Space Grotesk', 'Inter', sans-serif;
+    }
+
+    .quantum-header .subtitle {
+      color: var(--text-secondary);
+      margin-top: 0.3rem;
+      font-size: 0.85rem;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 1px;
+    }
+
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(51, 255, 170, 0.08);
+      border: 1px solid rgba(51, 255, 170, 0.25);
+      border-radius: 2rem;
+      padding: 6px 16px;
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--accent-success);
+      margin-top: 0.6rem;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.5px;
+    }
+
+    .status-badge .pulse-dot {
+      width: 7px; height: 7px;
+      background: var(--accent-success);
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(51, 255, 170, 0.5); }
+      50% { opacity: 0.4; box-shadow: 0 0 0 8px rgba(51, 255, 170, 0); }
+    }
+
+    /* Progress Steps */
+    .progress-steps {
+      display: flex;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .progress-step {
+      width: 40px; height: 4px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      transition: var(--transition-smooth);
+    }
+
+    .progress-step.active {
+      background: var(--neon-cyan);
+      box-shadow: 0 0 8px rgba(0, 247, 255, 0.5);
+    }
+
+    .progress-step.completed {
+      background: var(--accent-success);
+    }
+
+    /* Form Elements */
+    .form-section {
+      display: none;
+      animation: sectionFadeIn 0.5s ease;
+    }
+
+    .form-section.active {
+      display: block;
+    }
+
+    @keyframes sectionFadeIn {
+      from { opacity: 0; transform: translateX(30px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.2rem;
+      position: relative;
+    }
+
+    .form-group label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 0.5rem;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: var(--text-secondary);
+      font-weight: 700;
+    }
+
+    .form-group label i {
+      font-size: 0.75rem;
+      color: var(--neon-cyan);
+      width: 16px;
+      text-align: center;
+    }
+
+    .form-group label .required-star {
+      color: var(--accent-danger);
+      font-size: 0.6rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    .input-wrapper .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      transition: var(--transition-smooth);
+      z-index: 1;
+      pointer-events: none;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: var(--surface-input);
+      border: 1.5px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1.2rem 0.9rem 2.8rem;
+      color: white;
+      font-size: 0.9rem;
+      font-family: 'Inter', sans-serif;
+      transition: var(--transition-smooth);
+      letter-spacing: 0.3px;
+    }
+
+    .form-group select {
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2300f7ff' d='M6 8L0 0h12z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1.2rem center;
+      background-size: 12px;
+      padding-right: 2.8rem;
+      appearance: none;
+      cursor: pointer;
+    }
+
+    .form-group select option {
+      background: #0a0a18;
+      color: var(--text-primary);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px rgba(0, 247, 255, 0.15), 0 0 0 4px rgba(0, 247, 255, 0.03);
+      background: rgba(0, 0, 0, 0.7);
+    }
+
+    .form-group input:focus ~ .input-icon,
+    .form-group select:focus ~ .input-icon {
+      color: var(--neon-cyan);
+    }
+
+    .form-group input.has-value {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .form-group input.valid {
+      border-color: var(--accent-success) !important;
+      box-shadow: 0 0 12px rgba(51, 255, 170, 0.15);
+    }
+
+    .form-group input.invalid {
+      border-color: var(--accent-danger) !important;
+      box-shadow: 0 0 12px rgba(255, 51, 102, 0.15);
+    }
+
+    .form-group .helper-text {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 0.3rem;
+      font-family: 'JetBrains Mono', monospace;
+      letter-spacing: 0.3px;
+    }
+
+    .form-group .helper-text.error {
+      color: var(--accent-danger);
+    }
+
+    .form-group .helper-text.success {
+      color: var(--accent-success);
+    }
+
+    .password-strength {
+      height: 3px;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 2px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .password-strength-bar {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 0.3s, background 0.3s;
+      width: 0%;
+    }
+
+    .strength-weak { background: var(--accent-danger); width: 25%; }
+    .strength-fair { background: var(--accent-warning); width: 50%; }
+    .strength-good { background: var(--neon-cyan); width: 75%; }
+    .strength-strong { background: var(--accent-success); width: 100%; }
+
+    .code-input-wrapper {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .code-prefix {
+      background: rgba(0, 247, 255, 0.1);
+      border: 1px solid rgba(0, 247, 255, 0.3);
+      border-radius: var(--radius-md);
+      padding: 0.9rem 1rem;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+      color: var(--neon-cyan);
+      font-weight: 600;
+    }
+
+    /* Messages */
+    .quantum-message {
+      padding: 0.9rem 1.2rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 1.5rem;
+      font-size: 0.85rem;
+      font-weight: 500;
+      display: none;
+      animation: messageSlide 0.4s ease;
+      backdrop-filter: blur(8px);
+    }
+
+    @keyframes messageSlide {
+      from { opacity: 0; transform: translateY(-8px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .error-message {
+      background: rgba(255, 51, 102, 0.1);
+      border-left: 3px solid var(--accent-danger);
+      color: #ff88aa;
+    }
+
+    .success-message {
+      background: rgba(51, 255, 170, 0.1);
+      border-left: 3px solid var(--accent-success);
+      color: #88ffcc;
+    }
+
+    .info-message {
+      background: rgba(0, 247, 255, 0.06);
+      border-left: 3px solid var(--neon-cyan);
+      color: #88ddff;
+    }
+
+    /* Buttons */
+    .btn-group {
+      display: flex;
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .quantum-btn {
+      flex: 1;
+      background: var(--gradient-cyan-purple);
+      border: none;
+      border-radius: var(--radius-md);
+      padding: 0.95rem 1.5rem;
+      font-weight: 700;
+      font-size: 0.95rem;
+      color: white;
+      cursor: pointer;
+      transition: var(--transition-bounce);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .quantum-btn::before {
+      content: '';
+      position: absolute;
+      top: 0; left: -100%;
+      width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.12), transparent);
+      transition: left 0.6s;
+    }
+
+    .quantum-btn:hover::before {
+      left: 100%;
+    }
+
+    .quantum-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 40px rgba(0, 247, 255, 0.35), 0 0 60px rgba(178, 0, 255, 0.15);
+    }
+
+    .quantum-btn:active {
+      transform: translateY(-1px);
+    }
+
+    .quantum-btn:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+      transform: none !important;
+      box-shadow: none !important;
+    }
+
+    .quantum-btn.secondary {
+      background: transparent;
+      border: 1.5px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-secondary);
+    }
+
+    .quantum-btn.secondary:hover {
+      border-color: var(--neon-cyan);
+      color: var(--neon-cyan);
+      box-shadow: 0 10px 30px rgba(0, 247, 255, 0.15);
+    }
+
+    .quantum-btn .loading-spinner {
+      display: none;
+      width: 18px; height: 18px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 0.7s linear infinite;
+    }
+
+    .quantum-btn.loading .loading-spinner {
+      display: inline-block;
+    }
+
+    .quantum-btn.loading .btn-text {
+      display: none;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Info Cards */
+    .info-card {
+      background: rgba(255, 217, 102, 0.05);
+      border: 1px solid rgba(255, 217, 102, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+      margin-bottom: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+    }
+
+    .info-card i {
+      color: var(--neon-gold);
+      font-size: 1rem;
+      margin-top: 2px;
+    }
+
+    .info-card a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+    }
+
+    /* Consent Checkbox */
+    .consent-group {
+      display: flex;
+      align-items: flex-start;
+      gap: 0.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .consent-group input[type="checkbox"] {
+      width: 18px; height: 18px;
+      accent-color: var(--neon-cyan);
+      margin-top: 3px;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+
+    .consent-group label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      cursor: pointer;
+    }
+
+    .consent-group label a {
+      color: var(--neon-cyan);
+      text-decoration: underline;
+    }
+
+    /* Footer */
+    .quantum-footer {
+      text-align: center;
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .footer-info {
+      display: flex;
+      justify-content: center;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .footer-info span {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .footer-info .dot {
+      width: 4px; height: 4px;
+      background: var(--accent-success);
+      border-radius: 50%;
+    }
+
+    /* Links */
+    .links-section {
+      text-align: center;
+      margin-top: 1.2rem;
+      font-size: 0.85rem;
+    }
+
+    .links-section a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.2s;
+    }
+
+    .links-section a:hover {
+      color: var(--neon-gold);
+    }
+
+    .links-section .separator {
+      color: var(--text-muted);
+      margin: 0 0.8rem;
+      opacity: 0.4;
+    }
+
+    /* Success Overlay */
+    .success-overlay {
+      display: none;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .success-overlay.active {
+      display: block;
+      animation: successPop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes successPop {
+      from { opacity: 0; transform: scale(0.8); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    .success-icon {
+      font-size: 5rem;
+      color: var(--accent-success);
+      margin-bottom: 1rem;
+      animation: successPulse 1s ease-in-out infinite;
+    }
+
+    @keyframes successPulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* ===== PWA INSTALL BANNER STYLES ===== */
+    .pwa-install-banner {
+      position: fixed;
+      bottom: 80px;
+      left: 50%;
+      transform: translateX(-50%) translateY(100px);
+      z-index: 99999;
+      background: linear-gradient(135deg, #12122a, #1a2045);
+      border: 1px solid rgba(214, 178, 94, 0.2);
+      border-radius: 16px;
+      padding: 16px 20px;
+      max-width: 420px;
+      width: 92%;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .pwa-install-banner.show {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .pwa-content {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    .pwa-text {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex: 1;
+      min-width: 150px;
+    }
+
+    .pwa-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+    }
+
+    .pwa-title {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: #d6b25e;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .pwa-desc {
+      font-size: 0.7rem;
+      color: #9aa3d4;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .pwa-actions {
+      display: flex;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .pwa-btn {
+      padding: 8px 16px;
+      border-radius: 50px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      font-family: 'Inter', sans-serif;
+      -webkit-appearance: none;
+      min-height: 36px;
+      white-space: nowrap;
+    }
+
+    .pwa-btn-install {
+      background: linear-gradient(135deg, #d6b25e, #f3d27b);
+      color: #000;
+    }
+
+    .pwa-btn-install:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 15px rgba(214, 178, 94, 0.3);
+    }
+
+    .pwa-btn-dismiss {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #6a73a8;
+    }
+
+    .pwa-btn-dismiss:hover {
+      background: rgba(255, 255, 255, 0.1);
+    }
+
+    /* Offline Banner */
+    .offline-banner {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: #ff4d6a;
+      color: #fff;
+      text-align: center;
+      padding: 10px;
+      z-index: 100000;
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
+      font-family: 'Inter', sans-serif;
+      font-size: 0.85rem;
+    }
+
+    .offline-banner.show {
+      transform: translateY(0);
+    }
+
+    /* Rate Limit Bar */
+    .rate-limit-bar {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      padding: 8px 16px;
+      border-radius: 2rem;
+      font-size: 0.6rem;
+      z-index: 100;
+      font-family: 'JetBrains Mono', monospace;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 650px) {
+      .quantum-card {
+        padding: 2rem 1.5rem;
+        border-radius: var(--radius-lg);
+      }
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      .btn-group {
+        flex-direction: column;
+      }
+      .quantum-header h1 {
+        font-size: 1.5rem;
+      }
+      .logo-hexagon {
+        width: 70px; height: 70px;
+        font-size: 1.6rem;
+      }
+      .pwa-install-banner {
+        bottom: 70px;
+        padding: 12px 16px;
+        width: 96%;
+      }
+      .pwa-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+      }
+      .pwa-actions {
+        justify-content: stretch;
+      }
+      .pwa-btn {
+        flex: 1;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .quantum-card {
+        padding: 1.5rem 1rem;
+      }
+      .form-group input,
+      .form-group select {
+        padding: 0.8rem 1rem 0.8rem 2.4rem;
+        font-size: 0.85rem;
+      }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <!-- ===== OFFLINE BANNER ===== -->
+  <div class="offline-banner" id="offlineBanner">📡 You are offline. Some features may be unavailable.</div>
+
+  <!-- ===== PWA INSTALL BANNER ===== -->
+  <div class="pwa-install-banner" id="pwaInstallBanner">
+    <div class="pwa-content">
+      <div class="pwa-text">
+        <span class="pwa-icon">📱</span>
+        <div>
+          <div class="pwa-title">Install Staff Hub</div>
+          <div class="pwa-desc">Get faster access to your staff dashboard</div>
+        </div>
+      </div>
+      <div class="pwa-actions">
+        <button class="pwa-btn pwa-btn-install" id="pwaInstallBtn">
+          <i class="fas fa-download"></i> Install
+        </button>
+        <button class="pwa-btn pwa-btn-dismiss" id="pwaDismissBtn">Not now</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3D Canvas -->
+  <canvas id="quantum-canvas"></canvas>
+  
+  <!-- Overlays -->
+  <div class="cyber-grid"></div>
+  <div class="scan-lines"></div>
+  <div class="orb orb-cyan"></div>
+  <div class="orb orb-purple"></div>
+  <div class="orb orb-gold"></div>
+  <div class="orb orb-green"></div>
+
+  <!-- Main Container -->
+  <div class="quantum-container">
+    <div class="quantum-card">
+      <!-- Header -->
+      <div class="quantum-header">
+        <div class="logo-wrapper">
+          <div class="logo-ring"></div>
+          <div class="logo-hexagon">Q</div>
+        </div>
+        <h1>PrimeShieldHub</h1>
+        <p class="subtitle">🔮 QUANTUM STAFF ONBOARDING PROTOCOL</p>
+        <div class="status-badge">
+          <span class="pulse-dot"></span>
+          SECURE CHANNEL ESTABLISHED • TLS 1.3
+        </div>
+      </div>
+
+      <!-- Messages -->
+      <div class="quantum-message error-message" id="error-message"></div>
+      <div class="quantum-message success-message" id="success-message"></div>
+      <div class="quantum-message info-message" id="info-message"></div>
+
+      <!-- Registration Form -->
+      <form id="register-form" autocomplete="off" novalidate>
+        <!-- Section 1: Personal Info -->
+        <div class="form-section active" id="section-1">
+          <div class="info-card">
+            <i class="fas fa-shield-haltered"></i>
+            <span>Your data is encrypted with AES-256-GCM. <a href="/privacy" target="_blank">Privacy Policy</a></span>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-user"></i> Full Name <span class="required-star">*</span></label>
+              <div class="input-wrapper">
+                <i class="fas fa-user input-icon"></i>
+                <input type="text" id="fullName" name="name" placeholder="John Doe" autocomplete="name" required minlength="3" maxlength="100">
+              </div>
+              <div class="helper-text" id="name-helper"></div>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-envelope"></i> Email Address <span class="required-star">*</span></label>
+              <div class="input-wrapper">
+                <i class="fas fa-envelope input-icon"></i>
+                <input type="email" id="email" name="email" placeholder="you@email.com" autocomplete="email" required>
+              </div>
+              <div class="helper-text" id="email-helper"></div>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label><i class="fas fa-phone"></i> Phone Number <span class="required-star">*</span></label>
+              <div class="input-wrapper">
+                <i class="fas fa-phone input-icon"></i>
+                <input type="tel" id="phone" name="phone" placeholder="+234 800 000 0000" autocomplete="tel" required>
+              </div>
+              <div class="helper-text" id="phone-helper"></div>
+            </div>
+
+            <div class="form-group">
+              <label><i class="fas fa-lock"></i> Password <span class="required-star">*</span></label>
+              <div class="input-wrapper">
+                <i class="fas fa-lock input-icon"></i>
+                <input type="password" id="password" name="password" placeholder="Min. 8 characters" autocomplete="new-password" required minlength="8">
+              </div>
+              <div class="password-strength">
+                <div class="password-strength-bar" id="password-strength-bar"></div>
+              </div>
+              <div class="helper-text" id="password-helper">At least 8 characters with mixed case & numbers</div>
+            </div>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="quantum-btn" id="next-section-1">
+              <span class="btn-text"><i class="fas fa-arrow-right"></i> Continue to Employment Details</span>
+              <span class="loading-spinner"></span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Section 2: Employment Details -->
+        <div class="form-section" id="section-2">
+          <div class="form-group">
+            <label><i class="fas fa-building"></i> Branch Location <span class="required-star">*</span></label>
+            <div class="input-wrapper">
+              <i class="fas fa-building input-icon"></i>
+              <select id="branch" name="branch" required>
+                <option value="">Loading branches...</option>
+              </select>
+            </div>
+            <div class="helper-text" id="branch-helper">Your primary work location</div>
+          </div>
+
+          <!-- DEPARTMENT FIELD -->
+          <div class="form-group">
+            <label><i class="fas fa-users"></i> Department <span class="required-star">*</span></label>
+            <div class="input-wrapper">
+              <i class="fas fa-users input-icon"></i>
+              <select id="department" name="department" required>
+                <option value="">Select your department...</option>
+                <option value="administration">Administration</option>
+                <option value="customer-service">Customer Service</option>
+                <option value="engineering">Engineering</option>
+                <option value="executive">Executive</option>
+                <option value="finance">Finance</option>
+                <option value="hr">Human Resources</option>
+                <option value="it">IT Support</option>
+                <option value="legal">Legal</option>
+                <option value="marketing">Marketing</option>
+                <option value="operations">Operations</option>
+                <option value="procurement">Procurement</option>
+                <option value="sales">Sales</option>
+                <option value="security">Security</option>
+                <option value="strategy">Strategy</option>
+                <option value="training">Training & Development</option>
+              </select>
+            </div>
+            <div class="helper-text" id="department-helper">Select your department</div>
+          </div>
+
+          <!-- DESIGNATION FIELD -->
+          <div class="form-group">
+            <label><i class="fas fa-briefcase"></i> Designation / Job Title <span class="required-star">*</span></label>
+            <div class="input-wrapper">
+              <i class="fas fa-briefcase input-icon"></i>
+              <input type="text" id="designation" name="designation" placeholder="e.g., Senior Developer, Marketing Manager" required minlength="2" maxlength="100">
+            </div>
+            <div class="helper-text" id="designation-helper">Your official job title</div>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-id-card"></i> Employee Code</label>
+            <div class="input-wrapper">
+              <i class="fas fa-id-card input-icon"></i>
+              <input type="text" id="employeeCode" name="employeeCode" placeholder="If provided by your manager" maxlength="50">
+            </div>
+            <div class="helper-text">Optional – enter if you have a pre-approved code</div>
+          </div>
+
+          <div class="form-group">
+            <label><i class="fas fa-shield-haltered"></i> Admin Access Code</label>
+            <div class="input-wrapper">
+              <i class="fas fa-shield-haltered input-icon"></i>
+              <input type="text" id="adminCode" name="adminCode" placeholder="Leave blank for regular staff" maxlength="50">
+            </div>
+            <div class="helper-text">Only for admin-privileged accounts</div>
+          </div>
+
+          <div class="consent-group">
+            <input type="checkbox" id="terms-consent" required>
+            <label for="terms-consent">
+              I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>. I understand my employment is subject to verification.
+            </label>
+          </div>
+
+          <div class="btn-group">
+            <button type="button" class="quantum-btn secondary" id="back-section-2">
+              <i class="fas fa-arrow-left"></i> Back
+            </button>
+            <button type="submit" class="quantum-btn" id="submit-btn">
+              <span class="btn-text"><i class="fas fa-user-check"></i> Complete Registration</span>
+              <span class="loading-spinner"></span>
+            </button>
+          </div>
+        </div>
+      </form>
+
+      <!-- Success Overlay -->
+      <div class="success-overlay" id="success-overlay">
+        <div class="success-icon">
+          <i class="fas fa-check-circle"></i>
+        </div>
+        <h2 style="color: var(--accent-success); margin-bottom: 0.5rem;">Registration Submitted!</h2>
+        <p style="color: var(--text-secondary); margin-bottom: 0.5rem;" id="success-details"></p>
+        <p style="color: var(--text-muted); font-size: 0.85rem;" id="success-extra"></p>
+        <div style="margin-top: 1.5rem;">
+          <a href="/staff/" class="quantum-btn" style="display: inline-flex; text-decoration: none;">
+            <i class="fas fa-sign-in-alt"></i> Go to Login
+          </a>
+        </div>
+      </div>
+
+      <!-- Links -->
+      <div class="links-section" id="footer-links">
+        Already registered? <a href="/staff/">Login here</a>
+        <span class="separator">•</span>
+        <a href="/"><i class="fas fa-home"></i> Home</a>
+        <span class="separator">•</span>
+        <a href="/staff/dashboard.html"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        <span class="separator">•</span>
+        <a href="/staff/forgot-password.html"><i class="fas fa-key"></i> Forgot Password</a>
+      </div>
+
+      <!-- Footer -->
+      <div class="quantum-footer">
+        <div class="footer-info">
+          <span><span class="dot"></span> v11.4.2</span>
+          <span>🔐 AES-256</span>
+          <span>🌍 Benin City, NG</span>
+          <span>RC 9283954</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Rate Limit Bar -->
+  <div class="rate-limit-bar" id="rate-limit-bar">
+    <span style="color: var(--accent-success);">⬤</span>
+    API: <strong id="api-counter">0</strong>/60 •
+    <span id="rate-status">✅ OK</span>
+  </div>
+
+  <!-- ===== PWA INSTALL SCRIPT - STAFF PORTAL FIX ===== -->
+  <script>
+      (function() {
+          'use strict';
+
+          let deferredPrompt = null;
+          const banner = document.getElementById('pwaInstallBanner');
+          const installBtn = document.getElementById('pwaInstallBtn');
+          const dismissBtn = document.getElementById('pwaDismissBtn');
+
+          // ================================================================ //
+          // CHECK IF ALREADY INSTALLED                                       //
+          // ================================================================ //
+          if (window.navigator.standalone === true || 
+              window.matchMedia('(display-mode: standalone)').matches) {
+              if (banner) banner.style.display = 'none';
+              console.log('📱 Staff Hub already installed (standalone mode)');
+              return;
+          }
+
+          // ================================================================ //
+          // CHECK Dismissed/Installed flags                                  //
+          // ================================================================ //
+          const dismissed = localStorage.getItem('psh_staff_pwa_dismissed') === 'true';
+          const installed = localStorage.getItem('psh_staff_pwa_installed') === 'true';
+          
+          if (dismissed || installed) {
+              if (banner) banner.style.display = 'none';
+              console.log('📱 Staff Hub banner suppressed (dismissed:', dismissed, 'installed:', installed, ')');
+              return;
+          }
+
+          // ================================================================ //
+          // LISTEN FOR INSTALL PROMPT                                       //
+          // ================================================================ //
+          window.addEventListener('beforeinstallprompt', (e) => {
+              console.log('📱 🔔 beforeinstallprompt event fired!');
+              e.preventDefault();
+              deferredPrompt = e;
+              
+              if (banner && !banner.classList.contains('show')) {
+                  console.log('📱 Showing install banner (from beforeinstallprompt)');
+                  banner.classList.add('show');
+              }
+          });
+
+          // ================================================================ //
+          // FALLBACK: Force show banner after page loads                    //
+          // ================================================================ //
+          setTimeout(() => {
+              const dismissedNow = localStorage.getItem('psh_staff_pwa_dismissed') === 'true';
+              const installedNow = localStorage.getItem('psh_staff_pwa_installed') === 'true';
+              
+              if (!dismissedNow && !installedNow && banner && !banner.classList.contains('show')) {
+                  const isStandalone = window.navigator.standalone === true || 
+                                      window.matchMedia('(display-mode: standalone)').matches;
+                  
+                  if (!isStandalone) {
+                      console.log('📱 🔔 FALLBACK: Showing install banner');
+                      banner.classList.add('show');
+                  }
+              }
+          }, 2000);
+
+          // ================================================================ //
+          // APP INSTALLED EVENT                                             //
+          // ================================================================ //
+          window.addEventListener('appinstalled', () => {
+              console.log('📱 ✅ Staff Hub installed!');
+              if (banner) banner.classList.remove('show');
+              localStorage.setItem('psh_staff_pwa_installed', 'true');
+              
+              const toast = document.createElement('div');
+              toast.style.cssText = `
+                  position: fixed;
+                  bottom: 80px;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  background: linear-gradient(135deg, #12122a, #1a2045);
+                  border: 1px solid rgba(214, 178, 94, 0.3);
+                  border-radius: 12px;
+                  padding: 16px 24px;
+                  color: #e8edff;
+                  font-family: 'Inter', sans-serif;
+                  font-size: 0.9rem;
+                  z-index: 99999;
+                  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+                  backdrop-filter: blur(20px);
+                  animation: slideUp 0.4s ease;
+                  text-align: center;
+                  max-width: 400px;
+              `;
+              toast.innerHTML = `
+                  <div style="font-size: 28px;">✅</div>
+                  <div style="font-weight: 600; color: #d6b25e; margin-top: 4px;">Staff Hub Installed!</div>
+                  <div style="font-size: 0.8rem; color: #9aa3d4;">You can now access from your home screen</div>
+              `;
+              document.body.appendChild(toast);
+              setTimeout(() => {
+                  toast.style.opacity = '0';
+                  toast.style.transition = 'opacity 0.3s ease';
+                  setTimeout(() => toast.remove(), 300);
+              }, 4000);
+          });
+
+          // ================================================================ //
+          // INSTALL BUTTON                                                   //
+          // ================================================================ //
+          if (installBtn) {
+              installBtn.addEventListener('click', async () => {
+                  console.log('📱 Install button clicked');
+                  
+                  if (deferredPrompt) {
+                      console.log('📱 Showing install prompt');
+                      deferredPrompt.prompt();
+                      const result = await deferredPrompt.userChoice;
+                      console.log('📱 User choice:', result.outcome);
+                      
+                      if (result.outcome === 'accepted') {
+                          console.log('📱 User accepted install');
+                          if (banner) banner.classList.remove('show');
+                          localStorage.setItem('psh_staff_pwa_installed', 'true');
+                      } else {
+                          console.log('📱 User dismissed install');
+                          if (banner) banner.classList.remove('show');
+                          localStorage.setItem('psh_staff_pwa_dismissed', 'true');
+                      }
+                      deferredPrompt = null;
+                  } else {
+                      console.log('📱 No deferredPrompt - showing manual instructions');
+                      
+                      const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge/.test(navigator.userAgent);
+                      const isEdge = /Edg/.test(navigator.userAgent);
+                      const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+                      
+                      if (isChrome || isEdge) {
+                          if ('serviceWorker' in navigator) {
+                              try {
+                                  const registration = await navigator.serviceWorker.ready;
+                                  if (registration.active) {
+                                      registration.active.postMessage({ type: 'trigger-install' });
+                                  }
+                              } catch(e) {
+                                  console.log('📱 Could not trigger SW install:', e);
+                              }
+                          }
+                          
+                          alert('📱 To install Staff Hub:\n\n' +
+                                '1. Look for the install icon (⊕) in the address bar\n' +
+                                '2. Click "Install" or "Add to Home Screen"\n' +
+                                '3. Follow the prompts to install\n\n' +
+                                'Alternatively, tap the menu (⋮) and select "Install App"');
+                      } else if (isSafari) {
+                          alert('📱 To install Staff Hub on iPhone:\n\n' +
+                                '1. Tap the Share button (⬆️) at the bottom\n' +
+                                '2. Scroll down and tap "Add to Home Screen"\n' +
+                                '3. Tap "Add" in the top right corner\n\n' +
+                                'Then open from your home screen!');
+                      } else {
+                          alert('📱 To install Staff Hub:\n\n' +
+                                '1. Open your browser menu\n' +
+                                '2. Look for "Install App" or "Add to Home Screen"\n' +
+                                '3. Follow the prompts to install');
+                      }
+                  }
+              });
+          }
+
+          // ================================================================ //
+          // DISMISS BUTTON                                                   //
+          // ================================================================ //
+          if (dismissBtn) {
+              dismissBtn.addEventListener('click', () => {
+                  console.log('📱 User dismissed banner');
+                  if (banner) banner.classList.remove('show');
+                  localStorage.setItem('psh_staff_pwa_dismissed', 'true');
+              });
+          }
+
+          // ================================================================ //
+          // OFFLINE STATUS                                                   //
+          // ================================================================ //
+          function updateOnlineStatus() {
+              const banner = document.getElementById('offlineBanner');
+              if (!banner) return;
+
+              if (!navigator.onLine) {
+                  banner.classList.add('show');
+                  banner.textContent = '📡 You are offline. Some features may be unavailable.';
+              } else {
+                  banner.classList.remove('show');
+              }
+          }
+
+          window.addEventListener('online', updateOnlineStatus);
+          window.addEventListener('offline', updateOnlineStatus);
+          updateOnlineStatus();
+
+          console.log('📱 Staff PWA Install handler ready');
+          console.log('📱 Run showStaffInstallBanner() to show banner manually');
+      })();
+  </script>
+
+  <!-- ===== STAFF REGISTRATION - SECURE ES MODULE ===== -->
+  <script type="module">
+    // ================================================================ //
+    // STAFF REGISTRATION - SECURE ES MODULE IMPLEMENTATION              //
+    // ================================================================ //
+
+    import * as THREE from 'three';
+    
+    // ============================================
+    // ✅ SECURE: Import config via ES Module
+    // ============================================
+    let CONFIG;
+    let auth;
+    
+    try {
+      const configModule = await import('/js/config.js');
+      CONFIG = configModule.CONFIG;
+      auth = configModule.auth || configModule.default?.auth;
+      console.log('✅ Config loaded securely via ES module');
+    } catch (e) {
+      console.warn('⚠️ Config module not found, using secure fallback:', e.message);
+      // Minimal fallback - only what's needed for registration
+      CONFIG = {
+        apiBase: 'https://api.primeshieldhub.com/api',
+        STORAGE_KEYS: {
+          TOKEN: 'psh_auth_token',
+          USER: 'psh_user',
+          ADMIN_USER: 'psh_admin_user',
+          TOKEN_EXPIRY: 'psh_token_expiry',
+          REFRESH_TOKEN: 'psh_refresh_token',
+          SESSION: 'psh_session'
+        }
+      };
+      auth = {
+        getToken: () => localStorage.getItem(CONFIG.STORAGE_KEYS.TOKEN),
+        getUser: () => {
+          try {
+            const user = localStorage.getItem(CONFIG.STORAGE_KEYS.USER);
+            return user ? JSON.parse(user) : null;
+          } catch { return null; }
+        },
+        logout: () => {
+          localStorage.removeItem(CONFIG.STORAGE_KEYS.TOKEN);
+          localStorage.removeItem(CONFIG.STORAGE_KEYS.USER);
+        }
+      };
+    }
+
+    // ============================================
+    // APPLICATION CONFIG
+    // ============================================
+    const APP_CONFIG = {
+      API_BASE: CONFIG.apiBase || 'https://api.primeshieldhub.com/api',
+      RATE_LIMIT: 60,
+      RATE_WINDOW: 60000,
+      ENDPOINTS: {
+        REGISTER_STAFF: '/auth/register-staff',
+        CSRF_TOKEN: '/auth/csrf',
+        HEALTH: '/_health',
+        BRANCHES: '/branches'
+      },
+      STORAGE_KEYS: CONFIG.STORAGE_KEYS || {
+        TOKEN: 'psh_auth_token',
+        USER: 'psh_user'
+      }
+    };
+
+    console.log('🔐 Secure registration portal initialized');
+    console.log('🌐 API Base:', APP_CONFIG.API_BASE);
+
+    // ============================================
+    // AUTH CHECK - Redirect if already logged in
+    // ============================================
+    function checkAuth() {
+      try {
+        const user = auth.getUser ? auth.getUser() : null;
+        if (user) {
+          const role = user.role || 'staff';
+          if (role === 'admin') {
+            window.location.href = '/admin';
+          } else if (role === 'staff') {
+            window.location.href = '/staff/dashboard.html';
+          } else {
+            window.location.href = '/dashboard';
+          }
+          return true;
+        }
+      } catch(e) {}
+      
+      try {
+        const token = localStorage.getItem(APP_CONFIG.STORAGE_KEYS.TOKEN);
+        const user = localStorage.getItem(APP_CONFIG.STORAGE_KEYS.USER);
+        if (token && user) {
+          const userData = JSON.parse(user);
+          if (userData.role === 'admin') {
+            window.location.href = '/admin';
+          } else if (userData.role === 'staff') {
+            window.location.href = '/staff/dashboard.html';
+          } else {
+            window.location.href = '/dashboard';
+          }
+          return true;
+        }
+      } catch(e) {}
+      
+      return false;
+    }
+
+    // ============================================
+    // DEVICE FINGERPRINT
+    // ============================================
+    async function getDeviceFingerprint() {
+      if (State.deviceFingerprint) return State.deviceFingerprint;
+      try {
+        const fingerprintModule = await import('/js/sophisticated/fraud-engine/fingerprint.js');
+        State.deviceFingerprint = await fingerprintModule.getDeviceFingerprint();
+        return State.deviceFingerprint;
+      } catch (e) {
+        const components = [
+          navigator.userAgent, navigator.language, navigator.platform,
+          screen.width, screen.height, screen.colorDepth,
+          navigator.hardwareConcurrency || 4, new Date().getTimezoneOffset(),
+          navigator.deviceMemory || 4
+        ].join('|||');
+        const hashBuffer = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(components));
+        State.deviceFingerprint = Array.from(new Uint8Array(hashBuffer))
+          .map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+        return State.deviceFingerprint;
+      }
+    }
+
+    // ============================================
+    // STATE
+    // ============================================
+    const State = {
+      deviceFingerprint: null,
+      csrfToken: null,
+      apiCallCount: 0,
+      rateLimitReset: Date.now() + APP_CONFIG.RATE_WINDOW,
+      currentSection: 1,
+      branches: [],
+      formValid: {
+        name: false, email: false, phone: false,
+        password: false, branch: false, department: false,
+        designation: false, consent: false
+      }
+    };
+
+    // ============================================
+    // DOM REFERENCES
+    // ============================================
+    const DOM = {
+      form: document.getElementById('register-form'),
+      section1: document.getElementById('section-1'),
+      section2: document.getElementById('section-2'),
+      successOverlay: document.getElementById('success-overlay'),
+      footerLinks: document.getElementById('footer-links'),
+      errorMsg: document.getElementById('error-message'),
+      successMsg: document.getElementById('success-message'),
+      infoMsg: document.getElementById('info-message'),
+      submitBtn: document.getElementById('submit-btn'),
+      nextBtn: document.getElementById('next-section-1'),
+      backBtn: document.getElementById('back-section-2'),
+      fullName: document.getElementById('fullName'),
+      email: document.getElementById('email'),
+      phone: document.getElementById('phone'),
+      password: document.getElementById('password'),
+      branch: document.getElementById('branch'),
+      department: document.getElementById('department'),
+      designation: document.getElementById('designation'),
+      employeeCode: document.getElementById('employeeCode'),
+      adminCode: document.getElementById('adminCode'),
+      termsConsent: document.getElementById('terms-consent'),
+      passwordStrengthBar: document.getElementById('password-strength-bar'),
+      passwordHelper: document.getElementById('password-helper'),
+      nameHelper: document.getElementById('name-helper'),
+      emailHelper: document.getElementById('email-helper'),
+      phoneHelper: document.getElementById('phone-helper'),
+      branchHelper: document.getElementById('branch-helper'),
+      departmentHelper: document.getElementById('department-helper'),
+      designationHelper: document.getElementById('designation-helper'),
+      apiCounter: document.getElementById('api-counter'),
+      rateStatus: document.getElementById('rate-status')
+    };
+
+    // ============================================
+    // 3D BACKGROUND
+    // ============================================
+    function initThreeJS() {
+      const canvas = document.getElementById('quantum-canvas');
+      if (!canvas) return;
+      
+      const renderer = new THREE.WebGLRenderer({ canvas, alpha: true, antialias: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(55, window.innerWidth / window.innerHeight, 0.1, 100);
+      camera.position.z = 7;
+
+      const coreGroup = new THREE.Group();
+      
+      const octaGeo = new THREE.OctahedronGeometry(1, 1);
+      const octaMat = new THREE.MeshStandardMaterial({
+        color: 0x00f7ff,
+        emissive: 0x003344,
+        emissiveIntensity: 1,
+        metalness: 0.85,
+        roughness: 0.15,
+        wireframe: false
+      });
+      const octaCore = new THREE.Mesh(octaGeo, octaMat);
+      coreGroup.add(octaCore);
+
+      const outerGeo = new THREE.IcosahedronGeometry(1.5, 1);
+      const outerMat = new THREE.MeshStandardMaterial({
+        color: 0x33ffaa,
+        emissive: 0x003322,
+        emissiveIntensity: 0.4,
+        metalness: 0.6,
+        roughness: 0.3,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.4
+      });
+      const outerMesh = new THREE.Mesh(outerGeo, outerMat);
+      coreGroup.add(outerMesh);
+
+      scene.add(coreGroup);
+
+      const particlesGroup = new THREE.Group();
+      const particleCount = 800;
+      for (let i = 0; i < particleCount; i++) {
+        const particle = new THREE.Mesh(
+          new THREE.SphereGeometry(0.03, 4, 4),
+          new THREE.MeshBasicMaterial({
+            color: Math.random() > 0.5 ? 0x00f7ff : 0x33ffaa,
+            transparent: true,
+            opacity: 0.7
+          })
+        );
+        const angle = (i / particleCount) * Math.PI * 2;
+        const radius = 2 + Math.random() * 1.5;
+        particle.position.x = Math.cos(angle) * radius;
+        particle.position.y = Math.sin(angle) * radius;
+        particle.position.z = (Math.random() - 0.5) * 2;
+        particlesGroup.add(particle);
+      }
+      scene.add(particlesGroup);
+
+      const starGeo = new THREE.BufferGeometry();
+      const starCount = 2000;
+      const starPositions = new Float32Array(starCount * 3);
+      for (let i = 0; i < starCount * 3; i += 3) {
+        starPositions[i] = (Math.random() - 0.5) * 50;
+        starPositions[i + 1] = (Math.random() - 0.5) * 30;
+        starPositions[i + 2] = (Math.random() - 0.5) * 20 - 10;
+      }
+      starGeo.setAttribute('position', new THREE.BufferAttribute(starPositions, 3));
+      const starMat = new THREE.PointsMaterial({
+        color: 0xffffff,
+        size: 0.06,
+        transparent: true,
+        opacity: 0.5
+      });
+      const stars = new THREE.Points(starGeo, starMat);
+      scene.add(stars);
+
+      scene.add(new THREE.AmbientLight(0x111122, 0.6));
+      const light1 = new THREE.PointLight(0x00f7ff, 1.8, 12);
+      light1.position.set(3, 2, 4);
+      const light2 = new THREE.PointLight(0x33ffaa, 1.2, 10);
+      light2.position.set(-3, -1, 3);
+      scene.add(light1, light2);
+
+      let time = 0;
+      let mouseX = 0, mouseY = 0;
+      document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) * 2 - 1;
+        mouseY = -(e.clientY / window.innerHeight) * 2 + 1;
+      });
+
+      function animate() {
+        requestAnimationFrame(animate);
+        time += 0.006;
+
+        coreGroup.rotation.x = time * 0.4;
+        coreGroup.rotation.y = time * 0.55;
+        octaCore.rotation.z = time * 0.3;
+        particlesGroup.rotation.z = time * 0.2;
+        particlesGroup.rotation.x = time * 0.15;
+        stars.rotation.y = time * 0.03;
+
+        camera.position.x += (mouseX * 1.2 - camera.position.x) * 0.03;
+        camera.position.y += (mouseY * 0.8 - camera.position.y) * 0.03;
+        camera.lookAt(0, 0, 0);
+
+        renderer.render(scene, camera);
+      }
+      animate();
+
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
+
+    // ============================================
+    // CSRF TOKEN
+    // ============================================
+    async function refreshCsrfToken() {
+      try {
+        const res = await fetch(`${APP_CONFIG.API_BASE}${APP_CONFIG.ENDPOINTS.CSRF_TOKEN}`, {
+          credentials: 'include',
+          headers: { 'x-device-fingerprint': await getDeviceFingerprint() }
+        });
+        if (res.ok) {
+          State.csrfToken = await res.text();
+          const meta = document.querySelector('meta[name="csrf-token"]');
+          if (meta) meta.setAttribute('content', State.csrfToken);
+        }
+      } catch (e) { /* silent */ }
+    }
+
+    // ============================================
+    // API FETCH
+    // ============================================
+    async function apiFetch(endpoint, options = {}) {
+      const headers = {
+        'Content-Type': 'application/json',
+        'x-device-fingerprint': await getDeviceFingerprint()
+      };
+      
+      try {
+        const token = auth.getToken ? auth.getToken() : null;
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+      } catch(e) {}
+      
+      if (State.csrfToken && options.method && !['GET', 'HEAD'].includes(options.method)) {
+        headers['x-csrf-token'] = State.csrfToken;
+      }
+      
+      return fetch(`${APP_CONFIG.API_BASE}${endpoint}`, {
+        credentials: 'include',
+        ...options,
+        headers: { ...headers, ...options.headers }
+      });
+    }
+
+    // ============================================
+    // LOAD BRANCHES
+    // ============================================
+    async function loadBranches() {
+      const select = DOM.branch;
+      select.innerHTML = '<option value="">Loading branches...</option>';
+      select.disabled = true;
+
+      try {
+        const res = await apiFetch(APP_CONFIG.ENDPOINTS.BRANCHES, { method: 'GET' });
+
+        if (res.ok) {
+          const branches = await res.json();
+          State.branches = branches;
+          
+          if (branches.length === 0) {
+            select.innerHTML = '<option value="">No branches available</option>';
+          } else {
+            select.innerHTML = '<option value="">Select your branch...</option>';
+            branches.forEach(branch => {
+              const option = document.createElement('option');
+              option.value = branch.id;
+              option.textContent = `${branch.name}${branch.city ? ` – ${branch.city}` : ''}`;
+              select.appendChild(option);
+            });
+          }
+          select.disabled = false;
+          console.log('✅ Branches loaded:', branches.length);
+        } else {
+          console.warn('⚠️ API failed, using fallback branches');
+          loadFallbackBranches();
+        }
+      } catch (e) {
+        console.warn('⚠️ Branch load error:', e);
+        loadFallbackBranches();
+      }
+    }
+
+    function loadFallbackBranches() {
+      const select = DOM.branch;
+      const fallbackBranches = [
+        { id: 1, name: 'Main – Victoria Island, Lagos', city: 'Lagos' },
+        { id: 2, name: 'Ikeja Branch', city: 'Lagos' },
+        { id: 3, name: 'Surulere Branch', city: 'Lagos' },
+        { id: 4, name: 'Lekki Branch', city: 'Lagos' },
+        { id: 5, name: 'Yaba Branch', city: 'Lagos' },
+        { id: 6, name: 'Abuja Branch', city: 'Abuja' },
+        { id: 7, name: 'Port Harcourt Branch', city: 'Rivers' },
+        { id: 8, name: 'Ibadan Branch', city: 'Oyo' },
+        { id: 9, name: 'Benin City (HQ)', city: 'Edo' }
+      ];
+      
+      select.innerHTML = '<option value="">Select your branch...</option>';
+      fallbackBranches.forEach(branch => {
+        const option = document.createElement('option');
+        option.value = branch.id;
+        option.textContent = `${branch.name}${branch.city ? ` – ${branch.city}` : ''}`;
+        select.appendChild(option);
+      });
+      select.disabled = false;
+      State.branches = fallbackBranches;
+    }
+
+    // ============================================
+    // UI HELPERS
+    // ============================================
+    function showMessage(el, msg, type = 'error') {
+      if (!el) return;
+      [DOM.errorMsg, DOM.successMsg, DOM.infoMsg].forEach(e => { if (e) e.style.display = 'none'; });
+      el.textContent = msg;
+      el.className = `quantum-message ${type}-message`;
+      el.style.display = 'block';
+      if (type === 'success' || type === 'info') {
+        setTimeout(() => { el.style.display = 'none'; }, 5000);
+      }
+    }
+
+    function setLoading(btn, loading) {
+      if (!btn) return;
+      if (loading) {
+        btn.classList.add('loading');
+        btn.disabled = true;
+      } else {
+        btn.classList.remove('loading');
+        btn.disabled = false;
+      }
+    }
+
+    function setInputState(input, state) {
+      input.classList.remove('valid', 'invalid', 'has-value');
+      if (input.value) input.classList.add('has-value');
+      if (state === 'valid') input.classList.add('valid');
+      if (state === 'invalid') input.classList.add('invalid');
+    }
+
+    // ============================================
+    // FORM VALIDATION
+    // ============================================
+    function validateName() {
+      const val = DOM.fullName.value.trim();
+      if (val.length < 3) {
+        setInputState(DOM.fullName, 'invalid');
+        DOM.nameHelper.textContent = 'Name must be at least 3 characters';
+        DOM.nameHelper.className = 'helper-text error';
+        State.formValid.name = false;
+        return false;
+      }
+      setInputState(DOM.fullName, 'valid');
+      DOM.nameHelper.textContent = '✅ Looks good!';
+      DOM.nameHelper.className = 'helper-text success';
+      State.formValid.name = true;
+      return true;
+    }
+
+    function validateEmail() {
+      const val = DOM.email.value.trim();
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(val)) {
+        setInputState(DOM.email, 'invalid');
+        DOM.emailHelper.textContent = 'Please enter a valid email address';
+        DOM.emailHelper.className = 'helper-text error';
+        State.formValid.email = false;
+        return false;
+      }
+      setInputState(DOM.email, 'valid');
+      DOM.emailHelper.textContent = '✅ Valid email format';
+      DOM.emailHelper.className = 'helper-text success';
+      State.formValid.email = true;
+      return true;
+    }
+
+    function validatePhone() {
+      const cleaned = DOM.phone.value.replace(/[\s\-\(\)]/g, '');
+      if (cleaned.length < 10) {
+        setInputState(DOM.phone, 'invalid');
+        DOM.phoneHelper.textContent = 'Phone must be at least 10 digits';
+        DOM.phoneHelper.className = 'helper-text error';
+        State.formValid.phone = false;
+        return false;
+      }
+      setInputState(DOM.phone, 'valid');
+      DOM.phoneHelper.textContent = '✅ Valid phone number';
+      DOM.phoneHelper.className = 'helper-text success';
+      State.formValid.phone = true;
+      return true;
+    }
+
+    function validatePassword() {
+      const val = DOM.password.value;
+      const bar = DOM.passwordStrengthBar;
+      
+      let strength = 0;
+      if (val.length >= 8) strength++;
+      if (/[a-z]/.test(val) && /[A-Z]/.test(val)) strength++;
+      if (/\d/.test(val)) strength++;
+      if (/[^a-zA-Z0-9]/.test(val)) strength++;
+
+      bar.className = 'password-strength-bar';
+      if (strength <= 1) {
+        bar.classList.add('strength-weak');
+        DOM.passwordHelper.textContent = 'Weak – add uppercase, numbers & symbols';
+        DOM.passwordHelper.className = 'helper-text error';
+        State.formValid.password = false;
+      } else if (strength === 2) {
+        bar.classList.add('strength-fair');
+        DOM.passwordHelper.textContent = 'Fair – add more variety';
+        DOM.passwordHelper.className = 'helper-text error';
+        State.formValid.password = false;
+      } else if (strength === 3) {
+        bar.classList.add('strength-good');
+        DOM.passwordHelper.textContent = 'Good – almost there!';
+        DOM.passwordHelper.className = 'helper-text';
+        State.formValid.password = true;
+      } else {
+        bar.classList.add('strength-strong');
+        DOM.passwordHelper.textContent = '✅ Strong password!';
+        DOM.passwordHelper.className = 'helper-text success';
+        State.formValid.password = true;
+      }
+      return State.formValid.password;
+    }
+
+    function validateDepartment() {
+      const val = DOM.department.value;
+      if (!val) {
+        setInputState(DOM.department, 'invalid');
+        DOM.departmentHelper.textContent = 'Please select your department';
+        DOM.departmentHelper.className = 'helper-text error';
+        State.formValid.department = false;
+        return false;
+      }
+      setInputState(DOM.department, 'valid');
+      DOM.departmentHelper.textContent = '✅ Department selected';
+      DOM.departmentHelper.className = 'helper-text success';
+      State.formValid.department = true;
+      return true;
+    }
+
+    function validateDesignation() {
+      const val = DOM.designation.value.trim();
+      if (val.length < 2) {
+        setInputState(DOM.designation, 'invalid');
+        DOM.designationHelper.textContent = 'Please enter your job title';
+        DOM.designationHelper.className = 'helper-text error';
+        State.formValid.designation = false;
+        return false;
+      }
+      setInputState(DOM.designation, 'valid');
+      DOM.designationHelper.textContent = '✅ Valid job title';
+      DOM.designationHelper.className = 'helper-text success';
+      State.formValid.designation = true;
+      return true;
+    }
+
+    function validateSection1() {
+      const nameValid = validateName();
+      const emailValid = validateEmail();
+      const phoneValid = validatePhone();
+      const passValid = validatePassword();
+      return nameValid && emailValid && phoneValid && passValid;
+    }
+
+    // ============================================
+    // NAVIGATION
+    // ============================================
+    function showSection(sectionNum) {
+      DOM.section1.classList.remove('active');
+      DOM.section2.classList.remove('active');
+      
+      if (sectionNum === 1) {
+        DOM.section1.classList.add('active');
+        State.currentSection = 1;
+      } else {
+        DOM.section2.classList.add('active');
+        State.currentSection = 2;
+      }
+    }
+
+    // ============================================
+    // FORM SUBMISSION
+    // ============================================
+    async function handleSubmit(e) {
+      e.preventDefault();
+      
+      // Validate department
+      if (!DOM.department.value) {
+        showMessage(DOM.errorMsg, 'Please select your department.', 'error');
+        DOM.department.focus();
+        return;
+      }
+      
+      // Validate designation
+      if (!DOM.designation.value.trim()) {
+        showMessage(DOM.errorMsg, 'Please enter your designation/job title.', 'error');
+        DOM.designation.focus();
+        return;
+      }
+
+      if (!DOM.branch.value) {
+        showMessage(DOM.errorMsg, 'Please select your branch location.', 'error');
+        DOM.branch.focus();
+        return;
+      }
+      if (!DOM.termsConsent.checked) {
+        showMessage(DOM.errorMsg, 'You must agree to the Terms of Service and Privacy Policy.', 'error');
+        return;
+      }
+
+      State.formValid.branch = true;
+      State.formValid.consent = true;
+
+      setLoading(DOM.submitBtn, true);
+      showMessage(DOM.infoMsg, '🔐 Encrypting and transmitting your registration...', 'info');
+
+      try {
+        const payload = {
+          email: DOM.email.value.trim(),
+          password: DOM.password.value,
+          name: DOM.fullName.value.trim(),
+          phone: DOM.phone.value.trim().replace(/[\s\-\(\)]/g, ''),
+          branchId: parseInt(DOM.branch.value),
+          department: DOM.department.value,
+          designation: DOM.designation.value.trim(),
+          employeeCode: DOM.employeeCode.value.trim() || null,
+          adminCode: DOM.adminCode.value.trim() || null
+        };
+
+        const res = await apiFetch(APP_CONFIG.ENDPOINTS.REGISTER_STAFF, {
+          method: 'POST',
+          body: JSON.stringify(payload)
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          throw new Error(data.error || data.message || 'Registration failed. Please try again.');
+        }
+
+        // Success!
+        DOM.form.style.display = 'none';
+        DOM.footerLinks.style.display = 'none';
+        DOM.successOverlay.classList.add('active');
+
+        const branchName = State.branches.find(b => b.id === parseInt(DOM.branch.value))?.name || DOM.branch.value;
+        
+        if (data.status === 'active') {
+          document.getElementById('success-details').textContent = 
+            `🎉 Welcome to the team! Your account has been activated.`;
+          document.getElementById('success-extra').textContent = 
+            `Branch: ${branchName} • Department: ${DOM.department.value} • Designation: ${DOM.designation.value} • Staff ID: ${data.staffId || 'generating...'}`;
+        } else {
+          document.getElementById('success-details').textContent = 
+            `✅ Your application has been submitted for review.`;
+          document.getElementById('success-extra').textContent = 
+            `Branch: ${branchName} • Department: ${DOM.department.value} • Designation: ${DOM.designation.value} • Status: ${data.status || 'pending'} • Staff ID: ${data.staffId || 'generating...'}\nYou'll be notified once approved.`;
+        }
+
+        console.log('✅ Registration successful:', data);
+
+        if (data.status === 'pending') {
+          try {
+            if (auth.logout) auth.logout();
+          } catch(e) {}
+          localStorage.removeItem(APP_CONFIG.STORAGE_KEYS.TOKEN);
+          localStorage.removeItem(APP_CONFIG.STORAGE_KEYS.USER);
+        }
+
+      } catch (err) {
+        console.error('Registration error:', err);
+        showMessage(DOM.errorMsg, err.message, 'error');
+        setLoading(DOM.submitBtn, false);
+        DOM.infoMsg.style.display = 'none';
+      }
+    }
+
+    // ============================================
+    // EVENT LISTENERS
+    // ============================================
+    function setupListeners() {
+      DOM.fullName.addEventListener('input', validateName);
+      DOM.email.addEventListener('input', validateEmail);
+      DOM.phone.addEventListener('input', validatePhone);
+      DOM.password.addEventListener('input', validatePassword);
+      DOM.department.addEventListener('change', validateDepartment);
+      DOM.designation.addEventListener('input', validateDesignation);
+
+      DOM.nextBtn.addEventListener('click', () => {
+        if (validateSection1()) {
+          showSection(2);
+          setTimeout(() => DOM.branch.focus(), 300);
+        } else {
+          showMessage(DOM.errorMsg, 'Please fix the highlighted fields before continuing.', 'error');
+        }
+      });
+
+      DOM.backBtn.addEventListener('click', () => showSection(1));
+      DOM.form.addEventListener('submit', handleSubmit);
+
+      DOM.form.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter' && State.currentSection === 2) {
+          e.preventDefault();
+          handleSubmit(e);
+        }
+      });
+    }
+
+    // ============================================
+    // INITIALIZATION
+    // ============================================
+    async function init() {
+      console.log('🚀 Initializing PrimeShieldHub Staff Registration v11.4.3');
+      console.log('📍 API Base:', APP_CONFIG.API_BASE);
+      console.log('🔐 Security: All secrets stored in Cloudflare Workers');
+      
+      if (checkAuth()) {
+        console.log('👤 Already logged in, redirecting...');
+        return;
+      }
+      
+      initThreeJS();
+      setupListeners();
+      
+      await getDeviceFingerprint();
+      await refreshCsrfToken();
+      
+      await loadBranches();
+      
+      try {
+        const res = await fetch(`${APP_CONFIG.API_BASE}${APP_CONFIG.ENDPOINTS.HEALTH}`);
+        if (res.ok) {
+          const data = await res.json();
+          console.log('✅ API Health:', data.status, 'v' + data.version);
+        }
+      } catch (e) {
+        console.warn('⚠️ Health check failed');
+      }
+      
+      console.log('✅ Registration portal ready');
+      console.log('🔗 Navigation links:');
+      console.log('  📊 Dashboard: /staff/dashboard.html');
+      console.log('  👤 Profile: /staff/profile.html');
+      console.log('  ⚙️ Settings: /staff/settings.html');
+      console.log('  📋 Activity: /staff/activity.html');
+      console.log('  💳 Charge: /staff/charge.html');
+      console.log('  🔑 Login: /staff/');
+      console.log('  🔐 Forgot Password: /staff/forgot-password.html');
+    }
+
+    init().catch(err => console.error('Init failed:', err));
+  </script>
+</body>
+</html>

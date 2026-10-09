@@ -1,0 +1,1129 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-theme="dark-2026">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="PrimeShieldHub Wholesale Portal Ã¢â‚¬â€ Exclusive bulk pricing for authorized resellers. Access premium gadgets at wholesale rates with verified wholesale codes.">
+    <meta name="keywords" content="PrimeShieldHub Wholesale, Bulk Gadgets Nigeria, Reseller Pricing, Wholesale Electronics Nigeria, PrimeShieldHub Reseller, Wholesale Smartphones Nigeria">
+    <meta name="author" content="Freedom Evbakoe Amenaghawon">
+    <meta name="robots" content="index, follow">
+    <title>Wholesale Portal | PrimeShieldHub Gadgets Limited</title>
+    <link rel="canonical" href="https://primeshieldhub.com/wholesale">
+    <link rel="icon" href="/company_logo.png">
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Auth Storage -->
+    <script type="module" src="../js/auth-storage.js"></script></script>
+
+    <style>
+        /* ================================================================ */
+        /* WHOLESALE PORTAL - ULTRA MODERN THEME                           */
+        /* ================================================================ */
+        
+        :root {
+            --bg-deep: #060608;
+            --bg-primary: #0a0a0d;
+            --bg-elevated: #0f0f14;
+            --bg-card: #141419;
+            --bg-card-hover: #1a1a20;
+            --bg-input: #0d0d12;
+            --gold-soft: #c4a04a;
+            --gold-core: #d6b25e;
+            --gold-bright: #e8c97a;
+            --gold-light: #f3dba0;
+            --gold-glow-subtle: rgba(214,178,94,0.05);
+            --gold-glow-medium: rgba(214,178,94,0.12);
+            --gold-glow-strong: rgba(214,178,94,0.2);
+            --gold-border-subtle: rgba(214,178,94,0.08);
+            --gold-border: rgba(214,178,94,0.18);
+            --gold-border-bright: rgba(214,178,94,0.3);
+            --success: #00d68f;
+            --success-glow: rgba(0,214,143,0.12);
+            --danger: #ff4d6a;
+            --danger-glow: rgba(255,77,106,0.12);
+            --text-primary: #f0efe8;
+            --text-secondary: #b8b6ad;
+            --text-muted: #7a7870;
+            --text-inverse: #0a0a0d;
+            --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --radius-xs: 8px;
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-full: 50%;
+            --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+            --duration-fast: 0.25s;
+            --duration-medium: 0.4s;
+            --duration-slow: 0.8s;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Ambient background layers */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 10% 0%, rgba(214,178,94,0.04) 0%, transparent 55%),
+                radial-gradient(ellipse 60% 40% at 90% 100%, rgba(214,178,94,0.03) 0%, transparent 55%),
+                radial-gradient(ellipse 40% 30% at 50% 50%, rgba(200,170,100,0.02) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: -2;
+        }
+        body::after {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: radial-gradient(rgba(214,178,94,0.025) 1px, transparent 1px);
+            background-size: 40px 40px;
+            pointer-events: none;
+            z-index: -1;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%);
+            -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 20%, transparent 70%);
+        }
+
+        ::-webkit-scrollbar { width: 4px; }
+        ::-webkit-scrollbar-track { background: var(--bg-deep); }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--gold-soft), var(--gold-bright)); border-radius: 2px; }
+        ::selection { background: var(--gold-glow-strong); color: var(--text-primary); }
+
+        main { flex: 1; }
+        .container { max-width: 1300px; margin: 0 auto; padding: 0 28px; }
+        .section { padding: 80px 0; }
+
+        .gold-gradient { background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright), var(--gold-light)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 20px;
+            background: var(--gold-glow-subtle);
+            border: 1px solid var(--gold-border-subtle);
+            color: var(--gold-core);
+            border-radius: 100px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.14em;
+            text-transform: uppercase;
+            font-family: var(--font-mono);
+            margin-bottom: 16px;
+        }
+
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-title { font-family: var(--font-serif); font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 600; line-height: 1.15; letter-spacing: -0.02em; margin-bottom: 10px; }
+        .section-title .gold { color: var(--gold-core); }
+        .section-subtitle { color: var(--text-muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto; }
+
+        /* ===== HEADER ===== */
+        .page-header {
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            background: rgba(10,10,13,0.95);
+            backdrop-filter: blur(20px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .header-inner {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .header-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .header-brand img { width: 40px; height: 40px; border-radius: var(--radius-sm); }
+        .header-brand-text { font-family: var(--font-mono); font-weight: 700; font-size: 0.95rem; color: var(--text-primary); }
+        .header-brand-text span { color: var(--gold-core); }
+        .header-nav { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+        .header-link { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; font-family: var(--font-mono); transition: color var(--duration-fast); display: flex; align-items: center; gap: 5px; }
+        .header-link:hover { color: var(--gold-core); }
+
+        /* ===== HERO ===== */
+        .wholesale-hero { padding: 100px 0 60px; text-align: center; position: relative; }
+        .hero-orb { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(214,178,94,0.06) 0%, transparent 65%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: orbPulse 10s ease-in-out infinite; }
+        @keyframes orbPulse { 0%, 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.07); } }
+
+        /* ===== ACCESS GATE ===== */
+        .access-gate-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.93);
+            backdrop-filter: blur(18px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .gate-card {
+            background: var(--bg-card);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-xl);
+            padding: 50px 40px;
+            max-width: 500px;
+            width: 92%;
+            text-align: center;
+            box-shadow: 0 30px 80px rgba(0,0,0,0.5), 0 0 60px var(--gold-glow-subtle);
+        }
+        .gate-icon { font-size: 3.5rem; color: var(--gold-core); margin-bottom: 18px; display: block; }
+        .gate-icon i { filter: drop-shadow(0 0 20px var(--gold-glow-medium)); }
+        .gate-title { font-family: var(--font-serif); font-size: 2rem; font-weight: 600; margin-bottom: 8px; }
+        .gate-subtitle { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 28px; line-height: 1.7; }
+        .gate-input {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--bg-input);
+            border: 1px solid var(--gold-border-subtle);
+            border-radius: 100px;
+            color: var(--text-primary);
+            font-family: var(--font-mono);
+            font-size: 0.95rem;
+            text-align: center;
+            outline: none;
+            margin-bottom: 14px;
+            transition: all var(--duration-fast);
+        }
+        .gate-input:focus { border-color: var(--gold-border-bright); box-shadow: 0 0 0 4px var(--gold-glow-subtle); }
+        .gate-error { color: var(--danger); font-size: 0.8rem; margin-bottom: 10px; min-height: 22px; font-family: var(--font-mono); }
+        .gate-success { color: var(--success); font-size: 0.8rem; margin-bottom: 10px; font-family: var(--font-mono); }
+
+        /* ===== CARDS ===== */
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--gold-border-subtle);
+            border-radius: var(--radius-lg);
+            padding: 30px;
+            transition: all var(--duration-fast) var(--ease-out-expo);
+        }
+        .card:hover { border-color: var(--gold-border); background: var(--bg-card-hover); transform: translateY(-4px); box-shadow: 0 20px 50px rgba(0,0,0,0.3); }
+        .card-static { background: var(--bg-card); border: 1px solid var(--gold-border-subtle); border-radius: var(--radius-lg); padding: 30px; }
+
+        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+        .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
+
+        /* ===== TIERS ===== */
+        .tier-card { text-align: center; padding: 30px 20px; }
+        .tier-icon { font-size: 1.8rem; color: var(--gold-core); margin-bottom: 10px; }
+        .tier-qty { font-family: var(--font-mono); font-size: 2.2rem; font-weight: 700; color: var(--gold-core); }
+        .tier-discount { font-size: 1.3rem; color: var(--success); margin: 6px 0; font-weight: 700; }
+        .tier-label { color: var(--text-muted); font-size: 0.8rem; }
+
+        /* ===== PRODUCTS ===== */
+        .product-card { overflow: hidden; display: flex; flex-direction: column; }
+        .product-card .img-wrap { position: relative; overflow: hidden; background: var(--bg-elevated); height: 200px; }
+        .product-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--duration-medium); }
+        .product-card:hover .img-wrap img { transform: scale(1.06); }
+        .product-card .img-wrap .discount-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: var(--success);
+            color: #000;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 5px 10px;
+            border-radius: 100px;
+        }
+        .product-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
+        .product-body h4 { font-size: 1.02rem; margin-bottom: 4px; line-height: 1.3; }
+        .product-body .category { font-size: 0.75rem; color: var(--text-muted); margin-bottom: 8px; font-family: var(--font-mono); }
+        .product-body .retail { font-size: 0.82rem; color: var(--text-muted); text-decoration: line-through; }
+        .product-body .bulk { font-family: var(--font-mono); font-size: 1.1rem; font-weight: 700; color: var(--gold-core); margin: 6px 0; }
+        .product-body .savings { font-size: 0.75rem; color: var(--success); margin-bottom: 10px; }
+        .qty-row { display: flex; align-items: center; gap: 0; background: var(--bg-elevated); border-radius: 100px; overflow: hidden; margin-top: auto; }
+        .qty-btn { width: 38px; height: 38px; display: grid; place-items: center; background: transparent; border: none; color: var(--text-secondary); cursor: pointer; font-size: 1.1rem; transition: all var(--duration-fast); }
+        .qty-btn:hover { color: var(--gold-core); background: rgba(255,255,255,0.04); }
+        .qty-val { width: 50px; text-align: center; font-family: var(--font-mono); font-weight: 600; color: var(--text-primary); font-size: 0.95rem; }
+
+        /* ===== SUMMARY ===== */
+        .summary-card { position: sticky; top: 100px; }
+        .summary-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.9rem; }
+        .summary-total { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; color: var(--gold-core); text-align: right; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--gold-border-subtle); }
+
+        /* ===== BUTTONS ===== */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 28px;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            color: var(--text-inverse);
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            font-family: var(--font-mono);
+            transition: all var(--duration-fast) var(--ease-out-expo);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 30px var(--gold-glow-medium); }
+        .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; box-shadow: none; }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 15px 28px;
+            background: transparent;
+            color: var(--gold-core);
+            text-decoration: none;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.88rem;
+            font-family: var(--font-mono);
+            border: 1px solid var(--gold-border);
+            transition: all var(--duration-fast) var(--ease-out-expo);
+            cursor: pointer;
+            width: 100%;
+        }
+        .btn-secondary:hover { background: var(--gold-glow-subtle); transform: translateY(-2px); border-color: var(--gold-border-bright); }
+
+        /* ===== TOAST ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 10000;
+            background: var(--bg-card);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-md);
+            padding: 16px 24px;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: var(--text-primary);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all var(--duration-medium) var(--ease-out-expo);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .toast.show { transform: translateY(0); opacity: 1; }
+        .toast.success { border-color: var(--success); }
+        .toast.error { border-color: var(--danger); }
+
+        /* ===== LOADING ===== */
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--gold-border-subtle);
+            border-top-color: var(--gold-core);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin: 40px auto;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* ===== MODAL ===== */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(10px);
+            z-index: 3000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--duration-medium);
+        }
+        .modal-overlay.active { opacity: 1; pointer-events: all; }
+        .modal-box { background: var(--bg-card); border: 1px solid var(--gold-border); border-radius: var(--radius-xl); padding: 35px; max-width: 520px; width: 92%; }
+        .modal-box h3 { font-family: var(--font-serif); font-size: 1.5rem; margin-bottom: 8px; }
+        .modal-box .modal-subtitle { color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px; }
+        .modal-input, .modal-textarea {
+            width: 100%;
+            padding: 13px 16px;
+            background: var(--bg-input);
+            border: 1px solid var(--gold-border-subtle);
+            border-radius: var(--radius-sm);
+            color: var(--text-primary);
+            margin-bottom: 12px;
+            outline: none;
+            font-family: var(--font-sans);
+            transition: all var(--duration-fast);
+        }
+        .modal-input:focus, .modal-textarea:focus { border-color: var(--gold-border-bright); box-shadow: 0 0 0 3px var(--gold-glow-subtle); }
+        .modal-textarea { resize: vertical; min-height: 80px; }
+
+        /* ===== LIVE INDICATOR ===== */
+        .live-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--success);
+            animation: livePulse 1.5s infinite;
+            margin-right: 6px;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.3; transform: scale(0.8); }
+        }
+
+        /* ===== FOOTER ===== */
+        .site-footer { background: var(--bg-elevated); border-top: 1px solid rgba(255,255,255,0.04); padding: 50px 0 25px; margin-top: auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; margin-bottom: 30px; }
+        .footer-grid h4 { font-family: var(--font-mono); font-size: 0.7rem; color: var(--gold-core); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; }
+        .footer-grid a { display: block; color: var(--text-muted); text-decoration: none; font-size: 0.82rem; margin-bottom: 6px; transition: color var(--duration-fast); }
+        .footer-grid a:hover { color: var(--gold-core); }
+        .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.03); color: var(--text-muted); font-size: 0.78rem; }
+
+        /* ===== RESPONSIVE ===== */
+        @media(max-width: 968px) { .summary-card { position: static; } }
+        @media(max-width: 768px) {
+            .container { padding: 0 16px; }
+            .section { padding: 50px 0; }
+            .wholesale-hero { padding: 70px 0 40px; }
+            .header-inner { padding: 0 16px; }
+            .section-title { font-size: 1.7rem; }
+            .gate-card { padding: 35px 22px; }
+            .gate-title { font-size: 1.5rem; }
+            .grid { grid-template-columns: 1fr; }
+            .grid-4 { grid-template-columns: 1fr 1fr; }
+            .product-card .img-wrap { height: 160px; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media(max-width: 480px) {
+            .section-title { font-size: 1.4rem; }
+            .gate-title { font-size: 1.3rem; }
+            .grid-4 { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr; }
+            .header-nav { gap: 8px; }
+            .header-link { font-size: 0.7rem; }
+            .product-card .img-wrap { height: 140px; }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== TOAST ==================== -->
+<div class="toast" id="toast"></div>
+
+<!-- ==================== ACCESS GATE ==================== -->
+<div class="access-gate-overlay" id="accessGate">
+    <div class="gate-card">
+        <div class="gate-icon"><i class="fas fa-fingerprint"></i></div>
+        <h2 class="gate-title">Wholesale <span class="gold-gradient">Access</span></h2>
+        <p class="gate-subtitle">This portal is exclusively for authorized resellers and bulk buyers. Enter your wholesale code or request access below.</p>
+        <input type="text" id="wholesaleCode" class="gate-input" placeholder="Enter Wholesale Code" autocomplete="off" autofocus>
+        <div class="gate-error" id="gateError"></div>
+        <div class="gate-success" id="gateSuccess"></div>
+        <button class="btn-primary" id="verifyCodeBtn" style="margin-bottom:10px;"><i class="fas fa-key"></i> Verify & Enter</button>
+        <button class="btn-secondary" id="requestAccessBtn"><i class="fas fa-file-invoice"></i> Request Wholesale Access</button>
+        <p style="color:var(--text-muted);font-size:0.7rem;margin-top:12px;font-family:var(--font-mono);">
+            <span class="live-dot"></span> Secured by PrimeShieldHub Ã‚Â· RC 9283954
+        </p>
+    </div>
+</div>
+
+<!-- ==================== HEADER ==================== -->
+<header class="page-header">
+    <div class="header-inner">
+        <a href="/" class="header-brand">
+            <img src="/company_logo.png" alt="PrimeShieldHub">
+            <span class="header-brand-text"><span>PRIME</span>SHIELDHUB</span>
+        </a>
+        <nav class="header-nav">
+            <a href="/" class="header-link"><i class="fas fa-home"></i> Home</a>
+            <a href="/products" class="header-link"><i class="fas fa-box"></i> Shop</a>
+            <a href="/cart" class="header-link"><i class="fas fa-shopping-cart"></i> Cart</a>
+            <a href="/founder" class="header-link"><i class="fas fa-user"></i> Founder</a>
+            <a href="/company" class="header-link"><i class="fas fa-building"></i> Company</a>
+            <a href="/dashboard" class="header-link"><i class="fas fa-chart-pie"></i> Dashboard</a>
+        </nav>
+    </div>
+</header>
+
+<main>
+    <!-- ==================== WHOLESALE CONTENT ==================== -->
+    <div id="wholesaleContent" style="display:none;">
+        <!-- Hero -->
+        <section class="wholesale-hero">
+            <div class="hero-orb"></div>
+            <div class="container">
+                <span class="section-badge"><span class="live-dot"></span> Live Wholesale Portal</span>
+                <h1 class="section-title">Bulk <span class="gold">Pricing</span> &amp; Reseller <span class="gold">Rates</span></h1>
+                <p class="section-subtitle">Exclusive wholesale pricing for authorized resellers. The more you buy, the more you save. All products 100% authentic with full warranty.</p>
+                <div style="margin-top:16px; font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
+                    <span id="discountDisplay">Ã¢Å¡Â¡ Your discount: 10%</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pricing Tiers -->
+        <section style="padding-bottom:40px;">
+            <div class="container">
+                <div class="grid-4" id="tiersGrid"></div>
+            </div>
+        </section>
+
+        <!-- Products + Summary -->
+        <section class="section" style="background:var(--bg-primary);padding-top:50px;">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge"><i class="fas fa-warehouse"></i> Products</span>
+                    <h2 class="section-title">Wholesale <span class="gold">Catalog</span></h2>
+                    <p class="section-subtitle">Bulk pricing applied automatically based on quantity</p>
+                </div>
+                <div style="display:grid;grid-template-columns:1fr 350px;gap:30px;align-items:start;">
+                    <div>
+                        <div class="grid" id="productsGrid">
+                            <div class="loading-spinner"></div>
+                        </div>
+                    </div>
+                    <div class="card summary-card">
+                        <h3 style="font-family:var(--font-serif);font-size:1.3rem;margin-bottom:8px;">Bulk <span style="color:var(--gold-core);">Order Summary</span></h3>
+                        <p style="color:var(--text-muted);font-size:0.78rem;margin-bottom:16px;">Discounts applied at checkout</p>
+                        <div id="bulkSummaryItems"><p style="color:var(--text-muted);font-size:0.85rem;">No items added yet. Use the + button on products to add them.</p></div>
+                        <div class="summary-total" id="bulkTotal">Ã¢â€šÂ¦0</div>
+                        <button class="btn-primary" id="checkoutBtn" style="margin-top:16px;" disabled onclick="window.checkout()">
+                            <i class="fas fa-shopping-cart"></i> Add to Cart &amp; Checkout
+                        </button>
+                        <button class="btn-secondary" id="requestQuoteBtn" style="margin-top:8px;">
+                            <i class="fas fa-file-invoice"></i> Request Custom Quote
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<!-- ==================== REQUEST ACCESS MODAL ==================== -->
+<div class="modal-overlay" id="requestAccessModal">
+    <div class="modal-box">
+        <h3>Request <span class="gold-gradient">Wholesale Access</span></h3>
+        <p class="modal-subtitle">Fill in your details and we'll send you a wholesale code.</p>
+        <form id="accessRequestForm" onsubmit="window.submitAccessRequest(event)">
+            <input type="text" class="modal-input" id="reqName" placeholder="Full Name *" required>
+            <input type="email" class="modal-input" id="reqEmail" placeholder="Email Address *" required>
+            <input type="tel" class="modal-input" id="reqPhone" placeholder="Phone Number">
+            <textarea class="modal-textarea" id="reqMessage" placeholder="Tell us about your business, expected volume, products you're interested in..."></textarea>
+            <button type="submit" class="btn-primary" style="margin-bottom:8px;"><i class="fas fa-paper-plane"></i> Submit Request</button>
+            <button type="button" class="btn-secondary" onclick="window.closeRequestModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<!-- ==================== CUSTOM QUOTE MODAL ==================== -->
+<div class="modal-overlay" id="quoteModal">
+    <div class="modal-box">
+        <h3>Request <span class="gold-gradient">Custom Quote</span></h3>
+        <p class="modal-subtitle">Need specific products or very large quantities? Let us prepare a custom quote for you.</p>
+        <form id="quoteForm" onsubmit="window.submitQuoteRequest(event)">
+            <input type="text" class="modal-input" id="quoteName" placeholder="Full Name *" required>
+            <input type="email" class="modal-input" id="quoteEmail" placeholder="Email Address *" required>
+            <input type="tel" class="modal-input" id="quotePhone" placeholder="Phone Number">
+            <textarea class="modal-textarea" id="quoteDetails" placeholder="List the products and quantities you're interested in..."></textarea>
+            <button type="submit" class="btn-primary" style="margin-bottom:8px;"><i class="fas fa-calculator"></i> Request Quote</button>
+            <button type="button" class="btn-secondary" onclick="window.closeQuoteModal()">Cancel</button>
+        </form>
+    </div>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="site-footer">
+    <div class="container">
+        <div class="footer-grid">
+            <div>
+                <h4>Wholesale Portal</h4>
+                <a href="/"><i class="fas fa-home"></i> Home</a>
+                <a href="/products"><i class="fas fa-box"></i> Shop</a>
+                <a href="/cart"><i class="fas fa-shopping-cart"></i> Cart</a>
+                <a href="/invoice"><i class="fas fa-file-invoice"></i> Request Invoice</a>
+            </div>
+            <div>
+                <h4>Company</h4>
+                <a href="/founder"><i class="fas fa-user"></i> Founder</a>
+                <a href="/company"><i class="fas fa-building"></i> Company</a>
+                <a href="/biography"><i class="fas fa-book"></i> Biography</a>
+                <a href="/freedom-evbakoe-amenaghawon"><i class="fas fa-id-card"></i> Personal Profile</a>
+            </div>
+            <div>
+                <h4>Resources</h4>
+                <a href="/press"><i class="fas fa-newspaper"></i> Press</a>
+                <a href="/media-kit"><i class="fas fa-camera"></i> Media Kit</a>
+                <a href="/articles"><i class="fas fa-lightbulb"></i> Insights</a>
+                <a href="/knowledge-graph"><i class="fas fa-project-diagram"></i> Knowledge Graph</a>
+            </div>
+            <div>
+                <h4>Support</h4>
+                <a href="mailto:primeshieldhub@gmail.com"><i class="fas fa-envelope"></i> primeshieldhub@gmail.com</a>
+                <a href="tel:+2348103535978"><i class="fas fa-phone"></i> +234 810 353 5978</a>
+                <a href="https://wa.me/2348103535978" target="_blank"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            Ã‚Â© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954 Ã‚Â· TIN 2621297539968. All Rights Reserved.
+            <span style="display:block; margin-top:8px; font-size:0.6rem; color:var(--text-muted);">
+                <span class="live-dot"></span> Live Ã‚Â· Real-time pricing
+            </span>
+        </div>
+    </div>
+</footer>
+
+<!-- Auth Storage Script (for cross-site consistency) -->
+<script type="module" src="../js/auth-storage.js"></script></script>
+
+<script>
+    // ================================================================ //
+    // WHOLESALE PORTAL - FULLY SYNCHRONIZED                          //
+    // ================================================================ //
+
+    (function() {
+        'use strict';
+
+        // ===== CONFIG =====
+        const API_BASE = 'https://api.primeshieldhub.com/api';
+        let wholesaleProducts = [];
+        let bulkCart = {};
+        let userDiscount = 10;
+        let isAuthenticated = false;
+        let authToken = null;
+        let currentUser = null;
+
+        // ===== DOM REFS =====
+        const accessGate = document.getElementById('accessGate');
+        const wholesaleContent = document.getElementById('wholesaleContent');
+        const productsGrid = document.getElementById('productsGrid');
+        const tiersGrid = document.getElementById('tiersGrid');
+        const bulkSummaryItems = document.getElementById('bulkSummaryItems');
+        const bulkTotalEl = document.getElementById('bulkTotal');
+        const checkoutBtn = document.getElementById('checkoutBtn');
+        const toast = document.getElementById('toast');
+        const discountDisplay = document.getElementById('discountDisplay');
+
+        // ===== AUTHENTICATION =====
+        function getAuthToken() {
+            if (window.AuthStorage) {
+                const session = window.AuthStorage.getSession();
+                if (session && session.token) return session.token;
+            }
+            return localStorage.getItem('psh_auth_token') || null;
+        }
+
+        function getUser() {
+            if (window.AuthStorage) {
+                const session = window.AuthStorage.getSession();
+                if (session && session.user) return session.user;
+            }
+            try {
+                const stored = localStorage.getItem('psh_user');
+                if (stored) return JSON.parse(stored);
+            } catch(e) {}
+            return null;
+        }
+
+        function checkAuth() {
+            const token = getAuthToken();
+            const user = getUser();
+            if (token && user) {
+                authToken = token;
+                currentUser = user;
+                isAuthenticated = true;
+                return true;
+            }
+            isAuthenticated = false;
+            return false;
+        }
+
+        // ===== API CALLS =====
+        async function apiCall(endpoint, method = 'GET', body = null) {
+            const token = getAuthToken();
+            const headers = {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            };
+            if (token) headers['Authorization'] = 'Bearer ' + token;
+
+            const options = { method, headers, credentials: 'include' };
+            if (body) options.body = JSON.stringify(body);
+
+            try {
+                const response = await fetch(API_BASE + endpoint, options);
+                if (response.status === 401) {
+                    if (window.AuthStorage) window.AuthStorage.clearAllSessions();
+                    localStorage.removeItem('psh_auth_token');
+                    localStorage.removeItem('psh_user');
+                    isAuthenticated = false;
+                    showToast('Session expired. Please login again.', 'error');
+                    throw new Error('Session expired');
+                }
+                const data = await response.json();
+                if (!response.ok) throw new Error(data.error || data.message || 'Request failed');
+                return data;
+            } catch (error) {
+                console.error('API Error:', error);
+                throw error;
+            }
+        }
+
+        // ================================================================ //
+        // HELPERS                                                         //
+        // ================================================================ //
+
+        function formatNGN(amount) {
+            return 'Ã¢â€šÂ¦' + Number(amount).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+        }
+
+        function showToast(message, type = '') {
+            toast.innerHTML = message;
+            toast.className = 'toast ' + type + ' show';
+            clearTimeout(toast._timer);
+            toast._timer = setTimeout(function() {
+                toast.classList.remove('show');
+            }, 3500);
+        }
+
+        function hasAccess() {
+            return localStorage.getItem('wholesale_authorized') === 'true';
+        }
+
+        function grantAccess(discountPercent) {
+            userDiscount = discountPercent || 10;
+            localStorage.setItem('wholesale_authorized', 'true');
+            localStorage.setItem('wholesale_discount', String(userDiscount));
+            if (discountDisplay) {
+                discountDisplay.textContent = 'Ã¢Å¡Â¡ Your discount: ' + userDiscount + '%';
+            }
+            accessGate.style.display = 'none';
+            wholesaleContent.style.display = 'block';
+            loadProducts();
+            renderTiers();
+        }
+
+        // ================================================================ //
+        // DISCOUNT LOGIC                                                   //
+        // ================================================================ //
+
+        function getDiscount(qty) {
+            const baseMultiplier = (100 - userDiscount) / 100;
+            if (qty >= 100) return 1 - (baseMultiplier * 0.80);
+            if (qty >= 50) return 1 - (baseMultiplier * 0.85);
+            if (qty >= 10) return 1 - (baseMultiplier * 0.90);
+            return userDiscount / 100;
+        }
+
+        function getBulkPrice(product, qty) {
+            const discount = getDiscount(qty);
+            return Math.round(product.price * (1 - discount));
+        }
+
+        // ================================================================ //
+        // RENDER FUNCTIONS                                                 //
+        // ================================================================ //
+
+        function renderTiers() {
+            const tiers = [
+                { min: 10, max: 49, discount: Math.round(userDiscount * 0.9), icon: 'fa-layer-group' },
+                { min: 50, max: 99, discount: Math.round(userDiscount * 1.5), icon: 'fa-cubes' },
+                { min: 100, max: 'Ã¢Ë†Å¾', discount: Math.round(userDiscount * 2), icon: 'fa-warehouse' }
+            ];
+            tiersGrid.innerHTML = tiers.map(function(t) {
+                return '<div class="card tier-card">' +
+                    '<div class="tier-icon"><i class="fas ' + t.icon + '"></i></div>' +
+                    '<div class="tier-qty">' + t.min + '-' + (t.max === 'Ã¢Ë†Å¾' ? '+' : t.max) + '</div>' +
+                    '<div class="tier-discount">Up to ' + t.discount + '% OFF</div>' +
+                    '<div class="tier-label">Applied automatically at checkout</div>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function renderProducts() {
+            if (!productsGrid) return;
+
+            if (wholesaleProducts.length === 0) {
+                productsGrid.innerHTML = '<div class="card" style="text-align:center;grid-column:1/-1;padding:50px;">' +
+                    '<i class="fas fa-box-open" style="font-size:3rem;color:var(--text-muted);opacity:0.3;margin-bottom:16px;display:block;"></i>' +
+                    '<p style="color:var(--text-muted);">No wholesale products available at the moment.</p>' +
+                    '<p style="color:var(--text-muted);font-size:0.85rem;">Try requesting a custom quote or check back later.</p>' +
+                    '</div>';
+                return;
+            }
+
+            productsGrid.innerHTML = wholesaleProducts.map(function(product) {
+                var qty = bulkCart[product.id] ? bulkCart[product.id].quantity : 0;
+                var bulkPrice = qty > 0 ? getBulkPrice(product, qty) : getBulkPrice(product, 10);
+                var savingsPercent = Math.round((1 - bulkPrice / product.price) * 100);
+
+                return '<div class="card product-card" style="padding:0;">' +
+                    '<div class="img-wrap">' +
+                    '<img src="' + (product.image_url || '/company_logo.png') + '" alt="' + product.name + '" loading="lazy" onerror="this.src=\'/company_logo.png\'">' +
+                    (qty >= 10 ? '<span class="discount-badge">' + savingsPercent + '% OFF</span>' : '') +
+                    '</div>' +
+                    '<div class="product-body">' +
+                    '<h4>' + product.name + '</h4>' +
+                    '<div class="category">' + (product.category || 'Gadget') + '</div>' +
+                    '<div class="retail">Retail: ' + formatNGN(product.price) + '</div>' +
+                    '<div class="bulk">Bulk: ' + formatNGN(bulkPrice) + '/unit</div>' +
+                    (qty >= 10 ? '<div class="savings"><i class="fas fa-tag"></i> You save ' + formatNGN((product.price - bulkPrice) * qty) + '</div>' : '') +
+                    '<div class="qty-row">' +
+                    '<button class="qty-btn" onclick="window.updateBulkItem(\'' + product.id + '\', ' + (qty - 1) + ')">Ã¢Ë†â€™</button>' +
+                    '<span class="qty-val">' + qty + '</span>' +
+                    '<button class="qty-btn" onclick="window.updateBulkItem(\'' + product.id + '\', ' + (qty + 1) + ')">+</button>' +
+                    '</div>' +
+                    '</div>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function renderSummary() {
+            var items = Object.values(bulkCart).filter(function(i) { return i.quantity > 0; });
+            if (items.length === 0) {
+                bulkSummaryItems.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;">No items added yet. Use the + button on products to add them.</p>';
+                bulkTotalEl.textContent = 'Ã¢â€šÂ¦0';
+                checkoutBtn.disabled = true;
+                return;
+            }
+
+            var total = 0;
+            bulkSummaryItems.innerHTML = items.map(function(item) {
+                var itemTotal = item.bulkPrice * item.quantity;
+                total += itemTotal;
+                return '<div class="summary-item"><span>' + item.name + ' Ãƒâ€” ' + item.quantity + '</span><span>' + formatNGN(itemTotal) + '</span></div>';
+            }).join('');
+
+            bulkTotalEl.textContent = formatNGN(total);
+            checkoutBtn.disabled = false;
+        }
+
+        // ================================================================ //
+        // ACTIONS                                                          //
+        // ================================================================ //
+
+        window.updateBulkItem = function(productId, quantity) {
+            var product = wholesaleProducts.find(function(p) { return p.id === productId; });
+            if (!product) return;
+
+            if (quantity <= 0) {
+                delete bulkCart[productId];
+            } else {
+                var bulkPrice = getBulkPrice(product, quantity);
+                bulkCart[productId] = {
+                    id: productId,
+                    name: product.name,
+                    price: product.price,
+                    quantity: quantity,
+                    image: product.image_url,
+                    category: product.category,
+                    bulkPrice: bulkPrice
+                };
+            }
+            renderProducts();
+            renderSummary();
+        };
+
+        window.checkout = function() {
+            var items = Object.values(bulkCart).filter(function(i) { return i.quantity > 0; });
+            if (items.length === 0) {
+                showToast('<i class="fas fa-exclamation-circle"></i> No items in your bulk order', 'error');
+                return;
+            }
+
+            // Get existing cart
+            var cart = JSON.parse(localStorage.getItem('psh_cart') || '[]');
+
+            // Add bulk items
+            items.forEach(function(item) {
+                var existing = cart.findIndex(function(c) { return c.id === item.id; });
+                if (existing >= 0) {
+                    cart[existing].quantity += item.quantity;
+                    cart[existing].price = item.bulkPrice;
+                } else {
+                    cart.push({
+                        id: item.id,
+                        name: item.name,
+                        price: item.bulkPrice,
+                        quantity: item.quantity,
+                        image: item.image,
+                        category: item.category || 'Wholesale',
+                        isWholesale: true
+                    });
+                }
+            });
+
+            localStorage.setItem('psh_cart', JSON.stringify(cart));
+
+            // Dispatch cart update event
+            var event = new CustomEvent('cartUpdated', {
+                detail: { cart: cart, totalItems: cart.reduce(function(s, i) { return s + i.quantity; }, 0) }
+            });
+            window.dispatchEvent(event);
+
+            // Clear bulk cart
+            bulkCart = {};
+            renderProducts();
+            renderSummary();
+
+            showToast('<i class="fas fa-check-circle"></i> Order added to cart! Redirecting...', 'success');
+            setTimeout(function() {
+                window.location\.href\ =\ '/cart\';
+            }, 1200);
+        };
+
+        // ================================================================ //
+        // API FUNCTIONS                                                    //
+        // ================================================================ //
+
+        async function verifyWholesaleCode(code) {
+            try {
+                // Try real API first
+                var data = await apiCall('/wholesale/verify-code', 'POST', { code: code });
+                if (data && data.valid) {
+                    return data;
+                }
+                return { valid: false };
+            } catch (e) {
+                console.warn('API verification failed, using fallback:', e.message);
+                // Fallback hardcoded codes (only if API fails)
+                var fallbackCodes = {
+                    'WHOLESALE2026': { valid: true, discount: 10, description: 'Standard Wholesale Access' },
+                    'PRIMEBULK': { valid: true, discount: 15, description: 'Bulk Reseller Access' },
+                    'RESELLER100': { valid: true, discount: 20, description: 'Premium Reseller Access' },
+                    'PSHWHOLESALE': { valid: true, discount: 10, description: 'General Wholesale Access' }
+                };
+                return fallbackCodes[code] || { valid: false };
+            }
+        }
+
+        async function loadProducts() {
+            try {
+                var data = await apiCall('/wholesale/products');
+                wholesaleProducts = (data || []).filter(function(p) { return p.name; });
+                if (wholesaleProducts.length === 0) {
+                    throw new Error('No products found');
+                }
+            } catch (e) {
+                console.warn('Could not load from API, using fallback:', e.message);
+                // Fallback products
+                wholesaleProducts = [
+                    { id: 'ws-001', name: 'iPhone 15 Pro Max 256GB', price: 1850000, category: 'Smartphones', image_url: '/company_logo.png' },
+                    { id: 'ws-002', name: 'Samsung Galaxy S24 Ultra', price: 1650000, category: 'Smartphones', image_url: '/company_logo.png' },
+                    { id: 'ws-003', name: 'AirPods Pro (2nd Gen) USB-C', price: 320000, category: 'Audio', image_url: '/company_logo.png' },
+                    { id: 'ws-004', name: 'MacBook Pro M3 14-inch', price: 2800000, category: 'Laptops', image_url: '/company_logo.png' },
+                    { id: 'ws-005', name: 'Apple Watch Ultra 2', price: 950000, category: 'Wearables', image_url: '/company_logo.png' },
+                    { id: 'ws-006', name: 'Sony WH-1000XM5 Headphones', price: 420000, category: 'Audio', image_url: '/company_logo.png' },
+                    { id: 'ws-007', name: 'iPad Pro M2 12.9"', price: 1450000, category: 'Tablets', image_url: '/company_logo.png' },
+                    { id: 'ws-008', name: 'Anker Prime 20K Power Bank', price: 45000, category: 'Accessories', image_url: '/company_logo.png' }
+                ];
+            }
+            renderProducts();
+        }
+
+        // ================================================================ //
+        // MODAL FUNCTIONS                                                  //
+        // ================================================================ //
+
+        window.closeRequestModal = function() {
+            document.getElementById('requestAccessModal').classList.remove('active');
+        };
+
+        window.closeQuoteModal = function() {
+            document.getElementById('quoteModal').classList.remove('active');
+        };
+
+        window.submitAccessRequest = async function(event) {
+            event.preventDefault();
+            var data = {
+                name: document.getElementById('reqName').value,
+                email: document.getElementById('reqEmail').value,
+                phone: document.getElementById('reqPhone').value,
+                message: document.getElementById('reqMessage').value
+            };
+
+            try {
+                await apiCall('/wholesale/request-access', 'POST', data);
+            } catch (e) {
+                // Fallback: store locally
+                var requests = JSON.parse(localStorage.getItem('psh_wholesale_requests') || '[]');
+                requests.push({ ...data, timestamp: new Date().toISOString() });
+                localStorage.setItem('psh_wholesale_requests', JSON.stringify(requests));
+            }
+
+            document.getElementById('requestAccessModal').classList.remove('active');
+            document.getElementById('accessRequestForm').reset();
+            showToast('<i class="fas fa-check-circle"></i> Request submitted! We will contact you with your wholesale code.', 'success');
+        };
+
+        window.submitQuoteRequest = async function(event) {
+            event.preventDefault();
+            var data = {
+                name: document.getElementById('quoteName').value,
+                email: document.getElementById('quoteEmail').value,
+                phone: document.getElementById('quotePhone').value,
+                details: document.getElementById('quoteDetails').value
+            };
+
+            try {
+                await apiCall('/wholesale/request-quote', 'POST', data);
+            } catch (e) {
+                var quotes = JSON.parse(localStorage.getItem('psh_quote_requests') || '[]');
+                quotes.push({ ...data, timestamp: new Date().toISOString() });
+                localStorage.setItem('psh_quote_requests', JSON.stringify(quotes));
+            }
+
+            document.getElementById('quoteModal').classList.remove('active');
+            document.getElementById('quoteForm').reset();
+            showToast('<i class="fas fa-check-circle"></i> Quote request sent! We will prepare your custom quote shortly.', 'success');
+        };
+
+        // ================================================================ //
+        // EVENT HANDLERS                                                   //
+        // ================================================================ //
+
+        function setupEventListeners() {
+            document.getElementById('verifyCodeBtn').addEventListener('click', async function() {
+                var code = document.getElementById('wholesaleCode').value.trim().toUpperCase();
+                var errorEl = document.getElementById('gateError');
+                var successEl = document.getElementById('gateSuccess');
+
+                if (!code) {
+                    errorEl.textContent = 'Please enter a wholesale code.';
+                    successEl.textContent = '';
+                    return;
+                }
+
+                errorEl.textContent = '';
+                successEl.textContent = 'Verifying...';
+
+                try {
+                    var result = await verifyWholesaleCode(code);
+                    if (result && result.valid) {
+                        successEl.textContent = 'Ã¢Å“â€œ Access granted!';
+                        showToast('<i class="fas fa-check-circle"></i> Access granted! ' + (result.description || 'Welcome to the Wholesale Portal.'), 'success');
+                        grantAccess(result.discount || 10);
+                    } else {
+                        errorEl.textContent = 'Invalid wholesale code. Please check or request access below.';
+                        successEl.textContent = '';
+                    }
+                } catch (e) {
+                    errorEl.textContent = 'Verification failed. Please try again.';
+                    successEl.textContent = '';
+                }
+            });
+
+            // Enter key on code input
+            document.getElementById('wholesaleCode').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    document.getElementById('verifyCodeBtn').click();
+                }
+            });
+
+            document.getElementById('requestAccessBtn').addEventListener('click', function() {
+                document.getElementById('requestAccessModal').classList.add('active');
+            });
+
+            document.getElementById('requestQuoteBtn').addEventListener('click', function() {
+                document.getElementById('quoteModal').classList.add('active');
+            });
+
+            // Close modals on overlay click
+            document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
+                overlay.addEventListener('click', function(e) {
+                    if (e.target === this) {
+                        this.classList.remove('active');
+                    }
+                });
+            });
+        }
+
+        // ================================================================ //
+        // INIT                                                             //
+        // ================================================================ //
+
+        function init() {
+            document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+            // Check auth and access
+            checkAuth();
+
+            // Check if already authorized
+            if (hasAccess()) {
+                userDiscount = parseInt(localStorage.getItem('wholesale_discount') || '10');
+                if (discountDisplay) {
+                    discountDisplay.textContent = 'Ã¢Å¡Â¡ Your discount: ' + userDiscount + '%';
+                }
+                accessGate.style.display = 'none';
+                wholesaleContent.style.display = 'block';
+                loadProducts();
+                renderTiers();
+            }
+
+            // Setup event listeners
+            setupEventListeners();
+
+            console.log('Ã°Å¸Å¡â‚¬ Wholesale Portal v2.1 Ã¢â‚¬â€ Fully Backend Synchronized');
+            console.log('Ã°Å¸â€Â Authenticated:', isAuthenticated);
+            console.log('Ã°Å¸â€œÂ¦ Products:', wholesaleProducts.length);
+        }
+
+        // Run on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', init);
+        } else {
+            init();
+        }
+
+        // Make functions globally available for inline onclick
+        window.updateBulkItem = updateBulkItem;
+        window.checkout = checkout;
+        window.closeRequestModal = closeRequestModal;
+        window.closeQuoteModal = closeQuoteModal;
+        window.submitAccessRequest = submitAccessRequest;
+        window.submitQuoteRequest = submitQuoteRequest;
+
+    })();
+</script>
+</body>
+</html>
+

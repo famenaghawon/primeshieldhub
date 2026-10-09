@@ -1,0 +1,980 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  
+  <link rel="canonical" href="https://primeshieldhub.com/equity">
+  
+  <title>Equity Investment | PrimeShieldHub â€” Become a Partner</title>
+  <meta name="description" content="Invest in PrimeShieldHub's equity. Join Nigeria's fastest-growing premium gadget company as a partner. Equity investment opportunities with projected returns up to 35% per cycle.">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-primary: #000000;
+      --bg-secondary: #0a0a0a;
+      --bg-tertiary: #111111;
+      --bg-card: rgba(20, 20, 25, 0.85);
+      --bg-card-solid: #141419;
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1a6;
+      --text-tertiary: #6c6c70;
+      --accent-gold: #d6b25e;
+      --accent-gold-light: #f3d27b;
+      --accent-gold-dark: #b8943a;
+      --accent-cyan: #00c8e8;
+      --accent-success: #34c759;
+      --accent-warning: #ff9f0a;
+      --accent-danger: #ff3b30;
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-medium: rgba(255, 255, 255, 0.10);
+      --border-gold: rgba(214, 178, 94, 0.25);
+      --gradient-gold: linear-gradient(135deg, #d6b25e 0%, #f3d27b 50%, #d6b25e 100%);
+      --gradient-dark: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 8px 28px rgba(0, 0, 0, 0.4);
+      --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.5);
+      --shadow-gold: 0 20px 40px rgba(214, 178, 94, 0.12);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-2xl: 28px;
+      --radius-3xl: 36px;
+      --transition-slow: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-medium: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --transition-fast: all 0.15s ease;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+      --font-display: 'Playfair Display', serif;
+    }
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      overflow-x: hidden;
+    }
+    
+    /* Subtle background instead of heavy Three.js for performance */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 70% 50% at 30% 20%, rgba(214,178,94,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse 60% 40% at 70% 80%, rgba(0,200,232,0.03) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: -2;
+    }
+    
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(214,178,94,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(214,178,94,0.025) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      z-index: -1;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 15%, transparent 70%);
+      -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 15%, transparent 70%);
+    }
+    
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg-tertiary); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-gold); border-radius: 3px; }
+    ::selection { background: var(--accent-gold); color: var(--bg-primary); }
+    
+    /* ===== HEADER ===== */
+    .header {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(0,0,0,0.88); backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    
+    .header-content {
+      max-width: 1400px; margin: 0 auto; padding: 14px 32px;
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 18px;
+    }
+    
+    .logo { display: flex; align-items: center; gap: 12px; text-decoration: none; flex-shrink: 0; }
+    .logo:hover { opacity: 0.85; }
+    .logo-icon {
+      width: 42px; height: 42px;
+      background: var(--gradient-gold);
+      border-radius: var(--radius-md);
+      display: flex; align-items: center; justify-content: center;
+      overflow: hidden;
+    }
+    .logo-icon img { width: 100%; height: 100%; object-fit: cover; }
+    .logo-text {
+      font-weight: 700; font-size: 18px; letter-spacing: -0.3px;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent;
+    }
+    
+    .nav { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+    .nav-link {
+      color: var(--text-secondary); text-decoration: none;
+      font-size: 13px; font-weight: 500; transition: color 0.2s ease;
+      font-family: var(--font-mono); letter-spacing: -0.2px;
+    }
+    .nav-link:hover { color: var(--accent-gold); }
+    .nav-link.active { color: var(--accent-gold); }
+    
+    .nav-cta {
+      background: var(--gradient-gold); color: #000;
+      padding: 9px 20px; border-radius: 100px;
+      font-weight: 600; font-size: 13px; text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font-family: var(--font-mono);
+    }
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(214,178,94,0.25); }
+    
+    @media (max-width: 768px) {
+      .header-content { padding: 12px 16px; }
+      .nav { gap: 12px; }
+      .nav-link { font-size: 11px; }
+      .nav-cta { padding: 7px 14px; font-size: 11px; }
+    }
+    
+    /* ===== MAIN ===== */
+    .main { padding-top: 90px; min-height: 100vh; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 32px 80px; }
+    @media (max-width: 768px) { .container { padding: 0 16px 60px; } }
+    
+    /* ===== HERO ===== */
+    .hero { text-align: center; margin-bottom: 70px; padding-top: 30px; }
+    .hero-badge {
+      display: inline-block; padding: 7px 18px;
+      background: rgba(214,178,94,0.08); border: 1px solid var(--border-gold);
+      border-radius: 100px; font-size: 12px; font-weight: 500;
+      color: var(--accent-gold); margin-bottom: 24px;
+      font-family: var(--font-mono); letter-spacing: 1px;
+    }
+    .hero h1 {
+      font-size: 56px; font-weight: 800; letter-spacing: -1.5px;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text; background-clip: text;
+      color: transparent; margin-bottom: 20px; line-height: 1.1;
+      font-family: var(--font-display);
+    }
+    .hero p { font-size: 18px; color: var(--text-secondary); max-width: 650px; margin: 0 auto; line-height: 1.6; }
+    @media (max-width: 768px) { .hero h1 { font-size: 36px; } .hero p { font-size: 15px; } }
+    
+    /* ===== STATS ===== */
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; margin-bottom: 70px; }
+    .stat-card {
+      background: var(--bg-card); backdrop-filter: blur(16px);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius-xl);
+      padding: 28px 20px; text-align: center; transition: var(--transition-medium);
+    }
+    .stat-card:hover { transform: translateY(-6px); border-color: var(--border-gold); box-shadow: var(--shadow-gold); }
+    .stat-value { font-size: 40px; font-weight: 800; color: var(--accent-gold); margin-bottom: 6px; font-family: var(--font-mono); }
+    .stat-label { font-size: 12px; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 1px; }
+    @media (max-width: 992px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } }
+    
+    /* ===== TIERS ===== */
+    .section-title { font-size: 36px; font-weight: 700; letter-spacing: -1px; margin-bottom: 14px; text-align: center; font-family: var(--font-display); }
+    .section-subtitle { font-size: 16px; color: var(--text-secondary); text-align: center; max-width: 650px; margin: 0 auto 50px; }
+    
+    .tiers-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 70px; }
+    .tier-card {
+      background: var(--bg-card); backdrop-filter: blur(16px);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius-2xl);
+      padding: 36px; transition: var(--transition-medium);
+      position: relative; overflow: hidden;
+    }
+    .tier-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--gradient-gold); transform: scaleX(0); transition: transform 0.4s ease; }
+    .tier-card:hover { transform: translateY(-10px); border-color: var(--border-gold); box-shadow: var(--shadow-lg); }
+    .tier-card:hover::before { transform: scaleX(1); }
+    .tier-card.featured { border-color: var(--border-gold); background: linear-gradient(135deg, rgba(214,178,94,0.04), rgba(20,20,25,0.9)); }
+    .featured-badge { position: absolute; top: 18px; right: 18px; background: var(--gradient-gold); color: #000; padding: 5px 12px; border-radius: 100px; font-size: 11px; font-weight: 700; font-family: var(--font-mono); }
+    .tier-name { font-size: 22px; font-weight: 700; margin-bottom: 6px; }
+    .tier-price { font-size: 32px; font-weight: 800; color: var(--accent-gold); margin-bottom: 4px; font-family: var(--font-mono); }
+    .tier-price span { font-size: 13px; font-weight: 400; color: var(--text-tertiary); }
+    .tier-equity { font-size: 13px; color: var(--text-secondary); margin-bottom: 22px; padding-bottom: 22px; border-bottom: 1px solid var(--border-subtle); }
+    .tier-features { list-style: none; margin-bottom: 28px; }
+    .tier-features li { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; color: var(--text-secondary); font-size: 13px; }
+    .tier-features li i { color: var(--accent-gold); width: 18px; font-size: 11px; }
+    .tier-btn { width: 100%; padding: 14px; background: var(--gradient-gold); border: none; border-radius: 100px; font-weight: 700; font-size: 14px; color: #000; cursor: pointer; transition: var(--transition-fast); font-family: var(--font-sans); }
+    .tier-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(214,178,94,0.25); }
+    @media (max-width: 992px) { .tiers-grid { grid-template-columns: 1fr; max-width: 480px; margin-left: auto; margin-right: auto; } }
+    
+    /* ===== CALCULATOR ===== */
+    .calculator-section {
+      background: var(--bg-card-solid); border-radius: var(--radius-3xl);
+      padding: 50px; margin-bottom: 70px; border: 1px solid var(--border-subtle);
+      position: relative; overflow: hidden;
+    }
+    .calculator-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: var(--gradient-gold); opacity: 0.25; }
+    .calculator-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: start; }
+    .calculator-title { font-size: 24px; font-weight: 700; margin-bottom: 12px; font-family: var(--font-display); }
+    .calculator-subtitle { color: var(--text-secondary); margin-bottom: 28px; font-size: 14px; }
+    .input-group { margin-bottom: 22px; }
+    .input-label { display: block; margin-bottom: 8px; font-weight: 500; font-size: 13px; color: var(--text-secondary); }
+    .slider { width: 100%; height: 4px; -webkit-appearance: none; background: var(--border-subtle); border-radius: 2px; outline: none; accent-color: var(--accent-gold); }
+    .slider::-webkit-slider-thumb { -webkit-appearance: none; width: 18px; height: 18px; background: var(--accent-gold); border-radius: 50%; cursor: pointer; box-shadow: 0 0 8px rgba(214,178,94,0.4); }
+    .slider-value { display: flex; justify-content: space-between; margin-top: 6px; font-size: 11px; color: var(--text-tertiary); font-family: var(--font-mono); }
+    .input-field {
+      width: 100%; padding: 14px 16px; background: rgba(0,0,0,0.4);
+      border: 1px solid var(--border-subtle); border-radius: var(--radius-md);
+      color: #fff; font-size: 14px; font-family: var(--font-sans);
+      transition: var(--transition-fast);
+    }
+    .input-field:focus { outline: none; border-color: var(--accent-gold); }
+    
+    .results-card {
+      background: rgba(0,0,0,0.35); border-radius: var(--radius-xl);
+      padding: 28px; border: 1px solid var(--border-gold);
+    }
+    .result-item { display: flex; justify-content: space-between; padding: 14px 0; border-bottom: 1px solid var(--border-subtle); font-size: 14px; }
+    .result-item:last-child { border-bottom: none; }
+    .result-label { color: var(--text-secondary); }
+    .result-value { font-weight: 700; color: var(--accent-gold); font-size: 16px; font-family: var(--font-mono); }
+    .result-highlight { font-size: 24px; font-weight: 800; }
+    @media (max-width: 992px) { .calculator-grid { grid-template-columns: 1fr; gap: 32px; } .calculator-section { padding: 32px; } }
+    @media (max-width: 576px) { .calculator-section { padding: 20px; } }
+    
+    /* ===== WHY INVEST ===== */
+    .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 70px; }
+    .why-card {
+      text-align: center; padding: 32px 20px;
+      background: rgba(255,255,255,0.015); border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl); transition: var(--transition-medium);
+    }
+    .why-card:hover { transform: translateY(-6px); border-color: var(--border-gold); }
+    .why-icon { width: 72px; height: 72px; background: rgba(214,178,94,0.08); border-radius: var(--radius-xl); display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; font-size: 32px; color: var(--accent-gold); }
+    .why-title { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .why-text { color: var(--text-secondary); font-size: 13px; line-height: 1.6; }
+    @media (max-width: 992px) { .why-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 576px) { .why-grid { grid-template-columns: 1fr; } }
+    
+    /* ===== TERM SHEET ===== */
+    .termsheet-section {
+      background: linear-gradient(135deg, rgba(214,178,94,0.03), rgba(0,0,0,0));
+      border-radius: var(--radius-3xl); padding: 50px;
+      margin-bottom: 70px; border: 1px solid var(--border-gold);
+    }
+    .termsheet-header { text-align: center; margin-bottom: 36px; }
+    .termsheet-title { font-size: 24px; font-weight: 700; margin-bottom: 6px; font-family: var(--font-display); }
+    .termsheet-subtitle { color: var(--text-secondary); font-size: 14px; }
+    .termsheet-content { max-width: 750px; margin: 0 auto; }
+    .termsheet-item { display: flex; justify-content: space-between; align-items: center; padding: 16px 0; border-bottom: 1px solid var(--border-subtle); flex-wrap: wrap; gap: 10px; font-size: 14px; }
+    .termsheet-label { font-weight: 600; color: var(--text-secondary); min-width: 180px; }
+    .termsheet-value { font-weight: 700; color: var(--accent-gold); font-family: var(--font-mono); }
+    .termsheet-note { margin-top: 28px; padding: 18px; background: rgba(0,0,0,0.25); border-radius: var(--radius-md); font-size: 13px; color: var(--text-tertiary); text-align: center; }
+    .btn-download {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 13px 28px; background: var(--gradient-gold);
+      border: none; border-radius: 100px; font-weight: 700;
+      font-size: 14px; color: #000; cursor: pointer;
+      transition: var(--transition-fast); margin-top: 28px;
+      font-family: var(--font-sans);
+    }
+    .btn-download:hover { transform: translateY(-2px); box-shadow: var(--shadow-gold); }
+    @media (max-width: 768px) { .termsheet-section { padding: 28px; } .termsheet-item { flex-direction: column; align-items: flex-start; } }
+    
+    /* ===== CTA ===== */
+    .cta-section {
+      text-align: center; padding: 50px;
+      background: var(--gradient-dark); border-radius: var(--radius-3xl);
+      border: 1px solid var(--border-gold); margin-bottom: 40px;
+    }
+    .cta-title { font-size: 28px; font-weight: 700; margin-bottom: 12px; font-family: var(--font-display); }
+    .cta-text { color: var(--text-secondary); margin-bottom: 28px; max-width: 550px; margin-left: auto; margin-right: auto; font-size: 15px; }
+    .cta-buttons { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+    .btn-primary {
+      padding: 15px 30px; background: var(--gradient-gold);
+      border: none; border-radius: 100px; font-weight: 700;
+      font-size: 15px; color: #000; cursor: pointer;
+      transition: var(--transition-fast); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-sans);
+    }
+    .btn-primary:hover { transform: translateY(-3px); box-shadow: var(--shadow-gold); }
+    .btn-secondary {
+      padding: 15px 30px; background: transparent;
+      border: 1px solid var(--border-gold); border-radius: 100px;
+      font-weight: 700; font-size: 15px; color: var(--accent-gold);
+      cursor: pointer; transition: var(--transition-fast); text-decoration: none;
+      display: inline-flex; align-items: center; gap: 10px;
+      font-family: var(--font-sans);
+    }
+    .btn-secondary:hover { background: rgba(214,178,94,0.06); transform: translateY(-3px); }
+    @media (max-width: 576px) { .cta-section { padding: 32px 16px; } .cta-title { font-size: 24px; } }
+    
+    /* ===== AUTHORITY LINKS ===== */
+    .authority-links {
+      background: rgba(13,13,13,0.95); backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle);
+      padding: 12px 0; display: flex; justify-content: center;
+      gap: 24px; flex-wrap: wrap; margin: 40px 0 0;
+    }
+    .authority-links a { color: var(--text-tertiary); text-decoration: none; font-size: 12px; font-family: var(--font-mono); transition: color 0.2s ease; }
+    .authority-links a:hover { color: var(--accent-gold); }
+    
+    /* ===== FOOTER ===== */
+    .footer { background: var(--bg-secondary); border-top: 1px solid var(--border-subtle); padding: 50px 0 24px; }
+    .footer-content { max-width: 1400px; margin: 0 auto; padding: 0 32px; display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 40px; }
+    .footer-section h4 { font-size: 13px; font-weight: 700; margin-bottom: 16px; color: var(--accent-gold); text-transform: uppercase; letter-spacing: 1px; font-family: var(--font-mono); }
+    .footer-section ul { list-style: none; }
+    .footer-section li { margin-bottom: 10px; }
+    .footer-section a { color: var(--text-tertiary); text-decoration: none; font-size: 13px; transition: color 0.2s ease; }
+    .footer-section a:hover { color: var(--accent-gold); }
+    .footer-bottom { text-align: center; padding-top: 36px; margin-top: 36px; border-top: 1px solid var(--border-subtle); color: var(--text-tertiary); font-size: 11px; font-family: var(--font-mono); }
+    @media (max-width: 768px) { .footer-content { padding: 0 16px; gap: 28px; } }
+    
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed; bottom: 24px; right: 24px;
+      background: var(--bg-card-solid); border: 1px solid var(--border-gold);
+      border-radius: var(--radius-md); padding: 12px 18px;
+      display: flex; align-items: center; gap: 10px;
+      z-index: 2000; transform: translateX(120%);
+      transition: transform 0.3s ease; font-size: 13px;
+      box-shadow: var(--shadow-md);
+    }
+    .toast.show { transform: translateX(0); }
+    .toast.success { border-color: var(--accent-success); }
+    .toast.error { border-color: var(--accent-danger); }
+    
+    /* ===== MODAL ===== */
+    .modal-overlay {
+      position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.94); backdrop-filter: blur(10px);
+      z-index: 3000; display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden; transition: all 0.3s ease;
+    }
+    .modal-overlay.active { opacity: 1; visibility: visible; }
+    .modal {
+      background: var(--bg-card-solid); border-radius: var(--radius-2xl);
+      border: 1px solid var(--border-gold); padding: 40px;
+      max-width: 480px; width: 90%; text-align: center;
+      transform: scale(0.9); transition: transform 0.3s ease;
+    }
+    .modal-overlay.active .modal { transform: scale(1); }
+    .modal-icon { font-size: 56px; color: var(--accent-success); margin-bottom: 20px; }
+    .modal-title { font-size: 22px; font-weight: 700; margin-bottom: 10px; }
+    .modal-message { color: var(--text-secondary); margin-bottom: 28px; font-size: 14px; line-height: 1.6; }
+    .modal-close { background: var(--gradient-gold); border: none; padding: 11px 22px; border-radius: 100px; font-weight: 700; cursor: pointer; color: #000; font-size: 14px; font-family: var(--font-sans); }
+    .modal-close:hover { opacity: 0.9; }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header class="header">
+    <div class="header-content">
+      <a href="/" class="logo">
+        <div class="logo-icon"><img src="company_logo.png" alt="PrimeShieldHub Logo"></div>
+        <div class="logo-text">PRIMESHIELDHUB</div>
+      </a>
+      <div class="nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/index.html#products" class="nav-link">Products</a>
+        <a href="/wholesale" class="nav-link">Wholesale</a>
+        <a href="/reseller" class="nav-link">Reseller</a>
+        <a href="/investor-hub" class="nav-link">Investor Hub</a>
+        <a href="/equity" class="nav-link active">Equity</a>
+        <a href="/investment-form" class="nav-link">Apply</a>
+        <a href="/founder" class="nav-link">Founder</a>
+        <a href="/company" class="nav-link">Company</a>
+        <a href="https://wa.me/2348103535978" target="_blank" rel="noopener" class="nav-cta">
+          <i class="fab fa-whatsapp"></i> Chat
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      
+      <!-- Hero -->
+      <div class="hero">
+        <div class="hero-badge"><i class="fas fa-chart-line"></i> Equity Investment Opportunity</div>
+        <h1>Own a Piece of Nigeria's Future</h1>
+        <p>Become a partner in PrimeShieldHub, Nigeria's fastest-growing premium gadget company. Join us in building the future of technology retail across Africa.</p>
+      </div>
+
+      <!-- Stats Grid -->
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-value" id="statRevenue">â‚¦0</div>
+          <div class="stat-label">Lifetime Revenue</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">35%</div>
+          <div class="stat-label">Max ROI per Cycle</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">36</div>
+          <div class="stat-label">States Covered</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">850+</div>
+          <div class="stat-label">Verified Resellers</div>
+        </div>
+      </div>
+
+      <!-- Equity Tiers -->
+      <h2 class="section-title">Equity Investment Tiers</h2>
+      <p class="section-subtitle">Choose the investment level that matches your goals. Each tier offers unique benefits and equity percentages based on a â‚¦200M pre-money valuation.</p>
+
+      <div class="tiers-grid">
+        <!-- Tier 1 -->
+        <div class="tier-card">
+          <div class="tier-name">Growth Partner</div>
+          <div class="tier-price">â‚¦1,000,000<span> minimum</span></div>
+          <div class="tier-equity">~0.5% Equity</div>
+          <ul class="tier-features">
+            <li><i class="fas fa-chart-line"></i> Quarterly profit distribution</li>
+            <li><i class="fas fa-envelope"></i> Monthly investor updates</li>
+            <li><i class="fas fa-users"></i> Access to investor portal</li>
+            <li><i class="fas fa-file-alt"></i> Quarterly financial reports</li>
+          </ul>
+          <button class="tier-btn" data-tier="growth">Express Interest</button>
+        </div>
+
+        <!-- Tier 2 (Featured) -->
+        <div class="tier-card featured">
+          <div class="featured-badge">MOST POPULAR</div>
+          <div class="tier-name">Strategic Partner</div>
+          <div class="tier-price">â‚¦5,000,000<span> minimum</span></div>
+          <div class="tier-equity">~2.5% Equity</div>
+          <ul class="tier-features">
+            <li><i class="fas fa-chart-line"></i> Monthly profit distribution</li>
+            <li><i class="fas fa-envelope"></i> Weekly investor updates</li>
+            <li><i class="fas fa-users"></i> Priority investor portal access</li>
+            <li><i class="fas fa-file-alt"></i> Real-time financial dashboard</li>
+            <li><i class="fas fa-calendar-week"></i> Quarterly strategy meetings</li>
+            <li><i class="fas fa-tag"></i> 10% discount on wholesale products</li>
+          </ul>
+          <button class="tier-btn" data-tier="strategic">Express Interest</button>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="tier-card">
+          <div class="tier-name">Visionary Partner</div>
+          <div class="tier-price">â‚¦10,000,000<span> minimum</span></div>
+          <div class="tier-equity">~5% Equity</div>
+          <ul class="tier-features">
+            <li><i class="fas fa-chart-line"></i> Weekly profit distribution</li>
+            <li><i class="fas fa-envelope"></i> Daily investor updates</li>
+            <li><i class="fas fa-users"></i> Board meeting attendance</li>
+            <li><i class="fas fa-file-alt"></i> Live operational dashboard</li>
+            <li><i class="fas fa-calendar-week"></i> Weekly strategy calls</li>
+            <li><i class="fas fa-tag"></i> 20% discount on wholesale products</li>
+            <li><i class="fas fa-handshake"></i> Co-marketing opportunities</li>
+          </ul>
+          <button class="tier-btn" data-tier="visionary">Express Interest</button>
+        </div>
+      </div>
+
+      <!-- Investment Calculator -->
+      <div class="calculator-section">
+        <div class="calculator-grid">
+          <div>
+            <h3 class="calculator-title">Investment Simulator</h3>
+            <p class="calculator-subtitle">Calculate your potential returns based on investment amount and projected performance.</p>
+            
+            <div class="input-group">
+              <label class="input-label">Investment Amount (â‚¦)</label>
+              <input type="range" id="investmentSlider" class="slider" min="1000000" max="50000000" step="500000" value="5000000">
+              <div class="slider-value">
+                <span>â‚¦1M</span>
+                <span id="investmentValue" style="color:var(--accent-gold);font-weight:600;">â‚¦5,000,000</span>
+                <span>â‚¦50M</span>
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label class="input-label">Projected Annual ROI (%)</label>
+              <input type="range" id="roiSlider" class="slider" min="15" max="50" step="1" value="25">
+              <div class="slider-value">
+                <span>15%</span>
+                <span id="roiValue" style="color:var(--accent-gold);font-weight:600;">25%</span>
+                <span>50%</span>
+              </div>
+            </div>
+            
+            <div class="input-group">
+              <label class="input-label">Investment Term</label>
+              <select id="termSelect" class="input-field">
+                <option value="12">12 months (1 year)</option>
+                <option value="24" selected>24 months (2 years)</option>
+                <option value="36">36 months (3 years)</option>
+                <option value="60">60 months (5 years)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="results-card">
+            <div class="result-item">
+              <span class="result-label">Investment Amount</span>
+              <span class="result-value" id="calcAmount">â‚¦5,000,000</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Annual Return</span>
+              <span class="result-value" id="calcAnnual">â‚¦1,250,000</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Total Return (Term)</span>
+              <span class="result-value result-highlight" id="calcTotal">â‚¦7,500,000</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Equity Stake (Est.)</span>
+              <span class="result-value" id="calcEquity">~2.5%</span>
+            </div>
+            <div class="result-item">
+              <span class="result-label">Implied Valuation</span>
+              <span class="result-value" id="calcValuation">â‚¦200M</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Why Invest -->
+      <h2 class="section-title">Why Invest in PrimeShieldHub?</h2>
+      <p class="section-subtitle">We're building the future of technology retail in Nigeria with verified traction and scalable operations.</p>
+
+      <div class="why-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-chart-line"></i></div>
+          <h3 class="why-title">High Growth Market</h3>
+          <p class="why-text">Nigeria's premium gadget market is growing at 25% annually. Position yourself at the forefront of this expansion.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3 class="why-title">Verified Operations</h3>
+          <p class="why-text">Registered with CAC Nigeria (RC 9283954). All investments documented with proper legal framework and transparent reporting.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-users"></i></div>
+          <h3 class="why-title">Experienced Leadership</h3>
+          <p class="why-text">Led by Freedom Evbakoe Amenaghawon, a multi-disciplinary entrepreneur with expertise across technology, data, and commerce.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-globe"></i></div>
+          <h3 class="why-title">Nationwide Reach</h3>
+          <p class="why-text">Serving customers across all 36 states with reliable logistics and delivery infrastructure.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-robot"></i></div>
+          <h3 class="why-title">Technology Advantage</h3>
+          <p class="why-text">AI-powered inventory management, real-time analytics, and automated customer experience optimization.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-handshake"></i></div>
+          <h3 class="why-title">Clear Exit Path</h3>
+          <p class="why-text">Defined exit strategy including acquisition opportunities, regional expansion, or secondary market after 3-5 years.</p>
+        </div>
+      </div>
+
+      <!-- Term Sheet Preview -->
+      <div class="termsheet-section">
+        <div class="termsheet-header">
+          <h3 class="termsheet-title">Sample Term Sheet</h3>
+          <p class="termsheet-subtitle">Key terms for a strategic partnership â€” dynamically updated with your inputs</p>
+        </div>
+        <div class="termsheet-content">
+          <div class="termsheet-item">
+            <span class="termsheet-label">Investment Amount</span>
+            <span class="termsheet-value" id="termsheetAmount">â‚¦5,000,000</span>
+          </div>
+          <div class="termsheet-item">
+            <span class="termsheet-label">Equity Stake</span>
+            <span class="termsheet-value" id="termsheetEquity">~2.5%</span>
+          </div>
+          <div class="termsheet-item">
+            <span class="termsheet-label">Pre-Money Valuation</span>
+            <span class="termsheet-value">â‚¦200,000,000</span>
+          </div>
+          <div class="termsheet-item">
+            <span class="termsheet-label">Profit Distribution</span>
+            <span class="termsheet-value" id="termsheetDist">Monthly</span>
+          </div>
+          <div class="termsheet-item">
+            <span class="termsheet-label">Lock-up Period</span>
+            <span class="termsheet-value">12 months</span>
+          </div>
+          <div class="termsheet-item">
+            <span class="termsheet-label">Board Observer Rights</span>
+            <span class="termsheet-value">Yes (for â‰¥â‚¦5M investments)</span>
+          </div>
+          <div class="termsheet-item">
+            <span class="termsheet-label">Information Rights</span>
+            <span class="termsheet-value">Quarterly reports + real-time dashboard</span>
+          </div>
+          <div class="termsheet-item">
+            <span class="termsheet-label">Anti-Dilution Protection</span>
+            <span class="termsheet-value">Full ratchet for 24 months</span>
+          </div>
+          <div class="termsheet-note">
+            <i class="fas fa-file-contract"></i> This is a sample term sheet for illustration. Final terms will be negotiated based on due diligence and investment amount. Download the full summary below.
+          </div>
+          <div style="text-align:center;">
+            <button class="btn-download" id="downloadTermSheetBtn">
+              <i class="fas fa-download"></i> Download Term Sheet Summary
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Call to Action -->
+      <div class="cta-section">
+        <h3 class="cta-title">Ready to Partner With Us?</h3>
+        <p class="cta-text">Schedule a confidential discussion with our investment team to explore equity opportunities tailored to your goals.</p>
+        <div class="cta-buttons">
+          <a href="/investment-form?type=equity" class="btn-primary">
+            <i class="fas fa-hand-holding-usd"></i> Start Investment Application
+          </a>
+          <a href="/investor-hub" class="btn-secondary">
+            <i class="fas fa-chart-pie"></i> View Investor Hub
+          </a>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Authority Links Bar -->
+  <div class="authority-links">
+    <a href="/freedom-evbakoe-amenaghawon">Personal Profile</a>
+    <a href="/biography">Official Biography</a>
+    <a href="/founder">Founder Profile</a>
+    <a href="/company">Company Overview</a>
+    <a href="/leadership">Leadership</a>
+    <a href="/knowledge-graph">Knowledge Graph</a>
+    <a href="/media-kit">Media Kit</a>
+    <a href="/press">Press Center</a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>PrimeShieldHub</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/index.html#products">Products</a></li>
+          <li><a href="/wholesale">Wholesale</a></li>
+          <li><a href="/reseller">Reseller Program</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Investors</h4>
+        <ul>
+          <li><a href="/equity">Equity Investment</a></li>
+          <li><a href="/investment-form">Investment Application</a></li>
+          <li><a href="/investor-hub">Investor Hub</a></li>
+          <li><a href="/loan">Loan Investment</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/founder">Founder Profile</a></li>
+          <li><a href="/company">Company Overview</a></li>
+          <li><a href="/biography">Official Biography</a></li>
+          <li><a href="/leadership">Leadership</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:ceo@primeshieldhub.com">ceo@primeshieldhub.com</a></li>
+          <li><a href="tel:+2348103535978">+234 810 353 5978</a></li>
+          <li><a href="https://wa.me/2348103535978" target="_blank" rel="noopener">WhatsApp Support</a></li>
+          <li style="color:var(--text-tertiary);">Benin City, Nigeria</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; <span id="currentYear"></span> PrimeShieldHub Gadgets Limited. Registered with CAC Nigeria (RC 9283954). All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Toast -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Modal -->
+  <div class="modal-overlay" id="interestModal">
+    <div class="modal">
+      <div class="modal-icon"><i class="fas fa-check-circle"></i></div>
+      <div class="modal-title">Interest Registered!</div>
+      <div class="modal-message" id="modalMessage"></div>
+      <button class="modal-close" onclick="document.getElementById('interestModal').classList.remove('active')">Close</button>
+    </div>
+  </div>
+
+  <script type="module" src="../js/auth-storage.js"></script></script>
+
+  <script>
+    (function() {
+      'use strict';
+
+      const API_BASE = 'https://api.primeshieldhub.com/api';
+
+      // ==================== FORMATTERS ====================
+      function formatCurrency(amount) {
+        return 'â‚¦' + Math.round(amount).toLocaleString('en-NG');
+      }
+
+      function formatCompact(amount) {
+        if (amount >= 1000000000) return 'â‚¦' + (amount / 1000000000).toFixed(1) + 'B';
+        if (amount >= 1000000) return 'â‚¦' + (amount / 1000000).toFixed(0) + 'M';
+        return 'â‚¦' + Math.round(amount).toLocaleString('en-NG');
+      }
+
+      // ==================== DOM REFS ====================
+      const investmentSlider = document.getElementById('investmentSlider');
+      const roiSlider = document.getElementById('roiSlider');
+      const termSelect = document.getElementById('termSelect');
+      const investmentValue = document.getElementById('investmentValue');
+      const roiValue = document.getElementById('roiValue');
+      const calcAmount = document.getElementById('calcAmount');
+      const calcAnnual = document.getElementById('calcAnnual');
+      const calcTotal = document.getElementById('calcTotal');
+      const calcEquity = document.getElementById('calcEquity');
+      const calcValuation = document.getElementById('calcValuation');
+      const termsheetAmount = document.getElementById('termsheetAmount');
+      const termsheetEquity = document.getElementById('termsheetEquity');
+      const termsheetDist = document.getElementById('termsheetDist');
+      const statRevenue = document.getElementById('statRevenue');
+
+      const PRE_MONEY_VALUATION = 200000000; // â‚¦200M
+
+      // ==================== CALCULATOR ====================
+      function calculateEquity(amount) {
+        const equity = (amount / PRE_MONEY_VALUATION) * 100;
+        return Math.min(equity, 10).toFixed(1);
+      }
+
+      function updateCalculator() {
+        const amount = parseFloat(investmentSlider.value) || 5000000;
+        const roiPercent = parseFloat(roiSlider.value) || 25;
+        const termMonths = parseInt(termSelect.value) || 24;
+
+        const annualReturn = amount * (roiPercent / 100);
+        const totalReturn = amount + (annualReturn * (termMonths / 12));
+        const equity = calculateEquity(amount);
+
+        investmentValue.textContent = formatCurrency(amount);
+        roiValue.textContent = roiPercent + '%';
+        calcAmount.textContent = formatCurrency(amount);
+        calcAnnual.textContent = formatCurrency(annualReturn);
+        calcTotal.textContent = formatCurrency(totalReturn);
+        calcEquity.textContent = '~' + equity + '%';
+        calcValuation.textContent = formatCompact(PRE_MONEY_VALUATION);
+
+        // Update term sheet
+        termsheetAmount.textContent = formatCurrency(amount);
+        termsheetEquity.textContent = '~' + equity + '%';
+
+        // Update distribution frequency based on amount
+        if (amount >= 10000000) {
+          termsheetDist.textContent = 'Weekly';
+        } else if (amount >= 5000000) {
+          termsheetDist.textContent = 'Monthly';
+        } else {
+          termsheetDist.textContent = 'Quarterly';
+        }
+      }
+
+      if (investmentSlider) investmentSlider.addEventListener('input', updateCalculator);
+      if (roiSlider) roiSlider.addEventListener('input', updateCalculator);
+      if (termSelect) termSelect.addEventListener('change', updateCalculator);
+
+      // ==================== TIER SELECTION ====================
+      function selectTier(tier) {
+        let amount = 5000000;
+        if (tier === 'growth') amount = 1000000;
+        if (tier === 'strategic') amount = 5000000;
+        if (tier === 'visionary') amount = 10000000;
+
+        if (investmentSlider) {
+          investmentSlider.value = amount;
+          updateCalculator();
+        }
+        showToast('Selected tier: ' + tier.charAt(0).toUpperCase() + tier.slice(1) + ' Partner â€” â‚¦' + amount.toLocaleString('en-NG'), false);
+
+        // Scroll to calculator
+        const calcSection = document.querySelector('.calculator-section');
+        if (calcSection) {
+          calcSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }
+
+      // ==================== TOAST ====================
+      function showToast(message, isError) {
+        const toast = document.getElementById('toast');
+        if (!toast) return;
+        toast.innerHTML = '<i class="fas fa-' + (isError ? 'exclamation-circle' : 'check-circle') + '"></i> ' + message;
+        toast.className = 'toast ' + (isError ? 'error' : 'success') + ' show';
+        clearTimeout(toast._timeout);
+        toast._timeout = setTimeout(function() { toast.classList.remove('show'); }, 4000);
+      }
+
+      // ==================== DOWNLOAD TERM SHEET ====================
+      function downloadTermSheet() {
+        const amount = parseFloat(investmentSlider.value) || 5000000;
+        const equity = calculateEquity(amount);
+        const roiPercent = parseFloat(roiSlider.value) || 25;
+
+        const content = [
+          'â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•',
+          '  PRIMESHIELDHUB EQUITY INVESTMENT',
+          '  TERM SHEET SUMMARY',
+          'â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•',
+          '',
+          'Date: ' + new Date().toLocaleDateString('en-NG', { year: 'numeric', month: 'long', day: 'numeric' }),
+          'Reference: EQUITY-' + Date.now().toString(36).toUpperCase(),
+          '',
+          'â”€â”€â”€ INVESTMENT TERMS â”€â”€â”€',
+          'Investment Amount: ' + formatCurrency(amount),
+          'Equity Stake: ~' + equity + '%',
+          'Pre-Money Valuation: ' + formatCompact(PRE_MONEY_VALUATION),
+          'Projected Annual ROI: ' + roiPercent + '%',
+          '',
+          'â”€â”€â”€ INVESTOR RIGHTS â”€â”€â”€',
+          'â€¢ Profit Distribution: ' + (amount >= 10000000 ? 'Weekly' : amount >= 5000000 ? 'Monthly' : 'Quarterly'),
+          'â€¢ Information Rights: Quarterly financial reports',
+          'â€¢ Board Observer: ' + (amount >= 5000000 ? 'Yes' : 'Available at board discretion'),
+          'â€¢ Anti-Dilution: Full ratchet for 24 months',
+          '',
+          'â”€â”€â”€ EXIT PROVISIONS â”€â”€â”€',
+          'â€¢ Lock-up Period: 12 months',
+          'â€¢ Exit Options: Acquisition, Regional Expansion, Secondary Market',
+          'â€¢ Tag-Along Rights: Yes',
+          '',
+          'â”€â”€â”€ COMPANY DETAILS â”€â”€â”€',
+          'PrimeShieldHub Gadgets Limited',
+          'RC 9283954 | TIN: 2621297539968',
+          'Benin City, Edo State, Nigeria',
+          'primeshieldhub@gmail.com | +234 810 353 5978',
+          '',
+          'NOTE: This is a non-binding summary for',
+          'illustration purposes. Final terms subject to',
+          'due diligence and definitive agreement.',
+          'â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•'
+        ].join('\n');
+
+        const blob = new Blob([content], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'PrimeShieldHub_Equity_TermSheet_' + new Date().toISOString().split('T')[0] + '.txt';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        showToast('Term sheet summary downloaded', false);
+      }
+
+      // ==================== LOAD LIVE DATA ====================
+      async function loadLiveRevenue() {
+        try {
+          const fingerprint = await (async () => {
+            try {
+              const d = [navigator.userAgent||'', navigator.language||'', screen.width+'x'+screen.height, screen.colorDepth||'', new Date().getTimezoneOffset(), navigator.hardwareConcurrency||''].join('|');
+              let h = 0; for (let i = 0; i < d.length; i++) { h = ((h << 5) - h) + d.charCodeAt(i); h |= 0; }
+              return Math.abs(h).toString(36) + Date.now().toString(36);
+            } catch(e) { return 'fp-' + Date.now(); }
+          })();
+
+          const resp = await fetch(API_BASE + '/investor/stats', {
+            headers: { 'x-device-fingerprint': fingerprint }
+          });
+          if (resp.ok) {
+            const data = await resp.json();
+            if (data.totalRevenue !== undefined && statRevenue) {
+              statRevenue.textContent = formatCompact(data.totalRevenue);
+            }
+          }
+        } catch(e) {
+          // Silent fail â€” keep default display
+        }
+      }
+
+      // ==================== EVENT BINDINGS ====================
+      document.querySelectorAll('.tier-btn').forEach(function(btn) {
+        btn.addEventListener('click', function(e) {
+          e.preventDefault();
+          e.stopPropagation();
+          const tier = this.getAttribute('data-tier');
+          if (tier) {
+            selectTier(tier);
+            // Show modal after selection
+            setTimeout(function() {
+              const modal = document.getElementById('interestModal');
+              const msg = document.getElementById('modalMessage');
+              const amount = parseFloat(investmentSlider.value) || 5000000;
+              const tierNames = { growth: 'Growth Partner', strategic: 'Strategic Partner', visionary: 'Visionary Partner' };
+              msg.innerHTML = 'Thank you for your interest in the <strong>' + (tierNames[tier] || tier) + '</strong> tier!<br><br>Investment Amount: <strong>' + formatCurrency(amount) + '</strong><br>Equity Stake: <strong>~' + calculateEquity(amount) + '%</strong><br><br>Our investment team will contact you within 24 hours to discuss the opportunity.<br><br><a href="/investment-form?type=equity&amount=' + amount + '" style="color:#e8c97a;font-weight:700;">â†’ Complete Full Application</a>';
+              modal.classList.add('active');
+            }, 400);
+          }
+        });
+      });
+
+      document.getElementById('downloadTermSheetBtn').addEventListener('click', downloadTermSheet);
+
+      // ==================== INIT ====================
+      function init() {
+        document.getElementById('currentYear').textContent = new Date().getFullYear();
+        updateCalculator();
+        loadLiveRevenue();
+
+        // Pre-fill from URL params if coming from another page
+        const params = new URLSearchParams(window.location.search);
+        if (params.get('amount')) {
+          const amt = parseFloat(params.get('amount'));
+          if (amt >= 1000000 && amt <= 50000000 && investmentSlider) {
+            investmentSlider.value = amt;
+            updateCalculator();
+          }
+        }
+      }
+
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+      } else {
+        init();
+      }
+    })();
+  </script>
+</body>
+</html>
+

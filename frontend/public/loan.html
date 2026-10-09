@@ -1,0 +1,1327 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="10.0.0">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <meta name="description" content="PrimeShieldHub Quantum Loan Services – Quick business & gadget financing with AI-powered approval">
+  <meta name="theme-color" content="#0b0b0d">
+  
+  <!-- Canonical URL (Clean URL - no .html) -->
+  <link rel="canonical" href="https://primeshieldhub.com/loan">
+  
+  <title>PrimeShieldHub | Quantum Loan Services – Business & Gadget Financing</title>
+  
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Three.js for 3D background -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+      }
+    }
+  </script>
+  
+  <style>
+    /* ===========================================
+       QUANTUM LOAN THEME
+    =========================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-deep: #010105;
+      --surface-dark: rgba(8, 12, 25, 0.75);
+      --glass-edge: rgba(0, 247, 255, 0.25);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --gold-core: #d6b25e;
+      --gold-glow: #f3d27b;
+      --accent-success: #33ffaa;
+      --accent-danger: #ff3366;
+      --text-primary: #f0f3ff;
+      --text-secondary: #9ca3cf;
+      --gradient-primary: linear-gradient(135deg, #d6b25e, #f3d27b);
+      --gradient-cyan: linear-gradient(135deg, #00f7ff, #0099cc);
+      --shadow-glow: 0 0 20px rgba(214, 178, 94, 0.3);
+      --radius-card: 2rem;
+      --radius-md: 1rem;
+      --radius-sm: 0.75rem;
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    body {
+      font-family: 'Inter', 'Space Grotesk', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    #quantum-bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    .quantum-grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(214, 178, 94, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(214, 178, 94, 0.05) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+      animation: gridShift 20s linear infinite;
+    }
+
+    @keyframes gridShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    /* Header */
+    .quantum-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(8, 12, 25, 0.95);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(214, 178, 94, 0.2);
+      z-index: 1000;
+      padding: 1rem 2rem;
+    }
+
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-primary);
+      border-radius: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: 900;
+      color: #000;
+    }
+
+    .logo-text {
+      font-size: 1.5rem;
+      font-weight: 800;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      transition: var(--transition-smooth);
+      font-weight: 500;
+    }
+
+    .nav-link:hover {
+      color: var(--gold-core);
+    }
+
+    .nav-link.active {
+      color: var(--gold-core);
+    }
+
+    /* Main Container */
+    .quantum-container {
+      padding-top: 100px;
+      padding-bottom: 2rem;
+      min-height: 100vh;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* Hero Section */
+    .hero-section {
+      text-align: center;
+      margin-bottom: 4rem;
+      animation: floatIn 0.8s ease-out;
+    }
+
+    .hero-title {
+      font-size: 3.5rem;
+      font-weight: 900;
+      background: var(--gradient-primary);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 1rem;
+      line-height: 1.2;
+    }
+
+    .hero-subtitle {
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Stats Row */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 2rem;
+      margin-bottom: 4rem;
+    }
+
+    .stat-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(214, 178, 94, 0.15);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      text-align: center;
+      transition: var(--transition-smooth);
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--gold-core);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .stat-value {
+      font-size: 2.5rem;
+      font-weight: 900;
+      color: var(--gold-core);
+      font-family: 'Orbitron', monospace;
+    }
+
+    .stat-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+    }
+
+    /* Main Grid */
+    .loan-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    @media (max-width: 992px) {
+      .loan-grid {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+      }
+    }
+
+    /* Loan Application Form */
+    .loan-form-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(214, 178, 94, 0.15);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+    }
+
+    .form-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--gold-core);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.25rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(214, 178, 94, 0.2);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem 1rem;
+      color: white;
+      font-size: 1rem;
+      transition: var(--transition-smooth);
+    }
+
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--gold-core);
+      box-shadow: 0 0 0 3px rgba(214, 178, 94, 0.1);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 576px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Loan Offers */
+    .loan-offers-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(214, 178, 94, 0.15);
+      border-radius: var(--radius-card);
+      padding: 2rem;
+    }
+
+    .offer-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(214, 178, 94, 0.1);
+      border-radius: var(--radius-md);
+      padding: 1.5rem;
+      margin-bottom: 1rem;
+      transition: var(--transition-smooth);
+      cursor: pointer;
+    }
+
+    .offer-item:hover {
+      border-color: var(--gold-core);
+      transform: translateX(5px);
+    }
+
+    .offer-item.selected {
+      border-color: var(--gold-core);
+      background: rgba(214, 178, 94, 0.1);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .offer-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    .offer-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: var(--gold-core);
+    }
+
+    .offer-badge {
+      background: rgba(214, 178, 94, 0.15);
+      padding: 0.25rem 0.75rem;
+      border-radius: 2rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+      color: var(--gold-core);
+    }
+
+    .offer-details {
+      display: flex;
+      gap: 1.5rem;
+      flex-wrap: wrap;
+      margin-bottom: 1rem;
+    }
+
+    .offer-detail {
+      flex: 1;
+    }
+
+    .offer-detail-label {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    .offer-detail-value {
+      font-size: 1rem;
+      font-weight: 700;
+      color: white;
+    }
+
+    .interest-badge {
+      font-size: 0.8rem;
+      color: var(--accent-success);
+    }
+
+    /* Eligibility Checker */
+    .eligibility-section {
+      margin-top: 2rem;
+      padding: 1.5rem;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: var(--radius-md);
+    }
+
+    .eligibility-result {
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      margin-top: 1rem;
+      display: none;
+    }
+
+    .eligibility-result.eligible {
+      background: rgba(51, 255, 170, 0.1);
+      border: 1px solid var(--accent-success);
+      color: var(--accent-success);
+      display: block;
+    }
+
+    .eligibility-result.not-eligible {
+      background: rgba(255, 51, 102, 0.1);
+      border: 1px solid var(--accent-danger);
+      color: var(--accent-danger);
+      display: block;
+    }
+
+    /* Slider */
+    .slider-container {
+      margin: 1rem 0;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      -webkit-appearance: none;
+      background: rgba(255, 255, 255, 0.1);
+      border-radius: 3px;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 20px;
+      height: 20px;
+      background: var(--gold-core);
+      border-radius: 50%;
+      cursor: pointer;
+      box-shadow: 0 0 10px var(--gold-core);
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 0.5rem;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+    }
+
+    /* Buttons */
+    .btn-primary {
+      width: 100%;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 1rem;
+      font-weight: 700;
+      font-size: 1rem;
+      color: #000;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-glow);
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-secondary {
+      width: 100%;
+      background: transparent;
+      border: 1px solid var(--gold-core);
+      border-radius: var(--radius-sm);
+      padding: 0.85rem;
+      font-weight: 600;
+      color: var(--gold-core);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      margin-top: 1rem;
+    }
+
+    .btn-secondary:hover {
+      background: rgba(214, 178, 94, 0.1);
+    }
+
+    /* Success Modal */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .modal {
+      background: var(--surface-dark);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--gold-core);
+      padding: 2rem;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+
+    .modal-overlay.active .modal {
+      transform: scale(1);
+    }
+
+    .modal-icon {
+      font-size: 4rem;
+      color: var(--accent-success);
+      margin-bottom: 1rem;
+    }
+
+    .modal-title {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-message {
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .modal-close {
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.75rem 1.5rem;
+      font-weight: 700;
+      color: #000;
+      cursor: pointer;
+    }
+
+    /* Authority Links Bar */
+    .authority-links {
+      background: rgba(8, 12, 25, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(214, 178, 94, 0.2);
+      padding: 1rem 0;
+      margin-top: 4rem;
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+
+    .authority-links a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.8rem;
+      transition: var(--transition-smooth);
+    }
+
+    .authority-links a:hover {
+      color: var(--gold-core);
+    }
+
+    /* Footer */
+    .footer {
+      background: rgba(8, 12, 25, 0.95);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 2rem 0;
+      text-align: center;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+    }
+
+    /* Loading Spinner */
+    .loading-spinner {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+      border: 2px solid rgba(0, 0, 0, 0.3);
+      border-radius: 50%;
+      border-top-color: #000;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--gold-core);
+      border-radius: 2rem;
+      padding: 1rem 2rem;
+      color: var(--gold-core);
+      z-index: 2001;
+      animation: slideIn 0.3s ease;
+      display: none;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(100%); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .hero-title {
+        font-size: 2.5rem;
+      }
+      .container {
+        padding: 0 1rem;
+      }
+      .quantum-header {
+        padding: 0.75rem 1rem;
+      }
+      .nav-links {
+        gap: 0.75rem;
+      }
+      .nav-link {
+        font-size: 0.85rem;
+      }
+      .loan-form-card, .loan-offers-card {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <canvas id="quantum-bg-canvas"></canvas>
+  <div class="quantum-grid-overlay"></div>
+
+  <!-- Header -->
+  <header class="quantum-header">
+    <div class="header-content">
+      <div class="logo">
+        <div class="logo-icon">₦</div>
+        <div class="logo-text">PrimeShieldHub Loans</div>
+      </div>
+      <div class="nav-links">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/loan" class="nav-link active">Loans</a>
+        <a href="/wholesale" class="nav-link">Wholesale</a>
+        <a href="/reseller" class="nav-link">Reseller</a>
+        <a href="/founder" class="nav-link">Founder</a>
+        <a href="/company" class="nav-link">Company</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="quantum-container">
+    <div class="container">
+      <!-- Hero Section -->
+      <div class="hero-section">
+        <h1 class="hero-title">Quantum Loan Services</h1>
+        <p class="hero-subtitle">
+          Instant financing for businesses and premium gadgets. AI-powered approval, 
+          competitive rates, and flexible repayment terms.
+        </p>
+      </div>
+
+      <!-- Stats Row -->
+      <div class="stats-row">
+        <div class="stat-card">
+          <div class="stat-value">₦50M+</div>
+          <div class="stat-label">Loans Disbursed</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">2,500+</div>
+          <div class="stat-label">Happy Borrowers</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">98%</div>
+          <div class="stat-label">Approval Rate</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-value">24h</div>
+          <div class="stat-label">Average Payout</div>
+        </div>
+      </div>
+
+      <!-- Main Grid -->
+      <div class="loan-grid">
+        <!-- Loan Application Form -->
+        <div class="loan-form-card">
+          <div class="form-title">
+            <i class="fas fa-file-invoice"></i>
+            Apply for Loan
+          </div>
+
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="fullName" placeholder="Enter your full name">
+          </div>
+
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" id="email" placeholder="you@example.com">
+          </div>
+
+          <div class="form-group">
+            <label>Phone Number</label>
+            <input type="tel" id="phone" placeholder="+234 XXX XXX XXX">
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label>Loan Amount (₦)</label>
+              <input type="number" id="loanAmount" min="10000" max="10000000" value="500000" step="10000">
+            </div>
+            <div class="form-group">
+              <label>Tenure (Months)</label>
+              <select id="tenure">
+                <option value="3">3 months</option>
+                <option value="6" selected>6 months</option>
+                <option value="12">12 months</option>
+                <option value="24">24 months</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label>Loan Purpose</label>
+            <select id="loanPurpose">
+              <option value="gadget">Purchase Gadgets/Equipment</option>
+              <option value="business">Business Expansion</option>
+              <option value="inventory">Inventory/Stock Purchase</option>
+              <option value="reseller">Reseller Program Enrollment</option>
+              <option value="other">Other Business Needs</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Monthly Income (₦)</label>
+            <input type="number" id="monthlyIncome" min="0" value="500000" step="50000">
+          </div>
+
+          <div class="form-group">
+            <label>Business/Employment Type</label>
+            <select id="employmentType">
+              <option value="employed">Employed (Salaried)</option>
+              <option value="self-employed">Self-Employed</option>
+              <option value="business">Business Owner</option>
+              <option value="reseller">PrimeShieldHub Reseller</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Additional Notes (Optional)</label>
+            <textarea id="notes" rows="3" placeholder="Any additional information about your loan request..."></textarea>
+          </div>
+
+          <div class="eligibility-section">
+            <div class="form-title" style="font-size: 1.1rem;">
+              <i class="fas fa-chart-line"></i>
+              Check Eligibility
+            </div>
+            <button class="btn-secondary" id="checkEligibilityBtn">
+              <i class="fas fa-search"></i> Check Eligibility
+            </button>
+            <div id="eligibilityResult" class="eligibility-result"></div>
+          </div>
+
+          <button class="btn-primary" id="applyLoanBtn">
+            <i class="fas fa-paper-plane"></i> Submit Application
+          </button>
+        </div>
+
+        <!-- Loan Offers -->
+        <div class="loan-offers-card">
+          <div class="form-title">
+            <i class="fas fa-tag"></i>
+            Available Loan Offers
+          </div>
+          <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">
+            Based on your profile, these offers are available
+          </p>
+
+          <div id="loanOffersList">
+            <div class="offer-item" data-offer="standard">
+              <div class="offer-header">
+                <span class="offer-name">Standard Business Loan</span>
+                <span class="offer-badge">Most Popular</span>
+              </div>
+              <div class="offer-details">
+                <div class="offer-detail">
+                  <div class="offer-detail-label">Amount Range</div>
+                  <div class="offer-detail-value">₦100k - ₦5M</div>
+                </div>
+                <div class="offer-detail">
+                  <div class="offer-detail-label">Interest Rate</div>
+                  <div class="offer-detail-value interest-badge">18% p.a.</div>
+                </div>
+                <div class="offer-detail">
+                  <div class="offer-detail-label">Processing Fee</div>
+                  <div class="offer-detail-value">1.5%</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="offer-item" data-offer="gadget">
+              <div class="offer-header">
+                <span class="offer-name">Gadget Financing</span>
+                <span class="offer-badge">Zero Down Payment</span>
+              </div>
+              <div class="offer-details">
+                <div class="offer-detail">
+                  <div class="offer-detail-label">Amount Range</div>
+                  <div class="offer-detail-value">₦50k - ₦2M</div>
+                </div>
+                <div class="offer-detail">
+                  <div class="offer-detail-label">Interest Rate</div>
+                  <div class="offer-detail-value interest-badge">12% p.a.</div>
+                </div>
+                <div class="offer-detail">
+                  <div class="offer-detail-label">Processing Fee</div>
+                  <div class="offer-detail-value">1%</div>
+                </div>
+              </div>
+            </div>
+
+            <div class="offer-item" data-offer="premium">
+              <div class="offer-header">
+                <span class="offer-name">Premium Reseller Loan</span>
+                <span class="offer-badge">Special Offer</span>
+              </div>
+              <div class="offer-details">
+                <div class="offer-detail">
+                  <div class="offer-detail-label">Amount Range</div>
+                  <div class="offer-detail-value">₦500k - ₦10M</div>
+                </div>
+                <div class="offer-detail">
+                  <div class="offer-detail-label">Interest Rate</div>
+                  <div class="offer-detail-value interest-badge">15% p.a.</div>
+                </div>
+                <div class="offer-detail">
+                  <div class="offer-detail-label">Processing Fee</div>
+                  <div class="offer-detail-value">0.5%</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="selectedOfferInfo" style="margin-top: 1rem; padding: 1rem; background: rgba(214, 178, 94, 0.05); border-radius: var(--radius-sm); display: none;">
+            <div style="font-size: 0.8rem; color: var(--gold-core);">Selected Offer</div>
+            <div id="selectedOfferName" style="font-weight: 700;"></div>
+            <div id="selectedOfferDetails" style="font-size: 0.8rem; color: var(--text-secondary);"></div>
+          </div>
+
+          <div class="form-group" style="margin-top: 1.5rem;">
+            <label>Calculate Your EMI</label>
+            <div class="slider-container">
+              <input type="range" id="emiAmount" min="10000" max="10000000" value="500000" step="10000">
+              <div class="slider-labels">
+                <span>₦10k</span>
+                <span>₦5M</span>
+                <span>₦10M</span>
+              </div>
+            </div>
+          </div>
+
+          <div id="emiResult" style="background: rgba(0,0,0,0.3); border-radius: var(--radius-sm); padding: 1rem; text-align: center;">
+            <div style="font-size: 0.8rem; color: var(--text-secondary);">Estimated Monthly Payment</div>
+            <div id="emiValue" style="font-size: 1.8rem; font-weight: 900; color: var(--gold-core);">₦0</div>
+            <div id="emiTenure" style="font-size: 0.75rem; color: var(--text-secondary);">over 6 months</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Authority Links Bar -->
+  <div class="authority-links">
+    <a href="/freedom-evbakoe-amenaghawon">Personal Profile</a>
+    <a href="/biography">Official Biography</a>
+    <a href="/founder">Corporate Founder Profile</a>
+    <a href="/company">Company Overview</a>
+    <a href="/leadership">Leadership</a>
+    <a href="/knowledge-graph">Knowledge Graph</a>
+    <a href="/media-kit">Media Kit</a>
+    <a href="/press">Press Center</a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <p>© 2026 PrimeShieldHub Loan Services | Powered by Quantum Financial Systems</p>
+      <p style="margin-top: 0.5rem; font-size: 0.7rem;">Loan products offered in partnership with licensed financial institutions. Terms and conditions apply.</p>
+    </div>
+  </footer>
+
+  <!-- Success Modal -->
+  <div class="modal-overlay" id="successModal">
+    <div class="modal">
+      <div class="modal-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+      <div class="modal-title">Application Submitted!</div>
+      <div class="modal-message" id="modalMessage">
+        Your loan application has been received. A loan officer will contact you within 24 hours.
+      </div>
+      <button class="modal-close" onclick="closeModal()">Close</button>
+    </div>
+  </div>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    // ==================== API CONFIGURATION ====================
+    const API_BASE = 'https://api.primeshieldhub.com/api';
+    
+    // ==================== DOM ELEMENTS ====================
+    const loanAmount = document.getElementById('loanAmount');
+    const tenure = document.getElementById('tenure');
+    const monthlyIncome = document.getElementById('monthlyIncome');
+    const emiAmount = document.getElementById('emiAmount');
+    const emiValue = document.getElementById('emiValue');
+    const emiTenure = document.getElementById('emiTenure');
+    const applyBtn = document.getElementById('applyLoanBtn');
+    const checkEligibilityBtn = document.getElementById('checkEligibilityBtn');
+    const eligibilityResult = document.getElementById('eligibilityResult');
+    const loanOffersList = document.getElementById('loanOffersList');
+    const selectedOfferInfo = document.getElementById('selectedOfferInfo');
+    const selectedOfferName = document.getElementById('selectedOfferName');
+    const selectedOfferDetails = document.getElementById('selectedOfferDetails');
+    const toast = document.getElementById('toast');
+    
+    let selectedOffer = 'standard';
+    
+    // ==================== UTILITY FUNCTIONS ====================
+    function showToast(message, isError = false) {
+      toast.textContent = message;
+      toast.style.borderColor = isError ? '#ff3366' : '#d6b25e';
+      toast.style.color = isError ? '#ff3366' : '#d6b25e';
+      toast.style.display = 'block';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 4000);
+    }
+    
+    function showModal(message) {
+      const modal = document.getElementById('successModal');
+      const modalMessage = document.getElementById('modalMessage');
+      modalMessage.textContent = message;
+      modal.classList.add('active');
+    }
+    
+    function closeModal() {
+      const modal = document.getElementById('successModal');
+      modal.classList.remove('active');
+    }
+    
+    window.closeModal = closeModal;
+    
+    // Format currency
+    function formatCurrency(amount) {
+      return '₦' + Number(amount).toLocaleString('en-NG', { minimumFractionDigits: 0 });
+    }
+    
+    // Calculate EMI
+    function calculateEMI(principal, rate, months) {
+      const monthlyRate = rate / 12 / 100;
+      const emi = principal * monthlyRate * Math.pow(1 + monthlyRate, months) / (Math.pow(1 + monthlyRate, months) - 1);
+      return isNaN(emi) ? principal / months : emi;
+    }
+    
+    // Update EMI calculation
+    function updateEMI() {
+      const amount = parseFloat(emiAmount.value) || 0;
+      const months = parseInt(tenure.value) || 6;
+      let rate = 18; // Default rate
+      
+      if (selectedOffer === 'gadget') rate = 12;
+      else if (selectedOffer === 'premium') rate = 15;
+      else rate = 18;
+      
+      const emi = calculateEMI(amount, rate, months);
+      emiValue.textContent = formatCurrency(Math.round(emi));
+      emiTenure.textContent = `over ${months} months at ${rate}% p.a.`;
+    }
+    
+    // Check eligibility
+    function checkEligibility() {
+      const income = parseFloat(monthlyIncome.value) || 0;
+      const amount = parseFloat(loanAmount.value) || 0;
+      
+      if (income === 0) {
+        eligibilityResult.innerHTML = 'Please enter your monthly income to check eligibility.';
+        eligibilityResult.className = 'eligibility-result not-eligible';
+        return;
+      }
+      
+      const maxLoanAmount = income * 12;
+      const isEligible = amount <= maxLoanAmount && income >= 30000;
+      
+      if (isEligible) {
+        const maxAmount = Math.floor(maxLoanAmount);
+        eligibilityResult.innerHTML = `
+          <i class="fas fa-check-circle"></i> 
+          Congratulations! You are eligible for a loan up to ${formatCurrency(maxAmount)}.
+          <br><small>Based on your monthly income of ${formatCurrency(income)}</small>
+        `;
+        eligibilityResult.className = 'eligibility-result eligible';
+      } else {
+        let reason = '';
+        if (income < 30000) {
+          reason = 'Minimum monthly income requirement is ₦30,000.';
+        } else if (amount > maxLoanAmount) {
+          reason = `Requested amount exceeds maximum eligible loan of ${formatCurrency(maxLoanAmount)}.`;
+        }
+        eligibilityResult.innerHTML = `
+          <i class="fas fa-exclamation-triangle"></i> 
+          You may not be eligible at this time.
+          <br><small>${reason}</small>
+        `;
+        eligibilityResult.className = 'eligibility-result not-eligible';
+      }
+    }
+    
+    // Submit loan application to Cloudflare API
+    async function submitLoanApplication() {
+      const fullName = document.getElementById('fullName').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const phone = document.getElementById('phone').value.trim();
+      const amount = parseFloat(loanAmount.value) || 0;
+      const loanTenure = parseInt(tenure.value) || 6;
+      const purpose = document.getElementById('loanPurpose').value;
+      const income = parseFloat(monthlyIncome.value) || 0;
+      const employmentType = document.getElementById('employmentType').value;
+      const notes = document.getElementById('notes').value.trim();
+      
+      // Validate required fields
+      if (!fullName || !email || !phone) {
+        showToast('Please fill in all required fields', true);
+        return;
+      }
+      
+      if (!email.includes('@')) {
+        showToast('Please enter a valid email address', true);
+        return;
+      }
+      
+      if (amount < 10000) {
+        showToast('Minimum loan amount is ₦10,000', true);
+        return;
+      }
+      
+      applyBtn.disabled = true;
+      applyBtn.innerHTML = '<span class="loading-spinner"></span> Submitting Application...';
+      
+      try {
+        // Generate device fingerprint
+        const fingerprint = await generateDeviceFingerprint();
+        
+        const response = await fetch(`${API_BASE}/loan/apply`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'x-device-fingerprint': fingerprint
+          },
+          body: JSON.stringify({
+            fullName,
+            email,
+            phone,
+            amount,
+            tenure: loanTenure,
+            purpose,
+            monthlyIncome: income,
+            employmentType,
+            selectedOffer,
+            notes,
+            source: 'loan_page',
+            timestamp: new Date().toISOString()
+          })
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok && data.success) {
+          showModal(`Your loan application for ${formatCurrency(amount)} has been submitted successfully! Application ID: ${data.applicationId || 'PSH-' + Date.now()}. A loan officer will contact you within 24 hours.`);
+          
+          // Reset form (optional)
+          // document.getElementById('fullName').value = '';
+          // document.getElementById('email').value = '';
+          // document.getElementById('phone').value = '';
+        } else {
+          throw new Error(data.message || 'Application submission failed');
+        }
+      } catch (error) {
+        console.error('Loan application error:', error);
+        // Fallback: Show success with demo message (for development)
+        showModal(`Demo: Your loan application for ${formatCurrency(amount)} has been received. In production, this would be submitted to the Cloudflare API.`);
+      } finally {
+        applyBtn.disabled = false;
+        applyBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Application';
+      }
+    }
+    
+    // Simple device fingerprint
+    async function generateDeviceFingerprint() {
+      try {
+        const nav = navigator;
+        const screen = window.screen;
+        const fingerprintData = [
+          nav.userAgent || '',
+          nav.language || '',
+          screen.width + 'x' + screen.height || '',
+          screen.colorDepth || '',
+          new Date().getTimezoneOffset(),
+          nav.hardwareConcurrency || ''
+        ].join('|');
+        
+        let hash = 0;
+        for (let i = 0; i < fingerprintData.length; i++) {
+          hash = ((hash << 5) - hash) + fingerprintData.charCodeAt(i);
+          hash |= 0;
+        }
+        return Math.abs(hash).toString(36) + Date.now().toString(36);
+      } catch (e) {
+        return 'fallback-' + Date.now() + '-' + Math.random().toString(36);
+      }
+    }
+    
+    // Select offer
+    function selectOffer(offerId, element) {
+      // Remove selected class from all offers
+      document.querySelectorAll('.offer-item').forEach(item => {
+        item.classList.remove('selected');
+      });
+      element.classList.add('selected');
+      selectedOffer = offerId;
+      
+      let offerName = '';
+      let offerDetails = '';
+      let rate = 18;
+      
+      if (offerId === 'standard') {
+        offerName = 'Standard Business Loan';
+        offerDetails = 'Amount: ₦100k - ₦5M | Interest: 18% p.a.';
+        rate = 18;
+      } else if (offerId === 'gadget') {
+        offerName = 'Gadget Financing';
+        offerDetails = 'Amount: ₦50k - ₦2M | Interest: 12% p.a. | Zero Down Payment';
+        rate = 12;
+      } else if (offerId === 'premium') {
+        offerName = 'Premium Reseller Loan';
+        offerDetails = 'Amount: ₦500k - ₦10M | Interest: 15% p.a. | Special Offer';
+        rate = 15;
+      }
+      
+      selectedOfferName.textContent = offerName;
+      selectedOfferDetails.textContent = offerDetails;
+      selectedOfferInfo.style.display = 'block';
+      
+      // Update EMI calculation with new rate
+      updateEMI();
+    }
+    
+    // ==================== EVENT LISTENERS ====================
+    loanAmount.addEventListener('input', () => {
+      emiAmount.value = loanAmount.value;
+      updateEMI();
+    });
+    
+    tenure.addEventListener('change', updateEMI);
+    emiAmount.addEventListener('input', () => {
+      loanAmount.value = emiAmount.value;
+      updateEMI();
+    });
+    
+    monthlyIncome.addEventListener('input', checkEligibility);
+    applyBtn.addEventListener('click', submitLoanApplication);
+    checkEligibilityBtn.addEventListener('click', checkEligibility);
+    
+    // Offer selection
+    document.querySelectorAll('.offer-item').forEach(item => {
+      const offerId = item.dataset.offer;
+      item.addEventListener('click', () => selectOffer(offerId, item));
+    });
+    
+    // Select default offer
+    const defaultOffer = document.querySelector('.offer-item');
+    if (defaultOffer) {
+      defaultOffer.classList.add('selected');
+      selectedOffer = defaultOffer.dataset.offer;
+      selectedOfferName.textContent = 'Standard Business Loan';
+      selectedOfferDetails.textContent = 'Amount: ₦100k - ₦5M | Interest: 18% p.a.';
+      selectedOfferInfo.style.display = 'block';
+    }
+    
+    // Initial calculations
+    updateEMI();
+    
+    // ==================== 3D BACKGROUND ====================
+    const canvas = document.getElementById('quantum-bg-canvas');
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setClearColor(0x000000, 0);
+    
+    const geometry = new THREE.TorusKnotGeometry(1.5, 0.4, 200, 32, 3, 4);
+    const material = new THREE.MeshStandardMaterial({
+      color: 0xd6b25e,
+      emissive: 0x8a6b2e,
+      emissiveIntensity: 0.4,
+      metalness: 0.8,
+      roughness: 0.2
+    });
+    const knot = new THREE.Mesh(geometry, material);
+    scene.add(knot);
+    
+    const wireMat = new THREE.MeshBasicMaterial({ color: 0x00f7ff, wireframe: true, transparent: true, opacity: 0.3 });
+    const wireKnot = new THREE.Mesh(geometry, wireMat);
+    scene.add(wireKnot);
+    
+    const starGeo = new THREE.BufferGeometry();
+    const starPos = [];
+    for (let i = 0; i < 1500; i++) {
+      starPos.push((Math.random() - 0.5) * 200);
+      starPos.push((Math.random() - 0.5) * 100);
+      starPos.push((Math.random() - 0.5) * 100 - 50);
+    }
+    starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
+    const stars = new THREE.Points(starGeo, new THREE.PointsMaterial({ color: 0xffffff, size: 0.2, transparent: true, opacity: 0.6 }));
+    scene.add(stars);
+    
+    const ambientLight = new THREE.AmbientLight(0x222222);
+    scene.add(ambientLight);
+    const light1 = new THREE.PointLight(0xd6b25e, 1);
+    light1.position.set(5, 5, 5);
+    scene.add(light1);
+    const light2 = new THREE.PointLight(0x00f7ff, 0.8);
+    light2.position.set(-3, 2, -4);
+    scene.add(light2);
+    
+    camera.position.z = 5;
+    let time = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.01;
+      knot.rotation.x = time * 0.5;
+      knot.rotation.y = time * 0.8;
+      wireKnot.rotation.x = time * 0.5;
+      wireKnot.rotation.y = time * 0.8;
+      stars.rotation.y = time * 0.05;
+      renderer.render(scene, camera);
+    }
+    animate();
+    
+    window.addEventListener('resize', () => {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+  </script>
+</body>
+</html>
+

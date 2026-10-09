@@ -1,0 +1,1399 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="9.0.1">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="PrimeShieldHub — Create your customer account with quantum-grade security">
+  <meta name="theme-color" content="#000000">
+  <meta name="robots" content="index, follow">
+  <title>Create Account | PrimeShieldHub</title>
+  
+  <link rel="canonical" href="https://primeshieldhub.com/register">
+  <link rel="icon" href="/company_logo.png">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Auth Storage -->
+  <script type="module" src="../js/auth-storage.js"></script>
+  
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+      }
+    }
+  </script>
+  
+  <style>
+    /* ================================================================ */
+    /* COMPLETE REGISTER STYLES - PRESERVED & ENHANCED                */
+    /* ================================================================ */
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg-deep: #010105;
+      --surface-dark: rgba(8, 12, 25, 0.85);
+      --glass-edge: rgba(0, 247, 255, 0.25);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --gold-core: #d6b25e;
+      --accent-success: #33ffaa;
+      --accent-danger: #ff3366;
+      --accent-warning: #ffb74d;
+      --text-primary: #f0f3ff;
+      --text-secondary: #9ca3cf;
+      --text-muted: #6b7280;
+      --gradient-primary: linear-gradient(135deg, #00f7ff, #b200ff);
+      --gradient-gold: linear-gradient(135deg, #ffd966, #ffaa33);
+      --gradient-success: linear-gradient(135deg, #33ffaa, #00cc88);
+      --shadow-glow: 0 0 20px rgba(0, 247, 255, 0.3);
+      --shadow-glow-success: 0 0 20px rgba(51, 255, 170, 0.3);
+      --radius-card: 2rem;
+      --radius-sm: 12px;
+      --radius-full: 9999px;
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      --header-height: 76px;
+    }
+
+    body {
+      font-family: 'Inter', 'Space Grotesk', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ===== BACKGROUND ===== */
+    #quantum-bg-canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.7;
+      pointer-events: none;
+    }
+
+    .quantum-grid-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0,247,255,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,247,255,0.08) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+      animation: gridShift 20s linear infinite;
+    }
+
+    @keyframes gridShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--neon-cyan), var(--neon-purple)); border-radius: 3px; }
+    ::selection { background: rgba(0, 247, 255, 0.3); color: var(--text-primary); }
+
+    /* ===== HEADER ===== */
+    .page-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(5, 5, 12, 0.92);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-bottom: 1px solid rgba(0, 247, 255, 0.08);
+      padding: 16px 0;
+      height: var(--header-height);
+      transition: var(--transition-smooth);
+    }
+
+    .page-header.scrolled {
+      height: 64px;
+      background: rgba(5, 5, 12, 0.97);
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.4);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 32px;
+      height: 100%;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      text-decoration: none;
+      transition: var(--transition-smooth);
+    }
+
+    .header-brand:hover {
+      transform: translateY(-1px);
+    }
+
+    .header-brand img {
+      width: 42px;
+      height: 42px;
+      border-radius: var(--radius-sm);
+    }
+
+    .header-brand-text {
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text-primary);
+      letter-spacing: 0.05em;
+    }
+
+    .header-brand-text span {
+      color: var(--gold-core);
+    }
+
+    .header-nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .header-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.78rem;
+      padding: 8px 14px;
+      border-radius: var(--radius-full);
+      transition: var(--transition-smooth);
+      font-family: 'JetBrains Mono', monospace;
+      white-space: nowrap;
+    }
+
+    .header-link:hover {
+      color: var(--neon-cyan);
+      background: rgba(0, 247, 255, 0.06);
+    }
+
+    .header-link.active {
+      color: var(--neon-cyan);
+      background: rgba(0, 247, 255, 0.1);
+      font-weight: 600;
+    }
+
+    .header-cta {
+      background: rgba(0, 247, 255, 0.1);
+      padding: 6px 14px;
+      border-radius: var(--radius-full);
+      border: 1px solid rgba(0, 247, 255, 0.2);
+      color: var(--neon-cyan) !important;
+      display: inline-flex !important;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.7rem;
+      text-decoration: none;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .header-cta:hover {
+      background: rgba(0, 247, 255, 0.15);
+      transform: translateY(-2px);
+    }
+
+    /* ===== AUTHORITY BAR ===== */
+    .authority-bar {
+      background: rgba(8, 12, 25, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(214, 178, 94, 0.2);
+      border-bottom: 1px solid rgba(214, 178, 94, 0.2);
+      padding: 12px 0;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .authority-bar a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      transition: all 0.3s ease;
+    }
+    .authority-bar a:hover {
+      color: var(--gold-core);
+    }
+    .authority-bar .sep {
+      color: var(--text-dim);
+      font-size: 0.6rem;
+    }
+
+    /* ===== REFERRAL NOTIFICATION BANNER ===== */
+    .referral-banner {
+      background: rgba(255, 215, 0, 0.08);
+      border: 1px solid rgba(255, 215, 0, 0.2);
+      border-radius: 12px;
+      padding: 12px 16px;
+      margin-bottom: 16px;
+      display: none;
+      align-items: center;
+      gap: 12px;
+      animation: fadeSlideIn 0.5s ease;
+    }
+
+    .referral-banner.show {
+      display: flex;
+    }
+
+    .referral-banner .banner-icon {
+      font-size: 1.4rem;
+      color: var(--neon-gold);
+      flex-shrink: 0;
+    }
+
+    .referral-banner .banner-text {
+      font-size: 0.85rem;
+      color: var(--text-primary);
+      line-height: 1.4;
+    }
+
+    .referral-banner .banner-text strong {
+      color: var(--neon-gold);
+    }
+
+    .referral-banner .banner-close {
+      margin-left: auto;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 4px 8px;
+      transition: var(--transition-smooth);
+    }
+
+    .referral-banner .banner-close:hover {
+      color: var(--text-primary);
+    }
+
+    /* ===== REGISTER CARD ===== */
+    .quantum-container {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+      min-height: calc(100vh - var(--header-height));
+    }
+
+    .quantum-card {
+      background: var(--surface-dark);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-card);
+      border: 1px solid var(--glass-edge);
+      box-shadow: 0 20px 50px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.05);
+      width: 100%;
+      max-width: 520px;
+      padding: 2.5rem;
+      transition: var(--transition-smooth);
+      animation: floatIn 0.8s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quantum-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient-primary);
+      opacity: 0.3;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(40px) scale(0.96); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .quantum-header {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .quantum-logo {
+      width: 80px;
+      height: 80px;
+      margin: 0 auto 1rem;
+      background: var(--gradient-primary);
+      border-radius: 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5rem;
+      font-weight: 900;
+      font-family: 'Orbitron', monospace;
+      color: white;
+      box-shadow: 0 0 30px rgba(0,247,255,0.4);
+      transition: var(--transition-smooth);
+    }
+
+    .quantum-logo:hover {
+      transform: rotate(-5deg) scale(1.05);
+      box-shadow: 0 0 50px rgba(0,247,255,0.6);
+    }
+
+    .quantum-header h1 {
+      font-size: 2rem;
+      font-weight: 800;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.5px;
+    }
+
+    .quantum-header p {
+      color: var(--text-secondary);
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+
+    .live-dot {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-success);
+      animation: livePulse 1.5s infinite;
+      margin-right: 6px;
+    }
+
+    @keyframes livePulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.3; transform: scale(0.8); }
+    }
+
+    /* ===== FORM ===== */
+    .form-group {
+      margin-bottom: 1.3rem;
+      position: relative;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-secondary);
+      font-weight: 600;
+    }
+
+    .form-group label i {
+      margin-right: 0.4rem;
+      color: var(--neon-cyan);
+    }
+
+    .form-group label .required {
+      color: var(--accent-danger);
+      font-size: 0.7rem;
+    }
+
+    .form-group input {
+      width: 100%;
+      background: rgba(0,0,0,0.5);
+      border: 1px solid var(--glass-edge);
+      border-radius: 2rem;
+      padding: 0.9rem 1.2rem;
+      color: white;
+      font-size: 0.95rem;
+      transition: var(--transition-smooth);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .form-group input:focus {
+      outline: none;
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 12px rgba(0,247,255,0.3);
+      background: rgba(0,0,0,0.7);
+    }
+
+    .form-group input.error {
+      border-color: var(--accent-danger);
+      box-shadow: 0 0 12px rgba(255,51,102,0.3);
+    }
+
+    .form-group input.success {
+      border-color: var(--accent-success);
+      box-shadow: 0 0 12px rgba(51,255,170,0.3);
+    }
+
+    .form-group .field-hint {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .form-group .field-hint i {
+      color: var(--neon-cyan);
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    @media (max-width: 500px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* ===== PASSWORD STRENGTH ===== */
+    .password-strength {
+      display: flex;
+      gap: 6px;
+      margin-top: 8px;
+    }
+    .strength-bar {
+      flex: 1;
+      height: 4px;
+      background: rgba(255,255,255,0.08);
+      border-radius: 4px;
+      transition: background 0.3s;
+    }
+    .strength-text {
+      font-size: 0.7rem;
+      margin-top: 4px;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* ===== MESSAGES ===== */
+    .message {
+      padding: 0.8rem 1rem;
+      border-radius: 0.8rem;
+      margin-bottom: 1rem;
+      font-size: 0.85rem;
+      display: none;
+      animation: fadeSlideIn 0.3s ease;
+    }
+
+    @keyframes fadeSlideIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .message.error {
+      background: rgba(255,51,102,0.12);
+      border-left: 3px solid var(--accent-danger);
+      color: #ff88aa;
+      display: block;
+    }
+
+    .message.success {
+      background: rgba(51,255,170,0.12);
+      border-left: 3px solid var(--accent-success);
+      color: #88ffaa;
+      display: block;
+    }
+
+    .message.info {
+      background: rgba(0,247,255,0.08);
+      border-left: 3px solid var(--neon-cyan);
+      color: #88ddff;
+      display: block;
+    }
+
+    .message .message-icon {
+      margin-right: 8px;
+    }
+
+    /* ===== BUTTONS ===== */
+    .quantum-btn {
+      width: 100%;
+      background: var(--gradient-primary);
+      border: none;
+      border-radius: 2rem;
+      padding: 1rem;
+      font-weight: 700;
+      font-size: 1rem;
+      color: white;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      font-family: 'Inter', sans-serif;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .quantum-btn::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, transparent 40%, rgba(255,255,255,0.15) 50%, transparent 60%);
+      transform: translateX(-100%);
+      transition: transform 0.6s ease;
+    }
+
+    .quantum-btn:hover::after {
+      transform: translateX(100%);
+    }
+
+    .quantum-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 20px rgba(0,247,255,0.6);
+    }
+
+    .quantum-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .quantum-btn .spinner {
+      display: inline-block;
+      width: 18px;
+      height: 18px;
+      border: 2px solid rgba(255,255,255,0.2);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .quantum-btn.success {
+      background: var(--gradient-success);
+      box-shadow: 0 0 30px rgba(51,255,170,0.3);
+    }
+
+    /* ===== LINKS ===== */
+    .login-link {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.06);
+    }
+
+    .login-link span {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .login-link a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+      font-weight: 600;
+      margin-left: 0.3rem;
+      transition: var(--transition-smooth);
+    }
+
+    .login-link a:hover {
+      color: var(--neon-gold);
+    }
+
+    .quantum-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      padding-top: 1rem;
+      border-top: 1px solid rgba(255,255,255,0.04);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .quantum-footer i {
+      color: var(--neon-cyan);
+    }
+
+    /* ===== TERMS ===== */
+    .terms-check {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      margin-bottom: 1.3rem;
+    }
+
+    .terms-check input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      accent-color: var(--neon-cyan);
+      cursor: pointer;
+      margin-top: 2px;
+      flex-shrink: 0;
+    }
+
+    .terms-check label {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+      line-height: 1.5;
+    }
+
+    .terms-check label a {
+      color: var(--neon-cyan);
+      text-decoration: none;
+    }
+
+    .terms-check label a:hover {
+      color: var(--neon-gold);
+      text-decoration: underline;
+    }
+
+    /* ===== TURNSTILE ===== */
+    .turnstile-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 1.3rem;
+    }
+
+    /* ===== FOOTER ===== */
+    .site-footer {
+      background: var(--bg-elevated);
+      border-top: 1px solid rgba(255,255,255,0.03);
+      padding: 40px 0 20px;
+      margin-top: auto;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 16px;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    .footer-inner .copyright {
+      color: var(--text-muted);
+      font-size: 0.78rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .footer-inner .footer-links {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .footer-inner .footer-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.75rem;
+      transition: all var(--transition-smooth);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .footer-inner .footer-links a:hover {
+      color: var(--neon-cyan);
+    }
+
+    /* ================================================================ */
+    /* RESPONSIVE                                                       */
+    /* ================================================================ */
+
+    @media(max-width: 992px) {
+      .header-inner { flex-direction: column; padding: 12px 20px; height: auto; }
+      .header-nav { margin-top: 8px; justify-content: center; }
+      .quantum-container { padding: 1.5rem; min-height: auto; }
+      .authority-bar { gap: 12px; padding: 10px 16px; }
+      .authority-bar a { font-size: 0.6rem; }
+    }
+
+    @media(max-width: 768px) {
+      .quantum-card { padding: 1.8rem; margin: 0 12px; }
+      .quantum-header h1 { font-size: 1.6rem; }
+      .header-nav { gap: 4px; }
+      .header-link { font-size: 0.7rem; padding: 6px 10px; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-inner { flex-direction: column; text-align: center; }
+      .footer-inner .footer-links { justify-content: center; }
+    }
+
+    @media(max-width: 480px) {
+      .quantum-card { padding: 1.2rem; }
+      .quantum-logo { width: 60px; height: 60px; font-size: 2rem; }
+      .quantum-header h1 { font-size: 1.3rem; }
+      .form-group input { font-size: 0.85rem; padding: 0.7rem 1rem; }
+      .authority-bar { gap: 8px; padding: 8px 12px; }
+      .authority-bar a { font-size: 0.55rem; }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+  <!-- ===== BACKGROUND ===== -->
+  <canvas id="quantum-bg-canvas"></canvas>
+  <div class="quantum-grid-overlay"></div>
+
+  <!-- ===== HEADER ===== -->
+  <header class="page-header" id="mainHeader">
+    <div class="header-inner">
+      <a href="/" class="header-brand">
+        <img src="/company_logo.png" alt="PrimeShieldHub">
+        <span class="header-brand-text"><span>PRIME</span>SHIELDHUB</span>
+      </a>
+      <nav class="header-nav">
+        <a href="/" class="header-link"><i class="fas fa-home"></i> Home</a>
+        <a href="/products" class="header-link"><i class="fas fa-box"></i> Products</a>
+        <a href="/cart" class="header-link"><i class="fas fa-shopping-cart"></i> Cart</a>
+        <a href="/checkout" class="header-link"><i class="fas fa-credit-card"></i> Checkout</a>
+        <a href="/register" class="header-link active"><i class="fas fa-user-plus"></i> Register</a>
+        <a href="/login" class="header-link"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a href="https://wa.me/2348103535978" target="_blank" class="header-cta"><i class="fab fa-whatsapp"></i> Support</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- ===== AUTHORITY BAR ===== -->
+  <div class="authority-bar">
+    <a href="/freedom-evbakoe-amenaghawon">Personal Profile</a>
+    <span class="sep">•</span>
+    <a href="/biography">Official Biography</a>
+    <span class="sep">•</span>
+    <a href="/founder">Corporate Founder Profile</a>
+    <span class="sep">•</span>
+    <a href="/company">Company Overview</a>
+    <span class="sep">•</span>
+    <a href="/leadership">Leadership</a>
+    <span class="sep">•</span>
+    <a href="/knowledge-graph">Knowledge Graph</a>
+    <span class="sep">•</span>
+    <a href="/media-kit">Media Kit</a>
+    <span class="sep">•</span>
+    <a href="/press">Press Center</a>
+  </div>
+
+  <!-- ===== MAIN CONTENT ===== -->
+  <div class="quantum-container">
+    <div class="quantum-card">
+      <div class="quantum-header">
+        <div class="quantum-logo">Q</div>
+        <h1>PrimeShieldHub</h1>
+        <p>
+          <span class="live-dot"></span>
+          Create Your Account
+        </p>
+      </div>
+
+      <!-- ===== REFERRAL BANNER ===== -->
+      <div class="referral-banner" id="referralBanner">
+        <span class="banner-icon"><i class="fas fa-gift"></i></span>
+        <span class="banner-text">
+          <strong>🎉 You were referred!</strong> Get <strong>₦500</strong> off your first order.
+        </span>
+        <button class="banner-close" onclick="document.getElementById('referralBanner').classList.remove('show')">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="message" id="register-error"></div>
+      <div class="message" id="register-success"></div>
+      <div class="message" id="register-info"></div>
+
+      <form id="register-form" novalidate>
+        <div class="form-row">
+          <div class="form-group">
+            <label><i class="fas fa-user"></i> First Name <span class="required">*</span></label>
+            <input type="text" id="reg-firstname" placeholder="John" autocomplete="given-name" required>
+          </div>
+          <div class="form-group">
+            <label><i class="fas fa-user"></i> Last Name <span class="required">*</span></label>
+            <input type="text" id="reg-lastname" placeholder="Doe" autocomplete="family-name" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-envelope"></i> Email Address <span class="required">*</span></label>
+          <input type="email" id="reg-email" placeholder="your@email.com" autocomplete="email" required>
+          <div class="field-hint"><i class="fas fa-info-circle"></i> We'll never share your email</div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-phone"></i> Phone Number</label>
+          <input type="tel" id="reg-phone" placeholder="+234 800 000 0000" autocomplete="tel">
+          <div class="field-hint"><i class="fas fa-info-circle"></i> Optional but recommended for order updates</div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-key"></i> Password <span class="required">*</span></label>
+          <input type="password" id="reg-password" placeholder="Min. 8 characters" autocomplete="new-password" required minlength="8">
+          <div class="password-strength" id="passwordStrength">
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+            <div class="strength-bar"></div>
+          </div>
+          <div class="strength-text" id="strengthText"></div>
+          <div class="field-hint"><i class="fas fa-info-circle"></i> Use 8+ characters with letters, numbers, and symbols</div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-check-circle"></i> Confirm Password <span class="required">*</span></label>
+          <input type="password" id="reg-confirm-password" placeholder="Re-enter your password" autocomplete="new-password" required>
+          <div class="field-hint" id="passwordMatchHint"><i class="fas fa-info-circle"></i> Passwords must match</div>
+        </div>
+
+        <div class="terms-check">
+          <input type="checkbox" id="reg-terms" required>
+          <label for="reg-terms">
+            I agree to the <a href="/terms" target="_blank">Terms of Service</a> and 
+            <a href="/privacy" target="_blank">Privacy Policy</a> <span style="color:var(--accent-danger);">*</span>
+          </label>
+        </div>
+
+        <!-- Turnstile Placeholder (if you have it enabled) -->
+        <div class="turnstile-wrapper" id="turnstileWrapper" style="display:none;">
+          <div id="turnstile-container"></div>
+        </div>
+
+        <button type="submit" class="quantum-btn" id="register-btn">
+          <i class="fas fa-user-plus"></i> Create Account
+        </button>
+      </form>
+
+      <div class="login-link">
+        <span>Already have an account?</span>
+        <a href="/login"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+      </div>
+
+      <div class="quantum-footer">
+        <i class="fas fa-shield-alt"></i> Protected by Quantum Encryption v9.1 · <span class="live-dot" style="width:6px;height:6px;"></span> Secure
+      </div>
+    </div>
+  </div>
+
+  <!-- ===== FOOTER ===== -->
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="copyright">© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
+      <div class="footer-links">
+        <a href="/privacy">Privacy</a>
+        <a href="/terms">Terms</a>
+        <a href="/returns">Returns</a>
+        <a href="/shipping">Shipping</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script type="module" src="../js/auth-storage.js"></script>
+
+  <script type="module">
+    // ================================================================ //
+    // REGISTER PAGE - UNIFIED CONFIG & BACKEND SYNC                    //
+    // WITH REFERRAL CODE INTEGRATION                                  //
+    // ================================================================ //
+
+    import * as THREE from 'three';
+    import { CONFIG } from '../js/config.js';
+    import { auth } from '../js/auth.js';
+    import { getDeviceFingerprint } from '../js/sophisticated/fraud-engine/fingerprint.js';
+
+    // ===== UNIFIED CONFIG =====
+    const API_BASE = CONFIG.apiBase;
+    const STORAGE_KEYS = CONFIG.STORAGE_KEYS;
+    let deviceFingerprint = null;
+
+    // ================================================================ //
+    // 1. REFERRAL CODE DETECTION                                      //
+    // ================================================================ //
+
+    /**
+     * Detect referral code from URL parameters and store it for registration
+     * Supports: ?ref=CODE, ?referral=CODE, or ?referral_code=CODE
+     */
+    function detectReferralCode() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const referralCode = urlParams.get('ref') || urlParams.get('referral') || urlParams.get('referral_code') || '';
+      
+      if (referralCode) {
+        // Store in sessionStorage for use during registration
+        sessionStorage.setItem('referral_code', referralCode);
+        
+        // Show referral notification banner
+        const banner = document.getElementById('referralBanner');
+        if (banner) {
+          banner.classList.add('show');
+          
+          // Auto-hide after 10 seconds
+          setTimeout(() => {
+            banner.classList.remove('show');
+          }, 10000);
+        }
+        
+        console.log('🎁 Referral code detected:', referralCode);
+      }
+      
+      return referralCode;
+    }
+
+    /**
+     * Get stored referral code
+     */
+    function getReferralCode() {
+      return sessionStorage.getItem('referral_code') || '';
+    }
+
+    // ===== DOM REFS =====
+    const registerForm = document.getElementById('register-form');
+    const registerBtn = document.getElementById('register-btn');
+    const errorEl = document.getElementById('register-error');
+    const successEl = document.getElementById('register-success');
+    const infoEl = document.getElementById('register-info');
+    const regFirstname = document.getElementById('reg-firstname');
+    const regLastname = document.getElementById('reg-lastname');
+    const regEmail = document.getElementById('reg-email');
+    const regPhone = document.getElementById('reg-phone');
+    const regPassword = document.getElementById('reg-password');
+    const regConfirmPassword = document.getElementById('reg-confirm-password');
+    const regTerms = document.getElementById('reg-terms');
+    const strengthBars = document.querySelectorAll('.strength-bar');
+    const strengthText = document.getElementById('strengthText');
+    const passwordMatchHint = document.getElementById('passwordMatchHint');
+
+    // ===== FINGERPRINT =====
+    async function getFingerprint() {
+      if (deviceFingerprint) return deviceFingerprint;
+      try {
+        deviceFingerprint = await getDeviceFingerprint();
+        return deviceFingerprint;
+      } catch (e) {
+        console.warn('Fingerprint fallback used');
+        deviceFingerprint = 'fallback-' + Date.now() + '-' + Math.random().toString(36);
+        return deviceFingerprint;
+      }
+    }
+
+    // ===== MESSAGE HELPERS =====
+    function showMessage(el, message, type) {
+      if (!el) return;
+      el.className = 'message ' + (type || 'error');
+      el.innerHTML = '<span class="message-icon"><i class="fas ' + 
+        (type === 'success' ? 'fa-check-circle' : type === 'info' ? 'fa-info-circle' : 'fa-exclamation-circle') + 
+        '"></i></span> ' + message;
+      el.style.display = 'block';
+      clearTimeout(el._timer);
+      el._timer = setTimeout(function() {
+        el.style.display = 'none';
+      }, type === 'success' ? 4000 : 6000);
+    }
+
+    function hideAllMessages() {
+      errorEl.style.display = 'none';
+      successEl.style.display = 'none';
+      infoEl.style.display = 'none';
+    }
+
+    function getRedirectUrl() {
+      var params = new URLSearchParams(window.location.search);
+      var redirect = params.get('redirect');
+      return redirect || '/dashboard';
+    }
+
+    // ===== PASSWORD STRENGTH =====
+    regPassword.addEventListener('input', function() {
+      var pw = this.value;
+      var s = 0;
+      if (pw.length >= 8) s++;
+      if (/[a-z]/.test(pw) && /[A-Z]/.test(pw)) s++;
+      if (/\d/.test(pw)) s++;
+      if (/[^a-zA-Z0-9]/.test(pw)) s++;
+      
+      var colors = ['', '#ff3860', '#ffb74d', '#ffb74d', '#33ffaa', '#33ffaa'];
+      var texts = ['', 'Weak', 'Fair', 'Good', 'Strong', 'Very Strong'];
+      
+      strengthBars.forEach(function(bar, i) {
+        bar.style.background = i < s ? (colors[s] || '#33ffaa') : 'rgba(255,255,255,0.08)';
+      });
+      
+      strengthText.textContent = texts[s] || '';
+      strengthText.style.color = colors[s] || '';
+    });
+
+    // ===== PASSWORD MATCH =====
+    regConfirmPassword.addEventListener('input', function() {
+      var pw = regPassword.value;
+      var confirm = this.value;
+      
+      if (confirm.length === 0) {
+        passwordMatchHint.innerHTML = '<i class="fas fa-info-circle"></i> Passwords must match';
+        passwordMatchHint.style.color = 'var(--text-muted)';
+        this.classList.remove('error', 'success');
+        return;
+      }
+      
+      if (pw === confirm) {
+        passwordMatchHint.innerHTML = '<i class="fas fa-check-circle" style="color:var(--accent-success);"></i> Passwords match!';
+        passwordMatchHint.style.color = 'var(--accent-success)';
+        this.classList.remove('error');
+        this.classList.add('success');
+      } else {
+        passwordMatchHint.innerHTML = '<i class="fas fa-times-circle" style="color:var(--accent-danger);"></i> Passwords do not match';
+        passwordMatchHint.style.color = 'var(--accent-danger)';
+        this.classList.remove('success');
+        this.classList.add('error');
+      }
+    });
+
+    // ================================================================ //
+    // API CALL - USING UNIFIED CONFIG                                  //
+    // ================================================================ //
+
+    async function apiCall(endpoint, method, body) {
+      var fingerprint = await getFingerprint();
+      
+      // Try to get token from unified auth
+      var token = null;
+      try {
+        token = auth.getToken ? auth.getToken() : null;
+      } catch(e) {
+        token = localStorage.getItem(STORAGE_KEYS.TOKEN) || null;
+      }
+      
+      var headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'x-device-fingerprint': fingerprint
+      };
+      if (token) headers['Authorization'] = 'Bearer ' + token;
+
+      var options = {
+        method: method || 'GET',
+        headers: headers,
+        credentials: 'include'
+      };
+      if (body) options.body = JSON.stringify(body);
+
+      try {
+        var response = await fetch(API_BASE + endpoint, options);
+        
+        if (response.status === 401) {
+          // Clear session
+          try {
+            if (window.AuthStorage) window.AuthStorage.clearAllSessions();
+            if (auth.logout) auth.logout();
+          } catch(e) {}
+          localStorage.removeItem(STORAGE_KEYS.TOKEN);
+          localStorage.removeItem(STORAGE_KEYS.USER);
+          throw new Error('Session expired. Please login again.');
+        }
+        
+        var data = await response.json();
+        if (!response.ok) throw new Error(data.error || data.message || 'Request failed');
+        return data;
+      } catch (error) {
+        console.error('API Error:', error);
+        throw error;
+      }
+    }
+
+    // ================================================================ //
+    // REGISTER - MATCHES BACKEND SCHEMA WITH REFERRAL                 //
+    // ================================================================ //
+
+    registerForm.addEventListener('submit', async function(e) {
+      e.preventDefault();
+      hideAllMessages();
+
+      // ===== VALIDATE =====
+      var firstname = regFirstname.value.trim();
+      var lastname = regLastname.value.trim();
+      var email = regEmail.value.trim().toLowerCase();
+      var phone = regPhone.value.trim();
+      var password = regPassword.value;
+      var confirmPassword = regConfirmPassword.value;
+
+      if (!firstname || !lastname) {
+        showMessage(errorEl, 'Please enter your full name.');
+        regFirstname.focus();
+        return;
+      }
+
+      if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        showMessage(errorEl, 'Please enter a valid email address.');
+        regEmail.focus();
+        return;
+      }
+
+      if (!password || password.length < 8) {
+        showMessage(errorEl, 'Password must be at least 8 characters.');
+        regPassword.focus();
+        return;
+      }
+
+      if (password !== confirmPassword) {
+        showMessage(errorEl, 'Passwords do not match.');
+        regConfirmPassword.focus();
+        return;
+      }
+
+      if (!regTerms.checked) {
+        showMessage(errorEl, 'Please agree to the Terms of Service and Privacy Policy.');
+        regTerms.focus();
+        return;
+      }
+
+      // ================================================================ //
+      // FIXED: Request body matching backend schema with referral       //
+      // ================================================================ //
+      
+      // Your backend's auth.js handler expects:
+      // { email, password, name, phone?, fingerprint?, referral_code? }
+      // The 'name' field is used for the user's full name
+      
+      var fullName = firstname + ' ' + lastname;
+      
+      // Get referral code from sessionStorage (set by detectReferralCode)
+      var referralCode = getReferralCode();
+      
+      var requestBody = {
+        email: email,
+        password: password,
+        name: fullName,
+        fingerprint: await getFingerprint(),
+        role: 'customer',
+        source: 'web_register'
+      };
+      
+      // Add phone if provided
+      if (phone) {
+        requestBody.phone = phone;
+      }
+      
+      // 🔥 REFERRAL CODE INTEGRATION 🔥
+      // If a referral code exists, include it in the registration request
+      if (referralCode) {
+        requestBody.referral_code = referralCode;
+        console.log('🎁 Including referral code in registration:', referralCode);
+      }
+
+      // ===== SUBMIT =====
+      registerBtn.disabled = true;
+      registerBtn.innerHTML = '<span class="spinner"></span> Creating Account...';
+
+      try {
+        var data = await apiCall('/auth/register', 'POST', requestBody);
+
+        // ================================================================ //
+        // FIXED: Save session using unified auth                          //
+        // ================================================================ //
+
+        if (data.token && data.user) {
+          if (!data.user.role) data.user.role = 'customer';
+          
+          // Save using unified auth
+          try {
+            if (auth.setToken && auth.setUser) {
+              auth.setToken(data.token);
+              auth.setUser(data.user);
+            }
+          } catch (e) {
+            console.warn('Auth module save failed, using legacy storage');
+          }
+          
+          // Always save to legacy keys for compatibility
+          localStorage.setItem(STORAGE_KEYS.TOKEN, data.token);
+          localStorage.setItem(STORAGE_KEYS.USER, JSON.stringify(data.user));
+          
+          // Save to AuthStorage if available
+          if (window.AuthStorage && typeof window.AuthStorage.saveSession === 'function') {
+            window.AuthStorage.saveSession(data.token, data.user);
+          }
+          
+          // Clear referral code after successful registration
+          sessionStorage.removeItem('referral_code');
+        }
+
+        // ===== SUCCESS =====
+        registerBtn.className = 'quantum-btn success';
+        registerBtn.innerHTML = '<i class="fas fa-check-circle"></i> Account Created!';
+
+        // Show referral-specific success message if applicable
+        var successMessage = 'Account created successfully! Welcome to PrimeShieldHub.';
+        if (referralCode) {
+          successMessage = '🎉 Account created with referral! You\'ll receive ₦500 off your first order. Welcome to PrimeShieldHub!';
+        }
+        showMessage(successEl, successMessage, 'success');
+
+        var redirectUrl = getRedirectUrl();
+        setTimeout(function() {
+          window.location.href = redirectUrl;
+        }, 1500);
+
+      } catch (err) {
+        console.error('Registration error:', err);
+        showMessage(errorEl, err.message || 'Registration failed. Please try again.');
+        registerBtn.disabled = false;
+        registerBtn.className = 'quantum-btn';
+        registerBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+      }
+    });
+
+    // ================================================================ //
+    // INIT - Detect referral code on page load                        //
+    // ================================================================ //
+
+    // Detect referral code from URL parameters
+    const detectedCode = detectReferralCode();
+    if (detectedCode) {
+      console.log('🎁 Referral system active with code:', detectedCode);
+    }
+
+    // ===== HEADER SCROLL =====
+    window.addEventListener('scroll', function() {
+      var header = document.getElementById('mainHeader');
+      if (window.scrollY > 50) {
+        header.classList.add('scrolled');
+      } else {
+        header.classList.remove('scrolled');
+      }
+    });
+
+    // ===== FOOTER YEAR =====
+    document.getElementById('footerYear').textContent = new Date().getFullYear();
+
+    // ================================================================ //
+    // 3D BACKGROUND (Keep as-is)                                       //
+    // ================================================================ //
+
+    var canvas = document.getElementById('quantum-bg-canvas');
+    var scene = new THREE.Scene();
+    var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+    var renderer = new THREE.WebGLRenderer({ canvas: canvas, alpha: true, antialias: true });
+    renderer.setSize(window.innerWidth, window.innerHeight);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setClearColor(0x000000, 0);
+
+    var geometry = new THREE.TorusKnotGeometry(1.5, 0.4, 200, 32, 3, 4);
+    var material = new THREE.MeshStandardMaterial({
+      color: 0x33ffaa,
+      emissive: 0x006644,
+      emissiveIntensity: 0.4,
+      metalness: 0.8,
+      roughness: 0.2
+    });
+    var knot = new THREE.Mesh(geometry, material);
+    scene.add(knot);
+
+    var wireMat = new THREE.MeshBasicMaterial({
+      color: 0x88ffcc,
+      wireframe: true,
+      transparent: true,
+      opacity: 0.2
+    });
+    var wireKnot = new THREE.Mesh(geometry, wireMat);
+    scene.add(wireKnot);
+
+    var starGeo = new THREE.BufferGeometry();
+    var starPos = [];
+    for (var i = 0; i < 1500; i++) {
+      starPos.push((Math.random() - 0.5) * 200);
+      starPos.push((Math.random() - 0.5) * 100);
+      starPos.push((Math.random() - 0.5) * 100 - 50);
+    }
+    starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPos), 3));
+    var stars = new THREE.Points(starGeo, new THREE.PointsMaterial({
+      color: 0x33ffaa,
+      size: 0.15,
+      transparent: true,
+      opacity: 0.5
+    }));
+    scene.add(stars);
+
+    scene.add(new THREE.AmbientLight(0x222244, 0.5));
+    var light1 = new THREE.PointLight(0x33ffaa, 1.2, 20);
+    light1.position.set(5, 5, 5);
+    scene.add(light1);
+    var light2 = new THREE.PointLight(0x88ffcc, 0.8, 15);
+    light2.position.set(-3, 2, -4);
+    scene.add(light2);
+
+    camera.position.z = 5;
+
+    var time = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.01;
+      knot.rotation.x = time * 0.5;
+      knot.rotation.y = time * 0.8;
+      wireKnot.rotation.x = time * 0.5;
+      wireKnot.rotation.y = time * 0.8;
+      stars.rotation.y = time * 0.05;
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    window.addEventListener('resize', function() {
+      camera.aspect = window.innerWidth / window.innerHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    // ================================================================ //
+    // FINAL INIT                                                       //
+    // ================================================================ //
+
+    console.log('🚀 PrimeShieldHub Register v2.3 — Unified Config + Referral Integration');
+    console.log('🔐 API Base:', API_BASE);
+    console.log('📦 Using config from:', CONFIG.apiBase);
+    console.log('📱 Device fingerprint ready');
+    if (detectedCode) {
+      console.log('🎁 Referral code loaded:', detectedCode);
+    }
+
+  </script>
+</body>
+</html>
+

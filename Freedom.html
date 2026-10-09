@@ -1,0 +1,195 @@
+
+<!doctype html>
+<html>
+<head>
+	<title>Company Name Registration</title>
+</head>
+<body style="background-color:green">
+<div id="form" style="background-color:white; color:white; width:100%">
+	<center>
+	<img src="free.png" width="60%" alt="CAC" />
+	<h2 style="color:black; font-family: courier">COMPANY NAME<br> CERTIFICATE REGISTRATION</h2>
+	<hr>
+	<table style="width:90%">
+	<tr>
+	<td><label style="color:black; font-family: courier">RC No:</label></td>
+	<td><input style="border-radius: 7px" type="number" id="frc" /><br><p id="erc" style="color:red"></p></td>
+	</tr>
+	<tr>
+	<td><label style="color:black; font-family: courier">Business Name:</label></td>
+	<td><input style="border-radius: 7px" type="text" id="fname" /><br><p id="ename" style="color:red"></p></td>
+	</tr>
+	<tr>
+	<td><label style="color:black; font-family: courier">Nature of Business:</label></td>
+	<td><input style="border-radius: 7px" type="text" id="fnature" /><br><p id="enature" style="color:red"></p></td>
+	</tr>
+	<tr>
+	<td><label style="color:black; font-family: courier">Business Address:</label></td>
+	<td><input style="border-radius: 7px" type="text" id="faddress" /><br><p id="eaddress" style="color:red"></p></td>
+	</tr>
+	<tr>
+	<td><label style="color:black; font-family: courier">Day:</label></td>
+	<td><input style="border-radius: 7px" type="text" id="fday" /><br><p id="eday" style="color:red"></p></td>
+	</tr>
+	<tr>
+	<td><label style="color:black; font-family: courier">Month:</label></td>
+	<td><input style="border-radius: 7px" type="text" id="fmonth" /><br><p id="emonth" style="color:red"></p></td>
+	</tr>
+	<tr>
+	<td><label style="color:black; font-family: courier">Year:</label></td>
+	<td><input style="border-radius: 7px" type="number" id="fyear" /><br><p id="eyear" style="color:red"></p></td>
+	</tr>
+	</table>
+	<hr>
+	<br>
+	<button style="border: 4px inset green; background-color:; border-radius: 10px; color:white; height:40px" onclick="generate()"><b>Generate Certificate</b></button>
+	</center>
+	<br>
+</div>
+
+
+<div id="certificate" style="background-image:cac_C.png; width:95%; background-image:url('cac_C.png'); background-size: 100% 100%; background-repeat: no-repeat; margin-left:1%; border: 15px groove green; display:none">
+<br>
+<center style="font-family:Times New Roman">
+<img src="free.png" alt="Nigeria Coat of Arm" width="20%" /><br><b style="font-size:15%">FEDERAL REPUBLIC OF NIGERIA</b><br>
+<b style="font-size:90%">CERTIFICATE OF INCORPORATION</b><br>
+<b style="font-size:80%">OF A</b><br>
+<b style="font-size:80%">PRIVATE COMPAY LIMITED BY SHARES</b><br>
+<b style="font-size:55%">COMPANY NAME REGISTRATION NO. <span id="rc">7276506</span></b>
+<br><br>
+<b style="font-size:50%">THE REGISTRAR - GENERAL OF CORPORATE AFFAIRS COMMISSION</b>
+<br><br>
+<b style="font-size:70%"><i>hereby certifies that</i></b>
+<br><br>
+<b id="name" style="font-size:60%; color:red">STAN TECHNOLOGY IT SOLUTIONS</b>
+<br><br>
+<b><i style="font-size:50%">is this day registered as a business name under the</i></b><br>
+<b style="font-size:70%">COMPANIES AND ALLIED MATTERS ACT 2020</b>
+<br><br>
+<b style="font-size:70%"><i>as a private company limited by shares
+Given under my hand at Abuja this 20th day of March, 2024
+<b id="nature" style="font-size:70%">SOFTWARE DEVELOPMENT, WEB DESIGN AND INTRANET DEVELOPMENT</b>
+<br><br>
+<b><i style="font-size:50%">The address of the principal place of business is:</i></b><br>
+<b id="address" style="font-size:70%">OFFICE 1, TECH HUB PLAZA, EGBEAN AFTER EKENWAN BARRACKS, BENIN CITY, EDO STATE, NIGERIA.</b>
+<br><br>
+<b><i style="font-size:50%">Given under my hand at Abuja this <span id="day">27th</span> day of <span id="month">december</span>, <span id="year">2023</span></i></b>
+</center>
+<table style="width:100%">
+<tr>
+<td style="width:40%"></td>
+<td style="width:20%"><img src="cac logo.png" alt="cac logo" width="100%" /></td>
+<td style="width:40%"></td>
+</tr>
+<tr>
+<td style="width:40%"></td>
+<td style="width:20%"><img src="cac qr code.png" alt="cac qr code" width="100%" /></td>
+<td style="width:40%"><img src="cac sig.png" alt="cac sig" width="100%" /></td>
+</tr>
+<br>
+</table>
+<br>
+</div>
+
+<script type="text/javascript">
+function generate() {
+	var status = 0;
+	
+	//User Input Collection
+	var rc = document.getElementById("frc").value;
+	var bn = document.getElementById("fname").value;
+	var nb = document.getElementById("fnature").value;
+	var ab = document.getElementById("faddress").value;
+	var day = document.getElementById("fday").value;
+	var month = document.getElementById("fmonth").value;
+	var year = document.getElementById("fyear").value;
+	
+	//Validation for the RC form feed
+	if (rc == "" || rc == 0){
+		document.getElementById("erc").innerHTML="This Column cannot be left blank and Zero (0) is not allowed.";
+		status = 0;
+		//setInterval(clr,1000);	
+	}else if (rc.length < 7 || rc.length > 8){
+		document.getElementById("erc").innerHTML="RC Number cannot be less than seven (7) nor greater than eight (8). Thanks.";			
+		status = 0;
+		//setInterval(clr,1000);	
+	}else{
+		status = 1;
+	}
+	
+	//Validation for the Business Name
+	if (bn == ""){
+		document.getElementById("ename").innerHTML="This Column cannot be left blank.";
+		status = 0;
+		//setInterval(clr,1000);	
+	}else{
+		bn = bn.toUpperCase();
+		status = 1;
+	}
+	
+	//Validation for Nature of business
+	if (nb == ""){
+		document.getElementById("enature").innerHTML="This Column cannot be left blank.";
+		status = 0;
+		//setInterval(clr,1000);	
+	}else{
+		nb = nb.toUpperCase();
+		status = 1;
+	}
+	
+	//Validation for Address of business
+	if (ab == ""){
+		document.getElementById("eaddress").innerHTML="This Column cannot be left blank.";
+		status = 0;
+		//setInterval(clr,1000);	
+	}else{
+		ab = ab.toUpperCase();
+		status = 1;
+	}
+	
+	//Validation for Day, Month and Year
+	if (day == "" || month == "" || year == "" || year.length < 4 || year.length > 4){
+	document.getElementById("eday").innerHTML="Enter a valid information.";
+	document.getElementById("emonth").innerHTML="Enter a valid information.";
+	document.getElementById("eyear").innerHTML="Enter a valid information.";	
+	status = 0;
+	//setInterval(clr,1000);	
+	}else{
+	status = 1;
+	}
+	
+	if (status==0){
+	function cl() {
+		document.getElementById("erc").innerHTML="";			
+		document.getElementById("ename").innerHTML="";			
+		document.getElementById("enature").innerHTML="";			
+		document.getElementById("eaddress").innerHTML="";			
+		document.getElementById("eday").innerHTML="";			
+		document.getElementById("emonth").innerHTML="";			
+		document.getElementById("eyear").innerHTML="";			
+		}
+		
+		setTimeout(cl,7000);
+		//clearInterval(setInterval());
+	}else{
+	document.getElementById("rc").innerHTML=rc;			
+	document.getElementById("name").innerHTML=bn;			
+	document.getElementById("nature").innerHTML=nb;			
+	document.getElementById("address").innerHTML=ab;			
+	document.getElementById("day").innerHTML=day;			
+	document.getElementById("month").innerHTML=month;			
+	document.getElementById("year").innerHTML=year;			
+	
+	document.getElementById("form").style.display = "none";	
+	document.getElementById("certificate").style.display = "";					
+	
+	}
+	
+
+}
+
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,95 @@
+﻿{
+  "name": "PRIMESHIELDHUB QUANTUM",
+  "short_name": "⚡ PSH",
+  "description": "Nigeria's Quantum Technology & Commerce Nexus",
+  "start_url": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#030305",
+  "theme_color": "#d6b25e",
+  "lang": "en-NG",
+  "dir": "ltr",
+  "categories": ["shopping", "business", "technology"],
+  "icons": [
+    { "src": "/icons/icon-48x48.png", "sizes": "48x48", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-72x72.png", "sizes": "72x72", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-96x96.png", "sizes": "96x96", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-128x128.png", "sizes": "128x128", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-144x144.png", "sizes": "144x144", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-152x152.png", "sizes": "152x152", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-256x256.png", "sizes": "256x256", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-384x384.png", "sizes": "384x384", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
+    { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ],
+  "screenshots": [
+    { "src": "/assets/screenshots/quantum-home-4k.webp", "sizes": "3840x2160", "type": "image/webp", "form_factor": "wide", "label": "Quantum Marketplace" },
+    { "src": "/assets/screenshots/quantum-products-4k.webp", "sizes": "3840x2160", "type": "image/webp", "form_factor": "wide", "label": "Product Ecosystem" },
+    { "src": "/assets/screenshots/quantum-mobile-portrait.webp", "sizes": "1080x1920", "type": "image/webp", "form_factor": "narrow", "label": "Mobile Experience" },
+    { "src": "/assets/screenshots/quantum-reseller-dashboard.webp", "sizes": "1920x1080", "type": "image/webp", "form_factor": "wide", "label": "Reseller Command" },
+    { "src": "/assets/screenshots/quantum-ai-assistant.webp", "sizes": "1920x1080", "type": "image/webp", "form_factor": "wide", "label": "AI Assistant" },
+    { "src": "/assets/screenshots/staff-dashboard.webp", "sizes": "1920x1080", "type": "image/webp", "form_factor": "wide", "label": "Staff Portal" }
+  ],
+  "shortcuts": [
+    { 
+      "name": "⚡ Marketplace", 
+      "url": "/", 
+      "icons": [{ "src": "/icons/shortcuts/marketplace-96.png", "sizes": "96x96" }] 
+    },
+    { 
+      "name": "🛡️ Reseller", 
+      "url": "/reseller.html", 
+      "icons": [{ "src": "/icons/shortcuts/reseller-96.png", "sizes": "96x96" }] 
+    },
+    { 
+      "name": "🤖 AI Assistant", 
+      "url": "/assistant.html", 
+      "icons": [{ "src": "/icons/shortcuts/ai-96.png", "sizes": "96x96" }] 
+    },
+    { 
+      "name": "📦 Track Order", 
+      "url": "/track-order.html", 
+      "icons": [{ "src": "/icons/shortcuts/track-96.png", "sizes": "96x96" }] 
+    },
+    { 
+      "name": "💎 Enterprise", 
+      "url": "/wholesale.html", 
+      "icons": [{ "src": "/icons/shortcuts/enterprise-96.png", "sizes": "96x96" }] 
+    },
+    { 
+      "name": "👑 Founder", 
+      "url": "/founder.html", 
+      "icons": [{ "src": "/icons/shortcuts/founder-96.png", "sizes": "96x96" }] 
+    },
+    { 
+      "name": "👤 Staff Portal", 
+      "url": "/staff/", 
+      "icons": [{ "src": "/icons/shortcuts/staff-96.png", "sizes": "96x96" }] 
+    },
+    { 
+      "name": "📊 Staff Dashboard", 
+      "url": "/staff/dashboard.html", 
+      "icons": [{ "src": "/icons/shortcuts/staff-dashboard-96.png", "sizes": "96x96" }] 
+    }
+  ],
+  "protocol_handlers": [
+    { "protocol": "web+primeshieldhub", "url": "/%s" }
+  ],
+  "display_override": ["standalone", "window-controls-overlay", "minimal-ui"],
+  "launch_handler": { 
+    "client_mode": ["navigate-existing", "auto"] 
+  },
+  "edge_side_panel": { 
+    "preferred_width": 400 
+  },
+  "scope": "/",
+  "serviceworker": {
+    "src": "/sw.js",
+    "scope": "/",
+    "use_cache": false
+  },
+  "note": "For staff portal, visit /staff/ which has its own manifest"
+}

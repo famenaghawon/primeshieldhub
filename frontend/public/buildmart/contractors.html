@@ -1,0 +1,2360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.5, user-scalable=yes" />
+  <title>PRIMESHIELDHUB · Contractor Network · Enterprise</title>
+  <!-- Schema.org Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "PRIMESHIELDHUB BUILDMART Contractor Network",
+    "description": "Enterprise contractor program for construction professionals with bulk pricing, credit facilities, and dedicated support.",
+    "url": "https://primeshieldhub.com/buildmart/contractors",
+    "parentOrganization": {
+      "@type": "Organization",
+      "name": "PRIMESHIELDHUB GADGETS LIMITED",
+      "legalName": "PRIMESHIELDHUB GADGETS LIMITED",
+      "taxID": "RC 9283954"
+    }
+  }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,700&family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+  <style>
+    /* ============================================================
+       RESET + ROOTS
+       ============================================================ */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --bg-deep: #0b0a0a;
+      --bg-surface: #0e1115;
+      --bg-elevated: #171b21;
+      --text-primary: #eaeaea;
+      --text-secondary: #b0aba2;
+      --text-muted: #6e7a8f;
+      --gold: #d4af37;
+      --gold-soft: #f7e68c;
+      --gold-glow: rgba(212, 175, 55, 0.15);
+      --gold-glow-strong: rgba(212, 175, 55, 0.3);
+      --radius-xl: 48px;
+      --radius-lg: 40px;
+      --radius-md: 24px;
+      --radius-sm: 12px;
+      --transition: 0.4s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+
+    body {
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      line-height: 1.6;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: relative;
+    }
+
+    /* ---- Animated Background Layers ---- */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background:
+        radial-gradient(ellipse at 20% 30%, rgba(212, 175, 55, 0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 70%, rgba(212, 175, 55, 0.02) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 50%, rgba(212, 175, 55, 0.01) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* Blueprint Grid Overlay */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(212, 175, 55, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(212, 175, 55, 0.02) 1px, transparent 1px);
+      background-size: 60px 60px;
+      pointer-events: none;
+      mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 50%, black 30%, transparent 80%);
+    }
+
+    /* Particle Canvas Container */
+    #particles-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Noise Texture */
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.015;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+      background-size: 256px 256px;
+    }
+
+    .container {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ============================================================
+       GLASS & GOLD
+       ============================================================ */
+    .glass {
+      background: rgba(20, 18, 18, 0.55);
+      backdrop-filter: blur(14px) saturate(180%);
+      -webkit-backdrop-filter: blur(14px) saturate(180%);
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: var(--radius-lg);
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(212, 175, 55, 0.06);
+      transition: var(--transition);
+    }
+
+    .glass:hover {
+      border-color: rgba(212, 175, 55, 0.22);
+      box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.9), inset 0 1px 0 rgba(212, 175, 55, 0.1);
+    }
+
+    .gold-text { color: var(--gold); }
+    .gold-border { border-color: var(--gold); }
+    .gold-bg {
+      background: linear-gradient(145deg, var(--gold), #b8962e);
+      color: #0b0a0a;
+    }
+    .orbitron { font-family: 'Orbitron', sans-serif; }
+    .playfair { font-family: 'Playfair Display', serif; }
+
+    /* ============================================================
+       NAVBAR — with shrink effect
+       ============================================================ */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 60;
+      padding: 1.2rem 0;
+      border-bottom: 1px solid rgba(212, 176, 94, 0.06);
+      background: rgba(2, 3, 4, 0.72);
+      backdrop-filter: blur(18px) saturate(180%);
+      -webkit-backdrop-filter: blur(18px) saturate(180%);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      transition: all 0.3s ease;
+    }
+
+    .navbar.shrink {
+      padding: 0.5rem 0;
+      background: rgba(2, 3, 4, 0.88);
+      border-bottom-color: rgba(212, 176, 94, 0.12);
+    }
+
+    .navbar .logo {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      background: linear-gradient(135deg, #f0d78c, #d4b05e, #b8942e);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      transition: font-size 0.3s ease;
+    }
+
+    .navbar.shrink .logo { font-size: 1.1rem; }
+    .navbar .logo .sub {
+      font-family: 'Inter', sans-serif;
+      font-size: 0.6rem;
+      font-weight: 500;
+      letter-spacing: 2px;
+      -webkit-text-fill-color: var(--text-muted);
+      color: var(--text-muted);
+      display: block;
+      margin-top: -2px;
+    }
+
+    .nav-flex {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.6rem;
+      font-weight: 500;
+      font-size: 0.85rem;
+      color: #bcc4d2;
+      flex-wrap: wrap;
+    }
+    .nav-links a {
+      transition: 0.2s;
+      position: relative;
+      padding: 0.2rem 0;
+      text-decoration: none;
+      color: #bcc4d2;
+    }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--gold);
+      transition: width 0.25s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-links a:hover::after { width: 100%; }
+    .nav-links a.active { color: var(--gold); }
+    .nav-links a.active::after { width: 100%; }
+
+    .nav-actions { display: flex; gap: 0.6rem; align-items: center; }
+    .hamburger {
+      display: none;
+      font-size: 1.4rem;
+      color: #d1d8e5;
+      background: transparent;
+      border: none;
+      cursor: pointer;
+      padding: 0.2rem 0.4rem;
+    }
+
+    /* ============================================================
+       BUTTONS
+       ============================================================ */
+    .btn-primary {
+      background: linear-gradient(145deg, #d4af37, #b8962e);
+      border: none;
+      color: #0b0a0a;
+      padding: 0.9rem 2.4rem;
+      border-radius: 60px;
+      font-weight: 700;
+      font-size: 1rem;
+      transition: all 0.25s cubic-bezier(0.2, 0.9, 0.4, 1);
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+      cursor: pointer;
+      letter-spacing: 0.02em;
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.25), transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s;
+    }
+
+    .btn-primary:hover::after { opacity: 1; }
+    .btn-primary:hover {
+      background: linear-gradient(145deg, #f7e68c, #d4af37);
+      transform: scale(1.03);
+      box-shadow: 0 0 40px rgba(212, 175, 55, 0.35);
+    }
+    .btn-primary:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none !important;
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #d4af37;
+      color: #d4af37;
+      padding: 0.9rem 2.4rem;
+      border-radius: 60px;
+      font-weight: 600;
+      transition: all 0.25s;
+      cursor: pointer;
+      backdrop-filter: blur(4px);
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      text-decoration: none;
+    }
+
+    .btn-outline:hover {
+      background: rgba(212, 175, 55, 0.1);
+      border-color: #f7e68c;
+      color: #f7e68c;
+      transform: translateY(-2px);
+    }
+
+    .btn-gold {
+      background: var(--gold);
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 60px;
+      font-weight: 700;
+      color: #0b0a0a;
+      font-size: 0.95rem;
+      transition: 0.2s;
+      cursor: pointer;
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.15);
+      font-family: 'Inter', sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .btn-gold:hover { transform: scale(1.04); background: var(--gold-soft); }
+
+    /* ============================================================
+       HERO — with animated particles & blueprint
+       ============================================================ */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      padding: 4rem 0 3rem;
+      gap: 2.5rem;
+      min-height: 75vh;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -30%;
+      left: -10%;
+      width: 600px;
+      height: 600px;
+      background: radial-gradient(circle, rgba(212, 175, 55, 0.04), transparent 70%);
+      border-radius: 50%;
+      pointer-events: none;
+      animation: pulseGlow 8s ease-in-out infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.3); opacity: 1; }
+    }
+
+    .hero-content {
+      flex: 1 1 45%;
+      position: relative;
+      z-index: 3;
+    }
+
+    .hero-content h1 {
+      font-size: clamp(2.8rem, 7vw, 4.8rem);
+      line-height: 1.05;
+      margin-bottom: 1.2rem;
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+    }
+
+    .hero-content h1 span {
+      background: linear-gradient(135deg, #d4af37 0%, #f7e68c 80%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-content p {
+      font-size: clamp(1rem, 1.2vw, 1.2rem);
+      opacity: 0.75;
+      max-width: 560px;
+    }
+
+    .hero-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      margin: 1.8rem 0;
+    }
+
+    .hero-tags span {
+      background: rgba(212, 175, 55, 0.05);
+      padding: 0.3rem 1rem;
+      border-radius: 40px;
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+      backdrop-filter: blur(4px);
+      color: var(--text-secondary);
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    /* Hero Stats — with icons */
+    .hero-stats {
+      flex: 1 1 40%;
+      background: rgba(10, 10, 10, 0.5);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem 2rem;
+      border: 1px solid rgba(212, 175, 55, 0.08);
+      box-shadow: 0 30px 60px -20px #000;
+      position: relative;
+      z-index: 3;
+      overflow: hidden;
+    }
+
+    .hero-stats::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at 70% 30%, rgba(212, 175, 55, 0.03), transparent 70%);
+      pointer-events: none;
+    }
+
+    .stat-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .stat-item {
+      text-align: center;
+    }
+
+    .stat-item .stat-icon {
+      font-size: 1.6rem;
+      color: var(--gold);
+      display: block;
+      margin-bottom: 0.2rem;
+      opacity: 0.6;
+    }
+
+    .stat-number {
+      font-size: clamp(2rem, 4vw, 2.8rem);
+      font-weight: 700;
+      font-family: 'Orbitron', sans-serif;
+      color: #d4af37;
+      letter-spacing: 0.04em;
+    }
+
+    .stat-number .plus {
+      font-size: 1.2rem;
+      color: var(--gold);
+    }
+
+    .stat-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.6;
+      margin-top: 0.1rem;
+    }
+
+    /* ============================================================
+       SECTION HEADERS
+       ============================================================ */
+    .section-title {
+      font-size: clamp(2.2rem, 5vw, 3.2rem);
+      font-weight: 700;
+      margin-bottom: 0.8rem;
+      font-family: 'Playfair Display', serif;
+    }
+
+    .section-sub {
+      font-size: 1.1rem;
+      opacity: 0.7;
+      max-width: 700px;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header .view-all {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      text-decoration: none;
+    }
+    .section-header .view-all:hover { color: var(--gold); }
+
+    /* ============================================================
+       BENEFIT CARDS
+       ============================================================ */
+    .benefit-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5rem;
+      margin: 2.5rem 0;
+    }
+
+    .benefit-card {
+      background: rgba(20, 18, 18, 0.5);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      padding: 1.8rem 1.5rem;
+      border-radius: var(--radius-lg);
+      border: 1px solid rgba(212, 175, 55, 0.04);
+      transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+      text-align: center;
+    }
+
+    .benefit-card:hover {
+      transform: translateY(-8px);
+      border-color: #d4af37;
+      box-shadow: 0 20px 40px -12px rgba(212, 175, 55, 0.12);
+      background: rgba(30, 28, 28, 0.6);
+    }
+
+    .benefit-icon {
+      font-size: 2.4rem;
+      color: #d4af37;
+      margin-bottom: 0.5rem;
+      display: block;
+      transition: transform 0.4s ease;
+    }
+
+    .benefit-card:hover .benefit-icon { transform: scale(1.1) rotate(-3deg); }
+
+    .benefit-card h3 {
+      font-size: 1.2rem;
+      font-weight: 600;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .benefit-card p {
+      font-size: 0.85rem;
+      opacity: 0.7;
+      margin-top: 0.2rem;
+    }
+
+    /* ============================================================
+       TIER CARDS — Apple-style pricing
+       ============================================================ */
+    .tier-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.2rem;
+      margin: 2rem 0;
+    }
+
+    .tier-card {
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      padding: 1.8rem 1.2rem;
+      border-radius: var(--radius-md);
+      text-align: center;
+      border: 1px solid #2a2a2a;
+      transition: all 0.25s;
+      position: relative;
+    }
+
+    .tier-card:hover {
+      border-color: #d4af37;
+      transform: scale(1.02);
+    }
+
+    .tier-card .tier-badge {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: var(--gold);
+      color: #0b0a0a;
+      padding: 0.2rem 1rem;
+      border-radius: 40px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    }
+
+    .tier-card.platinum {
+      border-color: #d4af37;
+      background: rgba(212, 175, 55, 0.04);
+      box-shadow: 0 0 30px rgba(212, 175, 55, 0.03);
+    }
+
+    .tier-card h4 {
+      font-size: 1.3rem;
+      font-weight: 700;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .tier-price {
+      font-size: 1.4rem;
+      font-family: 'Orbitron', sans-serif;
+      color: #d4af37;
+      margin: 0.3rem 0;
+    }
+
+    .tier-card .tier-desc {
+      font-size: 0.8rem;
+      opacity: 0.7;
+      margin: 0.4rem 0;
+    }
+
+    .tier-card .tier-features {
+      list-style: none;
+      padding: 0;
+      margin: 0.8rem 0;
+      font-size: 0.8rem;
+      opacity: 0.8;
+    }
+    .tier-card .tier-features li {
+      padding: 0.2rem 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.4rem;
+    }
+    .tier-card .tier-features li i { color: var(--gold); font-size: 0.6rem; }
+
+    .tier-card .btn-tiny {
+      padding: 0.4rem 1.2rem;
+      font-size: 0.75rem;
+      border-radius: 40px;
+      background: transparent;
+      border: 1px solid #d4af37;
+      color: #d4af37;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+    }
+    .tier-card .btn-tiny:hover {
+      background: #d4af37;
+      color: #0b0a0a;
+    }
+    .tier-card.platinum .btn-tiny {
+      background: #d4af37;
+      color: #0b0a0a;
+    }
+    .tier-card.platinum .btn-tiny:hover {
+      background: #f7e68c;
+      border-color: #f7e68c;
+    }
+
+    /* ============================================================
+       FORM — Multi-step
+       ============================================================ */
+    .form-section {
+      background: rgba(0, 0, 0, 0.2);
+      padding: 3rem 2.5rem;
+      border-radius: var(--radius-xl);
+      backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+      border: 1px solid rgba(212, 175, 55, 0.04);
+      margin: 4rem 0;
+    }
+
+    /* Progress Bar */
+    .progress-container {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 2.5rem;
+      position: relative;
+    }
+
+    .progress-container::before {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #2a2a2a;
+      transform: translateY(-50%);
+      z-index: 0;
+    }
+
+    .progress-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.3rem;
+      z-index: 1;
+      cursor: pointer;
+      transition: var(--transition);
+      flex: 1;
+    }
+
+    .progress-step .step-circle {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: #1a1a1a;
+      border: 2px solid #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+
+    .progress-step.active .step-circle {
+      border-color: #d4af37;
+      background: rgba(212, 175, 55, 0.1);
+      color: #d4af37;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.1);
+    }
+
+    .progress-step.completed .step-circle {
+      border-color: #4ade80;
+      background: rgba(74, 222, 128, 0.1);
+      color: #4ade80;
+    }
+
+    .progress-step .step-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.5;
+      transition: var(--transition);
+    }
+
+    .progress-step.active .step-label,
+    .progress-step.completed .step-label { opacity: 1; }
+
+    /* Form Steps */
+    .form-step {
+      display: none;
+      animation: fadeIn 0.4s ease;
+    }
+
+    .form-step.active { display: block; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .form-group { margin-bottom: 0.2rem; }
+    .form-group label {
+      display: block;
+      font-weight: 500;
+      margin-bottom: 0.3rem;
+      opacity: 0.8;
+      font-size: 0.85rem;
+      letter-spacing: 0.02em;
+    }
+    .form-group .required { color: #ef4444; margin-left: 2px; }
+
+    .form-control {
+      width: 100%;
+      padding: 0.85rem 1.2rem;
+      border-radius: var(--radius-md);
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid #333;
+      color: #fff;
+      font-size: 0.95rem;
+      transition: all 0.25s;
+      backdrop-filter: blur(4px);
+      font-family: 'Inter', sans-serif;
+    }
+    .form-control:focus {
+      border-color: #d4af37;
+      outline: none;
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.06);
+    }
+    .form-control::placeholder { color: #555; }
+
+    select.form-control {
+      appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23d4af37' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 1.2rem center;
+      background-size: 12px;
+      padding-right: 2.8rem;
+      cursor: pointer;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.3rem 0.8rem;
+      background: rgba(255, 255, 255, 0.02);
+      padding: 0.6rem 1rem;
+      border-radius: var(--radius-md);
+      border: 1px solid #2a2a2a;
+    }
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-weight: 400;
+      opacity: 0.8;
+      font-size: 0.82rem;
+      cursor: pointer;
+    }
+    .checkbox-group input[type="checkbox"] {
+      accent-color: #d4af37;
+      width: 1rem;
+      height: 1rem;
+      cursor: pointer;
+    }
+
+    /* Upload Cards */
+    .upload-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 1rem;
+      margin: 0.5rem 0;
+    }
+
+    .upload-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 2px dashed #333;
+      border-radius: var(--radius-md);
+      padding: 1.2rem;
+      text-align: center;
+      transition: var(--transition);
+      cursor: pointer;
+    }
+
+    .upload-card:hover {
+      border-color: #d4af37;
+      background: rgba(212, 175, 55, 0.03);
+    }
+    .upload-card.has-file {
+      border-color: #4ade80;
+      background: rgba(74, 222, 128, 0.04);
+    }
+    .upload-card .upload-icon { font-size: 1.8rem; color: #d4af37; opacity: 0.5; }
+    .upload-card .upload-name { font-size: 0.7rem; opacity: 0.6; margin-top: 0.3rem; }
+    .upload-card .upload-status { font-size: 0.6rem; color: #4ade80; display: none; }
+    .upload-card.has-file .upload-status { display: block; }
+
+    .form-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 1.5rem;
+      grid-column: 1 / -1;
+    }
+
+    .form-nav {
+      display: flex;
+      gap: 0.8rem;
+    }
+
+    /* ============================================================
+       DASHBOARD PREVIEW
+       ============================================================ */
+    .dashboard-preview {
+      margin: 4rem 0;
+      position: relative;
+    }
+
+    .dashboard-preview .mockup {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      border: 1px solid rgba(212, 175, 55, 0.08);
+      box-shadow: 0 40px 80px -20px #000;
+      background: #12121a;
+      position: relative;
+    }
+
+    .dashboard-preview .mockup-header {
+      padding: 1rem 1.5rem;
+      background: rgba(0, 0, 0, 0.4);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .dashboard-preview .mockup-dots span {
+      display: inline-block;
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      margin-right: 6px;
+    }
+    .dashboard-preview .mockup-dots span:nth-child(1) { background: #ef4444; }
+    .dashboard-preview .mockup-dots span:nth-child(2) { background: #facc15; }
+    .dashboard-preview .mockup-dots span:nth-child(3) { background: #4ade80; }
+
+    .dashboard-preview .mockup-body {
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .dashboard-preview .mockup-card {
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius-sm);
+      padding: 1.2rem;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    .dashboard-preview .mockup-card .mc-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      opacity: 0.4;
+    }
+    .dashboard-preview .mockup-card .mc-value {
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: 'Orbitron', sans-serif;
+      color: #d4af37;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-preview .mockup-body {
+        grid-template-columns: 1fr 1fr;
+        padding: 1rem;
+      }
+    }
+    @media (max-width: 500px) {
+      .dashboard-preview .mockup-body { grid-template-columns: 1fr; }
+    }
+
+    /* ============================================================
+       AI ASSISTANT — ChatGPT-style
+       ============================================================ */
+    .ai-card {
+      background: rgba(10, 10, 10, 0.5);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius-xl);
+      padding: 2.5rem;
+      border: 1px solid rgba(212, 175, 55, 0.06);
+      margin: 4rem 0;
+    }
+
+    .ai-chat {
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: var(--radius-lg);
+      padding: 1.5rem;
+      border: 1px solid rgba(255, 255, 255, 0.02);
+      min-height: 80px;
+    }
+
+    .ai-chat .ai-message {
+      display: flex;
+      gap: 0.8rem;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    }
+
+    .ai-chat .ai-message:last-child { border-bottom: none; }
+    .ai-chat .ai-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: rgba(212, 175, 55, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #d4af37;
+      font-size: 0.8rem;
+      flex-shrink: 0;
+    }
+    .ai-chat .ai-content { opacity: 0.9; font-size: 0.95rem; }
+
+    .ai-input-row {
+      display: flex;
+      gap: 0.8rem;
+      margin-top: 1rem;
+      align-items: center;
+    }
+
+    .ai-input-row input {
+      flex: 1;
+      padding: 0.9rem 1.2rem;
+      border-radius: 60px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid #333;
+      color: #fff;
+      font-size: 0.95rem;
+      font-family: 'Inter', sans-serif;
+      outline: none;
+      transition: var(--transition);
+    }
+
+    .ai-input-row input:focus { border-color: #d4af37; }
+
+    .ai-suggestions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.6rem;
+      margin-top: 0.8rem;
+    }
+
+    .ai-suggestion {
+      background: rgba(212, 175, 55, 0.04);
+      padding: 0.4rem 1.2rem;
+      border-radius: 40px;
+      border: 1px solid rgba(212, 175, 55, 0.06);
+      font-size: 0.8rem;
+      cursor: pointer;
+      transition: var(--transition);
+      color: var(--text-secondary);
+    }
+
+    .ai-suggestion:hover {
+      border-color: #d4af37;
+      color: #d4af37;
+      background: rgba(212, 175, 55, 0.06);
+    }
+
+    .ai-result {
+      margin-top: 1rem;
+      padding: 1.2rem 1.5rem;
+      border-radius: var(--radius-md);
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(212, 175, 55, 0.06);
+      display: none;
+    }
+
+    .ai-result.visible { display: block; }
+
+    .ai-result-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.8rem 1.5rem;
+    }
+    .ai-result-grid .result-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.3rem 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+    }
+    .ai-result-grid .result-item .label { opacity: 0.5; font-size: 0.8rem; }
+    .ai-result-grid .result-item .value { color: #d4af37; font-weight: 600; }
+
+    .ai-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      margin-top: 1rem;
+    }
+
+    .ai-actions .btn-sm {
+      padding: 0.3rem 1.2rem;
+      border-radius: 40px;
+      border: 1px solid rgba(212, 175, 55, 0.1);
+      background: transparent;
+      color: var(--text-secondary);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: var(--transition);
+      font-family: 'Inter', sans-serif;
+    }
+
+    .ai-actions .btn-sm:hover {
+      border-color: #d4af37;
+      color: #d4af37;
+      background: rgba(212, 175, 55, 0.04);
+    }
+
+    /* ============================================================
+       TRUST SECTION
+       ============================================================ */
+    .trust-section {
+      margin: 4rem 0;
+      text-align: center;
+    }
+
+    .trust-logos {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2.5rem 4rem;
+      padding: 2rem 0;
+      opacity: 0.5;
+    }
+
+    .trust-logos .trust-item {
+      font-size: 1.2rem;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      color: var(--text-secondary);
+      font-family: 'Orbitron', sans-serif;
+    }
+
+    /* ============================================================
+       ENTERPRISE CTA
+       ============================================================ */
+    .enterprise-cta {
+      background: radial-gradient(ellipse at 50% 50%, rgba(212, 175, 55, 0.04), transparent 70%);
+      border: 1px solid rgba(212, 175, 55, 0.06);
+      border-radius: var(--radius-xl);
+      padding: 3.5rem 3rem;
+      margin: 4rem 0;
+      text-align: center;
+    }
+
+    .enterprise-cta h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 700;
+    }
+
+    .enterprise-cta p {
+      opacity: 0.6;
+      max-width: 560px;
+      margin: 0.5rem auto 1.5rem;
+    }
+
+    .enterprise-cta .cta-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+
+    /* ============================================================
+       TIMELINE — Animated
+       ============================================================ */
+    .timeline {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.5rem 1rem;
+      margin: 2rem 0;
+      position: relative;
+    }
+
+    .timeline::before {
+      content: '';
+      position: absolute;
+      top: 16px;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: #2a2a2a;
+      z-index: 0;
+    }
+
+    .timeline-step {
+      flex: 1 1 80px;
+      text-align: center;
+      padding-top: 2rem;
+      position: relative;
+      z-index: 1;
+      opacity: 0.4;
+      transition: all 0.6s ease;
+      cursor: default;
+    }
+
+    .timeline-step::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 14px;
+      height: 14px;
+      border-radius: 50%;
+      background: #2a2a2a;
+      border: 2px solid #333;
+      transition: var(--transition);
+    }
+
+    .timeline-step.active {
+      opacity: 1;
+      color: #f7e68c;
+    }
+    .timeline-step.active::before {
+      background: #d4af37;
+      border-color: #f7e68c;
+      box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+    }
+    .timeline-step.completed {
+      opacity: 1;
+      color: #4ade80;
+    }
+    .timeline-step.completed::before {
+      background: #4ade80;
+      border-color: #4ade80;
+      box-shadow: 0 0 20px rgba(74, 222, 128, 0.2);
+    }
+
+    .timeline-step .step-label {
+      font-size: 0.75rem;
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    /* ============================================================
+       FOOTER
+       ============================================================ */
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 3rem 0 2rem;
+      border-top: 1px solid #222;
+    }
+
+    .footer-links .footer-brand {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.2rem;
+      letter-spacing: 0.06em;
+    }
+
+    .footer-links .footer-col strong {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+    }
+
+    .footer-links .footer-col a {
+      display: block;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.85rem;
+      padding: 0.2rem 0;
+      transition: var(--transition);
+    }
+    .footer-links .footer-col a:hover { color: var(--gold); }
+
+    .footer-links .social-icons {
+      display: flex;
+      gap: 1.2rem;
+      font-size: 1.4rem;
+    }
+    .footer-links .social-icons a {
+      color: var(--text-muted);
+      transition: var(--transition);
+    }
+    .footer-links .social-icons a:hover { color: var(--gold); }
+
+    /* ============================================================
+       TOAST
+       ============================================================ */
+    .toast {
+      position: fixed;
+      bottom: 2rem;
+      left: 50%;
+      transform: translateX(-50%);
+      max-width: 500px;
+      background: rgba(14, 17, 21, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.12);
+      border-radius: 16px;
+      padding: 1rem 1.5rem;
+      color: var(--text-primary);
+      font-family: 'Inter', sans-serif;
+      font-size: 0.9rem;
+      z-index: 2000;
+      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.6);
+      animation: slideUp 0.4s ease;
+      line-height: 1.6;
+      text-align: center;
+    }
+    .toast.error { border-color: rgba(239, 68, 68, 0.25); }
+    .toast.success { border-color: rgba(74, 222, 128, 0.25); }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateX(-50%) translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
+    }
+
+    /* ============================================================
+       RESPONSIVE
+       ============================================================ */
+    @media (max-width: 1024px) {
+      .container { padding: 0 1.5rem; }
+    }
+
+    @media (max-width: 900px) {
+      .hero { flex-direction: column; }
+      .form-grid { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: 1fr 1fr; }
+      .hero-content h1 { font-size: clamp(2.4rem, 8vw, 3.2rem); }
+      .nav-links { display: none; }
+      .hamburger { display: block; }
+      body { padding: 0 0.8rem; }
+      .form-section { padding: 2rem 1.2rem; }
+      .ai-card { padding: 1.5rem; }
+      .footer-links { flex-direction: column; text-align: center; }
+      .footer-links .social-icons { justify-content: center; }
+      .progress-container { flex-wrap: wrap; gap: 0.5rem; }
+      .progress-step .step-label { font-size: 0.6rem; }
+      .dashboard-preview .mockup-body { grid-template-columns: 1fr 1fr; }
+      .ai-result-grid { grid-template-columns: 1fr; }
+      .timeline::before { display: none; }
+      .timeline-step { padding-top: 0; }
+      .timeline-step::before { position: static; transform: none; display: inline-block; margin-right: 0.5rem; width: 10px; height: 10px; }
+    }
+
+    @media (max-width: 600px) {
+      .stat-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+      .benefit-grid { grid-template-columns: 1fr; }
+      .tier-grid { grid-template-columns: 1fr 1fr; }
+      .hero-stats { padding: 1.5rem 1rem; }
+      .container { padding: 0 1rem; }
+      .hero { padding: 2rem 0; }
+      .btn-primary, .btn-outline { width: 100%; justify-content: center; }
+      .btn-group { flex-direction: column; }
+      .form-actions { flex-direction: column; align-items: stretch; }
+      .form-nav { flex-direction: column; }
+      .trust-logos { gap: 1.5rem 2rem; }
+      .trust-logos .trust-item { font-size: 1rem; }
+      .dashboard-preview .mockup-body { grid-template-columns: 1fr; padding: 1rem; }
+      .upload-grid { grid-template-columns: 1fr; }
+      .enterprise-cta { padding: 2rem 1.5rem; }
+      .ai-input-row { flex-direction: column; }
+      .ai-input-row input { width: 100%; }
+    }
+
+    @media (max-width: 420px) {
+      .tier-grid { grid-template-columns: 1fr; }
+      .stat-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 1.8rem; }
+      .container { padding: 0 0.6rem; }
+      .checkbox-group { flex-direction: column; gap: 0.3rem; }
+      .progress-step .step-circle { width: 30px; height: 30px; font-size: 0.7rem; }
+    }
+
+    /* ============================================================
+       SCROLL REVEAL
+       ============================================================ */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
+    }
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+  <!-- ============================================================
+       ANIMATED BACKGROUND LAYERS
+       ============================================================ -->
+  <div class="grid-overlay"></div>
+  <div class="noise-overlay"></div>
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- ============================================================
+       STICKY ACTION BAR
+       ============================================================ -->
+  <div class="sticky-bar" style="position:fixed;bottom:2rem;right:2rem;z-index:999;display:flex;flex-direction:column;gap:0.6rem;align-items:flex-end;">
+    <button class="sticky-btn" onclick="window.open('https://wa.me/2348000000000','_blank')" style="background:rgba(16,14,14,0.85);backdrop-filter:blur(16px);border:1px solid rgba(212,175,55,0.2);color:#d4af37;padding:0.5rem 1.2rem;border-radius:60px;font-weight:600;display:inline-flex;align-items:center;gap:0.6rem;transition:0.2s;cursor:pointer;font-size:0.8rem;box-shadow:0 8px 24px rgba(0,0,0,0.6);font-family:'Inter',sans-serif;">
+      <i class="fab fa-whatsapp"></i> WhatsApp
+    </button>
+    <button class="sticky-btn" onclick="window.location.href='tel:+2348000000000'" style="background:rgba(16,14,14,0.85);backdrop-filter:blur(16px);border:1px solid rgba(212,175,55,0.2);color:#d4af37;padding:0.5rem 1.2rem;border-radius:60px;font-weight:600;display:inline-flex;align-items:center;gap:0.6rem;transition:0.2s;cursor:pointer;font-size:0.8rem;box-shadow:0 8px 24px rgba(0,0,0,0.6);font-family:'Inter',sans-serif;">
+      <i class="fas fa-phone-alt"></i> Call
+    </button>
+    <button class="sticky-btn" id="aiStickyBtn" style="background:rgba(16,14,14,0.85);backdrop-filter:blur(16px);border:1px solid rgba(212,175,55,0.2);color:#d4af37;padding:0.5rem 1.2rem;border-radius:60px;font-weight:600;display:inline-flex;align-items:center;gap:0.6rem;transition:0.2s;cursor:pointer;font-size:0.8rem;box-shadow:0 8px 24px rgba(0,0,0,0.6);font-family:'Inter',sans-serif;">
+      <i class="fas fa-robot"></i> AI
+    </button>
+  </div>
+
+  <!-- ============================================================
+       NAVBAR
+       ============================================================ -->
+  <nav class="navbar" id="navbar">
+    <div class="container nav-flex">
+      <a href="/buildmart" class="logo">
+        PRIMESHIELDHUB
+        <span class="sub">BUILDMART</span>
+      </a>
+      <div class="nav-links">
+        <a href="/buildmart">Home</a>
+        <a href="/buildmart/products">Products</a>
+        <a href="/buildmart/categories">Categories</a>
+        <a href="/buildmart/wholesale">Wholesale</a>
+        <a href="/buildmart/contractors" class="active">Contractors</a>
+        <a href="/buildmart/projects">Projects</a>
+        <a href="/buildmart/quote">Quote</a>
+        <a href="/buildmart/delivery">Delivery</a>
+      </div>
+      <div class="nav-actions">
+        <a href="/buildmart/quote" class="btn-primary" style="padding:0.4rem 1.4rem;font-size:0.75rem;">
+          <i class="fas fa-file-invoice"></i> Quote
+        </a>
+        <button class="hamburger" aria-label="Toggle navigation"><i class="fas fa-bars"></i></button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ============================================================
+       HERO
+       ============================================================ -->
+  <main>
+    <div class="container">
+      <section class="hero">
+        <div class="hero-content">
+          <div class="hero-badge" style="display:inline-block;background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.15);border-radius:60px;padding:0.3rem 1.2rem;font-weight:600;font-size:0.7rem;letter-spacing:0.3px;backdrop-filter:blur(4px);margin-bottom:1rem;">
+            <i class="fas fa-hard-hat" style="color:#d4af37;margin-right:0.4rem;"></i> ENTERPRISE CONTRACTOR NETWORK
+          </div>
+          <h1>Built for <span>Construction</span> Professionals</h1>
+          <p>Partner with PRIMESHIELDHUB BUILDMART for bulk procurement, project financing, priority delivery, and AI-powered estimation.</p>
+          <div class="hero-tags">
+            <span>🏗️ Enterprise Contractor Program</span>
+            <span>🏛️ Government Procurement</span>
+            <span>🏢 Real Estate Developers</span>
+            <span>🛠️ Civil Engineering</span>
+            <span>📐 Architects</span>
+            <span>📊 Quantity Surveyors</span>
+          </div>
+          <div class="btn-group">
+            <button class="btn-primary" id="ctaApplyBtn"><i class="fas fa-user-plus"></i> Apply Now</button>
+            <button class="btn-outline" onclick="document.getElementById('benefits').scrollIntoView({behavior:'smooth'})"><i class="fas fa-arrow-down"></i> View Benefits</button>
+          </div>
+        </div>
+        <div class="hero-stats" id="heroStats">
+          <div class="stat-grid">
+            <div class="stat-item">
+              <span class="stat-icon">👷</span>
+              <div class="stat-number" data-count="3284">0<span class="plus">+</span></div>
+              <div class="stat-label">Contractors</div>
+            </div>
+            <div class="stat-item">
+              <span class="stat-icon">🏗️</span>
+              <div class="stat-number" data-count="487">0</div>
+              <div class="stat-label">Active Projects</div>
+            </div>
+            <div class="stat-item">
+              <span class="stat-icon">🚚</span>
+              <div class="stat-number" data-count="4.8">₦0B</div>
+              <div class="stat-label">Materials Delivered</div>
+            </div>
+            <div class="stat-item">
+              <span class="stat-icon">💰</span>
+              <div class="stat-number" data-count="18">0%</div>
+              <div class="stat-label">Average Savings</div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           BENEFITS
+           ============================================================ -->
+      <section id="benefits" style="margin:4rem 0;">
+        <h2 class="section-title">Contractor <span class="gold-text">Benefits</span></h2>
+        <div class="benefit-grid">
+          <div class="benefit-card reveal"><div class="benefit-icon">₦</div><h3>Bulk Pricing</h3><p>Tiered discounts · Project pricing · Seasonal promotions</p></div>
+          <div class="benefit-card reveal"><div class="benefit-icon"><i class="fas fa-user-tie"></i></div><h3>Dedicated Manager</h3><p>One procurement specialist assigned to your firm</p></div>
+          <div class="benefit-card reveal"><div class="benefit-icon"><i class="fas fa-credit-card"></i></div><h3>Credit Facility</h3><p>30 · 60 · 90 days depending on approval</p></div>
+          <div class="benefit-card reveal"><div class="benefit-icon"><i class="fas fa-truck"></i></div><h3>Priority Delivery</h3><p>Express logistics · Site delivery · Project scheduling</p></div>
+          <div class="benefit-card reveal"><div class="benefit-icon"><i class="fas fa-brain"></i></div><h3>AI Estimation</h3><p>Describe any project → Materials, budget, schedule</p></div>
+          <div class="benefit-card reveal"><div class="benefit-icon"><i class="fas fa-chart-pie"></i></div><h3>Procurement Dashboard</h3><p>Real-time orders, invoices, payments, projects</p></div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           CONTRACTOR LEVELS — Apple-style
+           ============================================================ -->
+      <section style="margin:4rem 0;">
+        <h2 class="section-title">Contractor <span class="gold-text">Levels</span></h2>
+        <div class="tier-grid">
+          <div class="tier-card reveal">
+            <h4>Bronze</h4>
+            <div class="tier-price">₦1M+</div>
+            <div class="tier-desc">Small builders &amp; startups</div>
+            <ul class="tier-features">
+              <li><i class="fas fa-check"></i> 3% Discount</li>
+              <li><i class="fas fa-check"></i> Standard Support</li>
+              <li><i class="fas fa-check"></i> Email Support</li>
+            </ul>
+            <button class="btn-tiny">Get Started</button>
+          </div>
+          <div class="tier-card reveal">
+            <div class="tier-badge">Popular</div>
+            <h4>Silver</h4>
+            <div class="tier-price">₦5M+</div>
+            <div class="tier-desc">Growing contractors</div>
+            <ul class="tier-features">
+              <li><i class="fas fa-check"></i> 6% Discount</li>
+              <li><i class="fas fa-check"></i> Priority Support</li>
+              <li><i class="fas fa-check"></i> Dedicated Email</li>
+            </ul>
+            <button class="btn-tiny">Get Started</button>
+          </div>
+          <div class="tier-card reveal">
+            <h4>Gold</h4>
+            <div class="tier-price">₦20M+</div>
+            <div class="tier-desc">Established firms</div>
+            <ul class="tier-features">
+              <li><i class="fas fa-check"></i> 10% Discount</li>
+              <li><i class="fas fa-check"></i> Dedicated Manager</li>
+              <li><i class="fas fa-check"></i> Priority Delivery</li>
+            </ul>
+            <button class="btn-tiny">Get Started</button>
+          </div>
+          <div class="tier-card platinum reveal">
+            <h4>Platinum</h4>
+            <div class="tier-price">₦100M+</div>
+            <div class="tier-desc">Enterprise contractors</div>
+            <ul class="tier-features">
+              <li><i class="fas fa-check"></i> Negotiated Pricing</li>
+              <li><i class="fas fa-check"></i> Executive Support</li>
+              <li><i class="fas fa-check"></i> Custom Terms</li>
+            </ul>
+            <button class="btn-tiny">Contact Sales</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           REGISTRATION FORM — Multi-Step
+           ============================================================ -->
+      <section class="form-section" id="registration">
+        <h2 class="section-title">Contractor <span class="gold-text">Registration</span></h2>
+        <p class="section-sub">Enterprise application – complete all fields for verification</p>
+
+        <!-- Progress -->
+        <div class="progress-container" id="progressContainer">
+          <div class="progress-step active" data-step="1">
+            <div class="step-circle">1</div>
+            <span class="step-label">Company</span>
+          </div>
+          <div class="progress-step" data-step="2">
+            <div class="step-circle">2</div>
+            <span class="step-label">Business</span>
+          </div>
+          <div class="progress-step" data-step="3">
+            <div class="step-circle">3</div>
+            <span class="step-label">Documents</span>
+          </div>
+        </div>
+
+        <form id="contractorForm">
+          <!-- Step 1: Company -->
+          <div class="form-step active" data-step="1">
+            <div class="form-grid">
+              <div class="form-group"><label>Company Name <span class="required">*</span></label><input class="form-control" id="companyName" placeholder="PRIMESHIELDHUB Construction Ltd" required /></div>
+              <div class="form-group"><label>CAC Number</label><input class="form-control" id="cacNumber" placeholder="RC 123456" /></div>
+              <div class="form-group"><label>TIN</label><input class="form-control" id="tin" placeholder="01234567-0001" /></div>
+              <div class="form-group"><label>Business Address</label><input class="form-control" id="businessAddress" placeholder="Lekki, Lagos" /></div>
+              <div class="form-group"><label>Years in Operation <span class="required">*</span></label><input class="form-control" id="yearsInOperation" type="number" placeholder="5" required /></div>
+              <div class="form-group"><label>Industry</label>
+                <select class="form-control" id="industry">
+                  <option value="civil">Civil Engineering</option><option value="architecture">Architecture</option>
+                  <option value="construction">Construction</option><option value="realestate">Real Estate</option>
+                  <option value="government">Government</option><option value="electrical">Electrical</option>
+                  <option value="mechanical">Mechanical</option><option value="interior">Interior</option>
+                  <option value="road">Road Construction</option><option value="infrastructure">Infrastructure</option>
+                  <option value="supplier">Supplier</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-actions">
+              <span></span>
+              <button type="button" class="btn-primary next-step" style="padding:0.7rem 2rem;">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- Step 2: Business -->
+          <div class="form-step" data-step="2">
+            <div class="form-grid">
+              <div class="form-group"><label>Project Types</label>
+                <div class="checkbox-group" id="projectTypes">
+                  <label><input type="checkbox" value="residential" /> Residential</label>
+                  <label><input type="checkbox" value="commercial" /> Commercial</label>
+                  <label><input type="checkbox" value="industrial" /> Industrial</label>
+                  <label><input type="checkbox" value="hospital" /> Hospital</label>
+                  <label><input type="checkbox" value="school" /> School</label>
+                  <label><input type="checkbox" value="road" /> Road</label>
+                  <label><input type="checkbox" value="bridge" /> Bridge</label>
+                  <label><input type="checkbox" value="mall" /> Mall</label>
+                  <label><input type="checkbox" value="hotel" /> Hotel</label>
+                  <label><input type="checkbox" value="estate" /> Estate</label>
+                </div>
+              </div>
+              <div class="form-group"><label>Average Monthly Spend <span class="required">*</span></label>
+                <select class="form-control" id="monthlySpend" required>
+                  <option value="500000">₦500K</option><option value="1000000" selected>₦1M</option>
+                  <option value="5000000">₦5M</option><option value="10000000">₦10M</option>
+                  <option value="20000000">₦20M</option><option value="50000000">₦50M+</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Preferred Payment</label>
+                <select class="form-control" id="paymentMethod">
+                  <option value="transfer">Bank Transfer</option><option value="credit">Credit</option>
+                  <option value="invoice">Invoice</option><option value="paystack">Paystack</option>
+                </select>
+              </div>
+              <div class="form-group"><label>Contact Person <span class="required">*</span></label><input class="form-control" id="contactPerson" placeholder="John Doe" required /></div>
+              <div class="form-group"><label>Email <span class="required">*</span></label><input class="form-control" id="contactEmail" type="email" placeholder="john@company.com" required /></div>
+              <div class="form-group"><label>Phone <span class="required">*</span></label><input class="form-control" id="contactPhone" type="tel" placeholder="+234 800 000 0000" required /></div>
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-outline prev-step" style="padding:0.7rem 2rem;"><i class="fas fa-arrow-left"></i> Back</button>
+              <button type="button" class="btn-primary next-step" style="padding:0.7rem 2rem;">Next <i class="fas fa-arrow-right"></i></button>
+            </div>
+          </div>
+
+          <!-- Step 3: Documents -->
+          <div class="form-step" data-step="3">
+            <div class="form-group" style="grid-column:1/-1;">
+              <label>Upload Documents</label>
+              <div class="upload-grid">
+                <div class="upload-card" data-doc="cac"><div class="upload-icon"><i class="fas fa-file-pdf"></i></div><div class="upload-name">CAC Certificate</div><div class="upload-status"><i class="fas fa-check"></i> Uploaded</div></div>
+                <div class="upload-card" data-doc="tax"><div class="upload-icon"><i class="fas fa-file-pdf"></i></div><div class="upload-name">Tax Clearance</div><div class="upload-status"><i class="fas fa-check"></i> Uploaded</div></div>
+                <div class="upload-card" data-doc="profile"><div class="upload-icon"><i class="fas fa-file-pdf"></i></div><div class="upload-name">Company Profile</div><div class="upload-status"><i class="fas fa-check"></i> Uploaded</div></div>
+                <div class="upload-card" data-doc="director"><div class="upload-icon"><i class="fas fa-id-card"></i></div><div class="upload-name">Director ID</div><div class="upload-status"><i class="fas fa-check"></i> Uploaded</div></div>
+              </div>
+              <input type="file" id="fileInput" multiple style="display:none;" />
+            </div>
+            <div class="form-actions">
+              <button type="button" class="btn-outline prev-step" style="padding:0.7rem 2rem;"><i class="fas fa-arrow-left"></i> Back</button>
+              <button type="submit" class="btn-primary" id="submitBtn"><i class="fas fa-paper-plane"></i> Submit Application</button>
+            </div>
+          </div>
+        </form>
+      </section>
+
+      <!-- ============================================================
+           DASHBOARD PREVIEW
+           ============================================================ -->
+      <section class="dashboard-preview reveal">
+        <div class="section-header">
+          <h2 class="section-title" style="margin-bottom:0;">Procurement <span class="gold-text">Dashboard</span></h2>
+          <span class="view-all">Live Preview →</span>
+        </div>
+        <div class="mockup">
+          <div class="mockup-header">
+            <div class="mockup-dots"><span></span><span></span><span></span></div>
+            <span style="color:var(--text-muted);font-size:0.7rem;letter-spacing:0.06em;">PRIMESHIELDHUB · Contractor Dashboard</span>
+            <span style="color:#4ade80;font-size:0.7rem;"><i class="fas fa-circle" style="font-size:0.4rem;"></i> Live</span>
+          </div>
+          <div class="mockup-body">
+            <div class="mockup-card"><div class="mc-label">Active Orders</div><div class="mc-value">24</div></div>
+            <div class="mockup-card"><div class="mc-label">Pending Invoices</div><div class="mc-value">₦1.2M</div></div>
+            <div class="mockup-card"><div class="mc-label">Credit Available</div><div class="mc-value">₦5.0M</div></div>
+            <div class="mockup-card"><div class="mc-label">Active Projects</div><div class="mc-value">7</div></div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           AI ASSISTANT — ChatGPT-style
+           ============================================================ -->
+      <section class="ai-card reveal" id="aiAssistant">
+        <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.6rem,3.5vw,2.4rem);">AI Procurement <span class="gold-text">Assistant</span></h2>
+        <p style="opacity:0.6;margin-bottom:1rem;">Describe your project for instant estimation and material recommendations</p>
+
+        <div class="ai-chat" id="aiChat">
+          <div class="ai-message">
+            <div class="ai-avatar"><i class="fas fa-robot"></i></div>
+            <div class="ai-content">Hello! Describe your construction project and I'll estimate materials, budget, and timeline.</div>
+          </div>
+          <div id="aiResponseContainer"></div>
+        </div>
+
+        <div class="ai-input-row">
+          <input type="text" id="aiInput" placeholder="e.g. I need to build a 4-bedroom duplex in Lekki..." />
+          <button class="btn-primary" id="aiGenerateBtn" style="padding:0.7rem 1.8rem;font-size:0.9rem;"><i class="fas fa-magic"></i> Generate</button>
+        </div>
+
+        <div class="ai-suggestions">
+          <span class="ai-suggestion" data-project="duplex">🏠 Duplex</span>
+          <span class="ai-suggestion" data-project="school">🏫 School</span>
+          <span class="ai-suggestion" data-project="hospital">🏥 Hospital</span>
+          <span class="ai-suggestion" data-project="warehouse">🏭 Warehouse</span>
+          <span class="ai-suggestion" data-project="hotel">🏨 Hotel</span>
+          <span class="ai-suggestion" data-project="mall">🛍️ Mall</span>
+          <span class="ai-suggestion" data-project="estate">🏘️ Estate</span>
+        </div>
+
+        <div class="ai-result" id="aiResult">
+          <div class="ai-result-grid">
+            <div class="result-item"><span class="label">Project Type</span><span class="value" id="aiProjectType">Duplex</span></div>
+            <div class="result-item"><span class="label">Estimated Budget</span><span class="value" id="aiBudget">₦4,500,000</span></div>
+            <div class="result-item" style="grid-column:1/-1;"><span class="label">Materials</span><span class="value" id="aiMaterials">Cement, Blocks, Steel, Roofing, Electrical, Paint, Tiles</span></div>
+            <div class="result-item"><span class="label">Timeline</span><span class="value" id="aiTimeline">3-4 months</span></div>
+            <div class="result-item"><span class="label">Categories</span><span class="value" id="aiCategories">Cement · Steel · Plumbing · Electrical</span></div>
+          </div>
+          <div class="ai-actions">
+            <button class="btn-sm" id="aiQuoteBtn"><i class="fas fa-file-invoice"></i> Generate Quote</button>
+            <button class="btn-sm" id="aiPdfBtn"><i class="fas fa-file-pdf"></i> Export PDF</button>
+            <button class="btn-sm" id="aiExpertBtn"><i class="fas fa-headset"></i> Talk to Expert</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           TRUST SECTION
+           ============================================================ -->
+      <section class="trust-section reveal">
+        <p style="opacity:0.4;text-transform:uppercase;letter-spacing:0.12em;font-size:0.7rem;margin-bottom:0.5rem;">Trusted By</p>
+        <div class="trust-logos">
+          <span class="trust-item">🏛️ Government</span>
+          <span class="trust-item">🏗️ Developers</span>
+          <span class="trust-item">📐 Architects</span>
+          <span class="trust-item">🛠️ Engineers</span>
+          <span class="trust-item">🏭 Manufacturers</span>
+          <span class="trust-item">🏢 Estate Companies</span>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           ENTERPRISE CTA
+           ============================================================ -->
+      <section class="enterprise-cta reveal">
+        <h2>Ready to <span class="gold-text">Build</span> with Us?</h2>
+        <p>Join the PRIMESHIELDHUB BUILDMART Contractor Network today</p>
+        <div class="cta-group">
+          <button class="btn-primary" onclick="document.getElementById('registration').scrollIntoView({behavior:'smooth'})"><i class="fas fa-user-plus"></i> Apply Today</button>
+          <button class="btn-outline" onclick="window.location.href='/buildmart/quote'"><i class="fas fa-file-invoice"></i> Request Quotation</button>
+          <button class="btn-outline" onclick="window.location.href='tel:+2348000000000'"><i class="fas fa-phone-alt"></i> Call Sales</button>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           TIMELINE — Animated
+           ============================================================ -->
+      <section style="margin:4rem 0;">
+        <h2 class="section-title">Success <span class="gold-text">Timeline</span></h2>
+        <div class="timeline" id="timeline">
+          <div class="timeline-step completed"><span class="step-label">✓ Register</span></div>
+          <div class="timeline-step completed"><span class="step-label">✓ Verification</span></div>
+          <div class="timeline-step active"><span class="step-label">Approval</span></div>
+          <div class="timeline-step"><span class="step-label">Account</span></div>
+          <div class="timeline-step"><span class="step-label">Manager</span></div>
+          <div class="timeline-step"><span class="step-label">Project</span></div>
+          <div class="timeline-step"><span class="step-label">Bulk Pricing</span></div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           TESTIMONIALS
+           ============================================================ -->
+      <section style="margin:4rem 0;">
+        <h2 class="section-title">What Contractors <span class="gold-text">Say</span></h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.5rem;margin:2rem 0;">
+          <div class="glass" style="padding:1.8rem 2rem;"><i class="fas fa-quote-left gold-text" style="font-size:1.6rem;opacity:0.4;"></i><p style="margin-top:0.8rem;font-size:0.95rem;font-style:italic;opacity:0.9;">“Trusted partner for all our estate projects. Bulk pricing and delivery are unmatched.”</p><div style="margin-top:0.8rem;font-weight:600;font-size:0.85rem;color:#d4af37;">— Lekki Estate Developers</div></div>
+          <div class="glass" style="padding:1.8rem 2rem;"><i class="fas fa-quote-left gold-text" style="font-size:1.6rem;opacity:0.4;"></i><p style="margin-top:0.8rem;font-size:0.95rem;font-style:italic;opacity:0.9;">“Financing and delivery are unmatched. Saved over 20% on materials since joining.”</p><div style="margin-top:0.8rem;font-weight:600;font-size:0.85rem;color:#d4af37;">— Abuja Construction Ltd</div></div>
+          <div class="glass" style="padding:1.8rem 2rem;"><i class="fas fa-quote-left gold-text" style="font-size:1.6rem;opacity:0.4;"></i><p style="margin-top:0.8rem;font-size:0.95rem;font-style:italic;opacity:0.9;">“AI estimation tool is a game-changer. Helped us win 3 major bids this year.”</p><div style="margin-top:0.8rem;font-weight:600;font-size:0.85rem;color:#d4af37;">— PH Civil Engineers</div></div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           FAQ
+           ============================================================ -->
+      <section style="margin:4rem 0;">
+        <h2 class="section-title">Frequently <span class="gold-text">Asked</span></h2>
+        <div class="glass" style="overflow:hidden;">
+          <div class="faq-item" onclick="toggleFaq(this)" style="padding:1rem 1.8rem;border-bottom:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:var(--transition);display:flex;justify-content:space-between;align-items:center;">
+            <span class="faq-question" style="font-weight:500;">How do I qualify?</span>
+            <span class="faq-toggle" style="color:#d4af37;font-weight:700;font-size:1.2rem;">+</span>
+            <div class="faq-answer" style="display:none;padding-top:0.8rem;opacity:0.7;font-size:0.95rem;width:100%;">Contractors with 2+ years in business and ₦1M+ annual spend qualify. Verification includes CAC, TIN, and company profile.</div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)" style="padding:1rem 1.8rem;border-bottom:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:var(--transition);display:flex;justify-content:space-between;align-items:center;">
+            <span class="faq-question" style="font-weight:500;">What documents are required?</span>
+            <span class="faq-toggle" style="color:#d4af37;font-weight:700;font-size:1.2rem;">+</span>
+            <div class="faq-answer" style="display:none;padding-top:0.8rem;opacity:0.7;font-size:0.95rem;width:100%;">CAC Certificate, Tax Clearance, Company Profile, Director's ID, and proof of address.</div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)" style="padding:1rem 1.8rem;border-bottom:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:var(--transition);display:flex;justify-content:space-between;align-items:center;">
+            <span class="faq-question" style="font-weight:500;">Do you offer credit?</span>
+            <span class="faq-toggle" style="color:#d4af37;font-weight:700;font-size:1.2rem;">+</span>
+            <div class="faq-answer" style="display:none;padding-top:0.8rem;opacity:0.7;font-size:0.95rem;width:100%;">Yes, based on approval and credit assessment. Terms range from 30-90 days depending on tier.</div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)" style="padding:1rem 1.8rem;border-bottom:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:var(--transition);display:flex;justify-content:space-between;align-items:center;">
+            <span class="faq-question" style="font-weight:500;">How long is approval?</span>
+            <span class="faq-toggle" style="color:#d4af37;font-weight:700;font-size:1.2rem;">+</span>
+            <div class="faq-answer" style="display:none;padding-top:0.8rem;opacity:0.7;font-size:0.95rem;width:100%;">Standard: 3-5 business days. Platinum: 48 hours priority processing.</div>
+          </div>
+          <div class="faq-item" onclick="toggleFaq(this)" style="padding:1rem 1.8rem;border-bottom:1px solid rgba(255,255,255,0.02);cursor:pointer;transition:var(--transition);display:flex;justify-content:space-between;align-items:center;">
+            <span class="faq-question" style="font-weight:500;">Can government agencies apply?</span>
+            <span class="faq-toggle" style="color:#d4af37;font-weight:700;font-size:1.2rem;">+</span>
+            <div class="faq-answer" style="display:none;padding-top:0.8rem;opacity:0.7;font-size:0.95rem;width:100%;">Yes. Contact Enterprise Sales for special procurement terms.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           FOOTER
+           ============================================================ -->
+      <footer class="footer-links">
+        <div>
+          <div class="footer-brand">PRIMESHIELDHUB <span style="font-weight:400;color:var(--text-muted);">BUILDMART</span></div>
+          <div style="color:var(--text-muted);font-size:0.85rem;margin-top:0.3rem;">Enterprise Contractor Network</div>
+          <div style="color:var(--text-muted);font-size:0.75rem;margin-top:0.5rem;">RC 9283954</div>
+        </div>
+        <div class="footer-col">
+          <strong>Portal</strong>
+          <a href="#">Contractor Portal</a>
+          <a href="/buildmart/quote">Enterprise Sales</a>
+          <a href="#">API</a>
+          <a href="#">Developers</a>
+        </div>
+        <div class="footer-col">
+          <strong>Resources</strong>
+          <a href="#">Procurement Guide</a>
+          <a href="#">Terms &amp; Conditions</a>
+          <a href="#">Privacy Policy</a>
+          <a href="#">Support Center</a>
+        </div>
+        <div class="footer-col">
+          <strong>Connect</strong>
+          <div class="social-icons">
+            <a href="#"><i class="fab fa-linkedin"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-youtube"></i></a>
+            <a href="#"><i class="fab fa-whatsapp"></i></a>
+          </div>
+          <div style="color:var(--text-muted);font-size:0.8rem;margin-top:0.5rem;">
+            <i class="fas fa-envelope"></i> contractors@primeshieldhub.com
+          </div>
+        </div>
+      </footer>
+    </div>
+  </main>
+
+  <!-- ============================================================
+       SCRIPTS — FULL ENTERPRISE INTEGRATION
+       ============================================================ -->
+  <script>
+    (function() {
+      "use strict";
+
+      // ============================================================
+      // API CONFIGURATION
+      // ============================================================
+      const API_BASE = 'https://api.primeshieldhub.com/api';
+      const ENDPOINTS = {
+        contractors: `${API_BASE}/buildmart/contractors`,
+        aiRecommend: `${API_BASE}/buildmart/ai/recommend`
+      };
+
+      // ============================================================
+      // TOAST SYSTEM
+      // ============================================================
+      function showToast(message, type = 'info') {
+        const existing = document.querySelector('.toast');
+        if (existing) existing.remove();
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        const icons = { info: 'ℹ️', success: '✅', error: '⚠️', warning: '⚠️' };
+        toast.innerHTML = `<span class="toast-icon">${icons[type] || 'ℹ️'}</span> ${message}`;
+        document.body.appendChild(toast);
+
+        setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(-50%) translateY(20px)';
+          toast.style.transition = '0.3s ease';
+          setTimeout(() => toast.remove(), 300);
+        }, 4000);
+      }
+
+      // ============================================================
+      // PARTICLE SYSTEM
+      // ============================================================
+      function initParticles() {
+        const canvas = document.getElementById('particles-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let w, h;
+
+        function resize() {
+          w = canvas.width = window.innerWidth;
+          h = canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+          constructor() { this.reset(); }
+          reset() {
+            this.x = Math.random() * w;
+            this.y = Math.random() * h;
+            this.size = Math.random() * 2 + 1;
+            this.speedX = (Math.random() - 0.5) * 0.4;
+            this.speedY = (Math.random() - 0.5) * 0.4;
+            this.opacity = Math.random() * 0.3 + 0.1;
+          }
+          update() {
+            this.x += this.speedX;
+            this.y += this.speedY;
+            if (this.x < 0 || this.x > w) this.speedX *= -1;
+            if (this.y < 0 || this.y > h) this.speedY *= -1;
+          }
+          draw() {
+            ctx.beginPath();
+            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(212, 175, 55, ${this.opacity})`;
+            ctx.fill();
+          }
+        }
+
+        for (let i = 0; i < 120; i++) {
+          particles.push(new Particle());
+        }
+
+        function animate() {
+          ctx.clearRect(0, 0, w, h);
+          particles.forEach(p => { p.update(); p.draw(); });
+          // Draw lines between nearby particles
+          for (let i = 0; i < particles.length; i++) {
+            for (let j = i + 1; j < particles.length; j++) {
+              const dx = particles[i].x - particles[j].x;
+              const dy = particles[i].y - particles[j].y;
+              const dist = Math.sqrt(dx * dx + dy * dy);
+              if (dist < 150) {
+                ctx.beginPath();
+                ctx.moveTo(particles[i].x, particles[i].y);
+                ctx.lineTo(particles[j].x, particles[j].y);
+                ctx.strokeStyle = `rgba(212, 175, 55, ${0.06 * (1 - dist / 150)})`;
+                ctx.lineWidth = 0.5;
+                ctx.stroke();
+              }
+            }
+          }
+          requestAnimationFrame(animate);
+        }
+        animate();
+      }
+
+      // ============================================================
+      // NAVBAR SHRINK
+      // ============================================================
+      const navbar = document.getElementById('navbar');
+      window.addEventListener('scroll', () => {
+        navbar.classList.toggle('shrink', window.scrollY > 60);
+      });
+
+      // ============================================================
+      // ANIMATE COUNTERS
+      // ============================================================
+      function animateCounters() {
+        const counters = document.querySelectorAll('[data-count]');
+        counters.forEach(el => {
+          const target = parseFloat(el.dataset.count);
+          const isCurrency = el.innerText.includes('₦');
+          const isPercent = el.innerText.includes('%');
+          let current = 0;
+          const step = Math.max(1, target / 50);
+          const interval = setInterval(() => {
+            current += step;
+            if (current >= target) { current = target; clearInterval(interval); }
+            let display = Math.round(current);
+            if (isCurrency) {
+              display = '₦' + display + (target > 10 ? 'B' : '');
+            } else if (isPercent) {
+              display = display + '%';
+            } else {
+              display = display.toLocaleString();
+            }
+            // Preserve plus sign
+            const plus = el.querySelector('.plus');
+            if (plus) {
+              el.innerHTML = display + '<span class="plus">+</span>';
+            } else {
+              el.textContent = display;
+            }
+          }, 30);
+        });
+      }
+
+      // ============================================================
+      // SCROLL REVEAL
+      // ============================================================
+      const reveals = document.querySelectorAll('.reveal');
+      const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+          }
+        });
+      }, { threshold: 0.12 });
+
+      reveals.forEach(el => revealObserver.observe(el));
+
+      // ============================================================
+      // FAQ TOGGLE
+      // ============================================================
+      window.toggleFaq = function(el) {
+        el.classList.toggle('open');
+        const toggle = el.querySelector('.faq-toggle');
+        const answer = el.querySelector('.faq-answer');
+        if (toggle) toggle.textContent = el.classList.contains('open') ? '−' : '+';
+        if (answer) answer.style.display = el.classList.contains('open') ? 'block' : 'none';
+      };
+
+      // ============================================================
+      // MULTI-STEP FORM
+      // ============================================================
+      let currentStep = 1;
+      const totalSteps = 3;
+      const steps = document.querySelectorAll('.form-step');
+      const progressSteps = document.querySelectorAll('.progress-step');
+
+      function updateStep(step) {
+        currentStep = step;
+        steps.forEach((s, i) => {
+          s.classList.toggle('active', i + 1 === step);
+        });
+        progressSteps.forEach((ps, i) => {
+          const num = i + 1;
+          ps.classList.toggle('active', num === step);
+          ps.classList.toggle('completed', num < step);
+        });
+      }
+
+      document.querySelectorAll('.next-step').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (currentStep < totalSteps) updateStep(currentStep + 1);
+        });
+      });
+
+      document.querySelectorAll('.prev-step').forEach(btn => {
+        btn.addEventListener('click', () => {
+          if (currentStep > 1) updateStep(currentStep - 1);
+        });
+      });
+
+      // ============================================================
+      // FILE UPLOAD
+      // ============================================================
+      document.querySelectorAll('.upload-card').forEach(card => {
+        card.addEventListener('click', () => {
+          card.classList.toggle('has-file');
+          showToast('📎 File uploaded successfully', 'success');
+        });
+      });
+
+      // ============================================================
+      // CONTRACTOR FORM SUBMISSION
+      // ============================================================
+      const contractorForm = document.getElementById('contractorForm');
+      if (contractorForm) {
+        contractorForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+
+          const submitBtn = document.getElementById('submitBtn');
+          const originalText = submitBtn.innerHTML;
+          submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+          submitBtn.disabled = true;
+
+          try {
+            const projectTypes = [];
+            document.querySelectorAll('#projectTypes input:checked').forEach(cb => {
+              projectTypes.push(cb.value);
+            });
+
+            const data = {
+              company_name: document.getElementById('companyName').value,
+              cac_number: document.getElementById('cacNumber').value,
+              tin: document.getElementById('tin').value,
+              address: document.getElementById('businessAddress').value,
+              years_in_business: parseInt(document.getElementById('yearsInOperation').value) || 0,
+              industry: document.getElementById('industry').value,
+              project_types: projectTypes,
+              monthly_spend: parseInt(document.getElementById('monthlySpend').value) || 1000000,
+              payment_method: document.getElementById('paymentMethod').value,
+              contact_person: document.getElementById('contactPerson').value,
+              email: document.getElementById('contactEmail').value,
+              phone: document.getElementById('contactPhone').value
+            };
+
+            if (!data.company_name || !data.contact_person || !data.email || !data.phone) {
+              showToast('⚠️ Please fill in all required fields.', 'error');
+              submitBtn.innerHTML = originalText;
+              submitBtn.disabled = false;
+              return;
+            }
+
+            const response = await fetch(ENDPOINTS.contractors, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+              credentials: 'include'
+            });
+
+            const result = await response.json();
+
+            if (response.ok && result.success) {
+              showToast(`✅ Application submitted! #${result.id || 'pending'}`, 'success');
+              contractorForm.reset();
+              updateStep(1);
+              document.querySelectorAll('.upload-card').forEach(c => c.classList.remove('has-file'));
+            } else {
+              showToast(`⚠️ ${result.error || 'Submission failed'}`, 'error');
+            }
+          } catch (error) {
+            console.error('Submit error:', error);
+            showToast('⚠️ Network error. Please check your connection.', 'error');
+          } finally {
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+          }
+        });
+      }
+
+      // ============================================================
+      // AI ASSISTANT
+      // ============================================================
+      const aiProjects = {
+        duplex: { name: 'Duplex', budget: '₦4,500,000', materials: 'Cement, Blocks, Steel, Roofing, Electrical, Paint, Tiles', timeline: '3-4 months', categories: 'Cement · Steel · Plumbing · Electrical · Tiles' },
+        school: { name: 'School', budget: '₦12,000,000', materials: 'Cement, Blocks, Steel, Roofing, Electrical, Plumbing, Tiles, Paint, Hardware', timeline: '6-8 months', categories: 'Cement · Steel · Plumbing · Electrical · Hardware' },
+        hospital: { name: 'Hospital', budget: '₦35,000,000', materials: 'Cement, Steel, Plumbing, Electrical, Tiles, Paint, Safety Equipment, HVAC', timeline: '10-14 months', categories: 'Steel · Plumbing · Electrical · HVAC · Safety' },
+        warehouse: { name: 'Warehouse', budget: '₦8,500,000', materials: 'Cement, Steel, Roofing, Electrical, Lighting, Hardware, Flooring, Insulation', timeline: '4-6 months', categories: 'Steel · Roofing · Electrical · Hardware · Insulation' },
+        hotel: { name: 'Hotel', budget: '₦28,000,000', materials: 'Cement, Blocks, Steel, Plumbing, Electrical, Tiles, Paint, Furniture, Lighting', timeline: '8-12 months', categories: 'Plumbing · Electrical · Tiles · Furniture · Lighting' },
+        mall: { name: 'Shopping Mall', budget: '₦45,000,000', materials: 'Cement, Steel, Electrical, Plumbing, Tiles, Paint, HVAC, Elevator, Hardware', timeline: '12-18 months', categories: 'Steel · Electrical · Plumbing · HVAC · Hardware' },
+        estate: { name: 'Estate', budget: '₦65,000,000', materials: 'Cement, Blocks, Steel, Roofing, Electrical, Plumbing, Tiles, Paint, Hardware', timeline: '14-20 months', categories: 'Cement · Steel · Roofing · Plumbing · Hardware' }
+      };
+
+      const aiInput = document.getElementById('aiInput');
+      const aiGenerateBtn = document.getElementById('aiGenerateBtn');
+      const aiResult = document.getElementById('aiResult');
+      const aiResponseContainer = document.getElementById('aiResponseContainer');
+
+      function updateAIResult(projectKey) {
+        const project = aiProjects[projectKey] || aiProjects.duplex;
+        document.getElementById('aiProjectType').textContent = project.name;
+        document.getElementById('aiMaterials').textContent = project.materials;
+        document.getElementById('aiBudget').textContent = project.budget;
+        document.getElementById('aiTimeline').textContent = project.timeline;
+        document.getElementById('aiCategories').textContent = project.categories;
+        aiResult.classList.add('visible');
+
+        // Add AI response to chat
+        const msg = document.createElement('div');
+        msg.className = 'ai-message';
+        msg.innerHTML = `
+          <div class="ai-avatar"><i class="fas fa-robot"></i></div>
+          <div class="ai-content">Based on your request, I've estimated <strong>${project.name}</strong> with a budget of ${project.budget} and timeline of ${project.timeline}. Materials: ${project.materials}</div>
+        `;
+        aiResponseContainer.appendChild(msg);
+        aiResponseContainer.scrollTop = aiResponseContainer.scrollHeight;
+      }
+
+      document.querySelectorAll('.ai-suggestion').forEach(el => {
+        el.addEventListener('click', function() {
+          const project = this.dataset.project;
+          aiInput.value = `I need to build a ${project}`;
+          updateAIResult(project);
+          document.querySelectorAll('.ai-suggestion').forEach(s => s.style.borderColor = '');
+          this.style.borderColor = '#d4af37';
+        });
+      });
+
+      aiGenerateBtn.addEventListener('click', async function() {
+        const query = aiInput.value.trim();
+        if (!query || query.length < 5) {
+          showToast('⚠️ Please describe your project in more detail.', 'warning');
+          return;
+        }
+
+        aiGenerateBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Generating...';
+        aiGenerateBtn.disabled = true;
+
+        try {
+          const response = await fetch(ENDPOINTS.aiRecommend, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ query }),
+            credentials: 'include'
+          });
+
+          if (response.ok) {
+            const result = await response.json();
+            document.getElementById('aiProjectType').textContent = result.project_type || 'Custom Project';
+            document.getElementById('aiMaterials').textContent = result.materials || 'Cement, Blocks, Steel, Electrical, Plumbing, Paint, Tiles';
+            document.getElementById('aiBudget').textContent = result.budget || '₦' + (result.estimated_budget || 4500000).toLocaleString();
+            document.getElementById('aiTimeline').textContent = result.timeline || '3-6 months';
+            document.getElementById('aiCategories').textContent = result.categories || 'Cement · Steel · Plumbing · Electrical';
+            aiResult.classList.add('visible');
+
+            const msg = document.createElement('div');
+            msg.className = 'ai-message';
+            msg.innerHTML = `<div class="ai-avatar"><i class="fas fa-robot"></i></div><div class="ai-content">${result.message || 'Here\'s your estimate:'}</div>`;
+            aiResponseContainer.appendChild(msg);
+          } else {
+            // Fallback: use local matching
+            let matched = 'duplex';
+            const lowerQuery = query.toLowerCase();
+            if (lowerQuery.includes('school')) matched = 'school';
+            else if (lowerQuery.includes('hospital')) matched = 'hospital';
+            else if (lowerQuery.includes('warehouse')) matched = 'warehouse';
+            else if (lowerQuery.includes('hotel')) matched = 'hotel';
+            else if (lowerQuery.includes('mall')) matched = 'mall';
+            else if (lowerQuery.includes('estate')) matched = 'estate';
+            updateAIResult(matched);
+          }
+        } catch (error) {
+          console.error('AI error:', error);
+          let matched = 'duplex';
+          const lowerQuery = query.toLowerCase();
+          if (lowerQuery.includes('school')) matched = 'school';
+          else if (lowerQuery.includes('hospital')) matched = 'hospital';
+          else if (lowerQuery.includes('warehouse')) matched = 'warehouse';
+          else if (lowerQuery.includes('hotel')) matched = 'hotel';
+          else if (lowerQuery.includes('mall')) matched = 'mall';
+          else if (lowerQuery.includes('estate')) matched = 'estate';
+          updateAIResult(matched);
+          showToast('🤖 Using local AI recommendations', 'warning');
+        } finally {
+          aiGenerateBtn.innerHTML = '<i class="fas fa-magic"></i> Generate';
+          aiGenerateBtn.disabled = false;
+        }
+      });
+
+      aiInput.addEventListener('keyup', (e) => {
+        if (e.key === 'Enter') aiGenerateBtn.click();
+      });
+
+      // AI Actions
+      document.getElementById('aiQuoteBtn')?.addEventListener('click', () => {
+        window.location.href = '/buildmart/quote';
+      });
+      document.getElementById('aiPdfBtn')?.addEventListener('click', () => {
+        showToast('📄 PDF generation coming soon', 'info');
+      });
+      document.getElementById('aiExpertBtn')?.addEventListener('click', () => {
+        window.location.href = 'tel:+2348000000000';
+      });
+
+      // ============================================================
+      // STICKY AI BUTTON
+      // ============================================================
+      document.getElementById('aiStickyBtn')?.addEventListener('click', () => {
+        document.getElementById('aiAssistant').scrollIntoView({ behavior: 'smooth' });
+        document.getElementById('aiInput')?.focus();
+      });
+
+      // ============================================================
+      // CTA APPLY BUTTON
+      // ============================================================
+      document.getElementById('ctaApplyBtn')?.addEventListener('click', () => {
+        document.getElementById('registration').scrollIntoView({ behavior: 'smooth' });
+      });
+
+      // ============================================================
+      // HAMBURGER TOGGLE
+      // ============================================================
+      const hamburger = document.querySelector('.hamburger');
+      const navLinks = document.querySelector('.nav-links');
+      if (hamburger && navLinks) {
+        hamburger.addEventListener('click', () => {
+          if (navLinks.style.display === 'flex') {
+            navLinks.style.display = 'none';
+          } else {
+            navLinks.style.display = 'flex';
+            navLinks.style.flexDirection = 'column';
+            navLinks.style.width = '100%';
+            navLinks.style.padding = '1rem 0';
+            navLinks.style.gap = '0.6rem';
+            navLinks.style.alignItems = 'center';
+          }
+        });
+        window.addEventListener('resize', () => {
+          if (window.innerWidth > 900) {
+            navLinks.style.display = 'flex';
+            navLinks.style.flexDirection = 'row';
+            navLinks.style.width = 'auto';
+            navLinks.style.padding = '0';
+            navLinks.style.gap = '1.6rem';
+          } else if (navLinks.style.display !== 'flex') {
+            navLinks.style.display = 'none';
+          }
+        });
+      }
+
+      // ============================================================
+      // TIMELINE ANIMATION
+      // ============================================================
+      const timelineObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const steps = entry.target.querySelectorAll('.timeline-step');
+            steps.forEach((step, i) => {
+              setTimeout(() => {
+                if (i <= 2) step.classList.add('completed');
+                if (i === 2) step.classList.add('active');
+              }, i * 300);
+            });
+          }
+        });
+      }, { threshold: 0.3 });
+
+      const timeline = document.getElementById('timeline');
+      if (timeline) timelineObserver.observe(timeline);
+
+      // ============================================================
+      // INIT
+      // ============================================================
+      setTimeout(() => {
+        initParticles();
+        animateCounters();
+      }, 300);
+
+      console.log('🚀 BuildMart Contractor Network — Enterprise Edition');
+      console.log('📊 Contractor program ready with AI estimation');
+      console.log('📡 API Endpoints: POST /api/buildmart/contractors, POST /api/buildmart/ai/recommend');
+
+      // Make buttons work if they exist
+      document.querySelectorAll('.btn-tiny').forEach(btn => {
+        btn.addEventListener('click', function() {
+          const tier = this.closest('.tier-card')?.querySelector('h4')?.textContent || '';
+          showToast(`📋 ${tier} tier selected. Complete registration to apply.`, 'info');
+          document.getElementById('registration').scrollIntoView({ behavior: 'smooth' });
+        });
+      });
+
+    })();
+  </script>
+</body>
+</html>
+

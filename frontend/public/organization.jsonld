@@ -1,0 +1,33 @@
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://primeshieldhub.com/company.html#organization",
+  "name": "PrimeShieldHub Gadgets Limited",
+  "legalName": "PRIMESHIELDHUB GADGETS LIMITED",
+  "url": "https://primeshieldhub.com",
+  "logo": "https://primeshieldhub.com/company_logo.png",
+  "image": "https://primeshieldhub.com/company_logo.png",
+  "description": "PrimeShieldHub Gadgets Limited is a Nigerian technology and commerce company specializing in premium gadgets, digital commerce, and business innovation.",
+  "email": "ceo@primeshieldhub.com",
+  "telephone": "+2348103535978",
+  "foundingDate": "2026-02-05",
+  "founder": {
+    "@id": "https://primeshieldhub.com/founder.html#person"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "108 Ekhorutomwen Street",
+    "addressLocality": "Benin City",
+    "addressRegion": "Edo State",
+    "postalCode": "302117",
+    "addressCountry": "NG"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/in/primeshieldhub-08a1863b0",
+    "https://github.com/famenaghawon",
+    "https://x.com/primeshieldhub",
+    "https://www.instagram.com/primeshieldhub",
+    "https://www.facebook.com/share/1EWJxoLtWJ/",
+    "https://www.upwork.com/freelancers/~012164868a9c4eaab3"
+  ]
+}

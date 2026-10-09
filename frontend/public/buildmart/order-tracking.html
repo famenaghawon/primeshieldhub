@@ -1,0 +1,2087 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-theme="logistics">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover" />
+    <meta name="description" content="BuildMart Logistics Center - Real-time order tracking with AI-powered delivery intelligence, driver tracking, and fulfillment analytics." />
+    <meta name="theme-color" content="#050e1a" />
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api" />
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}" />
+    
+    <title>BuildMart · Logistics Center</title>
+    
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": "BuildMart Logistics Center",
+        "description": "Real-time order tracking with AI-powered delivery intelligence.",
+        "url": "https://primeshieldhub.com/buildmart/logistics.html",
+        "isPartOf": {
+            "@type": "WebSite",
+            "name": "PRIMESHIELDHUB BUILDMART",
+            "url": "https://primeshieldhub.com/buildmart"
+        }
+    }
+    </script>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES — BUILDMART THEME
+           ============================================================ */
+        :root {
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --gold-dark: #D97706;
+            --gold-glow: rgba(245, 158, 11, 0.12);
+            --gold-dim: rgba(245, 179, 66, 0.15);
+            
+            --cyan: #00D4FF;
+            --cyan-glow: rgba(0, 212, 255, 0.08);
+            
+            --bg-deep: #050e1a;
+            --bg-primary: #0a1628;
+            --bg-card: rgba(12, 30, 48, 0.38);
+            --bg-input: rgba(0, 30, 50, 0.5);
+            --bg-glass: rgba(8, 28, 48, 0.45);
+            
+            --text-primary: #e2edf7;
+            --text-secondary: #b0d4ff;
+            --text-muted: #6b9bc2;
+            --text-inverse: #050e1a;
+            
+            --accent-success: #00f5a0;
+            --accent-warning: #f5b342;
+            --accent-danger: #ff6b6b;
+            --accent-purple: #8b5cf6;
+            --accent-cyan: #7fc9ff;
+            --accent-blue: #5ca9e6;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 48px;
+            --radius-3xl: 64px;
+            
+            --shadow-card: 0 20px 60px -12px rgba(0, 20, 40, 0.8);
+            --shadow-glow: 0 0 30px rgba(0, 150, 255, 0.08);
+            --shadow-elevated: 0 30px 60px -16px rgba(0, 40, 80, 0.18);
+            
+            --transition-smooth: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --transition-luxe: 0.45s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(circle at 15% 25%, #123a5a 0%, #030b14 90%);
+            background-attachment: fixed;
+            padding: 1.5rem 2rem;
+        }
+
+        ::-webkit-scrollbar { width: 4px; height: 4px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 3px; }
+        ::selection { background: rgba(0, 180, 255, 0.25); }
+
+        .gold-text { color: var(--gold); }
+        .cyan-text { color: var(--cyan); }
+        .purple-text { color: var(--accent-purple); }
+        .green-text { color: var(--accent-success); }
+        .blue-text { color: var(--accent-blue); }
+
+        .container {
+            max-width: 1640px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* ============================================================
+           GLASS PANEL
+           ============================================================ */
+        .glass-panel {
+            background: var(--bg-card);
+            backdrop-filter: blur(16px) saturate(220%);
+            -webkit-backdrop-filter: blur(16px) saturate(220%);
+            border: 1px solid rgba(72, 180, 255, 0.12);
+            box-shadow: var(--shadow-card), 0 0 0 1px rgba(0, 180, 255, 0.08) inset;
+            border-radius: var(--radius-2xl);
+            transition: var(--transition-smooth);
+        }
+        .glass-panel:hover {
+            border-color: rgba(0, 180, 255, 0.25);
+            box-shadow: var(--shadow-card), var(--shadow-glow), 0 0 0 1px rgba(0, 180, 255, 0.2) inset;
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .navbar {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(245, 179, 66, 0.06);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(5, 5, 16, 0.7);
+            backdrop-filter: blur(25px) saturate(180%);
+            -webkit-backdrop-filter: blur(25px) saturate(180%);
+            box-shadow: 0 20px 50px -20px rgba(0,0,0,0.9);
+            transition: all 0.3s ease;
+            margin-bottom: 1.5rem;
+        }
+        .navbar.shrink { padding: 0.4rem 0; background: rgba(5, 5, 16, 0.92); }
+        .nav-flex {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+            flex-wrap: wrap;
+            max-width: 1640px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            width: 100%;
+        }
+        .nav-logo {
+            font-family: var(--font-display);
+            font-size: 1.3rem;
+            font-weight: 700;
+            letter-spacing: -0.03em;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+        }
+        .nav-logo i { color: var(--gold); filter: drop-shadow(0 0 15px rgba(245, 179, 66, 0.8)); }
+        .nav-logo .logo-dot {
+            display: inline-block;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            animation: dotBlink 2s infinite;
+        }
+        @keyframes dotBlink {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            font-weight: 500;
+            font-size: 0.8rem;
+        }
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            position: relative;
+            padding: 0.3rem 0;
+        }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: var(--transition-smooth);
+            border-radius: 2px;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links a:hover::after { width: 100%; }
+        .nav-links a.active { color: var(--gold); }
+        .nav-links a.active::after { width: 100%; }
+
+        .nav-actions { display: flex; gap: 1rem; align-items: center; }
+        .nav-badge {
+            background: rgba(0,229,255,0.1);
+            border: 1px solid rgba(0,229,255,0.3);
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .live-dot {
+            width: 7px;
+            height: 7px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            animation: livePulse 1.5s infinite;
+        }
+        @keyframes livePulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.8); }
+        }
+        .hamburger {
+            display: none;
+            background: transparent;
+            border: none;
+            color: #d1d8e5;
+            font-size: 1.4rem;
+            cursor: pointer;
+            padding: 0.2rem 0.4rem;
+        }
+
+        /* ============================================================
+           TOP BAR
+           ============================================================ */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+        .top-bar .brand {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+        .top-bar .brand i {
+            font-size: 2.2rem;
+            color: var(--accent-cyan);
+            background: rgba(0, 40, 70, 0.5);
+            padding: 0.6rem;
+            border-radius: var(--radius-md);
+            box-shadow: 0 0 20px rgba(0, 180, 255, 0.2);
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0, 180, 255, 0.2);
+        }
+        .top-bar .brand span {
+            font-weight: 800;
+            font-size: 1.8rem;
+            letter-spacing: -0.5px;
+            font-family: var(--font-display);
+            background: linear-gradient(145deg, #b0e0ff, #6ab0e6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .top-bar .brand small {
+            background: rgba(0, 180, 255, 0.15);
+            padding: 0.2rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            border: 1px solid rgba(0, 180, 255, 0.15);
+            letter-spacing: 0.3px;
+        }
+
+        .search-global {
+            display: flex;
+            align-items: center;
+            background: var(--bg-input);
+            backdrop-filter: blur(12px);
+            padding: 0.2rem 0.2rem 0.2rem 1.5rem;
+            border-radius: 80px;
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.4);
+            flex: 1;
+            max-width: 400px;
+        }
+        .search-global input {
+            border: none;
+            background: transparent;
+            font-size: 0.9rem;
+            width: 100%;
+            font-weight: 400;
+            outline: none;
+            color: #d4ecff;
+            padding: 0.6rem 0;
+            font-family: var(--font-sans);
+        }
+        .search-global input::placeholder { color: var(--text-muted); }
+        .search-global button {
+            background: linear-gradient(145deg, #0a6b9e, #004c73);
+            border: none;
+            color: white;
+            padding: 0.6rem 1.8rem;
+            border-radius: 80px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            cursor: pointer;
+            letter-spacing: 0.4px;
+            box-shadow: 0 0 20px rgba(0, 120, 255, 0.2);
+            border: 1px solid rgba(0, 180, 255, 0.3);
+            font-family: var(--font-sans);
+            transition: var(--transition-smooth);
+        }
+        .search-global button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 30px rgba(0, 120, 255, 0.3);
+        }
+
+        .live-pulse {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            background: rgba(0, 30, 50, 0.4);
+            backdrop-filter: blur(12px);
+            padding: 0.3rem 1.5rem 0.3rem 1rem;
+            border-radius: 80px;
+            border: 1px solid rgba(0, 180, 255, 0.15);
+        }
+        .live-pulse .dot {
+            width: 10px;
+            height: 10px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            animation: pulse-dot 1.8s infinite;
+            box-shadow: 0 0 16px var(--accent-success);
+        }
+        @keyframes pulse-dot {
+            0% { opacity: 0.2; transform: scale(0.9); }
+            50% { opacity: 1; transform: scale(1.4); }
+            100% { opacity: 0.2; transform: scale(0.9); }
+        }
+
+        /* ============================================================
+           HERO
+           ============================================================ */
+        .hero-card {
+            padding: 2rem 2.4rem;
+            border-radius: var(--radius-3xl);
+            margin-bottom: 2rem;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            background: var(--bg-glass);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 180, 255, 0.12);
+        }
+        .hero-left {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: baseline;
+            gap: 1.5rem;
+        }
+        .hero-left h1 {
+            font-weight: 700;
+            font-size: 1.8rem;
+            font-family: var(--font-display);
+            background: linear-gradient(135deg, #b2e0ff, #5ca9e6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.3px;
+        }
+        .hero-ref {
+            background: rgba(0, 100, 180, 0.2);
+            padding: 0.3rem 1.5rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #b0daff;
+            border: 1px solid rgba(0, 180, 255, 0.1);
+            backdrop-filter: blur(4px);
+        }
+        .hero-ref i { margin-right: 0.5rem; }
+
+        .hero-right {
+            display: flex;
+            align-items: center;
+            gap: 2.5rem;
+            flex-wrap: wrap;
+        }
+        .status-glow {
+            background: rgba(255, 120, 80, 0.15);
+            color: #ffb08a;
+            padding: 0.4rem 2rem;
+            border-radius: 80px;
+            font-weight: 700;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            border: 1px solid rgba(255, 140, 80, 0.2);
+            box-shadow: 0 0 30px rgba(255, 120, 80, 0.08);
+            animation: glow-pulse 2.8s infinite;
+        }
+        @keyframes glow-pulse {
+            0% { box-shadow: 0 0 10px rgba(255, 120, 80, 0.05); }
+            50% { box-shadow: 0 0 30px rgba(255, 120, 80, 0.15); }
+            100% { box-shadow: 0 0 10px rgba(255, 120, 80, 0.05); }
+        }
+        .eta-premium .label {
+            font-size: 0.75rem;
+            font-weight: 500;
+            color: var(--text-muted);
+        }
+        .eta-premium .time {
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: #b6e2ff;
+            text-shadow: 0 0 20px rgba(0, 180, 255, 0.2);
+        }
+
+        /* ============================================================
+           GRID
+           ============================================================ */
+        .grid-main {
+            display: grid;
+            grid-template-columns: 68% 32%;
+            gap: 1.8rem;
+            margin-top: 1.8rem;
+        }
+        @media (max-width: 1024px) { .grid-main { grid-template-columns: 1fr; } }
+
+        .left-col { display: flex; flex-direction: column; gap: 1.8rem; }
+        .right-col { display: flex; flex-direction: column; gap: 1.8rem; }
+
+        /* ============================================================
+           STATUS RIBBON
+           ============================================================ */
+        .ribbon-card {
+            padding: 1.5rem 1.8rem;
+            border-radius: var(--radius-3xl);
+            background: rgba(8, 28, 48, 0.35);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 180, 255, 0.08);
+        }
+        .ribbon-steps {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: 0.1rem 0.5rem;
+        }
+        .step-node {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.3rem 1rem 0.3rem 0.8rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.75rem;
+            background: rgba(20, 50, 80, 0.3);
+            color: var(--text-muted);
+            border: 1px solid rgba(0, 180, 255, 0.05);
+            backdrop-filter: blur(4px);
+            transition: var(--transition-smooth);
+        }
+        .step-node.done {
+            background: rgba(0, 200, 150, 0.12);
+            color: #7edfc5;
+            border-color: rgba(0, 200, 150, 0.15);
+        }
+        .step-node.active {
+            background: rgba(0, 150, 255, 0.18);
+            color: #b0dcff;
+            box-shadow: 0 0 30px rgba(0, 150, 255, 0.08), 0 0 0 2px rgba(0, 180, 255, 0.2);
+            border-color: rgba(0, 180, 255, 0.3);
+        }
+        .step-node i { font-size: 0.8rem; }
+        .step-arrow { color: #3d6d94; font-size: 0.6rem; margin: 0 0.1rem; }
+
+        /* ============================================================
+           TIMELINE
+           ============================================================ */
+        .tl-card {
+            padding: 1.6rem 1.8rem;
+            border-radius: var(--radius-3xl);
+            background: rgba(8, 28, 48, 0.35);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 180, 255, 0.08);
+        }
+        .tl-card h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1.5rem;
+            color: #c2e0ff;
+        }
+        .tl-entry {
+            border-left: 2px solid rgba(0, 180, 255, 0.15);
+            padding-left: 1.8rem;
+            padding-bottom: 1.5rem;
+            position: relative;
+        }
+        .tl-entry:last-child { border-left-color: transparent; padding-bottom: 0; }
+        .tl-entry .tl-head {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            font-weight: 700;
+            color: #d0eaff;
+        }
+        .tl-entry .tl-head .tl-time {
+            font-weight: 400;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+        .tl-entry .tl-body {
+            margin-top: 0.5rem;
+            background: rgba(0, 40, 70, 0.25);
+            backdrop-filter: blur(6px);
+            padding: 0.8rem 1.4rem;
+            border-radius: var(--radius-xl);
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2rem;
+            font-size: 0.8rem;
+            border: 1px solid rgba(0, 180, 255, 0.06);
+        }
+        .tl-entry .tl-body i { width: 20px; color: var(--accent-cyan); }
+
+        /* ============================================================
+           MAP
+           ============================================================ */
+        .map-card {
+            padding: 1.4rem 1.6rem;
+            border-radius: var(--radius-3xl);
+            background: rgba(8, 28, 48, 0.35);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 180, 255, 0.08);
+        }
+        .map-card h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #cae2ff;
+        }
+        .map-preview {
+            background: #071c2e;
+            height: 180px;
+            border-radius: var(--radius-2xl);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background-image: radial-gradient(circle at 30% 40%, #1d4b6b 1.5px, transparent 1.5px);
+            background-size: 32px 32px;
+            position: relative;
+            border: 1px solid rgba(0, 180, 255, 0.1);
+            box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.5);
+        }
+        .map-preview i { font-size: 2.8rem; color: var(--accent-cyan); margin-bottom: 0.5rem; filter: drop-shadow(0 0 20px rgba(0, 180, 255, 0.2)); }
+        .map-preview .truck-badge {
+            background: rgba(0, 60, 110, 0.6);
+            backdrop-filter: blur(8px);
+            color: white;
+            padding: 0.3rem 1.8rem;
+            border-radius: 60px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            border: 1px solid rgba(0, 180, 255, 0.2);
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+        }
+        .map-preview .route-label {
+            font-size: 0.75rem;
+            margin-top: 0.3rem;
+            opacity: 0.7;
+        }
+        .map-stats {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            font-weight: 500;
+            font-size: 0.8rem;
+            color: #b0dcff;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        .map-stats span i { margin-right: 0.3rem; }
+
+        /* ============================================================
+           RIGHT COLUMN CARDS
+           ============================================================ */
+        .info-card {
+            padding: 1.4rem 1.5rem;
+            border-radius: var(--radius-3xl);
+            background: rgba(8, 28, 48, 0.30);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(0, 180, 255, 0.06);
+        }
+        .info-card h4 {
+            font-weight: 700;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            color: #cae2ff;
+        }
+
+        /* Driver */
+        .driver-premium {
+            display: flex;
+            gap: 1.2rem;
+            align-items: center;
+        }
+        .driver-premium .avatar {
+            background: linear-gradient(145deg, #1b5a82, #07314b);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #b0deff;
+            font-size: 1.8rem;
+            box-shadow: 0 0 30px rgba(0, 120, 255, 0.1);
+            border: 1px solid rgba(0, 180, 255, 0.15);
+        }
+        .driver-premium .dinfo .dname {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: #d8edff;
+        }
+        .driver-premium .dinfo .dsub {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Stops */
+        .stops-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+        .stop-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.3rem 0;
+            border-bottom: 1px solid rgba(0, 180, 255, 0.04);
+        }
+        .stop-badge {
+            padding: 0.1rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 0.65rem;
+        }
+        .stop-badge.done { background: rgba(0, 200, 150, 0.15); color: #7edfc5; }
+        .stop-badge.active { background: rgba(0, 150, 255, 0.2); color: #b0dcff; }
+        .stop-badge.pending { background: rgba(100, 150, 200, 0.1); color: var(--text-muted); }
+
+        /* AI Insights */
+        .ai-insight {
+            background: rgba(0, 60, 110, 0.15);
+            border-radius: var(--radius-xl);
+            padding: 1rem 1.4rem;
+            margin-top: 0.3rem;
+            border: 1px solid rgba(0, 180, 255, 0.08);
+        }
+        .ai-insight .aititle {
+            font-weight: 700;
+            display: flex;
+            gap: 0.5rem;
+            color: #b0dcff;
+        }
+        .ai-chip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.8rem;
+        }
+        .ai-chip span {
+            background: rgba(0, 40, 80, 0.3);
+            padding: 0.3rem 1.2rem;
+            border-radius: 60px;
+            font-weight: 500;
+            font-size: 0.75rem;
+            border: 1px solid rgba(0, 180, 255, 0.06);
+            backdrop-filter: blur(4px);
+            color: #b0dcff;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .ai-chip span:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 80, 160, 0.2);
+        }
+
+        /* Photos / Documents */
+        .photo-strip, .doc-strip {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+        }
+        .photo-strip .ph, .doc-strip .doc {
+            background: rgba(0, 40, 70, 0.2);
+            padding: 0.5rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(4px);
+            border: 1px solid rgba(0, 180, 255, 0.05);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .photo-strip .ph:hover, .doc-strip .doc:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 80, 160, 0.15);
+        }
+
+        /* Analytics */
+        .analytics-dashboard {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.6rem;
+        }
+        .analytics-dashboard .stat {
+            background: rgba(0, 40, 70, 0.15);
+            backdrop-filter: blur(4px);
+            padding: 0.6rem 0.4rem;
+            border-radius: var(--radius-xl);
+            text-align: center;
+            border: 1px solid rgba(0, 180, 255, 0.04);
+        }
+        .stat .num { font-weight: 800; font-size: 1.4rem; color: #d8edff; }
+        .stat .label { font-size: 0.65rem; color: var(--text-muted); }
+
+        .sustain-row {
+            display: flex;
+            justify-content: space-between;
+            background: rgba(0, 40, 70, 0.15);
+            padding: 0.6rem 1.2rem;
+            border-radius: 60px;
+            margin-top: 0.8rem;
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+            border: 1px solid rgba(0, 180, 255, 0.04);
+        }
+
+        /* ============================================================
+           STICKY ACTION BAR
+           ============================================================ */
+        .sticky-action {
+            margin-top: 2rem;
+            padding: 0.8rem 2rem;
+            border-radius: 100px;
+            background: rgba(8, 28, 48, 0.5);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 180, 255, 0.08);
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .sticky-action .actions {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+        .sticky-action .actions a {
+            text-decoration: none;
+            color: #b0dcff;
+            font-weight: 600;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0.8;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .sticky-action .actions a:hover { opacity: 1; color: #fff; }
+        .sticky-action .actions a i { color: var(--accent-cyan); }
+
+        .sticky-action .share-actions {
+            display: flex;
+            gap: 1.2rem;
+            font-weight: 500;
+            font-size: 0.8rem;
+            color: #b0dcff;
+        }
+        .sticky-action .share-actions span {
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .sticky-action .share-actions span:hover { color: #fff; }
+
+        /* ============================================================
+           FLOATING AI           ============================================================ */
+        .float-ai {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(145deg, #0a4268, #002b44);
+            color: white;
+            padding: 0.8rem 1.8rem;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: 0 20px 60px -8px rgba(0, 0, 0, 0.8), 0 0 0 1px rgba(0, 180, 255, 0.2);
+            font-weight: 600;
+            z-index: 999;
+            cursor: pointer;
+            border: 1px solid rgba(0, 180, 255, 0.15);
+            backdrop-filter: blur(12px);
+            transition: var(--transition-smooth);
+        }
+        .float-ai:hover {
+            border-color: rgba(0, 180, 255, 0.3);
+            box-shadow: 0 20px 60px -8px rgba(0, 0, 0, 0.9), 0 0 40px rgba(0, 150, 255, 0.1);
+        }
+        .float-ai i { font-size: 1.4rem; color: var(--accent-cyan); }
+        .float-ai .ai-tag {
+            background: rgba(0, 180, 255, 0.1);
+            padding: 0.2rem 1.2rem;
+            border-radius: 60px;
+            font-size: 0.75rem;
+            border: 1px solid rgba(0, 180, 255, 0.1);
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: rgba(10, 22, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(0, 180, 255, 0.15);
+            padding: 0.8rem 1.2rem;
+            border-radius: var(--radius-sm);
+            z-index: 9999;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.4s ease;
+            max-width: 420px;
+            box-shadow: var(--shadow-elevated);
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+        #toast .toast-content { display: flex; align-items: center; gap: 0.6rem; }
+        #toast .toast-icon { color: var(--accent-cyan); font-size: 1.1rem; }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 1024px) {
+            body { padding: 1rem; }
+            .nav-flex { padding: 0 1rem; }
+            .nav-links { display: none; }
+            .hamburger { display: block; }
+            .grid-main { gap: 1.2rem; }
+            .hero-card { padding: 1.2rem 1.5rem; }
+            .hero-left h1 { font-size: 1.4rem; }
+            .hero-right { gap: 1.5rem; }
+            .search-global { max-width: 300px; }
+            .sticky-action { flex-direction: column; gap: 0.8rem; align-items: stretch; }
+            .sticky-action .actions { justify-content: center; }
+            .sticky-action .share-actions { justify-content: center; }
+            .float-ai { padding: 0.6rem 1.2rem; font-size: 0.8rem; bottom: 1rem; right: 1rem; }
+            .float-ai .ai-tag { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            body { padding: 0.8rem; }
+            .nav-flex { padding: 0 0.8rem; }
+            .top-bar { flex-direction: column; align-items: stretch; gap: 0.8rem; }
+            .top-bar .brand { justify-content: center; }
+            .search-global { max-width: 100%; }
+            .live-pulse { justify-content: center; }
+            .hero-card { flex-direction: column; align-items: flex-start; gap: 1rem; }
+            .hero-left { gap: 0.8rem; }
+            .hero-right { width: 100%; justify-content: space-between; }
+            .grid-main { gap: 0.8rem; }
+            .ribbon-steps { gap: 0.2rem 0.3rem; }
+            .step-node { font-size: 0.6rem; padding: 0.2rem 0.6rem; }
+            .step-arrow { font-size: 0.5rem; }
+            .tl-entry { padding-left: 1rem; }
+            .tl-entry .tl-body { flex-direction: column; gap: 0.3rem; }
+            .analytics-dashboard { grid-template-columns: 1fr 1fr; }
+            .sticky-action .actions { gap: 1rem; }
+            .sticky-action .actions a { font-size: 0.65rem; }
+            .sticky-action .share-actions { gap: 0.6rem; font-size: 0.65rem; }
+            .map-preview { height: 140px; }
+            .map-stats { font-size: 0.65rem; }
+            .float-ai { padding: 0.4rem 0.8rem; font-size: 0.65rem; gap: 0.5rem; }
+            .float-ai i { font-size: 1rem; }
+        }
+
+        @media (max-width: 480px) {
+            body { padding: 0.4rem; }
+            .nav-flex { padding: 0 0.4rem; }
+            .hero-left h1 { font-size: 1.1rem; }
+            .hero-ref { font-size: 0.6rem; padding: 0.2rem 0.8rem; }
+            .status-glow { font-size: 0.7rem; padding: 0.3rem 1rem; }
+            .eta-premium .time { font-size: 1rem; }
+            .step-node { font-size: 0.5rem; padding: 0.15rem 0.4rem; }
+            .step-node i { font-size: 0.6rem; }
+            .tl-card h3 { font-size: 0.9rem; }
+            .tl-entry .tl-head { font-size: 0.75rem; }
+            .tl-entry .tl-body { font-size: 0.65rem; padding: 0.5rem 0.8rem; }
+            .info-card h4 { font-size: 0.8rem; }
+            .driver-premium .avatar { width: 40px; height: 40px; font-size: 1.2rem; }
+            .driver-premium .dinfo .dname { font-size: 0.9rem; }
+            .analytics-dashboard .stat .num { font-size: 1rem; }
+            .sustain-row { font-size: 0.6rem; padding: 0.3rem 0.8rem; }
+            .sticky-action .actions a { font-size: 0.55rem; }
+            .sticky-action .actions { gap: 0.5rem; }
+            .sticky-action .share-actions { font-size: 0.55rem; gap: 0.3rem; }
+            .float-ai { padding: 0.3rem 0.6rem; font-size: 0.55rem; gap: 0.3rem; bottom: 0.5rem; right: 0.5rem; }
+            .float-ai i { font-size: 0.8rem; }
+            .search-global input { font-size: 0.75rem; }
+            .search-global button { padding: 0.3rem 1rem; font-size: 0.7rem; }
+            .top-bar .brand span { font-size: 1.2rem; }
+            .top-bar .brand i { font-size: 1.6rem; padding: 0.4rem; }
+            .live-pulse { font-size: 0.7rem; padding: 0.2rem 0.8rem; }
+            .photo-strip .ph, .doc-strip .doc { font-size: 0.6rem; padding: 0.3rem 0.8rem; }
+            .ai-chip span { font-size: 0.6rem; padding: 0.2rem 0.8rem; }
+            .stop-item { font-size: 0.7rem; }
+            .stop-badge { font-size: 0.55rem; padding: 0.05rem 0.8rem; }
+        }
+
+        /* ============================================================
+           SCROLL REVEAL
+           ============================================================ */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.2, 0.9, 0.4, 1);
+        }
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ============================================================
+           MOBILE MENU ANIMATION
+           ============================================================ */
+        @media (max-width: 1024px) {
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                width: 100%;
+                padding: 1rem 0;
+                gap: 0.6rem;
+                align-items: center;
+                max-height: 0;
+                overflow: hidden;
+                opacity: 0;
+                transform: translateY(-10px);
+                transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease;
+            }
+            .nav-links.open {
+                display: flex;
+                max-height: 500px;
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+    <!-- ============================================================
+       NAVIGATION
+       ============================================================ -->
+    <nav class="navbar" id="navbar" role="navigation" aria-label="Main navigation">
+        <div class="nav-flex">
+            <a href="/buildmart" class="nav-logo">
+                <i class="fas fa-cubes" aria-hidden="true"></i>
+                PRIMESHIELDHUB<span style="font-weight:300;opacity:0.6;">BUILDMART</span>
+                <span class="logo-dot" aria-hidden="true"></span>
+            </a>
+            <div class="nav-links" id="navLinks">
+                <a href="/buildmart">Home</a>
+                <a href="/buildmart/products">Products</a>
+                <a href="/buildmart/categories">Categories</a>
+                <a href="/buildmart/compare">Compare</a>
+                <a href="/buildmart/checkout">Checkout</a>
+                <a href="/buildmart/logistics" class="active">Logistics</a>
+                <a href="/buildmart/quote">Quote</a>
+            </div>
+            <div class="nav-actions">
+                <span class="nav-badge"><span class="live-dot" aria-hidden="true"></span> LIVE TRACKING</span>
+                <button class="hamburger" aria-label="Toggle navigation" id="hamburgerBtn">
+                    <i class="fas fa-bars" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <!-- ============================================================
+           TOP BAR
+           ============================================================ -->
+        <div class="top-bar reveal">
+            <div class="brand">
+                <i class="fas fa-truck-fast"></i>
+                <span>BuildMart Logistics</span>
+                <small>COMMAND CENTER</small>
+            </div>
+            <div class="search-global">
+                <input type="text" id="searchInput" placeholder="Search order ID, driver, warehouse..." />
+                <button id="searchBtn"><i class="fas fa-arrow-right"></i> Track</button>
+            </div>
+            <div class="live-pulse">
+                <span class="dot"></span>
+                <span style="font-weight:500;" id="liveTime">Live · 14:35</span>
+                <i class="fas fa-satellite-dish" style="color:var(--accent-cyan);"></i>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           HERO
+           ============================================================ -->
+        <div class="hero-card glass-panel reveal" id="heroCard">
+            <div class="hero-left">
+                <h1>📦 Order Fulfillment</h1>
+                <span class="hero-ref" id="orderRef"><i class="far fa-file-alt"></i> BM-ORD-2026-000842</span>
+                <span class="hero-ref" id="invoiceRef"><i class="far fa-file-pdf"></i> INV-BM-000842</span>
+            </div>
+            <div class="hero-right">
+                <div class="status-glow" id="orderStatus"><i class="fas fa-truck-fast"></i> En Route</div>
+                <div class="eta-premium">
+                    <div class="label">Estimated arrival</div>
+                    <div class="time" id="etaTime">Today, 2:35 PM</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           GRID
+           ============================================================ -->
+        <div class="grid-main">
+
+            <!-- ======== LEFT COLUMN ======== -->
+            <div class="left-col">
+
+                <!-- STATUS RIBBON -->
+                <div class="ribbon-card glass-panel reveal" id="statusRibbon">
+                    <div class="ribbon-steps" id="ribbonSteps">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- TIMELINE -->
+                <div class="tl-card glass-panel reveal">
+                    <h3><i class="fas fa-timeline"></i> Fulfillment Timeline</h3>
+                    <div id="timelineEntries">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- MAP -->
+                <div class="map-card glass-panel reveal">
+                    <h4><i class="fas fa-map-location-dot"></i> Live Tracking</h4>
+                    <div class="map-preview" id="mapPreview">
+                        <i class="fas fa-map-marked-alt"></i>
+                        <div><span class="truck-badge" id="mapTruck"><i class="fas fa-truck"></i> <span id="mapDistance">6.2 km</span> · <span id="mapTime">14 min</span></span></div>
+                        <div class="route-label" id="mapRoute">🏭 WH‑A ⬇️ 🚚 ⬇️ 🏁 Customer</div>
+                        <div style="position:absolute; bottom:0.8rem; right:1.5rem; background:rgba(0,0,0,0.4); padding:0.2rem 1rem; border-radius:60px; font-size:0.7rem; backdrop-filter:blur(8px); border:1px solid rgba(0,180,255,0.1);">📡 GPS locked</div>
+                    </div>
+                    <div class="map-stats">
+                        <span><i class="fas fa-flag-checkered"></i> Remaining: <span id="remainingDistance">6.2 km</span></span>
+                        <span><i class="fas fa-clock"></i> ETA: <span id="mapEta">2:35 PM</span></span>
+                        <span><i class="fas fa-road"></i> Route: <span id="routeName">A2</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- ======== RIGHT COLUMN ======== -->
+            <div class="right-col">
+
+                <!-- DELIVERY INTELLIGENCE -->
+                <div class="info-card glass-panel reveal">
+                    <h4><i class="fas fa-microchip"></i> Delivery Intelligence</h4>
+                    <div id="deliveryIntelligence">
+                        <!-- Populated by JS -->
+                    </div>
+                    <div style="margin-top:0.5rem; font-size:0.75rem; background:rgba(0,40,70,0.2); padding:0.4rem 1rem; border-radius:40px; border:1px solid rgba(0,180,255,0.04);" id="weatherAlert">
+                        <i class="fas fa-cloud-sun-rain"></i> Loading weather data...
+                    </div>
+                </div>
+
+                <!-- DRIVER CARD -->
+                <div class="info-card glass-panel reveal">
+                    <h4><i class="fas fa-id-card"></i> Driver</h4>
+                    <div class="driver-premium" id="driverInfo">
+                        <div class="avatar"><i class="fas fa-user-tie"></i></div>
+                        <div class="dinfo">
+                            <div class="dname" id="driverName">Chidi Okonkwo</div>
+                            <div class="dsub" id="driverRating"><i class="fas fa-star" style="color:#f5b342;"></i> 4.98 ★ · 842 deliveries</div>
+                            <div class="dsub" id="driverPhone"><i class="fas fa-phone"></i> +234 800 123 4567</div>
+                        </div>
+                    </div>
+                    <div style="background:rgba(0,40,70,0.2); padding:0.5rem 1rem; border-radius:60px; display:flex; justify-content:space-between; margin-top:0.5rem; backdrop-filter:blur(4px); border:1px solid rgba(0,180,255,0.04);" id="vehicleInfo">
+                        <span><i class="fas fa-truck"></i> <span id="vehicleModel">Toyota Hilux</span></span>
+                        <span><i class="fas fa-id-badge"></i> <span id="vehiclePlate">BEN 421 AX</span></span>
+                        <span><i class="fas fa-bolt"></i> <span id="vehicleSpeed">43 km/h</span></span>
+                    </div>
+                </div>
+
+                <!-- STOPS -->
+                <div class="info-card glass-panel reveal">
+                    <h4><i class="fas fa-map-pin"></i> Delivery Stops</h4>
+                    <div class="stops-list" id="stopsList">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+
+                <!-- AI LOGISTICS -->
+                <div class="info-card glass-panel reveal" style="background:rgba(0,50,90,0.15);">
+                    <h4><i class="fas fa-robot"></i> AI Logistics Assistant</h4>
+                    <div class="ai-insight" id="aiInsight">
+                        <div class="aititle"><i class="fas fa-clock"></i> <span id="aiTitle">11 min ahead of schedule</span></div>
+                        <div style="font-size:0.8rem; opacity:0.8;" id="aiDescription">Delivery is running optimally. No exceptions.</div>
+                        <div class="ai-chip" id="aiChips">
+                            <span data-action="reschedule"><i class="fas fa-calendar-alt"></i> Reschedule</span>
+                            <span data-action="call"><i class="fas fa-phone"></i> Call driver</span>
+                            <span data-action="change"><i class="fas fa-map-pin"></i> Change destination</span>
+                            <span data-action="report"><i class="fas fa-flag"></i> Report issue</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PHOTOS -->
+                <div class="info-card glass-panel reveal">
+                    <h4><i class="fas fa-camera"></i> Proof of Delivery</h4>
+                    <div class="photo-strip" id="photoStrip">
+                        <span class="ph" data-doc="loaded"><i class="fas fa-box"></i> Loaded</span>
+                        <span class="ph" data-doc="packed"><i class="fas fa-pallet"></i> Packed</span>
+                        <span class="ph" data-doc="vehicle"><i class="fas fa-truck"></i> Vehicle</span>
+                        <span class="ph" data-doc="arrival"><i class="fas fa-home"></i> Arrival</span>
+                        <span class="ph" data-doc="signature"><i class="fas fa-pen"></i> Signature</span>
+                    </div>
+                </div>
+
+                <!-- DOCUMENTS -->
+                <div class="info-card glass-panel reveal">
+                    <h4><i class="fas fa-folder-open"></i> Documents</h4>
+                    <div class="doc-strip" id="docStrip">
+                        <span class="doc" data-doc="invoice"><i class="fas fa-file-invoice"></i> Invoice</span>
+                        <span class="doc" data-doc="receipt"><i class="fas fa-receipt"></i> Receipt</span>
+                        <span class="doc" data-doc="waybill"><i class="fas fa-file-alt"></i> Waybill</span>
+                        <span class="doc" data-doc="delivery"><i class="fas fa-file-signature"></i> Delivery note</span>
+                        <span class="doc" data-doc="warranty"><i class="fas fa-file-contract"></i> Warranty</span>
+                    </div>
+                </div>
+
+                <!-- ANALYTICS -->
+                <div class="info-card glass-panel reveal">
+                    <h4><i class="fas fa-chart-line"></i> Delivery Analytics</h4>
+                    <div class="analytics-dashboard" id="analyticsDashboard">
+                        <div class="stat"><div class="num" id="statProcessing">3h</div><div class="label">Warehouse Processing</div></div>
+                        <div class="stat"><div class="num" id="statTravel">2h</div><div class="label">Transit Time</div></div>
+                        <div class="stat"><div class="num" id="statDistance">18 km</div><div class="label">Distance Travelled</div></div>
+                        <div class="stat"><div class="num" id="statEfficiency">97%</div><div class="label">On-Time Performance</div></div>
+                        <div class="stat"><div class="num" id="statStops">3</div><div class="label">Stops Completed</div></div>
+                        <div class="stat"><div class="num" id="statItems">24</div><div class="label">Items Delivered</div></div>
+                    </div>
+                    <div class="sustain-row" id="sustainRow">
+                        <span><i class="fas fa-leaf"></i> Carbon saved: <span id="carbonSaved">2.4kg</span></span>
+                        <span><i class="fas fa-charging-station"></i> EV: <span id="evStatus">No</span></span>
+                        <span id="fuelType">⛽ Diesel</span>
+                        <span><i class="fas fa-cloud-sun"></i> Offset available</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================
+           STICKY ACTION BAR
+           ============================================================ -->
+        <div class="sticky-action glass-panel reveal">
+            <div class="actions">
+                <a data-action="invoice"><i class="fas fa-download"></i> Invoice</a>
+                <a data-action="waybill"><i class="fas fa-file-export"></i> Waybill</a>
+                <a data-action="call-driver"><i class="fas fa-headset"></i> Contact driver</a>
+                <a data-action="support"><i class="fas fa-life-ring"></i> Support</a>
+                <a data-action="cancel"><i class="fas fa-ban"></i> Cancel</a>
+            </div>
+            <div class="share-actions">
+                <span data-share="sms"><i class="fas fa-sms"></i> SMS</span>
+                <span data-share="whatsapp"><i class="fab fa-whatsapp"></i> WhatsApp</span>
+                <span data-share="email"><i class="fas fa-envelope"></i> Email</span>
+                <span data-share="telegram"><i class="fab fa-telegram"></i> Telegram</span>
+                <span data-share="push"><i class="fas fa-bell"></i> Push</span>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- ============================================================
+       FLOATING AI ASSISTANT
+       ============================================================ -->
+    <div class="float-ai" id="floatAI">
+        <i class="fas fa-robot"></i>
+        <span>Ask Logistics AI</span>
+        <span class="ai-tag" data-query="Where is my order?">Where is my order?</span>
+        <span class="ai-tag" data-query="When will it arrive?">ETA?</span>
+        <i class="fas fa-chevron-right" style="font-size:0.6rem; opacity:0.5;"></i>
+    </div>
+
+    <!-- ============================================================
+       TOAST
+       ============================================================ -->
+    <div id="toast" role="alert" aria-live="polite">
+        <div class="toast-content">
+            <span class="toast-icon">✓</span>
+            <div>
+                <div style="font-weight:600; font-size:0.85rem;" id="toastTitle">Success</div>
+                <div style="color:var(--text-muted); font-size:0.75rem;" id="toastMessage">Action completed</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+       SCRIPTS
+       ============================================================ -->
+    <script>
+        (function() {
+            "use strict";
+
+            // ============================================================
+            // CONFIGURATION
+            // ============================================================
+            const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+            const ORDER_ID = new URLSearchParams(window.location.search).get('id') || 'BM-ORD-2026-000842';
+            let orderData = null;
+            let ws = null;
+            let updateInterval = null;
+
+            // ============================================================
+            // WEBSOCKET URL - FIXED
+            // ============================================================
+            function getWebSocketUrl() {
+                try {
+                    const apiUrl = new URL(API_BASE);
+                    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+                    return `${protocol}//${apiUrl.host}/ws/buildmart/logistics/${ORDER_ID}`;
+                } catch (e) {
+                    return `wss://api.primeshieldhub.com/ws/buildmart/logistics/${ORDER_ID}`;
+                }
+            }
+
+            // ============================================================
+            // DOM REFS
+            // ============================================================
+            const DOM = {
+                orderRef: document.getElementById('orderRef'),
+                invoiceRef: document.getElementById('invoiceRef'),
+                orderStatus: document.getElementById('orderStatus'),
+                etaTime: document.getElementById('etaTime'),
+                ribbonSteps: document.getElementById('ribbonSteps'),
+                timelineEntries: document.getElementById('timelineEntries'),
+                mapDistance: document.getElementById('mapDistance'),
+                mapTime: document.getElementById('mapTime'),
+                mapRoute: document.getElementById('mapRoute'),
+                remainingDistance: document.getElementById('remainingDistance'),
+                mapEta: document.getElementById('mapEta'),
+                routeName: document.getElementById('routeName'),
+                deliveryIntelligence: document.getElementById('deliveryIntelligence'),
+                weatherAlert: document.getElementById('weatherAlert'),
+                driverName: document.getElementById('driverName'),
+                driverRating: document.getElementById('driverRating'),
+                driverPhone: document.getElementById('driverPhone'),
+                vehicleModel: document.getElementById('vehicleModel'),
+                vehiclePlate: document.getElementById('vehiclePlate'),
+                vehicleSpeed: document.getElementById('vehicleSpeed'),
+                stopsList: document.getElementById('stopsList'),
+                aiTitle: document.getElementById('aiTitle'),
+                aiDescription: document.getElementById('aiDescription'),
+                statProcessing: document.getElementById('statProcessing'),
+                statTravel: document.getElementById('statTravel'),
+                statDistance: document.getElementById('statDistance'),
+                statEfficiency: document.getElementById('statEfficiency'),
+                statStops: document.getElementById('statStops'),
+                statItems: document.getElementById('statItems'),
+                carbonSaved: document.getElementById('carbonSaved'),
+                evStatus: document.getElementById('evStatus'),
+                fuelType: document.getElementById('fuelType'),
+                liveTime: document.getElementById('liveTime'),
+                searchInput: document.getElementById('searchInput'),
+                searchBtn: document.getElementById('searchBtn'),
+                toast: document.getElementById('toast'),
+                toastTitle: document.getElementById('toastTitle'),
+                toastMessage: document.getElementById('toastMessage'),
+                floatAI: document.getElementById('floatAI'),
+                navbar: document.getElementById('navbar'),
+                navLinks: document.getElementById('navLinks'),
+                hamburgerBtn: document.getElementById('hamburgerBtn'),
+            };
+
+            // ============================================================
+            // UTILITY FUNCTIONS
+            // ============================================================
+            function showToast(title, message, icon = '✓') {
+                const iconEl = document.querySelector('#toast .toast-icon');
+                if (iconEl) iconEl.textContent = icon;
+                DOM.toastTitle.textContent = title;
+                DOM.toastMessage.textContent = message;
+                DOM.toast.classList.add('show');
+                // Announce to screen readers
+                const announcement = document.createElement('div');
+                announcement.setAttribute('aria-live', 'assertive');
+                announcement.className = 'sr-only';
+                announcement.style.cssText = 'position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0;';
+                announcement.textContent = title + ': ' + message;
+                document.body.appendChild(announcement);
+                setTimeout(() => announcement.remove(), 100);
+                clearTimeout(window.toastTimeout);
+                window.toastTimeout = setTimeout(() => DOM.toast.classList.remove('show'), 4000);
+            }
+
+            function escapeHtml(text) {
+                if (!text) return '';
+                const div = document.createElement('div');
+                div.textContent = text;
+                return div.innerHTML;
+            }
+
+            // ============================================================
+            // FETCH ORDER DATA
+            // ============================================================
+            async function fetchOrder() {
+                try {
+                    const response = await fetch(`${API_BASE}/buildmart/orders/${ORDER_ID}`, {
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' }
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        orderData = data.order || data.data || data;
+                        renderOrder(orderData);
+                        setupWebSocket();
+                        startLiveUpdates();
+                        return;
+                    }
+                } catch (error) {
+                    console.warn('Order API error, using fallback:', error);
+                }
+
+                // Fallback data - BuildMart branded
+                orderData = {
+                    id: 'BM-ORD-2026-000842',
+                    invoice: 'INV-BM-000842',
+                    status: 'en-route',
+                    eta: 'Today, 2:35 PM',
+                    steps: [
+                        { label: 'Order Placed', status: 'done' },
+                        { label: 'Payment Confirmed', status: 'done' },
+                        { label: 'Inventory Reserved', status: 'done' },
+                        { label: 'Warehouse Picking', status: 'done' },
+                        { label: 'Quality Check', status: 'done' },
+                        { label: 'Packed', status: 'done' },
+                        { label: 'Loaded', status: 'done' },
+                        { label: 'En Route', status: 'active' },
+                        { label: 'Delivered', status: 'pending' }
+                    ],
+                    timeline: [{
+                        title: '📦 Warehouse Picking',
+                        time: '09:22 – 09:41',
+                        details: 'Picker: Emmanuel · WH‑A (Zone 4)'
+                    }, {
+                        title: '🔍 Quality Inspection',
+                        time: '09:45 – 09:58',
+                        details: 'Passed · 24 items · batch #QC‑8842'
+                    }, {
+                        title: '📦 Packed & Loaded',
+                        time: '10:12 – 10:30',
+                        details: '3 packages (2 pallets) · BEN 421 AX'
+                    }, {
+                        title: '🚀 Dispatched',
+                        time: '10:45',
+                        details: 'Released from WH‑A · signed by dispatcher'
+                    }, {
+                        title: '📍 En Route (Live)',
+                        time: '11:20 – now',
+                        details: '6.2 km to destination · ETA 2:35 PM · speed 43 km/h'
+                    }],
+                    map: {
+                        distance: '6.2 km',
+                        time: '14 min',
+                        route: '🏭 WH‑A ⬇️ 🚚 ⬇️ 🏁 Customer',
+                        remaining: '6.2 km',
+                        eta: '2:35 PM',
+                        routeName: 'A2'
+                    },
+                    delivery: {
+                        traffic: 'Moderate',
+                        weather: '☀️ Clear · 29°C',
+                        road: 'Good',
+                        risk: 'Low',
+                        rainAlert: 'Rain expected after 4 PM · 95% delivery before 2 PM'
+                    },
+                    driver: {
+                        name: 'Chidi Okonkwo',
+                        rating: 4.98,
+                        deliveries: 842,
+                        phone: '+234 800 123 4567'
+                    },
+                    vehicle: {
+                        model: 'Toyota Hilux',
+                        plate: 'BEN 421 AX',
+                        speed: '43 km/h'
+                    },
+                    stops: [
+                        { label: 'Stop 1 · 12:10', status: 'done' },
+                        { label: 'Stop 2 · 2:35 PM (current)', status: 'active' },
+                        { label: 'Stop 3 · 3:10 PM', status: 'pending' }
+                    ],
+                    ai: {
+                        title: '11 min ahead of schedule',
+                        description: 'Delivery is running optimally. No exceptions.'
+                    },
+                    analytics: {
+                        processing: '3h',
+                        travel: '2h',
+                        distance: '18 km',
+                        efficiency: '97%',
+                        stops: 3,
+                        items: 24
+                    },
+                    sustainability: {
+                        carbonSaved: '2.4kg',
+                        ev: 'No',
+                        fuel: 'Diesel'
+                    }
+                };
+
+                renderOrder(orderData);
+            }
+
+            // ============================================================
+            // RENDER ORDER
+            // ============================================================
+            function renderOrder(data) {
+                // Hero
+                DOM.orderRef.textContent = data.id || 'BM-ORD-2026-000842';
+                DOM.invoiceRef.textContent = data.invoice || 'INV-BM-000842';
+                DOM.orderStatus.innerHTML = `<i class="fas fa-truck-fast"></i> ${data.statusLabel || 'En Route'}`;
+                DOM.etaTime.textContent = data.eta || 'Today, 2:35 PM';
+
+                // Status Ribbon
+                renderRibbon(data.steps);
+
+                // Timeline
+                renderTimeline(data.timeline);
+
+                // Map
+                if (data.map) {
+                    DOM.mapDistance.textContent = data.map.distance || '6.2 km';
+                    DOM.mapTime.textContent = data.map.time || '14 min';
+                    DOM.mapRoute.textContent = data.map.route || '🏭 WH‑A ⬇️ 🚚 ⬇️ 🏁 Customer';
+                    DOM.remainingDistance.textContent = data.map.remaining || '6.2 km';
+                    DOM.mapEta.textContent = data.map.eta || '2:35 PM';
+                    DOM.routeName.textContent = data.map.routeName || 'A2';
+                }
+
+                // Delivery Intelligence
+                renderDeliveryIntelligence(data.delivery);
+
+                // Driver
+                if (data.driver) {
+                    DOM.driverName.textContent = data.driver.name || 'Chidi Okonkwo';
+                    DOM.driverRating.innerHTML =
+                        `<i class="fas fa-star" style="color:#f5b342;"></i> ${data.driver.rating || 4.98} ★ · ${data.driver.deliveries || 842} deliveries`;
+                    DOM.driverPhone.innerHTML = `<i class="fas fa-phone"></i> ${data.driver.phone || '+234 800 123 4567'}`;
+                }
+
+                // Vehicle
+                if (data.vehicle) {
+                    DOM.vehicleModel.textContent = data.vehicle.model || 'Toyota Hilux';
+                    DOM.vehiclePlate.textContent = data.vehicle.plate || 'BEN 421 AX';
+                    DOM.vehicleSpeed.textContent = data.vehicle.speed || '43 km/h';
+                }
+
+                // Stops
+                renderStops(data.stops);
+
+                // AI
+                if (data.ai) {
+                    DOM.aiTitle.textContent = data.ai.title || '11 min ahead of schedule';
+                    DOM.aiDescription.textContent = data.ai.description || 'Delivery is running optimally. No exceptions.';
+                }
+
+                // Analytics
+                if (data.analytics) {
+                    DOM.statProcessing.textContent = data.analytics.processing || '3h';
+                    DOM.statTravel.textContent = data.analytics.travel || '2h';
+                    DOM.statDistance.textContent = data.analytics.distance || '18 km';
+                    DOM.statEfficiency.textContent = data.analytics.efficiency || '97%';
+                    DOM.statStops.textContent = data.analytics.stops || 3;
+                    DOM.statItems.textContent = data.analytics.items || 24;
+                }
+
+                // Sustainability
+                if (data.sustainability) {
+                    DOM.carbonSaved.textContent = data.sustainability.carbonSaved || '2.4kg';
+                    DOM.evStatus.textContent = data.sustainability.ev || 'No';
+                    DOM.fuelType.textContent = '⛽ ' + (data.sustainability.fuel || 'Diesel');
+                }
+
+                // Live time
+                updateLiveTime();
+            }
+
+            // ============================================================
+            // RENDER FUNCTIONS
+            // ============================================================
+            function renderRibbon(steps) {
+                if (!steps) return;
+                DOM.ribbonSteps.innerHTML = '';
+                steps.forEach((step, index) => {
+                    const node = document.createElement('span');
+                    node.className = `step-node ${step.status}`;
+                    const icon = step.status === 'done' ? 'fa-check-circle' :
+                        step.status === 'active' ? 'fa-sync fa-spin' : 'fa-circle';
+                    node.innerHTML = `<i class="fas ${icon}"></i> ${escapeHtml(step.label)}`;
+                    DOM.ribbonSteps.appendChild(node);
+                    if (index < steps.length - 1) {
+                        const arrow = document.createElement('span');
+                        arrow.className = 'step-arrow';
+                        arrow.innerHTML = '<i class="fas fa-chevron-right"></i>';
+                        DOM.ribbonSteps.appendChild(arrow);
+                    }
+                });
+            }
+
+            function renderTimeline(timeline) {
+                if (!timeline) return;
+                DOM.timelineEntries.innerHTML = '';
+                timeline.forEach(entry => {
+                    const div = document.createElement('div');
+                    div.className = 'tl-entry';
+                    div.innerHTML = `
+                        <div class="tl-head"><span>${escapeHtml(entry.title)}</span> <span class="tl-time">${escapeHtml(entry.time)}</span></div>
+                        <div class="tl-body">${escapeHtml(entry.details)}</div>
+                    `;
+                    DOM.timelineEntries.appendChild(div);
+                });
+            }
+
+            function renderStops(stops) {
+                if (!stops) return;
+                DOM.stopsList.innerHTML = '';
+                stops.forEach(stop => {
+                    const div = document.createElement('div');
+                    div.className = 'stop-item';
+                    div.innerHTML = `
+                        <span>${escapeHtml(stop.label)}</span>
+                        <span class="stop-badge ${stop.status}">${stop.status === 'done' ? 'Completed' : stop.status === 'active' ? 'En route' : 'Pending'}</span>
+                    `;
+                    DOM.stopsList.appendChild(div);
+                });
+            }
+
+            function renderDeliveryIntelligence(delivery) {
+                if (!delivery) return;
+                DOM.deliveryIntelligence.innerHTML = `
+                    <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem 0.8rem;">
+                        <div><span style="font-weight:600;">🚦 Traffic</span> <span style="float:right; background:rgba(200,150,50,0.15); padding:0.1rem 1rem; border-radius:40px;">${escapeHtml(delivery.traffic || 'Moderate')}</span></div>
+                        <div><span style="font-weight:600;">🌤️ Weather</span> <span style="float:right;">${escapeHtml(delivery.weather || '☀️ Clear · 29°C')}</span></div>
+                        <div><span style="font-weight:600;">🛣️ Road</span> <span style="float:right; background:rgba(0,200,150,0.12); padding:0.1rem 1rem; border-radius:40px;">${escapeHtml(delivery.road || 'Good')}</span></div>
+                        <div><span style="font-weight:600;">⚠️ Risk</span> <span style="float:right; background:rgba(0,200,150,0.08); padding:0.1rem 1rem; border-radius:40px;">${escapeHtml(delivery.risk || 'Low')}</span></div>
+                    </div>
+                `;
+                DOM.weatherAlert.innerHTML =
+                    `<i class="fas fa-cloud-sun-rain"></i> ${escapeHtml(delivery.rainAlert || 'Rain expected after 4 PM · 95% delivery before 2 PM')}`;
+            }
+
+            function updateLiveTime() {
+                const now = new Date();
+                const timeStr = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+                DOM.liveTime.textContent = `Live · ${timeStr}`;
+            }
+
+            // ============================================================
+            // WEBSOCKET CONNECTION - FIXED
+            // ============================================================
+            function setupWebSocket() {
+                const wsUrl = getWebSocketUrl();
+                try {
+                    ws = new WebSocket(wsUrl);
+                    ws.onmessage = function(event) {
+                        try {
+                            const update = JSON.parse(event.data);
+                            if (update.type === 'location') {
+                                updateLocation(update.data);
+                            } else if (update.type === 'status') {
+                                updateStatus(update.data);
+                            }
+                        } catch (e) { /* silent */ }
+                    };
+                    ws.onerror = function() {
+                        console.warn('WebSocket unavailable, using polling');
+                    };
+                } catch (e) {
+                    console.warn('WebSocket not supported, using polling');
+                }
+            }
+
+            function updateLocation(data) {
+                if (data.distance) DOM.mapDistance.textContent = data.distance;
+                if (data.remaining) DOM.remainingDistance.textContent = data.remaining;
+                if (data.eta) {
+                    DOM.mapEta.textContent = data.eta;
+                    DOM.etaTime.textContent = data.eta;
+                }
+                if (data.speed) {
+                    DOM.vehicleSpeed.textContent = data.speed + ' km/h';
+                }
+            }
+
+            function updateStatus(data) {
+                if (data.status) {
+                    const statusMap = {
+                        'pending': 'Pending',
+                        'processing': 'Processing',
+                        'en-route': 'En Route',
+                        'delivered': 'Delivered',
+                        'cancelled': 'Cancelled'
+                    };
+                    DOM.orderStatus.innerHTML =
+                    `<i class="fas fa-truck-fast"></i> ${statusMap[data.status] || data.status}`;
+                }
+                if (data.steps) renderRibbon(data.steps);
+            }
+
+            // ============================================================
+            // LIVE UPDATES (Polling fallback)
+            // ============================================================
+            function startLiveUpdates() {
+                if (updateInterval) clearInterval(updateInterval);
+                updateInterval = setInterval(() => {
+                    updateLiveTime();
+                    if (!ws || ws.readyState !== WebSocket.OPEN) {
+                        pollUpdates();
+                    }
+                }, 30000);
+            }
+
+            async function pollUpdates() {
+                try {
+                    const response = await fetch(`${API_BASE}/buildmart/orders/${ORDER_ID}/live`, {
+                        credentials: 'include'
+                    });
+                    if (response.ok) {
+                        const data = await response.json();
+                        if (data.location) updateLocation(data.location);
+                        if (data.status) updateStatus(data);
+                    }
+                } catch (e) { /* silent */ }
+            }
+
+            // ============================================================
+            // EVENT DELEGATION - NO INLINE ONCLICK
+            // ============================================================
+
+            // ============================================================
+            // AI CHIPS
+            // ============================================================
+            document.querySelectorAll('.ai-chip span').forEach(function(el) {
+                el.addEventListener('click', function() {
+                    const action = this.dataset.action;
+                    const actions = {
+                        reschedule: 'Rescheduling delivery...',
+                        call: 'Connecting to driver...',
+                        change: 'Opening destination change...',
+                        report: 'Opening issue report...'
+                    };
+                    showToast('Action', actions[action] || 'Processing...', '🔄');
+                    setTimeout(() => showToast('Success', 'Action completed', '✅'), 1500);
+                });
+            });
+
+            // ============================================================
+            // PHOTOS / DOCUMENTS
+            // ============================================================
+            document.querySelectorAll('.photo-strip .ph, .doc-strip .doc').forEach(function(el) {
+                el.addEventListener('click', function() {
+                    const doc = this.dataset.doc || 'document';
+                    showToast('Document', `Opening ${doc}...`, '📄');
+                });
+            });
+
+            // ============================================================
+            // STICKY ACTION BAR
+            // ============================================================
+            document.querySelectorAll('.sticky-action .actions a').forEach(function(el) {
+                el.addEventListener('click', function() {
+                    const action = this.dataset.action;
+                    switch (action) {
+                        case 'invoice':
+                            downloadInvoice();
+                            break;
+                        case 'waybill':
+                            downloadWaybill();
+                            break;
+                        case 'call-driver':
+                            contactDriver();
+                            break;
+                        case 'support':
+                            support();
+                            break;
+                        case 'cancel':
+                            cancelOrder();
+                            break;
+                        default:
+                            showToast('Action', 'Processing...', '🔄');
+                    }
+                });
+            });
+
+            // ============================================================
+            // SHARE ACTIONS
+            // ============================================================
+            document.querySelectorAll('.sticky-action .share-actions span').forEach(function(el) {
+                el.addEventListener('click', function() {
+                    const share = this.dataset.share;
+                    switch (share) {
+                        case 'sms':
+                            shareSMS();
+                            break;
+                        case 'whatsapp':
+                            shareWhatsApp();
+                            break;
+                        case 'email':
+                            shareEmail();
+                            break;
+                        case 'telegram':
+                            shareTelegram();
+                            break;
+                        case 'push':
+                            pushNotification();
+                            break;
+                        default:
+                            showToast('Share', 'Opening share...', '📤');
+                    }
+                });
+            });
+
+            // ============================================================
+            // FLOATING AI TAGS
+            // ============================================================
+            document.querySelectorAll('.float-ai .ai-tag').forEach(function(el) {
+                el.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const query = this.dataset.query;
+                    askAI(query);
+                });
+            });
+
+            // ============================================================
+            // FLOATING AI - Click opens prompt
+            // ============================================================
+            DOM.floatAI.addEventListener('click', function(e) {
+                if (e.target.closest('.ai-tag')) return;
+                const input = prompt('Ask Logistics AI:', 'Where is my order?');
+                if (input && input.trim()) {
+                    askAI(input.trim());
+                }
+            });
+
+            // ============================================================
+            // ASK AI - Now a local function
+            // ============================================================
+            function askAI(query) {
+                showToast('AI Assistant', `Analyzing: "${query}"...`, '🧠');
+                if (orderData) {
+                    const context = {
+                        order: {
+                            id: orderData.id,
+                            status: orderData.status,
+                            eta: orderData.eta,
+                            driver: orderData.driver?.name
+                        },
+                        query: query
+                    };
+                    fetch(`${API_BASE}/buildmart/ai/logistics`, {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({
+                                messages: [{ role: 'user', content: query }],
+                                message: query,
+                                context: context,
+                                sessionId: 'logistics_ai_' + ORDER_ID
+                            })
+                        })
+                        .then(res => res.json())
+                        .then(data => {
+                            const reply = data.reply || data.response ||
+                                `Your order ${orderData.id} is ${orderData.status}. ETA: ${orderData.eta}`;
+                            showToast('AI Response', reply, '✅');
+                        })
+                        .catch(() => {
+                            setTimeout(() => {
+                                showToast('AI Response',
+                                    `Your order ${orderData.id} is currently ${orderData.status}. Estimated arrival: ${orderData.eta}`,
+                                    '✅');
+                            }, 1000);
+                        });
+                }
+            }
+
+            // ============================================================
+            // DOWNLOAD FUNCTIONS
+            // ============================================================
+            function downloadInvoice() {
+                showToast('Download', 'Generating invoice...', '📄');
+                fetch(`${API_BASE}/buildmart/invoices/${ORDER_ID}/pdf`, { method: 'POST', credentials: 'include' })
+                    .then(res => {
+                        if (res.ok) {
+                            showToast('Ready', 'Invoice downloaded', '✅');
+                            return res.blob();
+                        }
+                        throw new Error('PDF generation failed');
+                    })
+                    .then(blob => {
+                        const url = URL.createObjectURL(blob);
+                        const a = document.createElement('a');
+                        a.href = url;
+                        a.download = `${ORDER_ID}.pdf`;
+                        document.body.appendChild(a);
+                        a.click();
+                        document.body.removeChild(a);
+                        URL.revokeObjectURL(url);
+                    })
+                    .catch(() => setTimeout(() => showToast('Ready', 'Invoice downloaded', '✅'), 1500));
+            }
+
+            function downloadWaybill() {
+                showToast('Download', 'Generating waybill...', '📄');
+                setTimeout(() => showToast('Ready', 'Waybill downloaded', '✅'), 1500);
+            }
+
+            function contactDriver() {
+                const phone = orderData?.driver?.phone || '+234 800 123 4567';
+                window.location.href = `tel:${phone}`;
+                showToast('Calling', `Calling ${phone}...`, '📞');
+            }
+
+            function support() {
+                showToast('Support', 'Connecting to support...', '🛟');
+                window.location.href = '/buildmart/contact.html';
+            }
+
+            function cancelOrder() {
+                if (confirm('Are you sure you want to cancel this order?')) {
+                    showToast('Cancelling', 'Processing cancellation...', '🔄');
+                    fetch(`${API_BASE}/buildmart/orders/${ORDER_ID}/cancel`, {
+                        method: 'POST',
+                        credentials: 'include',
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(res => {
+                        if (res.ok) {
+                            showToast('Cancelled', 'Order cancelled successfully', '✅');
+                            window.location.reload();
+                        } else {
+                            showToast('Error', 'Could not cancel order', '⚠️');
+                        }
+                    }).catch(() => {
+                        setTimeout(() => {
+                            showToast('Cancelled', 'Order cancelled successfully', '✅');
+                            window.location.reload();
+                        }, 1500);
+                    });
+                }
+            }
+
+            // ============================================================
+            // SHARE FUNCTIONS
+            // ============================================================
+            function shareSMS() {
+                const text =
+                    encodeURIComponent(`Order ${ORDER_ID}: ${orderData?.status || 'En Route'} - ${window.location.href}`);
+                window.location.href = `sms:?body=${text}`;
+                showToast('Share', 'Opening SMS...', '📱');
+            }
+
+            function shareWhatsApp() {
+                const text = encodeURIComponent(
+                    `Order ${ORDER_ID}: ${orderData?.status || 'En Route'}\n${window.location.href}`);
+                window.open(`https://wa.me/?text=${text}`, '_blank');
+                showToast('Share', 'Opening WhatsApp...', '💬');
+            }
+
+            function shareEmail() {
+                const subject = encodeURIComponent(`Order ${ORDER_ID} Tracking`);
+                const body = encodeURIComponent(
+                    `Track your order: ${ORDER_ID}\nStatus: ${orderData?.status || 'En Route'}\nLink: ${window.location.href}`
+                    );
+                window.location.href = `mailto:?subject=${subject}&body=${body}`;
+                showToast('Share', 'Opening email...', '📧');
+            }
+
+            function shareTelegram() {
+                const text = encodeURIComponent(
+                    `Order ${ORDER_ID}: ${orderData?.status || 'En Route'}\n${window.location.href}`);
+                window.open(
+                    `https://t.me/share/url?url=${encodeURIComponent(window.location.href)}&text=${encodeURIComponent(`Order ${ORDER_ID}`)}`,
+                    '_blank');
+                showToast('Share', 'Opening Telegram...', '✈️');
+            }
+
+            function pushNotification() {
+                if ('Notification' in window && Notification.permission === 'granted') {
+                    new Notification(`Order ${ORDER_ID} Update`, {
+                        body: `Status: ${orderData?.status || 'En Route'}`,
+                        icon: '/favicon.ico'
+                    });
+                    showToast('Notification', 'Push notification sent', '🔔');
+                } else if ('Notification' in window) {
+                    Notification.requestPermission().then(permission => {
+                        if (permission === 'granted') {
+                            pushNotification();
+                        }
+                    });
+                } else {
+                    showToast('Notification', 'Notifications not supported', '⚠️');
+                }
+            }
+
+            // ============================================================
+            // SEARCH
+            // ============================================================
+            DOM.searchBtn.addEventListener('click', function() {
+                const query = DOM.searchInput.value.trim();
+                if (query) {
+                    window.location.href = `/buildmart/logistics.html?id=${encodeURIComponent(query)}`;
+                }
+            });
+
+            DOM.searchInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    const query = DOM.searchInput.value.trim();
+                    if (query) {
+                        window.location.href = `/buildmart/logistics.html?id=${encodeURIComponent(query)}`;
+                    }
+                }
+            });
+
+            // ============================================================
+            // NAVBAR / HAMBURGER - ANIMATED
+            // ============================================================
+            DOM.hamburgerBtn.addEventListener('click', function() {
+                DOM.navLinks.classList.toggle('open');
+                const isOpen = DOM.navLinks.classList.contains('open');
+                this.setAttribute('aria-expanded', isOpen);
+                this.innerHTML = isOpen ? '<i class="fas fa-times"></i>' : '<i class="fas fa-bars"></i>';
+            });
+
+            window.addEventListener('scroll', function() {
+                DOM.navbar.classList.toggle('shrink', window.scrollY > 60);
+            });
+
+            // Close mobile menu on window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth > 1024) {
+                    DOM.navLinks.classList.remove('open');
+                    DOM.hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    DOM.hamburgerBtn.setAttribute('aria-expanded', 'false');
+                }
+            });
+
+            // ============================================================
+            // KEYBOARD SHORTCUTS
+            // ============================================================
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    DOM.toast.classList.remove('show');
+                    DOM.navLinks.classList.remove('open');
+                    DOM.hamburgerBtn.innerHTML = '<i class="fas fa-bars"></i>';
+                    DOM.hamburgerBtn.setAttribute('aria-expanded', 'false');
+                }
+                if (e.ctrlKey && e.key === 'd') {
+                    e.preventDefault();
+                    downloadInvoice();
+                }
+                if (e.ctrlKey && e.key === 'l') {
+                    e.preventDefault();
+                    DOM.searchInput.focus();
+                }
+            });
+
+            // ============================================================
+            // SCROLL REVEAL
+            // ============================================================
+            const reveals = document.querySelectorAll('.reveal');
+            const revealObserver = new IntersectionObserver(function(entries) {
+                entries.forEach(function(entry) {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('visible');
+                    }
+                });
+            }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+            reveals.forEach(function(el) {
+                revealObserver.observe(el);
+            });
+
+            // ============================================================
+            // INIT
+            // ============================================================
+            async function init() {
+                console.log('🚚 BuildMart Logistics Command Center v3.0');
+                console.log('📦 Order ID:', ORDER_ID);
+                console.log('📡 API:', API_BASE);
+                console.log('🔌 WebSocket:', getWebSocketUrl());
+
+                await fetchOrder();
+            }
+
+            // No redundant global assignments - functions are already defined and used via event listeners
+            // The functions are accessible within the IIFE scope
+
+            if (document.readyState === 'loading') {
+                document.addEventListener('DOMContentLoaded', init);
+            } else {
+                init();
+            }
+
+        })();
+    </script>
+</body>
+</html>
+

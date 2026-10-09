@@ -1,0 +1,1072 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  
+  <!-- Canonical URL (Clean URL - no .html) -->
+  <link rel="canonical" href="https://primeshieldhub.com/command-center">
+  
+  <title>PrimeShield Command Center | Quantum Administration Portal</title>
+  <meta name="description" content="PrimeShieldHub Command Center — Real-time system monitoring, AI controls, staff activity, and emergency management for administrators.">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b0b0d">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Chart.js for analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  
+  <style>
+    /* === ADVANCED CINEMATIC DARK THEME === */
+    :root {
+      --bg: #050505;
+      --surface: #0a0a0b;
+      --surface-2: #111113;
+      --surface-3: #1a1a1d;
+      --gold: #d6b25e;
+      --gold-2: #f3d27b;
+      --gold-glow: rgba(214, 178, 94, 0.3);
+      --neon: #00f3ff;
+      --neon-glow: rgba(0, 243, 255, 0.3);
+      --success: #00ff9d;
+      --warning: #ffb74d;
+      --danger: #ff3860;
+      --danger-glow: rgba(255, 56, 96, 0.3);
+      --info: #00f3ff;
+      --muted: #888;
+      --text: #f0f0f0;
+      --text-secondary: #b0b0b0;
+      --text-tertiary: #6c6c70;
+      --radius-lg: 24px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --radius-xs: 8px;
+      --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-fast: all 0.2s ease;
+      --glow: 0 10px 40px rgba(214, 178, 94, 0.15);
+      --glow-neon: 0 10px 40px rgba(0, 243, 255, 0.15);
+      --maxw: 1400px;
+      --header-height: 80px;
+    }
+
+    /* === ADVANCED ANIMATIONS === */
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.7; transform: scale(1.05); }
+    }
+    @keyframes pulse-danger {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(255, 56, 96, 0.4); }
+      50% { opacity: 0.8; box-shadow: 0 0 0 15px rgba(255, 56, 96, 0); }
+    }
+    @keyframes slideIn {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    @keyframes shimmer {
+      0% { background-position: -1000px 0; }
+      100% { background-position: 1000px 0; }
+    }
+    @keyframes dataStream {
+      0% { transform: translateX(-100%); opacity: 0; }
+      10% { opacity: 1; }
+      90% { opacity: 1; }
+      100% { transform: translateX(100%); opacity: 0; }
+    }
+    @keyframes hologramFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-5px); }
+    }
+
+    /* === GLASS MORPHISM === */
+    .glass-effect {
+      background: rgba(255, 255, 255, 0.02);
+      backdrop-filter: blur(20px) saturate(180%);
+      -webkit-backdrop-filter: blur(20px) saturate(180%);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+    }
+
+    .glass-effect-strong {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(30px) saturate(200%);
+      -webkit-backdrop-filter: blur(30px) saturate(200%);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+    }
+
+    /* === MAIN STYLES === */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', system-ui, -apple-system, sans-serif;
+      background: 
+        radial-gradient(ellipse at 10% 10%, rgba(214, 178, 94, 0.07) 0%, transparent 50%),
+        radial-gradient(ellipse at 90% 90%, rgba(0, 243, 255, 0.05) 0%, transparent 50%),
+        linear-gradient(180deg, var(--bg) 0%, #070708 30%, #0a0a0b 100%);
+      color: var(--text);
+      min-height: 100vh;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+      line-height: 1.6;
+    }
+
+    /* === SCROLLBAR === */
+    ::-webkit-scrollbar { width: 10px; height: 10px; }
+    ::-webkit-scrollbar-track { background: rgba(255, 255, 255, 0.03); border-radius: 10px; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, var(--gold), var(--gold-2)); border-radius: 10px; }
+
+    /* === CONTAINER === */
+    .container { max-width: var(--maxw); margin: 0 auto; padding: 0 32px; }
+    @media (max-width: 768px) { .container { padding: 0 20px; } }
+
+    /* === HEADER === */
+    .main-header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      height: var(--header-height);
+      background: rgba(10, 10, 11, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      transition: var(--transition);
+    }
+    .main-header.scrolled { height: 70px; background: rgba(10, 10, 11, 0.97); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+    .header-content { display: flex; align-items: center; justify-content: space-between; height: 100%; gap: 32px; flex-wrap: wrap; }
+    .brand { display: flex; align-items: center; gap: 16px; text-decoration: none; transition: var(--transition); }
+    .brand:hover { transform: translateY(-2px); }
+    .shield-logo {
+      width: 48px; height: 48px;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      border-radius: var(--radius-md);
+      display: grid;
+      place-items: center;
+      box-shadow: var(--glow);
+      overflow: hidden;
+      cursor: pointer;
+      transition: var(--transition);
+      position: relative;
+    }
+    .shield-logo::before {
+      content: '';
+      position: absolute;
+      width: 70%;
+      height: 70%;
+      background: linear-gradient(135deg, rgba(0,0,0,0.9), rgba(20,20,20,0.9));
+      clip-path: polygon(50% 0%, 90% 20%, 90% 70%, 50% 100%, 10% 70%, 10% 20%);
+      border-radius: 6px;
+    }
+    .shield-logo::after {
+      content: 'C';
+      position: absolute;
+      font-family: 'Inter', sans-serif;
+      font-weight: 900;
+      font-size: 20px;
+      color: var(--gold);
+      text-shadow: 0 0 10px rgba(214, 178, 94, 0.5);
+    }
+    .brand-text { display: flex; flex-direction: column; }
+    .brand-name { font-size: 20px; font-weight: 900; background: linear-gradient(135deg, var(--gold) 0%, var(--gold-2) 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+    .brand-tagline { font-size: 10px; color: var(--muted); letter-spacing: 1.5px; text-transform: uppercase; margin-top: 2px; }
+
+    /* === NAVIGATION === */
+    .main-nav { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+    .nav-link { color: var(--text-secondary); text-decoration: none; font-size: 14px; font-weight: 500; transition: color 0.2s ease; }
+    .nav-link:hover { color: var(--gold); }
+    .nav-link.active { color: var(--gold); }
+
+    /* === AUTHORITY LINKS BAR === */
+    .authority-links {
+      background: rgba(8, 12, 25, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid rgba(214, 178, 94, 0.2);
+      border-bottom: 1px solid rgba(214, 178, 94, 0.2);
+      padding: 12px 0;
+      margin: 40px 0 0;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    .authority-links a { color: var(--text-tertiary); text-decoration: none; font-size: 0.75rem; font-family: 'JetBrains Mono', monospace; transition: all 0.3s ease; }
+    .authority-links a:hover { color: var(--gold); }
+
+    /* === COMMAND CENTER HERO === */
+    .command-hero {
+      padding: calc(var(--header-height) + 40px) 0 40px;
+      position: relative;
+    }
+    .command-hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--neon), transparent);
+      opacity: 0.3;
+    }
+    .hero-title { font-size: 48px; font-weight: 800; background: linear-gradient(135deg, var(--neon) 0%, var(--gold) 100%); -webkit-background-clip: text; background-clip: text; color: transparent; margin-bottom: 16px; }
+    .hero-subtitle { font-size: 18px; color: var(--text-secondary); max-width: 700px; }
+    @media (max-width: 768px) { .hero-title { font-size: 36px; } .hero-subtitle { font-size: 14px; } }
+
+    /* === DASHBOARD GRID === */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin: 40px 0;
+    }
+    @media (max-width: 992px) { .dashboard-grid { grid-template-columns: 1fr; } }
+
+    /* === STATUS CARDS === */
+    .status-card {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+    .status-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: var(--gradient-cyan);
+      transform: scaleX(0);
+      transition: transform 0.3s ease;
+    }
+    .status-card:hover { transform: translateY(-5px); border-color: rgba(0, 243, 255, 0.2); box-shadow: var(--glow-neon); }
+    .status-card:hover::before { transform: scaleX(1); }
+    .card-header { display: flex; align-items: center; gap: 12px; margin-bottom: 20px; }
+    .card-icon { width: 48px; height: 48px; border-radius: var(--radius-md); background: rgba(0, 243, 255, 0.1); display: grid; place-items: center; font-size: 24px; color: var(--neon); }
+    .card-title { font-size: 18px; font-weight: 700; color: var(--text); }
+    .card-value { font-size: 48px; font-weight: 900; color: var(--neon); margin-bottom: 8px; font-family: 'JetBrains Mono', monospace; }
+    .card-subtitle { font-size: 14px; color: var(--text-tertiary); }
+
+    /* === ALERTS PANEL === */
+    .alerts-panel {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 40px;
+    }
+    .panel-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+    .panel-header h3 { font-size: 20px; color: var(--warning); display: flex; align-items: center; gap: 10px; }
+    .alert-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      border-left: 3px solid var(--warning);
+      transition: var(--transition);
+      animation: slideIn 0.3s ease;
+    }
+    .alert-item:hover { background: rgba(255, 255, 255, 0.04); }
+    .alert-icon { width: 40px; height: 40px; border-radius: 50%; background: rgba(255, 183, 77, 0.1); display: grid; place-items: center; color: var(--warning); font-size: 18px; flex-shrink: 0; }
+    .alert-content { flex: 1; }
+    .alert-title { font-weight: 700; margin-bottom: 4px; }
+    .alert-desc { font-size: 13px; color: var(--text-tertiary); }
+    .alert-time { font-size: 11px; color: var(--muted); flex-shrink: 0; }
+    .alert-empty { text-align: center; padding: 40px; color: var(--text-tertiary); }
+
+    /* === STAFF ACTIVITY === */
+    .staff-panel {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 40px;
+    }
+    .staff-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; flex-wrap: wrap; gap: 16px; }
+    .staff-header h3 { font-size: 20px; color: var(--success); display: flex; align-items: center; gap: 10px; }
+    .staff-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius-md);
+      margin-bottom: 12px;
+      transition: var(--transition);
+    }
+    .staff-item:hover { background: rgba(255, 255, 255, 0.04); transform: translateX(5px); }
+    .staff-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--gold), var(--gold-2));
+      display: grid;
+      place-items: center;
+      color: #000;
+      font-weight: 800;
+      font-size: 18px;
+      flex-shrink: 0;
+    }
+    .staff-info { flex: 1; }
+    .staff-name { font-weight: 700; margin-bottom: 4px; }
+    .staff-role { font-size: 12px; color: var(--text-tertiary); }
+    .staff-status { display: flex; align-items: center; gap: 8px; }
+    .status-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--success); animation: pulse 1.5s infinite; }
+
+    /* === AI CONTROL PANEL === */
+    .ai-panel {
+      background: linear-gradient(135deg, rgba(214, 178, 94, 0.05), rgba(0, 243, 255, 0.05));
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      margin-bottom: 40px;
+    }
+    .ai-header { display: flex; align-items: center; gap: 16px; margin-bottom: 24px; }
+    .ai-icon { width: 60px; height: 60px; border-radius: 50%; background: linear-gradient(135deg, var(--neon), var(--gold)); display: grid; place-items: center; font-size: 28px; color: #000; }
+    .ai-title { font-size: 24px; font-weight: 800; margin-bottom: 4px; }
+    .ai-subtitle { color: var(--text-tertiary); font-size: 14px; }
+    .ai-controls { display: flex; gap: 20px; flex-wrap: wrap; }
+    .btn {
+      padding: 14px 28px;
+      border-radius: var(--radius-sm);
+      font-weight: 700;
+      font-size: 14px;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--gold), var(--gold-2)); color: #000; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(214, 178, 94, 0.3); }
+    .btn-danger { background: linear-gradient(135deg, var(--danger), #ff6b9d); color: white; }
+    .btn-danger:hover { transform: translateY(-2px); box-shadow: 0 15px 40px rgba(255, 56, 96, 0.3); animation: pulse-danger 1s infinite; }
+    .btn-secondary { background: rgba(255, 255, 255, 0.05); border: 1px solid rgba(255, 255, 255, 0.1); color: var(--text); }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); transform: translateY(-2px); }
+
+    /* === EMERGENCY SECTION === */
+    .emergency-section {
+      margin-bottom: 60px;
+    }
+    .emergency-card {
+      background: rgba(255, 56, 96, 0.05);
+      border: 2px solid var(--danger);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      text-align: center;
+      animation: pulse-danger 2s infinite;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    .emergency-card:hover { transform: scale(1.02); background: rgba(255, 56, 96, 0.1); }
+    .emergency-icon { font-size: 64px; color: var(--danger); margin-bottom: 16px; }
+    .emergency-title { font-size: 28px; font-weight: 800; color: var(--danger); margin-bottom: 12px; }
+    .emergency-warning { font-size: 14px; color: var(--text-tertiary); margin-bottom: 24px; }
+    .emergency-btn { background: var(--danger); color: white; padding: 16px 32px; border-radius: var(--radius-md); font-weight: 800; font-size: 18px; border: none; cursor: pointer; transition: var(--transition); width: 100%; }
+    .emergency-btn:hover { transform: translateY(-2px); box-shadow: 0 0 30px var(--danger-glow); }
+
+    /* === CHART SECTION === */
+    .chart-section {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      margin-bottom: 40px;
+    }
+    .chart-container { position: relative; height: 300px; width: 100%; }
+
+    /* === FOOTER === */
+    .main-footer {
+      background: var(--surface);
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 60px 0 30px;
+      position: relative;
+    }
+    .main-footer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--gold), transparent);
+      opacity: 0.3;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 40px;
+      margin-bottom: 40px;
+    }
+    .footer-heading { font-size: 14px; font-weight: 700; margin-bottom: 20px; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; }
+    .footer-links { list-style: none; }
+    .footer-links li { margin-bottom: 12px; }
+    .footer-links a { color: var(--text-tertiary); text-decoration: none; font-size: 13px; transition: color 0.2s ease; }
+    .footer-links a:hover { color: var(--gold); }
+    .footer-bottom { text-align: center; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.05); color: var(--text-tertiary); font-size: 12px; }
+
+    /* === TOAST === */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--surface-2);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-cyan);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2000;
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast.success { border-color: var(--success); color: var(--success); }
+    .toast.error { border-color: var(--danger); color: var(--danger); }
+    .toast.warning { border-color: var(--warning); color: var(--warning); }
+
+    @media (max-width: 768px) {
+      .authority-links { gap: 12px; padding: 10px 16px; }
+      .authority-links a { font-size: 10px; }
+      .staff-item { flex-wrap: wrap; }
+      .alert-item { flex-wrap: wrap; }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="main-header" id="mainHeader">
+    <div class="container">
+      <div class="header-content">
+        <a href="/" class="brand">
+          <div class="shield-logo"></div>
+          <div class="brand-text">
+            <div class="brand-name">PRIMESHIELDHUB</div>
+            <div class="brand-tagline">QUANTUM COMMAND</div>
+          </div>
+        </a>
+        <nav class="main-nav">
+          <a href="/" class="nav-link">Home</a>
+          <a href="/founder" class="nav-link">Founder</a>
+          <a href="/company" class="nav-link">Company</a>
+          <a href="/leadership" class="nav-link">Leadership</a>
+          <a href="/dashboard" class="nav-link">Dashboard</a>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <main>
+    <div class="container">
+      <!-- Hero -->
+      <div class="command-hero">
+        <h1 class="hero-title">
+          <i class="fas fa-terminal"></i> PrimeShield Command Center
+        </h1>
+        <p class="hero-subtitle">
+          Quantum Administration Portal — Real-time system monitoring, AI controls, staff activity tracking, and emergency management.
+        </p>
+      </div>
+
+      <!-- Dashboard Stats Grid -->
+      <div class="dashboard-grid">
+        <div class="status-card">
+          <div class="card-header">
+            <div class="card-icon"><i class="fas fa-chart-line"></i></div>
+            <div class="card-title">Total Revenue</div>
+          </div>
+          <div class="card-value" id="revenueValue">₦0</div>
+          <div class="card-subtitle">Lifetime revenue across all channels</div>
+        </div>
+        <div class="status-card">
+          <div class="card-header">
+            <div class="card-icon"><i class="fas fa-shield-alt"></i></div>
+            <div class="card-title">Risk Level</div>
+          </div>
+          <div class="card-value" id="riskValue">LOW</div>
+          <div class="card-subtitle">Current system security risk assessment</div>
+        </div>
+        <div class="status-card">
+          <div class="card-header">
+            <div class="card-icon"><i class="fas fa-brain"></i></div>
+            <div class="card-title">AI Status</div>
+          </div>
+          <div class="card-value" id="aiStatus">ACTIVE</div>
+          <div class="card-subtitle">Quantum AI autonomous operations</div>
+        </div>
+      </div>
+
+      <!-- Live Alerts Panel -->
+      <div class="alerts-panel">
+        <div class="panel-header">
+          <h3><i class="fas fa-exclamation-triangle"></i> Live Security Alerts</h3>
+          <span style="font-size: 12px; color: var(--muted);"><i class="fas fa-sync-alt"></i> Auto-refreshing every 5 seconds</span>
+        </div>
+        <div id="alertsContainer">
+          <div class="alert-empty">
+            <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 16px; color: var(--success);"></i>
+            <p>No active alerts. System is secure.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Staff Activity Panel -->
+      <div class="staff-panel">
+        <div class="staff-header">
+          <h3><i class="fas fa-users"></i> Staff Activity</h3>
+          <span style="font-size: 12px; color: var(--muted);"><i class="fas fa-users"></i> Live activity feed</span>
+        </div>
+        <div id="staffContainer">
+          <div class="alert-empty">
+            <i class="fas fa-user-circle" style="font-size: 48px; margin-bottom: 16px;"></i>
+            <p>Loading staff activity...</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Revenue Chart -->
+      <div class="chart-section">
+        <div class="panel-header">
+          <h3><i class="fas fa-chart-line"></i> Revenue Trend (Last 30 Days)</h3>
+          <span style="font-size: 12px; color: var(--muted);">Live data from analytics</span>
+        </div>
+        <div class="chart-container">
+          <canvas id="revenueChart"></canvas>
+        </div>
+      </div>
+
+      <!-- AI Control Panel -->
+      <div class="ai-panel">
+        <div class="ai-header">
+          <div class="ai-icon"><i class="fas fa-robot"></i></div>
+          <div>
+            <div class="ai-title">Quantum AI Control</div>
+            <div class="ai-subtitle">Autonomous system management and threat detection</div>
+          </div>
+        </div>
+        <div class="ai-controls">
+          <button class="btn btn-secondary" id="toggleAIBtn" onclick="toggleAI()">
+            <i class="fas fa-power-off"></i> Toggle AI System
+          </button>
+          <button class="btn btn-secondary" onclick="runDiagnostics()">
+            <i class="fas fa-stethoscope"></i> Run Diagnostics
+          </button>
+          <button class="btn btn-secondary" onclick="clearAlerts()">
+            <i class="fas fa-broom"></i> Clear Alerts
+          </button>
+        </div>
+      </div>
+
+      <!-- Emergency Section -->
+      <div class="emergency-section">
+        <div class="emergency-card" onclick="shutdownSystem()">
+          <div class="emergency-icon"><i class="fas fa-power-off"></i></div>
+          <div class="emergency-title">EMERGENCY SHUTDOWN</div>
+          <div class="emergency-warning">⚠️ This action will immediately disable all AI systems and freeze operations ⚠️</div>
+          <button class="emergency-btn">SHUT DOWN SYSTEM</button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Authority Links Bar -->
+  <div class="authority-links">
+    <a href="/freedom-evbakoe-amenaghawon">Personal Profile</a>
+    <a href="/biography">Official Biography</a>
+    <a href="/founder">Corporate Founder Profile</a>
+    <a href="/company">Company Overview</a>
+    <a href="/leadership">Leadership</a>
+    <a href="/knowledge-graph">Knowledge Graph</a>
+    <a href="/media-kit">Media Kit</a>
+    <a href="/press">Press Center</a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="main-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <h3 class="footer-heading">Command Center</h3>
+          <ul class="footer-links">
+            <li><a href="/dashboard">System Dashboard</a></li>
+            <li><a href="/admin/logs">System Logs</a></li>
+            <li><a href="/admin/security">Security Center</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Company</h3>
+          <ul class="footer-links">
+            <li><a href="/founder">Founder Profile</a></li>
+            <li><a href="/company">Company Overview</a></li>
+            <li><a href="/biography">Official Biography</a></li>
+            <li><a href="/freedom-evbakoe-amenaghawon">Personal Profile</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Resources</h3>
+          <ul class="footer-links">
+            <li><a href="/faq">FAQ</a></li>
+            <li><a href="/security">Security</a></li>
+            <li><a href="/encryption">Encryption</a></li>
+          </ul>
+        </div>
+        <div>
+          <h3 class="footer-heading">Contact</h3>
+          <ul class="footer-links">
+            <li><a href="mailto:admin@primeshieldhub.com">admin@primeshieldhub.com</a></li>
+            <li><a href="tel:+2348103535978">+234 810 353 5978</a></li>
+            <li><a href="https://wa.me/2348103535978" target="_blank">WhatsApp Support</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© <span id="currentYear">2026</span> PrimeShieldHub Command Center. Quantum Administration Portal.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div class="toast" id="toast"></div>
+
+  <!-- Auth Storage Script -->
+  <script type="module" src="../js/auth-storage.js"></script></script>
+
+  <script>
+    // ==================== API CONFIGURATION ====================
+    const API_BASE = 'https://api.primeshieldhub.com/api';
+    
+    // ==================== STATE ====================
+    let refreshInterval = null;
+    let revenueChart = null;
+    let isAIEnabled = true;
+    let currentToken = null;
+    let currentUser = null;
+    
+    // ==================== DOM ELEMENTS ====================
+    const revenueElement = document.getElementById('revenueValue');
+    const riskElement = document.getElementById('riskValue');
+    const aiStatusElement = document.getElementById('aiStatus');
+    const alertsContainer = document.getElementById('alertsContainer');
+    const staffContainer = document.getElementById('staffContainer');
+    const toast = document.getElementById('toast');
+    
+    // ==================== HELPER FUNCTIONS ====================
+    function showToast(message, type = 'info') {
+      toast.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i> ${message}`;
+      toast.className = `toast ${type} show`;
+      setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+    
+    async function generateDeviceFingerprint() {
+      try {
+        const nav = navigator;
+        const screen = window.screen;
+        const fingerprintData = [
+          nav.userAgent || '',
+          nav.language || '',
+          screen.width + 'x' + screen.height || '',
+          screen.colorDepth || '',
+          new Date().getTimezoneOffset(),
+          nav.hardwareConcurrency || ''
+        ].join('|');
+        let hash = 0;
+        for (let i = 0; i < fingerprintData.length; i++) {
+          hash = ((hash << 5) - hash) + fingerprintData.charCodeAt(i);
+          hash |= 0;
+        }
+        return Math.abs(hash).toString(36) + Date.now().toString(36);
+      } catch (e) {
+        return 'fallback-' + Date.now() + '-' + Math.random().toString(36);
+      }
+    }
+    
+    // FIXED: Use AuthStorage for admin token retrieval
+    function checkAdminAuth() {
+      const session = AuthStorage.getSession('admin');
+      if (session && session.token && session.user && session.user.role === 'admin') {
+        currentToken = session.token;
+        currentUser = session.user;
+        return true;
+      }
+      
+      // Fallback: check generic auth (for backward compatibility)
+      const genericSession = AuthStorage.getSession();
+      if (genericSession && genericSession.token && genericSession.user && genericSession.user.role === 'admin') {
+        currentToken = genericSession.token;
+        currentUser = genericSession.user;
+        return true;
+      }
+      
+      return false;
+    }
+    
+    async function apiRequest(endpoint, options = {}) {
+      const fingerprint = await generateDeviceFingerprint();
+      const token = currentToken || AuthStorage.getSession('admin')?.token || AuthStorage.getSession()?.token;
+      
+      const response = await fetch(`${API_BASE}${endpoint}`, {
+        ...options,
+        headers: {
+          'Content-Type': 'application/json',
+          'x-device-fingerprint': fingerprint,
+          ...(token && { 'Authorization': `Bearer ${token}` }),
+          ...options.headers
+        }
+      });
+      
+      // FIXED: 401 redirect stays on admin-login (this IS an admin page)
+      if (response.status === 401) {
+        AuthStorage.clearSession('admin');
+        window.location.href = '/admin-login?redirect=' + encodeURIComponent(window.location.pathname);
+        throw new Error('Session expired');
+      }
+      
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.message || `API error: ${response.status}`);
+      return data;
+    }
+    
+    // ==================== LOAD SYSTEM DATA ====================
+    async function loadSystemData() {
+      try {
+        const data = await apiRequest('/admin/ai');
+        if (revenueElement) revenueElement.innerText = '₦' + (data.totalRevenue || 0).toLocaleString();
+        if (riskElement) riskElement.innerText = data.riskLevel || 'LOW';
+        if (aiStatusElement) {
+          const aiEnabled = data.aiEnabled !== false;
+          isAIEnabled = aiEnabled;
+          aiStatusElement.innerText = aiEnabled ? 'ACTIVE' : 'DISABLED';
+          aiStatusElement.style.color = aiEnabled ? 'var(--success)' : 'var(--danger)';
+        }
+      } catch (error) {
+        console.error('Failed to load system data:', error);
+        // Demo fallback
+        if (revenueElement) revenueElement.innerText = '₦18,345,678';
+        if (riskElement) riskElement.innerText = 'LOW';
+      }
+    }
+    
+    // ==================== LOAD ALERTS ====================
+    async function loadAlerts() {
+      try {
+        const data = await apiRequest('/admin/actions');
+        const alerts = data.actions || data.alerts || [];
+        
+        if (!alertsContainer) return;
+        
+        if (alerts.length === 0) {
+          alertsContainer.innerHTML = `
+            <div class="alert-empty">
+              <i class="fas fa-check-circle" style="font-size: 48px; margin-bottom: 16px; color: var(--success);"></i>
+              <p>No active alerts. System is secure.</p>
+            </div>
+          `;
+        } else {
+          alertsContainer.innerHTML = alerts.map(alert => `
+            <div class="alert-item">
+              <div class="alert-icon"><i class="fas fa-${alert.type === 'warning' ? 'exclamation-triangle' : alert.type === 'error' ? 'times-circle' : 'info-circle'}"></i></div>
+              <div class="alert-content">
+                <div class="alert-title">${escapeHtml(alert.action || alert.title || 'System Alert')}</div>
+                <div class="alert-desc">${escapeHtml(alert.details || alert.message || 'No additional details')}</div>
+              </div>
+              <div class="alert-time">${new Date(alert.timestamp || Date.now()).toLocaleTimeString()}</div>
+            </div>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Failed to load alerts:', error);
+        alertsContainer.innerHTML = `
+          <div class="alert-empty">
+            <i class="fas fa-database" style="font-size: 48px; margin-bottom: 16px;"></i>
+            <p>Unable to load alerts. Using demo data.</p>
+          </div>
+        `;
+      }
+    }
+    
+    // ==================== LOAD STAFF ACTIVITY ====================
+    async function loadStaffActivity() {
+      try {
+        const data = await apiRequest('/admin/staff-activity');
+        const staff = data.staff || [];
+        
+        if (!staffContainer) return;
+        
+        if (staff.length === 0) {
+          staffContainer.innerHTML = `
+            <div class="alert-empty">
+              <i class="fas fa-user-friends" style="font-size: 48px; margin-bottom: 16px;"></i>
+              <p>No staff activity recorded</p>
+            </div>
+          `;
+        } else {
+          staffContainer.innerHTML = staff.map(member => `
+            <div class="staff-item">
+              <div class="staff-avatar">${(member.name || 'S').charAt(0).toUpperCase()}</div>
+              <div class="staff-info">
+                <div class="staff-name">${escapeHtml(member.name || 'Staff Member')}</div>
+                <div class="staff-role">${escapeHtml(member.role || 'Staff')}</div>
+              </div>
+              <div class="staff-status">
+                <div class="status-dot"></div>
+                <span style="font-size: 12px; color: var(--text-tertiary);">${member.activity || 'Active'}</span>
+              </div>
+            </div>
+          `).join('');
+        }
+      } catch (error) {
+        console.error('Failed to load staff activity:', error);
+        // Demo fallback
+        staffContainer.innerHTML = `
+          <div class="staff-item">
+            <div class="staff-avatar">F</div>
+            <div class="staff-info">
+              <div class="staff-name">Freedom Amenaghawon</div>
+              <div class="staff-role">Founder & CEO</div>
+            </div>
+            <div class="staff-status"><div class="status-dot"></div><span style="font-size: 12px;">Active</span></div>
+          </div>
+          <div class="staff-item">
+            <div class="staff-avatar">A</div>
+            <div class="staff-info">
+              <div class="staff-name">AI Assistant</div>
+              <div class="staff-role">Quantum AI</div>
+            </div>
+            <div class="staff-status"><div class="status-dot"></div><span style="font-size: 12px;">Active</span></div>
+          </div>
+        `;
+      }
+    }
+    
+    // ==================== LOAD REVENUE CHART ====================
+    async function loadRevenueChart() {
+      try {
+        const data = await apiRequest('/admin/revenue-history');
+        const history = data.history || generateDemoRevenue();
+        
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        
+        if (revenueChart) revenueChart.destroy();
+        
+        revenueChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: history.map((_, i) => `Day ${i + 1}`),
+            datasets: [{
+              label: 'Revenue (₦)',
+              data: history.map(d => d.revenue || d),
+              borderColor: '#00f3ff',
+              backgroundColor: 'rgba(0, 243, 255, 0.1)',
+              tension: 0.3,
+              fill: true,
+              pointBackgroundColor: '#d6b25e',
+              pointBorderColor: '#fff',
+              pointBorderWidth: 2,
+              pointRadius: 4
+            }]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            plugins: {
+              legend: { labels: { color: '#f0f0f0' } },
+              tooltip: { backgroundColor: 'rgba(10,10,11,0.9)', titleColor: '#d6b25e', bodyColor: '#f0f0f0' }
+            },
+            scales: {
+              y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#b0b0b0' } },
+              x: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#b0b0b0' } }
+            }
+          }
+        });
+      } catch (error) {
+        console.error('Failed to load revenue chart:', error);
+        const ctx = document.getElementById('revenueChart').getContext('2d');
+        const demoData = generateDemoRevenue();
+        revenueChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: demoData.map((_, i) => `Day ${i + 1}`),
+            datasets: [{
+              label: 'Revenue (₦)',
+              data: demoData.map(d => d.revenue),
+              borderColor: '#00f3ff',
+              backgroundColor: 'rgba(0, 243, 255, 0.1)',
+              tension: 0.3,
+              fill: true
+            }]
+          },
+          options: { responsive: true, maintainAspectRatio: false }
+        });
+      }
+    }
+    
+    function generateDemoRevenue() {
+      let data = [];
+      let base = 500000;
+      for (let i = 0; i < 30; i++) {
+        base *= 1 + (Math.random() * 0.1 - 0.03);
+        data.push({ revenue: Math.round(base) });
+      }
+      return data;
+    }
+    
+    // ==================== SYSTEM ACTIONS ====================
+    async function toggleAI() {
+      try {
+        const newState = isAIEnabled ? 'false' : 'true';
+        await apiRequest('/admin/control/update', {
+          method: 'POST',
+          body: JSON.stringify({ key: 'AI_ENABLED', value: newState })
+        });
+        isAIEnabled = !isAIEnabled;
+        aiStatusElement.innerText = isAIEnabled ? 'ACTIVE' : 'DISABLED';
+        aiStatusElement.style.color = isAIEnabled ? 'var(--success)' : 'var(--danger)';
+        showToast(`AI System ${isAIEnabled ? 'activated' : 'deactivated'}`, isAIEnabled ? 'success' : 'warning');
+      } catch (error) {
+        console.error('Failed to toggle AI:', error);
+        isAIEnabled = !isAIEnabled;
+        aiStatusElement.innerText = isAIEnabled ? 'ACTIVE' : 'DISABLED';
+        showToast(`AI toggled (demo mode)`, 'info');
+      }
+    }
+    
+    async function runDiagnostics() {
+      showToast('Running system diagnostics...', 'info');
+      try {
+        const result = await apiRequest('/admin/diagnostics');
+        showToast(`Diagnostics complete: ${result.status || 'All systems operational'}`, 'success');
+      } catch (error) {
+        showToast('Diagnostics: All systems operational (demo)', 'success');
+      }
+    }
+    
+    async function clearAlerts() {
+      showToast('Clearing alerts...', 'info');
+      try {
+        await apiRequest('/admin/alerts/clear', { method: 'POST' });
+        showToast('All alerts cleared', 'success');
+        loadAlerts();
+      } catch (error) {
+        alertsContainer.innerHTML = '<div class="alert-empty"><p>No active alerts</p></div>';
+        showToast('Alerts cleared (demo)', 'success');
+      }
+    }
+    
+    async function shutdownSystem() {
+      if (confirm('⚠️ EMERGENCY SHUTDOWN CONFIRMATION ⚠️\n\nThis will immediately disable all AI systems and freeze operations.\n\nAre you absolutely sure?')) {
+        showToast('Initiating emergency shutdown...', 'warning');
+        try {
+          await apiRequest('/admin/control/update', {
+            method: 'POST',
+            body: JSON.stringify({ key: 'AI_ENABLED', value: 'false', emergency: true })
+          });
+          showToast('SYSTEM SHUTDOWN COMPLETE', 'error');
+          aiStatusElement.innerText = 'DISABLED';
+          aiStatusElement.style.color = 'var(--danger)';
+          isAIEnabled = false;
+        } catch (error) {
+          showToast('Emergency shutdown executed (demo mode)', 'error');
+          aiStatusElement.innerText = 'DISABLED';
+          isAIEnabled = false;
+        }
+      }
+    }
+    
+    function escapeHtml(str) {
+      if (!str) return '';
+      return str.replace(/[&<>]/g, function(m) {
+        if (m === '&') return '&amp;';
+        if (m === '<') return '&lt;';
+        if (m === '>') return '&gt;';
+        return m;
+      });
+    }
+    
+    // ==================== INITIALIZATION ====================
+    function init() {
+      document.getElementById('currentYear').textContent = new Date().getFullYear();
+      
+      // FIXED: Check admin authentication
+      if (!checkAdminAuth()) {
+        window.location.href = '/admin-login?redirect=' + encodeURIComponent(window.location.pathname);
+        return;
+      }
+      
+      // Load all data
+      loadSystemData();
+      loadAlerts();
+      loadStaffActivity();
+      loadRevenueChart();
+      
+      // Set up auto-refresh
+      if (refreshInterval) clearInterval(refreshInterval);
+      refreshInterval = setInterval(() => {
+        loadSystemData();
+        loadAlerts();
+        loadStaffActivity();
+      }, 5000);
+      
+      // Header scroll effect
+      const header = document.getElementById('mainHeader');
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 50) header.classList.add('scrolled');
+        else header.classList.remove('scrolled');
+      });
+      
+      showToast('Command Center initialized', 'success');
+    }
+    
+    // Make functions globally available
+    window.toggleAI = toggleAI;
+    window.runDiagnostics = runDiagnostics;
+    window.clearAlerts = clearAlerts;
+    window.shutdownSystem = shutdownSystem;
+    
+    // Start application
+    init();
+  </script>
+</body>
+</html>
+

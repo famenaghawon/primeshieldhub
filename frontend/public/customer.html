@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer Property Loss & Replacement Acknowledgement</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Times New Roman', Times, serif;
+            background: #f0ede8;
+            padding: 40px 20px;
+            display: flex;
+            justify-content: center;
+        }
+        
+        .document-container {
+            max-width: 1000px;
+            width: 100%;
+            background: #ffffff;
+            padding: 50px 60px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            border-radius: 4px;
+        }
+        
+        /* ===== HEADER ===== */
+        .header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-bottom: 3px solid #8B7D3C;
+            padding-bottom: 20px;
+            margin-bottom: 25px;
+        }
+        
+        .logo {
+            flex-shrink: 0;
+        }
+        
+        .logo img {
+            width: 80px;
+            height: 80px;
+            object-fit: contain;
+            border-radius: 8px;
+        }
+        
+        .company-name {
+            flex: 1;
+            text-align: center;
+        }
+        
+        .company-name h1 {
+            font-size: 22px;
+            font-weight: 700;
+            color: #8B7D3C;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .company-name .subtitle {
+            font-size: 13px;
+            color: #6b6b6b;
+            letter-spacing: 1px;
+            margin-top: 2px;
+        }
+        
+        .doc-title {
+            text-align: center;
+            font-size: 20px;
+            font-weight: 700;
+            color: #8B7D3C;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 12px 0;
+            border-bottom: 2px solid #8B7D3C;
+            margin-bottom: 25px;
+        }
+        
+        .doc-subtitle {
+            text-align: center;
+            font-size: 15px;
+            font-weight: 600;
+            color: #4a4a4a;
+            margin-bottom: 20px;
+        }
+        
+        /* ===== REFERENCE ROW ===== */
+        .ref-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 10px 30px;
+            font-size: 14px;
+            margin-bottom: 25px;
+            padding: 12px 16px;
+            background: #f8f5ee;
+            border-radius: 4px;
+            border-left: 4px solid #8B7D3C;
+        }
+        
+        .ref-row span {
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+        
+        .ref-row span span {
+            font-weight: 400;
+            color: #333;
+        }
+        
+        /* ===== SECTIONS ===== */
+        .section {
+            margin-bottom: 28px;
+            page-break-inside: avoid;
+        }
+        
+        .section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #8B7D3C;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding-bottom: 4px;
+            border-bottom: 1px solid #d4cfc5;
+            margin-bottom: 12px;
+        }
+        
+        .section-title .letter {
+            color: #8B7D3C;
+            margin-right: 6px;
+        }
+        
+        /* ===== FIELDS ===== */
+        .field-row {
+            display: flex;
+            align-items: baseline;
+            padding: 4px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .field-label {
+            font-weight: 600;
+            min-width: 180px;
+            color: #4a4a4a;
+        }
+        
+        .field-value {
+            flex: 1;
+            border-bottom: 1px solid #c8c2b8;
+            padding: 2px 8px;
+            min-height: 28px;
+            color: #1a1a2e;
+        }
+        
+        .field-value.underline {
+            border-bottom: 1px solid #999;
+            min-width: 200px;
+        }
+        
+        .field-value.empty {
+            min-height: 28px;
+        }
+        
+        /* Inline fields */
+        .inline-fields {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px 30px;
+            padding: 4px 0;
+        }
+        
+        .inline-field {
+            display: flex;
+            align-items: baseline;
+            gap: 6px;
+            font-size: 14px;
+        }
+        
+        .inline-field .label {
+            font-weight: 600;
+            color: #4a4a4a;
+        }
+        
+        .inline-field .value {
+            border-bottom: 1px solid #c8c2b8;
+            padding: 0 8px;
+            min-width: 120px;
+            min-height: 26px;
+        }
+        
+        /* ===== TEXT BLOCK ===== */
+        .text-block {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #333;
+            padding: 6px 0;
+        }
+        
+        .text-block p {
+            margin-bottom: 8px;
+            text-align: justify;
+        }
+        
+        .text-block .highlight {
+            font-weight: 600;
+            color: #8B7D3C;
+        }
+        
+        /* ===== LIST ===== */
+        .checklist {
+            list-style: none;
+            padding: 0;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+        
+        .checklist li {
+            padding: 3px 0 3px 30px;
+            position: relative;
+            text-align: justify;
+        }
+        
+        .checklist li::before {
+            content: "☐";
+            position: absolute;
+            left: 0;
+            font-size: 16px;
+            color: #8B7D3C;
+        }
+        
+        /* ===== SIGNATURE ROWS ===== */
+        .signature-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px 40px;
+            margin-top: 8px;
+        }
+        
+        .signature-block {
+            padding: 6px 0;
+        }
+        
+        .signature-block .sig-label {
+            font-weight: 600;
+            font-size: 14px;
+            color: #4a4a4a;
+            display: block;
+            margin-bottom: 2px;
+        }
+        
+        .signature-block .sig-line {
+            border-bottom: 1px solid #c8c2b8;
+            padding: 2px 8px;
+            min-height: 32px;
+            margin-top: 2px;
+            font-size: 14px;
+        }
+        
+        .signature-block .sig-line.double {
+            min-height: 44px;
+        }
+        
+        /* ===== STAMP SECTION ===== */
+        .stamp-section {
+            margin-top: 30px;
+            padding-top: 20px;
+            border-top: 2px solid #8B7D3C;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+        
+        .stamp-left {
+            flex: 1;
+        }
+        
+        .stamp-right {
+            text-align: right;
+            font-size: 13px;
+            color: #666;
+            padding: 10px 20px;
+            border: 2px dashed #8B7D3C;
+            border-radius: 4px;
+            min-width: 180px;
+            background: #fcfaf5;
+        }
+        
+        .stamp-right .stamp-text {
+            font-weight: 700;
+            font-size: 14px;
+            color: #8B7D3C;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        /* ===== FOOTER ===== */
+        .footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid #d4cfc5;
+            font-size: 11px;
+            color: #888;
+            text-align: center;
+        }
+        
+        /* ===== PAGE BREAKS ===== */
+        .page-break {
+            page-break-before: always;
+            margin-top: 30px;
+            padding-top: 30px;
+            border-top: 1px dashed #d4cfc5;
+        }
+        
+        .page-break:first-of-type {
+            border-top: none;
+            margin-top: 0;
+            padding-top: 0;
+        }
+        
+        /* ===== PRINT STYLES ===== */
+        @media print {
+            body {
+                background: #fff;
+                padding: 0;
+                margin: 0;
+            }
+            .document-container {
+                box-shadow: none;
+                padding: 35px 45px;
+                border-radius: 0;
+                max-width: 100%;
+            }
+            .ref-row {
+                background: #f8f5ee;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .stamp-right {
+                border: 2px dashed #8B7D3C;
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+                background: #fcfaf5;
+            }
+            .logo img {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+            .section {
+                page-break-inside: avoid;
+            }
+            .signature-grid {
+                page-break-inside: avoid;
+            }
+            .page-break {
+                border-top: none;
+                margin-top: 0;
+                padding-top: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .document-container {
+                padding: 25px 20px;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+            }
+            .company-name h1 {
+                font-size: 18px;
+            }
+            .field-row {
+                flex-direction: column;
+                padding: 4px 0;
+            }
+            .field-label {
+                min-width: auto;
+                font-size: 13px;
+            }
+            .field-value {
+                width: 100%;
+                margin-top: 2px;
+            }
+            .signature-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+            .ref-row {
+                flex-direction: column;
+                gap: 4px;
+            }
+            .inline-fields {
+                flex-direction: column;
+                gap: 4px;
+            }
+            .stamp-section {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .stamp-right {
+                text-align: center;
+                width: 100%;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .document-container {
+                padding: 15px 12px;
+            }
+            .company-name h1 {
+                font-size: 15px;
+            }
+            .doc-title {
+                font-size: 16px;
+            }
+            .section-title {
+                font-size: 14px;
+            }
+            .text-block {
+                font-size: 13px;
+            }
+            .field-row {
+                font-size: 13px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="document-container">
+
+    <!-- ===== HEADER ===== -->
+    <div class="header">
+        <div class="logo">
+            <img src="company_logo.png" alt="PrimeShieldHub Logo">
+        </div>
+        <div class="company-name">
+            <h1>PRIMESHIELDHUB GADGET LIMITED</h1>
+            <div class="subtitle">RC 9283954 — Trusted Gadget Solutions</div>
+        </div>
+    </div>
+
+    <!-- ===== TITLE ===== -->
+    <div class="doc-title">Customer Property Loss &amp; Replacement Acknowledgement</div>
+    <div class="doc-subtitle">Incident: Loss/Misdelivery of Customer Device During Charging Service</div>
+
+    <!-- ===== REFERENCE ROW ===== -->
+    <div class="ref-row">
+        <span>Incident Reference No.: <span style="border-bottom:1px solid #999;padding:0 20px;min-width:150px;display:inline-block;">&nbsp;</span></span>
+        <span>Branch: <span style="font-weight:400;">Boundary Road Branch</span></span>
+        <span>Date of Incident: <span style="border-bottom:1px solid #999;padding:0 15px;min-width:120px;display:inline-block;">&nbsp;</span></span>
+        <span>Date of Resolution: <span style="border-bottom:1px solid #999;padding:0 15px;min-width:120px;display:inline-block;">&nbsp;</span></span>
+    </div>
+
+    <!-- ===== SECTION A ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">A.</span> CUSTOMER &amp; DEVICE INFORMATION</div>
+        
+        <div class="field-row">
+            <span class="field-label">Customer Name:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Customer Phone Number:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Customer Address:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        
+        <div style="height:6px;"></div>
+        
+        <div class="field-row">
+            <span class="field-label">Device Brand:</span>
+            <span class="field-value"><strong>TECNO</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Device Model:</span>
+            <span class="field-value"><strong>POP 20</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">RAM/Storage:</span>
+            <span class="field-value"><strong>4GB RAM / 64GB ROM</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Original Device Colour:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Original IMEI 1:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Original IMEI 2:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Serial Number (if applicable):</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Charging Card Number:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Date Device Received for Charging:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Approximate Time Received:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Charging Fee:</span>
+            <span class="field-value">₦&nbsp;</span>
+        </div>
+    </div>
+
+    <!-- ===== SECTION B ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">B.</span> INCIDENT SUMMARY</div>
+        <div class="text-block">
+            <p>The above-mentioned customer's device was received by <strong>PRIMESHIELDHUB GADGET LIMITED</strong> at its Boundary Road Branch for charging.</p>
+            <p>Upon receipt of the device, a charging identification card was issued to the customer in accordance with the company's customer-device handling procedure.</p>
+            <p>Subsequently, while the device was in the custody of the branch, a third party came to the branch and represented that he was a brother/relative of the customer and requested the release of the device.</p>
+            <p>The device was subsequently released to the said third party by the staff member on duty <strong>without presentation of the customer's charging identification card</strong>.</p>
+            <p>The third party also indicated that he was going to withdraw money to settle the applicable charging fee and subsequently left the premises with the device.</p>
+            <p>The original customer later returned to the branch with the charging identification card and reported that he had not authorized the third party to collect the device and did not know the person who collected it.</p>
+            <p>The incident was subsequently reported to the management of PRIMESHIELDHUB GADGET LIMITED for investigation and resolution.</p>
+            <p>At the time of the incident, the branch's CCTV system was not operational, and therefore no CCTV footage is available for the relevant period.</p>
+            <p><strong>Following an internal review of the circumstances and in the interest of resolving the customer's loss, maintaining customer confidence and bringing the matter to an amicable commercial resolution, the company has agreed to provide the customer with a replacement device of equivalent make, model and specification.</strong></p>
+        </div>
+    </div>
+
+    <!-- ===== PAGE BREAK ===== -->
+    <div class="page-break"></div>
+
+    <!-- ===== SECTION C ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">C.</span> ORIGINAL DEVICE INFORMATION</div>
+        
+        <div class="field-row">
+            <span class="field-label">Brand:</span>
+            <span class="field-value"><strong>TECNO</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Model:</span>
+            <span class="field-value"><strong>POP 20</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">RAM/Storage:</span>
+            <span class="field-value"><strong>4GB RAM / 64GB ROM</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Colour:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">IMEI 1:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">IMEI 2:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Serial Number:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Customer's Stated/Purchase Value:</span>
+            <span class="field-value"><strong>₦168,000</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Supporting Receipt Provided:</span>
+            <span class="field-value">Yes &nbsp;&nbsp;/&nbsp;&nbsp; No</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Receipt/Invoice Reference:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+    </div>
+
+    <!-- ===== SECTION D ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">D.</span> REPLACEMENT DEVICE</div>
+        <div class="text-block">
+            <p>The company has agreed to provide the customer with the following replacement device:</p>
+        </div>
+        
+        <div class="field-row">
+            <span class="field-label">Brand:</span>
+            <span class="field-value"><strong>TECNO</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Model:</span>
+            <span class="field-value"><strong>POP 20</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">RAM/Storage:</span>
+            <span class="field-value"><strong>4GB RAM / 64GB ROM</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Colour:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">New IMEI 1:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">New IMEI 2:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Serial Number:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Replacement Value:</span>
+            <span class="field-value"><strong>₦190,000</strong></span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Accessories Included:</span>
+            <span class="field-value">&nbsp;</span>
+        </div>
+        <div class="field-row">
+            <span class="field-label">Condition:</span>
+            <span class="field-value">Brand New &nbsp;&nbsp;/&nbsp;&nbsp; Other: ___________</span>
+        </div>
+    </div>
+
+    <!-- ===== SECTION E ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">E.</span> REPLACEMENT ACKNOWLEDGEMENT</div>
+        <div class="text-block">
+            <p>I, the undersigned customer, hereby acknowledge that I have received from <strong>PRIMESHIELDHUB GADGET LIMITED</strong> the replacement device described above in resolution of the reported loss/misdelivery of my original TECNO POP 20 device.</p>
+            <p>I confirm that I have inspected the replacement device and received it in satisfactory condition, together with the accessories stated above.</p>
+            <p>I further confirm that the replacement device's details, including the IMEI number(s), have been recorded in this document.</p>
+        </div>
+    </div>
+
+    <!-- ===== PAGE BREAK ===== -->
+    <div class="page-break"></div>
+
+    <!-- ===== SECTION F ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">F.</span> RECOVERY OF ORIGINAL DEVICE</div>
+        <div class="text-block">
+            <p><strong>Recovery Clause</strong></p>
+            <p>If the original device is subsequently recovered, found, returned, located or otherwise comes into the possession of the customer, the customer agrees to promptly notify <strong>PRIMESHIELDHUB GADGET LIMITED</strong> and cooperate reasonably with the company regarding the identification, verification and recovery of the original device.</p>
+            <p>The customer agrees not to knowingly conceal the recovery of the original device after receiving the replacement device under this resolution.</p>
+            <p>Where necessary, the customer agrees to provide the original device's IMEI number and other identifying information to assist with verification and proper resolution of the matter.</p>
+        </div>
+    </div>
+
+    <!-- ===== SECTION G ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">G.</span> INVESTIGATION &amp; COOPERATION</div>
+        <div class="text-block">
+            <p>The customer acknowledges that the company has recorded the incident and may continue to investigate the circumstances surrounding the release of the original device.</p>
+            <p>The customer agrees to provide reasonable information and cooperation that may assist the company in identifying or recovering the original device or identifying the person who collected it.</p>
+            <p>The company reserves the right to cooperate with relevant law-enforcement authorities or other competent authorities should further information arise concerning the disappearance, unauthorized collection or recovery of the original device.</p>
+        </div>
+    </div>
+
+    <!-- ===== SECTION H ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">H.</span> CUSTOMER CONFIRMATION</div>
+        <div class="text-block">
+            <p>By signing below, I confirm that:</p>
+        </div>
+        <ul class="checklist">
+            <li>The information concerning the original device provided by me is accurate to the best of my knowledge.</li>
+            <li>I presented/identified the charging card associated with the original device.</li>
+            <li>I informed the company that I did not authorize the person who collected the original device to do so.</li>
+            <li>I have received the replacement device stated in this document.</li>
+            <li>I have verified the replacement device and its identifying details.</li>
+            <li>I understand that the replacement provided by the company is the company's agreed commercial resolution of the reported loss.</li>
+            <li>If the original device is subsequently recovered, I will promptly notify <strong>PRIMESHIELDHUB GADGET LIMITED</strong> and cooperate with the company concerning its identification and recovery.</li>
+        </ul>
+    </div>
+
+    <!-- ===== SECTION I ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">I.</span> CUSTOMER DECLARATION</div>
+        <div class="text-block">
+            <p>I confirm that I have read and understood the contents of this document and that the information contained herein is accurate to the best of my knowledge.</p>
+            <p>I confirm receipt of the replacement device described above.</p>
+        </div>
+        
+        <div class="signature-grid">
+            <div class="signature-block">
+                <span class="sig-label">Customer Full Name:</span>
+                <div class="sig-line">&nbsp;</div>
+            </div>
+            <div class="signature-block">
+                <span class="sig-label">Date:</span>
+                <div class="sig-line">&nbsp;</div>
+            </div>
+            <div class="signature-block">
+                <span class="sig-label">Customer Signature:</span>
+                <div class="sig-line double">&nbsp;</div>
+            </div>
+            <div class="signature-block">
+                <span class="sig-label">Customer Phone Number:</span>
+                <div class="sig-line">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== PAGE BREAK ===== -->
+    <div class="page-break"></div>
+
+    <!-- ===== SECTION J ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">J.</span> STAFF/WITNESS ACKNOWLEDGEMENT</div>
+        <div class="text-block">
+            <p>I confirm that I was present/involved in the handling of the incident described above and that the information recorded in this document represents the circumstances as reported and documented.</p>
+        </div>
+        
+        <div class="signature-grid">
+            <div class="signature-block">
+                <span class="sig-label">Staff/Witness Name:</span>
+                <div class="sig-line">&nbsp;</div>
+            </div>
+            <div class="signature-block">
+                <span class="sig-label">Position:</span>
+                <div class="sig-line">&nbsp;</div>
+            </div>
+            <div class="signature-block">
+                <span class="sig-label">Signature:</span>
+                <div class="sig-line double">&nbsp;</div>
+            </div>
+            <div class="signature-block">
+                <span class="sig-label">Date:</span>
+                <div class="sig-line">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== SECTION K ===== -->
+    <div class="section">
+        <div class="section-title"><span class="letter">K.</span> MANAGEMENT AUTHORIZATION</div>
+        <div class="text-block">
+            <p>This replacement has been authorized by the management of <strong>PRIMESHIELDHUB GADGET LIMITED</strong> as a commercial resolution of the reported customer-property loss.</p>
+        </div>
+        
+        <div class="signature-grid">
+            <div class="signature-block">
+                <span class="sig-label">Authorized By:</span>
+                <div class="sig-line"><strong>FREEDOM E. AMENAGHAWON</strong></div>
+            </div>
+            <div class="signature-block">
+                <span class="sig-label">Position:</span>
+                <div class="sig-line"><strong>MANAGING DIRECTOR / CEO</strong></div>
+            </div>
+            <div class="signature-block">
+                <span class="sig-label">Signature:</span>
+                <div class="sig-line double">&nbsp;</div>
+            </div>
+            <div class="signature-block">
+                <span class="sig-label">Date:</span>
+                <div class="sig-line">&nbsp;</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ===== STAMP SECTION ===== -->
+    <div class="stamp-section">
+        <div class="stamp-left">
+            <!-- Company details -->
+        </div>
+        <div class="stamp-right">
+            <div class="stamp-text">PRIMESHIELDHUB</div>
+            <div style="font-size:11px;color:#888;margin-top:4px;">GADGET LIMITED</div>
+            <div style="font-size:10px;color:#999;margin-top:2px;">RC 9283954</div>
+            <div style="margin-top:8px;font-size:10px;color:#666;border-top:1px dashed #ccc;padding-top:6px;">
+                <strong>Company Stamp</strong>
+            </div>
+            <div style="height:50px;border:2px dashed #8B7D3C;border-radius:4px;margin-top:4px;background:#fcfaf5;"></div>
+        </div>
+    </div>
+
+    <!-- ===== FOOTER ===== -->
+    <div class="footer">
+        <p>This document is a legally binding acknowledgement of the replacement of a customer device.</p>
+        <p style="margin-top:4px;">PRIMESHIELDHUB GADGET LIMITED — Boundary Road Branch, Benin City, Edo State.</p>
+        <p style="margin-top:4px;">© 2026 PrimeShieldHub Gadget Limited. All Rights Reserved.</p>
+    </div>
+
+</div>
+
+<!-- ===== PRINT SCRIPT (No Button, Auto Print Prompt) ===== -->
+<script>
+    // Auto-prompt for print/PDF when page loads
+    window.onload = function() {
+        // Small delay to ensure everything renders
+        setTimeout(function() {
+            window.print();
+        }, 500);
+    };
+</script>
+
+</body>
+</html>

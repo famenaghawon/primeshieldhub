@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  
+  <!-- Canonical URL (Clean URL - no .html) -->
+  <link rel="canonical" href="https://primeshieldhub.com/crypto-payments">
+  
+  <title>Crypto Payments | PrimeShieldHub — Quantum Blockchain Gateway</title>
+  <meta name="description" content="Secure cryptocurrency payments for premium gadgets. Pay with Bitcoin, Ethereum, USDT, and more. Quantum-secured blockchain transactions with real-time rates.">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Three.js -->
+  <script type="importmap">
+    {
+      "imports": {
+        "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+      }
+    }
+  </script>
+  
+  <!-- QR Code Library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  
+  <style>
+    /* ========================================
+       QUANTUM CRYPTO DESIGN SYSTEM
+    ======================================== */
+    :root {
+      --bg-deep: #000000;
+      --bg-surface: #0a0a0a;
+      --bg-card: rgba(15, 15, 20, 0.85);
+      --text-primary: #ffffff;
+      --text-secondary: #a1a1a6;
+      --text-tertiary: #6c6c70;
+      --crypto-btc: #f7931a;
+      --crypto-eth: #627eea;
+      --crypto-usdt: #26a17b;
+      --crypto-bnb: #f0b90b;
+      --crypto-sol: #00ffa0;
+      --crypto-xrp: #23292f;
+      --accent-cyan: #00f3ff;
+      --accent-gold: #d6b25e;
+      --accent-success: #34c759;
+      --accent-danger: #ff3b30;
+      --border-subtle: rgba(255, 255, 255, 0.06);
+      --border-cyan: rgba(0, 243, 255, 0.25);
+      --border-gold: rgba(214, 178, 94, 0.25);
+      --gradient-cyan: linear-gradient(135deg, #00f3ff 0%, #0099cc 100%);
+      --gradient-gold: linear-gradient(135deg, #d6b25e 0%, #f3d27b 100%);
+      --gradient-btc: linear-gradient(135deg, #f7931a 0%, #ffaa4a 100%);
+      --gradient-eth: linear-gradient(135deg, #627eea 0%, #8ba2ff 100%);
+      --gradient-usdt: linear-gradient(135deg, #26a17b 0%, #4cd9a8 100%);
+      --shadow-glow: 0 0 20px rgba(0, 243, 255, 0.3);
+      --shadow-gold: 0 20px 40px rgba(214, 178, 94, 0.15);
+      --radius-sm: 8px;
+      --radius-md: 12px;
+      --radius-lg: 16px;
+      --radius-xl: 20px;
+      --radius-2xl: 28px;
+      --radius-3xl: 36px;
+      --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      --font-sans: 'Inter', 'Space Grotesk', sans-serif;
+      --font-mono: 'JetBrains Mono', monospace;
+    }
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: var(--font-sans);
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    
+    /* 3D Canvas Background */
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      opacity: 0.35;
+      pointer-events: none;
+    }
+    
+    /* Blockchain Grid Overlay */
+    .blockchain-grid {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: 
+        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      z-index: -1;
+      pointer-events: none;
+      animation: gridShift 20s linear infinite;
+    }
+    
+    @keyframes gridShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(50px, 50px); }
+    }
+    
+    /* Scanline Effect */
+    .scanline {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+      z-index: 9999;
+      animation: scanline 6s linear infinite;
+      pointer-events: none;
+      opacity: 0.4;
+    }
+    
+    @keyframes scanline {
+      0% { transform: translateY(-100%); }
+      100% { transform: translateY(100vh); }
+    }
+    
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-surface); }
+    ::-webkit-scrollbar-thumb { background: var(--accent-cyan); border-radius: 4px; }
+    
+    /* Selection */
+    ::selection { background: var(--accent-cyan); color: var(--bg-deep); }
+    
+    /* ========================================
+       HEADER & NAVIGATION
+    ======================================== */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border-cyan);
+    }
+    
+    .header-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 16px 32px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      text-decoration: none;
+    }
+    
+    .logo-icon {
+      width: 44px;
+      height: 44px;
+      background: var(--gradient-cyan);
+      border-radius: var(--radius-md);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 20px;
+      color: #000;
+    }
+    
+    .logo-text {
+      font-weight: 700;
+      font-size: 20px;
+      letter-spacing: -0.3px;
+      background: var(--gradient-cyan);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+    
+    .nav {
+      display: flex;
+      gap: 28px;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+    
+    .nav-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.2s ease;
+    }
+    
+    .nav-link:hover { color: var(--accent-cyan); }
+    .nav-link.active { color: var(--accent-cyan); }
+    
+    .nav-cta {
+      background: var(--gradient-cyan);
+      color: #000;
+      padding: 10px 24px;
+      border-radius: 100px;
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      transition: transform 0.2s ease;
+    }
+    
+    .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0, 243, 255, 0.3); }
+    
+    @media (max-width: 768px) {
+      .header-content { padding: 12px 20px; }
+      .nav { gap: 16px; }
+      .nav-link { font-size: 12px; }
+      .nav-cta { padding: 8px 16px; font-size: 12px; }
+    }
+    
+    /* ========================================
+       MAIN CONTAINER
+    ======================================== */
+    .main { padding-top: 100px; min-height: 100vh; }
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 32px 80px; }
+    
+    @media (max-width: 768px) { .container { padding: 0 20px 60px; } }
+    
+    /* ========================================
+       HERO SECTION
+    ======================================== */
+    .hero { text-align: center; margin-bottom: 80px; }
+    
+    .hero-badge {
+      display: inline-block;
+      padding: 8px 20px;
+      background: rgba(0, 243, 255, 0.1);
+      border: 1px solid var(--border-cyan);
+      border-radius: 100px;
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--accent-cyan);
+      margin-bottom: 24px;
+    }
+    
+    .hero h1 {
+      font-size: 64px;
+      font-weight: 800;
+      letter-spacing: -2px;
+      background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-gold) 50%, var(--accent-cyan) 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      margin-bottom: 24px;
+      line-height: 1.1;
+    }
+    
+    .hero p {
+      font-size: 20px;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 auto;
+      line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) { .hero h1 { font-size: 44px; } .hero p { font-size: 16px; } }
+    
+    /* ========================================
+       LIVE PRICE TICKER
+    ======================================== */
+    .price-ticker {
+      background: rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--border-cyan);
+      border-radius: var(--radius-2xl);
+      padding: 20px;
+      margin-bottom: 60px;
+      overflow-x: auto;
+    }
+    
+    .ticker-grid {
+      display: flex;
+      justify-content: space-around;
+      gap: 20px;
+      min-width: 600px;
+    }
+    
+    .ticker-item {
+      text-align: center;
+      padding: 12px 20px;
+      background: rgba(255, 255, 255, 0.03);
+      border-radius: var(--radius-md);
+      min-width: 140px;
+    }
+    
+    .ticker-symbol {
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--text-secondary);
+    }
+    
+    .ticker-price {
+      font-size: 20px;
+      font-weight: 800;
+      margin-top: 8px;
+    }
+    
+    .ticker-price.btc { color: var(--crypto-btc); }
+    .ticker-price.eth { color: var(--crypto-eth); }
+    .ticker-price.usdt { color: var(--crypto-usdt); }
+    .ticker-price.bnb { color: var(--crypto-bnb); }
+    .ticker-price.sol { color: var(--crypto-sol); }
+    
+    .ticker-change {
+      font-size: 12px;
+      margin-top: 4px;
+    }
+    .ticker-change.up { color: var(--accent-success); }
+    .ticker-change.down { color: var(--accent-danger); }
+    
+    /* ========================================
+       CRYPTO PAYMENT GRID
+    ======================================== */
+    .crypto-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 32px;
+      margin-bottom: 80px;
+    }
+    
+    .crypto-card {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-2xl);
+      padding: 32px;
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .crypto-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      transform: scaleX(0);
+      transition: transform 0.4s ease;
+    }
+    
+    .crypto-card.btc::before { background: var(--gradient-btc); }
+    .crypto-card.eth::before { background: var(--gradient-eth); }
+    .crypto-card.usdt::before { background: var(--gradient-usdt); }
+    .crypto-card.bnb::before { background: linear-gradient(135deg, #f0b90b, #ffd700); }
+    .crypto-card.sol::before { background: linear-gradient(135deg, #00ffa0, #00cc80); }
+    .crypto-card.xrp::before { background: linear-gradient(135deg, #23292f, #3a3f45); }
+    
+    .crypto-card:hover {
+      transform: translateY(-8px);
+      border-color: var(--border-cyan);
+      box-shadow: var(--shadow-glow);
+    }
+    
+    .crypto-card:hover::before { transform: scaleX(1); }
+    
+    .crypto-header {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    
+    .crypto-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: var(--radius-lg);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+    }
+    
+    .crypto-icon.btc { background: rgba(247, 147, 26, 0.15); color: var(--crypto-btc); }
+    .crypto-icon.eth { background: rgba(98, 126, 234, 0.15); color: var(--crypto-eth); }
+    .crypto-icon.usdt { background: rgba(38, 161, 123, 0.15); color: var(--crypto-usdt); }
+    .crypto-icon.bnb { background: rgba(240, 185, 11, 0.15); color: var(--crypto-bnb); }
+    .crypto-icon.sol { background: rgba(0, 255, 160, 0.15); color: var(--crypto-sol); }
+    .crypto-icon.xrp { background: rgba(35, 41, 47, 0.15); color: var(--crypto-xrp); }
+    
+    .crypto-name { font-size: 24px; font-weight: 700; }
+    .crypto-sub { font-size: 12px; color: var(--text-tertiary); margin-top: 4px; }
+    
+    .crypto-rate {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      margin: 20px 0;
+      text-align: center;
+    }
+    
+    .rate-label { font-size: 12px; color: var(--text-tertiary); margin-bottom: 8px; }
+    .rate-value { font-size: 28px; font-weight: 800; }
+    
+    .address-container {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: var(--radius-md);
+      padding: 12px;
+      margin: 16px 0;
+    }
+    
+    .address-text {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      word-break: break-all;
+      color: var(--text-secondary);
+      margin-bottom: 12px;
+    }
+    
+    .copy-btn, .qr-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-sm);
+      padding: 8px 16px;
+      font-size: 12px;
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      margin-right: 8px;
+    }
+    
+    .copy-btn:hover, .qr-btn:hover { background: rgba(0, 243, 255, 0.1); border-color: var(--accent-cyan); }
+    
+    .qr-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .qr-modal.active { display: flex; }
+    .qr-modal-content { background: white; padding: 20px; border-radius: var(--radius-lg); text-align: center; }
+    .qr-close { margin-top: 16px; background: var(--gradient-cyan); border: none; padding: 8px 24px; border-radius: 100px; cursor: pointer; font-weight: 600; }
+    
+    .crypto-note {
+      font-size: 12px;
+      color: var(--text-tertiary);
+      margin-top: 16px;
+      text-align: center;
+    }
+    
+    @media (max-width: 1024px) { .crypto-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 640px) { .crypto-grid { grid-template-columns: 1fr; } }
+    
+    /* ========================================
+       PAYMENT CALCULATOR
+    ======================================== */
+    .calculator-section {
+      background: linear-gradient(135deg, rgba(0, 243, 255, 0.05), rgba(0, 0, 0, 0.3));
+      border-radius: var(--radius-3xl);
+      padding: 48px;
+      margin-bottom: 80px;
+      border: 1px solid var(--border-cyan);
+    }
+    
+    .calculator-title {
+      font-size: 32px;
+      font-weight: 700;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+    
+    .calculator-subtitle {
+      text-align: center;
+      color: var(--text-secondary);
+      margin-bottom: 40px;
+    }
+    
+    .calculator-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+    
+    .calc-input-group { margin-bottom: 24px; }
+    .calc-label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-secondary); }
+    .calc-input {
+      width: 100%;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-cyan);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 16px;
+      font-family: var(--font-mono);
+    }
+    .calc-input:focus { outline: none; border-color: var(--accent-cyan); box-shadow: 0 0 0 3px rgba(0, 243, 255, 0.1); }
+    
+    .calc-select {
+      width: 100%;
+      padding: 16px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-cyan);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-size: 16px;
+      cursor: pointer;
+    }
+    
+    .results-card {
+      background: rgba(0, 0, 0, 0.4);
+      border-radius: var(--radius-xl);
+      padding: 32px;
+      border: 1px solid var(--border-gold);
+    }
+    
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .result-row:last-child { border-bottom: none; }
+    .result-label { color: var(--text-secondary); }
+    .result-value { font-weight: 700; color: var(--accent-gold); font-size: 18px; }
+    .result-highlight { font-size: 28px; font-weight: 800; }
+    
+    .pay-now-btn {
+      width: 100%;
+      margin-top: 24px;
+      padding: 16px;
+      background: var(--gradient-cyan);
+      border: none;
+      border-radius: 100px;
+      font-weight: 700;
+      font-size: 16px;
+      color: #000;
+      cursor: pointer;
+      transition: transform 0.2s ease;
+    }
+    .pay-now-btn:hover { transform: translateY(-2px); box-shadow: 0 5px 20px rgba(0, 243, 255, 0.3); }
+    
+    @media (max-width: 992px) { .calculator-grid { grid-template-columns: 1fr; gap: 32px; } .calculator-section { padding: 32px; } }
+    
+    /* ========================================
+       TRANSACTION STATUS
+    ======================================== */
+    .status-section {
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border-radius: var(--radius-3xl);
+      padding: 48px;
+      margin-bottom: 80px;
+      border: 1px solid var(--border-gold);
+    }
+    
+    .status-title { font-size: 28px; font-weight: 700; text-align: center; margin-bottom: 8px; }
+    .status-subtitle { text-align: center; color: var(--text-secondary); margin-bottom: 40px; }
+    
+    .status-search {
+      display: flex;
+      gap: 16px;
+      max-width: 600px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+    }
+    
+    .status-input {
+      flex: 1;
+      padding: 14px 20px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-cyan);
+      border-radius: var(--radius-md);
+      color: var(--text-primary);
+      font-family: var(--font-mono);
+      font-size: 14px;
+    }
+    
+    .status-btn {
+      padding: 14px 28px;
+      background: var(--gradient-gold);
+      border: none;
+      border-radius: var(--radius-md);
+      font-weight: 700;
+      color: #000;
+      cursor: pointer;
+    }
+    
+    .status-result {
+      margin-top: 32px;
+      padding: 24px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: var(--radius-lg);
+      display: none;
+    }
+    .status-result.visible { display: block; animation: fadeIn 0.3s ease; }
+    .status-result.success { border-left: 3px solid var(--accent-success); }
+    .status-result.pending { border-left: 3px solid var(--accent-warning, #ff9f0a); }
+    .status-result.failed { border-left: 3px solid var(--accent-danger); }
+    
+    /* ========================================
+       WHY CRYPTO SECTION
+    ======================================== */
+    .why-crypto-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 80px;
+    }
+    
+    .why-card {
+      text-align: center;
+      padding: 32px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-xl);
+      transition: var(--transition-smooth);
+    }
+    .why-card:hover { transform: translateY(-8px); border-color: var(--border-cyan); }
+    .why-icon { font-size: 48px; margin-bottom: 20px; color: var(--accent-cyan); }
+    .why-title { font-size: 18px; font-weight: 700; margin-bottom: 12px; }
+    .why-text { color: var(--text-secondary); font-size: 14px; line-height: 1.6; }
+    
+    @media (max-width: 992px) { .why-crypto-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 576px) { .why-crypto-grid { grid-template-columns: 1fr; } }
+    
+    /* ========================================
+       AUTHORITY LINKS & FOOTER
+    ======================================== */
+    .authority-links {
+      background: rgba(13, 13, 13, 0.95);
+      backdrop-filter: blur(10px);
+      border-top: 1px solid var(--border-cyan);
+      border-bottom: 1px solid var(--border-cyan);
+      padding: 14px 0;
+      display: flex;
+      justify-content: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin: 40px 0 0;
+    }
+    
+    .authority-links a {
+      color: var(--text-tertiary);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.2s ease;
+    }
+    .authority-links a:hover { color: var(--accent-cyan); }
+    
+    .footer {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-cyan);
+      padding: 60px 0 30px;
+    }
+    
+    .footer-content {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 0 32px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 48px;
+    }
+    
+    .footer-section h4 {
+      font-size: 14px;
+      font-weight: 700;
+      margin-bottom: 20px;
+      color: var(--accent-cyan);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .footer-section ul { list-style: none; }
+    .footer-section li { margin-bottom: 12px; }
+    .footer-section a { color: var(--text-tertiary); text-decoration: none; font-size: 14px; transition: color 0.2s ease; }
+    .footer-section a:hover { color: var(--accent-cyan); }
+    
+    .footer-bottom {
+      text-align: center;
+      padding-top: 48px;
+      margin-top: 48px;
+      border-top: 1px solid var(--border-cyan);
+      color: var(--text-tertiary);
+      font-size: 12px;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    /* Toast */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-card);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--border-cyan);
+      border-radius: var(--radius-md);
+      padding: 12px 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 2000;
+      transform: translateX(120%);
+      transition: transform 0.3s ease;
+    }
+    .toast.show { transform: translateX(0); }
+    .toast.success { border-color: var(--accent-success); }
+    .toast.error { border-color: var(--accent-danger); }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  <div class="blockchain-grid"></div>
+  <div class="scanline"></div>
+
+  <!-- Header -->
+  <header class="header">
+    <div class="header-content">
+      <a href="/" class="logo">
+        <div class="logo-icon">₿</div>
+        <div class="logo-text">PRIMESHIELDHUB</div>
+      </a>
+      <div class="nav">
+        <a href="/" class="nav-link">Home</a>
+        <a href="/products" class="nav-link">Products</a>
+        <a href="/crypto-payments" class="nav-link active">Crypto</a>
+        <a href="/founder" class="nav-link">Founder</a>
+        <a href="/company" class="nav-link">Company</a>
+        <a href="https://wa.me/{{WHATSAPP_PHONE}}" target="_blank" class="nav-cta">
+          <i class="fab fa-whatsapp"></i> Support
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <!-- Hero Section -->
+      <div class="hero">
+        <div class="hero-badge"><i class="fab fa-bitcoin"></i> Quantum Blockchain Gateway</div>
+        <h1>Crypto Payments<br>Quantum-Secured</h1>
+        <p>Pay with Bitcoin, Ethereum, USDT, and more. Zero fees, instant confirmations, and military-grade quantum encryption.</p>
+      </div>
+
+      <!-- Live Price Ticker -->
+      <div class="price-ticker">
+        <div class="ticker-grid" id="priceTicker">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Crypto Payment Grid -->
+      <div class="crypto-grid">
+        <!-- Bitcoin -->
+        <div class="crypto-card btc">
+          <div class="crypto-header">
+            <div class="crypto-icon btc"><i class="fab fa-bitcoin"></i></div>
+            <div><div class="crypto-name">Bitcoin</div><div class="crypto-sub">BTC</div></div>
+          </div>
+          <div class="crypto-rate">
+            <div class="rate-label">Exchange Rate</div>
+            <div class="rate-value" id="btcRate">₦ {{BTC_NGN_RATE}}</div>
+          </div>
+          <div class="address-container">
+            <div class="address-text" id="btcAddress">{{BTC_WALLET_ADDRESS}}</div>
+            <button class="copy-btn" onclick="copyToClipboard('btcAddress')"><i class="fas fa-copy"></i> Copy</button>
+            <button class="qr-btn" onclick="showQR('btc', '{{BTC_WALLET_ADDRESS}}')"><i class="fas fa-qrcode"></i> QR</button>
+          </div>
+          <div class="crypto-note">✓ Network: Bitcoin • Min confirmation: 2</div>
+        </div>
+
+        <!-- Ethereum -->
+        <div class="crypto-card eth">
+          <div class="crypto-header">
+            <div class="crypto-icon eth"><i class="fab fa-ethereum"></i></div>
+            <div><div class="crypto-name">Ethereum</div><div class="crypto-sub">ETH</div></div>
+          </div>
+          <div class="crypto-rate">
+            <div class="rate-label">Exchange Rate</div>
+            <div class="rate-value" id="ethRate">₦ {{ETH_NGN_RATE}}</div>
+          </div>
+          <div class="address-container">
+            <div class="address-text" id="ethAddress">{{ETH_WALLET_ADDRESS}}</div>
+            <button class="copy-btn" onclick="copyToClipboard('ethAddress')"><i class="fas fa-copy"></i> Copy</button>
+            <button class="qr-btn" onclick="showQR('eth', '{{ETH_WALLET_ADDRESS}}')"><i class="fas fa-qrcode"></i> QR</button>
+          </div>
+          <div class="crypto-note">✓ Network: ERC-20 • Gas fees apply</div>
+        </div>
+
+        <!-- USDT (TRC-20) -->
+        <div class="crypto-card usdt">
+          <div class="crypto-header">
+            <div class="crypto-icon usdt"><i class="fas fa-coins"></i></div>
+            <div><div class="crypto-name">Tether USD</div><div class="crypto-sub">USDT (TRC-20)</div></div>
+          </div>
+          <div class="crypto-rate">
+            <div class="rate-label">Exchange Rate</div>
+            <div class="rate-value" id="usdtRate">₦ {{USDT_NGN_RATE}}</div>
+          </div>
+          <div class="address-container">
+            <div class="address-text" id="usdtAddress">{{USDT_TRC20_WALLET_ADDRESS}}</div>
+            <button class="copy-btn" onclick="copyToClipboard('usdtAddress')"><i class="fas fa-copy"></i> Copy</button>
+            <button class="qr-btn" onclick="showQR('usdt', '{{USDT_TRC20_WALLET_ADDRESS}}')"><i class="fas fa-qrcode"></i> QR</button>
+          </div>
+          <div class="crypto-note">✓ Network: TRC-20 • Low fees • Fast settlement</div>
+        </div>
+
+        <!-- Binance Coin -->
+        <div class="crypto-card bnb">
+          <div class="crypto-header">
+            <div class="crypto-icon bnb"><i class="fab fa-bitcoin"></i></div>
+            <div><div class="crypto-name">Binance Coin</div><div class="crypto-sub">BNB (BEP-20)</div></div>
+          </div>
+          <div class="crypto-rate">
+            <div class="rate-label">Exchange Rate</div>
+            <div class="rate-value" id="bnbRate">₦ {{BNB_NGN_RATE}}</div>
+          </div>
+          <div class="address-container">
+            <div class="address-text" id="bnbAddress">{{BNB_BEP20_WALLET_ADDRESS}}</div>
+            <button class="copy-btn" onclick="copyToClipboard('bnbAddress')"><i class="fas fa-copy"></i> Copy</button>
+            <button class="qr-btn" onclick="showQR('bnb', '{{BNB_BEP20_WALLET_ADDRESS}}')"><i class="fas fa-qrcode"></i> QR</button>
+          </div>
+          <div class="crypto-note">✓ Network: BEP-20 • Fast & low cost</div>
+        </div>
+
+        <!-- Solana -->
+        <div class="crypto-card sol">
+          <div class="crypto-header">
+            <div class="crypto-icon sol"><i class="fas fa-bolt"></i></div>
+            <div><div class="crypto-name">Solana</div><div class="crypto-sub">SOL</div></div>
+          </div>
+          <div class="crypto-rate">
+            <div class="rate-label">Exchange Rate</div>
+            <div class="rate-value" id="solRate">₦ {{SOL_NGN_RATE}}</div>
+          </div>
+          <div class="address-container">
+            <div class="address-text" id="solAddress">{{SOL_WALLET_ADDRESS}}</div>
+            <button class="copy-btn" onclick="copyToClipboard('solAddress')"><i class="fas fa-copy"></i> Copy</button>
+            <button class="qr-btn" onclick="showQR('sol', '{{SOL_WALLET_ADDRESS}}')"><i class="fas fa-qrcode"></i> QR</button>
+          </div>
+          <div class="crypto-note">✓ Network: Solana • Sub-second finality</div>
+        </div>
+
+        <!-- XRP -->
+        <div class="crypto-card xrp">
+          <div class="crypto-header">
+            <div class="crypto-icon xrp"><i class="fas fa-chart-line"></i></div>
+            <div><div class="crypto-name">Ripple</div><div class="crypto-sub">XRP</div></div>
+          </div>
+          <div class="crypto-rate">
+            <div class="rate-label">Exchange Rate</div>
+            <div class="rate-value" id="xrpRate">₦ {{XRP_NGN_RATE}}</div>
+          </div>
+          <div class="address-container">
+            <div class="address-text" id="xrpAddress">{{XRP_WALLET_ADDRESS}}<br><small>Tag: {{XRP_DESTINATION_TAG}}</small></div>
+            <button class="copy-btn" onclick="copyToClipboard('xrpAddress')"><i class="fas fa-copy"></i> Copy</button>
+            <button class="qr-btn" onclick="showQR('xrp', '{{XRP_WALLET_ADDRESS}}')"><i class="fas fa-qrcode"></i> QR</button>
+          </div>
+          <div class="crypto-note">✓ Network: XRP Ledger • Destination Tag required</div>
+        </div>
+      </div>
+
+      <!-- Payment Calculator -->
+      <div class="calculator-section">
+        <h2 class="calculator-title">Crypto Payment Calculator</h2>
+        <p class="calculator-subtitle">Convert NGN to crypto in real-time</p>
+        
+        <div class="calculator-grid">
+          <div>
+            <div class="calc-input-group">
+              <label class="calc-label">Amount (₦ NGN)</label>
+              <input type="number" id="ngnAmount" class="calc-input" placeholder="Enter amount in Naira" value="100000">
+            </div>
+            <div class="calc-input-group">
+              <label class="calc-label">Select Cryptocurrency</label>
+              <select id="cryptoSelect" class="calc-select">
+                <option value="btc">Bitcoin (BTC)</option>
+                <option value="eth">Ethereum (ETH)</option>
+                <option value="usdt">Tether USD (USDT)</option>
+                <option value="bnb">Binance Coin (BNB)</option>
+                <option value="sol">Solana (SOL)</option>
+                <option value="xrp">Ripple (XRP)</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="results-card">
+            <div class="result-row">
+              <span class="result-label">You Send (NGN)</span>
+              <span class="result-value" id="calcAmountNgn">₦100,000</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">You Pay (Crypto)</span>
+              <span class="result-value result-highlight" id="calcAmountCrypto">0.0000 BTC</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Exchange Rate</span>
+              <span class="result-value" id="calcRate">1 BTC = ₦{{BTC_NGN_RATE}}</span>
+            </div>
+            <div class="result-row">
+              <span class="result-label">Network Fee (Est.)</span>
+              <span class="result-value" id="calcFee">Free</span>
+            </div>
+            <button class="pay-now-btn" onclick="initiatePayment()">
+              <i class="fas fa-bolt"></i> Initiate Payment
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Transaction Status -->
+      <div class="status-section">
+        <h2 class="status-title">Track Your Payment</h2>
+        <p class="status-subtitle">Enter transaction ID or wallet address to check status</p>
+        
+        <div class="status-search">
+          <input type="text" id="txnHash" class="status-input" placeholder="Transaction Hash / Wallet Address">
+          <button class="status-btn" onclick="checkTransactionStatus()"><i class="fas fa-search"></i> Check Status</button>
+        </div>
+        
+        <div id="statusResult" class="status-result"></div>
+      </div>
+
+      <!-- Why Crypto Section -->
+      <div class="why-crypto-grid">
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-shield-alt"></i></div>
+          <h3 class="why-title">Quantum Security</h3>
+          <p class="why-text">Post-quantum cryptography with lattice-based encryption for ultimate transaction security.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-bolt"></i></div>
+          <h3 class="why-title">Instant Confirmations</h3>
+          <p class="why-text">Blockchain verification with AI-powered acceleration for near-instant settlement.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-globe"></i></div>
+          <h3 class="why-title">Global Access</h3>
+          <p class="why-text">Send payments from anywhere in the world without banking restrictions.</p>
+        </div>
+        <div class="why-card">
+          <div class="why-icon"><i class="fas fa-percent"></i></div>
+          <h3 class="why-title">Zero Fees</h3>
+          <p class="why-text">No processing fees on crypto payments — what you send is what we receive.</p>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Authority Links -->
+  <div class="authority-links">
+    <a href="/freedom-evbakoe-amenaghawon">Personal Profile</a>
+    <a href="/biography">Official Biography</a>
+    <a href="/founder">Corporate Founder Profile</a>
+    <a href="/company">Company Overview</a>
+    <a href="/leadership">Leadership</a>
+    <a href="/knowledge-graph">Knowledge Graph</a>
+    <a href="/media-kit">Media Kit</a>
+    <a href="/press">Press Center</a>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-content">
+      <div class="footer-section">
+        <h4>Crypto Payments</h4>
+        <ul>
+          <li><a href="/crypto-payments">Bitcoin (BTC)</a></li>
+          <li><a href="/crypto-payments">Ethereum (ETH)</a></li>
+          <li><a href="/crypto-payments">USDT (TRC-20)</a></li>
+          <li><a href="/crypto-payments">BNB (BEP-20)</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="/faq">FAQ</a></li>
+          <li><a href="/security">Security</a></li>
+          <li><a href="/encryption">Encryption</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="/founder">Founder Profile</a></li>
+          <li><a href="/company">Company Overview</a></li>
+          <li><a href="/biography">Official Biography</a></li>
+          <li><a href="/freedom-evbakoe-amenaghawon">Personal Profile</a></li>
+        </ul>
+      </div>
+      <div class="footer-section">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="mailto:{{COMPANY_EMAIL}}">{{COMPANY_EMAIL}}</a></li>
+          <li><a href="tel:{{COMPANY_PHONE}}">{{COMPANY_PHONE}}</a></li>
+          <li><a href="https://wa.me/{{WHATSAPP_PHONE}}" target="_blank">WhatsApp Support</a></li>
+          <li><span style="color: var(--text-tertiary);">{{COMPANY_ADDRESS}}</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© {{CURRENT_YEAR}} PrimeShieldHub Gadgets Limited (RC {{RC_NUMBER}}). All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- QR Modal -->
+  <div id="qrModal" class="qr-modal">
+    <div class="qr-modal-content">
+      <div id="qrCode"></div>
+      <button class="qr-close" onclick="closeQR()">Close</button>
+    </div>
+  </div>
+
+  <!-- Toast -->
+  <div class="toast" id="toast">✨ Action completed</div>
+
+  <script type="module">
+    import * as THREE from 'three';
+
+    // ==================== PLACEHOLDER CONFIGURATION ====================
+    // REPLACE THESE WITH YOUR ACTUAL DATA
+    const CONFIG = {
+      // Wallet Addresses
+      BTC_WALLET_ADDRESS: '{{BTC_WALLET_ADDRESS}}',
+      ETH_WALLET_ADDRESS: '{{ETH_WALLET_ADDRESS}}',
+      USDT_WALLET_ADDRESS: '{{USDT_TRC20_WALLET_ADDRESS}}',
+      BNB_WALLET_ADDRESS: '{{BNB_BEP20_WALLET_ADDRESS}}',
+      SOL_WALLET_ADDRESS: '{{SOL_WALLET_ADDRESS}}',
+      XRP_WALLET_ADDRESS: '{{XRP_WALLET_ADDRESS}}',
+      XRP_DESTINATION_TAG: '{{XRP_DESTINATION_TAG}}',
+      
+      // Exchange Rates (NGN per 1 crypto) - These will be fetched from API
+      BTC_RATE: 0,
+      ETH_RATE: 0,
+      USDT_RATE: 0,
+      BNB_RATE: 0,
+      SOL_RATE: 0,
+      XRP_RATE: 0,
+      
+      // Company Info
+      COMPANY_NAME: '{{COMPANY_NAME}}',
+      COMPANY_EMAIL: '{{COMPANY_EMAIL}}',
+      COMPANY_PHONE: '{{COMPANY_PHONE}}',
+      COMPANY_ADDRESS: '{{COMPANY_ADDRESS}}',
+      RC_NUMBER: '{{RC_NUMBER}}',
+      WHATSAPP_PHONE: '{{WHATSAPP_PHONE}}',
+      
+      // API Endpoints (Cloudflare Worker)
+      API_BASE: '{{API_BASE_URL}}',
+      CRYPTO_RATES_API: '{{CRYPTO_RATES_API}}',
+      PAYMENT_INITIATE_API: '{{PAYMENT_INITIATE_API}}',
+      TRANSACTION_STATUS_API: '{{TRANSACTION_STATUS_API}}'
+    };
+
+    // ==================== DOM ELEMENTS ====================
+    const toast = document.getElementById('toast');
+    const ngnAmount = document.getElementById('ngnAmount');
+    const cryptoSelect = document.getElementById('cryptoSelect');
+    const calcAmountNgn = document.getElementById('calcAmountNgn');
+    const calcAmountCrypto = document.getElementById('calcAmountCrypto');
+    const calcRate = document.getElementById('calcRate');
+    const calcFee = document.getElementById('calcFee');
+    const statusResult = document.getElementById('statusResult');
+    const txnHash = document.getElementById('txnHash');
+
+    // ==================== HELPER FUNCTIONS ====================
+    function showToast(message, isError = false) {
+      toast.textContent = message;
+      toast.style.borderColor = isError ? '#ff3b30' : '#00f3ff';
+      toast.style.color = isError ? '#ff3b30' : '#00f3ff';
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 3000);
+    }
+
+    function formatNumber(num, decimals = 2) {
+      return Number(num).toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    }
+
+    function formatCrypto(amount, symbol) {
+      const cryptoMap = { btc: 8, eth: 6, usdt: 2, bnb: 6, sol: 4, xrp: 2 };
+      const decimals = cryptoMap[symbol] || 6;
+      return amount.toLocaleString(undefined, { minimumFractionDigits: decimals, maximumFractionDigits: decimals });
+    }
+
+    function copyToClipboard(elementId) {
+      const element = document.getElementById(elementId);
+      if (element) {
+        const text = element.innerText;
+        navigator.clipboard.writeText(text).then(() => {
+          showToast('Address copied to clipboard!');
+        }).catch(() => {
+          showToast('Failed to copy', true);
+        });
+      }
+    }
+    window.copyToClipboard = copyToClipboard;
+
+    // ==================== QR CODE ====================
+    let currentQR = null;
+    function showQR(crypto, address) {
+      const modal = document.getElementById('qrModal');
+      const qrDiv = document.getElementById('qrCode');
+      qrDiv.innerHTML = '';
+      new QRCode(qrDiv, { text: address, width: 200, height: 200 });
+      modal.classList.add('active');
+    }
+    window.showQR = showQR;
+    
+    function closeQR() {
+      document.getElementById('qrModal').classList.remove('active');
+    }
+    window.closeQR = closeQR;
+
+    // ==================== FETCH CRYPTO RATES ====================
+    async function fetchCryptoRates() {
+      try {
+        // Use CoinGecko free API as placeholder - replace with your own
+        const response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,tether,binancecoin,solana,ripple&vs_currencies=ngn');
+        const data = await response.json();
+        
+        CONFIG.BTC_RATE = data.bitcoin?.ngn || 0;
+        CONFIG.ETH_RATE = data.ethereum?.ngn || 0;
+        CONFIG.USDT_RATE = data.tether?.ngn || 0;
+        CONFIG.BNB_RATE = data.binancecoin?.ngn || 0;
+        CONFIG.SOL_RATE = data.solana?.ngn || 0;
+        CONFIG.XRP_RATE = data.ripple?.ngn || 0;
+        
+        updateUIWithRates();
+        updateCalculator();
+      } catch (error) {
+        console.error('Failed to fetch rates:', error);
+        // Fallback rates
+        CONFIG.BTC_RATE = 75000000;
+        CONFIG.ETH_RATE = 2800000;
+        CONFIG.USDT_RATE = 1450;
+        CONFIG.BNB_RATE = 450000;
+        CONFIG.SOL_RATE = 85000;
+        CONFIG.XRP_RATE = 850;
+        updateUIWithRates();
+        updateCalculator();
+      }
+    }
+
+    function updateUIWithRates() {
+      document.getElementById('btcRate').innerHTML = `₦ ${formatNumber(CONFIG.BTC_RATE, 0)}`;
+      document.getElementById('ethRate').innerHTML = `₦ ${formatNumber(CONFIG.ETH_RATE, 0)}`;
+      document.getElementById('usdtRate').innerHTML = `₦ ${formatNumber(CONFIG.USDT_RATE, 0)}`;
+      document.getElementById('bnbRate').innerHTML = `₦ ${formatNumber(CONFIG.BNB_RATE, 0)}`;
+      document.getElementById('solRate').innerHTML = `₦ ${formatNumber(CONFIG.SOL_RATE, 0)}`;
+      document.getElementById('xrpRate').innerHTML = `₦ ${formatNumber(CONFIG.XRP_RATE, 0)}`;
+      
+      // Update wallet addresses display
+      document.getElementById('btcAddress').innerHTML = CONFIG.BTC_WALLET_ADDRESS;
+      document.getElementById('ethAddress').innerHTML = CONFIG.ETH_WALLET_ADDRESS;
+      document.getElementById('usdtAddress').innerHTML = CONFIG.USDT_WALLET_ADDRESS;
+      document.getElementById('bnbAddress').innerHTML = CONFIG.BNB_WALLET_ADDRESS;
+      document.getElementById('solAddress').innerHTML = CONFIG.SOL_WALLET_ADDRESS;
+      document.getElementById('xrpAddress').innerHTML = `${CONFIG.XRP_WALLET_ADDRESS}<br><small>Tag: ${CONFIG.XRP_DESTINATION_TAG}</small>`;
+    }
+
+    // ==================== CALCULATOR ====================
+    function getCurrentRate() {
+      const crypto = cryptoSelect.value;
+      switch(crypto) {
+        case 'btc': return CONFIG.BTC_RATE;
+        case 'eth': return CONFIG.ETH_RATE;
+        case 'usdt': return CONFIG.USDT_RATE;
+        case 'bnb': return CONFIG.BNB_RATE;
+        case 'sol': return CONFIG.SOL_RATE;
+        case 'xrp': return CONFIG.XRP_RATE;
+        default: return 0;
+      }
+    }
+    
+    function getCryptoName() {
+      const crypto = cryptoSelect.value;
+      const names = { btc: 'BTC', eth: 'ETH', usdt: 'USDT', bnb: 'BNB', sol: 'SOL', xrp: 'XRP' };
+      return names[crypto] || 'BTC';
+    }
+    
+    function updateCalculator() {
+      const amount = parseFloat(ngnAmount.value) || 0;
+      const rate = getCurrentRate();
+      const cryptoAmount = rate > 0 ? amount / rate : 0;
+      const cryptoName = getCryptoName();
+      
+      calcAmountNgn.innerHTML = `₦ ${formatNumber(amount, 0)}`;
+      calcAmountCrypto.innerHTML = `${formatCrypto(cryptoAmount, cryptoSelect.value)} ${cryptoName}`;
+      calcRate.innerHTML = `1 ${cryptoName} = ₦ ${formatNumber(rate, 0)}`;
+      calcFee.innerHTML = 'Free (no processing fee)';
+    }
+    
+    ngnAmount.addEventListener('input', updateCalculator);
+    cryptoSelect.addEventListener('change', updateCalculator);
+    
+    // ==================== INITIATE PAYMENT ====================
+    async function initiatePayment() {
+      const amount = parseFloat(ngnAmount.value) || 0;
+      const crypto = cryptoSelect.value;
+      const rate = getCurrentRate();
+      const cryptoAmount = rate > 0 ? amount / rate : 0;
+      const cryptoName = getCryptoName();
+      
+      // Get the wallet address for selected crypto
+      let walletAddress = '';
+      switch(crypto) {
+        case 'btc': walletAddress = CONFIG.BTC_WALLET_ADDRESS; break;
+        case 'eth': walletAddress = CONFIG.ETH_WALLET_ADDRESS; break;
+        case 'usdt': walletAddress = CONFIG.USDT_WALLET_ADDRESS; break;
+        case 'bnb': walletAddress = CONFIG.BNB_WALLET_ADDRESS; break;
+        case 'sol': walletAddress = CONFIG.SOL_WALLET_ADDRESS; break;
+        case 'xrp': walletAddress = CONFIG.XRP_WALLET_ADDRESS; break;
+      }
+      
+      showToast(`Please send ${formatCrypto(cryptoAmount, crypto)} ${cryptoName} to the wallet address shown. Payment will be confirmed within minutes.`);
+      
+      // Scroll to the corresponding crypto card
+      const card = document.querySelector(`.crypto-card.${crypto}`);
+      if (card) {
+        card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        card.style.animation = 'fadeIn 0.3s ease';
+        setTimeout(() => { card.style.animation = ''; }, 500);
+      }
+    }
+    window.initiatePayment = initiatePayment;
+    
+    // ==================== CHECK TRANSACTION STATUS ====================
+    async function checkTransactionStatus() {
+      const hash = txnHash.value.trim();
+      if (!hash) {
+        showToast('Please enter a transaction hash', true);
+        return;
+      }
+      
+      statusResult.innerHTML = '<div style="text-align: center;"><i class="fas fa-spinner fa-spin"></i> Checking on blockchain...</div>';
+      statusResult.classList.add('visible');
+      
+      // Simulate API call - replace with actual API
+      setTimeout(() => {
+        // Mock response - replace with actual blockchain API call
+        const mockStatus = Math.random();
+        if (mockStatus > 0.7) {
+          statusResult.innerHTML = `
+            <i class="fas fa-check-circle" style="color: #34c759;"></i>
+            <strong>Transaction Confirmed!</strong><br>
+            Hash: ${hash.substring(0, 20)}...<br>
+            Status: Completed<br>
+            Confirmations: 12<br>
+            Amount: 0.015 BTC
+          `;
+          statusResult.className = 'status-result success visible';
+        } else if (mockStatus > 0.3) {
+          statusResult.innerHTML = `
+            <i class="fas fa-clock" style="color: #ff9f0a;"></i>
+            <strong>Transaction Pending</strong><br>
+            Hash: ${hash.substring(0, 20)}...<br>
+            Status: Waiting for confirmations<br>
+            Confirmations: 2/6
+          `;
+          statusResult.className = 'status-result pending visible';
+        } else {
+          statusResult.innerHTML = `
+            <i class="fas fa-times-circle" style="color: #ff3b30;"></i>
+            <strong>Transaction Not Found</strong><br>
+            Hash: ${hash.substring(0, 20)}...<br>
+            Status: No transaction found with this hash. Please verify and try again.
+          `;
+          statusResult.className = 'status-result failed visible';
+        }
+      }, 1500);
+    }
+    window.checkTransactionStatus = checkTransactionStatus;
+
+    // ==================== 3D BACKGROUND ====================
+    function init3DBackground() {
+      const container = document.getElementById('canvas-container');
+      const scene = new THREE.Scene();
+      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      const renderer = new THREE.WebGLRenderer({ alpha: true });
+      renderer.setSize(window.innerWidth, window.innerHeight);
+      renderer.setClearColor(0x000000, 0);
+      container.appendChild(renderer.domElement);
+      
+      // Bitcoin-themed geometry
+      const geometry = new THREE.IcosahedronGeometry(1.8, 1);
+      const material = new THREE.MeshStandardMaterial({
+        color: 0xf7931a,
+        emissive: 0x8a4a0a,
+        emissiveIntensity: 0.3,
+        metalness: 0.85,
+        roughness: 0.25,
+        transparent: true,
+        opacity: 0.8
+      });
+      const icosahedron = new THREE.Mesh(geometry, material);
+      scene.add(icosahedron);
+      
+      const wireMaterial = new THREE.MeshBasicMaterial({ color: 0x00f3ff, wireframe: true, transparent: true, opacity: 0.25 });
+      const wireIcosahedron = new THREE.Mesh(geometry, wireMaterial);
+      scene.add(wireIcosahedron);
+      
+      // Orbiting particles
+      const particleCount = 800;
+      const particleGeometry = new THREE.BufferGeometry();
+      const particlePositions = [];
+      for (let i = 0; i < particleCount; i++) {
+        particlePositions.push((Math.random() - 0.5) * 30);
+        particlePositions.push((Math.random() - 0.5) * 20);
+        particlePositions.push((Math.random() - 0.5) * 20 - 10);
+      }
+      particleGeometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(particlePositions), 3));
+      const particleMaterial = new THREE.PointsMaterial({ color: 0x00f3ff, size: 0.08, transparent: true, opacity: 0.5 });
+      const particles = new THREE.Points(particleGeometry, particleMaterial);
+      scene.add(particles);
+      
+      // Rings
+      const ringGeometry = new THREE.TorusGeometry(2.5, 0.05, 64, 200);
+      const ringMaterial = new THREE.MeshStandardMaterial({ color: 0xf7931a, emissive: 0x8a4a0a, emissiveIntensity: 0.2 });
+      const ring = new THREE.Mesh(ringGeometry, ringMaterial);
+      scene.add(ring);
+      
+      const ring2Geometry = new THREE.TorusGeometry(3.2, 0.04, 64, 200);
+      const ring2Material = new THREE.MeshStandardMaterial({ color: 0x00f3ff, emissive: 0x0066aa, emissiveIntensity: 0.2 });
+      const ring2 = new THREE.Mesh(ring2Geometry, ring2Material);
+      scene.add(ring2);
+      
+      // Lighting
+      const ambientLight = new THREE.AmbientLight(0x111122);
+      scene.add(ambientLight);
+      const mainLight = new THREE.PointLight(0xf7931a, 1);
+      mainLight.position.set(3, 5, 4);
+      scene.add(mainLight);
+      const backLight = new THREE.PointLight(0x00f3ff, 0.8);
+      backLight.position.set(-3, 2, -5);
+      scene.add(backLight);
+      
+      camera.position.z = 6;
+      
+      let time = 0;
+      function animate() {
+        requestAnimationFrame(animate);
+        time += 0.005;
+        icosahedron.rotation.x = time * 0.3;
+        icosahedron.rotation.y = time * 0.5;
+        wireIcosahedron.rotation.x = time * 0.3;
+        wireIcosahedron.rotation.y = time * 0.5;
+        ring.rotation.x = Math.sin(time * 0.2) * 0.3;
+        ring.rotation.y = time * 0.3;
+        ring2.rotation.x = Math.cos(time * 0.25) * 0.2;
+        ring2.rotation.z = time * 0.2;
+        particles.rotation.y = time * 0.05;
+        renderer.render(scene, camera);
+      }
+      animate();
+      
+      window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+      });
+    }
+    
+    // ==================== INITIALIZATION ====================
+    fetchCryptoRates();
+    setInterval(fetchCryptoRates, 60000); // Refresh rates every minute
+    init3DBackground();
+  </script>
+</body>
+</html>
+

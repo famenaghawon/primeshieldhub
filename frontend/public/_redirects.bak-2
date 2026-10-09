@@ -1,0 +1,84 @@
+# ============================================================
+# PRIMESHIELDHUB - Cloudflare Pages Redirects
+# Clean URLs -> HTML files (internal rewrites, no browser redirect)
+# ============================================================
+
+/404    /404.html    200
+/about    /about.html    200
+/account    /account.html    200
+/addresses    /addresses.html    200
+/admin-login    /admin-login.html    200
+/admin-maintenance    /admin-maintenance.html    200
+/articles    /articles.html    200
+/assistant    /assistant.html    200
+/biography    /biography.html    200
+/blog    /blog.html    200
+/brand-assets    /brand-assets.html    200
+/buildmart    /buildmart.html    200
+/careers    /careers.html    200
+/cart    /cart.html    200
+/categories    /categories.html    200
+/change-password    /change-password.html    200
+/checkout    /checkout.html    200
+/command-center    /command-center.html    200
+/company    /company.html    200
+/compare    /compare.html    200
+/contact    /contact.html    200
+/crypto-payments    /crypto-payments.html    200
+/customer    /customer.html    200
+/dashboard    /dashboard.html    200
+/encryption    /encryption.html    200
+/equity    /equity.html    200
+/faq    /faq.html    200
+/founder-letter    /founder-letter.html    200
+/founder    /founder.html    200
+/franchise    /franchise.html    200
+/freedom-evbakoe-amenaghawon    /freedom-evbakoe-amenaghawon.html    200
+/gdpr    /gdpr.html    200
+/investment-form    /investment-form.html    200
+/investor-hub    /investor-hub.html    200
+/invoice    /invoice.html    200
+/knowledge-graph    /knowledge-graph.html    200
+/leadership    /leadership.html    200
+/loan    /loan.html    200
+/login    /login.html    200
+/media-kit    /media-kit.html    200
+/mission    /mission.html    200
+/offline    /offline.html    200
+/orders    /orders.html    200
+/payment-methods    /payment-methods.html    200
+/payment-success    /payment-success.html    200
+/payment    /payment.html    200
+/press    /press.html    200
+/price-list    /price-list.html    200
+/privacy    /privacy.html    200
+/product-catalog    /product-catalog.html    200
+/product-detail    /product-detail.html    200
+/profile    /profile.html    200
+/quantum-delivery    /quantum-delivery.html    200
+/quantum-safe    /quantum-safe.html    200
+/recognition    /recognition.html    200
+/register    /register.html    200
+/reseller-dashboard    /reseller-dashboard.html    200
+/reseller    /reseller.html    200
+/returns    /returns.html    200
+/services    /services.html    200
+/shipping    /shipping.html    200
+/support    /support.html    200
+/template    /template.html    200
+/terms    /terms.html    200
+/test-product    /test-product.html    200
+/test-sound    /test-sound.html    200
+/test    /test.html    200
+/track-order    /track-order.html    200
+/vision    /vision.html    200
+/wholesale    /wholesale.html    200
+/wishlist    /wishlist.html    200
+
+# Subfolder pages
+/admin/login    /admin/login.html    200
+/staff/login    /staff/login.html    200
+/portal    /portal/index.html    200
+
+# 404 fallback
+/*    /404.html    404

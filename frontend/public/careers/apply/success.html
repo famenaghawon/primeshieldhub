@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0806">
+    <title>Application Submitted | PrimeShieldHub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================================
+           GOLD & BLACK THEME
+           ============================================================ */
+        :root {
+            --bg-primary: #0a0806;
+            --bg-secondary: #14100c;
+            --bg-panel: #1c1712;
+            --bg-card: #231e18;
+            --bg-input: #110e0a;
+            --border-color: #3d3228;
+            --border-gold: #c9a84c;
+            --text-primary: #f5efe6;
+            --text-secondary: #c4b8a8;
+            --text-muted: #8a7d6e;
+            --gold-core: #d4af37;
+            --gold-soft: #c9a84c;
+            --gold-bright: #e8c97a;
+            --gold-light: #f3dba0;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --gold-border: rgba(212, 175, 55, 0.2);
+            --neon-green: #33ffaa;
+            --neon-cyan: #d4af37;
+            --neon-gold: #d4af37;
+            --neon-red: #ff6b6b;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 20px;
+            --transition: 0.25s ease;
+            --shadow-glow: 0 0 40px rgba(212, 175, 55, 0.06);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-core);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-bright);
+        }
+
+        /* ============================================================
+           SUCCESS CONTAINER - GOLD & BLACK
+           ============================================================ */
+        .success-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            padding: 48px 40px;
+            max-width: 520px;
+            width: 100%;
+            text-align: center;
+            box-shadow: var(--shadow-glow);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .success-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--gold-core), var(--gold-bright), var(--gold-light));
+        }
+
+        .success-container .icon {
+            font-size: 72px;
+            color: var(--neon-green);
+            margin-bottom: 16px;
+            animation: bounceIn 0.6s ease;
+        }
+
+        @keyframes bounceIn {
+            0% { transform: scale(0); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        .success-container h1 {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .success-container .subtitle {
+            color: var(--text-secondary);
+            font-size: 16px;
+            line-height: 1.6;
+            margin-bottom: 24px;
+        }
+
+        /* ============================================================
+           JOB DETAILS - GOLD & BLACK
+           ============================================================ */
+        .success-container .job-details {
+            background: var(--bg-card);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            text-align: left;
+        }
+
+        .success-container .job-details .job-title {
+            font-weight: 600;
+            font-size: 16px;
+            color: var(--text-primary);
+        }
+
+        .success-container .job-details .job-meta {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 4px;
+        }
+
+        .success-container .job-details .job-meta i {
+            color: var(--gold-core);
+            margin-right: 4px;
+        }
+
+        /* ============================================================
+           TRACKING TOKEN - GOLD & BLACK
+           ============================================================ */
+        .success-container .tracking-token {
+            background: var(--bg-card);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius);
+            padding: 16px 20px;
+            margin-bottom: 24px;
+            transition: var(--transition);
+        }
+
+        .success-container .tracking-token:hover {
+            border-color: var(--gold-core);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.05);
+        }
+
+        .success-container .tracking-token .label {
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+
+        .success-container .tracking-token code {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--gold-core);
+            font-family: 'Courier New', monospace;
+            letter-spacing: 2px;
+        }
+
+        .success-container .tracking-token .copy-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 14px;
+            padding: 4px 8px;
+            transition: var(--transition);
+            margin-left: 8px;
+        }
+
+        .success-container .tracking-token .copy-btn:hover {
+            color: var(--gold-core);
+        }
+
+        .success-container .tracking-token .copy-btn.copied {
+            color: var(--neon-green);
+        }
+
+        /* ============================================================
+           STATUS CHECK SECTION - GOLD & BLACK
+           ============================================================ */
+        .success-container .status-check-section {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 12px 16px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 8px;
+            align-items: center;
+            border: 1px solid var(--gold-border);
+        }
+
+        .success-container .status-check-section input {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gold-border);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 14px;
+            font-family: inherit;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+        }
+
+        .success-container .status-check-section input:focus {
+            outline: none;
+            border-color: var(--gold-core);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .success-container .status-check-section input::placeholder {
+            color: var(--text-muted);
+            text-transform: none;
+            letter-spacing: 0;
+        }
+
+        .success-container .status-check-section .btn-check {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            white-space: nowrap;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .success-container .status-check-section .btn-check:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 30px rgba(212, 175, 55, 0.2);
+        }
+
+        /* ============================================================
+           BUTTONS - GOLD & BLACK
+           ============================================================ */
+        .success-container .action-buttons {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .success-container .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 28px;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 14px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .success-container .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .success-container .btn-secondary {
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--gold-border);
+            font-weight: 600;
+        }
+
+        .success-container .btn-secondary:hover {
+            background: var(--gold-border);
+            color: var(--text-primary);
+            box-shadow: none;
+            transform: translateY(-2px);
+        }
+
+        .success-container .btn-track {
+            background: linear-gradient(135deg, var(--gold-core), var(--gold-bright));
+            color: #000;
+        }
+
+        .success-container .btn-track:hover {
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.3);
+        }
+
+        .success-container .divider {
+            border: none;
+            border-top: 1px solid var(--gold-border);
+            margin: 20px 0;
+        }
+
+        .success-container .info-text {
+            font-size: 14px;
+            color: var(--text-muted);
+            line-height: 1.7;
+            margin-bottom: 28px;
+        }
+
+        .success-container .info-text strong {
+            color: var(--text-secondary);
+        }
+
+        .success-container .info-text i {
+            color: var(--gold-core);
+        }
+
+        /* ============================================================
+           TOAST - GOLD & BLACK
+           ============================================================ */
+        #toastContainer {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .toast {
+            background: var(--bg-panel);
+            border: 1px solid var(--gold-border);
+            color: var(--text-primary);
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid var(--gold-core);
+        }
+
+        .toast-success { border-left-color: var(--neon-green); }
+        .toast-error { border-left-color: var(--neon-red); }
+        .toast-warning { border-left-color: var(--gold-core); }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0 4px;
+            margin-left: auto;
+        }
+
+        .toast .toast-close:hover {
+            color: var(--text-primary);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .toast.fade-out {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+        }
+
+        /* ============================================================
+           HEADER - GOLD & BLACK WITH LOGO
+           ============================================================ */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 8, 6, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gold-border);
+            padding: 12px 28px;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            background: rgba(10, 8, 6, 0.98);
+            border-bottom-color: var(--gold-core);
+            box-shadow: 0 4px 30px rgba(212, 175, 55, 0.05);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .header-brand img {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid var(--gold-border);
+            transition: var(--transition);
+        }
+
+        .header-brand img:hover {
+            transform: scale(1.05);
+            border-color: var(--gold-core);
+        }
+
+        .header-brand span {
+            font-size: 18px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
+        }
+
+        .header-brand span i {
+            -webkit-text-fill-color: var(--gold-core);
+            font-size: 16px;
+        }
+
+        .header a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header a:hover {
+            color: var(--text-primary);
+        }
+
+        .header .btn-back-header {
+            padding: 8px 16px;
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .header .btn-back-header:hover {
+            background: var(--gold-border);
+            border-color: var(--gold-core);
+            color: var(--text-primary);
+        }
+
+        /* Adjust body padding for header */
+        body {
+            padding-top: 80px;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 480px) {
+            .success-container {
+                padding: 32px 20px;
+            }
+
+            .success-container h1 {
+                font-size: 26px;
+            }
+
+            .success-container .tracking-token code {
+                font-size: 18px;
+            }
+
+            .success-container .action-buttons {
+                flex-direction: column;
+            }
+
+            .success-container .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .success-container .status-check-section {
+                flex-direction: column;
+            }
+
+            .success-container .status-check-section input {
+                width: 100%;
+            }
+
+            .success-container .status-check-section .btn-check {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .header {
+                padding: 10px 16px;
+                flex-wrap: wrap;
+                gap: 8px;
+            }
+
+            .header-brand span {
+                font-size: 15px;
+            }
+
+            .header-brand img {
+                width: 28px;
+                height: 28px;
+            }
+
+            .header a {
+                font-size: 12px;
+            }
+
+            .header .btn-back-header {
+                padding: 6px 12px;
+            }
+
+            #toastContainer {
+                top: 70px;
+                right: 12px;
+                max-width: calc(100% - 24px);
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+
+            .header a {
+                justify-content: center;
+            }
+
+            .success-container {
+                padding: 20px 16px;
+            }
+
+            body {
+                padding-top: 100px;
+            }
+        }
+    </style>
+    <style>
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 100 900;
+            font-display: swap;
+            src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+        }
+        @font-face {
+            font-family: 'Inter';
+            font-style: italic;
+            font-weight: 100 900;
+            font-display: swap;
+            src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER - GOLD & BLACK WITH LOGO
+    ============================================================ -->
+    <header class="header" id="header">
+        <a href="/" class="header-brand">
+            <img src="/company_logo.png" alt="PrimeShieldHub Logo" onerror="this.style.display='none'">
+            <span><i class="fas fa-bolt"></i> PrimeShieldHub</span>
+        </a>
+        <a href="/careers" class="btn-back-header"><i class="fas fa-arrow-left"></i> Back to Careers</a>
+    </header>
+
+    <!-- ============================================================
+    SUCCESS CONTAINER
+    ============================================================ -->
+    <div class="success-container" id="successContainer">
+        <div class="icon"><i class="fas fa-check-circle"></i></div>
+        <h1>Application Submitted!</h1>
+        <p class="subtitle">Thank you for applying to PrimeShieldHub. We've received your application and will review it carefully.</p>
+
+        <div id="jobDetails" class="job-details" style="display:none;">
+            <div class="job-title" id="jobTitle">Position Title</div>
+            <div class="job-meta">
+                <span id="jobDepartment"><i class="fas fa-building"></i> Department</span>
+                <span style="margin-left:12px;" id="jobLocation"><i class="fas fa-map-marker-alt"></i> Location</span>
+            </div>
+        </div>
+
+        <div class="tracking-token">
+            <div class="label">Your Application Reference</div>
+            <div>
+                <code id="trackingToken">---</code>
+                <button class="copy-btn" id="copyBtn" onclick="copyToken()">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+        </div>
+
+        <p class="info-text">
+            <i class="fas fa-envelope"></i>
+            A confirmation email has been sent to <strong id="applicantEmail">your email</strong>.
+            <br>
+            Use the reference above to <strong>track your application status</strong>.
+        </p>
+
+        <!-- ============================================================
+        Quick Status Check Section
+        ============================================================ -->
+        <div class="status-check-section">
+            <input type="text" id="statusTokenInput" placeholder="Enter your reference code..." maxlength="20" />
+            <button class="btn-check" onclick="checkStatus()">
+                <i class="fas fa-search"></i> Check Status
+            </button>
+        </div>
+
+        <hr class="divider">
+
+        <div class="action-buttons">
+            <a href="/careers" class="btn"><i class="fas fa-arrow-left"></i> Browse More Jobs</a>
+            <a href="/" class="btn btn-secondary"><i class="fas fa-home"></i> Return Home</a>
+        </div>
+
+        <div style="margin-top:16px;">
+            <a href="#" class="btn btn-track" id="trackBtn">
+                <i class="fas fa-chart-line"></i> Track Application
+            </a>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TOAST CONTAINER
+    ============================================================ -->
+    <div id="toastContainer"></div>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        // ============================================================
+        // CONFIG
+        // ============================================================
+        const API_BASE = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000' 
+            : 'https://api.primeshieldhub.com/api';
+
+        // ============================================================
+        // TOAST SYSTEM
+        // ============================================================
+        function showToast(message, type = 'info', duration = 3000) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
+
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || icons.info}</span>
+                <span>${escapeHtml(message)}</span>
+                <button class="toast-close">&times;</button>
+            `;
+            container.appendChild(toast);
+
+            const close = () => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 300);
+            };
+
+            toast.querySelector('.toast-close').addEventListener('click', close);
+            setTimeout(close, duration);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // ============================================================
+        // GET TOKEN
+        // ============================================================
+        let trackingToken = null;
+        let jobId = null;
+        let applicantEmail = null;
+        let jobData = null;
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const urlToken = urlParams.get('token') || urlParams.get('tracking_token');
+
+        const sessionToken = sessionStorage.getItem('applicationToken');
+        const sessionJobId = sessionStorage.getItem('selectedJobId');
+        const sessionEmail = sessionStorage.getItem('applicantEmail');
+
+        const localToken = localStorage.getItem('lastApplicationToken');
+
+        trackingToken = urlToken || sessionToken || localToken;
+        jobId = sessionJobId;
+        applicantEmail = sessionEmail || 'your email';
+
+        const tokenDisplay = document.getElementById('trackingToken');
+        if (trackingToken) {
+            tokenDisplay.textContent = trackingToken;
+            document.getElementById('statusTokenInput').value = trackingToken;
+            localStorage.setItem('lastApplicationToken', trackingToken);
+        } else {
+            tokenDisplay.textContent = '---';
+            showToast('Tracking code will be sent to your email', 'info');
+        }
+
+        if (applicantEmail) {
+            document.getElementById('applicantEmail').textContent = applicantEmail;
+        }
+
+        // ============================================================
+        // UPDATE TRACK BUTTON
+        // ============================================================
+        const trackBtn = document.getElementById('trackBtn');
+        if (trackingToken) {
+            trackBtn.href = `/careers/apply/status/${trackingToken}`;
+        } else {
+            trackBtn.href = '/careers';
+        }
+
+        // ============================================================
+        // CHECK STATUS
+        // ============================================================
+        function checkStatus() {
+            const input = document.getElementById('statusTokenInput');
+            const token = input.value.trim().toUpperCase();
+            
+            if (!token || token.length < 6) {
+                showToast('Please enter a valid reference code.', 'error');
+                input.focus();
+                return;
+            }
+            
+            window.location.href = `/careers/apply/status/${token}`;
+        }
+
+        document.getElementById('statusTokenInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                checkStatus();
+            }
+        });
+
+        // ============================================================
+        // LOAD JOB DETAILS
+        // ============================================================
+        async function loadJobDetails() {
+            if (!jobId) {
+                const jobDataStr = sessionStorage.getItem('appliedJobData');
+                if (jobDataStr) {
+                    try {
+                        jobData = JSON.parse(jobDataStr);
+                        displayJobDetails(jobData);
+                    } catch (e) {
+                        console.log('No job data available');
+                    }
+                }
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE}/jobs/${jobId}`);
+                if (!response.ok) throw new Error('Job not found');
+                
+                jobData = await response.json();
+                displayJobDetails(jobData);
+                
+            } catch (error) {
+                console.error('Error loading job details:', error);
+            }
+        }
+
+        function displayJobDetails(job) {
+            const container = document.getElementById('jobDetails');
+            if (!job) return;
+
+            document.getElementById('jobTitle').textContent = job.title || 'Position';
+            document.getElementById('jobDepartment').textContent = job.department || 'General';
+            document.getElementById('jobLocation').textContent = job.location || 'Remote';
+            
+            container.style.display = 'block';
+        }
+
+        // ============================================================
+        // COPY TOKEN
+        // ============================================================
+        function copyToken() {
+            const token = document.getElementById('trackingToken').textContent;
+            const btn = document.getElementById('copyBtn');
+
+            if (token === '---') {
+                showToast('No tracking code available to copy', 'error');
+                return;
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(token)
+                    .then(() => showCopySuccess(btn))
+                    .catch(() => copyTokenFallback(token, btn));
+            } else {
+                copyTokenFallback(token, btn);
+            }
+        }
+
+        function copyTokenFallback(token, btn) {
+            const textArea = document.createElement('textarea');
+            textArea.value = token;
+            textArea.style.position = 'fixed';
+            textArea.style.left = '-9999px';
+            document.body.appendChild(textArea);
+            textArea.select();
+            
+            try {
+                document.execCommand('copy');
+                showCopySuccess(btn);
+            } catch (err) {
+                showToast('Failed to copy token', 'error');
+            }
+            
+            document.body.removeChild(textArea);
+        }
+
+        function showCopySuccess(btn) {
+            const icon = btn.querySelector('i');
+            icon.className = 'fas fa-check';
+            btn.classList.add('copied');
+            showToast('📋 Application reference copied!', 'success');
+            
+            setTimeout(() => {
+                icon.className = 'fas fa-copy';
+                btn.classList.remove('copied');
+            }, 2000);
+        }
+
+        // ============================================================
+        // CLEANUP SESSION STORAGE
+        // ============================================================
+        function cleanupSessionStorage() {
+            setTimeout(() => {
+                sessionStorage.removeItem('selectedJobId');
+            }, 5000);
+        }
+
+        // ============================================================
+        // HEADER SCROLL EFFECT
+        // ============================================================
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', () => {
+            loadJobDetails();
+            cleanupSessionStorage();
+            
+            console.log('🎉 Application success page loaded');
+            console.log('📋 Tracking token:', trackingToken || 'Not available');
+            console.log('📧 Applicant email:', applicantEmail);
+            console.log('🔗 Track button URL:', trackBtn.href);
+            console.log('🏆 Gold & Black Theme');
+        });
+    </script>
+
+</body>
+</html>

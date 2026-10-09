@@ -1,0 +1,1912 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="13.3" data-page="staff-profile">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
+  <meta name="description" content="PrimeShieldHub – Staff Profile">
+  <meta name="theme-color" content="#000308">
+
+  <!-- ===== PWA META TAGS ===== -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Staff Hub">
+  <meta name="mobile-web-app-capable" content="yes">
+  <link rel="manifest" href="/staff/manifest.json">
+  <link rel="apple-touch-icon" href="/staff-icons/icon-192x192.png">
+  <link rel="apple-touch-startup-image" href="/staff-icons/icon-512x512.png">
+
+  <!-- ===== STAFF PORTAL META ===== -->
+  <meta name="staff-portal" content="true">
+  <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+  
+  <!-- ===== FAVICONS & ICONS ===== -->
+  <link rel="icon" type="image/png" sizes="16x16" href="/staff-icons/icon-48x48.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/staff-icons/icon-96x96.png">
+  <link rel="icon" type="image/png" sizes="48x48" href="/staff-icons/icon-48x48.png">
+  <link rel="apple-touch-icon" sizes="57x57" href="/staff-icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="72x72" href="/staff-icons/icon-72x72.png">
+  <link rel="apple-touch-icon" sizes="114x114" href="/staff-icons/icon-144x144.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="/staff-icons/icon-152x152.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="/staff-icons/icon-192x192.png">
+  <link rel="manifest" href="/staff/manifest.json">
+  
+  <title>My Profile | PrimeShieldHub Staff</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://api.primeshieldhub.com">
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <style>
+    :root {
+      --bg-deep: #000308;
+      --surface-primary: rgba(6, 10, 22, 0.88);
+      --surface-secondary: rgba(10, 16, 30, 0.75);
+      --glass-edge: rgba(0, 247, 255, 0.18);
+      --glass-edge-hover: rgba(0, 247, 255, 0.35);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --neon-pink: #ff2d95;
+      --accent-success: #33ffaa;
+      --accent-warning: #ffaa33;
+      --accent-danger: #ff3366;
+      --text-primary: #f0f3ff;
+      --text-secondary: #8892a4;
+      --text-muted: #5a6377;
+      --gradient-cyan-purple: linear-gradient(135deg, #00f7ff 0%, #b200ff 100%);
+      --gradient-gold: linear-gradient(135deg, #ffd966 0%, #ffaa33 100%);
+      --radius-xl: 2rem;
+      --radius-lg: 1.5rem;
+      --radius-md: 1rem;
+      --radius-sm: 0.75rem;
+      --transition-smooth: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: '';
+      position: fixed; inset: 0;
+      background: radial-gradient(ellipse 80% 50% at 10% 0%, rgba(0,247,255,0.04) 0%, transparent 50%),
+                  radial-gradient(ellipse 60% 40% at 90% 100%, rgba(178,0,255,0.03) 0%, transparent 50%);
+      pointer-events: none; z-index: 0;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: rgba(255,255,255,0.03); }
+    ::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
+
+    #app { position: relative; z-index: 10; display: flex; min-height: 100vh; }
+
+    .sidebar {
+      width: 260px; min-height: 100vh;
+      background: var(--surface-primary);
+      backdrop-filter: blur(24px);
+      border-right: 1px solid var(--glass-edge);
+      padding: 1.5rem 0;
+      display: flex; flex-direction: column;
+      position: sticky; top: 0; z-index: 100;
+    }
+    .sidebar-brand { padding: 0 1.5rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.06); margin-bottom: 1rem; }
+    .sidebar-brand a { font-size: 1.2rem; font-weight: 800; background: var(--gradient-gold); -webkit-background-clip: text; background-clip: text; color: transparent; font-family: 'Orbitron', monospace; text-decoration: none; display: block; }
+    .sidebar-brand span { font-size: 0.6rem; color: var(--text-muted); font-family: 'Inter', sans-serif; font-weight: 400; display: block; margin-top: 2px; }
+    .sidebar-user { padding: 1rem 1.5rem; display: flex; align-items: center; gap: 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.04); margin-bottom: 0.5rem; }
+    .sidebar-avatar { width: 44px; height: 44px; border-radius: 50%; background: var(--gradient-cyan-purple); display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 1rem; color: white; flex-shrink: 0; overflow: hidden; }
+    .sidebar-avatar img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .sidebar-user-info { flex: 1; min-width: 0; }
+    .sidebar-user-name { font-weight: 600; font-size: 0.85rem; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .sidebar-user-role { font-size: 0.65rem; color: var(--neon-cyan); text-transform: uppercase; letter-spacing: 0.5px; }
+    .sidebar-nav { flex: 1; padding: 0.5rem 0; }
+    .sidebar-nav a { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.5rem; color: var(--text-secondary); text-decoration: none; font-size: 0.82rem; font-weight: 500; transition: var(--transition-smooth); border-left: 3px solid transparent; }
+    .sidebar-nav a:hover { color: var(--text-primary); background: rgba(255,255,255,0.03); border-left-color: rgba(0,247,255,0.3); }
+    .sidebar-nav a.active { color: var(--neon-cyan); background: rgba(0,247,255,0.06); border-left-color: var(--neon-cyan); }
+    .sidebar-nav a i { width: 20px; text-align: center; font-size: 0.9rem; }
+    .sidebar-nav a .nav-badge {
+      background: var(--accent-danger);
+      color: white;
+      font-size: 0.55rem;
+      font-weight: 700;
+      padding: 0.1rem 0.4rem;
+      border-radius: 1rem;
+      margin-left: auto;
+      display: none;
+    }
+    .sidebar-nav a .nav-badge.show {
+      display: inline-block;
+    }
+    .sidebar-footer { padding: 1rem 1.5rem; border-top: 1px solid rgba(255,255,255,0.06); }
+    .sidebar-footer a { display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 0; color: var(--accent-danger); text-decoration: none; font-size: 0.82rem; font-weight: 500; cursor: pointer; transition: var(--transition-smooth); }
+    .sidebar-footer a:hover { opacity: 0.8; }
+
+    .main-content { flex: 1; padding: 2rem; max-width: 1000px; }
+    .page-header { margin-bottom: 2rem; }
+    .page-title { font-size: 1.8rem; font-weight: 800; color: var(--text-primary); font-family: 'Orbitron', monospace; }
+    .page-subtitle { font-size: 0.8rem; color: var(--text-muted); margin-top: 0.3rem; }
+
+    .profile-card { background: var(--surface-primary); backdrop-filter: blur(16px); border-radius: var(--radius-xl); border: 1px solid var(--glass-edge); overflow: hidden; margin-bottom: 1.5rem; }
+    .profile-card-header { padding: 1.5rem 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); display: flex; align-items: center; gap: 1rem; }
+    .profile-card-header i { color: var(--neon-cyan); font-size: 1.2rem; }
+    .profile-card-header h3 { font-size: 0.95rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; color: var(--text-secondary); }
+    .profile-card-body { padding: 2rem; }
+
+    .avatar-section { display: flex; align-items: center; gap: 2rem; margin-bottom: 2rem; padding-bottom: 2rem; border-bottom: 1px solid rgba(255,255,255,0.06); }
+    .avatar-preview { width: 100px; height: 100px; border-radius: 50%; background: var(--gradient-cyan-purple); display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800; color: white; flex-shrink: 0; position: relative; overflow: hidden; border: 3px solid var(--glass-edge); }
+    .avatar-preview img { width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+    .avatar-preview .avatar-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.5); display: flex; align-items: center; justify-content: center; opacity: 0; transition: var(--transition-smooth); cursor: pointer; border-radius: 50%; }
+    .avatar-preview:hover .avatar-overlay { opacity: 1; }
+    .avatar-actions { display: flex; flex-direction: column; gap: 0.6rem; }
+    .avatar-actions p { font-size: 0.8rem; color: var(--text-muted); }
+
+    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; }
+    .form-group { margin-bottom: 0; }
+    .form-group.full-width { grid-column: 1 / -1; }
+    .form-label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600; }
+    .form-input { width: 100%; padding: 0.8rem 1rem; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-sm); color: white; font-size: 0.9rem; font-family: 'Inter', sans-serif; transition: var(--transition-smooth); }
+    .form-input:focus { outline: none; border-color: var(--neon-cyan); box-shadow: 0 0 20px rgba(0, 247, 255, 0.1); }
+    .form-input:disabled { opacity: 0.5; cursor: not-allowed; }
+    .form-input.readonly { background: rgba(255,255,255,0.03); color: var(--text-muted); }
+    .form-group-relative { position: relative; }
+    .password-toggle { position: absolute; right: 12px; top: 38px; background: none; border: none; color: var(--text-muted); cursor: pointer; font-size: 1rem; padding: 4px; transition: var(--transition-smooth); z-index: 2; }
+    .password-toggle:hover { color: var(--neon-cyan); }
+
+    .settings-list { display: flex; flex-direction: column; gap: 1rem; }
+    .setting-item { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem 1rem; background: rgba(255,255,255,0.02); border-radius: var(--radius-sm); border: 1px solid rgba(255,255,255,0.05); }
+    .setting-info { display: flex; align-items: center; gap: 0.8rem; }
+    .setting-info i { color: var(--neon-cyan); width: 20px; text-align: center; }
+    .setting-label { font-size: 0.85rem; color: var(--text-primary); font-weight: 500; }
+    .setting-desc { font-size: 0.7rem; color: var(--text-muted); margin-top: 2px; }
+    .toggle-switch { position: relative; display: inline-block; width: 48px; height: 26px; flex-shrink: 0; }
+    .toggle-switch input { opacity: 0; width: 0; height: 0; }
+    .toggle-slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: rgba(255,255,255,0.1); transition: var(--transition-smooth); border-radius: 26px; }
+    .toggle-slider:before { position: absolute; content: ""; height: 20px; width: 20px; left: 3px; bottom: 3px; background-color: white; transition: var(--transition-smooth); border-radius: 50%; }
+    .toggle-switch input:checked + .toggle-slider { background: var(--gradient-cyan-purple); }
+    .toggle-switch input:checked + .toggle-slider:before { transform: translateX(22px); }
+
+    .btn { padding: 0.7rem 1.5rem; border: none; border-radius: 2rem; font-weight: 600; font-size: 0.85rem; cursor: pointer; transition: var(--transition-smooth); font-family: 'Inter', sans-serif; display: inline-flex; align-items: center; gap: 0.5rem; }
+    .btn-primary { background: var(--gradient-cyan-purple); color: white; }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(0, 247, 255, 0.3); }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+    .btn-gold { background: var(--gradient-gold); color: #000; }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(255, 217, 102, 0.3); }
+    .btn-outline { background: transparent; border: 1px solid rgba(255,255,255,0.2); color: var(--text-secondary); }
+    .btn-outline:hover { border-color: var(--neon-cyan); color: var(--neon-cyan); }
+    .btn-danger { background: rgba(255,51,102,0.15); color: var(--accent-danger); border: 1px solid rgba(255,51,102,0.3); }
+    .btn-danger:hover { background: var(--accent-danger); color: white; }
+    .btn-sm { padding: 0.4rem 0.9rem; font-size: 0.72rem; }
+
+    .bank-table { width: 100%; border-collapse: collapse; font-size: 0.82rem; }
+    .bank-table th { text-align: left; padding: 0.7rem 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; font-size: 0.65rem; letter-spacing: 1px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+    .bank-table td { padding: 0.7rem 0.8rem; border-bottom: 1px solid rgba(255,255,255,0.03); }
+    .bank-table tr:hover td { background: rgba(255,255,255,0.02); }
+    .default-badge { display: inline-block; padding: 0.15rem 0.6rem; border-radius: 1rem; font-size: 0.6rem; font-weight: 600; background: rgba(51,255,170,0.15); color: var(--accent-success); }
+    .empty-state { text-align: center; padding: 2rem; color: var(--text-muted); }
+    .empty-state i { font-size: 2.5rem; opacity: 0.3; margin-bottom: 0.8rem; display: block; }
+
+    /* ===== CHAT WIDGET PANEL ===== */
+    .panel-chat {
+      background: var(--surface-primary);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-radius: var(--radius-xl);
+      border: 1px solid var(--glass-edge);
+      overflow: hidden;
+      margin-bottom: 1.5rem;
+    }
+    .panel-chat .panel-header {
+      padding: 1rem 1.5rem;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+    .panel-chat .panel-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .panel-chat .panel-title i {
+      color: var(--neon-cyan);
+    }
+    .panel-chat .panel-title .badge {
+      display: none;
+      background: var(--accent-danger);
+      color: white;
+      font-size: 0.55rem;
+      font-weight: 700;
+      padding: 0.1rem 0.4rem;
+      border-radius: 1rem;
+      margin-left: 0.3rem;
+    }
+    .panel-chat .panel-title .badge.show {
+      display: inline-block;
+    }
+    .chat-preview {
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 0.5rem 1.5rem;
+    }
+    .chat-preview::-webkit-scrollbar { width: 3px; }
+    .chat-preview::-webkit-scrollbar-track { background: rgba(255,255,255,0.02); }
+    .chat-preview::-webkit-scrollbar-thumb { background: var(--neon-cyan); border-radius: 3px; }
+    .chat-preview .empty-state {
+      text-align: center;
+      padding: 1rem;
+      color: var(--text-muted);
+    }
+    .chat-preview .empty-state i {
+      font-size: 1.5rem;
+      opacity: 0.3;
+      display: block;
+      margin-bottom: 0.5rem;
+    }
+    .chat-preview .empty-state p {
+      font-size: 0.8rem;
+    }
+    .chat-message {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.03);
+      font-size: 0.75rem;
+    }
+    .chat-message .sender {
+      font-weight: 600;
+      color: var(--neon-cyan);
+      flex-shrink: 0;
+    }
+    .chat-message .text {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      color: var(--text-secondary);
+    }
+    .chat-message .time {
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      flex-shrink: 0;
+    }
+
+    .modal-overlay { position: fixed; top: 0; left: 0; right: 0; bottom: 0; background: rgba(0, 0, 0, 0.8); backdrop-filter: blur(12px); z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 1.5rem; }
+    .modal-overlay[hidden] { display: none; }
+    .modal { background: var(--surface-primary); backdrop-filter: blur(24px); border-radius: var(--radius-xl); border: 1px solid var(--glass-edge); padding: 2rem; max-width: 480px; width: 100%; max-height: 90vh; overflow-y: auto; animation: modalSlide 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    @keyframes modalSlide { from { opacity: 0; transform: scale(0.95) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+    .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; }
+    .modal-title { font-size: 1.1rem; font-weight: 700; }
+    .modal-close { background: none; border: none; color: var(--text-muted); font-size: 1.5rem; cursor: pointer; padding: 0 4px; }
+    .modal-close:hover { color: white; }
+    .modal .form-group { margin-bottom: 1rem; }
+    .modal .form-group label { display: block; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted); margin-bottom: 0.4rem; font-weight: 600; }
+    .modal .form-group input, .modal .form-group select { width: 100%; padding: 0.8rem 1rem; background: rgba(0, 0, 0, 0.4); border: 1px solid rgba(255, 255, 255, 0.08); border-radius: var(--radius-sm); color: white; font-size: 0.9rem; font-family: 'Inter', sans-serif; }
+    .modal .form-group select option { background: #0a0a18; }
+    .modal .form-group input:focus, .modal .form-group select:focus { outline: none; border-color: var(--neon-cyan); }
+    .modal-footer { display: flex; gap: 0.8rem; justify-content: flex-end; margin-top: 1.5rem; }
+
+    .toast-container { position: fixed; bottom: 30px; right: 30px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; max-width: 400px; }
+    .toast { padding: 1rem 1.5rem; background: var(--surface-primary); backdrop-filter: blur(20px); border-radius: var(--radius-md); border: 1px solid var(--glass-edge); box-shadow: 0 10px 40px rgba(0,0,0,0.4); animation: slideInRight 0.4s ease; display: flex; align-items: center; gap: 0.8rem; font-size: 0.85rem; }
+    .toast.success { border-left: 3px solid var(--accent-success); }
+    .toast.error { border-left: 3px solid var(--accent-danger); }
+    .toast.warning { border-left: 3px solid var(--accent-warning); }
+    .toast.info { border-left: 3px solid var(--neon-cyan); }
+    @keyframes slideInRight { from { opacity: 0; transform: translateX(100px); } to { opacity: 1; transform: translateX(0); } }
+    .loading-spinner { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.1); border-radius: 50%; border-top-color: var(--neon-cyan); animation: spin 0.7s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ===== PWA INSTALL BANNER ===== */
+    .pwa-install-banner {
+      display:none;
+      position:fixed;
+      bottom:0;
+      left:0;
+      right:0;
+      z-index:9998;
+      background:linear-gradient(135deg,#12122a,#1a2045);
+      border-top:1px solid rgba(214,178,94,0.2);
+      padding:12px 20px;
+      backdrop-filter:blur(20px);
+      -webkit-backdrop-filter:blur(20px);
+      animation:slideUp 0.4s ease;
+    }
+    .pwa-install-banner.show { display:flex; }
+    .pwa-install-banner .pwa-content {
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      max-width:800px;
+      margin:0 auto;
+      width:100%;
+      gap:12px;
+      flex-wrap:wrap;
+    }
+    .pwa-install-banner .pwa-text {
+      display:flex;
+      align-items:center;
+      gap:10px;
+      flex:1;
+      min-width:200px;
+    }
+    .pwa-install-banner .pwa-icon {
+      font-size:24px;
+      flex-shrink:0;
+    }
+    .pwa-install-banner .pwa-title {
+      font-weight:600;
+      font-size:0.85rem;
+      color:#e8edff;
+    }
+    .pwa-install-banner .pwa-desc {
+      font-size:0.7rem;
+      color:#9aa3d4;
+    }
+    .pwa-install-banner .pwa-actions {
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+    }
+    .pwa-install-banner .pwa-btn {
+      padding:8px 18px;
+      border:none;
+      border-radius:10px;
+      font-weight:600;
+      font-size:0.75rem;
+      cursor:pointer;
+      transition:all 0.3s ease;
+      font-family:'Inter',sans-serif;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .pwa-install-banner .pwa-btn-install {
+      background:linear-gradient(135deg,#d6b25e,#f3d27b);
+      color:#000;
+    }
+    .pwa-install-banner .pwa-btn-install:hover {
+      transform:translateY(-1px);
+      box-shadow:0 4px 15px rgba(214,178,94,0.3);
+    }
+    .pwa-install-banner .pwa-btn-dismiss {
+      background:rgba(255,255,255,0.05);
+      color:#9aa3d4;
+      border:1px solid rgba(255,255,255,0.08);
+    }
+    .pwa-install-banner .pwa-btn-dismiss:hover {
+      background:rgba(255,255,255,0.08);
+    }
+    @keyframes slideUp {
+      from { transform:translateY(100%); opacity:0; }
+      to { transform:translateY(0); opacity:1; }
+    }
+
+    @media (max-width: 900px) {
+      #app { flex-direction: column; }
+      .sidebar { width: 100%; min-height: auto; position: relative; flex-direction: row; flex-wrap: wrap; padding: 0.8rem 1rem; gap: 0.5rem; }
+      .sidebar-brand, .sidebar-user, .sidebar-footer { display: none; }
+      .sidebar-nav { display: flex; flex-wrap: wrap; gap: 0.3rem; padding: 0; }
+      .sidebar-nav a { padding: 0.4rem 0.8rem; font-size: 0.72rem; border-left: none; border-radius: 2rem; }
+      .sidebar-nav a.active { background: rgba(0,247,255,0.1); border-left: none; }
+      .main-content { padding: 1rem; }
+      .avatar-section { flex-direction: column; align-items: center; text-align: center; }
+      .form-grid { grid-template-columns: 1fr; }
+      .panel-chat .panel-header { flex-direction: column; align-items: stretch; }
+      .chat-message { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ===== PWA INSTALL BANNER ===== -->
+  <div class="pwa-install-banner" id="pwaInstallBanner">
+    <div class="pwa-content">
+      <div class="pwa-text">
+        <span class="pwa-icon">📱</span>
+        <div>
+          <div class="pwa-title">Install Staff Hub</div>
+          <div class="pwa-desc">Get faster access to your staff dashboard</div>
+        </div>
+      </div>
+      <div class="pwa-actions">
+        <button class="pwa-btn pwa-btn-install" id="pwaInstallBtn">
+          <i class="fas fa-download"></i> Install
+        </button>
+        <button class="pwa-btn pwa-btn-dismiss" id="pwaDismissBtn">Not now</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="app">
+    
+    <aside class="sidebar">
+      <div class="sidebar-brand"><a href="/staff/">🛸 PrimeShieldHub <span>STAFF PORTAL</span></a></div>
+      <div class="sidebar-user">
+        <div class="sidebar-avatar" id="sidebarAvatar">S</div>
+        <div class="sidebar-user-info">
+          <div class="sidebar-user-name" id="sidebarName">Staff</div>
+          <div class="sidebar-user-role" id="sidebarRole">STAFF</div>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="/staff/dashboard"><i class="fas fa-th-large"></i> Dashboard</a>
+        <a href="/staff/charge"><i class="fas fa-bolt"></i> Charging Station</a>
+        <a href="/staff/profile" class="active"><i class="fas fa-user-circle"></i> My Profile</a>
+        <a href="/staff/activity"><i class="fas fa-clock"></i> Activity Log</a>
+        <a href="/staff/settings"><i class="fas fa-cog"></i> Settings</a>
+        <!-- ===== CHAT NAV LINK WITH UNREAD BADGE ===== -->
+        <a href="/staff/chat" id="chatNavLink">
+          <i class="fas fa-comments"></i> Chat
+          <span id="sidebarUnreadBadge" class="nav-badge">0</span>
+        </a>
+        <a href="/"><i class="fas fa-home"></i> Back to Site</a>
+      </nav>
+      <div class="sidebar-footer"><a href="#" id="sidebarLogout"><i class="fas fa-sign-out-alt"></i> Logout</a></div>
+    </aside>
+    
+    <main class="main-content">
+      
+      <div class="page-header">
+        <h1 class="page-title">My Profile</h1>
+        <p class="page-subtitle">Manage your personal information, profile picture, bank accounts and notification settings</p>
+      </div>
+      
+      <!-- PROFILE PICTURE SECTION -->
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <i class="fas fa-camera"></i>
+          <h3>Profile Picture</h3>
+        </div>
+        <div class="profile-card-body">
+          <div class="avatar-section">
+            <div class="avatar-preview" id="avatarPreview">
+              <span id="avatarInitial">S</span>
+              <div class="avatar-overlay" id="avatarOverlay" style="opacity:0;">
+                <i class="fas fa-camera" style="font-size:1.5rem;color:white;"></i>
+              </div>
+            </div>
+            <div class="avatar-actions">
+              <p>Hover over image and click camera icon to upload. Click the photo to view full size.</p>
+              <button class="btn btn-outline btn-sm" id="uploadAvatarBtn">
+                <i class="fas fa-upload"></i> Upload Photo
+              </button>
+              <button class="btn btn-outline btn-sm" id="removeAvatarBtn" style="display:none;">
+                <i class="fas fa-trash"></i> Remove
+              </button>
+              <input type="file" id="avatarFileInput" accept="image/jpeg,image/png,image/webp" style="display:none;">
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- PERSONAL INFORMATION -->
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <i class="fas fa-id-card"></i>
+          <h3>Personal Information</h3>
+        </div>
+        <div class="profile-card-body">
+          <form id="profileForm">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Full Name</label>
+                <input type="text" class="form-input" id="profileName" placeholder="Your full name" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Email Address</label>
+                <input type="email" class="form-input readonly" id="profileEmail" readonly disabled>
+              </div>
+              <div class="form-group">
+                <label class="form-label">Phone Number</label>
+                <input type="tel" class="form-input" id="profilePhone" placeholder="08012345678">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Address</label>
+                <input type="text" class="form-input" id="profileAddress" placeholder="Your address">
+              </div>
+              <div class="form-group full-width">
+                <button type="submit" class="btn btn-primary" id="saveProfileBtn">
+                  <i class="fas fa-save"></i> Save Changes
+                </button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- EMPLOYMENT DETAILS -->
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <i class="fas fa-building"></i>
+          <h3>Employment Details</h3>
+        </div>
+        <div class="profile-card-body">
+          <div class="form-grid">
+            <div class="form-group">
+              <label class="form-label">Staff ID</label>
+              <input type="text" class="form-input readonly" id="empStaffId" readonly disabled>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Role</label>
+              <input type="text" class="form-input readonly" id="empRole" readonly disabled>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Branch</label>
+              <input type="text" class="form-input readonly" id="empBranch" readonly disabled>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Joined Date</label>
+              <input type="text" class="form-input readonly" id="empJoined" readonly disabled>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Status</label>
+              <input type="text" class="form-input readonly" id="empStatus" readonly disabled>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Department</label>
+              <input type="text" class="form-input readonly" id="empDepartment" readonly disabled>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <!-- BANK ACCOUNTS -->
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <i class="fas fa-university"></i>
+          <h3>Bank Accounts</h3>
+          <button class="btn btn-gold btn-sm" id="addBankBtn" style="margin-left:auto;">
+            <i class="fas fa-plus"></i> Add Account
+          </button>
+        </div>
+        <div class="profile-card-body">
+          <div style="overflow-x:auto;">
+            <table class="bank-table">
+              <thead>
+                <tr><th>Bank</th><th>Account Number</th><th>Account Name</th><th>Default</th><th>Actions</th></tr>
+              </thead>
+              <tbody id="bankAccountsTableBody">
+                <tr><td colspan="5"><div class="empty-state"><i class="fas fa-university"></i><p>No bank accounts added yet.</p></div></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      
+      <!-- NOTIFICATION SETTINGS - FIXED -->
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <i class="fas fa-bell"></i>
+          <h3>Notification Preferences</h3>
+        </div>
+        <div class="profile-card-body">
+          <div class="settings-list">
+            <div class="setting-item">
+              <div class="setting-info"><i class="fas fa-envelope"></i><div><div class="setting-label">Email Notifications</div><div class="setting-desc">Receive payslips, payroll, and system alerts via email</div></div></div>
+              <label class="toggle-switch"><input type="checkbox" id="settingEmailNotif" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info"><i class="fas fa-sms"></i><div><div class="setting-label">SMS Notifications</div><div class="setting-desc">Receive urgent alerts and payment confirmations via SMS</div></div></div>
+              <label class="toggle-switch"><input type="checkbox" id="settingSmsNotif"><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info"><i class="fas fa-mobile-alt"></i><div><div class="setting-label">Push Notifications</div><div class="setting-desc">Receive real-time updates and session alerts</div></div></div>
+              <label class="toggle-switch"><input type="checkbox" id="settingPushNotif" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info"><i class="fas fa-plug"></i><div><div class="setting-label">Session Alerts</div><div class="setting-desc">Get notified when sessions are complete or need attention</div></div></div>
+              <label class="toggle-switch"><input type="checkbox" id="settingSessionAlerts" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info"><i class="fas fa-credit-card"></i><div><div class="setting-label">Payment Alerts</div><div class="setting-desc">Receive payment confirmations and wallet updates</div></div></div>
+              <label class="toggle-switch"><input type="checkbox" id="settingPaymentAlerts" checked><span class="toggle-slider"></span></label>
+            </div>
+            <div class="setting-item">
+              <div class="setting-info"><i class="fas fa-file-invoice"></i><div><div class="setting-label">Payroll Alerts</div><div class="setting-desc">Get notified when payslips and payroll are processed</div></div></div>
+              <label class="toggle-switch"><input type="checkbox" id="settingPayrollAlerts" checked><span class="toggle-slider"></span></label>
+            </div>
+          </div>
+          <div style="margin-top: 1.5rem;">
+            <button type="button" class="btn btn-primary" id="saveSettingsBtn"><i class="fas fa-save"></i> Save Notification Settings</button>
+          </div>
+        </div>
+      </div>
+      
+      <!-- CHANGE PASSWORD -->
+      <div class="profile-card">
+        <div class="profile-card-header">
+          <i class="fas fa-lock"></i>
+          <h3>Change Password</h3>
+        </div>
+        <div class="profile-card-body">
+          <form id="passwordForm">
+            <div class="form-grid">
+              <div class="form-group form-group-relative">
+                <label class="form-label">Current Password</label>
+                <input type="password" class="form-input" id="currentPassword" placeholder="Enter current password" required>
+                <button type="button" class="password-toggle" data-target="currentPassword"><i class="fas fa-eye-slash"></i></button>
+              </div>
+              <div class="form-group"></div>
+              <div class="form-group form-group-relative">
+                <label class="form-label">New Password</label>
+                <input type="password" class="form-input" id="newPassword" placeholder="Min. 8 characters" minlength="8" required>
+                <button type="button" class="password-toggle" data-target="newPassword"><i class="fas fa-eye-slash"></i></button>
+              </div>
+              <div class="form-group form-group-relative">
+                <label class="form-label">Confirm New Password</label>
+                <input type="password" class="form-input" id="confirmPassword" placeholder="Re-enter new password" minlength="8" required>
+                <button type="button" class="password-toggle" data-target="confirmPassword"><i class="fas fa-eye-slash"></i></button>
+              </div>
+              <div class="form-group full-width">
+                <button type="submit" class="btn btn-primary" id="changePasswordBtn"><i class="fas fa-key"></i> Update Password</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      
+      <!-- ===== CHAT WIDGET ===== -->
+      <div class="panel-chat" id="chatWidget">
+        <div class="panel-header">
+          <div class="panel-title">
+            <i class="fas fa-comments"></i> 
+            Team Chat 
+            <span id="chatUnreadBadge" class="badge">0</span>
+          </div>
+          <button class="btn btn-sm btn-primary" id="openChatBtn">
+            <i class="fas fa-external-link-alt"></i> Open Chat
+          </button>
+        </div>
+        <div class="chat-preview" id="chatPreview">
+          <div class="empty-state">
+            <i class="fas fa-comment"></i>
+            <p>Loading recent messages...</p>
+          </div>
+        </div>
+      </div>
+      
+    </main>
+  </div>
+  
+  <!-- ADD/EDIT BANK MODAL -->
+  <div class="modal-overlay" id="bankModal" hidden>
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="bankModalTitle"><i class="fas fa-university" style="color:var(--neon-gold);"></i> Add Bank Account</div>
+        <button class="modal-close" id="closeBankModal">&times;</button>
+      </div>
+      <form id="bankForm">
+        <input type="hidden" id="bankEditId">
+        <div class="form-group"><label>Bank Name</label><select id="bankName" required><option value="">Select bank...</option><option value="Access Bank">Access Bank</option><option value="GTB">GTBank</option><option value="UBA">UBA</option><option value="Zenith Bank">Zenith Bank</option><option value="First Bank">First Bank</option><option value="Fidelity Bank">Fidelity Bank</option><option value="Union Bank">Union Bank</option><option value="Stanbic IBTC">Stanbic IBTC</option><option value="Ecobank">Ecobank</option><option value="Wema Bank">Wema Bank</option><option value="Kuda Bank">Kuda Bank</option><option value="PalmPay">PalmPay</option><option value="Opay">Opay</option><option value="Moniepoint">Moniepoint</option></select></div>
+        <div class="form-group"><label>Account Number</label><input type="text" id="bankAccountNumber" placeholder="10-digit account number" maxlength="10" required></div>
+        <div class="form-group"><label>Account Name</label><input type="text" id="bankAccountName" placeholder="Name on account" required></div>
+        <div class="form-group"><label style="display:flex;align-items:center;gap:0.5rem;cursor:pointer;"><input type="checkbox" id="bankIsDefault"> Set as default account</label></div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline" id="cancelBankBtn">Cancel</button>
+          <button type="submit" class="btn btn-gold" id="saveBankBtn"><i class="fas fa-save"></i> Save Account</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  
+  <div class="toast-container" id="toastContainer"></div>
+
+  <!-- ===== PWA INSTALL SCRIPT - STAFF PORTAL FIX ===== -->
+  <script>
+      (function() {
+          'use strict';
+
+          let deferredPrompt = null;
+          const banner = document.getElementById('pwaInstallBanner');
+          const installBtn = document.getElementById('pwaInstallBtn');
+          const dismissBtn = document.getElementById('pwaDismissBtn');
+
+          // ================================================================ //
+          // CHECK IF ALREADY INSTALLED                                       //
+          // ================================================================ //
+          if (window.navigator.standalone === true || 
+              window.matchMedia('(display-mode: standalone)').matches) {
+              if (banner) banner.style.display = 'none';
+              console.log('📱 Staff Hub already installed (standalone mode)');
+              return;
+          }
+
+          // ================================================================ //
+          // CHECK Dismissed/Installed flags                                  //
+          // ================================================================ //
+          const dismissed = localStorage.getItem('psh_staff_pwa_dismissed') === 'true';
+          const installed = localStorage.getItem('psh_staff_pwa_installed') === 'true';
+          
+          if (dismissed || installed) {
+              if (banner) banner.style.display = 'none';
+              console.log('📱 Staff Hub banner suppressed (dismissed:', dismissed, 'installed:', installed, ')');
+              return;
+          }
+
+          // ================================================================ //
+          // LISTEN FOR INSTALL PROMPT                                       //
+          // ================================================================ //
+          window.addEventListener('beforeinstallprompt', (e) => {
+              console.log('📱 🔔 beforeinstallprompt event fired!');
+              e.preventDefault();
+              deferredPrompt = e;
+              
+              if (banner && !banner.classList.contains('show')) {
+                  console.log('📱 Showing install banner (from beforeinstallprompt)');
+                  banner.classList.add('show');
+              }
+          });
+
+          // ================================================================ //
+          // FALLBACK: Force show banner after page loads                    //
+          // ================================================================ //
+          // This is the key fix - if beforeinstallprompt doesn't fire,
+          // we show the banner anyway after a delay.
+          setTimeout(() => {
+              // Re-check dismissed/installed flags
+              const dismissedNow = localStorage.getItem('psh_staff_pwa_dismissed') === 'true';
+              const installedNow = localStorage.getItem('psh_staff_pwa_installed') === 'true';
+              
+              if (!dismissedNow && !installedNow && banner && !banner.classList.contains('show')) {
+                  // Check if the app is already installed
+                  const isStandalone = window.navigator.standalone === true || 
+                                      window.matchMedia('(display-mode: standalone)').matches;
+                  
+                  if (!isStandalone) {
+                      console.log('📱 🔔 FALLBACK: Showing install banner (beforeinstallprompt did not fire)');
+                      banner.classList.add('show');
+                  }
+              }
+          }, 2000);
+
+          // ================================================================ //
+          // APP INSTALLED EVENT                                             //
+          // ================================================================ //
+          window.addEventListener('appinstalled', () => {
+              console.log('📱 ✅ Staff Hub installed!');
+              if (banner) banner.classList.remove('show');
+              localStorage.setItem('psh_staff_pwa_installed', 'true');
+              
+              // Show success toast
+              const toast = document.createElement('div');
+              toast.style.cssText = `
+                  position: fixed;
+                  bottom: 80px;
+                  left: 50%;
+                  transform: translateX(-50%);
+                  background: linear-gradient(135deg, #12122a, #1a2045);
+                  border: 1px solid rgba(214, 178, 94, 0.3);
+                  border-radius: 12px;
+                  padding: 16px 24px;
+                  color: #e8edff;
+                  font-family: 'Inter', sans-serif;
+                  font-size: 0.9rem;
+                  z-index: 99999;
+                  box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+                  backdrop-filter: blur(20px);
+                  animation: slideUp 0.4s ease;
+                  text-align: center;
+                  max-width: 400px;
+              `;
+              toast.innerHTML = `
+                  <div style="font-size: 28px;">✅</div>
+                  <div style="font-weight: 600; color: #d6b25e; margin-top: 4px;">Staff Hub Installed!</div>
+                  <div style="font-size: 0.8rem; color: #9aa3d4;">You can now access from your home screen</div>
+              `;
+              document.body.appendChild(toast);
+              setTimeout(() => {
+                  toast.style.opacity = '0';
+                  toast.style.transition = 'opacity 0.3s ease';
+                  setTimeout(() => toast.remove(), 300);
+              }, 4000);
+          });
+
+          // ================================================================ //
+          // INSTALL BUTTON                                                   //
+          // ================================================================ //
+          if (installBtn) {
+              installBtn.addEventListener('click', async () => {
+                  console.log('📱 Install button clicked');
+                  
+                  if (deferredPrompt) {
+                      console.log('📱 Showing install prompt (from beforeinstallprompt)');
+                      deferredPrompt.prompt();
+                      const result = await deferredPrompt.userChoice;
+                      console.log('📱 User choice:', result.outcome);
+                      
+                      if (result.outcome === 'accepted') {
+                          console.log('📱 User accepted install');
+                          if (banner) banner.classList.remove('show');
+                          localStorage.setItem('psh_staff_pwa_installed', 'true');
+                      } else {
+                          console.log('📱 User dismissed install');
+                          if (banner) banner.classList.remove('show');
+                          localStorage.setItem('psh_staff_pwa_dismissed', 'true');
+                      }
+                      deferredPrompt = null;
+                  } else {
+                      console.log('📱 No deferredPrompt - showing manual instructions');
+                      
+                      // Check if we can manually trigger the install
+                      const isChrome = /Chrome/.test(navigator.userAgent) && !/Edge/.test(navigator.userAgent);
+                      const isEdge = /Edg/.test(navigator.userAgent);
+                      const isSafari = /Safari/.test(navigator.userAgent) && !/Chrome/.test(navigator.userAgent);
+                      
+                      if (isChrome || isEdge) {
+                          // Try to show the install banner manually by checking SW
+                          if ('serviceWorker' in navigator) {
+                              try {
+                                  const registration = await navigator.serviceWorker.ready;
+                                  // Try to trigger the install prompt via service worker message
+                                  if (registration.active) {
+                                      registration.active.postMessage({ type: 'trigger-install' });
+                                  }
+                              } catch(e) {
+                                  console.log('📱 Could not trigger SW install:', e);
+                              }
+                          }
+                          
+                          // Show the manual install instructions anyway
+                          alert('📱 To install Staff Hub:\n\n' +
+                                '1. Look for the install icon (⊕) in the address bar\n' +
+                                '2. Click "Install" or "Add to Home Screen"\n' +
+                                '3. Follow the prompts to install\n\n' +
+                                'Alternatively, tap the menu (⋮) and select "Install App"');
+                      } else if (isSafari) {
+                          alert('📱 To install Staff Hub on iPhone:\n\n' +
+                                '1. Tap the Share button (⬆️) at the bottom\n' +
+                                '2. Scroll down and tap "Add to Home Screen"\n' +
+                                '3. Tap "Add" in the top right corner\n\n' +
+                                'Then open from your home screen!');
+                      } else {
+                          alert('📱 To install Staff Hub:\n\n' +
+                                '1. Open your browser menu\n' +
+                                '2. Look for "Install App" or "Add to Home Screen"\n' +
+                                '3. Follow the prompts to install');
+                      }
+                  }
+              });
+          }
+
+          // ================================================================ //
+          // DISMISS BUTTON                                                   //
+          // ================================================================ //
+          if (dismissBtn) {
+              dismissBtn.addEventListener('click', () => {
+                  console.log('📱 User dismissed banner');
+                  if (banner) banner.classList.remove('show');
+                  localStorage.setItem('psh_staff_pwa_dismissed', 'true');
+              });
+          }
+
+          // ================================================================ //
+          // OFFLINE STATUS                                                   //
+          // ================================================================ //
+          function updateOnlineStatus() {
+              const banner = document.getElementById('offlineBanner');
+              if (!banner) return;
+
+              if (!navigator.onLine) {
+                  banner.classList.add('show');
+                  banner.textContent = '📡 You are offline. Some features may be unavailable.';
+              } else {
+                  banner.classList.remove('show');
+              }
+          }
+
+          window.addEventListener('online', updateOnlineStatus);
+          window.addEventListener('offline', updateOnlineStatus);
+          updateOnlineStatus();
+
+          // ================================================================ //
+          // DEBUG INFO                                                       //
+          // ================================================================ //
+          console.log('📱 Staff PWA Install handler ready');
+          console.log('📱 Manifest URL:', document.querySelector('link[rel="manifest"]')?.href);
+          console.log('📱 Service Worker:', navigator.serviceWorker ? 'available' : 'not available');
+          console.log('📱 Standalone:', window.navigator.standalone || window.matchMedia('(display-mode: standalone)').matches);
+          console.log('📱 Dismissed:', dismissed);
+          console.log('📱 Installed:', installed);
+          console.log('📱 Banner element:', banner ? 'found' : 'not found');
+
+          // ================================================================ //
+          // ADD A MANUAL TRIGGER FOR DEBUGGING                               //
+          // ================================================================ //
+          // Expose a global function to show the install banner manually
+          window.showStaffInstallBanner = function() {
+              if (banner && !banner.classList.contains('show')) {
+                  banner.classList.add('show');
+                  console.log('📱 Banner shown manually');
+              } else {
+                  console.log('📱 Banner already showing or not available');
+              }
+          };
+          
+          console.log('📱 Run showStaffInstallBanner() to show banner manually');
+      })();
+  </script>
+
+  <script type="module">
+    import { CONFIG } from '../js/config.js';
+    import { auth } from '../js/auth.js';
+
+    // ================================================================ //
+    // UNIFIED CONFIG                                                    //
+    // ================================================================ //
+    const API_BASE = CONFIG.apiBase;
+    const STORAGE_KEYS = CONFIG.STORAGE_KEYS;
+    const TOKEN_KEY = (STORAGE_KEYS || { TOKEN: 'psh_auth_token', USER: 'psh_user' }).TOKEN;
+    const USER_KEY = (STORAGE_KEYS || { TOKEN: 'psh_auth_token', USER: 'psh_user' }).USER;
+
+    // ================================================================ //
+    // DOM HELPERS                                                       //
+    // ================================================================ //
+    const $ = (id) => document.getElementById(id);
+
+    // ================================================================ //
+    // AUTH HELPERS - Using unified auth                               //
+    // ================================================================ //
+    function getToken() {
+        try {
+            const token = auth.getToken ? auth.getToken() : null;
+            if (token) return token;
+        } catch(e) {}
+        
+        return localStorage.getItem(TOKEN_KEY) || 
+               localStorage.getItem('psh_staff_token') || 
+               localStorage.getItem('psh_auth_token') || 
+               null;
+    }
+
+    function getUser() {
+        try {
+            const user = auth.getUser ? auth.getUser() : null;
+            if (user) return user;
+        } catch(e) {}
+        
+        try {
+            const stored = localStorage.getItem(USER_KEY);
+            if (stored) return JSON.parse(stored);
+        } catch(e) {}
+        
+        try {
+            const stored = localStorage.getItem('psh_staff_user');
+            if (stored) return JSON.parse(stored);
+        } catch(e) {}
+        
+        return null;
+    }
+
+    function isStaffOrAdmin() {
+        const user = getUser();
+        if (!user) return false;
+        return user.role === 'staff' || user.role === 'admin';
+    }
+
+    // ================================================================ //
+    // CHECK AUTH - Redirect if not logged in                          //
+    // ================================================================ //
+    function checkAuth() {
+        const token = getToken();
+        if (!token || !isStaffOrAdmin()) {
+            window.location.href = '/staff/';
+            return null;
+        }
+        return getUser();
+    }
+
+    // ================================================================ //
+    // API CALL - Using proper token                                    //
+    // ================================================================ //
+    async function apiFetch(path, options = {}) {
+        const url = path.startsWith('http') ? path : `${API_BASE}${path}`;
+        
+        const token = getToken();
+        
+        const headers = { 
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+        };
+        
+        if (token) {
+            headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const csrfToken = document.querySelector('meta[name="csrf-token"]')?.content;
+        if (csrfToken && options.method && ['POST', 'PUT', 'DELETE'].includes(options.method)) {
+            headers['x-csrf-token'] = csrfToken;
+        }
+
+        try {
+            const response = await fetch(url, { 
+                ...options, 
+                headers: { ...headers, ...options.headers },
+                credentials: 'include'
+            });
+            
+            if (response.status === 401) {
+                // Clear auth and redirect
+                try { if (auth.logout) auth.logout(); } catch(e) {}
+                localStorage.removeItem(TOKEN_KEY);
+                localStorage.removeItem(USER_KEY);
+                localStorage.removeItem('psh_staff_token');
+                localStorage.removeItem('psh_staff_user');
+                window.location.href = '/staff/';
+                throw new Error('Session expired');
+            }
+
+            const data = await response.json();
+            if (!response.ok) {
+                throw new Error(data.error || data.message || `HTTP ${response.status}`);
+            }
+            return data;
+        } catch (error) {
+            console.error('API Error:', error);
+            throw error;
+        }
+    }
+
+    // ================================================================ //
+    // TOAST NOTIFICATIONS                                              //
+    // ================================================================ //
+    function showToast(message, type = 'info', duration = 4000) {
+        const container = $('toastContainer');
+        if (!container) return;
+
+        const icons = { 
+            success: 'fa-check-circle', 
+            error: 'fa-exclamation-circle', 
+            warning: 'fa-exclamation-triangle', 
+            info: 'fa-info-circle' 
+        };
+        const colors = { 
+            success: 'var(--accent-success)', 
+            error: 'var(--accent-danger)', 
+            warning: 'var(--accent-warning)', 
+            info: 'var(--neon-cyan)' 
+        };
+
+        const toast = document.createElement('div');
+        toast.className = `toast ${type}`;
+        toast.innerHTML = `
+            <span style="font-size:1.1rem;color:${colors[type]};">
+                <i class="fas ${icons[type]}"></i>
+            </span>
+            <span>${message}</span>
+            <button style="margin-left:auto;background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.1rem;padding:0 4px;" onclick="this.parentElement.remove()">&times;</button>
+        `;
+        container.appendChild(toast);
+
+        setTimeout(() => {
+            toast.style.opacity = '0';
+            toast.style.transform = 'translateX(100px)';
+            toast.style.transition = 'all 0.3s ease';
+            setTimeout(() => toast.remove(), 300);
+        }, duration);
+    }
+
+    // ================================================================ //
+    // AVATAR FUNCTIONS                                                  //
+    // ================================================================ //
+    let state = {
+        user: null,
+        profileData: null,
+        currentPhotoURL: null,
+        bankAccounts: [],
+        isLoading: true
+    };
+
+    function updateAvatarDisplay(photoURL) {
+        const avatarPreview = $('avatarPreview');
+        const displayName = state.profileData?.name || state.user?.name || 'S';
+        const initial = displayName.charAt(0).toUpperCase();
+        
+        if (photoURL) {
+            const cacheBuster = `?t=${Date.now()}`;
+            avatarPreview.innerHTML = `
+                <img src="${photoURL}${cacheBuster}" alt="${displayName}" id="avatarImg" 
+                     onerror="this.onerror=null; this.style.display='none'; document.getElementById('avatarInitial').style.display='flex';">
+                <span id="avatarInitial" style="display:none;font-size:2.5rem;font-weight:800;">${initial}</span>
+                <div class="avatar-overlay" id="avatarOverlay">
+                    <i class="fas fa-camera" style="font-size:1.5rem;color:white;"></i>
+                </div>
+            `;
+            const removeBtn = $('removeAvatarBtn');
+            if (removeBtn) removeBtn.style.display = 'inline-flex';
+            
+            const sidebarAvatar = $('sidebarAvatar');
+            if (sidebarAvatar) sidebarAvatar.innerHTML = `<img src="${photoURL}${cacheBuster}" alt="${displayName}">`;
+        } else {
+            avatarPreview.innerHTML = `
+                <span id="avatarInitial" style="font-size:2.5rem;font-weight:800;">${initial}</span>
+                <div class="avatar-overlay" id="avatarOverlay">
+                    <i class="fas fa-camera" style="font-size:1.5rem;color:white;"></i>
+                </div>
+            `;
+            const removeBtn = $('removeAvatarBtn');
+            if (removeBtn) removeBtn.style.display = 'none';
+            
+            const sidebarAvatar = $('sidebarAvatar');
+            if (sidebarAvatar) sidebarAvatar.textContent = initial;
+        }
+        
+        // Re-attach avatar click listeners
+        const newPreview = $('avatarPreview');
+        const newOverlay = document.getElementById('avatarOverlay');
+        if (newOverlay) {
+            newOverlay.addEventListener('click', function(e) {
+                e.stopPropagation();
+                e.preventDefault();
+                const fileInput = $('avatarFileInput');
+                if (fileInput) fileInput.click();
+            });
+        }
+        const newImg = document.getElementById('avatarImg');
+        if (newImg) {
+            newPreview.style.cursor = 'pointer';
+            newPreview.addEventListener('click', function(e) {
+                if (!e.target.closest('#avatarOverlay') && newImg.src && !newImg.src.includes('data:')) {
+                    const cleanUrl = newImg.src.split('?')[0];
+                    window.open(cleanUrl, '_blank');
+                }
+            });
+        }
+    }
+
+    // ================================================================ //
+    // LOAD PROFILE                                                     //
+    // ================================================================ //
+    async function loadProfile() {
+        try {
+            const user = checkAuth();
+            if (!user) return;
+
+            state.user = user;
+            
+            const data = await apiFetch('/auth/me');
+            
+            if (data && data.id) {
+                state.profileData = data;
+                
+                if (data.photoURL && !state.currentPhotoURL) {
+                    state.currentPhotoURL = data.photoURL;
+                } else if (!data.photoURL) {
+                    state.currentPhotoURL = null;
+                }
+                
+                const displayName = data.name || data.email?.split('@')[0] || 'Staff';
+                
+                const sidebarName = $('sidebarName');
+                const sidebarRole = $('sidebarRole');
+                if (sidebarName) sidebarName.textContent = displayName;
+                if (sidebarRole) sidebarRole.textContent = (data.role || 'staff').toUpperCase();
+                
+                updateAvatarDisplay(state.currentPhotoURL);
+                
+                const profileName = $('profileName');
+                const profileEmail = $('profileEmail');
+                const profilePhone = $('profilePhone');
+                const profileAddress = $('profileAddress');
+                const empStaffId = $('empStaffId');
+                const empRole = $('empRole');
+                const empBranch = $('empBranch');
+                const empJoined = $('empJoined');
+                const empStatus = $('empStatus');
+                const empDepartment = $('empDepartment');
+
+                if (profileName) profileName.value = data.name || '';
+                if (profileEmail) profileEmail.value = data.email || '';
+                if (profilePhone) profilePhone.value = data.phone || '';
+                if (profileAddress) profileAddress.value = data.address || '';
+                if (empStaffId) empStaffId.value = data.staffId || data.display_id || data.id || '—';
+                if (empRole) empRole.value = (data.role || 'staff').charAt(0).toUpperCase() + (data.role || 'staff').slice(1);
+                if (empBranch) empBranch.value = data.branchName || data.branch_name || 'Main Branch';
+                if (empJoined) empJoined.value = data.createdAt ? new Date(data.createdAt).toLocaleDateString('en-NG', { year: 'numeric', month: 'long', day: 'numeric' }) : '—';
+                if (empStatus) empStatus.value = (data.status || 'active').charAt(0).toUpperCase() + (data.status || 'active').slice(1);
+                if (empDepartment) empDepartment.value = data.department || 'General';
+                
+                // Load notification settings
+                if (data.notifications) {
+                    const settingEmailNotif = $('settingEmailNotif');
+                    const settingSmsNotif = $('settingSmsNotif');
+                    const settingPushNotif = $('settingPushNotif');
+                    if (settingEmailNotif) settingEmailNotif.checked = data.notifications.email !== false;
+                    if (settingSmsNotif) settingSmsNotif.checked = data.notifications.sms === true;
+                    if (settingPushNotif) settingPushNotif.checked = data.notifications.push !== false;
+                    
+                    if (data.notifications.preferences) {
+                        const p = data.notifications.preferences;
+                        const settingSessionAlerts = $('settingSessionAlerts');
+                        const settingPaymentAlerts = $('settingPaymentAlerts');
+                        const settingPayrollAlerts = $('settingPayrollAlerts');
+                        if (settingSessionAlerts) settingSessionAlerts.checked = p.session_alerts !== 0;
+                        if (settingPaymentAlerts) settingPaymentAlerts.checked = p.payment_alerts !== 0;
+                        if (settingPayrollAlerts) settingPayrollAlerts.checked = p.payroll_alerts !== 0;
+                    }
+                }
+                
+                state.isLoading = false;
+                showToast('Profile loaded successfully', 'success', 2000);
+                console.log('✅ Profile loaded successfully');
+            }
+        } catch (error) {
+            console.error('Load profile error:', error);
+            showToast('Failed to load profile: ' + error.message, 'error');
+            state.isLoading = false;
+        }
+    }
+
+    // ================================================================ //
+    // LOAD BANK ACCOUNTS                                                //
+    // ================================================================ //
+    async function loadBankAccounts() {
+        if (!state.user?.id) return;
+        try {
+            const data = await apiFetch(`/staff/bank-accounts/${state.user.id}`);
+            if (data.success && data.accounts) {
+                state.bankAccounts = data.accounts;
+            } else {
+                state.bankAccounts = [];
+            }
+            renderBankAccounts();
+        } catch (error) {
+            console.error('Load bank accounts error:', error);
+            state.bankAccounts = [];
+            renderBankAccounts();
+        }
+    }
+
+    function renderBankAccounts() {
+        const tbody = $('bankAccountsTableBody');
+        if (!tbody) return;
+        
+        if (!state.bankAccounts || state.bankAccounts.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5"><div class="empty-state"><i class="fas fa-university"></i><p>No bank accounts added yet.</p></div></td></tr>`;
+            return;
+        }
+        
+        tbody.innerHTML = state.bankAccounts.map(a => `
+            <tr>
+                <td><strong>${a.bank_name}</strong></td>
+                <td><code style="font-family:'JetBrains Mono',monospace;font-size:0.8rem;">${a.account_number}</code></td>
+                <td>${a.account_name}</td>
+                <td>${a.is_default ? '<span class="default-badge">Default</span>' : ''}</td>
+                <td>
+                    <div style="display:flex;gap:6px;">
+                        <button class="btn btn-outline btn-sm edit-bank-btn" data-id="${a.id}"><i class="fas fa-edit"></i></button>
+                        <button class="btn btn-danger btn-sm delete-bank-btn" data-id="${a.id}"><i class="fas fa-trash"></i></button>
+                    </div>
+                </td>
+            </tr>
+        `).join('');
+        
+        document.querySelectorAll('.edit-bank-btn').forEach(b => b.addEventListener('click', () => openBankModal(b.dataset.id)));
+        document.querySelectorAll('.delete-bank-btn').forEach(b => b.addEventListener('click', () => deleteBankAccount(b.dataset.id)));
+    }
+
+    // ================================================================ //
+    // BANK MODAL FUNCTIONS                                             //
+    // ================================================================ //
+    function openBankModal(editId = null) {
+        const form = $('bankForm');
+        const modal = $('bankModal');
+        const title = $('bankModalTitle');
+        
+        if (form) form.reset();
+        if ($('bankEditId')) $('bankEditId').value = '';
+        
+        if (editId) {
+            const account = state.bankAccounts.find(x => x.id === editId);
+            if (account) {
+                if (title) title.innerHTML = '<i class="fas fa-university" style="color:var(--neon-gold);"></i> Edit Bank Account';
+                if ($('bankEditId')) $('bankEditId').value = account.id;
+                if ($('bankName')) $('bankName').value = account.bank_name;
+                if ($('bankAccountNumber')) $('bankAccountNumber').value = account.account_number;
+                if ($('bankAccountName')) $('bankAccountName').value = account.account_name;
+                if ($('bankIsDefault')) $('bankIsDefault').checked = account.is_default === 1;
+            }
+        } else {
+            if (title) title.innerHTML = '<i class="fas fa-university" style="color:var(--neon-gold);"></i> Add Bank Account';
+        }
+        
+        if (modal) modal.hidden = false;
+        setTimeout(() => {
+            const bankName = $('bankName');
+            if (bankName) bankName.focus();
+        }, 200);
+    }
+
+    function closeBankModal() {
+        const modal = $('bankModal');
+        if (modal) modal.hidden = true;
+        const form = $('bankForm');
+        if (form) form.reset();
+    }
+
+    async function deleteBankAccount(id) {
+        if (!confirm('Delete this bank account?')) return;
+        try {
+            const data = await apiFetch(`/staff/bank-account/${id}`, { method: 'DELETE' });
+            if (data.success) {
+                showToast('Bank account deleted.', 'success');
+                await loadBankAccounts();
+            } else {
+                showToast(data.error || 'Failed', 'error');
+            }
+        } catch (error) {
+            showToast('Failed to delete.', 'error');
+        }
+    }
+
+    // ================================================================ //
+    // ===== CHAT WIDGET FUNCTIONS =====                                //
+    // ================================================================ //
+
+    // Load recent chat messages for widget
+    async function loadChatPreview() {
+        const container = $('chatPreview');
+        if (!container) return;
+
+        try {
+            const token = getToken();
+            if (!token) {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-lock"></i><p>Login to view chat</p></div>';
+                return;
+            }
+
+            const response = await fetch(`${API_BASE}/api/chat/messages?roomId=room-general&limit=5`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            const data = await response.json();
+            
+            if (data.success && data.messages && data.messages.length > 0) {
+                const messages = data.messages.slice(0, 5);
+                container.innerHTML = messages.map(msg => `
+                    <div class="chat-message">
+                        <span class="sender">${escapeHTML(msg.sender_name || 'Staff')}:</span>
+                        <span class="text">${escapeHTML(msg.message)}</span>
+                        <span class="time">${new Date(msg.created_at).toLocaleTimeString()}</span>
+                    </div>
+                `).join('');
+            } else {
+                container.innerHTML = '<div class="empty-state"><i class="fas fa-comment"></i><p>No messages yet. Start the conversation!</p></div>';
+            }
+        } catch (error) {
+            console.error('Chat preview error:', error);
+            container.innerHTML = '<div class="empty-state"><i class="fas fa-exclamation-circle" style="color:var(--accent-danger);"></i><p>Could not load messages</p></div>';
+        }
+    }
+
+    // Load unread count
+    async function loadChatUnreadCount() {
+        try {
+            const token = getToken();
+            if (!token) return;
+
+            const response = await fetch(`${API_BASE}/api/chat/unread`, {
+                headers: { 'Authorization': `Bearer ${token}` }
+            });
+            
+            const data = await response.json();
+            const badge = $('chatUnreadBadge');
+            const sidebarBadge = $('sidebarUnreadBadge');
+            
+            if (data.success && data.total > 0) {
+                if (badge) {
+                    badge.textContent = data.total;
+                    badge.classList.add('show');
+                }
+                if (sidebarBadge) {
+                    sidebarBadge.textContent = data.total;
+                    sidebarBadge.classList.add('show');
+                }
+            } else {
+                if (badge) badge.classList.remove('show');
+                if (sidebarBadge) sidebarBadge.classList.remove('show');
+            }
+        } catch (error) {
+            console.error('Unread count error:', error);
+        }
+    }
+
+    // Open chat
+    function openChat() {
+        window.location.href = '/staff/chat';
+    }
+
+    // Setup chat event listeners
+    function setupChatWidget() {
+        const openBtn = $('openChatBtn');
+        if (openBtn) {
+            openBtn.addEventListener('click', openChat);
+        }
+    }
+
+    // ================================================================ //
+    // SAVE NOTIFICATION SETTINGS - USING WORKING ENDPOINT              //
+    // ================================================================ //
+    async function saveNotificationSettings() {
+        const btn = $('saveSettingsBtn');
+        if (!btn) return;
+        
+        btn.disabled = true;
+        btn.innerHTML = '<span class="loading-spinner"></span> Saving...';
+        
+        try {
+            const token = getToken();
+            if (!token) {
+                throw new Error('No authentication token found. Please login again.');
+            }
+            
+            const payload = {
+                notifyEmail: $('settingEmailNotif')?.checked ?? true,
+                notifyPush: $('settingPushNotif')?.checked ?? true,
+                notifySMS: $('settingSmsNotif')?.checked ?? false
+            };
+            
+            console.log('📤 Saving notification preferences:', payload);
+            
+            const response = await fetch(`${API_BASE}/profile`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
+                },
+                body: JSON.stringify(payload)
+            });
+            
+            if (response.status === 401) {
+                console.error('🔴 401 Unauthorized - Redirecting to login');
+                try { if (auth.logout) auth.logout(); } catch(e) {}
+                localStorage.removeItem(TOKEN_KEY);
+                localStorage.removeItem(USER_KEY);
+                localStorage.removeItem('psh_staff_token');
+                localStorage.removeItem('psh_staff_user');
+                window.location.href = '/staff/';
+                return;
+            }
+            
+            const data = await response.json();
+            
+            if (!response.ok) {
+                throw new Error(data.error || data.message || 'Failed to save settings');
+            }
+            
+            if (data.success || data.ok) {
+                showToast('✅ Notification settings saved!', 'success');
+                console.log('✅ Notification settings saved successfully');
+            } else {
+                showToast(data.error || 'Failed to save settings', 'error');
+            }
+        } catch (error) {
+            console.error('Save settings error:', error);
+            showToast('Failed to save settings: ' + error.message, 'error');
+        } finally {
+            btn.disabled = false;
+            btn.innerHTML = '<i class="fas fa-save"></i> Save Notification Settings';
+        }
+    }
+
+    // ================================================================ //
+    // SETUP EVENT LISTENERS                                            //
+    // ================================================================ //
+    function setupEventListeners() {
+        // ===== Save Notification Settings =====
+        const saveSettingsBtn = $('saveSettingsBtn');
+        if (saveSettingsBtn) {
+            saveSettingsBtn.addEventListener('click', saveNotificationSettings);
+        }
+
+        // ===== Bank Modal =====
+        const addBankBtn = $('addBankBtn');
+        const closeBankBtn = $('closeBankModal');
+        const cancelBankBtn = $('cancelBankBtn');
+        const bankModal = $('bankModal');
+        const bankForm = $('bankForm');
+
+        if (addBankBtn) addBankBtn.addEventListener('click', () => openBankModal());
+        if (closeBankBtn) closeBankBtn.addEventListener('click', closeBankModal);
+        if (cancelBankBtn) cancelBankBtn.addEventListener('click', closeBankModal);
+        
+        if (bankModal) {
+            bankModal.addEventListener('click', (e) => {
+                if (e.target === bankModal) closeBankModal();
+            });
+        }
+
+        if (bankForm) {
+            bankForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const bankName = $('bankName')?.value || '';
+                const accountNumber = $('bankAccountNumber')?.value.trim() || '';
+                const accountName = $('bankAccountName')?.value.trim() || '';
+                const isDefault = $('bankIsDefault')?.checked || false;
+                
+                if (!bankName || !accountNumber || !accountName) {
+                    showToast('All fields required', 'warning');
+                    return;
+                }
+                if (accountNumber.length !== 10 || !/^\d+$/.test(accountNumber)) {
+                    showToast('Valid 10-digit account number', 'warning');
+                    return;
+                }
+                
+                const saveBtn = $('saveBankBtn');
+                if (saveBtn) {
+                    saveBtn.disabled = true;
+                    saveBtn.innerHTML = '<span class="loading-spinner"></span> Saving...';
+                }
+                
+                try {
+                    const editId = $('bankEditId')?.value || '';
+                    let data;
+                    
+                    if (editId) {
+                        data = await apiFetch(`/staff/bank-account/${editId}`, { 
+                            method: 'PUT', 
+                            body: JSON.stringify({ 
+                                bankName, 
+                                accountNumber, 
+                                accountName, 
+                                isDefault: isDefault ? 1 : 0 
+                            }) 
+                        });
+                    } else {
+                        data = await apiFetch('/staff/bank-account', { 
+                            method: 'POST', 
+                            body: JSON.stringify({ 
+                                staffId: state.user?.id, 
+                                bankName, 
+                                accountNumber, 
+                                accountName 
+                            }) 
+                        });
+                    }
+                    
+                    if (data.success) {
+                        showToast(editId ? 'Bank account updated!' : 'Bank account added!', 'success');
+                        closeBankModal();
+                        await loadBankAccounts();
+                    } else {
+                        showToast(data.error || 'Failed', 'error');
+                    }
+                } catch (error) {
+                    showToast('Failed to save.', 'error');
+                } finally {
+                    if (saveBtn) {
+                        saveBtn.disabled = false;
+                        saveBtn.innerHTML = '<i class="fas fa-save"></i> Save Account';
+                    }
+                }
+            });
+        }
+
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeBankModal();
+        });
+
+        // ===== Password Toggle =====
+        document.querySelectorAll('.password-toggle').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = document.getElementById(btn.getAttribute('data-target'));
+                const icon = btn.querySelector('i');
+                if (input) {
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        if (icon) icon.className = 'fas fa-eye';
+                    } else {
+                        input.type = 'password';
+                        if (icon) icon.className = 'fas fa-eye-slash';
+                    }
+                }
+            });
+        });
+
+        // ===== Logout =====
+        const logoutBtn = $('sidebarLogout');
+        if (logoutBtn) {
+            logoutBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                if (confirm('Logout?')) {
+                    try { if (auth.logout) auth.logout(); } catch(e) {}
+                    localStorage.removeItem(TOKEN_KEY);
+                    localStorage.removeItem(USER_KEY);
+                    localStorage.removeItem('psh_staff_token');
+                    localStorage.removeItem('psh_staff_user');
+                    window.location.href = '/staff/';
+                }
+            });
+        }
+
+        // ===== Profile Save =====
+        const profileForm = $('profileForm');
+        if (profileForm) {
+            profileForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const btn = $('saveProfileBtn');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="loading-spinner"></span> Saving...';
+                }
+                
+                try {
+                    const name = $('profileName')?.value.trim() || '';
+                    const phone = $('profilePhone')?.value.trim() || '';
+                    const address = $('profileAddress')?.value.trim() || '';
+                    
+                    const body = { name, phone, address };
+                    
+                    if (state.currentPhotoURL && state.currentPhotoURL.startsWith('https://')) {
+                        body.photoURL = state.currentPhotoURL;
+                    }
+                    
+                    const data = await apiFetch('/profile', { 
+                        method: 'PUT', 
+                        body: JSON.stringify(body) 
+                    });
+                    
+                    if (data.success) {
+                        showToast('Profile updated successfully!', 'success');
+                        if (state.user) {
+                            state.user.name = name;
+                            state.user.phone = phone;
+                            localStorage.setItem(USER_KEY, JSON.stringify(state.user));
+                            localStorage.setItem('psh_staff_user', JSON.stringify(state.user));
+                        }
+                        
+                        const sidebarName = $('sidebarName');
+                        if (sidebarName) sidebarName.textContent = name || 'Staff';
+                    } else {
+                        showToast(data.error || 'Update failed', 'error');
+                    }
+                } catch (error) {
+                    showToast('Failed to save profile.', 'error');
+                } finally {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-save"></i> Save Changes';
+                    }
+                }
+            });
+        }
+
+        // ===== Password Change =====
+        const passwordForm = $('passwordForm');
+        if (passwordForm) {
+            passwordForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                const cp = $('currentPassword')?.value || '';
+                const np = $('newPassword')?.value || '';
+                const conf = $('confirmPassword')?.value || '';
+                
+                if (np.length < 8) {
+                    showToast('Password must be at least 8 characters', 'warning');
+                    return;
+                }
+                if (np !== conf) {
+                    showToast('Passwords do not match', 'warning');
+                    return;
+                }
+                
+                const btn = $('changePasswordBtn');
+                if (btn) {
+                    btn.disabled = true;
+                    btn.innerHTML = '<span class="loading-spinner"></span> Updating...';
+                }
+                
+                try {
+                    const data = await apiFetch('/auth/change-password', { 
+                        method: 'POST', 
+                        body: JSON.stringify({ currentPassword: cp, newPassword: np }) 
+                    });
+                    
+                    if (data.success) {
+                        showToast('Password changed successfully!', 'success');
+                        passwordForm.reset();
+                    } else {
+                        showToast(data.error || 'Failed to change password', 'error');
+                    }
+                } catch (error) {
+                    showToast(error.message || 'Failed to change password.', 'error');
+                } finally {
+                    if (btn) {
+                        btn.disabled = false;
+                        btn.innerHTML = '<i class="fas fa-key"></i> Update Password';
+                    }
+                }
+            });
+        }
+
+        // ===== Avatar Upload =====
+        const uploadBtn = $('uploadAvatarBtn');
+        const fileInput = $('avatarFileInput');
+        const removeBtn = $('removeAvatarBtn');
+
+        if (uploadBtn) {
+            uploadBtn.addEventListener('click', () => {
+                if (fileInput) fileInput.click();
+            });
+        }
+
+        if (fileInput) {
+            fileInput.addEventListener('change', async (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                
+                if (file.size > 10 * 1024 * 1024) { 
+                    showToast('File too large. Maximum 10MB.', 'error'); 
+                    e.target.value = '';
+                    return; 
+                }
+                
+                if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type)) { 
+                    showToast('Invalid file type. Use JPG, PNG, or WebP.', 'error'); 
+                    e.target.value = '';
+                    return; 
+                }
+                
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    const avatarPreview = $('avatarPreview');
+                    if (avatarPreview) {
+                        avatarPreview.innerHTML = `
+                            <img src="${ev.target.result}" alt="Preview" id="avatarImg">
+                            <div class="avatar-overlay" id="avatarOverlay">
+                                <i class="fas fa-camera" style="font-size:1.5rem;color:white;"></i>
+                            </div>
+                        `;
+                        const removeBtnEl = $('removeAvatarBtn');
+                        if (removeBtnEl) removeBtnEl.style.display = 'inline-flex';
+                        
+                        // Re-attach overlay click
+                        const newOverlay = document.getElementById('avatarOverlay');
+                        if (newOverlay) {
+                            newOverlay.addEventListener('click', function(ev) {
+                                ev.stopPropagation();
+                                ev.preventDefault();
+                                if (fileInput) fileInput.click();
+                            });
+                        }
+                    }
+                };
+                reader.readAsDataURL(file);
+                
+                try {
+                    showToast('Uploading profile picture...', 'info');
+                    
+                    const formData = new FormData();
+                    formData.append('avatar', file);
+                    
+                    const token = getToken();
+                    const response = await fetch(`${API_BASE}/staff/avatar`, {
+                        method: 'POST',
+                        headers: token ? { 'Authorization': `Bearer ${token}` } : {},
+                        body: formData
+                    });
+                    
+                    if (!response.ok) {
+                        const errData = await response.json();
+                        throw new Error(errData.error || 'Upload failed');
+                    }
+                    
+                    const data = await response.json();
+                    
+                    if (data.success && data.photoURL) {
+                        state.currentPhotoURL = data.photoURL;
+                        
+                        if (state.user) {
+                            state.user.photoURL = data.photoURL;
+                            localStorage.setItem(USER_KEY, JSON.stringify(state.user));
+                            localStorage.setItem('psh_staff_user', JSON.stringify(state.user));
+                        }
+                        if (state.profileData) {
+                            state.profileData.photoURL = data.photoURL;
+                        }
+                        
+                        updateAvatarDisplay(data.photoURL);
+                        showToast('Profile picture updated!', 'success');
+                    } else {
+                        showToast(data.error || 'Failed to upload', 'error');
+                    }
+                } catch (error) {
+                    console.error('Avatar upload error:', error);
+                    showToast(error.message || 'Upload failed. Try a smaller image.', 'error');
+                }
+                
+                e.target.value = '';
+            });
+        }
+
+        if (removeBtn) {
+            removeBtn.addEventListener('click', async () => {
+                if (!confirm('Remove your profile picture?')) return;
+                try {
+                    const data = await apiFetch('/staff/avatar', { method: 'DELETE' });
+                    if (data.success || data.ok) {
+                        state.currentPhotoURL = null;
+                        if (state.user) {
+                            delete state.user.photoURL;
+                            localStorage.setItem(USER_KEY, JSON.stringify(state.user));
+                            localStorage.setItem('psh_staff_user', JSON.stringify(state.user));
+                        }
+                        if (state.profileData) {
+                            state.profileData.photoURL = null;
+                        }
+                        updateAvatarDisplay(null);
+                        showToast('Profile picture removed.', 'success');
+                    }
+                } catch (error) {
+                    showToast('Failed to remove picture.', 'error');
+                }
+            });
+        }
+
+        // ===== Setup Chat Widget =====
+        setupChatWidget();
+    }
+
+    // ================================================================ //
+    // ESCAPE HTML HELPERS                                              //
+    // ================================================================ //
+    function escapeHTML(str) {
+        if (!str) return '';
+        return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // ================================================================ //
+    // INIT                                                              //
+    // ================================================================ //
+    async function init() {
+        console.log('🚀 Staff Profile v13.3 — Unified Config');
+        console.log('📍 API Base:', API_BASE);
+        console.log('📦 Using unified config from:', CONFIG.apiBase);
+        console.log('💬 Chat widget integrated');
+        console.log('🔗 Navigation links:');
+        console.log('  📊 Dashboard: /staff/dashboard');
+        console.log('  ⚡ Charge: /staff/charge');
+        console.log('  👤 Profile: /staff/profile');
+        console.log('  📋 Activity: /staff/activity');
+        console.log('  ⚙️ Settings: /staff/settings');
+        console.log('  🔑 Login: /staff/');
+        
+        await loadProfile();
+        await loadBankAccounts();
+        
+        // Load chat data
+        loadChatPreview();
+        loadChatUnreadCount();
+        
+        setupEventListeners();
+        
+        // Chat auto-refresh every 30 seconds
+        setInterval(() => {
+            loadChatPreview();
+            loadChatUnreadCount();
+        }, 30000);
+        
+        console.log('✅ Staff Profile page ready');
+        console.log('👤 User:', state.user?.name || 'Staff');
+        console.log('📱 PWA Staff App ready for installation');
+        console.log('💬 Chat widget active');
+    }
+
+    init().catch(err => console.error('Init failed:', err));
+  </script>
+</body>
+</html>

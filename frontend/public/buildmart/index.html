@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PRIMESHIELDHUB BUILDMART</title>
+  <meta http-equiv="refresh" content="0; url=/buildmart.html" />
+  <link rel="canonical" href="https://primeshieldhub.com/buildmart.html" />
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #03050a;
+      color: #e5e9f0;
+      font-family: 'Inter', sans-serif;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      text-align: center;
+      flex-direction: column;
+    }
+    .loader {
+      border: 2px solid rgba(212, 176, 94, 0.1);
+      border-top: 2px solid #d4b05e;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+      margin-bottom: 1.5rem;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    a { color: #d4b05e; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+    .brand {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.2rem;
+      font-weight: 600;
+      background: linear-gradient(135deg, #f0d78c, #d4b05e, #a07c28);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+  <div>
+    <div class="brand">PRIMESHIELDHUB BUILDMART</div>
+    <div class="loader"></div>
+    <p style="color: var(--steel-blue);">Loading <a href="/buildmart">BuildMart</a>...</p>
+    <p style="font-size: 0.7rem; color: #4a5568; margin-top: 0.5rem;">
+      If you are not redirected, <a href="/buildmart">click here</a>.
+    </p>
+  </div>
+  <script>
+    // Immediate redirect
+    window.location.replace('/buildmart.html');
+  </script>
+</body>
+</html>
+

@@ -1,0 +1,37 @@
+{
+  "settings": {
+    "fx": {
+      "cad": 430,
+      "usd": 580,
+      "cny": 80,
+      "gbp": 725,
+      "eur": 620
+    },
+    "airCargoPerKg": 15,
+    "clearingPerKg": 12,
+    "localDelivery": 5000,
+    "wholesaleBaseMarkup": 8,
+    "minRetailMargin": 15,
+    "minWholesaleMargin": 5
+  },
+  "categoryMarkup": {
+    "Phones": 30,
+    "Laptops": 25,
+    "Accessories": 40,
+    "Tablets": 28,
+    "Audio": 35,
+    "Wearables": 38,
+    "Gaming": 25,
+    "Default": 25
+  },
+  "categoryWeight": {
+    "Phones": 0.3,
+    "Laptops": 2.5,
+    "Tablets": 0.6,
+    "Audio": 0.5,
+    "Wearables": 0.15,
+    "Gaming": 3.0,
+    "Accessories": 0.2,
+    "Default": 0.5
+  }
+}

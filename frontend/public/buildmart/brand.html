@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-quantum-version="11.4" data-theme="knowledge-gold">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="BuildMart Knowledge Center - AI-powered construction knowledge hub with calculators, guides, and intelligent search.">
+    <meta name="theme-color" content="#060B13">
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}">
+    
+    <title>BuildMart Â· Knowledge Center</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    
+    <style>
+        /* ============================================================
+           ROOT VARIABLES
+           ============================================================ */
+        :root {
+            --gold: #F59E0B;
+            --gold-light: #FBBF24;
+            --gold-dark: #D97706;
+            --gold-glow: rgba(245, 158, 11, 0.15);
+            --gold-border: rgba(245, 158, 11, 0.15);
+            --gold-border-bright: rgba(245, 158, 11, 0.35);
+            
+            --cyan: #00FFC8;
+            --cyan-dark: #00C8A0;
+            --cyan-glow: rgba(0, 255, 200, 0.08);
+            
+            --steel: #6A8AA5;
+            --steel-light: #8AAAC5;
+            
+            --bg-deep: #060B13;
+            --bg-primary: #0A1220;
+            --bg-elevated: #0E1A2A;
+            --bg-card: rgba(10, 15, 25, 0.7);
+            --bg-input: rgba(10, 18, 31, 0.8);
+            
+            --text-primary: #E5E7EB;
+            --text-secondary: #B0B8C5;
+            --text-muted: #6A8AA5;
+            --text-inverse: #060B13;
+            
+            --accent-success: #10B981;
+            --accent-cyan: #00D4FF;
+            
+            --font-sans: 'Inter', -apple-system, system-ui, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            
+            --radius-xs: 6px;
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --radius-2xl: 48px;
+            
+            --shadow-card: 0 25px 45px -15px rgba(0, 0, 0, 0.8);
+            --shadow-glow: 0 0 40px rgba(245, 158, 11, 0.06);
+            --shadow-elevated: 0 30px 60px -15px rgba(0, 0, 0, 0.9);
+            
+            --transition-smooth: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            background: radial-gradient(circle at 20% 10%, #1A2A3A, var(--bg-deep) 80%);
+            min-height: 100vh;
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-light); }
+        ::selection { background: rgba(245, 158, 11, 0.25); color: var(--text-primary); }
+
+        /* ============================================================
+           UTILITY CLASSES
+           ============================================================ */
+        .gold-gradient {
+            background: linear-gradient(135deg, var(--gold-light), var(--gold), var(--gold-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .cyan-gradient {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .gold-text { color: var(--gold); }
+        .cyan-text { color: var(--cyan); }
+
+        .section-eyebrow {
+            font-size: clamp(10px, 1.2vw, 14px);
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            font-weight: 600;
+            margin-bottom: 16px;
+            opacity: 0.8;
+        }
+
+        .section-title {
+            font-size: clamp(2rem, 5vw, 3.8rem);
+            font-weight: 900;
+            letter-spacing: -0.03em;
+            line-height: 1.05;
+            font-family: var(--font-display);
+        }
+
+        .container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 0 6%;
+            position: relative;
+            z-index: 10;
+        }
+
+        section {
+            padding: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* ============================================================
+           GLASS MORPHISM
+           ============================================================ */
+        .glass-card {
+            background: var(--bg-card);
+            backdrop-filter: blur(18px) saturate(1.2);
+            -webkit-backdrop-filter: blur(18px) saturate(1.2);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-card), inset 0 0 0 1px rgba(255, 255, 255, 0.02);
+            transition: var(--transition-smooth);
+        }
+        .glass-card:hover {
+            border-color: var(--gold-border-bright);
+            box-shadow: var(--shadow-elevated), var(--shadow-glow);
+            transform: translateY(-3px);
+        }
+
+        /* ============================================================
+           NAVIGATION
+           ============================================================ */
+        .nav-header {
+            background: rgba(5, 5, 8, 0.92);
+            backdrop-filter: blur(20px) saturate(300%);
+            border-bottom: 1px solid var(--gold-border);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            padding: 0.6rem 0;
+            transition: var(--transition-smooth);
+        }
+        .nav-header.scrolled {
+            background: rgba(5, 5, 8, 0.98);
+            box-shadow: 0 8px 40px rgba(0,0,0,0.6);
+        }
+        .nav-wrapper {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+            flex-shrink: 0;
+        }
+        .nav-logo .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            border-radius: 12px;
+            display: grid;
+            place-items: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            color: var(--text-inverse);
+        }
+        .nav-logo .logo-text {
+            font-weight: 800;
+            font-size: 0.95rem;
+            font-family: var(--font-display);
+            letter-spacing: 0.5px;
+        }
+        .nav-logo .logo-text em {
+            font-style: normal;
+            color: var(--gold);
+        }
+        .nav-logo .logo-badge {
+            background: var(--gold);
+            color: var(--text-inverse);
+            font-size: 0.5rem;
+            font-weight: 800;
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .nav-links ul {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+        .nav-links ul li a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.8rem;
+            font-weight: 500;
+            padding: 0.5rem 0.9rem;
+            border-radius: 50px;
+            transition: var(--transition-smooth);
+            position: relative;
+            white-space: nowrap;
+        }
+        .nav-links ul li a:hover {
+            color: var(--text-primary);
+            background: rgba(255,255,255,0.04);
+        }
+        .nav-links ul li a.active {
+            color: var(--gold);
+            background: rgba(245, 158, 11, 0.08);
+        }
+        .nav-links ul li a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 2px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--gold);
+            border-radius: 2px;
+        }
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            flex-shrink: 0;
+        }
+        .btn-nav-prime {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            font-weight: 700;
+            font-size: 0.75rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: 50px;
+            text-decoration: none;
+            transition: var(--transition-smooth);
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+            border: none;
+            cursor: pointer;
+        }
+        .btn-nav-prime:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(245, 158, 11, 0.3);
+        }
+        .nav-hamburger {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 4px;
+        }
+        .nav-hamburger span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--text-primary);
+            border-radius: 2px;
+            transition: var(--transition-smooth);
+        }
+        .nav-hamburger.active span:nth-child(1) { transform: rotate(45deg) translate(4px, 4px); }
+        .nav-hamburger.active span:nth-child(2) { opacity: 0; }
+        .nav-hamburger.active span:nth-child(3) { transform: rotate(-45deg) translate(4px, -4px); }
+
+        /* ============================================================
+           BUTTONS
+           ============================================================ */
+        .btn-prime {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--text-inverse);
+            font-weight: 700;
+            padding: 0.8rem 2.4rem;
+            border-radius: 4rem;
+            font-family: var(--font-display);
+            letter-spacing: 0.5px;
+            cursor: pointer;
+            transition: var(--transition-bounce);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            border: none;
+            box-shadow: 0 10px 30px rgba(245, 158, 11, 0.25);
+        }
+        .btn-prime:hover {
+            transform: scale(1.04) translateY(-3px);
+            box-shadow: 0 15px 40px rgba(245, 158, 11, 0.4);
+        }
+
+        .btn-cyan {
+            background: transparent;
+            border: 1.5px solid var(--cyan);
+            color: var(--cyan);
+            padding: 0.7rem 1.8rem;
+            border-radius: 4rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            font-family: var(--font-sans);
+            font-size: 0.8rem;
+            backdrop-filter: blur(8px);
+        }
+        .btn-cyan:hover {
+            background: rgba(0, 255, 200, 0.06);
+            box-shadow: 0 0 35px rgba(0, 255, 200, 0.2);
+            transform: scale(1.02);
+        }
+
+        /* ============================================================
+           HERO - KNOWLEDGE CENTER
+           ============================================================ */
+        .hero-section {
+            min-height: 50vh;
+            display: flex;
+            align-items: center;
+            padding: 20px 0 30px;
+        }
+        .hero-content h1 {
+            font-size: clamp(2.5rem, 7vw, 4.5rem);
+            font-weight: 900;
+            letter-spacing: -0.04em;
+            line-height: 0.95;
+            font-family: var(--font-display);
+            margin-bottom: 1rem;
+        }
+        .hero-content .subtitle {
+            font-size: clamp(1rem, 1.6vw, 1.2rem);
+            color: var(--text-secondary);
+            max-width: 600px;
+            line-height: 1.7;
+            margin-bottom: 1.5rem;
+        }
+        .hero-badge-group {
+            display: flex;
+            gap: 0.75rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(245, 158, 11, 0.06);
+            border: 1px solid var(--gold-border);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: var(--gold);
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+        }
+        .hero-badge .live-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--accent-success);
+            border-radius: 50%;
+            display: inline-block;
+            animation: pulseDot 1.5s infinite;
+        }
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.3; }
+        }
+
+        /* ============================================================
+           SEARCH BAR
+           ============================================================ */
+        .knowledge-search {
+            display: flex;
+            background: rgba(0, 0, 0, 0.5);
+            border: 1px solid var(--gold-border);
+            border-radius: 5rem;
+            padding: 0.2rem 0.2rem 0.2rem 1.8rem;
+            backdrop-filter: blur(30px);
+            transition: all 0.3s;
+            max-width: 700px;
+        }
+        .knowledge-search:focus-within {
+            border-color: var(--gold);
+            box-shadow: 0 0 40px var(--gold-glow);
+        }
+        .knowledge-search input {
+            background: transparent;
+            border: none;
+            width: 100%;
+            color: var(--text-primary);
+            font-size: 0.95rem;
+            outline: none;
+            font-family: var(--font-sans);
+            padding: 0.8rem 0;
+        }
+        .knowledge-search input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           TRENDING TOPICS
+           ============================================================ */
+        .trending-topics {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.6rem;
+            margin-top: 1rem;
+        }
+        .trending-topic {
+            background: rgba(245, 158, 11, 0.06);
+            border: 1px solid var(--gold-border);
+            padding: 0.3rem 1rem;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .trending-topic:hover {
+            border-color: var(--gold);
+            color: var(--gold);
+            background: rgba(245, 158, 11, 0.1);
+        }
+        .trending-topic .fire {
+            color: var(--gold);
+            margin-right: 0.3rem;
+        }
+
+        /* ============================================================
+           STATS BAR
+           ============================================================ */
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .stat-item {
+            text-align: center;
+        }
+        .stat-item .stat-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--gold);
+            font-family: var(--font-display);
+        }
+        .stat-item .stat-label {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* ============================================================
+           KNOWLEDGE CARDS - SMART CARDS
+           ============================================================ */
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+        .knowledge-card {
+            padding: 1.8rem;
+            border-radius: var(--radius-xl);
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .knowledge-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-6px);
+            box-shadow: var(--shadow-elevated), 0 0 30px var(--gold-glow);
+        }
+        .knowledge-card .card-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .knowledge-card .card-title {
+            font-weight: 700;
+            font-size: 1.1rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+        .knowledge-card .card-excerpt {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-bottom: 0.8rem;
+        }
+        .knowledge-card .card-meta {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.65rem;
+            color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+        .knowledge-card .card-meta span {
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+        .knowledge-card .card-tag {
+            display: inline-block;
+            padding: 0.1rem 0.6rem;
+            border-radius: 50px;
+            font-size: 0.6rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .card-tag.popular { background: rgba(245, 158, 11, 0.1); color: var(--gold); }
+        .card-tag.new { background: rgba(0, 255, 200, 0.1); color: var(--cyan); }
+        .card-tag.trending { background: rgba(16, 185, 129, 0.1); color: var(--accent-success); }
+        .card-tag.updated { background: rgba(106, 138, 165, 0.1); color: var(--steel-light); }
+
+        /* ============================================================
+           SMART CARD - EXPANDED VIEW
+           ============================================================ */
+        .smart-card-expanded {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: var(--radius-xl);
+            padding: 2rem;
+            margin-top: 1.5rem;
+            border: 1px solid var(--gold-border);
+        }
+        .smart-card-expanded .answer-content {
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        .smart-card-expanded .answer-content strong {
+            color: var(--gold);
+        }
+        .smart-card-expanded .answer-content .highlight {
+            color: var(--cyan);
+        }
+        .smart-card-expanded .answer-actions {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+            margin-top: 1rem;
+        }
+        .smart-card-expanded .answer-actions button {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 2rem;
+            padding: 0.3rem 1rem;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .smart-card-expanded .answer-actions button:hover {
+            background: rgba(245, 158, 11, 0.08);
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+        .smart-card-expanded .related-questions {
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.04);
+        }
+        .smart-card-expanded .related-questions .rq-title {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+        .smart-card-expanded .related-questions .rq-item {
+            padding: 0.3rem 0;
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: var(--transition-smooth);
+            border-bottom: 1px solid rgba(255,255,255,0.02);
+        }
+        .smart-card-expanded .related-questions .rq-item:hover {
+            color: var(--gold);
+            padding-left: 0.5rem;
+        }
+
+        /* ============================================================
+           GUIDES
+           ============================================================ */
+        .guides-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.2rem;
+            margin-top: 1.5rem;
+        }
+        .guide-card {
+            padding: 1.5rem;
+            border-radius: var(--radius-xl);
+            text-align: center;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .guide-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+        .guide-card .guide-icon {
+            font-size: 2.4rem;
+            color: var(--gold);
+            margin-bottom: 0.5rem;
+        }
+        .guide-card .guide-title {
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .guide-card .guide-meta {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           CALCULATORS
+           ============================================================ */
+        .calculators-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        .calculator-card {
+            padding: 1.5rem 1rem;
+            border-radius: var(--radius-xl);
+            text-align: center;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+        }
+        .calculator-card:hover {
+            border-color: var(--gold-border-bright);
+            transform: translateY(-4px);
+            box-shadow: var(--shadow-glow);
+        }
+        .calculator-card .calc-icon {
+            font-size: 2rem;
+            color: var(--gold);
+            margin-bottom: 0.3rem;
+        }
+        .calculator-card .calc-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+        .calculator-card .calc-desc {
+            font-size: 0.65rem;
+            color: var(--text-muted);
+        }
+
+        /* ============================================================
+           TOAST
+           ============================================================ */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(10, 10, 18, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gold-border);
+            padding: 1rem 1.5rem;
+            border-radius: var(--radius-md);
+            z-index: 9999;
+            transform: translateY(120px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            max-width: 400px;
+        }
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 992px) {
+            .nav-hamburger { display: flex; }
+            .nav-links {
+                position: fixed;
+                top: 56px;
+                left: 0;
+                right: 0;
+                background: rgba(5,5,8,0.98);
+                backdrop-filter: blur(20px);
+                padding: 1rem;
+                border-bottom: 1px solid var(--gold-border);
+                transform: translateY(-120%);
+                transition: transform 0.4s cubic-bezier(0.16,1,0.3,1);
+                max-height: calc(100vh - 56px);
+                overflow-y: auto;
+            }
+            .nav-links.open { transform: translateY(0); }
+            .nav-links ul {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 0.25rem;
+            }
+            .nav-links ul li a {
+                display: block;
+                padding: 0.7rem 1rem;
+                font-size: 0.9rem;
+                text-align: center;
+            }
+            .nav-links ul li a.active::after { display: none; }
+            .hero-content h1 { font-size: clamp(2.2rem, 7vw, 3.2rem); }
+            .knowledge-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .container { padding: 0 5%; }
+            section { padding: 2rem 0; }
+            .knowledge-search { padding: 0.2rem 0.2rem 0.2rem 1rem; }
+            .knowledge-search input { font-size: 0.85rem; }
+            .nav-logo .logo-text { font-size: 0.8rem; }
+            .btn-nav-prime { font-size: 0.65rem; padding: 0.4rem 0.8rem; }
+            .btn-nav-prime span { display: none; }
+            .knowledge-grid { grid-template-columns: 1fr; }
+            .stats-bar { grid-template-columns: repeat(3, 1fr); }
+            .guides-grid { grid-template-columns: 1fr 1fr; }
+            .calculators-grid { grid-template-columns: 1fr 1fr; }
+            .trending-topics { gap: 0.4rem; }
+            .trending-topic { font-size: 0.6rem; padding: 0.2rem 0.7rem; }
+        }
+        @media (max-width: 480px) {
+            .stats-bar { grid-template-columns: 1fr 1fr; }
+            .guides-grid { grid-template-columns: 1fr; }
+            .calculators-grid { grid-template-columns: 1fr 1fr; }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     NAVIGATION
+     ============================================================ -->
+<header class="nav-header" id="mainNav">
+    <div class="container">
+        <div class="nav-wrapper">
+            <a href="/buildmart" class="nav-logo">
+                <div class="logo-icon">ðŸ“š</div>
+                <div class="logo-text"><em>Build</em>Mart</div>
+                <span class="logo-badge">Knowledge</span>
+            </a>
+            <nav class="nav-links" id="navLinks">
+                <ul>
+                    <li><a href="/buildmart">Home</a></li>
+                    <li><a href="/buildmart/products.html">Products</a></li>
+                    <li><a href="/buildmart/categories.html">Categories</a></li>
+                    <li><a href="/buildmart/quote.html">Quote</a></li>
+                    <li><a href="/buildmart/contractors.html">Contractors</a></li>
+                    <li><a href="/buildmart/projects.html">Projects</a></li>
+                    <li><a href="/buildmart/delivery.html">Delivery</a></li>
+                    <li><a href="/buildmart/wholesale.html">Wholesale</a></li>
+                    <li><a href="/buildmart/about.html">About</a></li>
+                    <li><a href="/buildmart/contact.html">Contact</a></li>
+                    <li><a href="/buildmart/knowledge.html" class="active">Knowledge</a></li>
+                </ul>
+            </nav>
+            <div class="nav-actions">
+                <a href="/buildmart/quote.html" class="btn-nav-prime">
+                    <i class="fas fa-file-invoice"></i> <span>Get Quote</span>
+                </a>
+                <button class="nav-hamburger" id="navHamburger" aria-label="Toggle menu">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- ============================================================
+     HERO
+     ============================================================ -->
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-badge-group">
+                <span class="hero-badge"><span class="live-dot"></span> Knowledge Center</span>
+                <span class="hero-badge"><i class="fas fa-brain"></i> AI Powered</span>
+                <span class="hero-badge"><i class="fas fa-database"></i> <span id="totalArticles">1,284</span> Articles</span>
+            </div>
+            <h1>
+                <span style="color:white;">BuildMart</span><br>
+                <span class="gold-gradient">Knowledge</span><br>
+                <span style="color:white;">Center</span>
+            </h1>
+            <p class="subtitle">
+                AI-powered construction knowledge Â· Material guides Â· Engineering calculators Â· 
+                Procurement insights â€” everything you need to build with confidence.
+            </p>
+            <div class="knowledge-search">
+                <span style="color:var(--gold); margin-right:0.8rem; opacity:0.7;">ðŸ”</span>
+                <input type="text" placeholder="Ask anything about construction, materials, delivery..." id="searchInput" />
+                <button class="btn-prime" style="padding:0.6rem 1.8rem; border-radius:4rem;" id="searchButton">
+                    <i class="fas fa-arrow-right"></i> Search
+                </button>
+            </div>
+            <div class="trending-topics" id="trendingTopics">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     STATS BAR
+     ============================================================ -->
+<section style="padding:0;">
+    <div class="container">
+        <div class="glass-card stats-bar" id="statsBar">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     KNOWLEDGE CARDS
+     ============================================================ -->
+<section style="padding:2rem 0;">
+    <div class="container">
+        <h2 class="section-title" style="font-size:clamp(1.6rem, 3vw, 2.4rem); margin-bottom:0.5rem;">
+            <span class="gold-gradient">Knowledge</span> Articles
+        </h2>
+        <p style="color:var(--text-muted); margin-bottom:1.5rem;">Browse our curated construction knowledge base</p>
+        <div class="knowledge-grid" id="knowledgeGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     SMART CARD - EXPANDED ANSWER
+     ============================================================ -->
+<section style="padding:0 0 2rem 0;">
+    <div class="container">
+        <div id="expandedAnswer" style="display:none;">
+            <div class="smart-card-expanded glass-card" id="answerContainer">
+                <!-- Populated by JS -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     GUIDES
+     ============================================================ -->
+<section style="padding:1rem 0 2rem 0;">
+    <div class="container">
+        <h2 class="section-title" style="font-size:clamp(1.6rem, 3vw, 2.4rem); margin-bottom:0.5rem;">
+            ðŸ“˜ <span class="gold-gradient">Construction</span> Guides
+        </h2>
+        <p style="color:var(--text-muted); margin-bottom:1.5rem;">In-depth guides for every stage of construction</p>
+        <div class="guides-grid" id="guidesGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     CALCULATORS
+     ============================================================ -->
+<section style="padding:1rem 0 2rem 0;">
+    <div class="container">
+        <h2 class="section-title" style="font-size:clamp(1.6rem, 3vw, 2.4rem); margin-bottom:0.5rem;">
+            ðŸ› ï¸ <span class="gold-gradient">Engineering</span> Calculators
+        </h2>
+        <p style="color:var(--text-muted); margin-bottom:1.5rem;">Quick calculations for your construction projects</p>
+        <div class="calculators-grid" id="calculatorsGrid">
+            <!-- Populated by JS -->
+        </div>
+    </div>
+</section>
+
+<!-- ============================================================
+     TOAST
+     ============================================================ -->
+<div id="toast">
+    <div style="display:flex; align-items:center; gap:0.75rem;">
+        <span style="color:var(--gold); font-size:1.2rem;">âœ“</span>
+        <div>
+            <div style="font-weight:700; font-size:0.9rem;" id="toastTitle">Success</div>
+            <div style="color:var(--text-muted); font-size:0.8rem;" id="toastMessage">Action completed</div>
+        </div>
+        <button onclick="closeToast()" style="background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; padding:0 4px;">âœ•</button>
+    </div>
+</div>
+
+<!-- ============================================================
+     SCRIPTS
+     ============================================================ -->
+<script>
+    // =========================================================================
+    // 1. CONFIGURATION
+    // =========================================================================
+    const API_BASE = document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api';
+    let searchAbortController = null;
+    let searchDebounceTimer = null;
+
+    // =========================================================================
+    // 2. DATA - KNOWLEDGE CENTER
+    // =========================================================================
+    const DATA = {
+        stats: [
+            { value: '1,284', label: 'Knowledge Articles' },
+            { value: '842', label: 'Questions Today' },
+            { value: '2m 41s', label: 'Avg Resolution' },
+            { value: '98.9%', label: 'AI Accuracy' },
+            { value: '7', label: 'Specialists Online' },
+            { value: 'Roofing', label: 'Popular Category' }
+        ],
+        trending: [
+            { label: 'Roofing Materials', icon: 'ðŸ”¥' },
+            { label: 'Cement Calculator', icon: 'ðŸ”¥' },
+            { label: 'Steel Reinforcement', icon: 'ðŸ”¥' },
+            { label: 'Granite Delivery', icon: 'ðŸ“ˆ' },
+            { label: 'Bulk Pricing', icon: 'ðŸ“ˆ' },
+            { label: 'BOQ Upload', icon: 'ðŸ“„' },
+            { label: 'Contractor Registration', icon: 'ðŸ“„' },
+            { label: 'Wholesale', icon: 'ðŸ·ï¸' }
+        ],
+        knowledge: [
+            {
+                id: 1,
+                icon: 'fa-cubes',
+                title: 'How many bags of cement for a 4-bedroom duplex?',
+                excerpt: 'Complete guide to cement estimation for a 4-bedroom duplex foundation, columns, and roofing.',
+                tag: 'Popular',
+                tagClass: 'popular',
+                readTime: '5 min read',
+                category: 'Materials',
+                answer: `<p>A 4-bedroom duplex typically requires <strong>1,200 - 1,500 bags of cement</strong> depending on the design and foundation type.</p>
+                <p><span class="highlight">Breakdown:</span></p>
+                <ul style="margin:0.5rem 0; padding-left:1.5rem;">
+                    <li>ðŸ§± <strong>Foundation:</strong> 450 - 550 bags</li>
+                    <li>ðŸ›ï¸ <strong>Columns & Beams:</strong> 250 - 350 bags</li>
+                    <li>ðŸ  <strong>Floor & Roof:</strong> 300 - 400 bags</li>
+                    <li>ðŸŽ¨ <strong>Plastering & Finishing:</strong> 200 - 250 bags</li>
+                </ul>
+                <p><span class="highlight">ðŸ’¡ Recommendation:</span> Order 10-15% extra for wastage and unforeseen needs. <strong style="color:var(--gold);">View Dangote Cement â†’</strong></p>`,
+                products: ['Dangote Cement', 'BUA Cement', 'Lafarge Cement'],
+                related: [
+                    'How much does a bag of cement cost?',
+                    'Difference between 32.5 and 42.5 grade cement?',
+                    'Can cement expire?'
+                ]
+            },
+            {
+                id: 2,
+                icon: 'fa-truck',
+                title: 'Delivery to Asaba â€” what\'s the timeline?',
+                excerpt: 'Real-time delivery estimates for Asaba and surrounding areas including logistics options.',
+                tag: 'Trending',
+                tagClass: 'trending',
+                readTime: '3 min read',
+                category: 'Logistics',
+                answer: `<p>Delivery to <strong>Asaba</strong> typically takes <span class="highlight">1-2 business days</span> from our Benin City warehouse.</p>
+                <p><span class="highlight">Timeline breakdown:</span></p>
+                <ul style="margin:0.5rem 0; padding-left:1.5rem;">
+                    <li>ðŸ“¦ <strong>Standard:</strong> 2-3 days</li>
+                    <li>âš¡ <strong>Priority:</strong> 1-2 days</li>
+                    <li>ðŸš€ <strong>Express:</strong> Same-day (for orders before 10am)</li>
+                </ul>
+                <p><span class="highlight">ðŸ“Š Current status:</span> 3 trucks en route to Asaba today.</p>
+                <p style="margin-top:0.5rem;"><strong style="color:var(--gold);">Track your delivery â†’</strong> or <strong style="color:var(--gold);">Book now â†’</strong></p>`,
+                products: ['Logistics Service', 'GPS Tracking', 'Priority Delivery'],
+                related: [
+                    'Delivery to Warri timeline?',
+                    'Delivery to Lagos?',
+                    'What is the delivery cost?'
+                ]
+            },
+            {
+                id: 3,
+                icon: 'fa-balance-scale',
+                title: 'Dangote vs BUA Cement â€” which is better?',
+                excerpt: 'Detailed comparison of Dangote and BUA cement including pricing, quality, and availability.',
+                tag: 'Trending',
+                tagClass: 'trending',
+                readTime: '8 min read',
+                category: 'Materials',
+                answer: `<p>Both <strong>Dangote</strong> and <strong>BUA</strong> are premium cement brands in Nigeria. Here's a comparison:</p>
+                <table style="width:100%; margin:0.8rem 0; border-collapse:collapse;">
+                    <tr style="border-bottom:1px solid var(--gold-border);">
+                        <th style="padding:0.5rem; text-align:left;">Feature</th>
+                        <th style="padding:0.5rem; text-align:left;"><span style="color:var(--gold);">Dangote</span></th>
+                        <th style="padding:0.5rem; text-align:left;"><span style="color:var(--cyan);">BUA</span></th>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <td style="padding:0.4rem;">Price (bulk)</td>
+                        <td style="padding:0.4rem; color:var(--gold);">â‚¦6,800/bag</td>
+                        <td style="padding:0.4rem; color:var(--cyan);">â‚¦7,200/bag</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <td style="padding:0.4rem;">Quality Rating</td>
+                        <td style="padding:0.4rem; color:var(--gold);">4.8/5</td>
+                        <td style="padding:0.4rem; color:var(--cyan);">4.6/5</td>
+                    </tr>
+                    <tr style="border-bottom:1px solid rgba(255,255,255,0.04);">
+                        <td style="padding:0.4rem;">Availability</td>
+                        <td style="padding:0.4rem; color:var(--gold);">Nationwide</td>
+                        <td style="padding:0.4rem; color:var(--cyan);">South West, South South</td>
+                    </tr>
+                </table>
+                <p><span class="highlight">ðŸ’¡ Verdict:</span> Both are excellent. Dangote offers better bulk pricing and wider availability. BUA is a strong alternative in the South West.</p>`,
+                products: ['Dangote Cement', 'BUA Cement'],
+                related: [
+                    'Which cement is best for foundation?',
+                    'Dangote vs Lafarge comparison?',
+                    'Cement quality standards in Nigeria'
+                ]
+            },
+            {
+                id: 4,
+                icon: 'fa-calculator',
+                title: 'How many blocks for a 3-bedroom bungalow?',
+                excerpt: 'Step-by-step block estimation for a 3-bedroom bungalow including foundation and walls.',
+                tag: 'Popular',
+                tagClass: 'popular',
+                readTime: '4 min read',
+                category: 'Materials',
+                answer: `<p>A standard 3-bedroom bungalow typically requires <strong>2,800 - 3,200 blocks</strong> for the entire structure.</p>
+                <p><span class="highlight">Breakdown:</span></p>
+                <ul style="margin:0.5rem 0; padding-left:1.5rem;">
+                    <li>ðŸ—ï¸ <strong>Foundation:</strong> 800 - 1,000 blocks</li>
+                    <li>ðŸ§± <strong>Walls:</strong> 1,600 - 1,800 blocks</li>
+                    <li>ðŸ  <strong>Partitions:</strong> 300 - 400 blocks</li>
+                </ul>
+                <p><span class="highlight">ðŸ“ Formula:</span> Total blocks = (Length Ã— Height Ã— 2) / Block size</p>
+                <p style="margin-top:0.5rem;"><strong style="color:var(--gold);">Use our Block Calculator â†’</strong></p>`,
+                products: ['Blocks', 'Cement', 'Sand', 'Granite'],
+                related: [
+                    'How many blocks for a duplex?',
+                    'What size blocks are best?',
+                    'Block laying cost per square meter?'
+                ]
+            },
+            {
+                id: 5,
+                icon: 'fa-file-invoice',
+                title: 'What is BOQ and how do I upload it?',
+                excerpt: 'Understanding Bills of Quantities and how to upload them for procurement and quotation.',
+                tag: 'New',
+                tagClass: 'new',
+                readTime: '6 min read',
+                category: 'Procurement',
+                answer: `<p><strong>BOQ (Bill of Quantities)</strong> is a detailed document listing all materials, quantities, and specifications for a construction project.</p>
+                <p><span class="highlight">How to upload your BOQ:</span></p>
+                <ol style="margin:0.5rem 0; padding-left:1.5rem;">
+                    <li>ðŸ“„ Prepare your BOQ in Excel or PDF format</li>
+                    <li>ðŸ“¤ Upload via the <strong style="color:var(--gold);">Quote Builder</strong></li>
+                    <li>ðŸ¤– AI analyzes the BOQ instantly</li>
+                    <li>ðŸ“‹ Receive a detailed quotation within 4 hours</li>
+                </ol>
+                <p><span class="highlight">âœ… Pro tip:</span> Include material specifications for more accurate pricing.</p>
+                <p style="margin-top:0.5rem;"><strong style="color:var(--gold);">Upload BOQ now â†’</strong> or <strong style="color:var(--gold);">Download BOQ template â†’</strong></p>`,
+                products: ['BOQ Upload Service', 'BOQ Template', 'Procurement Consultation'],
+                related: [
+                    'What is a BOQ in construction?',
+                    'How to prepare a BOQ?',
+                    'BOQ vs BOM: What\'s the difference?'
+                ]
+            },
+            {
+                id: 6,
+                icon: 'fa-handshake',
+                title: 'How to become a BuildMart contractor?',
+                excerpt: 'Complete guide to contractor registration, requirements, and benefits.',
+                tag: 'Updated',
+                tagClass: 'updated',
+                readTime: '7 min read',
+                category: 'Contractors',
+                answer: `<p>Join Nigeria's leading construction procurement network. Here's how to become a <strong>BuildMart contractor</strong>:</p>
+                <p><span class="highlight">Requirements:</span></p>
+                <ul style="margin:0.5rem 0; padding-left:1.5rem;">
+                    <li>âœ… <strong>CAC Registration</strong> â€” RC number</li>
+                    <li>âœ… <strong>Years of experience</strong> â€” Minimum 3 years</li>
+                    <li>âœ… <strong>Project portfolio</strong> â€” Previous projects</li>
+                    <li>âœ… <strong>Verification</strong> â€” Site visit and verification</li>
+                </ul>
+                <p><span class="highlight">Benefits:</span></p>
+                <ul style="margin:0.5rem 0; padding-left:1.5rem;">
+                    <li>ðŸ·ï¸ <strong>Wholesale pricing</strong> â€” Up to 25% discount</li>
+                    <li>ðŸšš <strong>Priority delivery</strong> â€” 24-48 hours</li>
+                    <li>ðŸ‘¨â€ðŸ’¼ <strong>Dedicated account manager</strong></li>
+                    <li>ðŸ“Š <strong>Project financing</strong> â€” Up to 30 days credit</li>
+                </ul>
+                <p style="margin-top:0.5rem;"><strong style="color:var(--gold);">Register now â†’</strong></p>`,
+                products: ['Contractor Account', 'Wholesale Pricing', 'Project Financing'],
+                related: [
+                    'What are the contractor requirements?',
+                    'How long does contractor verification take?',
+                    'Contractor vs Reseller: Which is right for me?'
+                ]
+            }
+        ],
+        guides: [
+            { icon: 'fa-file-pdf', title: 'Cement Guide', meta: '12 pages Â· Updated 2026' },
+            { icon: 'fa-file-pdf', title: 'Roofing Guide', meta: '8 pages Â· Updated 2026' },
+            { icon: 'fa-file-pdf', title: 'Steel Guide', meta: '10 pages Â· Updated 2026' },
+            { icon: 'fa-file-pdf', title: 'Electrical Guide', meta: '14 pages Â· Updated 2026' },
+            { icon: 'fa-file-pdf', title: 'Plumbing Guide', meta: '9 pages Â· Updated 2026' },
+            { icon: 'fa-file-pdf', title: 'Finishing Guide', meta: '11 pages Â· Updated 2026' }
+        ],
+        calculators: [
+            { icon: 'fa-cubes', name: 'Cement Calculator', desc: 'Estimate cement needed' },
+            { icon: 'fa-cube', name: 'Concrete Volume', desc: 'Calculate concrete volume' },
+            { icon: 'fa-paint-roller', name: 'Paint Coverage', desc: 'Calculate paint needed' },
+            { icon: 'fa-home', name: 'Roofing Sheets', desc: 'Estimate roofing materials' },
+            { icon: 'fa-ruler-combined', name: 'Tile Calculator', desc: 'Calculate tile quantities' },
+            { icon: 'fa-cubes', name: 'Block Calculator', desc: 'Estimate block requirements' },
+            { icon: 'fa-layer-group', name: 'Foundation Calc', desc: 'Foundation materials' },
+            { icon: 'fa-weight-hanging', name: 'Steel Weight', desc: 'Calculate rebar weight' }
+        ]
+    };
+
+    // =========================================================================
+    // 3. RENDER FUNCTIONS
+    // =========================================================================
+    function renderStats() {
+        const container = document.getElementById('statsBar');
+        container.innerHTML = DATA.stats.map(s => `
+            <div class="stat-item">
+                <div class="stat-value">${s.value}</div>
+                <div class="stat-label">${s.label}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderTrending() {
+        const container = document.getElementById('trendingTopics');
+        container.innerHTML = DATA.trending.map(t => `
+            <span class="trending-topic" onclick="searchTrending('${t.label}')">
+                <span class="fire">${t.icon}</span> ${t.label}
+            </span>
+        `).join('');
+    }
+
+    function renderKnowledge() {
+        const container = document.getElementById('knowledgeGrid');
+        container.innerHTML = DATA.knowledge.map(k => `
+            <div class="knowledge-card glass-card" onclick="showAnswer(${k.id})">
+                <div class="card-icon"><i class="fas ${k.icon}"></i></div>
+                <span class="card-tag ${k.tagClass}">${k.tag}</span>
+                <div class="card-title">${k.title}</div>
+                <div class="card-excerpt">${k.excerpt}</div>
+                <div class="card-meta">
+                    <span><i class="fas fa-clock"></i> ${k.readTime}</span>
+                    <span><i class="fas fa-tag"></i> ${k.category}</span>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    function renderGuides() {
+        const container = document.getElementById('guidesGrid');
+        container.innerHTML = DATA.guides.map(g => `
+            <div class="guide-card glass-card" onclick="showToast('Guide', 'Loading ${g.title}...')">
+                <div class="guide-icon"><i class="fas ${g.icon}"></i></div>
+                <div class="guide-title">${g.title}</div>
+                <div class="guide-meta">${g.meta}</div>
+            </div>
+        `).join('');
+    }
+
+    function renderCalculators() {
+        const container = document.getElementById('calculatorsGrid');
+        container.innerHTML = DATA.calculators.map(c => `
+            <div class="calculator-card glass-card" onclick="showToast('Calculator', 'Opening ${c.name}...')">
+                <div class="calc-icon"><i class="fas ${c.icon}"></i></div>
+                <div class="calc-name">${c.name}</div>
+                <div class="calc-desc">${c.desc}</div>
+            </div>
+        `).join('');
+    }
+
+    // =========================================================================
+    // 4. SHOW ANSWER - SMART CARD
+    // =========================================================================
+    function showAnswer(id) {
+        const article = DATA.knowledge.find(k => k.id === id);
+        if (!article) return;
+
+        const container = document.getElementById('expandedAnswer');
+        const content = document.getElementById('answerContainer');
+        
+        container.style.display = 'block';
+        content.innerHTML = `
+            <div style="display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:0.5rem; margin-bottom:0.5rem;">
+                <h3 style="font-size:1.3rem; font-family:var(--font-display);">${article.title}</h3>
+                <span class="card-tag ${article.tagClass}">${article.tag}</span>
+            </div>
+            <div class="answer-content">${article.answer}</div>
+            ${article.products ? `
+                <div style="margin-top:1rem; padding-top:0.8rem; border-top:1px solid rgba(255,255,255,0.04);">
+                    <strong style="color:var(--text-muted); font-size:0.8rem;">ðŸ›’ Recommended Products:</strong>
+                    <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.3rem;">
+                        ${article.products.map(p => `<span style="background:rgba(245,158,11,0.06);padding:0.2rem 0.8rem;border-radius:50px;font-size:0.75rem;color:var(--gold);cursor:pointer;" onclick="showToast('Product', 'Viewing ${p}...')">${p}</span>`).join('')}
+                    </div>
+                </div>
+            ` : ''}
+            <div class="answer-actions">
+                <button onclick="showToast('Download', 'Downloading guide...')"><i class="fas fa-download"></i> Download Guide</button>
+                <button onclick="showToast('Calculator', 'Opening calculator...')"><i class="fas fa-calculator"></i> Calculator</button>
+                <button onclick="showToast('Contact', 'Connecting to specialist...')"><i class="fas fa-user-tie"></i> Talk to Specialist</button>
+                <button onclick="showToast('Copied', 'Link copied!')"><i class="fas fa-link"></i> Copy Link</button>
+                <button onclick="showToast('Feedback', 'Thank you!')" style="color:var(--accent-success);"><i class="fas fa-thumbs-up"></i> Helpful</button>
+            </div>
+            ${article.related ? `
+                <div class="related-questions">
+                    <div class="rq-title">ðŸ“š Users also asked</div>
+                    ${article.related.map(r => `
+                        <div class="rq-item" onclick="searchTrending('${r}')">${r}</div>
+                    `).join('')}
+                </div>
+            ` : ''}
+        `;
+        
+        // Scroll to answer
+        container.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    // =========================================================================
+    // 5. SEARCH FUNCTIONS
+    // =========================================================================
+    function searchTrending(query) {
+        document.getElementById('searchInput').value = query;
+        performSearch(query);
+    }
+
+    function performSearch(query) {
+        if (!query) query = document.getElementById('searchInput').value;
+        if (!query) {
+            showToast('Search', 'Please enter a search query.');
+            return;
+        }
+
+        // Search through knowledge articles
+        const results = DATA.knowledge.filter(k => 
+            k.title.toLowerCase().includes(query.toLowerCase()) ||
+            k.excerpt.toLowerCase().includes(query.toLowerCase()) ||
+            k.category.toLowerCase().includes(query.toLowerCase())
+        );
+
+        if (results.length > 0) {
+            showAnswer(results[0].id);
+            showToast('Search Results', `Found ${results.length} articles matching "${query}"`);
+        } else {
+            showToast('Search Results', `No articles found for "${query}". Try a different search.`);
+        }
+    }
+
+    // =========================================================================
+    // 6. TOAST
+    // =========================================================================
+    function showToast(title, message) {
+        const toast = document.getElementById('toast');
+        document.getElementById('toastTitle').textContent = title;
+        document.getElementById('toastMessage').textContent = message;
+        toast.classList.add('show');
+        clearTimeout(window.toastTimeout);
+        window.toastTimeout = setTimeout(() => toast.classList.remove('show'), 4000);
+    }
+
+    function closeToast() {
+        document.getElementById('toast').classList.remove('show');
+    }
+
+    // =========================================================================
+    // 7. NAVIGATION
+    // =========================================================================
+    function setupNavigation() {
+        const hamburger = document.getElementById('navHamburger');
+        const navLinks = document.getElementById('navLinks');
+        
+        hamburger?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('open');
+        });
+        
+        navLinks?.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburger?.classList.remove('active');
+                navLinks?.classList.remove('open');
+            });
+        });
+        
+        const header = document.getElementById('mainNav');
+        window.addEventListener('scroll', () => {
+            header?.classList.toggle('scrolled', window.pageYOffset > 50);
+        });
+    }
+
+    // =========================================================================
+    // 8. KEYBOARD SHORTCUTS
+    // =========================================================================
+    document.addEventListener('keydown', function(e) {
+        if (e.ctrlKey && e.key === 'k') {
+            e.preventDefault();
+            document.getElementById('searchInput').focus();
+        }
+        if (e.key === 'Escape') {
+            closeToast();
+        }
+        if (e.key === 'Enter' && document.activeElement === document.getElementById('searchInput')) {
+            performSearch();
+        }
+    });
+
+    // =========================================================================
+    // 9. INITIALIZATION
+    // =========================================================================
+    function init() {
+        console.log('ðŸ“š BuildMart Â· Knowledge Center');
+        console.log('ðŸ“– 1,284 Articles Â· 8 Categories Â· 8 Calculators');
+        console.log('ðŸ¤– AI Search: Online Â· 24/7');
+        console.log('âŒ¨ï¸ Shortcut: Ctrl+K to focus search');
+        
+        setupNavigation();
+        renderStats();
+        renderTrending();
+        renderKnowledge();
+        renderGuides();
+        renderCalculators();
+
+        // Search button handler
+        document.getElementById('searchButton').addEventListener('click', () => performSearch());
+        
+        // Welcome toast
+        setTimeout(() => {
+            showToast('ðŸ“š Knowledge Center', 'Ask anything about construction, materials, delivery, and procurement.');
+        }, 1500);
+    }
+
+    document.addEventListener('DOMContentLoaded', init);
+</script>
+</body>
+</html>
+

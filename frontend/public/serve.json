@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "payroll/verify/*", "destination": "/payroll/verify/index.html" }
+  ]
+}

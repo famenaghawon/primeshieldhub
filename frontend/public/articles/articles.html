@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+<title>
+    PrimeShieldHub Insights | Technology, AI, Entrepreneurship & Innovation
+</title>
+<meta name="description"
+      content="Official insights hub of PrimeShieldHub. Articles covering entrepreneurship, artificial intelligence, cloud computing, technology, agriculture, business strategy and innovation.">
+<meta name="keywords"
+      content="PrimeShieldHub Insights, Freedom Evbakoe Amenaghawon, AI Articles, Technology Blog, Entrepreneurship, Cloud Computing, Data Analytics, Innovation">
+<meta name="author"
+      content="Freedom Evbakoe Amenaghawon">
+<meta name="robots"
+      content="index,follow">
+<link rel="canonical"
+      href="https://primeshieldhub.com/articles">
+<link rel="icon"
+      href="/company_logo.png">
+<link rel="preconnect"
+      href="https://fonts.googleapis.com">
+<link rel="preconnect"
+      href="https://fonts.gstatic.com"
+      crossorigin>
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<!-- Open Graph -->
+<meta property="og:type"
+      content="website">
+<meta property="og:title"
+      content="PrimeShieldHub Insights">
+<meta property="og:description"
+      content="Technology, entrepreneurship, AI, innovation and business insights.">
+<meta property="og:url"
+      content="https://primeshieldhub.com/articles">
+<meta property="og:image"
+      content="https://primeshieldhub.com/company_logo.png">
+<meta name="twitter:card" content="summary_large_image">
+
+<!-- Blog Schema -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"Blog",
+  "name":"PrimeShieldHub Insights",
+  "url":"https://primeshieldhub.com/articles",
+  "publisher":{
+    "@id":"https://primeshieldhub.com/company#organization"
+  }
+}
+</script>
+
+<!-- Breadcrumb Schema -->
+<script type="application/ld+json">
+{
+  "@context":"https://schema.org",
+  "@type":"BreadcrumbList",
+  "itemListElement":[
+    {
+      "@type":"ListItem",
+      "position":1,
+      "name":"Home",
+      "item":"https://primeshieldhub.com"
+    },
+    {
+      "@type":"ListItem",
+      "position":2,
+      "name":"Insights"
+    }
+  ]
+}
+</script>
+
+<style>
+    /* ===== DESIGN SYSTEM ===== */
+    :root{
+        --bg-deep:#060608;
+        --bg-primary:#0a0a0d;
+        --bg-elevated:#0f0f14;
+        --bg-card:#141419;
+        --bg-card-hover:#1a1a20;
+        --gold-soft:#c4a04a;
+        --gold-core:#d6b25e;
+        --gold-bright:#e8c97a;
+        --gold-light:#f3dba0;
+        --gold-glow-subtle:rgba(214,178,94,0.06);
+        --gold-glow-medium:rgba(214,178,94,0.12);
+        --gold-glow-strong:rgba(214,178,94,0.2);
+        --gold-border-subtle:rgba(214,178,94,0.1);
+        --gold-border:rgba(214,178,94,0.18);
+        --gold-border-bright:rgba(214,178,94,0.3);
+        --text-primary:#f0efe8;
+        --text-secondary:#b8b6ad;
+        --text-muted:#7a7870;
+        --text-inverse:#0a0a0d;
+        --font-sans:'Inter',system-ui,-apple-system,sans-serif;
+        --font-mono:'JetBrains Mono',monospace;
+        --font-serif:'Cormorant Garamond',Georgia,serif;
+        --radius-sm:12px;
+        --radius-md:20px;
+        --radius-lg:28px;
+        --radius-xl:36px;
+        --radius-full:50%;
+        --ease-out-expo:cubic-bezier(0.16,1,0.3,1);
+        --duration-fast:0.3s;
+        --duration-medium:0.5s;
+    }
+
+    *{margin:0;padding:0;box-sizing:border-box;}
+
+    html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;}
+
+    body{
+        font-family:var(--font-sans);
+        background:var(--bg-deep);
+        color:var(--text-primary);
+        overflow-x:hidden;
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        line-height:1.6;
+    }
+
+    /* Ambient background */
+    body::before{
+        content:'';
+        position:fixed;inset:0;
+        background:
+            radial-gradient(ellipse 80% 50% at 10% 0%,rgba(214,178,94,0.04) 0%,transparent 55%),
+            radial-gradient(ellipse 60% 40% at 90% 100%,rgba(214,178,94,0.03) 0%,transparent 55%);
+        pointer-events:none;z-index:-2;
+    }
+
+    /* Dot grid */
+    body::after{
+        content:'';
+        position:fixed;inset:0;
+        background-image:radial-gradient(rgba(214,178,94,0.025) 1px,transparent 1px);
+        background-size:40px 40px;
+        pointer-events:none;z-index:-1;
+        mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%);
+        -webkit-mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 20%,transparent 70%);
+    }
+
+    ::-webkit-scrollbar{width:5px;}
+    ::-webkit-scrollbar-track{background:var(--bg-deep);}
+    ::-webkit-scrollbar-thumb{background:linear-gradient(180deg,var(--gold-soft),var(--gold-bright));border-radius:3px;}
+    ::selection{background:var(--gold-glow-strong);color:var(--text-primary);}
+
+    /* ===== CONTAINER ===== */
+    .container{max-width:1400px;margin:0 auto;padding:0 32px;}
+    .section{padding:100px 0;}
+
+    /* ===== GOLD GRADIENT ===== */
+    .gold-gradient{
+        background:linear-gradient(135deg,var(--gold-soft),var(--gold-bright),var(--gold-light));
+        -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+
+    /* ===== BADGE ===== */
+    .section-badge{
+        display:inline-flex;align-items:center;gap:8px;
+        padding:8px 20px;background:var(--gold-glow-subtle);
+        border:1px solid var(--gold-border-subtle);color:var(--gold-core);
+        border-radius:100px;font-size:0.73rem;font-weight:700;
+        letter-spacing:0.15em;text-transform:uppercase;
+        font-family:var(--font-mono);margin-bottom:18px;
+    }
+
+    /* ===== HERO ===== */
+    .hero-section{
+        padding:120px 0 80px;text-align:center;position:relative;
+    }
+    .hero-orb{
+        position:absolute;width:600px;height:600px;border-radius:50%;
+        background:radial-gradient(circle,rgba(214,178,94,0.06) 0%,transparent 65%);
+        top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;
+        animation:orbPulse 10s ease-in-out infinite;
+    }
+    @keyframes orbPulse{
+        0%,100%{opacity:0.4;transform:translate(-50%,-50%) scale(1);}
+        50%{opacity:0.7;transform:translate(-50%,-50%) scale(1.06);}
+    }
+    .hero-title{
+        font-family:var(--font-serif);
+        font-size:clamp(3rem,7vw,6rem);font-weight:600;
+        line-height:1.05;letter-spacing:-0.02em;margin-bottom:20px;
+    }
+    .hero-sub{
+        font-size:1.15rem;color:var(--text-secondary);
+        max-width:800px;margin:0 auto;line-height:1.85;
+    }
+
+    /* ===== SECTION HEADER ===== */
+    .section-header{text-align:center;margin-bottom:60px;}
+    .section-title{
+        font-family:var(--font-serif);
+        font-size:clamp(2.2rem,4.5vw,3.5rem);font-weight:600;
+        line-height:1.15;letter-spacing:-0.02em;margin-bottom:10px;
+    }
+    .section-title .gold{color:var(--gold-core);}
+    .section-subtitle{color:var(--text-muted);font-size:1rem;}
+
+    /* ===== CARDS ===== */
+    .card{
+        background:var(--bg-card);border:1px solid var(--gold-border-subtle);
+        border-radius:var(--radius-lg);padding:35px;
+        transition:all var(--duration-fast) var(--ease-out-expo);
+        display:block;text-decoration:none;color:var(--text-primary);
+    }
+    .card:hover{
+        border-color:var(--gold-border);background:var(--bg-card-hover);
+        transform:translateY(-5px);box-shadow:0 20px 50px rgba(0,0,0,0.35);
+    }
+    .card-date{
+        font-size:0.8rem;color:var(--gold-core);font-weight:700;
+        font-family:var(--font-mono);margin-bottom:12px;
+    }
+    .card h3{
+        font-size:1.25rem;margin-bottom:12px;line-height:1.4;
+    }
+    .card p{
+        color:var(--text-secondary);line-height:1.8;font-size:0.95rem;
+    }
+    .card-arrow{
+        display:inline-block;margin-top:18px;font-weight:700;
+        color:var(--gold-core);font-size:0.85rem;font-family:var(--font-mono);
+    }
+
+    /* Category cards (non-link) */
+    .cat-card{
+        background:var(--bg-card);border:1px solid var(--gold-border-subtle);
+        border-radius:var(--radius-lg);padding:35px;
+    }
+    .cat-card h3{font-size:1.2rem;margin-bottom:12px;}
+    .cat-card p{color:var(--text-secondary);line-height:1.8;font-size:0.93rem;}
+    .cat-card ul{margin-top:20px;line-height:2.1;color:var(--text-secondary);padding-left:20px;font-size:0.93rem;}
+    .cat-card ul li a{color:var(--text-secondary);text-decoration:none;transition:color var(--duration-fast);}
+    .cat-card ul li a:hover{color:var(--gold-core);}
+
+    /* ===== GRID ===== */
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:25px;}
+
+    /* ===== FOUNDER SECTION ===== */
+    .founder-grid{
+        display:grid;grid-template-columns:380px 1fr;gap:60px;align-items:center;
+    }
+    .founder-image img{
+        width:100%;border-radius:var(--radius-lg);
+        box-shadow:0 25px 60px rgba(0,0,0,0.5),0 0 40px var(--gold-glow-subtle);
+        border:1px solid var(--gold-border-subtle);
+    }
+    .founder-content h2{
+        font-family:var(--font-serif);font-size:clamp(2rem,4vw,3rem);
+        font-weight:600;margin-bottom:20px;
+    }
+    .founder-content p{
+        font-size:1.05rem;line-height:1.85;color:var(--text-secondary);margin-bottom:20px;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary{
+        display:inline-flex;align-items:center;gap:8px;
+        padding:14px 28px;background:linear-gradient(135deg,var(--gold-soft),var(--gold-core));
+        color:var(--text-inverse);text-decoration:none;border-radius:100px;
+        font-weight:700;font-size:0.88rem;font-family:var(--font-mono);
+        transition:all var(--duration-fast) var(--ease-out-expo);border:none;cursor:pointer;
+    }
+    .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 30px var(--gold-glow-medium);}
+    .btn-secondary{
+        display:inline-flex;align-items:center;gap:8px;
+        padding:14px 28px;background:transparent;color:var(--gold-core);
+        text-decoration:none;border-radius:100px;font-weight:700;font-size:0.88rem;
+        font-family:var(--font-mono);border:1px solid var(--gold-border);
+        transition:all var(--duration-fast) var(--ease-out-expo);cursor:pointer;
+    }
+    .btn-secondary:hover{background:var(--gold-glow-subtle);transform:translateY(-2px);border-color:var(--gold-border-bright);}
+
+    .btn-row{display:flex;gap:14px;flex-wrap:wrap;}
+    .btn-row-center{justify-content:center;}
+
+    /* Social link buttons */
+    .social-link{
+        display:inline-flex;align-items:center;gap:8px;
+        padding:14px 26px;border-radius:100px;font-weight:700;font-size:0.88rem;
+        text-decoration:none;font-family:var(--font-mono);
+        transition:all var(--duration-fast) var(--ease-out-expo);
+    }
+    .social-link-solid{
+        background:linear-gradient(135deg,var(--gold-soft),var(--gold-core));
+        color:var(--text-inverse);
+    }
+    .social-link-solid:hover{transform:translateY(-2px);box-shadow:0 10px 25px var(--gold-glow-medium);}
+    .social-link-outline{
+        border:1px solid var(--gold-border);color:var(--gold-core);
+    }
+    .social-link-outline:hover{background:var(--gold-glow-subtle);transform:translateY(-2px);border-color:var(--gold-border-bright);}
+
+    /* ===== KNOWLEDGE SECTION ===== */
+    .knowledge-card{
+        background:var(--bg-card);border:1px solid var(--gold-border-subtle);
+        border-radius:var(--radius-lg);padding:40px;text-align:center;
+    }
+
+    /* ===== FOOTER ===== */
+    .site-footer{
+        background:var(--bg-elevated);border-top:1px solid rgba(255,255,255,0.04);
+        padding:60px 0 30px;
+    }
+    .footer-grid{
+        display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+        gap:40px;margin-bottom:40px;
+    }
+    .footer-grid h4{
+        font-family:var(--font-mono);font-size:0.75rem;color:var(--gold-core);
+        text-transform:uppercase;letter-spacing:0.12em;margin-bottom:18px;
+    }
+    .footer-grid a{
+        display:block;color:var(--text-muted);text-decoration:none;
+        font-size:0.9rem;margin-bottom:8px;transition:color var(--duration-fast);
+    }
+    .footer-grid a:hover{color:var(--gold-core);}
+    .footer-bottom{
+        text-align:center;padding-top:30px;
+        border-top:1px solid rgba(255,255,255,0.03);color:var(--text-muted);font-size:0.85rem;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:968px){
+        .founder-grid{grid-template-columns:1fr;gap:40px;}
+        .hero-title{font-size:2.8rem;}
+        .container{padding:0 24px;}
+        .section{padding:70px 0;}
+    }
+    @media(max-width:768px){
+        .hero-title{font-size:2.2rem;}
+        .section-title{font-size:1.8rem;}
+        .grid{grid-template-columns:1fr;}
+        .btn-row{flex-direction:column;align-items:stretch;}
+        .btn-primary,.btn-secondary{justify-content:center;}
+        .social-link{justify-content:center;}
+    }
+    @media(max-width:480px){
+        .hero-title{font-size:1.8rem;}
+        .founder-image img{max-width:250px;margin:0 auto;display:block;}
+        .footer-grid{grid-template-columns:1fr;}
+    }
+</style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- ==================== HERO ==================== -->
+<section class="hero-section">
+<div class="hero-orb"></div>
+<div class="container">
+    <span class="section-badge">Founder Insights & Knowledge Hub</span>
+    <h1 class="hero-title">
+        <span class="gold-gradient">PrimeShieldHub</span> Insights
+    </h1>
+    <p class="hero-sub">
+        Articles, perspectives and insights covering entrepreneurship,
+        artificial intelligence, technology, cloud computing,
+        business strategy, agriculture and innovation from
+        PrimeShieldHub and its Founder, Freedom Evbakoe Amenaghawon.
+    </p>
+</div>
+</section>
+
+<!-- ==================== FEATURED ARTICLES ==================== -->
+<section class="section" style="background:var(--bg-primary);">
+<div class="container">
+    <div class="section-header">
+        <span class="section-badge">Featured</span>
+        <h2 class="section-title">Featured <span class="gold">Insights</span></h2>
+        <p class="section-subtitle">Latest articles from the founder</p>
+    </div>
+    <div class="grid">
+        <a href="/articles/why-i-founded-primeshieldhub.html" class="card">
+            <div class="card-date">June 2026</div>
+            <h3>Why I Founded PrimeShieldHub</h3>
+            <p>A personal reflection on entrepreneurship, resilience, technology and the vision behind building PrimeShieldHub Gadgets Limited.</p>
+            <span class="card-arrow">Read Article â†’</span>
+        </a>
+        <a href="/articles/microbiology-to-entrepreneurship.html" class="card">
+            <div class="card-date">June 2026</div>
+            <h3>From Microbiology to Entrepreneurship</h3>
+            <p>The personal journey of Freedom Amenaghawon from studying Microbiology at UNIBEN to building businesses across technology, agriculture and commerce.</p>
+            <span class="card-arrow">Read Article â†’</span>
+        </a>
+        <a href="/press/founder-journey-2026.html" class="card">
+            <div class="card-date">June 2026</div>
+            <h3>Entrepreneurial Journey of Freedom Amenaghawon</h3>
+            <p>A detailed look at the founder's journey from university student to business owner spanning technology, agriculture and commerce.</p>
+            <span class="card-arrow">Read Release â†’</span>
+        </a>
+    </div>
+</div>
+</section>
+
+<!-- ==================== KNOWLEDGE CATEGORIES ==================== -->
+<section class="section">
+<div class="container">
+    <div class="section-header">
+        <span class="section-badge">Explore</span>
+        <h2 class="section-title">Knowledge <span class="gold">Categories</span></h2>
+        <p class="section-subtitle">Browse articles by topic</p>
+    </div>
+    <div class="grid">
+        <div class="cat-card">
+            <i class="fas fa-rocket" style="color:var(--gold-core);font-size:1.4rem;margin-bottom:14px;display:block;"></i>
+            <h3>Entrepreneurship</h3>
+            <p>Business building, startup lessons, leadership insights, risk management, growth strategies and entrepreneurial experiences.</p>
+            <ul>
+                <li><a href="/articles/why-i-founded-primeshieldhub.html">Why I Founded PrimeShieldHub</a></li>
+                <li><a href="/articles/microbiology-to-entrepreneurship.html">From Microbiology to Entrepreneurship</a></li>
+                <li>Lessons From Building A Business In Nigeria</li>
+                <li>The Importance Of Persistence In Entrepreneurship</li>
+            </ul>
+        </div>
+        <div class="cat-card">
+            <i class="fas fa-brain" style="color:var(--gold-core);font-size:1.4rem;margin-bottom:14px;display:block;"></i>
+            <h3>Artificial Intelligence & Technology</h3>
+            <p>Insights into AI, emerging technologies, cloud computing, software systems and digital transformation.</p>
+            <ul>
+                <li>How AI Is Transforming Small Businesses</li>
+                <li>Cloud Computing Explained Simply</li>
+                <li>The Future Of Technology Entrepreneurship</li>
+            </ul>
+        </div>
+        <div class="cat-card">
+            <i class="fas fa-chart-bar" style="color:var(--gold-core);font-size:1.4rem;margin-bottom:14px;display:block;"></i>
+            <h3>Data Analytics</h3>
+            <p>Data-driven decision making, analytics tools, business intelligence and practical applications of data science.</p>
+            <ul>
+                <li>Why Every Business Needs Data</li>
+                <li>Power BI For Business Growth</li>
+                <li>Data Analytics For Entrepreneurs</li>
+            </ul>
+        </div>
+        <div class="cat-card">
+            <i class="fas fa-seedling" style="color:var(--gold-core);font-size:1.4rem;margin-bottom:14px;display:block;"></i>
+            <h3>Agriculture</h3>
+            <p>Agricultural investments, cassava farming, agribusiness opportunities and the intersection of technology and agriculture.</p>
+            <ul>
+                <li>Why I Invest In Agriculture</li>
+                <li>Cassava Farming As A Long-Term Investment</li>
+                <li>Technology In Modern Agriculture</li>
+            </ul>
+        </div>
+        <div class="cat-card">
+            <i class="fas fa-building" style="color:var(--gold-core);font-size:1.4rem;margin-bottom:14px;display:block;"></i>
+            <h3>PrimeShieldHub Updates</h3>
+            <p>Company announcements, milestones, expansion plans, new initiatives and official business updates.</p>
+            <ul>
+                <li>Company Milestones</li>
+                <li>Store Expansion Updates</li>
+                <li>PrimeShieldHub BuildMart Developments</li>
+            </ul>
+        </div>
+        <div class="cat-card">
+            <i class="fas fa-lightbulb" style="color:var(--gold-core);font-size:1.4rem;margin-bottom:14px;display:block;"></i>
+            <h3>Innovation & Future Trends</h3>
+            <p>Exploring emerging opportunities, future industries, innovation strategies and long-term business thinking.</p>
+            <ul>
+                <li>Future Industries To Watch</li>
+                <li>Innovation As A Competitive Advantage</li>
+                <li>Building Businesses For The Long Term</li>
+            </ul>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ==================== KNOWLEDGE, INNOVATION & GROWTH ==================== -->
+<section class="section" style="background:var(--bg-primary);">
+<div class="container">
+    <div class="knowledge-card">
+        <i class="fas fa-gem" style="color:var(--gold-core);font-size:2rem;margin-bottom:18px;display:block;"></i>
+        <h2 style="font-family:var(--font-serif);font-size:clamp(2rem,4vw,2.8rem);font-weight:600;margin-bottom:18px;">
+            Knowledge, Innovation & <span class="gold-gradient">Growth</span>
+        </h2>
+        <p style="font-size:1.08rem;line-height:1.9;color:var(--text-secondary);max-width:800px;margin:0 auto;">
+            PrimeShieldHub Insights serves as the official thought leadership platform of PrimeShieldHub Gadgets Limited. Through articles, analysis and founder perspectives, the platform shares practical knowledge across entrepreneurship, technology, data analytics, cloud computing, agriculture and innovation.
+        </p>
+    </div>
+</div>
+</section>
+
+<!-- ==================== FOUNDER SECTION ==================== -->
+<section class="section">
+<div class="container">
+    <div class="founder-grid">
+        <div class="founder-image">
+            <img src="/photograph.webp"
+                 alt="Freedom Evbakoe Amenaghawon">
+        </div>
+        <div class="founder-content">
+            <span class="section-badge">Founder</span>
+            <h2>Freedom Evbakoe <span class="gold-gradient">Amenaghawon</span></h2>
+            <p>
+                Freedom Evbakoe Amenaghawon is the Founder and Chief Executive Officer of PrimeShieldHub Gadgets Limited.
+                Through PrimeShieldHub Insights, he shares lessons from entrepreneurship,
+                technology, data analytics, cloud computing, agriculture and business growth.
+            </p>
+            <div class="btn-row">
+                <a href="/founder" class="btn-primary"><i class="fas fa-user-tie"></i> Founder Profile</a>
+                <a href="/biography" class="btn-secondary"><i class="fas fa-book"></i> Official Biography</a>
+                <a href="/freedom-evbakoe-amenaghawon" class="btn-secondary"><i class="fas fa-id-card"></i> Personal Profile</a>
+            </div>
+        </div>
+    </div>
+</div>
+</section>
+
+<!-- ==================== STAY CONNECTED ==================== -->
+<section class="section" style="background:var(--bg-primary);">
+<div class="container">
+    <div class="section-header">
+        <span class="section-badge">Connect</span>
+        <h2 class="section-title">Follow <span class="gold">The Journey</span></h2>
+        <p class="section-subtitle">Follow PrimeShieldHub and Freedom Evbakoe Amenaghawon for updates, insights, business lessons and technology perspectives.</p>
+    </div>
+    <div class="btn-row btn-row-center">
+        <a href="https://x.com/primeshieldhub" target="_blank" class="social-link social-link-solid"><i class="fab fa-x-twitter"></i> X</a>
+        <a href="https://www.linkedin.com/in/primeshieldhub-08a1863b0" target="_blank" class="social-link social-link-outline"><i class="fab fa-linkedin-in"></i> LinkedIn</a>
+        <a href="https://www.instagram.com/primeshieldhub" target="_blank" class="social-link social-link-outline"><i class="fab fa-instagram"></i> Instagram</a>
+        <a href="https://www.facebook.com/share/1EWJxoLtWJ/" target="_blank" class="social-link social-link-outline"><i class="fab fa-facebook-f"></i> Facebook</a>
+    </div>
+</div>
+</section>
+
+<!-- ==================== OFFICIAL RESOURCES ==================== -->
+<section class="section">
+<div class="container">
+    <div class="section-header">
+        <span class="section-badge">Resources</span>
+        <h2 class="section-title">Explore <span class="gold">More</span></h2>
+        <p class="section-subtitle">Learn more about PrimeShieldHub, its founder, leadership structure, corporate developments and media resources.</p>
+    </div>
+    <div class="btn-row btn-row-center">
+        <a href="/founder" class="btn-primary"><i class="fas fa-user"></i> Founder</a>
+        <a href="/company" class="btn-secondary"><i class="fas fa-building"></i> Company</a>
+        <a href="/leadership" class="btn-secondary"><i class="fas fa-users"></i> Leadership</a>
+        <a href="/media-kit" class="btn-secondary"><i class="fas fa-camera"></i> Media Kit</a>
+        <a href="/press" class="btn-secondary"><i class="fas fa-newspaper"></i> Press Center</a>
+    </div>
+</div>
+</section>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="site-footer">
+<div class="container">
+    <div class="footer-grid">
+        <div>
+            <img src="/company_logo.png"
+                 alt="PrimeShieldHub Logo"
+                 style="width:70px;margin-bottom:16px;">
+            <h4>PrimeShieldHub Insights</h4>
+            <p style="color:var(--text-muted);font-size:0.85rem;line-height:1.7;">Technology â€¢ Entrepreneurship â€¢ AI â€¢ Cloud Computing â€¢ Agriculture â€¢ Innovation</p>
+        </div>
+        <div>
+            <h4>Resources</h4>
+            <a href="/"><i class="fas fa-home"></i> Home</a>
+            <a href="/founder"><i class="fas fa-user"></i> Founder</a>
+            <a href="/company"><i class="fas fa-building"></i> Company</a>
+            <a href="/press"><i class="fas fa-newspaper"></i> Press</a>
+            <a href="/biography"><i class="fas fa-book"></i> Biography</a>
+            <a href="/freedom-evbakoe-amenaghawon"><i class="fas fa-id-card"></i> Freedom Amenaghawon</a>
+        </div>
+        <div>
+            <h4>Contact</h4>
+            <a href="mailto:primeshieldhub@gmail.com"><i class="fas fa-envelope"></i> primeshieldhub@gmail.com</a>
+            <a href="tel:+2348103535978"><i class="fas fa-phone"></i> +2348103535978</a>
+            <a><i class="fas fa-map-marker-alt"></i> Benin City, Edo State, Nigeria</a>
+        </div>
+    </div>
+    <div class="footer-bottom">
+        Â© <span id="articleYear"></span> PrimeShieldHub Gadgets Limited. All Rights Reserved.
+    </div>
+</div>
+</footer>
+<script>
+document.getElementById('articleYear').textContent = new Date().getFullYear();
+</script>
+</body>
+</html>
+

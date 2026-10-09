@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html lang="en-NG">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0806">
+    <title>Apply | PrimeShieldHub Careers</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ============================================================
+           GOLD & BLACK THEME
+           ============================================================ */
+        :root {
+            --bg-primary: #0a0806;
+            --bg-secondary: #14100c;
+            --bg-panel: #1c1712;
+            --bg-card: #231e18;
+            --bg-input: #110e0a;
+            --border-color: #3d3228;
+            --border-gold: #c9a84c;
+            --text-primary: #f5efe6;
+            --text-secondary: #c4b8a8;
+            --text-muted: #8a7d6e;
+            --gold-core: #d4af37;
+            --gold-soft: #c9a84c;
+            --gold-bright: #e8c97a;
+            --gold-light: #f3dba0;
+            --gold-glow: rgba(212, 175, 55, 0.15);
+            --gold-border: rgba(212, 175, 55, 0.2);
+            --neon-cyan: #d4af37;
+            --neon-gold: #d4af37;
+            --neon-green: #33ffaa;
+            --neon-red: #ff6b6b;
+            --radius: 12px;
+            --radius-sm: 8px;
+            --radius-lg: 20px;
+            --transition: 0.25s ease;
+            --shadow-glow: 0 0 40px rgba(212, 175, 55, 0.06);
+            --shadow-card: 0 4px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: var(--bg-secondary);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: var(--gold-core);
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--gold-bright);
+        }
+
+        /* ============================================================
+           HEADER - GOLD & BLACK
+           ============================================================ */
+        .header {
+            background: rgba(10, 8, 6, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--gold-border);
+            padding: 12px 28px;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin: -20px -20px 20px -20px;
+            transition: var(--transition);
+        }
+
+        .header.scrolled {
+            background: rgba(10, 8, 6, 0.98);
+            border-bottom-color: var(--gold-core);
+            box-shadow: 0 4px 30px rgba(212, 175, 55, 0.05);
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .header-brand img {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            border: 1px solid var(--gold-border);
+            transition: var(--transition);
+        }
+
+        .header-brand img:hover {
+            transform: scale(1.05);
+            border-color: var(--gold-core);
+        }
+
+        .header-brand span {
+            font-size: 20px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright), var(--gold-light));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 0.5px;
+        }
+
+        .header-brand span i {
+            -webkit-text-fill-color: var(--gold-core);
+            font-size: 18px;
+        }
+
+        .header a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 14px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .header a:hover {
+            color: var(--text-primary);
+        }
+
+        .header .btn-back-header {
+            padding: 8px 16px;
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-sm);
+            transition: var(--transition);
+        }
+
+        .header .btn-back-header:hover {
+            background: var(--gold-border);
+            border-color: var(--gold-core);
+            color: var(--text-primary);
+        }
+
+        /* ============================================================
+           MAIN CONTAINER - GOLD & BLACK
+           ============================================================ */
+        .apply-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-secondary);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-lg);
+            padding: 40px;
+            box-shadow: var(--shadow-glow);
+        }
+
+        .apply-container h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .apply-container h1 span {
+            color: var(--gold-core);
+        }
+
+        .apply-container .subtitle {
+            color: var(--text-muted);
+            font-size: 14px;
+            margin-bottom: 24px;
+        }
+
+        /* ============================================================
+           JOB INFO CARD - GOLD & BLACK
+           ============================================================ */
+        .job-info-card {
+            background: var(--bg-card);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 24px;
+            border-left: 3px solid var(--gold-core);
+        }
+
+        .job-info-card .job-title {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: var(--text-primary);
+        }
+
+        .job-info-card .job-department {
+            color: var(--gold-core);
+            font-size: 14px;
+        }
+
+        .job-info-card .job-meta {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+
+        .job-info-card .job-meta span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .job-info-card .job-meta i {
+            color: var(--gold-core);
+            font-size: 12px;
+        }
+
+        /* ============================================================
+           FORM - GOLD & BLACK
+           ============================================================ */
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+        }
+
+        .form-group label .required {
+            color: var(--neon-red);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: var(--radius-sm);
+            border: 1px solid var(--gold-border);
+            background: var(--bg-input);
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: var(--transition);
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--gold-core);
+            box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        .form-group .file-upload-wrapper {
+            position: relative;
+            border: 2px dashed var(--gold-border);
+            border-radius: var(--radius-sm);
+            padding: 30px 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: var(--transition);
+            background: var(--bg-input);
+        }
+
+        .form-group .file-upload-wrapper:hover {
+            border-color: var(--gold-core);
+            background: rgba(212, 175, 55, 0.02);
+        }
+
+        .form-group .file-upload-wrapper input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+
+        .form-group .file-upload-wrapper .file-label {
+            color: var(--text-muted);
+            font-size: 14px;
+        }
+
+        .form-group .file-upload-wrapper .file-label i {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+            color: var(--gold-core);
+        }
+
+        .form-group .file-upload-wrapper .file-name {
+            margin-top: 8px;
+            font-size: 13px;
+            color: var(--gold-core);
+            display: none;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        .btn-submit {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-submit:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 60px rgba(212, 175, 55, 0.25);
+        }
+
+        .btn-submit:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .btn-back {
+            display: inline-block;
+            padding: 10px 24px;
+            background: transparent;
+            color: var(--text-secondary);
+            border: 1px solid var(--gold-border);
+            border-radius: var(--radius-sm);
+            font-weight: 500;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            font-size: 14px;
+        }
+
+        .btn-back:hover {
+            background: var(--gold-border);
+            color: var(--text-primary);
+            border-color: var(--gold-core);
+        }
+
+        /* ============================================================
+           SUCCESS STATE - GOLD & BLACK
+           ============================================================ */
+        .success-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .success-state i {
+            font-size: 64px;
+            color: var(--neon-green);
+            margin-bottom: 16px;
+        }
+
+        .success-state h2 {
+            font-size: 24px;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .success-state p {
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+        }
+
+        .success-state .reference {
+            background: var(--bg-card);
+            padding: 12px 24px;
+            border-radius: var(--radius-sm);
+            display: inline-block;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            font-weight: 600;
+            color: var(--gold-core);
+            border: 1px solid var(--gold-border);
+            margin-bottom: 20px;
+        }
+
+        .success-state .btn-success {
+            padding: 10px 24px;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            color: #000;
+            border: none;
+            border-radius: var(--radius-sm);
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: var(--transition);
+            display: inline-block;
+        }
+
+        .success-state .btn-success:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(212, 175, 55, 0.2);
+        }
+
+        /* ============================================================
+           LOADING & ERROR STATES
+           ============================================================ */
+        .loading-spinner {
+            text-align: center;
+            padding: 60px 20px;
+        }
+
+        .loading-spinner .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--gold-border);
+            border-top-color: var(--gold-core);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-spinner p {
+            margin-top: 12px;
+            color: var(--text-muted);
+        }
+
+        .error-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .error-state i {
+            font-size: 48px;
+            color: var(--neon-red);
+            margin-bottom: 16px;
+        }
+
+        .error-state h3 {
+            margin-bottom: 8px;
+            color: var(--text-primary);
+        }
+
+        .error-state p {
+            color: var(--text-secondary);
+        }
+
+        /* ============================================================
+           TOAST - GOLD & BLACK
+           ============================================================ */
+        #toastContainer {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            max-width: 420px;
+            width: 100%;
+        }
+
+        .toast {
+            background: var(--bg-panel);
+            border: 1px solid var(--gold-border);
+            color: var(--text-primary);
+            padding: 14px 20px;
+            border-radius: var(--radius-sm);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+            animation: slideIn 0.3s ease;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-left: 4px solid var(--gold-core);
+        }
+
+        .toast-success { border-left-color: var(--neon-green); }
+        .toast-error { border-left-color: var(--neon-red); }
+        .toast-warning { border-left-color: var(--gold-core); }
+
+        .toast .toast-close {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 0 4px;
+            margin-left: auto;
+        }
+
+        .toast .toast-close:hover {
+            color: var(--text-primary);
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(100px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .toast.fade-out {
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.3s ease;
+        }
+
+        /* ============================================================
+           RESPONSIVE
+           ============================================================ */
+        @media (max-width: 768px) {
+            .apply-container {
+                padding: 24px;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .header {
+                padding: 12px 16px;
+                flex-wrap: wrap;
+                gap: 8px;
+                margin: -20px -16px 20px -16px;
+            }
+
+            .header-brand span {
+                font-size: 16px;
+            }
+
+            .header-brand img {
+                width: 28px;
+                height: 28px;
+            }
+
+            #toastContainer {
+                top: 70px;
+                right: 12px;
+                max-width: calc(100% - 24px);
+            }
+        }
+
+        @media (max-width: 480px) {
+            .apply-container {
+                padding: 16px;
+            }
+
+            .apply-container h1 {
+                font-size: 22px;
+            }
+
+            .job-info-card .job-title {
+                font-size: 18px;
+            }
+
+            .header a {
+                font-size: 12px;
+            }
+
+            .header .btn-back-header {
+                padding: 6px 12px;
+            }
+
+            .success-state .reference {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
+
+            .success-state h2 {
+                font-size: 20px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 8px;
+            }
+
+            .header a {
+                justify-content: center;
+            }
+
+            .apply-container {
+                padding: 12px;
+            }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+    <!-- ============================================================
+    HEADER - GOLD & BLACK WITH LOGO
+    ============================================================ -->
+    <header class="header" id="header">
+        <a href="/" class="header-brand">
+            <img src="/company_logo.png" alt="PrimeShieldHub Logo" onerror="this.style.display='none'">
+            <span><i class="fas fa-bolt"></i> PrimeShieldHub</span>
+        </a>
+        <a href="/careers" class="btn-back-header"><i class="fas fa-arrow-left"></i> Back to Careers</a>
+    </header>
+
+    <!-- ============================================================
+    MAIN CONTAINER
+    ============================================================ -->
+    <div class="apply-container" id="applyContainer">
+        <div id="contentArea">
+            <div class="loading-spinner">
+                <div class="spinner"></div>
+                <p>Loading job details...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================
+    TOAST CONTAINER
+    ============================================================ -->
+    <div id="toastContainer"></div>
+
+    <!-- ============================================================
+    JAVASCRIPT
+    ============================================================ -->
+    <script>
+        // Redirect to tracking page if ?token= parameter is present
+        const trackingParams = new URLSearchParams(window.location.search);
+        const trackingToken = trackingParams.get('token');
+        if (trackingToken) {
+            window.location.replace('/careers/apply/status/track.html?token=' + trackingToken);
+            throw new Error('Redirecting to tracking page');
+        }
+
+        // ============================================================
+        // CONFIG
+        // ============================================================
+        const API_BASE = window.location.hostname === 'localhost' 
+            ? 'http://localhost:3000' 
+            : 'https://api.primeshieldhub.com';
+
+        // ============================================================
+        // TOAST SYSTEM
+        // ============================================================
+        function showToast(message, type = 'info', duration = 4000) {
+            const container = document.getElementById('toastContainer');
+            if (!container) return;
+
+            const icons = { success: '✅', error: '❌', warning: '⚠️', info: 'ℹ️' };
+
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <span>${icons[type] || icons.info}</span>
+                <span>${escapeHtml(message)}</span>
+                <button class="toast-close">&times;</button>
+            `;
+            container.appendChild(toast);
+
+            const close = () => {
+                toast.classList.add('fade-out');
+                setTimeout(() => toast.remove(), 300);
+            };
+
+            toast.querySelector('.toast-close').addEventListener('click', close);
+            setTimeout(close, duration);
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            const d = new Date(dateStr);
+            return d.toLocaleDateString('en-NG', { 
+                day: 'numeric', 
+                month: 'short', 
+                year: 'numeric'
+            });
+        }
+
+        // ============================================================
+        // GET JOB ID FROM SESSION STORAGE
+        // ============================================================
+        const jobId = sessionStorage.getItem('selectedJobId');
+
+        if (!jobId) {
+            // No job selected - redirect back to careers page
+            window.location.href = '/careers';
+        }
+
+        // ============================================================
+        // LOAD JOB DETAILS
+        // ============================================================
+        async function loadJobDetails() {
+            const contentArea = document.getElementById('contentArea');
+
+            try {
+                const response = await fetch(`${API_BASE}/api/jobs/${jobId}`);
+                if (!response.ok) throw new Error('Job not found');
+                
+                const data = await response.json();
+                const job = data.job || data.data || data;
+                renderApplicationForm(job);
+                
+            } catch (error) {
+                console.error('Error loading job:', error);
+                contentArea.innerHTML = `
+                    <div class="error-state">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Job Not Found</h3>
+                        <p>${escapeHtml(error.message)}</p>
+                        <a href="/careers" class="btn-back" style="margin-top:16px;display:inline-block;">
+                            <i class="fas fa-arrow-left"></i> Browse Jobs
+                        </a>
+                    </div>
+                `;
+                showToast('Error loading job details', 'error');
+            }
+        }
+
+        // ============================================================
+        // RENDER APPLICATION FORM - GOLD & BLACK
+        // ============================================================
+        function renderApplicationForm(job) {
+            const contentArea = document.getElementById('contentArea');
+            const isOpen = job.is_active !== 0 && (!job.application_deadline || new Date(job.application_deadline) > new Date());
+
+            contentArea.innerHTML = `
+                <h1>Apply for <span>${escapeHtml(job.title)}</span></h1>
+                <p class="subtitle">Complete the form below to submit your application.</p>
+
+                <!-- Job Info Card -->
+                <div class="job-info-card">
+                    <div class="job-title">${escapeHtml(job.title)}</div>
+                    <div class="job-department"><i class="fas fa-building"></i> ${escapeHtml(job.department || 'General')}</div>
+                    <div class="job-meta">
+                        <span><i class="fas fa-map-marker-alt"></i> ${escapeHtml(job.location || 'Remote')}</span>
+                        <span><i class="fas fa-clock"></i> ${escapeHtml(job.employment_type || 'Full Time')}</span>
+                        ${job.experience_level ? `<span><i class="fas fa-user-tie"></i> ${escapeHtml(job.experience_level)}</span>` : ''}
+                        ${job.application_deadline ? `<span><i class="fas fa-calendar-alt"></i> Apply by ${formatDate(job.application_deadline)}</span>` : ''}
+                    </div>
+                </div>
+
+                ${isOpen ? `
+                <!-- Application Form -->
+                <form id="applicationForm" onsubmit="submitApplication(event)">
+                    <input type="hidden" id="jobId" value="${job.id}">
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Full Name <span class="required">*</span></label>
+                            <input type="text" id="fullName" required placeholder="e.g. Ada Nwachukwu">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address <span class="required">*</span></label>
+                            <input type="email" id="email" required placeholder="ada@example.com">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="phone" placeholder="+234 800 123 4567">
+                        </div>
+                        <div class="form-group">
+                            <label>Current Company</label>
+                            <input type="text" id="currentCompany" placeholder="Your current employer (optional)">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Current Title</label>
+                            <input type="text" id="currentTitle" placeholder="Your current job title (optional)">
+                        </div>
+                        <div class="form-group">
+                            <label>Years of Experience</label>
+                            <select id="yearsExperience">
+                                <option value="0">0-1 year</option>
+                                <option value="1">1-2 years</option>
+                                <option value="2">2-3 years</option>
+                                <option value="3">3-5 years</option>
+                                <option value="5">5-7 years</option>
+                                <option value="7">7-10 years</option>
+                                <option value="10">10+ years</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cover Letter <span class="required">*</span></label>
+                        <textarea id="coverLetter" required placeholder="Tell us why you're the perfect fit for this role..."></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Portfolio URL</label>
+                            <input type="url" id="portfolioUrl" placeholder="https://yourportfolio.com">
+                        </div>
+                        <div class="form-group">
+                            <label>LinkedIn URL</label>
+                            <input type="url" id="linkedinUrl" placeholder="https://linkedin.com/in/yourprofile">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Upload CV/Resume <span class="required">*</span></label>
+                        <div class="file-upload-wrapper" id="fileUploadWrapper">
+                            <input type="file" id="resume" accept=".pdf,.doc,.docx" required>
+                            <div class="file-label">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <span>Click or drag to upload your CV</span>
+                                <div style="font-size:12px;color:var(--text-muted);margin-top:4px;">
+                                    PDF, DOC, or DOCX (Max 5MB)
+                                </div>
+                            </div>
+                            <div class="file-name" id="fileName"></div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>How did you hear about us?</label>
+                        <select id="referralSource">
+                            <option value="">Select an option</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="twitter">Twitter/X</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="facebook">Facebook</option>
+                            <option value="friend">Friend or Colleague</option>
+                            <option value="job_board">Job Board</option>
+                            <option value="website">PrimeShieldHub Website</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" class="btn-submit" id="submitBtn">
+                        <i class="fas fa-paper-plane"></i> Submit Application
+                    </button>
+                </form>
+                ` : `
+                <div class="error-state">
+                    <i class="fas fa-lock" style="color:var(--neon-red);"></i>
+                    <h3>Applications Closed</h3>
+                    <p>This position is no longer accepting applications.</p>
+                    <a href="/careers" class="btn-back" style="margin-top:16px;display:inline-block;">
+                        <i class="fas fa-arrow-left"></i> Browse Other Jobs
+                    </a>
+                </div>
+                `}
+
+                <div style="margin-top:16px;text-align:center;">
+                    <a href="/careers" class="btn-back"><i class="fas fa-arrow-left"></i> Browse All Jobs</a>
+                </div>
+            `;
+
+            // File upload handler
+            const fileInput = document.getElementById('resume');
+            if (fileInput) {
+                fileInput.addEventListener('change', function() {
+                    const fileName = document.getElementById('fileName');
+                    if (this.files && this.files[0]) {
+                        fileName.textContent = '📄 ' + this.files[0].name;
+                        fileName.style.display = 'block';
+                    } else {
+                        fileName.style.display = 'none';
+                    }
+                });
+            }
+        }
+
+        // ============================================================
+        // SUBMIT APPLICATION
+        // ============================================================
+        let isSubmitting = false;
+
+        async function submitApplication(event) {
+            event.preventDefault();
+           
+            if (isSubmitting) return;
+            isSubmitting = true;
+
+            const btn = document.getElementById('submitBtn');
+            const originalText = btn.innerHTML;
+            btn.disabled = true;
+            btn.innerHTML = '<span class="spinner" style="display:inline-block;width:20px;height:20px;border:2px solid rgba(0,0,0,0.2);border-top-color:#000;border-radius:50%;animation:spin 0.7s linear infinite;"></span> Submitting...';
+
+            const applicationData = {
+                job_id: sessionStorage.getItem('selectedJobId'),
+                full_name: document.getElementById('fullName')?.value || '',
+                email: document.getElementById('email')?.value || '',
+                phone: document.getElementById('phone')?.value || '',
+                current_company: document.getElementById('currentCompany')?.value || '',
+                current_title: document.getElementById('currentTitle')?.value || '',
+                years_experience: parseInt(document.getElementById('yearsExperience')?.value) || null,
+                cover_letter: document.getElementById('coverLetter')?.value || '',
+                resume_url: document.getElementById('resumeUrl')?.value || document.getElementById('portfolioUrl')?.value || '',
+                portfolio_url: document.getElementById('portfolioUrl')?.value || '',
+                linkedin_url: document.getElementById('linkedinUrl')?.value || '',
+                github_url: document.getElementById('githubUrl')?.value || '',
+                referral_source: document.getElementById('referralSource')?.value || ''
+            };
+
+            try {
+                const response = await fetch(`${API_BASE}/api/jobs/apply`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(applicationData)
+                });
+
+                const result = await response.json();
+
+                if (!response.ok) {
+                    throw new Error(result.error || 'Application failed');
+                }
+
+                // Success - show success state
+                const contentArea = document.getElementById('contentArea');
+                contentArea.innerHTML = `
+                    <div class="success-state">
+                        <i class="fas fa-check-circle"></i>
+                        <h2>Application Submitted Successfully!</h2>
+                        <p>Thank you for applying. We'll review your application and get back to you soon.</p>
+                        <div class="reference">
+                            <i class="fas fa-ticket-alt"></i> ${result.tracking_token || result.token || 'APP-' + Date.now()}
+                        </div>
+                        <p style="font-size:13px;color:var(--text-muted);">
+                            Save this reference number to track your application status.
+                        </p>
+                        <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap;margin-top:20px;">
+                            <a href="/careers" class="btn-back" style="display:inline-block;">
+                                <i class="fas fa-arrow-left"></i> Browse More Jobs
+                            </a>
+                            <a href="/" class="btn-back" style="display:inline-block;border-color:var(--gold-core);color:var(--gold-core);">
+                                <i class="fas fa-home"></i> Return Home
+                            </a>
+                        </div>
+                    </div>
+                `;
+
+                showToast('🎉 Application submitted successfully!', 'success');
+
+                // Clear sessionStorage
+                sessionStorage.removeItem('selectedJobId');
+
+            } catch (error) {
+                console.error('Submission error:', error);
+                showToast('❌ ' + error.message, 'error');
+                btn.disabled = false;
+                btn.innerHTML = originalText;
+            } finally {
+                isSubmitting = false;
+            }
+        }
+
+        // ============================================================
+        // HEADER SCROLL EFFECT
+        // ============================================================
+        window.addEventListener('scroll', function() {
+            const header = document.getElementById('header');
+            if (window.scrollY > 20) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+
+        // ============================================================
+        // INIT
+        // ============================================================
+        document.addEventListener('DOMContentLoaded', loadJobDetails);
+
+        console.log('🚀 Application page loaded');
+        console.log('📋 Job ID from sessionStorage:', jobId);
+        console.log('🏆 Gold & Black Theme');
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,1461 @@
+<!DOCTYPE html>
+<html lang="en" data-quantum-version="10.0.0">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+  <meta name="api-base-url" content="https://api.primeshieldhub.com">
+  <meta name="csrf-token" content="{{CSRF_TOKEN}}">
+  
+  <title>ðŸ§  AI Business Intelligence | PrimeShieldHub</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+  
+  <style>
+    :root {
+      --bg-deep: #050308;
+      --bg-primary: #08080d;
+      --bg-surface: rgba(8, 12, 25, 0.85);
+      --bg-card: rgba(16, 16, 24, 0.75);
+      --glass-edge: rgba(0, 247, 255, 0.2);
+      --glass-edge-gold: rgba(214, 178, 94, 0.2);
+      --neon-cyan: #00f7ff;
+      --neon-purple: #b200ff;
+      --neon-gold: #ffd966;
+      --gold-soft: #c4a04a;
+      --gold-bright: #e8c97a;
+      --accent-danger: #ff3366;
+      --accent-success: #33ffaa;
+      --accent-warning: #ffaa33;
+      --text-primary: #f0f3ff;
+      --text-secondary: #9ca3cf;
+      --text-muted: #6a6870;
+      --gradient-primary: linear-gradient(135deg, #00f7ff, #b200ff);
+      --gradient-gold: linear-gradient(135deg, #ffd966, #ffaa33);
+      --shadow-glow: 0 0 20px rgba(0,247,255,0.3);
+      --shadow-gold: 0 0 30px rgba(214,178,94,0.15);
+      --radius-card: 1.2rem;
+      --radius-sm: 0.8rem;
+      --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-deep);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Ambient Background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: 
+        radial-gradient(ellipse 60% 40% at 20% 0%, rgba(214,178,94,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse 50% 35% at 80% 100%, rgba(0,247,255,0.03) 0%, transparent 50%),
+        radial-gradient(ellipse 40% 30% at 50% 50%, rgba(178,0,255,0.02) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: -2;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(rgba(214,178,94,0.015) 1px, transparent 1px);
+      background-size: 35px 35px;
+      pointer-events: none;
+      z-index: -1;
+      mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 10%, transparent 55%);
+    }
+
+    /* Floating Orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(65px);
+      pointer-events: none;
+      z-index: -1;
+      animation: orbFloat 20s ease-in-out infinite alternate;
+    }
+    .orb-1 {
+      width: 45vw; height: 45vw;
+      background: radial-gradient(circle, rgba(214,178,94,0.10), transparent);
+      top: -20vh; right: -15vw;
+    }
+    .orb-2 {
+      width: 35vw; height: 35vw;
+      background: radial-gradient(circle, rgba(0,247,255,0.06), transparent);
+      bottom: -15vh; left: -12vw;
+      animation-duration: 25s;
+    }
+    @keyframes orbFloat {
+      0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+      50% { transform: translate(3%, -4%) scale(1.1); opacity: 0.5; }
+      100% { transform: translate(-2%, 2%) scale(0.95); opacity: 0.35; }
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--bg-deep); }
+    ::-webkit-scrollbar-thumb { background: var(--neon-gold); border-radius: 3px; }
+    ::selection { background: rgba(214,178,94,0.3); color: var(--text-primary); }
+
+    /* ===== HEADER ===== */
+    .header {
+      background: rgba(8, 12, 25, 0.92);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-edge-gold);
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .header-left .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: linear-gradient(135deg, rgba(214,178,94,0.2), rgba(214,178,94,0.05));
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      color: var(--neon-gold);
+      border: 1px solid rgba(214,178,94,0.15);
+    }
+
+    .header-left h1 {
+      font-family: 'Orbitron', monospace;
+      font-size: 1.2rem;
+      background: var(--gradient-gold);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .header-left .subtitle {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      font-family: var(--font-mono, 'JetBrains Mono', monospace);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem 1rem;
+      border-radius: 2rem;
+      font-size: 0.7rem;
+      font-weight: 600;
+    }
+
+    .status-active {
+      background: rgba(51, 255, 170, 0.1);
+      border: 1px solid rgba(51, 255, 170, 0.3);
+      color: var(--accent-success);
+    }
+
+    .status-inactive {
+      background: rgba(255, 51, 102, 0.1);
+      border: 1px solid rgba(255, 51, 102, 0.3);
+      color: var(--accent-danger);
+    }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent-success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(51,255,170,0.4); }
+      50% { opacity: 0.4; box-shadow: 0 0 0 8px rgba(51,255,170,0); }
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 0.5rem 1.2rem;
+      border-radius: 2rem;
+      font-weight: 600;
+      font-size: 0.75rem;
+      cursor: pointer;
+      border: none;
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      text-decoration: none;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .btn-primary {
+      background: var(--gradient-primary);
+      color: white;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(0,247,255,0.4); }
+
+    .btn-gold {
+      background: var(--gradient-gold);
+      color: #000;
+    }
+    .btn-gold:hover { transform: translateY(-2px); box-shadow: 0 0 25px rgba(214,178,94,0.4); }
+
+    .btn-outline {
+      background: transparent;
+      border: 1px solid var(--glass-edge-gold);
+      color: var(--neon-gold);
+    }
+    .btn-outline:hover { background: rgba(214,178,94,0.08); border-color: var(--neon-gold); }
+
+    .btn-danger {
+      background: rgba(255, 51, 102, 0.15);
+      border: 1px solid rgba(255, 51, 102, 0.3);
+      color: var(--accent-danger);
+    }
+    .btn-danger:hover { background: var(--accent-danger); color: white; }
+
+    .btn-sm { padding: 0.3rem 0.8rem; font-size: 0.65rem; }
+
+    /* ===== CONTAINER ===== */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1.2rem;
+    }
+
+    /* ===== METRICS GRID ===== */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .metric-card {
+      background: var(--bg-surface);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-edge-gold);
+      border-radius: var(--radius-card);
+      padding: 1.2rem;
+      transition: var(--transition-smooth);
+    }
+
+    .metric-card:hover {
+      transform: translateY(-3px);
+      box-shadow: var(--shadow-gold);
+      border-color: rgba(214,178,94,0.3);
+    }
+
+    .metric-card .metric-icon {
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .metric-card .metric-value {
+      font-size: 1.6rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--neon-gold);
+    }
+
+    .metric-card .metric-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      color: var(--text-secondary);
+    }
+
+    .metric-card .metric-change {
+      font-size: 0.7rem;
+      margin-top: 0.4rem;
+    }
+
+    .metric-change.positive { color: var(--accent-success); }
+    .metric-change.negative { color: var(--accent-danger); }
+    .metric-change.neutral { color: var(--text-secondary); }
+
+    /* ===== INSIGHTS GRID ===== */
+    .insights-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .insight-card {
+      background: var(--bg-surface);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-edge-gold);
+      border-radius: var(--radius-card);
+      padding: 1.2rem;
+      transition: var(--transition-smooth);
+    }
+
+    .insight-card:hover {
+      border-color: rgba(214,178,94,0.3);
+    }
+
+    .insight-card.critical { border-left: 4px solid var(--accent-danger); }
+    .insight-card.warning { border-left: 4px solid var(--accent-warning); }
+    .insight-card.success { border-left: 4px solid var(--accent-success); }
+    .insight-card.info { border-left: 4px solid var(--neon-cyan); }
+    .insight-card.gold { border-left: 4px solid var(--neon-gold); }
+
+    .insight-card h3 {
+      font-size: 0.85rem;
+      color: var(--neon-gold);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .insight-item {
+      padding: 0.7rem;
+      margin-bottom: 0.5rem;
+      background: rgba(255, 255, 255, 0.02);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      transition: var(--transition-smooth);
+      border: 1px solid transparent;
+    }
+
+    .insight-item:hover {
+      background: rgba(214,178,94,0.05);
+      border-color: rgba(214,178,94,0.15);
+      transform: translateX(4px);
+    }
+
+    .insight-item .insight-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.2rem;
+    }
+
+    .insight-item .insight-title {
+      font-weight: 600;
+      font-size: 0.8rem;
+    }
+
+    .insight-item .insight-badge {
+      padding: 0.1rem 0.6rem;
+      border-radius: 1rem;
+      font-size: 0.6rem;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .badge-critical { background: rgba(255, 51, 102, 0.2); color: var(--accent-danger); }
+    .badge-warning { background: rgba(255, 170, 51, 0.2); color: var(--accent-warning); }
+    .badge-success { background: rgba(51, 255, 170, 0.2); color: var(--accent-success); }
+    .badge-info { background: rgba(0, 247, 255, 0.2); color: var(--neon-cyan); }
+    .badge-gold { background: rgba(214, 178, 94, 0.2); color: var(--neon-gold); }
+    .badge-high { background: rgba(255, 51, 102, 0.2); color: var(--accent-danger); }
+    .badge-medium { background: rgba(255, 170, 51, 0.2); color: var(--accent-warning); }
+    .badge-low { background: rgba(0, 247, 255, 0.2); color: var(--neon-cyan); }
+
+    .insight-item .insight-description {
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.3rem;
+    }
+
+    .insight-item .insight-meta {
+      display: flex;
+      gap: 0.8rem;
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      flex-wrap: wrap;
+    }
+
+    /* ===== CHARTS ROW ===== */
+    .charts-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+      gap: 0.8rem;
+      margin-bottom: 1.2rem;
+    }
+
+    .chart-box {
+      background: var(--bg-surface);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-edge-gold);
+      border-radius: var(--radius-card);
+      padding: 1.2rem;
+    }
+
+    .chart-box h3 {
+      font-size: 0.85rem;
+      color: var(--neon-gold);
+      margin-bottom: 0.8rem;
+    }
+
+    /* ===== DATA PANEL ===== */
+    .data-panel {
+      background: var(--bg-surface);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-edge-gold);
+      border-radius: var(--radius-card);
+      padding: 1.2rem;
+      margin-bottom: 1.2rem;
+      overflow-x: auto;
+    }
+
+    .data-panel h3 {
+      font-size: 0.85rem;
+      color: var(--neon-gold);
+      margin-bottom: 0.8rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+    }
+
+    th, td {
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    }
+
+    th {
+      color: var(--neon-gold);
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      font-size: 0.6rem;
+    }
+
+    tr:hover td {
+      background: rgba(214,178,94,0.03);
+    }
+
+    /* ===== QUICK LINKS BAR ===== */
+    .quick-links-bar {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      padding: 0.8rem 1.2rem;
+      background: var(--bg-surface);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--glass-edge-gold);
+      border-radius: var(--radius-card);
+      margin-bottom: 1.2rem;
+      align-items: center;
+    }
+
+    .quick-links-bar .label {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .quick-link {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 0.75rem;
+      padding: 0.3rem 0.8rem;
+      border-radius: 2rem;
+      transition: var(--transition-smooth);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.3rem;
+    }
+
+    .quick-link:hover {
+      color: var(--neon-gold);
+      background: rgba(214,178,94,0.08);
+    }
+
+    .quick-link.active {
+      color: var(--neon-gold);
+      background: rgba(214,178,94,0.12);
+      border: 1px solid rgba(214,178,94,0.2);
+    }
+
+    /* ===== LOADING ===== */
+    .loading-overlay {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(214,178,94,0.2);
+      border-top-color: var(--neon-gold);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* ===== TOAST ===== */
+    .toast-container {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .toast {
+      padding: 0.8rem 1.5rem;
+      border-radius: 1rem;
+      color: white;
+      font-weight: 600;
+      font-size: 0.8rem;
+      animation: toastSlide 0.3s ease;
+      max-width: 400px;
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(255,255,255,0.1);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .toast-success { background: rgba(51, 255, 170, 0.9); color: #000; border-color: rgba(51,255,170,0.3); }
+    .toast-error { background: rgba(255, 51, 102, 0.9); border-color: rgba(255,51,102,0.3); }
+    .toast-info { background: rgba(0, 247, 255, 0.9); color: #000; border-color: rgba(0,247,255,0.3); }
+    .toast-warning { background: rgba(255, 170, 51, 0.9); color: #000; border-color: rgba(255,170,51,0.3); }
+
+    @keyframes toastSlide {
+      from { opacity: 0; transform: translateX(100px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    /* ===== EMPTY STATE ===== */
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: var(--neon-gold);
+      opacity: 0.3;
+    }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) {
+      .charts-row { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .header { padding: 0.8rem 1rem; }
+      .container { padding: 0.8rem; }
+      .insights-grid { grid-template-columns: 1fr; }
+      .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+      .header-left h1 { font-size: 1rem; }
+      .header-left .subtitle { display: none; }
+      .quick-links-bar { flex-wrap: wrap; }
+    }
+
+    @media (max-width: 480px) {
+      .metrics-grid { grid-template-columns: 1fr; }
+      .header-right { width: 100%; justify-content: flex-end; }
+      .header-right .btn span { display: none; }
+      .status-indicator span { display: none; }
+    }
+  </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient Orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+
+<!-- HEADER -->
+<header class="header">
+  <div class="header-left">
+    <div class="logo-icon"><i class="fas fa-brain"></i></div>
+    <div>
+      <h1>AI Business Intelligence</h1>
+      <p class="subtitle">Quantum Insights Â· Real-time Analysis</p>
+    </div>
+  </div>
+  <div class="header-right">
+    <div class="status-indicator status-active" id="aiStatus">
+      <span class="pulse-dot"></span>
+      <span>AI Active</span>
+    </div>
+    <button class="btn btn-outline btn-sm" onclick="refreshDashboard()" id="refreshBtn">
+      <i class="fas fa-sync-alt"></i> <span>Refresh</span>
+    </button>
+    <button class="btn btn-gold btn-sm" onclick="runAutonomousSystem()" id="runAutoBtn">
+      <i class="fas fa-robot"></i> <span>Run Analysis</span>
+    </button>
+    <a href="/admin/analytics.html" class="btn btn-primary btn-sm" title="View Conversation Analytics">
+      <i class="fas fa-chart-bar"></i> <span>Analytics</span>
+    </a>
+    <button class="btn btn-danger btn-sm" onclick="logout()" title="Logout">
+      <i class="fas fa-sign-out-alt"></i> <span>Logout</span>
+    </button>
+  </div>
+</header>
+
+<!-- QUICK LINKS BAR -->
+<div class="container" style="padding-bottom:0;">
+  <div class="quick-links-bar">
+    <span class="label"><i class="fas fa-compass"></i> Quick Navigation</span>
+    <a href="/admin/ai-dashboard.html" class="quick-link active"><i class="fas fa-brain"></i> AI Dashboard</a>
+    <a href="/admin/analytics.html" class="quick-link"><i class="fas fa-chart-bar"></i> Conversation Analytics</a>
+    <a href="/admin/index.html" class="quick-link"><i class="fas fa-tachometer-alt"></i> Admin Panel</a>
+    <a href="/assistant" class="quick-link"><i class="fas fa-robot"></i> AI Assistant</a>
+    <a href="/" class="quick-link"><i class="fas fa-home"></i> Storefront</a>
+    <span style="margin-left:auto;font-size:0.6rem;color:var(--text-muted);">
+      <i class="fas fa-clock"></i> <span id="lastUpdateLabel">Last update: â€”</span>
+    </span>
+  </div>
+</div>
+
+<!-- MAIN CONTENT -->
+<div class="container" id="mainContent">
+  <div class="loading-overlay" id="loadingSpinner">
+    <div class="spinner"></div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module">
+  // ================================================================ //
+  // AI BUSINESS INTELLIGENCE - UNIFIED CONFIG & BACKEND SYNC          //
+  // ================================================================ //
+
+  import { CONFIG as UnifiedConfig } from '../js/config.js';
+  import { auth } from '../js/auth.js';
+  import { getDeviceFingerprint } from '../js/sophisticated/fraud-engine/fingerprint.js';
+
+  // ================================================================ //
+  // UNIFIED CONFIGURATION                                            //
+  // ================================================================ //
+
+  const CONFIG = {
+      API_BASE: UnifiedConfig.apiBase || 'https://api.primeshieldhub.com',
+      STORAGE_KEYS: UnifiedConfig.STORAGE_KEYS || {
+          TOKEN: 'psh_auth_token',
+          USER: 'psh_user'
+      },
+      ENDPOINTS: {
+          AI_INSIGHTS: '/admin/ai-insights',
+          RUN_AUTONOMOUS: '/admin/run-autonomous',
+          AUTH_CHECK: '/auth/check',
+          CSRF: '/auth/csrf',
+          LOGOUT: '/auth/logout'
+      },
+      AUTO_REFRESH_INTERVAL: 180000, // 3 minutes
+  };
+
+  // ================================================================ //
+  // STATE                                                            //
+  // ================================================================ //
+
+  const State = {
+      csrfToken: null,
+      user: null,
+      autoRefreshEnabled: true,
+      refreshInterval: null,
+      isRefreshing: false,
+      insights: null
+  };
+
+  // ================================================================ //
+  // DOM REFS                                                         //
+  // ================================================================ //
+
+  const DOM = {
+      mainContent: document.getElementById('mainContent'),
+      loadingSpinner: document.getElementById('loadingSpinner'),
+      refreshBtn: document.getElementById('refreshBtn'),
+      runAutoBtn: document.getElementById('runAutoBtn'),
+      aiStatus: document.getElementById('aiStatus'),
+      lastUpdateLabel: document.getElementById('lastUpdateLabel')
+  };
+
+  // ================================================================ //
+  // AUTH HELPERS                                                     //
+  // ================================================================ //
+
+  function getAuthToken() {
+      try {
+          const token = auth.getToken ? auth.getToken() : null;
+          if (token) return token;
+      } catch(e) {}
+
+      return localStorage.getItem(CONFIG.STORAGE_KEYS.TOKEN) ||
+             localStorage.getItem('psh_auth_token') ||
+             null;
+  }
+
+  function getUser() {
+      try {
+          const user = auth.getUser ? auth.getUser() : null;
+          if (user) return user;
+      } catch(e) {}
+
+      try {
+          const stored = localStorage.getItem(CONFIG.STORAGE_KEYS.USER);
+          if (stored) return JSON.parse(stored);
+      } catch(e) {}
+
+      return null;
+  }
+
+  function isAdmin() {
+      const user = getUser();
+      if (!user) return false;
+      return user.role === 'admin' || user.role === 'staff';
+  }
+
+  // ================================================================ //
+  // TOAST                                                            //
+  // ================================================================ //
+
+  function showToast(message, type = 'info', duration = 4000) {
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = `toast toast-${type}`;
+      
+      const icons = {
+          success: 'fa-check-circle',
+          error: 'fa-exclamation-circle',
+          warning: 'fa-exclamation-triangle',
+          info: 'fa-info-circle'
+      };
+      
+      toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${message}`;
+      container.appendChild(toast);
+
+      setTimeout(() => {
+          toast.style.opacity = '0';
+          toast.style.transform = 'translateX(100px)';
+          toast.style.transition = 'all 0.3s ease';
+          setTimeout(() => toast.remove(), 300);
+      }, duration);
+  }
+
+  // ================================================================ //
+  // API HELPERS                                                      //
+  // ================================================================ //
+
+  async function refreshCsrf() {
+      try {
+          const fp = await getDeviceFingerprint();
+          const res = await fetch(`${CONFIG.API_BASE}${CONFIG.ENDPOINTS.CSRF}`, {
+              credentials: 'include',
+              headers: { 'x-device-fingerprint': fp }
+          });
+          if (res.ok) {
+              State.csrfToken = await res.text();
+              const meta = document.querySelector('meta[name="csrf-token"]');
+              if (meta) meta.setAttribute('content', State.csrfToken);
+              return State.csrfToken;
+          }
+      } catch(e) {
+          console.warn('CSRF refresh failed:', e);
+      }
+      return null;
+  }
+
+  async function apiRequest(endpoint, options = {}) {
+      const token = getAuthToken();
+      const fp = await getDeviceFingerprint();
+
+      const headers = {
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'x-device-fingerprint': fp
+      };
+
+      if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+      }
+
+      if (State.csrfToken && options.method && !['GET', 'HEAD'].includes(options.method)) {
+          headers['x-csrf-token'] = State.csrfToken;
+      }
+
+      try {
+          const res = await fetch(`${CONFIG.API_BASE}${endpoint}`, {
+              ...options,
+              headers: { ...headers, ...options.headers },
+              credentials: 'include'
+          });
+
+          if (res.status === 403) {
+              await refreshCsrf();
+              const retryHeaders = { ...headers };
+              if (State.csrfToken) {
+                  retryHeaders['x-csrf-token'] = State.csrfToken;
+              }
+              const retry = await fetch(`${CONFIG.API_BASE}${endpoint}`, {
+                  ...options,
+                  headers: { ...retryHeaders, ...options.headers },
+                  credentials: 'include'
+              });
+              if (!retry.ok) {
+                  const err = await retry.json().catch(() => ({}));
+                  throw new Error(err.error || err.message || `HTTP ${retry.status}`);
+              }
+              return retry.json();
+          }
+
+          if (res.status === 401) {
+              try { if (auth.logout) auth.logout(); } catch(e) {}
+              localStorage.removeItem(CONFIG.STORAGE_KEYS.TOKEN);
+              localStorage.removeItem(CONFIG.STORAGE_KEYS.USER);
+              window.location.href = '/admin-login.html';
+              throw new Error('Session expired');
+          }
+
+          if (res.status === 429) {
+              const retryAfter = res.headers.get('Retry-After') || 30;
+              throw new Error(`Rate limited. Please wait ${retryAfter} seconds.`);
+          }
+
+          if (!res.ok) {
+              const err = await res.json().catch(() => ({}));
+              throw new Error(err.error || err.message || `HTTP ${res.status}`);
+          }
+
+          return res.json();
+      } catch (error) {
+          console.error(`API Error [${endpoint}]:`, error);
+          throw error;
+      }
+  }
+
+  // ================================================================ //
+  // AUTH CHECK                                                       //
+  // ================================================================ //
+
+  async function checkAuth() {
+      const token = getAuthToken();
+      if (!token || !isAdmin()) {
+          window.location.href = '/admin-login.html';
+          return false;
+      }
+
+      try {
+          const res = await apiRequest(CONFIG.ENDPOINTS.AUTH_CHECK);
+          if (res.authenticated) {
+              State.user = res.user || getUser();
+              return true;
+          }
+          throw new Error('Not authenticated');
+      } catch {
+          window.location.href = '/admin-login.html';
+          return false;
+      }
+  }
+
+  // ================================================================ //
+  // LOGOUT                                                           //
+  // ================================================================ //
+
+  window.logout = function() {
+      try { if (auth.logout) auth.logout(); } catch(e) {}
+      localStorage.removeItem(CONFIG.STORAGE_KEYS.TOKEN);
+      localStorage.removeItem(CONFIG.STORAGE_KEYS.USER);
+      window.location.href = '/admin-login.html';
+  };
+
+  // ================================================================ //
+  // CHARTS                                                           //
+  // ================================================================ //
+
+  let charts = {};
+
+  function renderCharts(metrics) {
+      // Destroy existing charts
+      Object.values(charts).forEach(chart => {
+          if (chart && chart.destroy) chart.destroy();
+      });
+      charts = {};
+
+      // Event Distribution Chart
+      const eventCtx = document.getElementById('eventChart')?.getContext('2d');
+      if (eventCtx && metrics?.events) {
+          const labels = Object.keys(metrics.events);
+          const data = Object.values(metrics.events);
+
+          if (labels.length > 0 && data.some(v => v > 0)) {
+              const colors = ['#00f7ff', '#b200ff', '#ffd966', '#33ffaa', '#ff3366', '#ffaa33', '#4488ff', '#ff88cc'];
+              charts.event = new Chart(eventCtx, {
+                  type: 'doughnut',
+                  data: {
+                      labels: labels.map(l => l.replace(/_/g, ' ').toUpperCase()),
+                      datasets: [{
+                          data: data,
+                          backgroundColor: colors.slice(0, data.length),
+                          borderColor: 'rgba(8,12,25,0.8)',
+                          borderWidth: 2
+                      }]
+                  },
+                  options: {
+                      responsive: true,
+                      maintainAspectRatio: true,
+                      plugins: {
+                          legend: {
+                              position: 'bottom',
+                              labels: { color: '#9ca3cf', padding: 12, font: { size: 10 } }
+                          }
+                      }
+                  }
+              });
+          }
+      }
+
+      // Timeline Chart
+      const timelineCtx = document.getElementById('timelineChart')?.getContext('2d');
+      if (timelineCtx && metrics?.timeline) {
+          const labels = metrics.timeline.labels || ['No Data'];
+          const values = metrics.timeline.values || [0];
+
+          if (labels.length > 1 && values.some(v => v > 0)) {
+              charts.timeline = new Chart(timelineCtx, {
+                  type: 'line',
+                  data: {
+                      labels: labels,
+                      datasets: [{
+                          label: 'Activity',
+                          data: values,
+                          borderColor: '#ffd966',
+                          backgroundColor: 'rgba(255, 217, 102, 0.08)',
+                          tension: 0.4,
+                          fill: true,
+                          pointRadius: 3,
+                          pointBackgroundColor: '#ffd966',
+                          pointBorderColor: 'rgba(8,12,25,0.8)',
+                          pointBorderWidth: 1
+                      }]
+                  },
+                  options: {
+                      responsive: true,
+                      maintainAspectRatio: true,
+                      plugins: {
+                          legend: {
+                              labels: { color: '#9ca3cf' }
+                          }
+                      },
+                      scales: {
+                          x: {
+                              ticks: { color: '#9ca3cf', font: { size: 9 } },
+                              grid: { color: 'rgba(255,255,255,0.03)' }
+                          },
+                          y: {
+                              ticks: { color: '#9ca3cf', font: { size: 9 } },
+                              grid: { color: 'rgba(255,255,255,0.03)' }
+                          }
+                      }
+                  }
+              });
+          }
+      }
+  }
+
+  // ================================================================ //
+  // RENDER DASHBOARD                                                 //
+  // ================================================================ //
+
+  function renderDashboard(insights) {
+      State.insights = insights;
+      const container = DOM.mainContent;
+      let html = '';
+
+      // Metrics Row
+      html += `
+          <div class="metrics-grid">
+              <div class="metric-card">
+                  <div class="metric-icon">ðŸ“Š</div>
+                  <div class="metric-value">${insights.aiStats?.total || 0}</div>
+                  <div class="metric-label">AI Conversations (7d)</div>
+              </div>
+              <div class="metric-card">
+                  <div class="metric-icon">ðŸš¨</div>
+                  <div class="metric-value">${insights.logAnalysis?.anomalies?.length || 0}</div>
+                  <div class="metric-label">Anomalies Detected</div>
+                  ${insights.logAnalysis?.anomalies?.length > 0 ? '<div class="metric-change negative">âš ï¸ Requires attention</div>' : '<div class="metric-change positive">âœ… All clear</div>'}
+              </div>
+              <div class="metric-card">
+                  <div class="metric-icon">âš ï¸</div>
+                  <div class="metric-value">${insights.logAnalysis?.threats?.length || 0}</div>
+                  <div class="metric-label">Security Threats</div>
+                  ${insights.logAnalysis?.threats?.length > 0 ? '<div class="metric-change negative">ðŸ”´ Active threats</div>' : '<div class="metric-change positive">âœ… Secure</div>'}
+              </div>
+              <div class="metric-card">
+                  <div class="metric-icon">ðŸ’¡</div>
+                  <div class="metric-value">${insights.logAnalysis?.opportunities?.length || 0}</div>
+                  <div class="metric-label">Opportunities</div>
+              </div>
+              <div class="metric-card">
+                  <div class="metric-icon">ðŸ“‹</div>
+                  <div class="metric-value">${insights.recommendations?.length || 0}</div>
+                  <div class="metric-label">Recommendations</div>
+              </div>
+              <div class="metric-card">
+                  <div class="metric-icon">ðŸ•</div>
+                  <div class="metric-value" style="font-size:1.1rem;">${new Date(insights.timestamp || Date.now()).toLocaleString()}</div>
+                  <div class="metric-label">Last Analysis</div>
+              </div>
+          </div>
+      `;
+
+      // Anomalies Section
+      if (insights.logAnalysis?.anomalies?.length > 0) {
+          html += `
+              <div class="insight-card critical">
+                  <h3><i class="fas fa-bell"></i> Anomalies Detected</h3>
+                  ${insights.logAnalysis.anomalies.map(a => `
+                      <div class="insight-item">
+                          <div class="insight-header">
+                              <span class="insight-title">${a.type || 'ANOMALY'}</span>
+                              <span class="insight-badge badge-${a.severity || 'critical'}">${(a.severity || 'HIGH').toUpperCase()}</span>
+                          </div>
+                          <div class="insight-description">${a.message || 'No details'}</div>
+                          <div class="insight-meta">
+                              <span><i class="fas fa-chart-bar"></i> Occurrences: ${a.count || 1}</span>
+                              ${a.source ? `<span><i class="fas fa-map-marker-alt"></i> ${a.source}</span>` : ''}
+                              ${a.time ? `<span><i class="fas fa-clock"></i> ${new Date(a.time).toLocaleString()}</span>` : ''}
+                          </div>
+                      </div>
+                  `).join('')}
+              </div>
+          `;
+      }
+
+      // Threats Section
+      if (insights.logAnalysis?.threats?.length > 0) {
+          html += `
+              <div class="insight-card warning">
+                  <h3><i class="fas fa-shield-alt"></i> Security Threats</h3>
+                  ${insights.logAnalysis.threats.map(t => `
+                      <div class="insight-item">
+                          <div class="insight-header">
+                              <span class="insight-title">${t.type || 'THREAT'}</span>
+                              <span class="insight-badge badge-${t.severity || 'warning'}">${(t.severity || 'WARNING').toUpperCase()}</span>
+                          </div>
+                          <div class="insight-description">${t.message || 'No details'}</div>
+                          <div class="insight-meta">
+                              ${t.source ? `<span><i class="fas fa-globe"></i> Source: ${t.source}</span>` : ''}
+                              ${t.ip ? `<span><i class="fas fa-network-wired"></i> IP: ${t.ip}</span>` : ''}
+                              ${t.count ? `<span><i class="fas fa-chart-bar"></i> Count: ${t.count}</span>` : ''}
+                          </div>
+                      </div>
+                  `).join('')}
+              </div>
+          `;
+      }
+
+      // Opportunities Section
+      if (insights.logAnalysis?.opportunities?.length > 0) {
+          html += `
+              <div class="insight-card success">
+                  <h3><i class="fas fa-rocket"></i> Business Opportunities</h3>
+                  ${insights.logAnalysis.opportunities.map(o => `
+                      <div class="insight-item">
+                          <div class="insight-header">
+                              <span class="insight-title">${o.type || 'OPPORTUNITY'}</span>
+                              <span class="insight-badge badge-success">POTENTIAL</span>
+                          </div>
+                          <div class="insight-description">${o.message || 'No details'}</div>
+                          <div class="insight-meta">
+                              ${o.potentialValue ? `<span><i class="fas fa-money-bill"></i> Value: ${o.potentialValue}</span>` : ''}
+                              ${o.confidence ? `<span><i class="fas fa-bullseye"></i> Confidence: ${Math.round(o.confidence * 100)}%</span>` : ''}
+                              ${o.category ? `<span><i class="fas fa-tag"></i> ${o.category}</span>` : ''}
+                          </div>
+                      </div>
+                  `).join('')}
+              </div>
+          `;
+      }
+
+      // Empty State
+      if (!insights.logAnalysis?.anomalies?.length &&
+          !insights.logAnalysis?.threats?.length &&
+          !insights.logAnalysis?.opportunities?.length) {
+          html += `
+              <div class="insight-card info">
+                  <div class="empty-state">
+                      <i class="fas fa-check-circle"></i>
+                      <h3 style="color:var(--accent-success);">All Systems Normal</h3>
+                      <p style="color:var(--text-secondary);">No anomalies, threats, or special opportunities detected at this time.</p>
+                  </div>
+              </div>
+          `;
+      }
+
+      // Recommendations Section
+      if (insights.recommendations?.length > 0) {
+          html += `
+              <div class="data-panel">
+                  <h3><i class="fas fa-list-check"></i> AI Recommendations</h3>
+                  <div style="overflow-x: auto;">
+                      <table>
+                          <thead>
+                              <tr>
+                                  <th>#</th>
+                                  <th>Action</th>
+                                  <th>Priority</th>
+                                  <th>Impact</th>
+                                  <th>Effort</th>
+                                  <th>Category</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              ${insights.recommendations.map((r, i) => `
+                                  <tr>
+                                      <td>${i + 1}</td>
+                                      <td><strong>${escapeHTML(r.action || 'Action')}</strong></td>
+                                      <td><span class="insight-badge badge-${r.priority || 'medium'}">${(r.priority || 'MEDIUM').toUpperCase()}</span></td>
+                                      <td>${r.impact || 'N/A'}</td>
+                                      <td>${r.effort || 'N/A'}</td>
+                                      <td>${r.category || 'General'}</td>
+                                  </tr>
+                              `).join('')}
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          `;
+      }
+
+      // Pattern Analysis
+      if (insights.logAnalysis?.patterns && Object.keys(insights.logAnalysis.patterns).length > 0) {
+          html += `
+              <div class="data-panel">
+                  <h3><i class="fas fa-chart-pie"></i> Pattern Analysis</h3>
+                  <table>
+                      <thead>
+                          <tr><th>Pattern</th><th>Frequency</th><th>Trend</th><th>Details</th></tr>
+                      </thead>
+                      <tbody>
+                          ${Object.entries(insights.logAnalysis.patterns).map(([key, value]) => `
+                              <tr>
+                                  <td><strong>${key.replace(/_/g, ' ').toUpperCase()}</strong></td>
+                                  <td>${value.frequency || 'N/A'}</td>
+                                  <td>${value.trend || 'Stable'}</td>
+                                  <td>${value.details || '-'}</td>
+                              </tr>
+                          `).join('')}
+                      </tbody>
+                  </table>
+              </div>
+          `;
+      }
+
+      // Charts Row
+      if (insights.logAnalysis?.metrics) {
+          html += `
+              <div class="charts-row">
+                  <div class="chart-box">
+                      <h3><i class="fas fa-chart-pie"></i> Event Distribution</h3>
+                      <canvas id="eventChart" height="250"></canvas>
+                  </div>
+                  <div class="chart-box">
+                      <h3><i class="fas fa-chart-line"></i> Activity Timeline</h3>
+                      <canvas id="timelineChart" height="250"></canvas>
+                  </div>
+              </div>
+          `;
+      }
+
+      // Conversation Analytics Quick Preview
+      html += `
+          <div class="insight-card gold">
+              <h3><i class="fas fa-comments"></i> Conversation Analytics Preview</h3>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:0.8rem;margin-top:0.5rem;">
+                  <div style="background:rgba(255,255,255,0.02);padding:0.8rem;border-radius:var(--radius-sm);text-align:center;">
+                      <div style="font-size:1.2rem;font-weight:700;color:var(--neon-gold);">${insights.aiStats?.total || 0}</div>
+                      <div style="font-size:0.65rem;color:var(--text-muted);">Total Queries</div>
+                  </div>
+                  <div style="background:rgba(255,255,255,0.02);padding:0.8rem;border-radius:var(--radius-sm);text-align:center;">
+                      <div style="font-size:1.2rem;font-weight:700;color:var(--accent-success);">${insights.aiStats?.positivePercent || 0}%</div>
+                      <div style="font-size:0.65rem;color:var(--text-muted);">Positive Sentiment</div>
+                  </div>
+                  <div style="background:rgba(255,255,255,0.02);padding:0.8rem;border-radius:var(--radius-sm);text-align:center;">
+                      <div style="font-size:1.2rem;font-weight:700;color:var(--accent-danger);">${insights.aiStats?.urgent || 0}</div>
+                      <div style="font-size:0.65rem;color:var(--text-muted);">Urgent Queries</div>
+                  </div>
+                  <div style="background:rgba(255,255,255,0.02);padding:0.8rem;border-radius:var(--radius-sm);text-align:center;">
+                      <a href="/admin/analytics.html" style="color:var(--neon-cyan);text-decoration:none;font-size:0.85rem;">
+                          <i class="fas fa-arrow-right"></i> View Full Analytics
+                      </a>
+                  </div>
+              </div>
+          </div>
+      `;
+
+      container.innerHTML = html;
+
+      // Render charts
+      if (insights.logAnalysis?.metrics) {
+          setTimeout(() => {
+              renderCharts(insights.logAnalysis.metrics);
+          }, 150);
+      }
+
+      // Update status
+      DOM.aiStatus.className = 'status-indicator status-active';
+      DOM.aiStatus.innerHTML = '<span class="pulse-dot"></span><span>AI Active</span>';
+
+      // Update last update time
+      DOM.lastUpdateLabel.textContent = 'Last update: ' + new Date().toLocaleString();
+
+      // Scroll to top
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function escapeHTML(str) {
+      if (!str) return '';
+      return String(str)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#039;');
+  }
+
+  // ================================================================ //
+  // LOAD DASHBOARD                                                   //
+  // ================================================================ //
+
+  async function refreshDashboard() {
+      if (State.isRefreshing) return;
+      State.isRefreshing = true;
+
+      const btn = DOM.refreshBtn;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Loading...';
+
+      DOM.loadingSpinner.style.display = 'flex';
+
+      try {
+          const data = await apiRequest(CONFIG.ENDPOINTS.AI_INSIGHTS);
+          if (data.success) {
+              renderDashboard(data.insights);
+              showToast('âœ… Dashboard refreshed successfully', 'success', 2000);
+          } else {
+              throw new Error(data.error || 'Failed to load insights');
+          }
+      } catch (err) {
+          console.error('Dashboard load failed:', err);
+          DOM.aiStatus.className = 'status-indicator status-inactive';
+          DOM.aiStatus.innerHTML = '<span>âš ï¸ AI Offline</span>';
+          showToast('âŒ ' + err.message, 'error');
+          DOM.mainContent.innerHTML = `
+              <div class="empty-state">
+                  <i class="fas fa-exclamation-triangle" style="color:var(--accent-danger);"></i>
+                  <h3 style="color:var(--accent-danger);">Failed to Load Dashboard</h3>
+                  <p>${err.message}</p>
+                  <button class="btn btn-gold" onclick="window.refreshDashboard()" style="margin-top:1rem;">
+                      <i class="fas fa-sync-alt"></i> Retry
+                  </button>
+              </div>
+          `;
+      } finally {
+          State.isRefreshing = false;
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-sync-alt"></i> <span>Refresh</span>';
+          DOM.loadingSpinner.style.display = 'none';
+      }
+  }
+
+  // ================================================================ //
+  // RUN AUTONOMOUS SYSTEM                                            //
+  // ================================================================ //
+
+  async function runAutonomousSystem() {
+      const btn = DOM.runAutoBtn;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Running...';
+
+      try {
+          const data = await apiRequest(CONFIG.ENDPOINTS.RUN_AUTONOMOUS, { method: 'POST' });
+          if (data.success) {
+              showToast('ðŸ¤– Autonomous system executed! ' + (data.recommendations?.length || 0) + ' recommendations generated.', 'success');
+              setTimeout(refreshDashboard, 1500);
+          } else {
+              throw new Error(data.error || 'Failed to run autonomous system');
+          }
+      } catch (err) {
+          showToast('âŒ ' + err.message, 'error');
+      } finally {
+          btn.disabled = false;
+          btn.innerHTML = '<i class="fas fa-robot"></i> <span>Run Analysis</span>';
+      }
+  }
+
+  // ================================================================ //
+  // AUTO-REFRESH CONTROLS                                            //
+  // ================================================================ //
+
+  function startAutoRefresh() {
+      if (State.refreshInterval) clearInterval(State.refreshInterval);
+      State.refreshInterval = setInterval(refreshDashboard, CONFIG.AUTO_REFRESH_INTERVAL);
+      console.log('ðŸ”„ Auto-refresh enabled every ' + (CONFIG.AUTO_REFRESH_INTERVAL / 1000) + 's');
+  }
+
+  // ================================================================ //
+  // KEYBOARD SHORTCUTS                                                //
+  // ================================================================ //
+
+  function setupKeyboardShortcuts() {
+      document.addEventListener('keydown', (e) => {
+          // Ctrl+R = Refresh
+          if (e.ctrlKey && e.key === 'r') {
+              e.preventDefault();
+              refreshDashboard();
+          }
+          // Shift+Ctrl+A = Run Autonomous
+          if (e.ctrlKey && e.shiftKey && (e.key === 'a' || e.key === 'A')) {
+              e.preventDefault();
+              runAutonomousSystem();
+          }
+          // Ctrl+Shift+L = Go to Analytics
+          if (e.ctrlKey && e.shiftKey && (e.key === 'l' || e.key === 'L')) {
+              e.preventDefault();
+              window.location.href = '/admin/analytics.html';
+          }
+      });
+  }
+
+  // ================================================================ //
+  // CONNECTION STATUS                                                //
+  // ================================================================ //
+
+  function setupConnectionStatus() {
+      window.addEventListener('online', () => {
+          showToast('ðŸŸ¢ Connection restored', 'success', 2000);
+          refreshDashboard();
+      });
+
+      window.addEventListener('offline', () => {
+          showToast('ðŸ”´ You are offline. Some features may be unavailable.', 'error', 4000);
+      });
+  }
+
+  // ================================================================ //
+  // INIT                                                             //
+  // ================================================================ //
+
+  async function init() {
+      console.log('ðŸš€ AI Business Intelligence Dashboard v10.0 â€” Unified Config');
+      console.log('ðŸ“ API Base:', CONFIG.API_BASE);
+      console.log('ðŸ“¦ Using unified config from:', UnifiedConfig.apiBase);
+
+      // Check authentication
+      const authed = await checkAuth();
+      if (!authed) return;
+
+      // Get CSRF token
+      await refreshCsrf();
+
+      // Setup keyboard shortcuts
+      setupKeyboardShortcuts();
+
+      // Setup connection status
+      setupConnectionStatus();
+
+      // Initial load
+      await refreshDashboard();
+
+      // Start auto-refresh
+      startAutoRefresh();
+
+      // Handle visibility change
+      document.addEventListener('visibilitychange', () => {
+          if (document.visibilityState === 'visible') {
+              refreshDashboard();
+          }
+      });
+
+      console.log('âœ… AI Dashboard initialized');
+      console.log('âŒ¨ï¸  Ctrl+R to refresh | Ctrl+Shift+A to run autonomous | Ctrl+Shift+L for Analytics');
+      console.log('ðŸ”„ Auto-refresh: Enabled (every ' + (CONFIG.AUTO_REFRESH_INTERVAL / 1000) + 's)');
+      console.log('ðŸ”— Analytics dashboard: /admin/analytics.html');
+  }
+
+  // Cleanup on page unload
+  window.addEventListener('beforeunload', () => {
+      if (State.refreshInterval) {
+          clearInterval(State.refreshInterval);
+          State.refreshInterval = null;
+      }
+  });
+
+  // Expose functions globally
+  window.refreshDashboard = refreshDashboard;
+  window.runAutonomousSystem = runAutonomousSystem;
+  window.logout = logout;
+
+  // Start
+  if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', init);
+  } else {
+      init();
+  }
+
+</script>
+</body>
+</html>
+

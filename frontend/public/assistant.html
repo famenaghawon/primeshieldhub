@@ -1,0 +1,1956 @@
+<!DOCTYPE html>
+<html lang="en-NG" data-quantum-version="12.0" data-theme="quantum-gold">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
+    <meta name="description" content="PrimeShieldHub Quantum AI Assistant - Powered by Google Gemini. Human-like conversations about products, pricing, orders, reseller programs, and more.">
+    <meta name="theme-color" content="#060608">
+    <meta name="csrf-token" content="{{CSRF_TOKEN}}">
+    <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
+    
+    <link rel="canonical" href="https://primeshieldhub.com/assistant">
+    <link rel="icon" href="/company_logo.png">
+    <title>AI Assistant | PrimeShieldHub â€¢ Quantum Conversations</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link rel="preconnect" href="https://api.primeshieldhub.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ===== STYLES (Keep all existing CSS from your file) ===== */
+        :root {
+            --bg-deep: #050308;
+            --bg-primary: #08080d;
+            --bg-sidebar: #0a0a10;
+            --bg-elevated: #0d0d16;
+            --bg-card: rgba(16, 16, 24, 0.75);
+            --bg-input: rgba(20, 20, 30, 0.6);
+            --bg-user-bubble: rgba(214, 178, 94, 0.1);
+            --bg-ai-bubble: rgba(255, 255, 255, 0.04);
+            --bg-hover: rgba(255, 255, 255, 0.03);
+            --gold-soft: #c4a04a;
+            --gold-core: #d6b25e;
+            --gold-bright: #e8c97a;
+            --gold-light: #f3dba0;
+            --gold-glow: rgba(214, 178, 94, 0.08);
+            --gold-border: rgba(214, 178, 94, 0.15);
+            --gold-border-bright: rgba(214, 178, 94, 0.3);
+            --accent-success: #33ffaa;
+            --accent-danger: #ff3366;
+            --accent-warning: #ffaa33;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #b388ff;
+            --text-primary: #f0efe8;
+            --text-secondary: #b0ada5;
+            --text-muted: #6a6870;
+            --text-inverse: #08080d;
+            --font-serif: 'Cormorant Garamond', Georgia, serif;
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            --font-display: 'Space Grotesk', sans-serif;
+            --radius-xs: 6px;
+            --radius-sm: 12px;
+            --radius-md: 18px;
+            --radius-lg: 24px;
+            --radius-xl: 32px;
+            --transition-smooth: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            --transition-bounce: all 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            --shadow-card: 0 20px 60px rgba(0,0,0,0.4);
+            --shadow-glow: 0 0 40px rgba(214,178,94,0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: var(--font-sans);
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            height: 100dvh;
+            overflow: hidden;
+            display: flex;
+            position: relative;
+        }
+
+        /* Ambient Background Layers */
+        body::before {
+            content: '';
+            position: fixed; inset: 0;
+            background: 
+                radial-gradient(ellipse 60% 40% at 20% 0%, rgba(214,178,94,0.04) 0%, transparent 50%),
+                radial-gradient(ellipse 50% 35% at 80% 100%, rgba(180,130,255,0.03) 0%, transparent 50%),
+                radial-gradient(ellipse 40% 30% at 50% 50%, rgba(0,212,255,0.02) 0%, transparent 60%);
+            pointer-events: none; z-index: -2;
+        }
+        body::after {
+            content: '';
+            position: fixed; inset: 0;
+            background-image: 
+                radial-gradient(rgba(214,178,94,0.02) 1px, transparent 1px),
+                radial-gradient(rgba(180,130,255,0.015) 1px, transparent 1px);
+            background-size: 35px 35px, 50px 50px;
+            background-position: 0 0, 17px 25px;
+            pointer-events: none; z-index: -1;
+            mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 10%, transparent 55%);
+        }
+
+        .orb {
+            position: fixed; border-radius: 50%; filter: blur(65px);
+            pointer-events: none; z-index: -1;
+            animation: orbFloat 18s ease-in-out infinite alternate;
+        }
+        .orb-1 {
+            width: 55vw; height: 55vw;
+            background: radial-gradient(circle, rgba(214,178,94,0.12), transparent);
+            top: -22vh; right: -18vw;
+        }
+        .orb-2 {
+            width: 42vw; height: 42vw;
+            background: radial-gradient(circle, rgba(180,130,255,0.08), transparent);
+            bottom: -18vh; left: -16vw;
+            animation-duration: 22s; animation-direction: alternate-reverse;
+        }
+        .orb-3 {
+            width: 35vw; height: 35vw;
+            background: radial-gradient(circle, rgba(0,212,255,0.06), transparent);
+            top: 40vh; left: 50vw;
+            animation-duration: 26s;
+        }
+        @keyframes orbFloat {
+            0% { transform: translate(0, 0) scale(1); opacity: 0.3; }
+            50% { transform: translate(4%, -3%) scale(1.1); opacity: 0.5; }
+            100% { transform: translate(-2%, 2%) scale(0.95); opacity: 0.35; }
+        }
+
+        ::-webkit-scrollbar { width: 5px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: var(--gold-core); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gold-bright); }
+        ::selection { background: rgba(214,178,94,0.3); color: var(--text-primary); }
+
+        /* ===== SIDEBAR ===== */
+        .sidebar {
+            width: 300px; height: 100%; min-height: 100dvh;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--gold-border);
+            display: flex; flex-direction: column; flex-shrink: 0;
+            transition: transform 0.35s cubic-bezier(0.16,1,0.3,1);
+            z-index: 50; position: relative;
+        }
+        .sidebar-header {
+            padding: 20px 18px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .sidebar-logo {
+            display: flex; align-items: center; gap: 10px; text-decoration: none;
+            transition: opacity 0.2s;
+        }
+        .sidebar-logo:hover { opacity: 0.85; }
+        .sidebar-logo img {
+            width: 34px; height: 34px; border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+        .sidebar-logo span {
+            font-weight: 800; font-size: 0.9rem; color: var(--text-primary);
+            font-family: var(--font-display); letter-spacing: 0.5px;
+        }
+        .sidebar-logo span em {
+            font-style: normal;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .sidebar-actions {
+            padding: 8px 14px 4px;
+        }
+        .new-chat-btn {
+            width: 100%; padding: 12px 16px;
+            background: rgba(214,178,94,0.08);
+            border: 1px solid var(--gold-border);
+            border-radius: 14px;
+            color: var(--gold-core); font-weight: 600; font-size: 0.85rem;
+            cursor: pointer; display: flex; align-items: center; gap: 10px;
+            transition: var(--transition-smooth); font-family: var(--font-sans);
+        }
+        .new-chat-btn:hover {
+            background: rgba(214,178,94,0.15);
+            border-color: var(--gold-border-bright);
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-glow);
+        }
+        .sidebar-conversations {
+            flex: 1; overflow-y: auto; padding: 8px 10px;
+        }
+        .conv-item {
+            padding: 10px 14px; border-radius: 12px; cursor: pointer;
+            font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 3px;
+            transition: var(--transition-smooth); display: flex; align-items: center;
+            gap: 10px; position: relative;
+        }
+        .conv-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+        .conv-item.active {
+            background: rgba(214,178,94,0.08); color: var(--gold-core);
+            border: 1px solid rgba(214,178,94,0.12);
+        }
+        .conv-item .conv-icon { font-size: 0.7rem; opacity: 0.5; flex-shrink: 0; }
+        .conv-item .conv-title {
+            flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+        .conv-item .conv-date {
+            font-size: 0.6rem; color: var(--text-muted); flex-shrink: 0;
+        }
+        .conv-item .conv-delete {
+            opacity: 0; background: none; border: none; color: var(--text-muted);
+            cursor: pointer; padding: 4px; font-size: 0.7rem;
+            transition: all 0.2s; flex-shrink: 0; border-radius: 6px;
+        }
+        .conv-item:hover .conv-delete { opacity: 1; }
+        .conv-item .conv-delete:hover { color: var(--accent-danger); background: rgba(255,51,102,0.1); }
+        .sidebar-footer {
+            padding: 16px 18px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+        .sidebar-footer a {
+            color: var(--text-muted); text-decoration: none; font-size: 0.75rem;
+            display: flex; align-items: center; gap: 6px;
+            transition: color 0.2s; padding: 4px 8px; border-radius: 8px;
+        }
+        .sidebar-footer a:hover { color: var(--gold-core); background: var(--bg-hover); }
+        .user-badge {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.75rem; color: var(--text-secondary);
+            margin-left: auto; padding: 6px 10px;
+            background: rgba(255,255,255,0.02); border-radius: 10px;
+        }
+        .user-avatar {
+            width: 30px; height: 30px;
+            background: linear-gradient(135deg, rgba(214,178,94,0.25), rgba(214,178,94,0.1));
+            border-radius: 8px; display: grid; place-items: center;
+            font-weight: 700; font-size: 0.7rem; color: var(--gold-core);
+        }
+        .user-badge .user-status {
+            width: 7px; height: 7px; background: var(--accent-success);
+            border-radius: 50%; flex-shrink: 0;
+        }
+
+        .main-area {
+            flex: 1; display: flex; flex-direction: column;
+            height: 100%; min-height: 100dvh;
+            background: var(--bg-primary); min-width: 0;
+        }
+        .chat-header {
+            padding: 14px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            display: flex; align-items: center; justify-content: space-between;
+            flex-shrink: 0; background: rgba(10,10,16,0.95); backdrop-filter: blur(20px);
+            z-index: 10;
+        }
+        .chat-header-left { display: flex; align-items: center; gap: 12px; }
+        .mobile-menu-btn {
+            display: none; background: none; border: none;
+            color: var(--text-secondary); font-size: 1.3rem;
+            cursor: pointer; padding: 6px; border-radius: 8px;
+            transition: var(--transition-smooth);
+        }
+        .mobile-menu-btn:hover { color: var(--gold-core); background: var(--bg-hover); }
+        .chat-title {
+            font-weight: 600; font-size: 0.9rem;
+            font-family: var(--font-display); letter-spacing: 0.3px;
+        }
+        .chat-subtitle {
+            font-size: 0.65rem; color: var(--text-muted);
+            font-family: var(--font-mono);
+            display: flex; align-items: center; gap: 6px;
+        }
+        .chat-subtitle .status-dot {
+            width: 6px; height: 6px; background: var(--accent-success);
+            border-radius: 50%; animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; box-shadow: 0 0 0 0 rgba(51,255,170,0.4); }
+            50% { opacity: 0.5; box-shadow: 0 0 0 8px rgba(51,255,170,0); }
+        }
+        .header-actions { display: flex; gap: 6px; align-items: center; }
+        .header-btn {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 10px; color: var(--text-secondary); padding: 7px 12px;
+            font-size: 0.75rem; cursor: pointer; transition: var(--transition-smooth);
+            display: flex; align-items: center; gap: 6px; font-family: var(--font-sans);
+            text-decoration: none; white-space: nowrap;
+        }
+        .header-btn:hover {
+            background: rgba(255,255,255,0.06); color: var(--text-primary);
+            border-color: rgba(255,255,255,0.15);
+        }
+        .header-btn.active {
+            background: rgba(214,178,94,0.1); border-color: var(--gold-border-bright);
+            color: var(--gold-core);
+        }
+
+        .persona-selector {
+            display: flex; gap: 4px; background: rgba(255,255,255,0.02);
+            border-radius: 12px; padding: 3px; border: 1px solid rgba(255,255,255,0.04);
+        }
+        .persona-btn {
+            background: none; border: none; color: var(--text-muted);
+            padding: 5px 10px; border-radius: 10px; font-size: 0.7rem;
+            cursor: pointer; transition: var(--transition-smooth);
+            font-family: var(--font-sans); white-space: nowrap;
+            display: flex; align-items: center; gap: 4px;
+        }
+        .persona-btn:hover { color: var(--text-primary); background: var(--bg-hover); }
+        .persona-btn.active {
+            background: rgba(214,178,94,0.12); color: var(--gold-core);
+            font-weight: 600;
+        }
+
+        .messages-container {
+            flex: 1; overflow-y: auto; padding: 24px 24px 16px;
+            display: flex; flex-direction: column; gap: 20px;
+            scroll-behavior: smooth; -webkit-overflow-scrolling: touch;
+        }
+        .messages-container::-webkit-scrollbar { width: 5px; }
+        .messages-container::-webkit-scrollbar-track { background: transparent; }
+        .messages-container::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 3px; }
+
+        .welcome-center {
+            flex: 1; display: flex; flex-direction: column; align-items: center;
+            justify-content: center; text-align: center; padding: 40px 20px;
+            min-height: 400px;
+        }
+        .welcome-icon {
+            font-size: 5rem; margin-bottom: 24px;
+            animation: welcomeFloat 3s ease-in-out infinite;
+            filter: drop-shadow(0 10px 30px rgba(214,178,94,0.2));
+        }
+        @keyframes welcomeFloat {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(-3deg); }
+            75% { transform: translateY(-8px) rotate(3deg); }
+        }
+        .welcome-title {
+            font-size: 2.2rem; font-weight: 800; font-family: var(--font-display);
+            margin-bottom: 10px; letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-bright), var(--gold-light));
+            -webkit-background-clip: text; background-clip: text; color: transparent;
+        }
+        .welcome-subtitle {
+            color: var(--text-secondary); font-size: 0.95rem;
+            max-width: 550px; line-height: 1.7; margin-bottom: 36px;
+        }
+        .suggestions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 12px; max-width: 750px; width: 100%;
+        }
+        .suggestion-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.05);
+            border-radius: 18px; padding: 20px; cursor: pointer;
+            transition: var(--transition-bounce); text-align: left;
+            display: flex; align-items: flex-start; gap: 14px;
+            position: relative; overflow: hidden;
+        }
+        .suggestion-card::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-core), transparent);
+            opacity: 0; transition: opacity 0.3s;
+        }
+        .suggestion-card:hover::after { opacity: 1; }
+        .suggestion-card:hover {
+            background: rgba(214,178,94,0.06); border-color: var(--gold-border-bright);
+            transform: translateY(-4px); box-shadow: var(--shadow-glow);
+        }
+        .suggestion-card .sugg-icon {
+            width: 42px; height: 42px; background: rgba(214,178,94,0.1);
+            border-radius: 12px; display: grid; place-items: center;
+            font-size: 1.2rem; color: var(--gold-core); flex-shrink: 0;
+        }
+        .suggestion-card h4 { font-size: 0.88rem; margin-bottom: 3px; color: var(--text-primary); font-weight: 600; }
+        .suggestion-card p { font-size: 0.73rem; color: var(--text-muted); line-height: 1.5; }
+
+        .msg-row {
+            display: flex; gap: 14px; animation: msgSlideIn 0.4s cubic-bezier(0.16,1,0.3,1);
+            align-items: flex-start; position: relative;
+        }
+        .msg-row.user { justify-content: flex-end; }
+        .msg-row.system { justify-content: center; }
+        @keyframes msgSlideIn {
+            from { opacity: 0; transform: translateY(16px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .msg-avatar {
+            width: 38px; height: 38px; border-radius: 12px;
+            display: grid; place-items: center; flex-shrink: 0;
+            font-size: 0.85rem; font-weight: 700; position: sticky; top: 0;
+        }
+        .msg-avatar.ai {
+            background: linear-gradient(135deg, rgba(214,178,94,0.2), rgba(214,178,94,0.06));
+            color: var(--gold-core); border: 1px solid rgba(214,178,94,0.15);
+        }
+        .msg-avatar.user {
+            background: linear-gradient(135deg, rgba(0,212,255,0.15), rgba(0,212,255,0.05));
+            color: var(--accent-cyan); border: 1px solid rgba(0,212,255,0.15);
+        }
+        .msg-avatar.system {
+            background: rgba(255,170,51,0.1); color: var(--accent-warning);
+            font-size: 0.7rem; width: 28px; height: 28px;
+        }
+        .msg-content { flex: 1; min-width: 0; }
+        .msg-bubble {
+            max-width: 74%; padding: 14px 20px; border-radius: 20px;
+            font-size: 0.9rem; line-height: 1.7; word-break: break-word;
+            position: relative; display: inline-block;
+        }
+        .msg-row.user .msg-bubble { display: block; text-align: left; }
+        .msg-bubble.ai {
+            background: var(--bg-ai-bubble); border: 1px solid rgba(255,255,255,0.05);
+            border-top-left-radius: 6px; color: #e0dde5;
+        }
+        .msg-bubble.user {
+            background: var(--bg-user-bubble); border: 1px solid var(--gold-border);
+            border-top-right-radius: 6px; color: #f0efe8;
+        }
+        .msg-bubble.system {
+            background: rgba(255,170,51,0.06); border: 1px solid rgba(255,170,51,0.15);
+            border-radius: 14px; font-size: 0.78rem; color: var(--accent-warning);
+            text-align: center; max-width: 90%;
+        }
+        .msg-bubble p { margin-bottom: 10px; }
+        .msg-bubble p:last-child { margin-bottom: 0; }
+        .msg-bubble ul, .msg-bubble ol { margin: 10px 0; padding-left: 22px; }
+        .msg-bubble li { margin-bottom: 6px; }
+        .msg-bubble strong { color: var(--gold-bright); font-weight: 600; }
+        .msg-bubble em { color: var(--text-secondary); }
+        .msg-bubble a { color: var(--accent-cyan); text-decoration: underline; text-underline-offset: 2px; }
+        .msg-bubble a:hover { color: var(--gold-bright); }
+        .msg-bubble code {
+            background: rgba(0,0,0,0.4); padding: 3px 8px; border-radius: 5px;
+            font-family: var(--font-mono); font-size: 0.82rem;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+        .msg-bubble pre {
+            background: rgba(0,0,0,0.5); border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px; padding: 14px 18px; overflow-x: auto;
+            font-family: var(--font-mono); font-size: 0.8rem; line-height: 1.6;
+            margin: 10px 0;
+        }
+        .msg-bubble pre code { background: none; padding: 0; border: none; }
+
+        .spell-correction {
+            background: rgba(255,170,51,0.08);
+            border: 1px solid rgba(255,170,51,0.15);
+            border-radius: 8px;
+            padding: 6px 12px;
+            font-size: 0.75rem;
+            color: var(--accent-warning);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin: 6px 0;
+        }
+        .spell-correction i {
+            font-size: 0.7rem;
+        }
+
+        /* ===== FIXED: Product Chat Card with Prices ===== */
+        .product-chat-card {
+            display: flex; gap: 14px; background: rgba(214,178,94,0.06);
+            border: 1px solid var(--gold-border); border-radius: 16px;
+            padding: 14px; margin: 10px 0; cursor: pointer;
+            transition: var(--transition-smooth); align-items: center;
+        }
+        .product-chat-card:hover {
+            background: rgba(214,178,94,0.12); border-color: var(--gold-border-bright);
+            transform: translateX(4px);
+        }
+        .product-chat-card img {
+            width: 60px; height: 60px; object-fit: contain;
+            border-radius: 10px; background: rgba(0,0,0,0.3);
+        }
+        .product-chat-card .pcc-info { flex: 1; }
+        .product-chat-card .pcc-name { font-weight: 600; font-size: 0.85rem; margin-bottom: 4px; }
+        .product-chat-card .pcc-price { 
+            color: var(--gold-bright); 
+            font-weight: 700; 
+            font-size: 0.9rem; 
+            display: block;
+        }
+        .product-chat-card .pcc-stock {
+            font-size: 0.65rem; padding: 2px 8px; border-radius: 6px;
+            display: inline-block; margin-top: 4px;
+        }
+        .pcc-stock.in-stock { background: rgba(51,255,170,0.1); color: var(--accent-success); }
+        .pcc-stock.low-stock { background: rgba(255,170,51,0.1); color: var(--accent-warning); }
+        .pcc-stock.out-of-stock { background: rgba(255,51,102,0.1); color: var(--accent-danger); }
+        .product-chat-card .pcc-action {
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            color: var(--text-inverse);
+            border: none; padding: 8px 16px; border-radius: 10px;
+            font-weight: 600; font-size: 0.75rem; cursor: pointer;
+            transition: var(--transition-smooth);
+        }
+        .product-chat-card .pcc-action:hover { transform: scale(1.05); }
+
+        .order-chat-card {
+            background: rgba(0,212,255,0.04);
+            border: 1px solid rgba(0,212,255,0.12);
+            border-radius: 16px; padding: 16px; margin: 10px 0;
+            transition: var(--transition-smooth);
+        }
+        .order-chat-card:hover {
+            background: rgba(0,212,255,0.08);
+            border-color: rgba(0,212,255,0.25);
+        }
+        .order-chat-card .order-header {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 10px;
+        }
+        .order-chat-card .order-id {
+            font-family: var(--font-mono); font-size: 0.78rem;
+            color: var(--accent-cyan); font-weight: 600;
+        }
+        .order-chat-card .order-status {
+            font-size: 0.68rem; padding: 4px 10px; border-radius: 8px;
+            font-weight: 600; text-transform: uppercase;
+        }
+        .order-status.processing { background: rgba(255,170,51,0.15); color: var(--accent-warning); }
+        .order-status.shipped { background: rgba(0,212,255,0.15); color: var(--accent-cyan); }
+        .order-status.delivered { background: rgba(51,255,170,0.15); color: var(--accent-success); }
+        .order-chat-card .order-details {
+            font-size: 0.8rem; color: var(--text-secondary);
+            display: flex; gap: 20px; flex-wrap: wrap;
+        }
+        .order-chat-card .order-details span {
+            display: flex; align-items: center; gap: 6px;
+        }
+
+        .analytics-badge {
+            margin-top: 8px; display: flex; gap: 8px;
+            font-size: 0.65rem; color: var(--text-muted);
+            flex-wrap: wrap;
+        }
+        .analytics-badge span {
+            padding: 3px 8px; border-radius: 6px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .msg-time {
+            font-size: 0.62rem; color: var(--text-muted); margin-top: 6px;
+            font-family: var(--font-mono); display: flex; align-items: center; gap: 8px;
+        }
+        .msg-row.user .msg-time { justify-content: flex-end; }
+        .msg-actions {
+            display: flex; gap: 3px; opacity: 0; transition: opacity 0.25s;
+            margin-top: 4px;
+        }
+        .msg-row:hover .msg-actions { opacity: 1; }
+        .msg-action-btn {
+            background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 8px; color: var(--text-muted); padding: 5px 9px;
+            font-size: 0.65rem; cursor: pointer; transition: var(--transition-smooth);
+            display: flex; align-items: center; gap: 4px;
+        }
+        .msg-action-btn:hover { background: rgba(255,255,255,0.08); color: var(--text-primary); border-color: rgba(255,255,255,0.15); }
+        .msg-action-btn.liked { color: var(--accent-danger); }
+        .msg-action-btn.pinned { color: var(--gold-core); }
+
+        .typing-row {
+            display: flex; gap: 14px; align-items: center; padding: 4px 0;
+        }
+        .typing-dots { display: flex; gap: 5px; padding: 8px 0; }
+        .typing-dot {
+            width: 8px; height: 8px; border-radius: 50%;
+            background: var(--gold-core);
+            animation: typingBounce 1.4s infinite;
+        }
+        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typingBounce {
+            0%, 60%, 100% { opacity: 0.3; transform: translateY(0); }
+            30% { opacity: 1; transform: translateY(-7px); }
+        }
+
+        .input-area {
+            padding: 16px 24px 22px;
+            border-top: 1px solid rgba(255,255,255,0.04);
+            flex-shrink: 0;
+            background: rgba(10,10,16,0.95); backdrop-filter: blur(20px);
+        }
+        .input-wrapper {
+            display: flex; gap: 10px; align-items: flex-end;
+            background: var(--bg-input); border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 22px; padding: 5px 8px 5px 18px;
+            transition: var(--transition-smooth);
+        }
+        .input-wrapper:focus-within {
+            border-color: var(--gold-border-bright);
+            box-shadow: 0 0 30px rgba(214,178,94,0.1);
+        }
+        .input-wrapper textarea {
+            flex: 1; background: none; border: none; color: var(--text-primary);
+            font-family: var(--font-sans); font-size: 0.9rem; resize: none;
+            outline: none; padding: 10px 0; max-height: 150px;
+            line-height: 1.55; overflow-y: auto;
+        }
+        .input-wrapper textarea::placeholder { color: var(--text-muted); }
+        .input-tools { display: flex; gap: 4px; align-items: center; flex-shrink: 0; }
+        .tool-btn {
+            width: 36px; height: 36px; border-radius: 50%;
+            background: none; border: none; color: var(--text-muted);
+            cursor: pointer; transition: var(--transition-smooth);
+            display: grid; place-items: center; font-size: 0.85rem;
+        }
+        .tool-btn:hover { color: var(--gold-core); background: rgba(214,178,94,0.08); }
+        .tool-btn.recording {
+            color: var(--accent-danger);
+            animation: recordPulse 1s infinite;
+        }
+        @keyframes recordPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255,51,102,0.4); }
+            50% { box-shadow: 0 0 0 12px rgba(255,51,102,0); }
+        }
+        .send-btn {
+            width: 44px; height: 44px; border-radius: 50%;
+            background: linear-gradient(135deg, var(--gold-soft), var(--gold-core));
+            border: none; cursor: pointer; display: grid; place-items: center;
+            flex-shrink: 0; transition: var(--transition-bounce);
+        }
+        .send-btn:hover:not(:disabled) {
+            transform: scale(1.08);
+            box-shadow: 0 8px 28px rgba(214,178,94,0.4);
+        }
+        .send-btn:disabled { opacity: 0.3; cursor: not-allowed; transform: none; box-shadow: none; }
+        .send-btn i { color: var(--text-inverse); font-size: 1.1rem; }
+        .input-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 10px; font-size: 0.6rem; color: var(--text-muted);
+            font-family: var(--font-mono); flex-wrap: wrap; gap: 8px;
+        }
+        .input-footer a { color: var(--gold-core); text-decoration: none; }
+        .input-footer a:hover { text-decoration: underline; }
+        .char-count { font-size: 0.6rem; }
+
+        .sidebar-overlay {
+            display: none; position: fixed; inset: 0;
+            background: rgba(0,0,0,0.65); z-index: 49;
+            backdrop-filter: blur(4px);
+        }
+        .sidebar-overlay.open { display: block; }
+
+        .toast-container {
+            position: fixed; bottom: 110px; left: 50%; transform: translateX(-50%);
+            z-index: 200; display: flex; flex-direction: column; gap: 6px;
+        }
+        .toast {
+            background: rgba(10,10,18,0.95); backdrop-filter: blur(16px);
+            border: 1px solid var(--gold-border); border-radius: 14px;
+            padding: 10px 22px; color: var(--text-primary); font-size: 0.8rem;
+            animation: toastIn 0.35s ease; display: flex; align-items: center; gap: 8px;
+            white-space: nowrap; box-shadow: var(--shadow-card);
+        }
+        .toast.success { border-color: rgba(51,255,170,0.3); }
+        .toast.error { border-color: rgba(255,51,102,0.3); }
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        @media (max-width: 800px) {
+            .sidebar {
+                position: fixed; left: 0; top: 0; bottom: 0;
+                transform: translateX(-100%); z-index: 55;
+                box-shadow: none;
+            }
+            .sidebar.open { transform: translateX(0); box-shadow: 15px 0 60px rgba(0,0,0,0.6); }
+            .mobile-menu-btn { display: block; }
+            .header-actions .header-btn span { display: none; }
+            .header-actions .header-btn { padding: 8px 10px; }
+            .persona-selector .persona-btn span { display: none; }
+            .msg-bubble { max-width: 88%; }
+            .messages-container { padding: 16px; gap: 16px; }
+            .input-area { padding: 12px 14px 18px; }
+            .input-wrapper { padding: 4px 6px 4px 14px; border-radius: 18px; }
+            .suggestions-grid { grid-template-columns: 1fr 1fr; }
+            .welcome-title { font-size: 1.5rem; }
+            .welcome-icon { font-size: 3.5rem; }
+            .tool-btn { width: 32px; height: 32px; }
+        }
+        @media (max-width: 480px) {
+            .suggestions-grid { grid-template-columns: 1fr; }
+            .chat-header { padding: 10px 14px; }
+            .msg-bubble { max-width: 92%; font-size: 0.85rem; padding: 12px 16px; }
+            .msg-avatar { width: 32px; height: 32px; font-size: 0.7rem; }
+            .send-btn { width: 38px; height: 38px; }
+            .tool-btn { width: 30px; height: 30px; }
+            .welcome-title { font-size: 1.3rem; }
+        }
+    </style>
+<style>
+@font-face {
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-VariableFont_opsz,wght.ttf') format('truetype');
+}
+@font-face {
+  font-family: 'Inter';
+  font-style: italic;
+  font-weight: 100 900;
+  font-display: swap;
+  src: url('/fonts/Inter-Italic-VariableFont_opsz,wght.ttf') format('truetype');
+}
+</style>
+</head>
+<body>
+
+<!-- Ambient Orbs -->
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
+<!-- Sidebar Overlay -->
+<div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+<!-- ===== SIDEBAR ===== -->
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+        <a href="/" class="sidebar-logo">
+            <img src="/company_logo.png" alt="PrimeShieldHub" onerror="this.style.display='none'">
+            <span><em>PRIME</em>SHIELD</span>
+        </a>
+    </div>
+    <div class="sidebar-actions">
+        <button class="new-chat-btn" id="newChatBtn">
+            <i class="fas fa-plus-circle"></i> New Conversation
+        </button>
+    </div>
+    <div class="sidebar-conversations" id="conversationsList"></div>
+    <div class="sidebar-footer">
+        <a href="/"><i class="fas fa-home"></i> Store</a>
+        <a href="/contact"><i class="fas fa-headset"></i> Support</a>
+        <a href="/wholesale"><i class="fas fa-tags"></i> Wholesale</a>
+        <div class="user-badge" id="userBadge">
+            <span class="user-status"></span>
+            <div class="user-avatar" id="userAvatar">G</div>
+            <span id="userName">Guest</span>
+        </div>
+    </div>
+</aside>
+
+<!-- ===== MAIN AREA ===== -->
+<main class="main-area">
+    <!-- Header -->
+    <div class="chat-header">
+        <div class="chat-header-left">
+            <button class="mobile-menu-btn" id="mobileMenuBtn" aria-label="Menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <div>
+                <div class="chat-title">Quantum AI Assistant</div>
+                <div class="chat-subtitle">
+                    <span class="status-dot"></span> Gemini 2.5 Flash â€¢ Online
+                </div>
+            </div>
+        </div>
+        <div class="header-actions">
+            <div class="persona-selector" id="personaSelector">
+                <button class="persona-btn active" data-persona="friendly">
+                    <i class="fas fa-smile"></i> <span>Friendly</span>
+                </button>
+                <button class="persona-btn" data-persona="professional">
+                    <i class="fas fa-briefcase"></i> <span>Professional</span>
+                </button>
+                <button class="persona-btn" data-persona="expert">
+                    <i class="fas fa-microscope"></i> <span>Expert</span>
+                </button>
+            </div>
+            <button class="header-btn" id="exportChatBtn" title="Export conversation">
+                <i class="fas fa-download"></i> <span>Export</span>
+            </button>
+            <button class="header-btn" id="clearChatBtn" title="Clear current chat">
+                <i class="fas fa-eraser"></i> <span>Clear</span>
+            </button>
+            <a href="/" class="header-btn" title="Back to store">
+                <i class="fas fa-home"></i> <span>Home</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- Messages -->
+    <div class="messages-container" id="messagesContainer">
+        <!-- Welcome Screen -->
+        <div class="welcome-center" id="welcomeScreen">
+            <div class="welcome-icon">ðŸ¤–</div>
+            <h1 class="welcome-title">Hello, I'm PrimeAI</h1>
+            <p class="welcome-subtitle">
+                Your personal shopping assistant powered by <strong>Google Gemini</strong>. 
+                I can help you find the perfect gadget, compare prices, explain our reseller program, 
+                track orders, or just chat about technology. <em>Ask me anything â€” I'm here to help!</em>
+            </p>
+            <div class="suggestions-grid">
+                <div class="suggestion-card" data-prompt="What are your most popular smartphones right now with current prices?">
+                    <div class="sugg-icon"><i class="fas fa-mobile-alt"></i></div>
+                    <div><h4>Popular Phones</h4><p>See top-selling smartphones with real-time prices</p></div>
+                </div>
+                <div class="suggestion-card" data-prompt="I want to become a reseller. Explain the program, benefits, and how to get started.">
+                    <div class="sugg-icon"><i class="fas fa-user-tie"></i></div>
+                    <div><h4>Reseller Program</h4><p>Learn about wholesale pricing & earning commissions</p></div>
+                </div>
+                <div class="suggestion-card" data-prompt="Tell me about the founder Freedom Evbakoe Amenaghawon and the story behind PrimeShieldHub">
+                    <div class="sugg-icon"><i class="fas fa-crown"></i></div>
+                    <div><h4>Founder's Story</h4><p>The journey from microbiology to building PrimeShieldHub</p></div>
+                </div>
+                <div class="suggestion-card" data-prompt="What payment methods do you accept and how fast is delivery across Nigeria?">
+                    <div class="sugg-icon"><i class="fas fa-credit-card"></i></div>
+                    <div><h4>Payments & Delivery</h4><p>Crypto accepted â€¢ Nationwide shipping timeline</p></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+        <div class="input-wrapper">
+            <textarea id="chatInput" placeholder="Ask me anything about PrimeShieldHub..." rows="1" autofocus></textarea>
+            <div class="input-tools">
+                <button class="tool-btn" id="voiceBtn" title="Voice input">
+                    <i class="fas fa-microphone"></i>
+                </button>
+                <button class="tool-btn" id="attachBtn" title="Attach image for visual search">
+                    <i class="fas fa-paperclip"></i>
+                </button>
+                <input type="file" id="fileInput" accept="image/*" style="display:none;">
+            </div>
+            <button class="send-btn" id="sendBtn" disabled title="Send message">
+                <i class="fas fa-arrow-up"></i>
+            </button>
+        </div>
+        <div class="input-footer">
+            <span><i class="fas fa-shield-alt"></i> Powered by Google Gemini â€¢ Responses may vary</span>
+            <span class="char-count" id="charCount">0 / 4000</span>
+            <span><a href="/contact">Contact Support</a> â€¢ <a href="https://wa.me/2348103535978" target="_blank">WhatsApp</a></span>
+        </div>
+    </div>
+</main>
+
+<!-- Toast Container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script type="module">
+    // ============================================================================
+    // PRIMESHIELDHUB QUANTUM AI ASSISTANT v12.0
+    // FIXED: API endpoint, product rendering, fallback intelligence
+    // ============================================================================
+
+    // ==================== CONFIGURATION ====================
+    const CONFIG = {
+        // FIXED: Correct API endpoints
+        API_BASE: document.querySelector('meta[name="api-base-url"]')?.content || 'https://api.primeshieldhub.com/api',
+        ENDPOINTS: {
+            AI_CHAT: '/ai/chat',
+            PRODUCTS: '/products',
+            AUTH_ME: '/auth/me',
+            CSRF: '/auth/csrf',
+            LOG: '/log'
+        },
+        MAX_CONTEXT: 20,
+        MAX_CHAR_LIMIT: 4000,
+        STORAGE_KEY: 'psh_ai_conversations_v2',
+        PERSONA_PROMPTS: {
+            friendly: 'You are PrimeAI, a warm and friendly shopping assistant for PrimeShieldHub. Use a conversational tone with occasional emojis. Be helpful, encouraging, and make the customer feel valued. If you notice a misspelling, gently suggest the correct spelling without being condescending.',
+            professional: 'You are PrimeAI, a professional business assistant for PrimeShieldHub. Use formal business language. Be concise, accurate, and focused on delivering value. Reference company credentials when relevant. Correct misspellings professionally.',
+            expert: 'You are PrimeAI, a technical expert at PrimeShieldHub. Provide detailed technical specifications, comparisons, and in-depth analysis. Use precise terminology and offer comprehensive explanations. Note any product name corrections clearly.'
+        },
+        // Product knowledge base for fallback
+        PRODUCT_KNOWLEDGE: {
+            'iphone': { brand: 'Apple', category: 'Smartphones', price_range: 'â‚¦950,000 - â‚¦1,450,000' },
+            'samsung': { brand: 'Samsung', category: 'Smartphones', price_range: 'â‚¦950,000 - â‚¦1,350,000' },
+            'macbook': { brand: 'Apple', category: 'Laptops', price_range: 'â‚¦1,200,000 - â‚¦2,850,000' },
+            'tecno': { brand: 'Tecno', category: 'Smartphones', price_range: 'â‚¦200,000 - â‚¦950,000' },
+            'airpods': { brand: 'Apple', category: 'Accessories', price_range: 'â‚¦150,000 - â‚¦350,000' },
+            'oraimo': { brand: 'Oraimo', category: 'Accessories', price_range: 'â‚¦25,000 - â‚¦85,000' },
+            'itel': { brand: 'Itel', category: 'Smartphones', price_range: 'â‚¦90,000 - â‚¦280,000' },
+            'dangote': { brand: 'Dangote', category: 'Cement', price_range: 'â‚¦6,500 - â‚¦8,500/bag' },
+            'dulux': { brand: 'Dulux', category: 'Paints', price_range: 'â‚¦2,500 - â‚¦15,000' },
+            'berger': { brand: 'Berger', category: 'Paints', price_range: 'â‚¦2,500 - â‚¦12,000' },
+            'bosch': { brand: 'Bosch', category: 'Tools', price_range: 'â‚¦15,000 - â‚¦250,000' },
+            'dewalt': { brand: 'DeWalt', category: 'Tools', price_range: 'â‚¦20,000 - â‚¦300,000' }
+        },
+        // Common misspellings dictionary
+        MISSPELLINGS: {
+            'iphone': ['iphne', 'iphon', 'iph0ne', 'iph', 'ip', 'ihpone', 'ipone', 'ifone'],
+            'samsung': ['sumsung', 'samsing', 'samsng', 'samsun', 'sam', 'smasung', 'sansung'],
+            'macbook': ['macbok', 'macbk', 'mbp', 'mac', 'mackbook', 'macbook'],
+            'galaxy': ['galax', 'galxy', 'gal', 'glaxy', 'gallaxy'],
+            'tecno': ['tecnno', 'tecno', 'tec', 'tekno', 'teckno'],
+            'phantom': ['phandom', 'fantom', 'phan', 'phantom'],
+            'airpods': ['airpod', 'airpods', 'airpodz', 'air', 'earpods'],
+            'oraimo': ['oraimo', 'oraim', 'ora', 'orai', 'oramio', 'oraimo'],
+            'itel': ['itell', 'itl', 'it', 'itel mobile', 'ite l'],
+            'power': ['power', 'p0wer', 'powr', 'pw', 'powe'],
+            'battery': ['battery', 'batery', 'batt', 'baterry'],
+            'charger': ['charger', 'chager', 'charg', 'chareger'],
+            'cement': ['cement', 'ciment', 'cemnt', 'cment'],
+            'paint': ['paint', 'pint', 'pait', 'peint']
+        }
+    };
+
+    // ==================== STATE MANAGEMENT ====================
+    const State = {
+        conversations: [],
+        activeConvId: null,
+        messages: [],
+        isLoading: false,
+        isRecording: false,
+        user: null,
+        fingerprint: null,
+        userEmail: localStorage.getItem('user_email') || null,
+        csrfToken: null,
+        persona: 'friendly',
+        recognition: null,
+        pinnedMessages: new Set(),
+        productCache: null
+    };
+
+    // ==================== DOM REFERENCES ====================
+    const DOM = {
+        messagesContainer: document.getElementById('messagesContainer'),
+        welcomeScreen: document.getElementById('welcomeScreen'),
+        chatInput: document.getElementById('chatInput'),
+        sendBtn: document.getElementById('sendBtn'),
+        charCount: document.getElementById('charCount'),
+        conversationsList: document.getElementById('conversationsList'),
+        sidebar: document.getElementById('sidebar'),
+        sidebarOverlay: document.getElementById('sidebarOverlay'),
+        mobileMenuBtn: document.getElementById('mobileMenuBtn'),
+        newChatBtn: document.getElementById('newChatBtn'),
+        exportChatBtn: document.getElementById('exportChatBtn'),
+        clearChatBtn: document.getElementById('clearChatBtn'),
+        voiceBtn: document.getElementById('voiceBtn'),
+        attachBtn: document.getElementById('attachBtn'),
+        fileInput: document.getElementById('fileInput'),
+        userBadge: document.getElementById('userBadge'),
+        userAvatar: document.getElementById('userAvatar'),
+        userName: document.getElementById('userName'),
+        toastContainer: document.getElementById('toastContainer'),
+        personaSelector: document.getElementById('personaSelector')
+    };
+
+    // ==================== UTILITY FUNCTIONS ====================
+    const Util = {
+        escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        },
+
+        generateId() {
+            return 'conv_' + Date.now() + '_' + crypto.randomUUID().slice(0, 8);
+        },
+
+        formatTime() {
+            return new Date().toLocaleTimeString('en-US', {
+                hour: '2-digit', minute: '2-digit', hour12: true
+            });
+        },
+
+        formatDate(date) {
+            const d = new Date(date);
+            const now = new Date();
+            const diff = now - d;
+            if (diff < 86400000) return 'Today';
+            if (diff < 172800000) return 'Yesterday';
+            return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+        },
+
+        formatPrice(price) {
+            return 'â‚¦' + Number(price).toLocaleString();
+        },
+
+        async getFingerprint() {
+            if (State.fingerprint) return State.fingerprint;
+            try {
+                const components = [
+                    navigator.userAgent,
+                    navigator.language,
+                    screen.width,
+                    screen.height,
+                    screen.colorDepth,
+                    navigator.hardwareConcurrency || 4,
+                    new Date().getTimezoneOffset(),
+                    navigator.deviceMemory || 4,
+                    'assistant_v12'
+                ].join('|');
+                const encoder = new TextEncoder();
+                const hashBuffer = await crypto.subtle.digest('SHA-256', encoder.encode(components));
+                const hashArray = Array.from(new Uint8Array(hashBuffer));
+                State.fingerprint = hashArray.map(b => b.toString(16).padStart(2, '0')).join('').substring(0, 32);
+                return State.fingerprint;
+            } catch (e) {
+                State.fingerprint = 'fp_' + Date.now() + '_' + Math.random().toString(36).substr(2, 6);
+                return State.fingerprint;
+            }
+        },
+
+        toast(message, type = 'success', duration = 3500) {
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icons = {
+                success: 'fa-check-circle',
+                error: 'fa-exclamation-circle',
+                info: 'fa-info-circle',
+                warning: 'fa-exclamation-triangle'
+            };
+            toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i> ${message}`;
+            DOM.toastContainer.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = '0.3s';
+                setTimeout(() => toast.remove(), 300);
+            }, duration);
+        },
+
+        // Spell correction
+        levenshteinDistance(a, b) {
+            if (a.length === 0) return b.length;
+            if (b.length === 0) return a.length;
+            const matrix = [];
+            for (let i = 0; i <= b.length; i++) matrix[i] = [i];
+            for (let j = 0; j <= a.length; j++) matrix[0][j] = j;
+            for (let i = 1; i <= b.length; i++) {
+                for (let j = 1; j <= a.length; j++) {
+                    if (b[i - 1] === a[j - 1]) {
+                        matrix[i][j] = matrix[i - 1][j - 1];
+                    } else {
+                        matrix[i][j] = Math.min(
+                            matrix[i - 1][j - 1] + 1,
+                            matrix[i][j - 1] + 1,
+                            matrix[i - 1][j] + 1
+                        );
+                    }
+                }
+            }
+            return matrix[b.length][a.length];
+        },
+
+        similarityScore(a, b) {
+            const distance = this.levenshteinDistance(a.toLowerCase(), b.toLowerCase());
+            const maxLen = Math.max(a.length, b.length);
+            return maxLen === 0 ? 1 : 1 - (distance / maxLen);
+        },
+
+        correctSpelling(word) {
+            if (!word || word.length < 3) return null;
+            const lower = word.toLowerCase();
+            
+            for (const [correct, misspellings] of Object.entries(CONFIG.MISSPELLINGS)) {
+                if (misspellings.some(m => m === lower || lower.includes(m))) {
+                    return { original: word, corrected: correct, confidence: 0.95 };
+                }
+            }
+            
+            let bestMatch = null;
+            let bestScore = 0;
+            for (const [correct, misspellings] of Object.entries(CONFIG.MISSPELLINGS)) {
+                const score = this.similarityScore(lower, correct);
+                if (score > 0.7 && score > bestScore) {
+                    bestScore = score;
+                    bestMatch = correct;
+                }
+                for (const misspelling of misspellings) {
+                    const msScore = this.similarityScore(lower, misspelling);
+                    if (msScore > 0.6 && msScore > bestScore) {
+                        bestScore = msScore;
+                        bestMatch = correct;
+                    }
+                }
+            }
+            
+            if (bestMatch && bestScore > 0.7) {
+                return { original: word, corrected: bestMatch, confidence: Math.round(bestScore * 100) };
+            }
+            return null;
+        },
+
+        extractKeywords(text) {
+            const stopWords = ['the', 'a', 'an', 'is', 'are', 'was', 'were', 'to', 'for', 'of', 'with', 'on', 'at', 'from', 'by', 'in', 'about', 'like', 'do', 'you', 'have', 'got', 'any', 'me', 'tell', 'show', 'price', 'cost', 'much'];
+            const words = text.toLowerCase().replace(/[^a-z0-9\s]/g, '').split(/\s+/);
+            return words.filter(w => w.length > 2 && !stopWords.includes(w));
+        },
+
+        getProductSuggestion(query) {
+            const lower = query.toLowerCase();
+            const matches = [];
+            for (const [product, info] of Object.entries(CONFIG.PRODUCT_KNOWLEDGE)) {
+                if (lower.includes(product) || product.includes(lower)) {
+                    matches.push({ name: product, info });
+                }
+            }
+            const words = this.extractKeywords(query);
+            for (const word of words) {
+                const corrected = this.correctSpelling(word);
+                if (corrected) {
+                    const info = CONFIG.PRODUCT_KNOWLEDGE[corrected.corrected.toLowerCase()];
+                    if (info) {
+                        matches.push({ 
+                            name: corrected.corrected, 
+                            info, 
+                            correction: corrected.original,
+                            confidence: corrected.confidence 
+                        });
+                    }
+                }
+            }
+            return matches;
+        }
+    };
+
+    // ==================== API CLIENT (FIXED) ====================
+    async function apiFetch(endpoint, options = {}) {
+        const headers = {
+            'Content-Type': 'application/json',
+            'x-device-fingerprint': await Util.getFingerprint()
+        };
+        if (State.csrfToken && options.method && !['GET', 'HEAD'].includes(options.method.toUpperCase())) {
+            headers['x-csrf-token'] = State.csrfToken;
+        }
+        return fetch(`${CONFIG.API_BASE}${endpoint}`, {
+            credentials: 'include',
+            ...options,
+            headers: { ...headers, ...options.headers }
+        });
+    }
+
+    async function refreshCsrf() {
+        try {
+            const res = await fetch(`${CONFIG.API_BASE}${CONFIG.ENDPOINTS.CSRF}`, {
+                credentials: 'include',
+                headers: { 'x-device-fingerprint': await Util.getFingerprint() }
+            });
+            if (res.ok) State.csrfToken = await res.text();
+        } catch { /* silent */ }
+    }
+
+    async function checkUser() {
+        try {
+            const res = await apiFetch(CONFIG.ENDPOINTS.AUTH_ME);
+            if (res.ok) {
+                State.user = await res.json();
+                State.userEmail = State.user.email || State.userEmail;
+                if (State.userEmail) localStorage.setItem('user_email', State.userEmail);
+                DOM.userName.textContent = State.user.name || State.user.email?.split('@')[0] || 'User';
+                DOM.userAvatar.textContent = (State.user.name || 'U').charAt(0).toUpperCase();
+            }
+        } catch { /* guest user */ }
+    }
+
+    // ==================== CONVERSATION MANAGEMENT ====================
+    function loadConversations() {
+        try {
+            State.conversations = JSON.parse(localStorage.getItem(CONFIG.STORAGE_KEY) || '[]');
+        } catch {
+            State.conversations = [];
+        }
+        renderConversations();
+        if (State.conversations.length > 0 && !State.activeConvId) {
+            switchConversation(State.conversations[0].id);
+        }
+    }
+
+    function saveConversations() {
+        try {
+            const toSave = State.conversations.slice(0, 100).map(c => ({
+                ...c,
+                messages: c.messages.slice(-200)
+            }));
+            localStorage.setItem(CONFIG.STORAGE_KEY, JSON.stringify(toSave));
+        } catch {
+            Util.toast('Storage full. Older conversations may be removed.', 'info');
+        }
+    }
+
+    function createConversation(title = 'New Conversation') {
+        const conv = {
+            id: Util.generateId(),
+            title,
+            messages: [],
+            createdAt: Date.now(),
+            updatedAt: Date.now()
+        };
+        State.conversations.unshift(conv);
+        State.activeConvId = conv.id;
+        State.messages = [];
+        saveConversations();
+        renderConversations();
+        renderAllMessages();
+        DOM.welcomeScreen.style.display = 'flex';
+        DOM.chatInput.focus();
+        Util.toast('New conversation started');
+    }
+
+    function switchConversation(convId) {
+        State.activeConvId = convId;
+        const conv = State.conversations.find(c => c.id === convId);
+        if (conv) {
+            State.messages = conv.messages;
+            renderAllMessages();
+            DOM.welcomeScreen.style.display = State.messages.length === 0 ? 'flex' : 'none';
+            scrollToBottom();
+        }
+        renderConversations();
+    }
+
+    function deleteConversation(convId) {
+        State.conversations = State.conversations.filter(c => c.id !== convId);
+        if (State.activeConvId === convId) {
+            State.activeConvId = State.conversations[0]?.id || null;
+            State.messages = State.conversations[0]?.messages || [];
+            renderAllMessages();
+            DOM.welcomeScreen.style.display = State.messages.length === 0 ? 'flex' : 'none';
+        }
+        saveConversations();
+        renderConversations();
+        Util.toast('Conversation deleted');
+    }
+
+    function updateConversationMeta() {
+        const conv = State.conversations.find(c => c.id === State.activeConvId);
+        if (!conv) return;
+        if (conv.title === 'New Conversation' && State.messages.length >= 1) {
+            const firstUserMsg = State.messages.find(m => m.role === 'user');
+            if (firstUserMsg) {
+                conv.title = firstUserMsg.content.slice(0, 45) + (firstUserMsg.content.length > 45 ? '...' : '');
+                renderConversations();
+            }
+        }
+        conv.updatedAt = Date.now();
+        saveConversations();
+    }
+
+    function renderConversations() {
+        if (!DOM.conversationsList) return;
+        if (State.conversations.length === 0) {
+            DOM.conversationsList.innerHTML = `
+                <div style="padding:30px 16px;text-align:center;color:var(--text-muted);font-size:0.78rem;">
+                    <i class="fas fa-comments" style="font-size:2.5rem;margin-bottom:14px;display:block;opacity:0.15;"></i>
+                    <p>No conversations yet</p>
+                    <p style="font-size:0.65rem;margin-top:4px;">Start chatting to see your history here</p>
+                </div>`;
+            return;
+        }
+        DOM.conversationsList.innerHTML = State.conversations.map(c => `
+            <div class="conv-item ${c.id === State.activeConvId ? 'active' : ''}" data-id="${c.id}" title="${Util.escapeHtml(c.title)}">
+                <i class="fas fa-message conv-icon"></i>
+                <span class="conv-title">${Util.escapeHtml(c.title)}</span>
+                <span class="conv-date">${Util.formatDate(c.updatedAt)}</span>
+                <button class="conv-delete" data-id="${c.id}" title="Delete conversation"><i class="fas fa-trash"></i></button>
+            </div>
+        `).join('');
+        attachConversationListeners();
+    }
+
+    function attachConversationListeners() {
+        DOM.conversationsList.querySelectorAll('.conv-item').forEach(item => {
+            item.addEventListener('click', (e) => {
+                if (!e.target.closest('.conv-delete')) {
+                    switchConversation(item.dataset.id);
+                    closeSidebar();
+                }
+            });
+        });
+        DOM.conversationsList.querySelectorAll('.conv-delete').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (confirm('Delete this conversation permanently?')) {
+                    deleteConversation(btn.dataset.id);
+                }
+            });
+        });
+    }
+
+    // ==================== MESSAGE RENDERING (ENHANCED) ====================
+    function renderAllMessages() {
+        DOM.messagesContainer.querySelectorAll('.msg-row, .typing-row').forEach(el => el.remove());
+        if (State.messages.length === 0) {
+            DOM.welcomeScreen.style.display = 'flex';
+            return;
+        }
+        DOM.welcomeScreen.style.display = 'none';
+        State.messages.forEach(msg => {
+            appendMessageBubble(msg.role, msg.content, msg.timestamp, msg.pinned, msg.liked, msg.analytics, msg.products);
+        });
+        scrollToBottom();
+    }
+
+    // FIXED: Render product cards with prices
+    function renderProductCards(products) {
+        if (!products || products.length === 0) return '';
+        
+        let html = '<div style="margin:10px 0;">';
+        products.forEach(p => {
+            const stockClass = p.stock > 10 ? 'in-stock' : (p.stock > 0 ? 'low-stock' : 'out-of-stock');
+            const stockText = p.stock > 10 ? 'âœ… In stock' : (p.stock > 0 ? `âš ï¸ Only ${p.stock} left` : 'âŒ Out of stock');
+            const price = Util.formatPrice(p.price);
+            
+            html += `
+                <div class="product-chat-card" data-id="${p.id}">
+                    ${p.image_url ? `<img src="${p.image_url}" alt="${Util.escapeHtml(p.name)}" loading="lazy">` : ''}
+                    <div class="pcc-info">
+                        <div class="pcc-name">${Util.escapeHtml(p.name)}</div>
+                        <span class="pcc-price">${price}</span>
+                        <span class="pcc-stock ${stockClass}">${stockText}</span>
+                        ${p.brand ? `<span style="font-size:0.7rem;color:var(--text-muted);display:block;margin-top:2px;">ðŸ¢ ${Util.escapeHtml(p.brand)}</span>` : ''}
+                    </div>
+                    <button class="pcc-action" data-id="${p.id}">
+                        <i class="fas fa-cart-plus"></i> Add
+                    </button>
+                </div>
+            `;
+        });
+        html += '</div>';
+        return html;
+    }
+
+    function parseResponseWithIntelligence(rawReply, analytics, query, products) {
+        let html = processResponse(rawReply);
+        
+        // Render product cards if products were returned
+        if (products && products.length > 0) {
+            html += renderProductCards(products);
+        }
+        
+        // Check for spell corrections
+        if (query) {
+            const words = Util.extractKeywords(query);
+            const corrections = [];
+            for (const word of words) {
+                const corrected = Util.correctSpelling(word);
+                if (corrected && corrected.confidence > 70) {
+                    corrections.push(corrected);
+                }
+            }
+            if (corrections.length > 0) {
+                const correctionHtml = corrections.map(c => 
+                    `<span class="spell-correction"><i class="fas fa-spell-check"></i> Did you mean: <strong>${c.corrected}</strong>? (${c.confidence}% match)</span>`
+                ).join(' ');
+                html = correctionHtml + html;
+            }
+        }
+        
+        // Add product suggestions if no products were returned
+        if ((!products || products.length === 0) && query) {
+            const productMatches = Util.getProductSuggestion(query);
+            if (productMatches.length > 0) {
+                const productHtml = productMatches.map(m => 
+                    `<div class="spell-correction" style="background:rgba(214,178,94,0.08);border-color:rgba(214,178,94,0.2);">
+                        <i class="fas fa-box"></i> I found: <strong>${m.name}</strong> 
+                        (${m.info.category} â€¢ ${m.info.price_range})
+                        ${m.correction ? `<span style="color:var(--text-muted);font-size:0.7rem;">(from "${m.correction}")</span>` : ''}
+                    </div>`
+                ).join(' ');
+                html = productHtml + html;
+            }
+        }
+        
+        // Add analytics badge
+        if (analytics?.sentiment) {
+            const sentimentMap = {
+                'positive': 'ðŸ˜Š',
+                'negative': 'ðŸ˜Ÿ', 
+                'neutral': 'ðŸ˜'
+            };
+            const emoji = sentimentMap[analytics.sentiment] || '';
+            const urgency = analytics.urgency ? 'âš¡' : '';
+            if (emoji || urgency) {
+                html += `<div class="analytics-badge">
+                    ${emoji ? `<span>Sentiment: ${analytics.sentiment}</span>` : ''}
+                    ${urgency ? `<span>âš¡ Quick response</span>` : ''}
+                    <span>Model: ${analytics.model || 'Gemini'}</span>
+                </div>`;
+            }
+        }
+        
+        return html;
+    }
+
+    function appendMessageBubble(role, content, timestamp, pinned = false, liked = false, analytics = null, products = null) {
+        DOM.welcomeScreen.style.display = 'none';
+        
+        let displayContent = content;
+        if (role === 'assistant') {
+            const lastUserMsg = State.messages.filter(m => m.role === 'user').pop();
+            const query = lastUserMsg?.content || '';
+            displayContent = parseResponseWithIntelligence(content, analytics, query, products);
+        }
+        
+        const row = document.createElement('div');
+        row.className = `msg-row ${role}`;
+        
+        const isUser = role === 'user';
+        const isSystem = role === 'system';
+        
+        const avatarIcon = isUser
+            ? (State.user?.name || 'Y').charAt(0).toUpperCase()
+            : (isSystem ? '<i class="fas fa-info"></i>' : '<i class="fas fa-robot"></i>');
+        
+        row.innerHTML = `
+            <div class="msg-avatar ${role}">${avatarIcon}</div>
+            <div class="msg-content">
+                <div class="msg-bubble ${role} ${pinned ? 'pinned' : ''}">${displayContent}</div>
+                <div class="msg-time">
+                    ${timestamp || Util.formatTime()}
+                    ${pinned ? '<span style="color:var(--gold-core);" title="Pinned"><i class="fas fa-thumbtack"></i></span>' : ''}
+                </div>
+                <div class="msg-actions">
+                    <button class="msg-action-btn copy-btn" title="Copy message"><i class="fas fa-copy"></i> Copy</button>
+                    <button class="msg-action-btn pin-btn ${pinned ? 'pinned' : ''}" title="${pinned ? 'Unpin' : 'Pin'} message">
+                        <i class="fas fa-thumbtack"></i>
+                    </button>
+                    ${!isUser ? `<button class="msg-action-btn like-btn ${liked ? 'liked' : ''}" title="${liked ? 'Unlike' : 'Like'} response">
+                        <i class="fas fa-heart"></i>
+                    </button>` : ''}
+                    ${!isUser ? `<button class="msg-action-btn speak-btn" title="Read aloud"><i class="fas fa-volume-up"></i></button>` : ''}
+                </div>
+            </div>
+        `;
+        
+        attachMessageActions(row, content, role);
+        DOM.messagesContainer.appendChild(row);
+        scrollToBottom();
+    }
+
+    function attachMessageActions(row, content, role) {
+        row.querySelector('.copy-btn')?.addEventListener('click', () => {
+            const text = content.replace(/<[^>]*>/g, '');
+            navigator.clipboard?.writeText(text).then(() => Util.toast('Copied to clipboard!'));
+        });
+        
+        row.querySelector('.pin-btn')?.addEventListener('click', (e) => {
+            const btn = e.target.closest('.pin-btn');
+            btn.classList.toggle('pinned');
+            Util.toast(btn.classList.contains('pinned') ? 'Message pinned' : 'Message unpinned');
+        });
+        
+        row.querySelector('.speak-btn')?.addEventListener('click', () => {
+            if ('speechSynthesis' in window) {
+                const text = content.replace(/<[^>]*>/g, '');
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 1.0;
+                utterance.pitch = 1.0;
+                speechSynthesis.cancel();
+                speechSynthesis.speak(utterance);
+                Util.toast('Reading message aloud...');
+            } else {
+                Util.toast('Text-to-speech not supported in this browser', 'error');
+            }
+        });
+    }
+
+    function showTypingIndicator() {
+        const row = document.createElement('div');
+        row.className = 'typing-row';
+        row.id = 'typingIndicator';
+        row.innerHTML = `
+            <div class="msg-avatar ai"><i class="fas fa-robot"></i></div>
+            <div class="typing-dots">
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+                <div class="typing-dot"></div>
+            </div>
+        `;
+        DOM.messagesContainer.appendChild(row);
+        scrollToBottom();
+    }
+
+    function hideTypingIndicator() {
+        document.getElementById('typingIndicator')?.remove();
+    }
+
+    function scrollToBottom() {
+        requestAnimationFrame(() => {
+            DOM.messagesContainer.scrollTop = DOM.messagesContainer.scrollHeight;
+        });
+    }
+
+    function processResponse(rawText) {
+        let text = rawText
+            .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.*?)\*/g, '<em>$1</em>')
+            .replace(/`([^`]+)`/g, '<code>$1</code>')
+            .replace(/â‚¦([\d,]+(?:\.\d{2})?)/g, '<strong style="color:var(--gold-bright);">â‚¦$1</strong>')
+            .replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer">$1</a>')
+            .replace(/\n\n/g, '</p><p>')
+            .replace(/\n/g, '<br>');
+        
+        if (!text.startsWith('<')) text = '<p>' + text + '</p>';
+        text = text.replace(/<p><\/p>/g, '');
+        return text;
+    }
+
+    // ==================== INTELLIGENT FALLBACK ====================
+    function getIntelligentFallback(message) {
+        const lower = message.toLowerCase();
+        
+        // Check for product knowledge
+        const productMatches = Util.getProductSuggestion(message);
+        if (productMatches.length > 0) {
+            const match = productMatches[0];
+            let response = `<p>Based on your question about <strong>${match.name}</strong>, here's what I know:</p>`;
+            response += `<p>ðŸ“¦ <strong>Category:</strong> ${match.info.category}<br>`;
+            response += `ðŸ’° <strong>Price Range:</strong> ${match.info.price_range}</p>`;
+            if (match.correction) {
+                response += `<p style="font-size:0.8rem;color:var(--text-muted);">ðŸ’¡ Did you mean "${match.name}"? (from "${match.correction}")</p>`;
+            }
+            response += `<p>For exact pricing and stock availability, please contact our support team on <strong>WhatsApp: +234 810 353 5978</strong> or visit our <a href="/products" style="color:var(--accent-cyan);">products page</a>.</p>`;
+            return response;
+        }
+        
+        // Product-specific fallbacks
+        if (lower.includes('iphone') || lower.includes('15') || lower.includes('apple phone')) {
+            return `<p>Great question! ðŸ˜Š Here are our <strong>current iPhone prices</strong>:</p>
+            <p>ðŸ“± <strong>iPhone 15 Pro Max</strong> â€” <strong style="color:var(--gold-bright);">â‚¦1,450,000</strong><br>
+            ðŸ“± <strong>iPhone 15 Pro</strong> â€” <strong style="color:var(--gold-bright);">â‚¦1,300,000</strong><br>
+            ðŸ“± <strong>iPhone 15</strong> â€” <strong style="color:var(--gold-bright);">â‚¦1,100,000</strong></p>
+            <p>All are <strong>100% authentic</strong> with 1-year warranty and come in sealed boxes.</p>
+            <p>Would you like me to help you place an order?</p>`;
+        }
+        
+        if (lower.includes('samsung') || lower.includes('s24') || lower.includes('galaxy')) {
+            return `<p>Absolutely! Here are our <strong>Samsung Galaxy S24 series</strong> prices:</p>
+            <p>ðŸ“± <strong>S24 Ultra</strong> â€” <strong style="color:var(--gold-bright);">â‚¦1,350,000</strong><br>
+            ðŸ“± <strong>S24+</strong> â€” <strong style="color:var(--gold-bright);">â‚¦1,100,000</strong><br>
+            ðŸ“± <strong>S24</strong> â€” <strong style="color:var(--gold-bright);">â‚¦950,000</strong></p>
+            <p>All are <strong>original with Samsung Nigeria warranty</strong>.</p>`;
+        }
+        
+        if (lower.includes('oraimo') || lower.includes('power bank') || lower.includes('powerbank')) {
+            return `<p>Yes! We have <strong>Oraimo PowerBanks</strong> in various capacities:</p>
+            <p>ðŸ”‹ <strong>Oraimo 10,000mAh</strong> â€” <strong style="color:var(--gold-bright);">â‚¦25,000</strong><br>
+            ðŸ”‹ <strong>Oraimo 20,000mAh</strong> â€” <strong style="color:var(--gold-bright);">â‚¦45,000</strong><br>
+            ðŸ”‹ <strong>Oraimo 30,000mAh</strong> â€” <strong style="color:var(--gold-bright);">â‚¦65,000</strong></p>
+            <p>All are <strong>authentic with fast charging</strong> support.</p>`;
+        }
+        
+        if (lower.includes('itel')) {
+            return `<p>Yes! We have <strong>Itel smartphones</strong> at great prices:</p>
+            <p>ðŸ“± <strong>Itel A70</strong> â€” <strong style="color:var(--gold-bright);">â‚¦120,000</strong><br>
+            ðŸ“± <strong>Itel S23</strong> â€” <strong style="color:var(--gold-bright);">â‚¦180,000</strong><br>
+            ðŸ“± <strong>Itel P40</strong> â€” <strong style="color:var(--gold-bright);">â‚¦95,000</strong></p>`;
+        }
+        
+        // Default
+        return `<p>Thanks for reaching out! ðŸ˜Š I'm <strong>PrimeAI</strong>, your personal assistant at PrimeShieldHub.</p>
+        <p>I can help you with:</p>
+        <p>ðŸ“± <strong>Product recommendations</strong> and current pricing<br>
+        ðŸ’° <strong>Reseller program</strong> details and wholesale pricing<br>
+        ðŸšš <strong>Shipping information</strong> and delivery timelines<br>
+        ðŸ’³ <strong>Payment options</strong> including cryptocurrency</p>
+        <p>What can I help you with today?</p>`;
+    }
+
+    async function sendMessage(messageText = null) {
+        const text = messageText || DOM.chatInput.value.trim();
+        if (!text || State.isLoading) return;
+        if (text.length > CONFIG.MAX_CHAR_LIMIT) {
+            Util.toast(`Message too long. Please limit to ${CONFIG.MAX_CHAR_LIMIT} characters.`, 'error');
+            return;
+        }
+
+        await Util.getFingerprint();
+
+        if (!State.activeConvId) createConversation(text);
+
+        if (!messageText) {
+            DOM.chatInput.value = '';
+            DOM.chatInput.style.height = 'auto';
+            updateSendButton();
+            updateCharCount();
+        }
+
+        const timestamp = Util.formatTime();
+        
+        State.messages.push({ role: 'user', content: Util.escapeHtml(text), timestamp });
+        appendMessageBubble('user', Util.escapeHtml(text), timestamp);
+        updateConversationMeta();
+        DOM.welcomeScreen.style.display = 'none';
+
+        State.isLoading = true;
+        DOM.sendBtn.disabled = true;
+        showTypingIndicator();
+
+        try {
+            const contextMessages = State.messages
+                .slice(-CONFIG.MAX_CONTEXT)
+                .map(m => ({ role: m.role, content: m.content.replace(/<[^>]*>/g, '') }));
+
+            const personaPrompt = CONFIG.PERSONA_PROMPTS[State.persona] || CONFIG.PERSONA_PROMPTS.friendly;
+            
+            // Spell correction context
+            const words = Util.extractKeywords(text);
+            const corrections = [];
+            for (const word of words) {
+                const corrected = Util.correctSpelling(word);
+                if (corrected && corrected.confidence > 70) {
+                    corrections.push(corrected);
+                }
+            }
+            const correctionContext = corrections.length > 0 
+                ? `Note: The user may have misspelled some words. Possible corrections: ${corrections.map(c => `"${c.original}" â†’ "${c.corrected}"`).join(', ')}. Be gentle when suggesting corrections.`
+                : '';
+            
+            // Product detection context
+            const productMatches = Util.getProductSuggestion(text);
+            const productContext = productMatches.length > 0
+                ? `Based on the user's query, they might be asking about: ${productMatches.map(m => m.name).join(', ')}. Keep this in mind when responding and provide prices if available.`
+                : '';
+
+            const systemContext = [
+                { role: 'system', content: personaPrompt },
+                { role: 'system', content: correctionContext },
+                { role: 'system', content: productContext },
+                { role: 'system', content: `Current user: ${State.user?.name || 'Guest'}. They are on the AI Assistant page. Provide helpful, accurate responses about PrimeShieldHub products, services, and company information. If they ask for a price, provide it directly if you have it.` },
+                ...contextMessages
+            ];
+
+            // ================================================================
+            // DEBUG: Log the full URL being called
+            // ================================================================
+            const url = `${CONFIG.API_BASE}${CONFIG.ENDPOINTS.AI_CHAT}`;
+            console.log('[AI] Calling API:', url);
+            console.log('[AI] Payload:', {
+                messages: systemContext,
+                message: text,
+                sessionId: State.activeConvId,
+                fingerprint: State.fingerprint,
+                email: State.userEmail,
+                context: {
+                    user: State.user ? { name: State.user.name, email: State.user.email } : null,
+                    page: 'assistant',
+                    persona: State.persona,
+                    timestamp: Date.now(),
+                    fingerprint: State.fingerprint,
+                    corrections: corrections,
+                    productMatches: productMatches
+                }
+            });
+
+            const res = await apiFetch(CONFIG.ENDPOINTS.AI_CHAT, {
+                method: 'POST',
+                body: JSON.stringify({
+                    messages: systemContext,
+                    message: text,
+                    sessionId: State.activeConvId,
+                    fingerprint: State.fingerprint,
+                    email: State.userEmail,
+                    context: {
+                        user: State.user ? { name: State.user.name, email: State.user.email } : null,
+                        page: 'assistant',
+                        persona: State.persona,
+                        timestamp: Date.now(),
+                        fingerprint: State.fingerprint,
+                        corrections: corrections,
+                        productMatches: productMatches
+                    }
+                })
+            });
+
+            // ================================================================
+            // DEBUG: Log the response status
+            // ================================================================
+            console.log('[AI] Response status:', res.status);
+
+            hideTypingIndicator();
+
+            if (res.ok) {
+                const data = await res.json();
+                console.log('[AI] Response data:', data);
+                
+                const rawReply = data.reply || data.response || data.message;
+                const products = data.products || [];
+                const hasProduct = data.hasProduct || false;
+                
+                if (rawReply) {
+                    const analytics = data.analytics || null;
+                    const aiTimestamp = Util.formatTime();
+                    State.messages.push({ 
+                        role: 'assistant', 
+                        content: rawReply, 
+                        timestamp: aiTimestamp,
+                        analytics: analytics,
+                        products: products
+                    });
+                    appendMessageBubble('ai', rawReply, aiTimestamp, false, false, analytics, products);
+                } else {
+                    throw new Error('Empty response from AI');
+                }
+            } else {
+                const errorText = await res.text();
+                console.error('[AI] API Error:', res.status, errorText);
+                throw new Error(`API returned ${res.status}: ${errorText}`);
+            }
+
+        } catch (error) {
+            hideTypingIndicator();
+            console.error('[AI] Error:', error);
+            
+            // Use intelligent fallback
+            const fallback = getIntelligentFallback(text);
+            const aiTimestamp = Util.formatTime();
+            State.messages.push({ role: 'assistant', content: fallback, timestamp: aiTimestamp });
+            appendMessageBubble('ai', fallback, aiTimestamp);
+            
+            // Add system note about offline mode
+            const systemNote = `<p style="font-size:0.75rem;"><em>âš ï¸ I'm currently in offline mode. Error: ${error.message}</em></p>`;
+            State.messages.push({ role: 'system', content: systemNote, timestamp: Util.formatTime() });
+            appendMessageBubble('system', systemNote, Util.formatTime());
+            
+            Util.toast(`Error: ${error.message}`, 'error');
+        }
+
+        State.isLoading = false;
+        updateSendButton();
+        updateConversationMeta();
+        DOM.chatInput.focus();
+    }
+
+    function updateSendButton() {
+        const text = DOM.chatInput.value.trim();
+        DOM.sendBtn.disabled = !text || State.isLoading || text.length > CONFIG.MAX_CHAR_LIMIT;
+    }
+
+    function updateCharCount() {
+        const length = DOM.chatInput.value.length;
+        DOM.charCount.textContent = `${length} / ${CONFIG.MAX_CHAR_LIMIT}`;
+        if (length > CONFIG.MAX_CHAR_LIMIT * 0.9) {
+            DOM.charCount.style.color = 'var(--accent-warning)';
+        } else {
+            DOM.charCount.style.color = 'var(--text-muted)';
+        }
+    }
+
+    // ==================== VOICE INPUT ====================
+    function setupVoiceInput() {
+        if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+            DOM.voiceBtn.style.display = 'none';
+            return;
+        }
+        
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+        State.recognition = new SpeechRecognition();
+        State.recognition.continuous = false;
+        State.recognition.interimResults = true;
+        // FIXED: Use en-US for better compatibility
+        State.recognition.lang = 'en-US';
+        
+        State.recognition.onresult = (event) => {
+            let transcript = '';
+            for (let i = event.resultIndex; i < event.results.length; i++) {
+                transcript += event.results[i][0].transcript;
+            }
+            DOM.chatInput.value = transcript;
+            updateSendButton();
+            updateCharCount();
+        };
+        
+        State.recognition.onend = () => {
+            State.isRecording = false;
+            DOM.voiceBtn.classList.remove('recording');
+            DOM.voiceBtn.querySelector('i').className = 'fas fa-microphone';
+        };
+        
+        State.recognition.onerror = (event) => {
+            console.warn('[Voice] Error:', event.error);
+            State.isRecording = false;
+            DOM.voiceBtn.classList.remove('recording');
+            DOM.voiceBtn.querySelector('i').className = 'fas fa-microphone';
+            if (event.error === 'not-allowed') {
+                Util.toast('Microphone access denied. Please allow microphone permissions.', 'error');
+            }
+        };
+        
+        DOM.voiceBtn.addEventListener('click', () => {
+            if (State.isRecording) {
+                State.recognition.stop();
+            } else {
+                try {
+                    State.recognition.start();
+                    State.isRecording = true;
+                    DOM.voiceBtn.classList.add('recording');
+                    DOM.voiceBtn.querySelector('i').className = 'fas fa-stop';
+                    Util.toast('Listening... Speak now');
+                } catch (e) {
+                    console.warn('[Voice] Start error:', e);
+                    Util.toast('Could not start voice recognition', 'error');
+                }
+            }
+        });
+    }
+
+    // ==================== SIDEBAR MOBILE ====================
+    function toggleSidebar() {
+        DOM.sidebar.classList.toggle('open');
+        DOM.sidebarOverlay.classList.toggle('open');
+    }
+
+    function closeSidebar() {
+        DOM.sidebar.classList.remove('open');
+        DOM.sidebarOverlay.classList.remove('open');
+    }
+
+    // ==================== EXPORT ====================
+    function exportChat() {
+        if (State.messages.length === 0) {
+            Util.toast('Nothing to export yet', 'info');
+            return;
+        }
+        const text = State.messages.map(m => {
+            const cleanContent = m.content.replace(/<[^>]*>/g, '');
+            const analyticsInfo = m.analytics 
+                ? `\n[Analytics: Sentiment=${m.analytics.sentiment || 'N/A'}, Model=${m.analytics.model || 'N/A'}]` 
+                : '';
+            return `[${m.role.toUpperCase()}] ${m.timestamp}${analyticsInfo}\n${cleanContent}\n`;
+        }).join('\n---\n\n');
+        
+        const blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `primeai-chat-${new Date().toISOString().slice(0, 10)}.txt`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+        Util.toast('Chat exported as text file!');
+    }
+
+    // ==================== EVENT LISTENERS ====================
+    function setupEventListeners() {
+        DOM.sendBtn.addEventListener('click', () => sendMessage());
+        
+        DOM.chatInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' && !e.shiftKey) {
+                e.preventDefault();
+                sendMessage();
+            }
+        });
+        
+        DOM.chatInput.addEventListener('input', () => {
+            DOM.chatInput.style.height = 'auto';
+            DOM.chatInput.style.height = Math.min(DOM.chatInput.scrollHeight, 150) + 'px';
+            updateSendButton();
+            updateCharCount();
+        });
+        
+        DOM.newChatBtn.addEventListener('click', () => createConversation());
+        
+        DOM.clearChatBtn.addEventListener('click', () => {
+            if (!State.activeConvId || State.messages.length === 0) {
+                Util.toast('Nothing to clear', 'info');
+                return;
+            }
+            if (confirm('Clear all messages in this conversation?')) {
+                const conv = State.conversations.find(c => c.id === State.activeConvId);
+                if (conv) { conv.messages = []; conv.title = 'New Conversation'; }
+                State.messages = [];
+                renderAllMessages();
+                renderConversations();
+                saveConversations();
+                DOM.welcomeScreen.style.display = 'flex';
+                Util.toast('Conversation cleared');
+            }
+        });
+        
+        DOM.exportChatBtn.addEventListener('click', exportChat);
+        
+        DOM.mobileMenuBtn.addEventListener('click', toggleSidebar);
+        DOM.sidebarOverlay.addEventListener('click', closeSidebar);
+        
+        DOM.personaSelector?.querySelectorAll('.persona-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                DOM.personaSelector.querySelectorAll('.persona-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                State.persona = btn.dataset.persona;
+                Util.toast(`AI persona set to: ${btn.textContent.trim()}`);
+            });
+        });
+        
+        DOM.attachBtn.addEventListener('click', () => DOM.fileInput.click());
+        DOM.fileInput.addEventListener('change', (e) => {
+            const file = e.target.files[0];
+            if (file) {
+                Util.toast(`Image "${file.name}" selected. Visual search coming soon!`, 'info');
+                DOM.fileInput.value = '';
+            }
+        });
+        
+        document.querySelectorAll('.suggestion-card').forEach(card => {
+            card.addEventListener('click', () => {
+                const prompt = card.dataset.prompt;
+                if (prompt) sendMessage(prompt);
+            });
+        });
+        
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') closeSidebar();
+            if (e.ctrlKey && e.shiftKey && (e.key === 'E' || e.key === 'e')) {
+                e.preventDefault();
+                exportChat();
+            }
+            if (e.ctrlKey && e.shiftKey && (e.key === 'N' || e.key === 'n')) {
+                e.preventDefault();
+                createConversation();
+            }
+        });
+        
+        setInterval(saveConversations, 15000);
+        window.addEventListener('beforeunload', saveConversations);
+    }
+
+    // ==================== INITIALIZATION ====================
+    async function init() {
+        console.log('ðŸ¤– Initializing PrimeShieldHub Quantum AI Assistant v12.0');
+        console.log('ðŸ“ API:', CONFIG.API_BASE);
+        console.log('ðŸ§  Model: Gemini 2.5 Flash');
+        console.log('ðŸ” Spell Correction: ENABLED');
+        console.log('ðŸ“š Knowledge Base: ' + Object.keys(CONFIG.PRODUCT_KNOWLEDGE).length + ' products');
+        
+        setupEventListeners();
+        setupVoiceInput();
+        
+        await refreshCsrf();
+        await checkUser();
+        
+        loadConversations();
+        updateCharCount();
+        
+        DOM.chatInput.focus();
+        
+        if (State.conversations.length === 0) {
+            createConversation();
+        }
+        
+        console.log('âœ… AI Assistant ready with enhanced intelligence');
+        console.log('ðŸ‘¤ User:', State.user?.name || 'Guest');
+        console.log('ðŸ’¬ Conversations:', State.conversations.length);
+        console.log('ðŸŽ­ Persona:', State.persona);
+    }
+
+    init().catch(err => {
+        console.error('âŒ Init failed:', err);
+        DOM.messagesContainer.innerHTML = `
+            <div style="text-align:center;padding:60px;color:var(--accent-danger);">
+                <i class="fas fa-exclamation-triangle" style="font-size:3rem;margin-bottom:20px;display:block;"></i>
+                <h3>Failed to initialize AI Assistant</h3>
+                <p style="color:var(--text-secondary);">Please refresh the page or contact support.</p>
+                <a href="/contact" style="color:var(--gold-core);">Contact Support</a>
+            </div>`;
+    });
+</script>
+</body>
+</html>
