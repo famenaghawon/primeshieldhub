@@ -209,3 +209,12 @@ frontend/public/switch.webp
 frontend/public/photograph.webp
 frontend/public/founder-suit.webp
 frontend/public/fonts/*.zip
+
+# ------------------- Broad duplicate-asset exclusions -------------------
+# Duplicate founder photos and hero images scattered across folders
+frontend/public/assets/founder-suit.webp
+frontend/public/assets/photograph.webp
+frontend/public/assets/images/founder-suit.webp
+frontend/public/assets/images/photograph.webp
+frontend/public/press/photograph.webp
+frontend/public/press/founder-suit.webp
