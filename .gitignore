@@ -46,7 +46,7 @@ dist
 .env.*.local
 
 # ------------------- Secrets & Keys (SPECIFIC ONLY) -------------------
-# Do NOT use wildcards like *key* or *secret* ÃƒÂ¢Ã¢â€šÂ¬Ã¢â‚¬Â
+# Do NOT use wildcards like *key* or *secret* ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â
 # they silently ignore files like keyboard-shortcuts.js
 gcp-key.json
 service-account-key.json
@@ -226,3 +226,6 @@ frontend/public/assets/images/founder-suit.webp
 frontend/public/assets/images/photograph.webp
 frontend/public/press/photograph.webp
 frontend/public/press/founder-suit.webp
+
+nvm
+nvm
