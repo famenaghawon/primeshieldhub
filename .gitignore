@@ -179,3 +179,33 @@ frontend/public/assets/products/
 frontend/public-backup-rename/
 frontend/public/signature.png
 signature.html
+
+# ------------------- Additional exclusions -------------------
+backend/all-products.json
+backend/company_logo.png
+backend/products-api.json
+backend/products-backup.json
+frontend/public/articles/*.webp
+frontend/public/assets/images/founder/*.webp
+frontend/public/controller.webp
+frontend/public/ps5.webp
+frontend/public/xbox.webp
+frontend/public/switch.webp
+frontend/public/photograph.webp
+frontend/public/founder-suit.webp
+frontend/public/fonts/*.zip
+
+# ------------------- Extra exclusions -------------------
+backend/all-products.json
+backend/company_logo.png
+backend/products-api.json
+backend/products-backup.json
+frontend/public/articles/*.webp
+frontend/public/assets/images/founder/*.webp
+frontend/public/controller.webp
+frontend/public/ps5.webp
+frontend/public/xbox.webp
+frontend/public/switch.webp
+frontend/public/photograph.webp
+frontend/public/founder-suit.webp
+frontend/public/fonts/*.zip
