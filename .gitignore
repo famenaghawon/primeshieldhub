@@ -3,7 +3,7 @@
 # ============================================================================
 
 # ------------------- Terraform (GCP - being migrated away) -------------------
-terraform/.terraform/
+terraform/.terraform
 terraform/*.tfstate
 terraform/*.tfstate.*
 terraform/terraform-key.json
@@ -11,23 +11,23 @@ terraform/backup-*.tfstate
 terraform/versions.tf.backup
 
 # ------------------- Node.js -------------------
-node_modules/
-functions/node_modules/
+node_modules
+functions/node_modules
 yarn.lock
 pnpm-lock.yaml
 bun.lockb
 
 # ------------------- Cloudflare -------------------
-.wrangler/
+.wrangler
 .dev.vars
 *.dev.vars
-/.pages/
-/__pages__/
-.r2/
+/.pages
+/__pages__
+.r2
 
 # ------------------- Worker build outputs -------------------
 # NOTE: Keep dist/ and lib/ only if you actually generate them
-dist/
+dist
 *.tsbuildinfo
 
 # ------------------- D1 local database -------------------
@@ -46,7 +46,7 @@ dist/
 .env.*.local
 
 # ------------------- Secrets & Keys (SPECIFIC ONLY) -------------------
-# Do NOT use wildcards like *key* or *secret* â€”
+# Do NOT use wildcards like *key* or *secret* Ã¢â‚¬â€
 # they silently ignore files like keyboard-shortcuts.js
 gcp-key.json
 service-account-key.json
@@ -60,13 +60,13 @@ secrets.json
 *.pem
 *.crt
 *.pfx
-secrets/
+secrets
 id_rsa
 id_ed25519
 
 # ------------------- IDE -------------------
-.vscode/
-.idea/
+.vscode
+.idea
 *.swp
 *.swo
 *~
@@ -82,18 +82,18 @@ wrangler.log
 wrangler-*.log
 
 # ------------------- Build Outputs -------------------
-build/
-out/
+build
+out
 *.js.map
 *.d.ts.map
-.cache/
+.cache
 
 # ------------------- Coverage & Testing -------------------
-coverage/
-.nyc_output/
-.vitest/
+coverage
+.nyc_output
+.vitest
 *.lcov
-test-results/
+test-results
 
 # ------------------- OS Generated -------------------
 .DS_Store
@@ -114,22 +114,22 @@ reseller_codes.json
 settings.json
 exports/*.json
 !exports/.gitkeep
-/public/uploads/
-/public/files/
-/storage/
-contracts/
+/public/uploads
+/public/files
+/storage
+contracts
 *.contract.txt
 *.sql
 !schema.sql
 !migrations/*.sql
 !init.sql
-backups/
+backups
 *.backup
 *.backup.sql
-db-exports/
+db-exports
 
 # ------------------- Deploy Scripts -------------------
-.temp/
+.temp
 *.tmp
 deploy-*.json
 
@@ -156,15 +156,15 @@ auth-token.txt
 
 # ------------------- Product Images (belong in R2, not Git) -------------------
 # These are managed separately and served from CDN/R2
-assets/products/
-backend/assets/products/
-frontend/public/assets/products/
+assets/products
+backend/assets/products
+frontend/public/assets/products
 
 
 !assets/products/.gitkeep
 
 
-frontend/public-backup-rename/
+frontend/public-backup-rename
 
 # Generated signature images
 frontend/public/signature.png
@@ -173,10 +173,10 @@ frontend/public/signature.png
 signature.html
 
 # ------------------- Product Images (belong in R2, not Git) -------------------
-assets/products/
-backend/assets/products/
-frontend/public/assets/products/
-frontend/public-backup-rename/
+assets/products
+backend/assets/products
+frontend/public/assets/products
+frontend/public-backup-rename
 frontend/public/signature.png
 signature.html
 
