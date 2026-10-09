@@ -218,3 +218,11 @@ frontend/public/assets/images/founder-suit.webp
 frontend/public/assets/images/photograph.webp
 frontend/public/press/photograph.webp
 frontend/public/press/founder-suit.webp
+
+# ------------------- Broad duplicate-asset exclusions -------------------
+frontend/public/assets/founder-suit.webp
+frontend/public/assets/photograph.webp
+frontend/public/assets/images/founder-suit.webp
+frontend/public/assets/images/photograph.webp
+frontend/public/press/photograph.webp
+frontend/public/press/founder-suit.webp
