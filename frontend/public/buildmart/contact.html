@@ -8,7 +8,7 @@
     <meta name="api-base-url" content="https://api.primeshieldhub.com/api">
     <meta name="csrf-token" content="{{CSRF_TOKEN}}">
     
-    <title>BuildMart Â· Enterprise Procurement Portal</title>
+    <title>BuildMart · Enterprise Procurement Portal</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -1388,9 +1388,9 @@
                     <div class="form-group">
                         <label>Estimated Budget</label>
                         <div class="slider-container">
-                            <span style="color:var(--text-muted); font-size:0.8rem; min-width:60px;">â‚¦500k</span>
+                            <span style="color:var(--text-muted); font-size:0.8rem; min-width:60px;">₦500k</span>
                             <input type="range" min="500000" max="500000000" value="15000000" step="100000" id="budgetSlider" />
-                            <span id="budgetDisplay" style="font-weight:700; min-width:80px; color:var(--gold);">â‚¦15M</span>
+                            <span id="budgetDisplay" style="font-weight:700; min-width:80px; color:var(--gold);">₦15M</span>
                         </div>
                     </div>
                 </div>
@@ -1401,10 +1401,10 @@
                         <label>Quantity Estimate</label>
                         <select id="formQuantity">
                             <option value="">Select quantity range</option>
-                            <option value="small">Small (â‚¦500k - â‚¦5M)</option>
-                            <option value="medium" selected>Medium (â‚¦5M - â‚¦50M)</option>
-                            <option value="large">Large (â‚¦50M - â‚¦500M)</option>
-                            <option value="enterprise">Enterprise (â‚¦500M+)</option>
+                            <option value="small">Small (₦500k - ₦5M)</option>
+                            <option value="medium" selected>Medium (₦5M - ₦50M)</option>
+                            <option value="large">Large (₦50M - ₦500M)</option>
+                            <option value="enterprise">Enterprise (₦500M+)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -1589,7 +1589,7 @@
             <div style="font-weight:700; font-size:0.9rem;" id="toastTitle">Success</div>
             <div style="color:var(--text-muted); font-size:0.8rem;" id="toastMessage">Action completed</div>
         </div>
-        <button onclick="closeToast()" style="background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; padding:0 4px;">âœ•</button>
+        <button onclick="closeToast()" style="background:none; border:none; color:var(--text-muted); font-size:1.2rem; cursor:pointer; padding:0 4px;">✕</button>
     </div>
 </div>
 
@@ -1683,13 +1683,13 @@
         branches: [
             { 
                 name: 'Boundary Core', 
-                hours: '07:30â€“18:00', 
+                hours: '07:30"“18:00', 
                 status: 'open',
                 metrics: { customers: 24, inventory: '92%', trucks: 6, officers: 4, wait: '12 min' }
             },
             { 
                 name: 'Newton Hub', 
-                hours: '07:30â€“19:00', 
+                hours: '07:30"“19:00', 
                 status: 'open',
                 metrics: { customers: 31, inventory: '87%', trucks: 8, officers: 5, wait: '8 min' }
             },
@@ -1701,7 +1701,7 @@
             }
         ],
         aiPrompts: [
-            'Estimate materials for a 5â€‘bedroom duplex',
+            'Estimate materials for a 5"‘bedroom duplex',
             'Compare Dangote vs BUA cement pricing',
             'How many blocks for 20 flats?',
             'Recommend roofing sheets for a 3-bedroom bungalow',
@@ -1709,12 +1709,12 @@
             'Budget estimate for 30-unit estate in Lagos'
         ],
         regions: [
-            { name: 'South South', time: '1â€‘2 days', min: 'â‚¦150k', active: '3 active deliveries' },
-            { name: 'South West', time: '2â€‘3 days', min: 'â‚¦200k', active: '5 active deliveries' },
-            { name: 'South East', time: '1â€‘2 days', min: 'â‚¦140k', active: '7 active deliveries' },
-            { name: 'North Central', time: '3â€‘4 days', min: 'â‚¦250k', active: '2 active deliveries' },
-            { name: 'North East', time: '4â€‘5 days', min: 'â‚¦300k', active: '1 active delivery' },
-            { name: 'North West', time: '4â€‘6 days', min: 'â‚¦350k', active: '2 active deliveries' }
+            { name: 'South South', time: '1"‘2 days', min: '₦150k', active: '3 active deliveries' },
+            { name: 'South West', time: '2"‘3 days', min: '₦200k', active: '5 active deliveries' },
+            { name: 'South East', time: '1"‘2 days', min: '₦140k', active: '7 active deliveries' },
+            { name: 'North Central', time: '3"‘4 days', min: '₦250k', active: '2 active deliveries' },
+            { name: 'North East', time: '4"‘5 days', min: '₦300k', active: '1 active delivery' },
+            { name: 'North West', time: '4"‘6 days', min: '₦350k', active: '2 active deliveries' }
         ],
         stats: [
             { value: '34+', label: 'product lines' },
@@ -1792,8 +1792,8 @@
                 <h3><i class="fas fa-location-dot gold-text"></i> ${b.name}</h3>
                 <div style="display:flex; justify-content:space-between; align-items:center;">
                     ${b.status === 'open' 
-                        ? `<span class="branch-status"><span class="pulse-dot" style="width:6px;height:6px;display:inline-block;border-radius:50%;background:currentColor;"></span> Open Â· ${b.hours}</span>`
-                        : `<span style="color:var(--gold);">${b.hours} Â· Pre-Order</span>`
+                        ? `<span class="branch-status"><span class="pulse-dot" style="width:6px;height:6px;display:inline-block;border-radius:50%;background:currentColor;"></span> Open · ${b.hours}</span>`
+                        : `<span style="color:var(--gold);">${b.hours} · Pre-Order</span>`
                     }
                 </div>
                 ${b.metrics ? `
@@ -1801,7 +1801,7 @@
                         <div class="bm-item">ðŸ‘¥ Customers <span class="bm-value">${b.metrics.customers}</span></div>
                         <div class="bm-item">ðŸ“¦ Inventory <span class="bm-value">${b.metrics.inventory}</span></div>
                         <div class="bm-item">ðŸš› Trucks <span class="bm-value">${b.metrics.trucks}</span></div>
-                        <div class="bm-item">ðŸ‘¨â€ðŸ’¼ Officers <span class="bm-value">${b.metrics.officers}</span></div>
+                        <div class="bm-item">ðŸ‘¨"ðŸ’¼ Officers <span class="bm-value">${b.metrics.officers}</span></div>
                         <div class="bm-item" style="grid-column: span 2;">â±ï¸ Wait <span class="bm-value">${b.metrics.wait}</span></div>
                     </div>
                 ` : ''}
@@ -1864,7 +1864,7 @@
         el.classList.add('active');
         const input = document.getElementById('aiInput');
         let txt = el.textContent.trim();
-        if (txt.startsWith('â€œ') && txt.endsWith('â€')) txt = txt.slice(1, -1);
+        if (txt.startsWith('"') && txt.endsWith('"')) txt = txt.slice(1, -1);
         input.value = txt;
         document.getElementById('aiResponse').classList.remove('show');
     }
@@ -1884,27 +1884,27 @@
             const responses = [
                 `<strong>Material Estimate for "${query}"</strong>
                 <ul>
-                    <li>ðŸ“¦ <strong>Dangote Cement</strong> â€” 2,450 bags @ â‚¦6,800/bulk = <strong>â‚¦16.66M</strong></li>
-                    <li>ðŸ”© <strong>16mm Rebar Steel</strong> â€” 18.4 tons @ â‚¦775,000/ton = <strong>â‚¦14.26M</strong></li>
-                    <li>ðŸ  <strong>Long Span Roofing</strong> â€” 200 sheets @ â‚¦11,200/sheet = <strong>â‚¦2.24M</strong></li>
-                    <li>ðŸŽ¨ <strong>Premium Paint (20L)</strong> â€” 45 buckets @ â‚¦57,000/bucket = <strong>â‚¦2.56M</strong></li>
+                    <li>ðŸ“¦ <strong>Dangote Cement</strong> "” 2,450 bags @ ₦6,800/bulk = <strong>₦16.66M</strong></li>
+                    <li>ðŸ”© <strong>16mm Rebar Steel</strong> "” 18.4 tons @ ₦775,000/ton = <strong>₦14.26M</strong></li>
+                    <li>ðŸ  <strong>Long Span Roofing</strong> "” 200 sheets @ ₦11,200/sheet = <strong>₦2.24M</strong></li>
+                    <li>ðŸŽ¨ <strong>Premium Paint (20L)</strong> "” 45 buckets @ ₦57,000/bucket = <strong>₦2.56M</strong></li>
                 </ul>
-                <strong>Total Estimated Cost: â‚¦35.72M</strong>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">ðŸ’° Savings compared to market: <strong style="color:var(--gold);">â‚¦4.2M (10.5%)</strong></p>`,
+                <strong>Total Estimated Cost: ₦35.72M</strong>
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">ðŸ’° Savings compared to market: <strong style="color:var(--gold);">₦4.2M (10.5%)</strong></p>`,
                 
                 `<strong>Delivery Timeline for "${query}"</strong>
                 <ul>
-                    <li>ðŸšš <strong>Lagos Warehouse</strong> â€” 1-2 days (97% in stock)</li>
-                    <li>ðŸ—ï¸ <strong>Ibadan Hub</strong> â€” 2-3 days (91% in stock)</li>
-                    <li>ðŸ¢ <strong>Abuja Node</strong> â€” 3-4 days (84% in stock)</li>
+                    <li>ðŸšš <strong>Lagos Warehouse</strong> "” 1-2 days (97% in stock)</li>
+                    <li>ðŸ—ï¸ <strong>Ibadan Hub</strong> "” 2-3 days (91% in stock)</li>
+                    <li>ðŸ¢ <strong>Abuja Node</strong> "” 3-4 days (84% in stock)</li>
                 </ul>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">â±ï¸ <strong>Express option:</strong> 24-hour delivery available for Lagos and Abuja</p>`,
                 
                 `<strong>Supplier Comparison for "${query}"</strong>
                 <ul>
-                    <li>ðŸ­ <strong>Dangote</strong> â€” â‚¦6,800/bag (500+ bulk) â­ 4.8/5</li>
-                    <li>ðŸ­ <strong>BUA</strong> â€” â‚¦7,200/bag (500+ bulk) â­ 4.6/5</li>
-                    <li>ðŸ­ <strong>Lafarge</strong> â€” â‚¦7,500/bag (500+ bulk) â­ 4.5/5</li>
+                    <li>ðŸ­ <strong>Dangote</strong> "” ₦6,800/bag (500+ bulk) ⭐ 4.8/5</li>
+                    <li>ðŸ­ <strong>BUA</strong> "” ₦7,200/bag (500+ bulk) ⭐ 4.6/5</li>
+                    <li>ðŸ­ <strong>Lafarge</strong> "” ₦7,500/bag (500+ bulk) ⭐ 4.5/5</li>
                 </ul>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">ðŸ’¡ <strong>Recommendation:</strong> Dangote offers best value for bulk orders</p>`,
                 
@@ -1912,9 +1912,9 @@
                 <ul>
                     <li>ðŸ“‹ <strong>Material Count:</strong> 23 unique items identified</li>
                     <li>ðŸ“Š <strong>Categories:</strong> Cement (4), Steel (3), Roofing (2), Finishing (6), Other (8)</li>
-                    <li>ðŸ’° <strong>Optimized Budget:</strong> â‚¦28.4M (down from â‚¦32.1M)</li>
+                    <li>ðŸ’° <strong>Optimized Budget:</strong> ₦28.4M (down from ₦32.1M)</li>
                 </ul>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">âœ… <strong>Savings Identified:</strong> â‚¦3.7M through supplier consolidation</p>`
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">✅ <strong>Savings Identified:</strong> ₦3.7M through supplier consolidation</p>`
             ];
             const random = responses[Math.floor(Math.random() * responses.length)];
             replySpan.innerHTML = random;
@@ -1979,7 +1979,7 @@
         // Simulate API call
         setTimeout(() => {
             showToast('Procurement Request', `âœ“ ${data.name}, your inquiry has been submitted. Our team will contact you within 2 hours.`);
-            btn.innerHTML = 'âœ… Submitted!';
+            btn.innerHTML = '✅ Submitted!';
             setTimeout(() => {
                 btn.innerHTML = originalText;
                 btn.disabled = false;
@@ -1997,9 +1997,9 @@
         const updateBudget = () => {
             let val = parseInt(slider.value);
             if (val >= 1000000) {
-                budgetDisplay.textContent = 'â‚¦' + (val / 1000000).toFixed(1) + 'M';
+                budgetDisplay.textContent = '₦' + (val / 1000000).toFixed(1) + 'M';
             } else {
-                budgetDisplay.textContent = 'â‚¦' + val.toLocaleString();
+                budgetDisplay.textContent = '₦' + val.toLocaleString();
             }
         };
         slider.addEventListener('input', updateBudget);
@@ -2208,7 +2208,7 @@
     // 12. INITIALIZATION
     // =========================================================================
     function init() {
-        console.log('ðŸ—ï¸ BuildMart Â· Enterprise Procurement Portal');
+        console.log('ðŸ—ï¸ BuildMart · Enterprise Procurement Portal');
         console.log('ðŸ“ž Contact Center: +234 810 183 7077');
         console.log('ðŸ“ HQ: Benin City, Edo State');
         

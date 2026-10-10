@@ -10,7 +10,7 @@
     
     <link rel="canonical" href="https://primeshieldhub.com/admin/analytics">
     <link rel="icon" href="/company_logo.png">
-    <title>ðŸ“Š Conversation Analytics | PrimeShieldHub â€¢ Quantum Insights</title>
+    <title>ðŸ“Š Conversation Analytics | PrimeShieldHub "¢ Quantum Insights</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -717,7 +717,7 @@
     <a href="/assistant" class="quick-link"><i class="fas fa-robot"></i> AI Assistant</a>
     <a href="/" class="quick-link"><i class="fas fa-home"></i> Storefront</a>
     <span style="margin-left:auto;font-size:0.6rem;color:var(--text-muted);">
-        <i class="fas fa-clock"></i> <span id="lastUpdateLabel">Last update: â€”</span>
+        <i class="fas fa-clock"></i> <span id="lastUpdateLabel">Last update: "”</span>
     </span>
 </div>
 
@@ -1077,7 +1077,7 @@
                     <td><span class="sentiment-badge ${sentimentClass}">${sentimentClass}</span></td>
                     <td><span class="urgency-badge ${urgencyClass}">${urgencyLabel}</span></td>
                     <td>${conv.model || 'unknown'}</td>
-                    <td style="font-size:0.65rem;color:var(--text-muted);">${conv.created_at ? new Date(conv.created_at).toLocaleString() : 'â€”'}</td>
+                    <td style="font-size:0.65rem;color:var(--text-muted);">${conv.created_at ? new Date(conv.created_at).toLocaleString() : '"”'}</td>
                 </tr>
             `;
         });
@@ -1158,7 +1158,7 @@
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
-        showToast('âœ… Data exported as CSV', 'success');
+        showToast('✅ Data exported as CSV', 'success');
     }
 
     // ========== LOAD ALL DATA ==========

@@ -7,7 +7,7 @@
   <!-- CANONICAL URL -->
   <link rel="canonical" href="https://primeshieldhub.com/account">
   
-  <title>PrimeShieldHub Ã¢â‚¬â€ Quantum Account Dashboard | 2026 Premium Gadgets</title>
+  <title>PrimeShieldHub ¢€" Quantum Account Dashboard | 2026 Premium Gadgets</title>
   <meta name="description" content="Your PrimeShieldHub quantum account dashboard. Manage orders, addresses, wishlist, reseller status, and account settings for 2026 premium gadgets." />
   <meta name="theme-color" content="#060608">
   <link rel="icon" href="/company_logo.png">
@@ -2074,7 +2074,7 @@
           <div class="shield-logo"></div>
           <div class="brand-text">
             <div class="brand-name">PRIMESHIELDHUB</div>
-            <div class="brand-tagline">2026 Premium Gadgets Ã¢â‚¬Â¢ Wholesale & Retail</div>
+            <div class="brand-tagline">2026 Premium Gadgets "¢ Wholesale & Retail</div>
           </div>
         </a>
 
@@ -2263,7 +2263,7 @@
           <!-- Stats Overview -->
           <div class="stats-grid" id="overviewStats">
             <div class="stat-card">
-              <div class="stat-value" id="totalSpent">Ã¢â€šÂ¦0</div>
+              <div class="stat-value" id="totalSpent">₦0</div>
               <div class="stat-label">Total Spent (2026)</div>
             </div>
             <div class="stat-card">
@@ -2477,7 +2477,7 @@
                 <div class="stat-label">Orders Placed</div>
               </div>
               <div class="stat-card">
-                <div class="stat-value" id="resellerSaved">Ã¢â€šÂ¦0</div>
+                <div class="stat-value" id="resellerSaved">₦0</div>
                 <div class="stat-label">Total Saved</div>
               </div>
               <div class="stat-card">
@@ -2542,13 +2542,13 @@
             <div style="background: rgba(255,255,255,0.02); border-radius: var(--radius-md); padding: 24px;">
               <div style="display: flex; justify-content: space-between; margin-bottom: 12px;">
                 <span style="color: var(--text); font-weight: 600;" id="currentTierDisplay">Gold Tier</span>
-                <span style="color: var(--gold); font-weight: 600;" id="tierProgressDisplay">Ã¢â€šÂ¦0 / Ã¢â€šÂ¦5M</span>
+                <span style="color: var(--gold); font-weight: 600;" id="tierProgressDisplay">₦0 / ₦5M</span>
               </div>
               <div style="height: 8px; background: rgba(255,255,255,0.1); border-radius: 4px; overflow: hidden;">
                 <div id="tierProgressBar" style="width: 0%; height: 100%; background: linear-gradient(90deg, var(--gold), var(--gold-2));"></div>
               </div>
               <div style="display: flex; justify-content: space-between; margin-top: 12px;">
-                <span style="color: var(--muted); font-size: 14px;" id="nextTierLabel">Next: Platinum Tier (Ã¢â€šÂ¦5M)</span>
+                <span style="color: var(--muted); font-size: 14px;" id="nextTierLabel">Next: Platinum Tier (₦5M)</span>
                 <span style="color: var(--gold); font-size: 14px;" id="progressPercent">0% complete</span>
               </div>
             </div>
@@ -2616,9 +2616,9 @@
                 <div class="form-group">
                   <label>Currency</label>
                   <select id="currencySelect">
-                    <option value="NGN" selected>Nigerian Naira (Ã¢â€šÂ¦)</option>
+                    <option value="NGN" selected>Nigerian Naira (₦)</option>
                     <option value="USD">US Dollar ($)</option>
-                    <option value="EUR">Euro (Ã¢â€šÂ¬)</option>
+                    <option value="EUR">Euro (¢"šÂ¬)</option>
                   </select>
                 </div>
                 <div class="form-group">
@@ -2775,7 +2775,7 @@
 
       <div class="footer-bottom">
         <div class="copyright">
-          Ã‚Â© <span id="currentYear">2026</span> PrimeShieldHub Gadgets Limited. All Rights Reserved. | RC 9283954
+          ‚© <span id="currentYear">2026</span> PrimeShieldHub Gadgets Limited. All Rights Reserved. | RC 9283954
         </div>
         <div class="copyright">
           <a href="/privacy" style="color: var(--muted); text-decoration: none; margin-right: 16px;">Privacy</a>
@@ -2980,13 +2980,13 @@
       const notification = document.createElement('div');
       notification.className = `notification ${type}`;
       const icons = {
-        success: 'Ã¢Å“â€œ',
-        error: 'Ã¢Å“â€¢',
-        warning: 'Ã¢Å¡Â ',
-        info: 'Ã¢â€žÂ¹'
+        success: '¢Å“"',
+        error: '¢Å“"¢',
+        warning: ' ',
+        info: '¢"žÂ¹'
       };
       notification.innerHTML = `
-        <div class="notification-icon">${icons[type] || 'Ã¢â€žÂ¹'}</div>
+        <div class="notification-icon">${icons[type] || '¢"žÂ¹'}</div>
         <div class="notification-message">${message}</div>
         <button class="notification-close"><i class="fas fa-times"></i></button>
       `;
@@ -3011,10 +3011,10 @@
 
     // ===== FORMAT HELPERS =====
     function formatCurrency(amount) {
-      if (amount === null || amount === undefined) return 'Ã¢â€šÂ¦0';
+      if (amount === null || amount === undefined) return '₦';
       const num = Number(amount);
-      if (isNaN(num)) return 'Ã¢â€šÂ¦0';
-      return 'Ã¢â€šÂ¦' + num.toLocaleString('en-NG');
+      if (isNaN(num)) return '₦';
+      return '₦' + num.toLocaleString('en-NG');
     }
 
     function formatDate(dateStr) {
@@ -3229,7 +3229,7 @@
       }
       
       document.getElementById('currentTierDisplay').textContent = `${currentTier.name} Tier`;
-      document.getElementById('nextTierLabel').textContent = `Next: ${nextTier.name} Tier (Ã¢â€šÂ¦${nextTier.min.toLocaleString()})`;
+      document.getElementById('nextTierLabel').textContent = `Next: ${nextTier.name} Tier (₦${nextTier.min.toLocaleString()})`;
       
       const progress = nextTier.max !== Infinity ? 
         Math.min(100, ((totalSpent - currentTier.min) / (nextTier.min - currentTier.min)) * 100) : 100;
@@ -3892,7 +3892,7 @@
         }, 1000);
       }
       
-      console.log('Ã°Å¸Å¡â‚¬ PrimeShieldHub Account Dashboard v3.2 Ã¢â‚¬â€ Fully Dynamic');
+      console.log('Å¡€ PrimeShieldHub Account Dashboard v3.2 ¢€" Fully Dynamic');
     }
 
     // Start the application

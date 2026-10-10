@@ -882,7 +882,7 @@
           <div class="stat-label">Total Addresses</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="defaultAddress">â€”</div>
+          <div class="stat-value" id="defaultAddress">"”</div>
           <div class="stat-label">Default Address</div>
         </div>
         <div class="stat-card">
@@ -890,7 +890,7 @@
           <div class="stat-label">Address Types</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="lastAdded">â€”</div>
+          <div class="stat-value" id="lastAdded">"”</div>
           <div class="stat-label">Last Added</div>
         </div>
       </div>
@@ -924,7 +924,7 @@
 <footer class="site-footer">
   <div class="container">
     <div class="footer-inner">
-      <div class="copyright">Â© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
+      <div class="copyright">© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
       <div class="footer-links">
         <a href="/account">Account</a>
         <a href="/profile">Profile</a>
@@ -1147,12 +1147,12 @@
     }
 
     function formatDate(dateStr) {
-      if (!dateStr) return 'â€”';
+      if (!dateStr) return '"”';
       try {
         const d = new Date(dateStr);
         return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       } catch(e) {
-        return 'â€”';
+        return '"”';
       }
     }
 
@@ -1292,13 +1292,13 @@
       totalAddresses.textContent = addresses.length;
       
       const defaultAddr = addresses.find(a => a.is_default || a.default);
-      defaultAddress.textContent = defaultAddr ? defaultAddr.type || 'Home' : 'â€”';
+      defaultAddress.textContent = defaultAddr ? defaultAddr.type || 'Home' : '"”';
       
       const types = new Set(addresses.map(a => a.type).filter(Boolean));
       addressTypes.textContent = types.size;
       
       const last = addresses.length > 0 ? addresses[addresses.length - 1] : null;
-      lastAdded.textContent = last && last.created_at ? formatDate(last.created_at) : 'â€”';
+      lastAdded.textContent = last && last.created_at ? formatDate(last.created_at) : '"”';
     }
 
     // ===== ESCAPE HTML =====
@@ -1557,7 +1557,7 @@
         showLoading(false);
       }
 
-      console.log('ðŸš€ Quantum Addresses v1.0 â€” 100% Dynamic');
+      console.log('ðŸš€ Quantum Addresses v1.0 "” 100% Dynamic');
     }
 
     document.addEventListener('DOMContentLoaded', init);

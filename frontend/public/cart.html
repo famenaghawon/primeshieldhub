@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=5,viewport-fit=cover" />
-  <title>PrimeShieldHub Ã¢â‚¬â€ 5D Quantum Cart | Premium Shopping Cart</title>
+  <title>PrimeShieldHub ¢€" 5D Quantum Cart | Premium Shopping Cart</title>
   <meta name="description" content="PrimeShieldHub premium shopping cart with quantity adjustments, save for later, and related products. Proceed to secure checkout." />
   <meta name="theme-color" content="#0b0b0d">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1378,12 +1378,12 @@
               <div class="summary-rows">
                 <div class="summary-row">
                   <div class="summary-label">Subtotal</div>
-                  <div class="summary-value" id="summarySubtotal">Ã¢â€šÂ¦0</div>
+                  <div class="summary-value" id="summarySubtotal">₦0</div>
                 </div>
 
                 <div class="summary-row total">
                   <div class="summary-label">Total</div>
-                  <div class="summary-value" id="summaryTotal">Ã¢â€šÂ¦0</div>
+                  <div class="summary-value" id="summaryTotal">₦0</div>
                 </div>
               </div>
             </div>
@@ -1402,7 +1402,7 @@
 
             <div class="security-badge">
               <i class="fas fa-shield-alt"></i>
-              <span>5D Quantum Secure Ã¢â‚¬Â¢ Encrypted Ã¢â‚¬Â¢ 100% Authentic</span>
+              <span>5D Quantum Secure "¢ Encrypted "¢ 100% Authentic</span>
             </div>
           </div>
         </aside>
@@ -1431,7 +1431,7 @@
     <div class="container">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
         <div style="color: var(--muted); font-size: 14px;">
-          Ã‚Â© <span id="currentYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954
+          ‚© <span id="currentYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954
         </div>
         <div style="display: flex; gap: 20px;">
           <a href="/privacy" style="color: var(--muted); text-decoration: none; font-size: 14px;">Privacy</a>
@@ -1467,9 +1467,9 @@
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
             this.buffer = await this.generateSound();
             this.isInitialized = true;
-            console.log('Ã°Å¸â€Å  Premium notification sound initialized (Cart page)');
+            console.log('"Å  Premium notification sound initialized (Cart page)');
           } catch (e) {
-            console.warn('Ã¢Å¡Â Ã¯Â¸Â Audio initialization failed:', e);
+            console.warn(' ¯Â¸Â Audio initialization failed:', e);
           }
         }
 
@@ -1538,7 +1538,7 @@
             source.connect(this.audioContext.destination);
             source.start();
           } catch (e) {
-            console.debug('Ã°Å¸â€â€¡ Sound playback failed:', e);
+            console.debug('""¡ Sound playback failed:', e);
           }
         }
 
@@ -1596,11 +1596,11 @@
             e.preventDefault();
             e.stopPropagation();
             const muted = window.notificationSound.toggle();
-            showNotification(muted ? 'Ã°Å¸â€â€¡ Sound muted' : 'Ã°Å¸â€Å  Sound enabled', 'info');
+            showNotification(muted ? '""¡ Sound muted' : '"Å  Sound enabled', 'info');
           });
         }
 
-        console.log('Ã°Å¸â€Å  Premium notification sound loaded (Cart page)');
+        console.log('"Å  Premium notification sound loaded (Cart page)');
       });
 
     })();
@@ -1811,12 +1811,12 @@
     // 6. RENDER FUNCTIONS (FIXED: Proper currency and formatting)
     // ================================================================
 
-    // ===== FIX: Format currency with proper Ã¢â€šÂ¦ symbol =====
+    // ===== FIX: Format currency with proper ₦ symbol =====
     function formatCurrency(amount) {
-      if (amount === null || amount === undefined) return 'Ã¢â€šÂ¦0';
+      if (amount === null || amount === undefined) return '₦';
       const num = Number(amount);
-      if (isNaN(num)) return 'Ã¢â€šÂ¦0';
-      return 'Ã¢â€šÂ¦' + num.toLocaleString('en-NG');
+      if (isNaN(num)) return '₦';
+      return '₦' + num.toLocaleString('en-NG');
     }
 
     function renderCart() {
@@ -1855,7 +1855,7 @@
         
         const showWholesaleBadge = (item.quantity >= 10 && wholesaleTier && item.wholesalePrice && item.wholesalePrice < item.price);
         
-        // ===== FIX: Proper price display with Ã¢â€šÂ¦ symbol =====
+        // ===== FIX: Proper price display with ₦ symbol =====
         const priceDisplay = formatCurrency(price * item.quantity);
         const originalPriceDisplay = item.originalPrice ? formatCurrency(item.originalPrice * item.quantity) : '';
         const savingsDisplay = savingsPercent > 0 ? `Save ${savingsPercent}%` : '';
@@ -1896,7 +1896,7 @@
                   
                   <div class="cart-item-actions">
                     <div class="quantity-controls ${item.quantity >= stockStatus ? 'warning' : ''}">
-                      <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)" ${item.quantity <= 1 ? 'disabled' : ''}>Ã¢Ë†â€™</button>
+                      <button class="quantity-btn" onclick="updateQuantity('${item.id}', -1)" ${item.quantity <= 1 ? 'disabled' : ''}>¢Ë†"™</button>
                       <span class="quantity-display">${item.quantity}</span>
                       <button class="quantity-btn" onclick="updateQuantity('${item.id}', 1)" ${isOutOfStock || (item.stock && item.quantity >= item.stock) ? 'disabled' : ''}>+</button>
                     </div>
@@ -2001,7 +2001,7 @@
       const notification = document.createElement('div');
       notification.className = `notification ${type}`;
       notification.innerHTML = `
-        <div class="notification-icon">${type === 'success' ? 'Ã¢Å“â€œ' : type === 'error' ? 'Ã¢Å“â€¢' : type === 'warning' ? 'Ã¢Å¡Â ' : 'Ã¢â€žÂ¹'}</div>
+        <div class="notification-icon">${type === 'success' ? '¢Å“"' : type === 'error' ? '¢Å“"¢' : type === 'warning' ? ' ' : '¢"žÂ¹'}</div>
         <div class="notification-message">${message}</div>
         <button class="notification-close" onclick="this.parentElement.remove()"><i class="fas fa-times"></i></button>
       `;
@@ -2281,16 +2281,16 @@
         if (isAuthenticated && userData) {
           showNotification(`Welcome back, ${userData.name || 'Customer'}!`, 'success', 3000);
         } else {
-          showNotification('Ã°Å¸â€ºâ€™ Sign in to unlock wholesale pricing and faster checkout!', 'info', 5000);
+          showNotification('"º"™ Sign in to unlock wholesale pricing and faster checkout!', 'info', 5000);
         }
       }, 1500);
       
-      console.log('Ã°Å¸Å¡â‚¬ PrimeShieldHub Quantum Cart v17.1 Ã¢â‚¬â€ With Premium Sound + Fixed Currency Display');
-      console.log('Ã¢Å“â€¦ Items:', cartItems.length);
-      console.log('Ã¢Å“â€¦ Saved:', savedItems.length);
-      console.log('Ã¢Å“â€¦ Authenticated:', isAuthenticated);
-      console.log('Ã°Å¸â€Å  Sound system loaded');
-      console.log('Ã°Å¸â€™Â° Currency: Ã¢â€šÂ¦ (Naira)');
+      console.log('Å¡€ PrimeShieldHub Quantum Cart v17.1 ¢€" With Premium Sound + Fixed Currency Display');
+      console.log('¢Å“"¦ Items:', cartItems.length);
+      console.log('¢Å“"¦ Saved:', savedItems.length);
+      console.log('¢Å“"¦ Authenticated:', isAuthenticated);
+      console.log('"Å  Sound system loaded');
+      console.log('"™° Currency: ₦ (Naira)');
     }
 
     // ================================================================

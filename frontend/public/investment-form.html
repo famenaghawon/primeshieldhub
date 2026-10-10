@@ -445,7 +445,7 @@
               <div class="investment-card" data-type="loan">
                 <div class="investment-icon">ðŸ’°</div>
                 <div class="investment-title">Fixed-Return Loan</div>
-                <div class="investment-desc">12â€“18% annual returns with principal guarantee and defined repayment</div>
+                <div class="investment-desc">12"“18% annual returns with principal guarantee and defined repayment</div>
               </div>
               <div class="investment-card" data-type="reseller">
                 <div class="investment-icon">ðŸ“¦</div>
@@ -459,12 +459,12 @@
               <div class="simulator-stats">
                 <div class="stat-card">
                   <div class="stat-label">Investment Amount</div>
-                  <div class="stat-value" id="simAmount">â‚¦1,000,000</div>
+                  <div class="stat-value" id="simAmount">₦1,000,000</div>
                   <input type="range" id="amountRange" min="100000" max="10000000" step="100000" value="1000000">
                 </div>
                 <div class="stat-card">
                   <div class="stat-label">Est. Annual Return</div>
-                  <div class="stat-value" id="simReturn">â‚¦250,000</div>
+                  <div class="stat-value" id="simReturn">₦250,000</div>
                 </div>
                 <div class="stat-card">
                   <div class="stat-label">Projected ROI</div>
@@ -531,9 +531,9 @@
           <div class="form-panel" data-panel="3">
             <div class="form-row">
               <div class="form-group">
-                <label>Investment Amount (â‚¦) <span style="color: var(--accent-danger);">*</span></label>
-                <input type="number" id="investmentAmount" min="100000" max="50000000" step="100000" value="1000000" placeholder="Minimum â‚¦100,000">
-                <p style="font-size:11px;color:var(--text-tertiary);margin-top:4px;">Min: â‚¦100,000 | Max: â‚¦50,000,000</p>
+                <label>Investment Amount (₦) <span style="color: var(--accent-danger);">*</span></label>
+                <input type="number" id="investmentAmount" min="100000" max="50000000" step="100000" value="1000000" placeholder="Minimum ₦100,000">
+                <p style="font-size:11px;color:var(--text-tertiary);margin-top:4px;">Min: ₦100,000 | Max: ₦50,000,000</p>
               </div>
               <div class="form-group">
                 <label>Preferred Term</label>
@@ -713,8 +713,8 @@
         const rate = investmentRates[selectedInvestmentType] || 15;
         const annualReturn = amount * (rate / 100);
 
-        simAmount.textContent = 'â‚¦' + amount.toLocaleString('en-NG');
-        simReturn.textContent = 'â‚¦' + Math.round(annualReturn).toLocaleString('en-NG');
+        simAmount.textContent = '₦' + amount.toLocaleString('en-NG');
+        simReturn.textContent = '₦' + Math.round(annualReturn).toLocaleString('en-NG');
         simROI.textContent = rate + '%';
 
         if (investmentAmountInput && document.activeElement !== investmentAmountInput) {
@@ -792,11 +792,11 @@
           case 3:
             var amount = parseFloat(document.getElementById('investmentAmount').value);
             if (!amount || amount < 100000) {
-              showToast('Investment amount must be at least â‚¦100,000', true);
+              showToast('Investment amount must be at least ₦100,000', true);
               return false;
             }
             if (amount > 50000000) {
-              showToast('For investments above â‚¦50M, please contact us directly', true);
+              showToast('For investments above ₦50M, please contact us directly', true);
               return false;
             }
             return true;
@@ -832,14 +832,14 @@
 
         var rows = [
           { label: 'Investment Type', value: typeNames[selectedInvestmentType] || selectedInvestmentType, gold: true },
-          { label: 'Full Name', value: document.getElementById('fullName').value || 'â€”' },
-          { label: 'Email', value: document.getElementById('email').value || 'â€”' },
-          { label: 'Phone', value: document.getElementById('phone').value || 'â€”' },
-          { label: 'Entity Type', value: entityLabels[document.getElementById('entityType').value] || 'â€”' },
+          { label: 'Full Name', value: document.getElementById('fullName').value || '"”' },
+          { label: 'Email', value: document.getElementById('email').value || '"”' },
+          { label: 'Phone', value: document.getElementById('phone').value || '"”' },
+          { label: 'Entity Type', value: entityLabels[document.getElementById('entityType').value] || '"”' },
           { label: 'Company Name', value: document.getElementById('companyName').value || 'N/A' },
-          { label: 'Investment Amount', value: 'â‚¦' + (parseFloat(document.getElementById('investmentAmount').value) || 0).toLocaleString('en-NG'), gold: true },
+          { label: 'Investment Amount', value: '₦' + (parseFloat(document.getElementById('investmentAmount').value) || 0).toLocaleString('en-NG'), gold: true },
           { label: 'Term', value: (document.getElementById('investmentTerm').value || '12') + ' months' },
-          { label: 'Start Date', value: document.getElementById('startDate').value || 'â€”' },
+          { label: 'Start Date', value: document.getElementById('startDate').value || '"”' },
           { label: 'Notes', value: document.getElementById('notes').value || 'None' }
         ];
 
@@ -916,7 +916,7 @@
             headers: { 'Content-Type': 'application/json', 'x-device-fingerprint': fingerprint },
             body: JSON.stringify(formData)
           }).then(function(res) { return res.json(); }).then(function(data) {
-            console.log('âœ… API submission acknowledged:', data.reference || formData.reference);
+            console.log('✅ API submission acknowledged:', data.reference || formData.reference);
           }).catch(function(err) {
             console.warn('âš ï¸ API submission queued locally:', err.message);
           });
@@ -924,7 +924,7 @@
           // Show success
           var modal = document.getElementById('successModal');
           document.getElementById('modalMessage').textContent = 
-            'Thank you, ' + formData.fullName.split(' ')[0] + '! Your application (' + formData.reference + ') has been received. Our investment team will contact you within 24â€“48 hours.';
+            'Thank you, ' + formData.fullName.split(' ')[0] + '! Your application (' + formData.reference + ') has been received. Our investment team will contact you within 24"“48 hours.';
           modal.classList.add('active');
 
         } catch (error) {
