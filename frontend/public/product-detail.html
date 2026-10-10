@@ -567,7 +567,7 @@
     import * as THREE from 'three';
      
     // Add this at the beginning of your script
-    console.log('ðŸ” Product Detail Page Loaded');
+    console.log('<i class="fas fa-search"></i> Product Detail Page Loaded');
     console.log('ðŸ“ Current URL:', window.location.href);
     console.log('ðŸ“ URL Parameters:', new URLSearchParams(window.location.search).toString());
 
@@ -575,7 +575,7 @@
     const testSlug = new URLSearchParams(window.location.search).get('slug');
 
     console.log('ðŸ†” Product ID from URL:', testId);
-    console.log('ðŸ”— Product Slug from URL:', testSlug);
+    console.log('<i class="fas fa-search"></i>— Product Slug from URL:', testSlug);
 
     if (!testId && !testSlug) {
         console.warn('âš ï¸ No product ID or slug found in URL!');
@@ -1122,7 +1122,7 @@
     // ================================================================
     loadProduct();
 
-    console.log('ðŸš€ Quantum Product Detail v2.0 "” REST API (No Firebase)');
+    console.log('<i class="fas fa-rocket"></i><i class="fas fa-rocket"></i> Quantum Product Detail v2.0 "” REST API (No Firebase)');
     console.log('✅ API Base: ' + API_BASE);
     console.log('✅ Cart key: ' + CART_KEY);
     console.log('✅ Matches your Cloudflare Worker + D1 setup');

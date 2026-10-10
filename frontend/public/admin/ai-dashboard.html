@@ -1026,7 +1026,7 @@
       html += `
           <div class="metrics-grid">
               <div class="metric-card">
-                  <div class="metric-icon">ðŸ“Š</div>
+                  <div class="metric-icon"><i class="fas fa-chart-bar"></i></div>
                   <div class="metric-value">${insights.aiStats?.total || 0}</div>
                   <div class="metric-label">AI Conversations (7d)</div>
               </div>
@@ -1040,10 +1040,11 @@
                   <div class="metric-icon">âš ï¸</div>
                   <div class="metric-value">${insights.logAnalysis?.threats?.length || 0}</div>
                   <div class="metric-label">Security Threats</div>
-                  ${insights.logAnalysis?.threats?.length > 0 ? '<div class="metric-change negative">ðŸ”´ Active threats</div>' : '<div class="metric-change positive">✅ Secure</div>'}
+                  ${insights.logAnalysis?.threats?.length > 0 ? '<div class="metric-change negative"><i class="fas fa-search"></i>´ Active threats</div>' : '<div class="metric-change positive">✅ Secure</div>'}
               </div>
               <div class="metric-card">
-                  <div class="metric-icon">ðŸ’¡</div>
+                  <div class="metric-icon"> <i class="fas fa-lightbulb"></i>
+</div>
                   <div class="metric-value">${insights.logAnalysis?.opportunities?.length || 0}</div>
                   <div class="metric-label">Opportunities</div>
               </div>
@@ -1332,7 +1333,7 @@
       try {
           const data = await apiRequest(CONFIG.ENDPOINTS.RUN_AUTONOMOUS, { method: 'POST' });
           if (data.success) {
-              showToast('ðŸ¤– Autonomous system executed! ' + (data.recommendations?.length || 0) + ' recommendations generated.', 'success');
+              showToast('<i class="fas fa-robot"></i> Autonomous system executed! ' + (data.recommendations?.length || 0) + ' recommendations generated.', 'success');
               setTimeout(refreshDashboard, 1500);
           } else {
               throw new Error(data.error || 'Failed to run autonomous system');
@@ -1352,7 +1353,7 @@
   function startAutoRefresh() {
       if (State.refreshInterval) clearInterval(State.refreshInterval);
       State.refreshInterval = setInterval(refreshDashboard, CONFIG.AUTO_REFRESH_INTERVAL);
-      console.log('ðŸ”„ Auto-refresh enabled every ' + (CONFIG.AUTO_REFRESH_INTERVAL / 1000) + 's');
+      console.log('<i class="fas fa-search"></i>„ Auto-refresh enabled every ' + (CONFIG.AUTO_REFRESH_INTERVAL / 1000) + 's');
   }
 
   // ================================================================ //
@@ -1390,7 +1391,7 @@
       });
 
       window.addEventListener('offline', () => {
-          showToast('ðŸ”´ You are offline. Some features may be unavailable.', 'error', 4000);
+          showToast('<i class="fas fa-search"></i>´ You are offline. Some features may be unavailable.', 'error', 4000);
       });
   }
 
@@ -1399,9 +1400,9 @@
   // ================================================================ //
 
   async function init() {
-      console.log('ðŸš€ AI Business Intelligence Dashboard v10.0 "” Unified Config');
+      console.log('<i class="fas fa-rocket"></i><i class="fas fa-rocket"></i> AI Business Intelligence Dashboard v10.0 "” Unified Config');
       console.log('ðŸ“ API Base:', CONFIG.API_BASE);
-      console.log('ðŸ“¦ Using unified config from:', UnifiedConfig.apiBase);
+      console.log('<i class="fas fa-box"></i>Using unified config from:', UnifiedConfig.apiBase);
 
       // Check authentication
       const authed = await checkAuth();
@@ -1430,9 +1431,9 @@
       });
 
       console.log('✅ AI Dashboard initialized');
-      console.log('âŒ¨ï¸  Ctrl+R to refresh | Ctrl+Shift+A to run autonomous | Ctrl+Shift+L for Analytics');
-      console.log('ðŸ”„ Auto-refresh: Enabled (every ' + (CONFIG.AUTO_REFRESH_INTERVAL / 1000) + 's)');
-      console.log('ðŸ”— Analytics dashboard: /admin/analytics.html');
+      console.log('<i class="fas fa-sparkles"></i>ï¸  Ctrl+R to refresh | Ctrl+Shift+A to run autonomous | Ctrl+Shift+L for Analytics');
+      console.log('<i class="fas fa-search"></i>„ Auto-refresh: Enabled (every ' + (CONFIG.AUTO_REFRESH_INTERVAL / 1000) + 's)');
+      console.log('<i class="fas fa-search"></i>— Analytics dashboard: /admin/analytics.html');
   }
 
   // Cleanup on page unload

@@ -1799,7 +1799,7 @@
                 ${b.metrics ? `
                     <div class="branch-metrics">
                         <div class="bm-item">ðŸ‘¥ Customers <span class="bm-value">${b.metrics.customers}</span></div>
-                        <div class="bm-item">ðŸ“¦ Inventory <span class="bm-value">${b.metrics.inventory}</span></div>
+                        <div class="bm-item"><i class="fas fa-box"></i>Inventory <span class="bm-value">${b.metrics.inventory}</span></div>
                         <div class="bm-item">ðŸš› Trucks <span class="bm-value">${b.metrics.trucks}</span></div>
                         <div class="bm-item">ðŸ‘¨"ðŸ’¼ Officers <span class="bm-value">${b.metrics.officers}</span></div>
                         <div class="bm-item" style="grid-column: span 2;">â±ï¸ Wait <span class="bm-value">${b.metrics.wait}</span></div>
@@ -1884,8 +1884,8 @@
             const responses = [
                 `<strong>Material Estimate for "${query}"</strong>
                 <ul>
-                    <li>ðŸ“¦ <strong>Dangote Cement</strong> "” 2,450 bags @ ₦6,800/bulk = <strong>₦16.66M</strong></li>
-                    <li>ðŸ”© <strong>16mm Rebar Steel</strong> "” 18.4 tons @ ₦775,000/ton = <strong>₦14.26M</strong></li>
+                    <li><i class="fas fa-box"></i><strong>Dangote Cement</strong> "” 2,450 bags @ ₦6,800/bulk = <strong>₦16.66M</strong></li>
+                    <li><i class="fas fa-search"></i>© <strong>16mm Rebar Steel</strong> "” 18.4 tons @ ₦775,000/ton = <strong>₦14.26M</strong></li>
                     <li>ðŸ  <strong>Long Span Roofing</strong> "” 200 sheets @ ₦11,200/sheet = <strong>₦2.24M</strong></li>
                     <li>ðŸŽ¨ <strong>Premium Paint (20L)</strong> "” 45 buckets @ ₦57,000/bucket = <strong>₦2.56M</strong></li>
                 </ul>
@@ -1906,12 +1906,13 @@
                     <li>ðŸ­ <strong>BUA</strong> "” ₦7,200/bag (500+ bulk) ⭐ 4.6/5</li>
                     <li>ðŸ­ <strong>Lafarge</strong> "” ₦7,500/bag (500+ bulk) ⭐ 4.5/5</li>
                 </ul>
-                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">ðŸ’¡ <strong>Recommendation:</strong> Dangote offers best value for bulk orders</p>`,
+                <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;"> <i class="fas fa-lightbulb"></i>
+ <strong>Recommendation:</strong> Dangote offers best value for bulk orders</p>`,
                 
                 `<strong>BOQ Analysis for "${query}"</strong>
                 <ul>
                     <li>ðŸ“‹ <strong>Material Count:</strong> 23 unique items identified</li>
-                    <li>ðŸ“Š <strong>Categories:</strong> Cement (4), Steel (3), Roofing (2), Finishing (6), Other (8)</li>
+                    <li><i class="fas fa-chart-bar"></i> <strong>Categories:</strong> Cement (4), Steel (3), Roofing (2), Finishing (6), Other (8)</li>
                     <li>ðŸ’° <strong>Optimized Budget:</strong> ₦28.4M (down from ₦32.1M)</li>
                 </ul>
                 <p style="font-size:0.85rem;color:var(--text-muted);margin-top:0.5rem;">✅ <strong>Savings Identified:</strong> ₦3.7M through supplier consolidation</p>`
@@ -2209,7 +2210,7 @@
     // =========================================================================
     function init() {
         console.log('ðŸ—ï¸ BuildMart · Enterprise Procurement Portal');
-        console.log('ðŸ“ž Contact Center: +234 810 183 7077');
+        console.log('<i class="fas fa-phone"></i> Contact Center: +234 810 183 7077');
         console.log('ðŸ“ HQ: Benin City, Edo State');
         
         setupNavigation();

@@ -852,7 +852,7 @@
                 const result = await fetchOrder(orderId);
                 if (result.success && result.order) {
                     renderOrder(result.order);
-                    document.getElementById('lastUpdate').textContent = 'ðŸ”„ Live · ' + new Date().toLocaleTimeString();
+                    document.getElementById('lastUpdate').textContent = '<i class="fas fa-search"></i>„ Live · ' + new Date().toLocaleTimeString();
                     document.getElementById('lastUpdateTime').textContent = new Date().toLocaleString();
                 }
             } catch (e) {
@@ -1011,9 +1011,10 @@
     }
 
     console.log('%cðŸ§  PrimeShieldHub Neural Track v2.1 · Live Sync', 'color:#d6b25e; font-weight:700; font-size:1.1rem;');
-    console.log('%cðŸ”— API: ' + API_BASE, 'color:#6b6962;');
-    console.log('%cðŸ” Auth: ' + (isAuthenticated ? '✅ Authenticated' : 'ðŸ‘¤ Guest'), 'color:' + (isAuthenticated ? '#00e599' : '#6b6962') + ';');
-    console.log('%cðŸ’¡ Try searching with an order ID like: 80243452-f36d-4617-8220-3f299ac18bb5', 'color:#b8b5aa;');
+    console.log('%c<i class="fas fa-search"></i>— API: ' + API_BASE, 'color:#6b6962;');
+    console.log('%c<i class="fas fa-search"></i> Auth: ' + (isAuthenticated ? '✅ Authenticated' : '<i class="fas fa-user"></i> Guest'), 'color:' + (isAuthenticated ? '#00e599' : '#6b6962') + ';');
+    console.log('%c <i class="fas fa-lightbulb"></i>
+ Try searching with an order ID like: 80243452-f36d-4617-8220-3f299ac18bb5', 'color:#b8b5aa;');
 
     // Clean up on page unload
     window.addEventListener('beforeunload', () => {

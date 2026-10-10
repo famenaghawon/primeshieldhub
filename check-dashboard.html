@@ -788,11 +788,11 @@
     
     <div style="background:rgba(0,240,160,0.06); border:1px solid rgba(0,240,160,0.15); border-radius:var(--radius-sm); padding:14px 18px; margin-bottom:20px;">
       <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono); text-transform:uppercase;">Available Balance</div>
-      <div style="font-size:1.5rem; font-weight:800; color:var(--success); font-family:var(--font-mono); margin-top:4px;" id="payoutBalance">Ã¢â€šÂ¦0</div>
+      <div style="font-size:1.5rem; font-weight:800; color:var(--success); font-family:var(--font-mono); margin-top:4px;" id="payoutBalance">₦0</div>
     </div>
     
     <div style="margin-bottom:16px;">
-      <label class="modal-label">Amount (Ã¢â€šÂ¦) *</label>
+      <label class="modal-label">Amount (₦) *</label>
       <input type="number" class="modal-input" id="payoutAmount" placeholder="5000" min="5000">
     </div>
     
@@ -812,7 +812,7 @@
     </div>
     
     <div style="font-size:0.7rem; color:var(--text-muted); margin-bottom:16px; line-height:1.5;">
-      <i class="fas fa-info-circle"></i> Minimum payout is Ã¢â€šÂ¦5,000. Requests are reviewed within 48 hours.
+      <i class="fas fa-info-circle"></i> Minimum payout is ₦5,000. Requests are reviewed within 48 hours.
     </div>
     
     <button class="btn-success w-full" onclick="submitPayoutRequest()">
@@ -886,27 +886,27 @@
     <div class="stats-grid" id="statsGrid">
       <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-        <div class="stat-value" id="totalRevenue">Ã¢â€šÂ¦0</div>
+        <div class="stat-value" id="totalRevenue">₦0</div>
         <div class="stat-label">Total Revenue</div>
-        <span class="stat-change up" id="revenueChange">Ã¢â€“Â² 0%</span>
+        <span class="stat-change up" id="revenueChange">Ã¢ —Â² 0%</span>
       </div>
       <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-shopping-bag"></i></div>
         <div class="stat-value" id="totalOrders">0</div>
         <div class="stat-label">Total Orders</div>
-        <span class="stat-change up" id="ordersChange">Ã¢â€“Â² 0%</span>
+        <span class="stat-change up" id="ordersChange">Ã¢ —Â² 0%</span>
       </div>
       <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-users"></i></div>
         <div class="stat-value" id="totalCustomers">0</div>
         <div class="stat-label">Customers Served</div>
-        <span class="stat-change up" id="customersChange">Ã¢â€“Â² 0%</span>
+        <span class="stat-change up" id="customersChange">Ã¢ —Â² 0%</span>
       </div>
       <div class="stat-card">
         <div class="stat-icon"><i class="fas fa-percentage"></i></div>
         <div class="stat-value" id="commissionRate">0%</div>
         <div class="stat-label">Commission Rate</div>
-        <span class="stat-change up" id="commissionChange">Ã¢â€”Â Active</span>
+        <span class="stat-change up" id="commissionChange">Ã¢ —Â Active</span>
       </div>
     </div>
 
@@ -914,7 +914,7 @@
     <div class="glass-card" style="margin-bottom:24px; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;">
       <div>
         <div style="font-size:0.7rem; color:var(--text-muted); font-family:var(--font-mono); text-transform:uppercase; letter-spacing:0.08em;">Total Commission Earned</div>
-        <div style="font-size:2rem; font-weight:800; color:var(--gold-core); font-family:var(--font-mono); margin-top:6px;" id="totalCommission">Ã¢â€šÂ¦0</div>
+        <div style="font-size:2rem; font-weight:800; color:var(--gold-core); font-family:var(--font-mono); margin-top:6px;" id="totalCommission">Ã¢"šÂ¦0</div>
       </div>
       <button class="btn-success" onclick="openPayoutModal()">
         <i class="fas fa-money-bill-wave"></i> Request Payout
@@ -954,13 +954,13 @@
       <div class="tier-progress">
         <div class="tier-header">
           <span class="tier-name" id="currentTier">Bronze Tier</span>
-          <span class="tier-amount" id="tierProgressDisplay">Ã¢â€šÂ¦0 / Ã¢â€šÂ¦100,000</span>
+          <span class="tier-amount" id="tierProgressDisplay">Ã¢"šÂ¦0 / Ã¢"šÂ¦100,000</span>
         </div>
         <div class="tier-bar">
           <div class="tier-fill" id="tierProgressBar" style="width:0%;"></div>
         </div>
         <div class="tier-footer">
-          <span id="nextTierLabel">Next: Silver Tier (Ã¢â€šÂ¦100,000)</span>
+          <span id="nextTierLabel">Next: Silver Tier (Ã¢"šÂ¦100,000)</span>
           <span id="progressPercent">0% complete</span>
         </div>
       </div>
@@ -1036,7 +1036,7 @@
             <div class="benefit-title">Priority Shipping</div>
             <div class="benefit-desc">Same-day dispatch for all reseller orders</div>
           </div>
-          <span style="color:var(--success); font-weight:700; font-family:var(--font-mono);">Ã¢Å“â€œ Active</span>
+          <span style="color:var(--success); font-weight:700; font-family:var(--font-mono);">Ã¢Å“" Active</span>
         </div>
         <div class="benefit-item">
           <i class="fas fa-headset"></i>
@@ -1044,7 +1044,7 @@
             <div class="benefit-title">Dedicated Support</div>
             <div class="benefit-desc">24/7 WhatsApp business support</div>
           </div>
-          <span style="color:var(--success); font-weight:700; font-family:var(--font-mono);">Ã¢Å“â€œ Active</span>
+          <span style="color:var(--success); font-weight:700; font-family:var(--font-mono);">Ã¢Å“" Active</span>
         </div>
       </div>
     </div>
@@ -1055,7 +1055,7 @@
 <footer class="site-footer">
   <div class="container">
     <div class="footer-inner">
-      <div class="copyright">Ã‚Â© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
+      <div class="copyright">Ã‚© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
       <div class="footer-links">
         <a href="/account">Account</a>
         <a href="/orders">Orders</a>
@@ -1069,7 +1069,7 @@
 
 <script>
 // ================================================================ //
-// COMPLETE RESELLER DASHBOARD Ã¢â‚¬â€ 100% DYNAMIC                      //
+// COMPLETE RESELLER DASHBOARD ‚¬" 100% DYNAMIC                      //
 // ================================================================ //
 
 (function() {
@@ -1199,7 +1199,7 @@
                 const resolvedUser = userData.user || userData;
 
                 if (resolvedUser && (resolvedUser.email || resolvedUser.id)) {
-                    console.log('[Reseller Auth] Ã¢Å“â€¦ Fetched user from API:', resolvedUser.email);
+                    console.log('[Reseller Auth] Ã¢Å“"¦ Fetched user from API:', resolvedUser.email);
                     // Save it for next time
                     localStorage.setItem('psh_user', JSON.stringify(resolvedUser));
                     user = resolvedUser;
@@ -1214,24 +1214,24 @@
 
     // ===== STEP 2: Redirect if we still have nothing =====
     if (!user || !token) {
-        console.warn('[Reseller Auth] Ã¢ÂÅ’ No valid auth. Redirecting to login.');
+        console.warn('[Reseller Auth] Å’ No valid auth. Redirecting to login.');
         window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
         return false;
     }
 
     if (isTokenExpired(token)) {
-        console.warn('[Reseller Auth] Ã¢ÂÅ’ Token expired.');
+        console.warn('[Reseller Auth] Å’ Token expired.');
         localStorage.removeItem('psh_auth_token');
         localStorage.removeItem('psh_user');
         window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
         return false;
     }
 
-    // ===== STEP 3: Success Ã¢â‚¬â€ populate globals =====
+    // ===== STEP 3: Success ‚¬" populate globals =====
     currentUser = user;
     authToken = token;
     userAvatar.textContent = (user.name || 'U').charAt(0).toUpperCase();
-    console.log('[Reseller Auth] Ã¢Å“â€¦ Authenticated as:', user.email);
+    console.log('[Reseller Auth] Ã¢Å“"¦ Authenticated as:', user.email);
     return true;
   }
 
@@ -1329,22 +1329,22 @@
     totalCommission.textContent = formatCurrency(stats.totalCommission || 0);
     
     if (stats.revenueChange !== undefined) {
-      const arrow = stats.revenueChange >= 0 ? 'Ã¢â€“Â² ' : 'Ã¢â€“Â¼ ';
+      const arrow = stats.revenueChange >= 0 ? 'Ã¢ —Â² ' : 'Ã¢ —Â¼ ';
       revenueChange.textContent = arrow + Math.abs(stats.revenueChange) + '%';
       revenueChange.className = 'stat-change ' + (stats.revenueChange >= 0 ? 'up' : 'down');
     }
     if (stats.ordersChange !== undefined) {
-      const arrow = stats.ordersChange >= 0 ? 'Ã¢â€“Â² ' : 'Ã¢â€“Â¼ ';
+      const arrow = stats.ordersChange >= 0 ? 'Ã¢ —Â² ' : 'Ã¢ —Â¼ ';
       ordersChange.textContent = arrow + Math.abs(stats.ordersChange) + '%';
       ordersChange.className = 'stat-change ' + (stats.ordersChange >= 0 ? 'up' : 'down');
     }
     if (stats.customersChange !== undefined) {
-      const arrow = stats.customersChange >= 0 ? 'Ã¢â€“Â² ' : 'Ã¢â€“Â¼ ';
+      const arrow = stats.customersChange >= 0 ? 'Ã¢ —Â² ' : 'Ã¢ —Â¼ ';
       customersChange.textContent = arrow + Math.abs(stats.customersChange) + '%';
       customersChange.className = 'stat-change ' + (stats.customersChange >= 0 ? 'up' : 'down');
     }
     
-    commissionChange.textContent = 'Ã¢â€”Â Active';
+    commissionChange.textContent = 'Ã¢ —Â Active';
     commissionChange.className = 'stat-change up';
   }
 
@@ -1371,7 +1371,7 @@
     
     currentTier.textContent = currentTierObj.name + ' Tier';
     nextTierLabel.textContent = nextTierObj.max !== Infinity 
-      ? 'Next: ' + nextTierObj.name + ' Tier (Ã¢â€šÂ¦' + nextTierObj.min.toLocaleString() + ')'
+      ? 'Next: ' + nextTierObj.name + ' Tier (Ã¢"šÂ¦' + nextTierObj.min.toLocaleString() + ')'
       : 'Maximum tier reached!';
     
     const progress = nextTierObj.max !== Infinity 
@@ -1477,7 +1477,7 @@
         scales: {
           y: {
             beginAtZero: true,
-            ticks: { color: '#7a7970', callback: function(v) { return 'Ã¢â€šÂ¦' + Number(v).toLocaleString(); } },
+            ticks: { color: '#7a7970', callback: function(v) { return 'Ã¢"šÂ¦' + Number(v).toLocaleString(); } },
             grid: { color: 'rgba(255,255,255,0.03)' }
           },
           x: {
@@ -1539,7 +1539,7 @@
       return;
     }
     navigator.clipboard.writeText(cachedResellerCode).then(function() {
-      showToast('Ã¢Å“â€¦ Code copied: ' + cachedResellerCode, 'success');
+      showToast('Ã¢Å“"¦ Code copied: ' + cachedResellerCode, 'success');
     }).catch(function() {
       showToast('Your code: ' + cachedResellerCode, 'info');
     });
@@ -1603,7 +1603,7 @@
     const accountName = document.getElementById('payoutAccountName').value.trim();
     
     if (!amount || amount < 5000) {
-      showToast('Minimum payout is Ã¢â€šÂ¦5,000', 'error');
+      showToast('Minimum payout is Ã¢"šÂ¦5,000', 'error');
       return;
     }
     if (!bankName || !accountNumber || !accountName) {
@@ -1617,7 +1617,7 @@
         amount, bankName, accountNumber, accountName
       });
       
-      showToast(response.message || 'Ã¢Å“â€¦ Payout request submitted!', 'success');
+      showToast(response.message || 'Ã¢Å“"¦ Payout request submitted!', 'success');
       closePayoutModal();
       
       // Clear form
@@ -1673,7 +1673,7 @@
 
   // ===== INIT =====
   async function init() {
-    const authenticated = await checkAuth();   // Ã¢â€ Â await the promise
+    const authenticated = await checkAuth();   // Ã¢" Â await the promise
     if (!authenticated) return;
 
     document.getElementById('footerYear').textContent = new Date().getFullYear();
@@ -1689,7 +1689,7 @@
         showLoading(false);
     }
 
-    console.log('Ã°Å¸Å¡â‚¬ Quantum Reseller Dashboard v2.0 Ã¢â‚¬â€ Fully Integrated');
+    console.log('<i class="fas fa-rocket"></i> Quantum Reseller Dashboard v2.0 ‚¬" Fully Integrated');
   }
 
   if (document.readyState === 'loading') {

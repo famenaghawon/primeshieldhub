@@ -1397,11 +1397,11 @@
     
     @media (max-width: 768px) {
       .products-filter .filter-btn:nth-child(n+9) { display: none; }
-      .products-filter .filter-btn:nth-child(8)::after { content: 'â€¦'; margin-left: 2px; }
+      .products-filter .filter-btn:nth-child(8)::after { content: '"¦'; margin-left: 2px; }
     }
     @media (max-width: 480px) {
       .products-filter .filter-btn:nth-child(n+6) { display: none; }
-      .products-filter .filter-btn:nth-child(5)::after { content: 'â€¦'; margin-left: 2px; }
+      .products-filter .filter-btn:nth-child(5)::after { content: '"¦'; margin-left: 2px; }
     }
     
     .products-grid {
@@ -2406,7 +2406,7 @@
         }
       };
       
-      console.log('âœ… [Early] checkStaffStatus defined');
+      console.log('<i class="fas fa-check"></i> [Early] checkStaffStatus defined');
     })();
   </script>
 
@@ -2483,7 +2483,7 @@
       <h4>Investor</h4>
       <a href="/investor-hub" class="slide-nav-link investor-mobile">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
-        ðŸ“ˆ Investor Hub
+         <i class="fas fa-chart-line"></i>Investor Hub
       </a>
       <a href="/investment-form" class="slide-nav-link investor-mobile"><i class="fas fa-file-signature"></i> Investment Application</a>
       <a href="/equity" class="slide-nav-link investor-mobile"><i class="fas fa-chart-pie"></i> Equity Investment</a>
@@ -2541,7 +2541,7 @@
   
   <div id="pwaInstallPrompt" style="display:none; position:fixed; bottom:100px; left:50%; transform:translateX(-50%); z-index:99998; background:linear-gradient(135deg,#12122a,#1a2045); border:1px solid rgba(214,178,94,0.2); border-radius:16px; padding:20px 24px; max-width:400px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.6); backdrop-filter:blur(20px);">
     <div style="display:flex; align-items:flex-start; gap:16px;">
-      <div style="font-size:32px;">ðŸ“±</div>
+      <div style="font-size:32px;"><i class="fas fa-mobile-alt"></i></div>
       <div style="flex:1;">
         <h4 style="color:#d6b25e; margin-bottom:4px; font-size:1rem;">Install PrimeShieldHub</h4>
         <p style="color:#9aa3d4; font-size:0.8rem; margin-bottom:12px;">Get the app for faster checkout and offline access.</p>
@@ -2558,7 +2558,7 @@
   
   <div id="staffPwaInstallPrompt" style="display:none; position:fixed; bottom:170px; left:50%; transform:translateX(-50%); z-index:99997; background:linear-gradient(135deg,#12122a,#1a2045); border:1px solid rgba(214,178,94,0.2); border-radius:16px; padding:20px 24px; max-width:400px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.6); backdrop-filter:blur(20px);">
     <div style="display:flex; align-items:flex-start; gap:16px;">
-      <div style="font-size:32px;">ðŸ‘¤</div>
+      <div style="font-size:32px;"><i class="fas fa-user"></i></div>
       <div style="flex:1;">
         <h4 style="color:#d6b25e; margin-bottom:4px; font-size:1rem;">Install Staff Portal</h4>
         <p style="color:#9aa3d4; font-size:0.8rem; margin-bottom:12px;">Access staff dashboard, manage orders, and track activity.</p>
@@ -2743,7 +2743,7 @@
     <div class="quantum-container">
       <div class="breadcrumb">
         <a href="/"><i class="fas fa-home"></i> Home</a>
-        <span class="separator">â€º</span>
+        <span class="separator">"º</span>
         <span class="current">Premium Gadgets</span>
       </div>
     </div>
@@ -2751,7 +2751,7 @@
 
   <!-- ===== PUSH NOTIFICATION BUTTON ===== -->
   <button id="enablePushBtn" class="push-btn" style="display:none; z-index: 10000; position: fixed; bottom: 100px; right: 30px;">
-      <span class="icon">ðŸ””</span>
+      <span class="icon"><i class="fas fa-bell"></i></span>
       <span class="btn-text">Enable Notifications</span>
   </button>
 
@@ -2783,7 +2783,7 @@
         <div class="hero-content-wrapper">
           <div class="hero-grid">
             <div class="hero-content">
-              <div class="hero-badge">NIGERIA'S TRUSTED TECHNOLOGY MARKETPLACE Â· EST. 2026</div>
+              <div class="hero-badge">NIGERIA'S TRUSTED TECHNOLOGY MARKETPLACE . EST. 2026</div>
               <h1 class="hero-title">Buy Phones, Bluetooth Headsets & Accessories in Nigeria</h1>
               <p class="hero-subtitle">PrimeShieldHub - Premium gadgets and accessories. Authentic phones, laptops, audio devices. Nationwide delivery across 36 states, certified reseller program with wholesale pricing. Nigerian company founded 2026.</p>
               <div class="hero-features">
@@ -2908,7 +2908,7 @@
               <input 
                 type="text" 
                 id="searchInput" 
-                placeholder="ðŸ” Search products... (e.g., Samsung, iPhone, Laptop)" 
+                placeholder="<i class="fas fa-search"></i> Search products... (e.g., Samsung, iPhone, Laptop)" 
                 style="
                   width:100%;
                   padding:12px 20px;
@@ -2974,15 +2974,15 @@
         <!-- Filter Buttons -->
         <div class="products-filter">
           <button class="filter-btn active" data-filter="all">All (<span id="filterAllCount">1,046+</span>)</button>
-          <button class="filter-btn" data-filter="smartphones">ðŸ“± Phones</button>
-          <button class="filter-btn" data-filter="laptops">ðŸ’» Laptops</button>
+          <button class="filter-btn" data-filter="smartphones"><i class="fas fa-mobile-alt"></i> Phones</button>
+          <button class="filter-btn" data-filter="laptops"><i class="fas fa-laptop"></i> Laptops</button>
           <button class="filter-btn" data-filter="tablets">ðŸ“Ÿ Tablets</button>
           <button class="filter-btn" data-filter="audio">ðŸŽ§ Audio</button>
           <button class="filter-btn" data-filter="wearables">âŒš Wearables</button>
-          <button class="filter-btn" data-filter="accessories">ðŸ”Œ Accessories</button>
+          <button class="filter-btn" data-filter="accessories"><i class="fas fa-search"></i>Œ Accessories</button>
           <button class="filter-btn" data-filter="gaming">ðŸŽ® Gaming</button>
           <button class="filter-btn" data-filter="cameras">ðŸ“· Cameras</button>
-          <button class="filter-btn" data-filter="power">ðŸ”‹ Power</button>
+          <button class="filter-btn" data-filter="power"><i class="fas fa-search"></i>‹ Power</button>
           <button class="filter-btn" data-filter="drones">âœˆï¸ Drones</button>
           <button class="filter-btn" data-filter="smart-home">ðŸ  Smart Home</button>
           <a href="/categories" style="flex-shrink:0;padding:6px 14px;color:#d6b25e;text-decoration:none;font-size:0.7rem;font-weight:600;border:1px solid rgba(214,178,94,0.2);border-radius:50px;background:rgba(214,178,94,0.05);white-space:nowrap;display:inline-flex;align-items:center;gap:4px;">
@@ -2997,7 +2997,7 @@
         <div class="pagination-wrapper" style="display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:40px;">
           <!-- Results info -->
           <div id="resultsInfo" style="color:#7a7870;font-size:0.85rem;">
-            Showing <span id="showingStart">0</span>â€“<span id="showingEnd">0</span> of <span id="totalResults">0</span> products
+            Showing <span id="showingStart">0</span> —<span id="showingEnd">0</span> of <span id="totalResults">0</span> products
           </div>
           
           <!-- Pagination controls -->
@@ -3153,7 +3153,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <div class="footer-logo">PRIMESHIELDHUB 5D</div>
-          <p class="footer-description">PrimeShieldHub Gadgets Limited is a Nigerian technology and commerce company founded by Freedom Evbakoe Amenaghawon â€” a full-stack engineer and technology executive. The company specializes in premium gadgets, technology products, reseller commerce, digital innovation and enterprise solutions.</p>
+          <p class="footer-description">PrimeShieldHub Gadgets Limited is a Nigerian technology and commerce company founded by Freedom Evbakoe Amenaghawon  — a full-stack engineer and technology executive. The company specializes in premium gadgets, technology products, reseller commerce, digital innovation and enterprise solutions.</p>
           <div class="social-links">
             <a href="https://wa.me/2348103535978" target="_blank" rel="noopener" class="social-link"><i class="fab fa-whatsapp"></i></a>
             <a href="https://instagram.com/primeshieldhub" target="_blank" rel="noopener" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -3223,7 +3223,7 @@
   (function() {
       'use strict';
       
-      console.log('ðŸ”§ [FINAL FIX] Applying complete fix...');
+      console.log('<i class="fas fa-search"></i>§ [FINAL FIX] Applying complete fix...');
       
       // ===== 1. CREATE SOUND SYSTEM =====
       function createSoundSystem() {
@@ -3242,7 +3242,7 @@
                       return this.generateSound().then(function(buffer) {
                           this.buffer = buffer;
                           this.isInitialized = true;
-                          console.log('ðŸ”Š Sound ready');
+                          console.log('<i class="fas fa-search"></i>Š Sound ready');
                           return true;
                       }.bind(this));
                   } catch(e) {
@@ -3328,7 +3328,7 @@
           };
           
           window._soundSystemCreated = true;
-          console.log('âœ… Sound system created');
+          console.log('<i class="fas fa-check"></i> Sound system created');
       }
       
       // ===== 2. CREATE TOAST SYSTEM =====
@@ -3358,14 +3358,14 @@
               };
               
               var icons = {
-                  success: 'âœ…',
+                  success: '<i class="fas fa-check"></i>',
                   error: 'âŒ',
                   info: 'â„¹ï¸',
                   warning: 'âš ï¸'
               };
               
               var color = colors[type] || '#ffd700';
-              var icon = icons[type] || 'ðŸ””';
+              var icon = icons[type] || '<i class="fas fa-bell"></i>';
               
               var toast = document.createElement('div');
               toast.className = 'psh-toast';
@@ -3432,7 +3432,7 @@
           };
           
           window._toastSystemCreated = true;
-          console.log('âœ… Toast system created');
+          console.log('<i class="fas fa-check"></i> Toast system created');
       }
       
       // ===== 3. CREATE CART FUNCTIONS =====
@@ -3441,7 +3441,7 @@
           
           // Main addToCart function
           window.addToCart = function(productId) {
-              console.log('ðŸ›’ [Cart] Adding:', productId);
+              console.log('<i class="fas fa-shopping-cart"></i> [Cart] Adding:', productId);
               
               // Find product
               var product = null;
@@ -3512,8 +3512,8 @@
               // Show toast with sound
               var productName = product.name || 'Product';
               var price = product.price || product.sale_price || 0;
-              var msg = 'âœ… Added to cart: ' + productName;
-              if (price > 0) msg += ' (â‚¦' + price.toLocaleString() + ')';
+              var msg = '<i class="fas fa-check"></i> Added to cart: ' + productName;
+              if (price > 0) msg += ' ( ₦' + price.toLocaleString() + ')';
               
               if (typeof window.showToast === 'function') {
                   window.showToast(msg, 'success', 3500);
@@ -3559,7 +3559,7 @@
           };
           
           window._cartFunctionsCreated = true;
-          console.log('âœ… Cart functions created');
+          console.log('<i class="fas fa-check"></i> Cart functions created');
           return true;
       }
       
@@ -3589,7 +3589,7 @@
           // Test functions
           window.testToast = function() {
               if (typeof window.showToast === 'function') {
-                  window.showToast('ðŸ”” Test toast!', 'info', 3000);
+                  window.showToast('<i class="fas fa-bell"></i> Test toast!', 'info', 3000);
               }
           };
           window.testSound = function() {
@@ -3598,7 +3598,7 @@
               }
           };
           
-          console.log('âœ… All systems ready!');
+          console.log('<i class="fas fa-check"></i> All systems ready!');
           console.log('   Test: window.testToast()');
           console.log('   Test: window.testSound()');
           console.log('   Click "Add to Cart" to see it work!');
@@ -3625,7 +3625,7 @@
   (function() {
       'use strict';
       
-      console.log('ðŸ›¡ï¸ Installing error handlers...');
+      console.log('<i class="fas fa-shield-alt"></i> Installing error handlers...');
       
       // 1. Catch and handle errors gracefully
       window.addEventListener('error', function(e) {
@@ -3677,7 +3677,7 @@
           origError.apply(console, arguments);
       };
       
-      console.log('âœ… Error handlers installed - console should be cleaner now');
+      console.log('<i class="fas fa-check"></i> Error handlers installed - console should be cleaner now');
       console.log('â„¹ï¸ Your toast and sound are working perfectly!');
       
   })();
@@ -3794,7 +3794,7 @@
           body: JSON.stringify({ endpoint: subscription.endpoint })
         });
 
-        showToast('ðŸ”• Notifications disabled', 'info');
+        showToast('<i class="fas fa-search"></i>• Notifications disabled', 'info');
         return { success: true, message: 'Unsubscribed successfully' };
       } catch (error) {
         console.error('[Push] Unsubscribe error:', error);
@@ -3862,7 +3862,7 @@
         const saved = await saveSubscription(newSubscription);
         
         if (saved) {
-          showToast('ðŸ”” Notifications enabled! You\'ll receive important updates.', 'success');
+          showToast('<i class="fas fa-bell"></i> Notifications enabled! You\'ll receive important updates.', 'success');
           return { supported: true, subscribed: true, subscription: newSubscription };
         } else {
           return { supported: true, subscribed: false, reason: 'save_failed' };
@@ -3959,7 +3959,7 @@
             this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
             this.buffer = await this.generateSound();
             this.isInitialized = true;
-            console.log('ðŸ”Š Premium notification sound initialized');
+            console.log('<i class="fas fa-search"></i>Š Premium notification sound initialized');
           } catch (e) {
             console.warn('âš ï¸ Audio initialization failed:', e);
           }
@@ -4030,7 +4030,7 @@
             source.connect(this.audioContext.destination);
             source.start();
           } catch (e) {
-            console.debug('ðŸ”‡ Sound playback failed:', e);
+            console.debug('<i class="fas fa-search"></i>‡ Sound playback failed:', e);
           }
         }
 
@@ -4061,7 +4061,7 @@
       document.addEventListener('click', function initSound() {
         if (!window.notificationSound.isInitialized) {
           window.notificationSound.init().then(() => {
-            console.log('ðŸ”Š Sound engine ready');
+            console.log('<i class="fas fa-search"></i>Š Sound engine ready');
           }).catch(() => {});
         }
         document.removeEventListener('click', initSound);
@@ -4071,7 +4071,7 @@
       document.addEventListener('touchstart', function initSoundTouch() {
         if (!window.notificationSound.isInitialized) {
           window.notificationSound.init().then(() => {
-            console.log('ðŸ”Š Sound engine ready (touch)');
+            console.log('<i class="fas fa-search"></i>Š Sound engine ready (touch)');
           }).catch(() => {});
         }
         document.removeEventListener('touchstart', initSoundTouch);
@@ -4172,7 +4172,7 @@
       };
 
       // Expose sound for use in other scripts
-      console.log('ðŸ”Š Premium notification sound loaded');
+      console.log('<i class="fas fa-search"></i>Š Premium notification sound loaded');
       console.log('   Use: window.notificationSound.play()');
       console.log('   Toggle: window.notificationSound.toggle()');
       
@@ -4194,7 +4194,7 @@
     (function() {
       'use strict';
       
-      console.log('ðŸš€ Initializing 5D Quantum Hero...');
+      console.log('<i class="fas fa-rocket"></i><i class="fas fa-rocket"></i> Initializing 5D Quantum Hero...');
 
       var container = document.getElementById('five-d-canvas');
       if (!container) {
@@ -4539,7 +4539,7 @@
             );
           });
 
-          console.log('âœ… 5D Quantum Hero initialized successfully!');
+          console.log('<i class="fas fa-check"></i> 5D Quantum Hero initialized successfully!');
         } catch (err) {
           console.error('âŒ Failed to initialize 5D scene:', err);
         }
@@ -4639,7 +4639,7 @@
           html += '    <div class="card-front">';
           html += '      <img src="' + imageUrl + '" alt="' + product.name + '" loading="lazy" onerror="this.src=\'/company_logo.png\'">';
           html += '      <div class="floating-product-name">' + product.name + '</div>';
-          html += '      <div class="floating-product-price">â‚¦' + price.toLocaleString() + '</div>';
+          html += '      <div class="floating-product-price"> ₦' + price.toLocaleString() + '</div>';
           html += '    </div>';
           html += '    <div class="card-back">';
           html += '      <div style="font-size:11px;font-weight:700;color:#d6b25e;margin-bottom:8px;">' + (product.category || 'General') + '</div>';
@@ -4708,11 +4708,11 @@
           });
         }
         
-        console.log('âœ… Floating products loaded with 3D flip and glow effects');
+        console.log('<i class="fas fa-check"></i> Floating products loaded with 3D flip and glow effects');
       }
       
       // 7. Generate device particles
-      var devices = ['ðŸ“±', 'ðŸ’»', 'ðŸŽ§', 'âŒš', 'ðŸ“·', 'ðŸŽ®', 'ðŸ”Œ', 'ðŸ“Ÿ', 'ðŸ“¸', 'ðŸŽµ', 'ðŸ–¥ï¸', 'ðŸ“¡', 'ðŸŽ¯', 'âš¡', 'ðŸ’Ž'];
+      var devices = ['<i class="fas fa-mobile-alt"></i>', '<i class="fas fa-laptop"></i>', 'ðŸŽ§', 'âŒš', 'ðŸ“·', 'ðŸŽ®', '<i class="fas fa-search"></i>Œ', 'ðŸ“Ÿ', 'ðŸ“¸', 'ðŸŽµ', 'ðŸ–¥ï¸', 'ðŸ“¡', ' <i class="fas fa-bullseye"></i>', '<i class="fas fa-bolt"></i>', 'ðŸ’Ž'];
       var particleContainer = document.getElementById('deviceParticles');
       
       if (particleContainer) {
@@ -4733,7 +4733,7 @@
       // 8. Load products
       loadFloatingProducts();
       
-      console.log('âœ… Enhanced 5D Hero - All features loaded');
+      console.log('<i class="fas fa-check"></i> Enhanced 5D Hero - All features loaded');
       console.log('   âœ“ Dynamic Product Loading (API)');
       console.log('   âœ“ 3D Flip on Hover');
       console.log('   âœ“ Glow Effects');
@@ -4887,7 +4887,7 @@
               '</div>' +
               '<img src="' + imageUrl + '" alt="' + (p.name || 'Product') + '" class="product-image" onerror="this.src=\'/company_logo.png\'" loading="lazy">' +
               '<div class="product-title">' + (p.name || 'Unnamed Product') + '</div>' +
-              '<div class="product-price">â‚¦' + price.toLocaleString() + '</div>' +
+              '<div class="product-price"> ₦' + price.toLocaleString() + '</div>' +
               '<div class="product-rating">' + stars + ' (' + rating.toFixed(1) + ')</div>' +
               '<button class="product-btn" onclick="event.stopPropagation(); window.addToCart(\'' + productId + '\')"><i class="fas fa-cart-plus"></i> Add to Cart</button>' +
               '<a href="/product-detail.html?id=' + encodeURIComponent(productId) + '" class="product-btn" style="margin-top:6px;background:rgba(214,178,94,0.15);color:#d6b25e;text-decoration:none;display:inline-block;text-align:center;border:1px solid rgba(214,178,94,0.2);" onclick="event.stopPropagation();">View Details</a>' +
@@ -4938,7 +4938,7 @@
         // First page
         if (startPage > 1) {
           html += '<button class="page-btn" data-page="1">1</button>';
-          if (startPage > 2) html += '<span style="color:#7a7870;padding:0 4px;">â€¦</span>';
+          if (startPage > 2) html += '<span style="color:#7a7870;padding:0 4px;">"¦</span>';
         }
 
         for (var i = startPage; i <= endPage; i++) {
@@ -4946,7 +4946,7 @@
         }
 
         if (endPage < totalPages) {
-          if (endPage < totalPages - 1) html += '<span style="color:#7a7870;padding:0 4px;">â€¦</span>';
+          if (endPage < totalPages - 1) html += '<span style="color:#7a7870;padding:0 4px;">"¦</span>';
           html += '<button class="page-btn" data-page="' + totalPages + '">' + totalPages + '</button>';
         }
 
@@ -5024,7 +5024,7 @@
 
           if (products.length > 0) {
             window._apiProducts = products;
-            console.log('âœ… Loaded ' + products.length + ' products from API');
+            console.log('<i class="fas fa-check"></i> Loaded ' + products.length + ' products from API');
           } else {
             console.warn('âš ï¸ API returned empty, using fallback');
             window._apiProducts = FALLBACK_PRODUCTS;
@@ -5285,14 +5285,14 @@
           var price = product.price || product.sale_price || 0;
           
           if (typeof showToastWithSound === 'function') {
-            showToastWithSound('âœ… Added to cart: ' + productName + ' (â‚¦' + price.toLocaleString() + ')', 'success');
+            showToastWithSound('<i class="fas fa-check"></i> Added to cart: ' + productName + ' ( ₦' + price.toLocaleString() + ')', 'success');
           } else if (typeof showToast === 'function') {
-            showToast('âœ… Added to cart: ' + productName, 'success');
+            showToast('<i class="fas fa-check"></i> Added to cart: ' + productName, 'success');
           } else {
             // Fallback notification
             var toast = document.createElement('div');
             toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#12122a;color:#fff;padding:14px 28px;border-radius:12px;border-left:4px solid #00e5ff;box-shadow:0 8px 30px rgba(0,0,0,0.5);z-index:99999;font-family:Inter,sans-serif;font-size:14px;max-width:90%;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.05);';
-            toast.textContent = 'âœ… Added to cart: ' + productName;
+            toast.textContent = '<i class="fas fa-check"></i> Added to cart: ' + productName;
             document.body.appendChild(toast);
             setTimeout(function() {
               toast.style.opacity = '0';
@@ -5404,7 +5404,7 @@
         }
       });
       
-      console.log('âœ… Cart functions loaded - addToCart, addToWishlist, viewProduct');
+      console.log('<i class="fas fa-check"></i> Cart functions loaded - addToCart, addToWishlist, viewProduct');
     })();
   </script>
 
@@ -5525,13 +5525,13 @@
         var url = isStaff ? '/staff/' : '/';
         
         if (isIOS) {
-          alert('ðŸ“± To install ' + appName + ' on your iPhone:\n\n' +
+          alert('<i class="fas fa-mobile-alt"></i> To install ' + appName + ' on your iPhone:\n\n' +
                 '1. Tap the Share button (â¬†ï¸) at the bottom\n' +
                 '2. Scroll down and tap "Add to Home Screen"\n' +
                 '3. Tap "Add" in the top right corner\n\n' +
                 'Then open from your home screen!');
         } else {
-          alert('ðŸ“± To install ' + appName + ':\n\n' +
+          alert('<i class="fas fa-mobile-alt"></i> To install ' + appName + ':\n\n' +
                 '1. Open Chrome browser\n' +
                 '2. Tap the menu (â‹®) in the top right\n' +
                 '3. Select "Install App" or "Add to Home Screen"\n' +
@@ -5547,7 +5547,7 @@
         if (p1) p1.remove();
         if (p2) p2.remove();
         if (typeof showToast === 'function') {
-          showToast('âœ… PrimeShieldHub installed!', 'success');
+          showToast('<i class="fas fa-check"></i> PrimeShieldHub installed!', 'success');
         }
       });
 
@@ -5591,7 +5591,7 @@
               body: JSON.stringify(orderData)
             });
             return cache.put(request, new Response('pending')).then(function() {
-              showToast('ðŸ“¦ Order saved offline. Will submit when online.', 'info');
+              showToast('<i class="fas fa-box"></i>Order saved offline. Will submit when online.', 'info');
               if ('SyncManager' in window) {
                 return navigator.serviceWorker.ready.then(function(registration) {
                   return registration.sync.register('sync-orders');
@@ -5712,7 +5712,7 @@
         setTimeout(addStaffPortalLink, 1000);
         setTimeout(addStaffMobileLink, 1200);
         
-        console.log('ðŸ“± PWA Install Support Loaded');
+        console.log('<i class="fas fa-mobile-alt"></i> PWA Install Support Loaded');
         console.log('ðŸ“‹ Staff user detected:', checkStaffStatus());
       });
 
@@ -5866,7 +5866,7 @@
       setTimeout(function() { updateAuthUI(); }, 3000);
       window.addEventListener('storage', function() { setTimeout(updateAuthUI, 200); });
       
-      console.log('PrimeShieldHub v13.7 â€” Ultimate 5D Hero with Dynamic Products, 3D Flip, Glow Effects & Speed Control');
+      console.log('PrimeShieldHub v13.7  — Ultimate 5D Hero with Dynamic Products, 3D Flip, Glow Effects & Speed Control');
     })();
   </script>
 

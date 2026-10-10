@@ -1155,7 +1155,7 @@
                     Material guides · Procurement insights "” all in one place.
                 </p>
                 <div class="quantum-search">
-                    <span style="color:var(--cyan); margin-right:0.8rem; opacity:0.7;">âš¡</span>
+                    <span style="color:var(--cyan); margin-right:0.8rem; opacity:0.7;"><i class="fas fa-bolt"></i></span>
                     <input type="text" placeholder="Ask the Knowledge Base..." id="searchInput" />
                     <button class="btn-prime" style="padding:0.6rem 1.8rem; border-radius:4rem;" id="searchButton">
                         <i class="fas fa-arrow-right"></i> ASK
@@ -1164,7 +1164,7 @@
                 <div style="display:flex; gap:1.5rem; flex-wrap:wrap; margin-top:1rem; color:var(--text-muted); font-size:0.8rem;">
                     <span><span class="gold-text">✦</span> <span id="solvedQueries">3,247</span> solved queries</span>
                     <span><span class="cyan-text">●ˆ</span> <span id="activeUsers">24</span> online now</span>
-                    <span><span class="gold-text">âš¡</span> <span id="avgResponse">18</span> min avg response</span>
+                    <span><span class="gold-text"><i class="fas fa-bolt"></i></span> <span id="avgResponse">18</span> min avg response</span>
                 </div>
             </div>
             <div style="flex:1; display:flex; justify-content:center;">
@@ -1172,7 +1172,7 @@
                     <div class="core-pulse"></div>
                     <div class="hologram-tag">ðŸ“ structural AI</div>
                     <div class="hologram-tag">ðŸ§¾ BOQ generator</div>
-                    <div class="hologram-tag">ðŸ“¦ supply chain</div>
+                    <div class="hologram-tag"><i class="fas fa-box"></i>supply chain</div>
                     <div style="position:absolute; bottom:0%; left:20%; background:rgba(212,175,55,0.08); padding:0.3rem 0.9rem; border-radius:2rem; border:1px solid var(--gold-border); font-size:0.6rem; color:var(--gold);">
                         <span class="live-dot" style="width:5px;height:5px;display:inline-block;background:var(--accent-success);border-radius:50%;animation:pulseDot 1.5s infinite;margin-right:0.3rem;"></span>
                         live · 128 nodes
@@ -1482,9 +1482,9 @@
         ],
         featured: [
             { badge: 'Trending', title: 'â±ï¸ Delivery Windows', excerpt: 'Real-time logistics & ETA across Nigeria with GPS tracking', link: 'View delivery guide →' },
-            { badge: 'Popular', title: 'ðŸ”„ 16mm Rods for Duplex', excerpt: 'Structural guide & load tables for reinforcement engineering', link: 'Engineer\'s notes →' },
-            { badge: 'Updated', title: 'ðŸ“¦ Bulk Cement Pricing', excerpt: 'Wholesale & volume discounts for contractors, updated daily', link: 'Get quote →' },
-            { badge: 'Alert', title: 'âš¡ Price Change Alert', excerpt: 'Steel prices updated: 12mm rebar now at ₦785,000/ton', link: 'View pricing →' }
+            { badge: 'Popular', title: '<i class="fas fa-search"></i>„ 16mm Rods for Duplex', excerpt: 'Structural guide & load tables for reinforcement engineering', link: 'Engineer\'s notes →' },
+            { badge: 'Updated', title: '<i class="fas fa-box"></i>Bulk Cement Pricing', excerpt: 'Wholesale & volume discounts for contractors, updated daily', link: 'Get quote →' },
+            { badge: 'Alert', title: '<i class="fas fa-bolt"></i> Price Change Alert', excerpt: 'Steel prices updated: 12mm rebar now at ₦785,000/ton', link: 'View pricing →' }
         ],
         faq: [
             { 
@@ -1585,7 +1585,7 @@
         container.innerHTML = DATA.faq.map((f, i) => `
             <div class="faq-accordion ${i === 0 ? 'open' : ''}" onclick="toggleFAQ(this)">
                 <div class="faq-header">
-                    <span><span class="faq-icon">ðŸ”¹</span> ${f.q}</span>
+                    <span><span class="faq-icon"><i class="fas fa-search"></i>¹</span> ${f.q}</span>
                     <span class="faq-toggle"><i class="fas fa-chevron-down"></i></span>
                 </div>
                 <div class="faq-content">
@@ -1647,7 +1647,7 @@
     function renderKnowledgeGraph() {
         const container = document.getElementById('knowledgeGraph');
         const nodes = [
-            { id: 'steel', label: 'Steel', x: 15, y: 25, icon: 'ðŸ”©' },
+            { id: 'steel', label: 'Steel', x: 15, y: 25, icon: '<i class="fas fa-search"></i>©' },
             { id: 'foundation', label: 'Foundation', x: 35, y: 15, icon: 'ðŸ—ï¸' },
             { id: 'concrete', label: 'Concrete', x: 55, y: 20, icon: 'ðŸ§±' },
             { id: 'columns', label: 'Columns', x: 20, y: 55, icon: 'ðŸ›ï¸' },
@@ -1763,7 +1763,7 @@
                 
                 `<p><span class="highlight">â£ response:</span> For <strong>${query}</strong>, I've analyzed the procurement requirements:</p>
                 <div style="display:flex; flex-wrap:wrap; gap:0.5rem; margin-top:0.5rem;">
-                    <span style="background:rgba(0,0,0,0.3);padding:0.2rem 0.8rem;border-radius:2rem;border:1px solid var(--gold-border);font-size:0.8rem;">ðŸ“¦ <span style="color:var(--gold);">Bulk Discount</span> · 15% off</span>
+                    <span style="background:rgba(0,0,0,0.3);padding:0.2rem 0.8rem;border-radius:2rem;border:1px solid var(--gold-border);font-size:0.8rem;"><i class="fas fa-box"></i><span style="color:var(--gold);">Bulk Discount</span> · 15% off</span>
                     <span style="background:rgba(0,0,0,0.3);padding:0.2rem 0.8rem;border-radius:2rem;border:1px solid var(--gold-border);font-size:0.8rem;">ðŸšš <span style="color:var(--gold);">Delivery</span> · 2-3 days</span>
                     <span style="background:rgba(0,0,0,0.3);padding:0.2rem 0.8rem;border-radius:2rem;border:1px solid var(--gold-border);font-size:0.8rem;">ðŸ“‹ <span style="color:var(--gold);">BOQ Ready</span> · Download now</span>
                 </div>
@@ -1940,9 +1940,9 @@
     // =========================================================================
     function init() {
         console.log('ðŸ§  BuildMart · Knowledge Platform v2.4');
-        console.log('ðŸ“š Knowledge Base: 768 articles · 6 categories');
-        console.log('âš¡ AI Engine: Online · 24/7');
-        console.log('âŒ¨ï¸ Shortcut: Ctrl+K to focus search');
+        console.log('<i class="fas fa-chart-bar"></i> Knowledge Base: 768 articles · 6 categories');
+        console.log('<i class="fas fa-bolt"></i> AI Engine: Online · 24/7');
+        console.log('<i class="fas fa-sparkles"></i>ï¸ Shortcut: Ctrl+K to focus search');
         console.log('ðŸ› ï¸ Engineering Tools: 8 calculators ready');
         
         setupNavigation();
