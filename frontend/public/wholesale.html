@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <meta name="description" content="PrimeShieldHub Wholesale Portal ¢€" Exclusive bulk pricing for authorized resellers. Access premium gadgets at wholesale rates with verified wholesale codes.">
+    <meta name="description" content="PrimeShieldHub Wholesale Portal - Exclusive bulk pricing for authorized resellers. Access premium gadgets at wholesale rates with verified wholesale codes.">
     <meta name="keywords" content="PrimeShieldHub Wholesale, Bulk Gadgets Nigeria, Reseller Pricing, Wholesale Electronics Nigeria, PrimeShieldHub Reseller, Wholesale Smartphones Nigeria">
     <meta name="author" content="Freedom Evbakoe Amenaghawon">
     <meta name="robots" content="index, follow">
@@ -11,20 +11,13 @@
     <link rel="canonical" href="https://primeshieldhub.com/wholesale">
     <link rel="icon" href="/company_logo.png">
 
-    <!-- Fonts & Icons -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
-    <!-- Auth Storage -->
-    <script type="module" src="../js/auth-storage.js"></script></script>
+    <script type="module" src="../js/auth-storage.js"></script>
 
     <style>
-        /* ================================================================ */
-        /* WHOLESALE PORTAL - ULTRA MODERN THEME                           */
-        /* ================================================================ */
-        
         :root {
             --bg-deep: #060608;
             --bg-primary: #0a0a0d;
@@ -81,7 +74,6 @@
             flex-direction: column;
         }
 
-        /* Ambient background layers */
         body::before {
             content: '';
             position: fixed;
@@ -138,7 +130,7 @@
         .section-title .gold { color: var(--gold-core); }
         .section-subtitle { color: var(--text-muted); font-size: 0.95rem; max-width: 600px; margin: 0 auto; }
 
-        /* ===== HEADER ===== */
+        /* HEADER */
         .page-header {
             padding: 20px 0;
             border-bottom: 1px solid rgba(255,255,255,0.04);
@@ -166,12 +158,12 @@
         .header-link { color: var(--text-muted); text-decoration: none; font-size: 0.8rem; font-family: var(--font-mono); transition: color var(--duration-fast); display: flex; align-items: center; gap: 5px; }
         .header-link:hover { color: var(--gold-core); }
 
-        /* ===== HERO ===== */
+        /* HERO */
         .wholesale-hero { padding: 100px 0 60px; text-align: center; position: relative; }
         .hero-orb { position: absolute; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(214,178,94,0.06) 0%, transparent 65%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: orbPulse 10s ease-in-out infinite; }
         @keyframes orbPulse { 0%, 100% { opacity: 0.35; transform: translate(-50%, -50%) scale(1); } 50% { opacity: 0.6; transform: translate(-50%, -50%) scale(1.07); } }
 
-        /* ===== ACCESS GATE ===== */
+        /* ACCESS GATE */
         .access-gate-overlay {
             position: fixed;
             inset: 0;
@@ -214,7 +206,7 @@
         .gate-error { color: var(--danger); font-size: 0.8rem; margin-bottom: 10px; min-height: 22px; font-family: var(--font-mono); }
         .gate-success { color: var(--success); font-size: 0.8rem; margin-bottom: 10px; font-family: var(--font-mono); }
 
-        /* ===== CARDS ===== */
+        /* CARDS */
         .card {
             background: var(--bg-card);
             border: 1px solid var(--gold-border-subtle);
@@ -228,14 +220,14 @@
         .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
         .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px; }
 
-        /* ===== TIERS ===== */
+        /* TIERS */
         .tier-card { text-align: center; padding: 30px 20px; }
         .tier-icon { font-size: 1.8rem; color: var(--gold-core); margin-bottom: 10px; }
         .tier-qty { font-family: var(--font-mono); font-size: 2.2rem; font-weight: 700; color: var(--gold-core); }
         .tier-discount { font-size: 1.3rem; color: var(--success); margin: 6px 0; font-weight: 700; }
         .tier-label { color: var(--text-muted); font-size: 0.8rem; }
 
-        /* ===== PRODUCTS ===== */
+        /* PRODUCTS */
         .product-card { overflow: hidden; display: flex; flex-direction: column; }
         .product-card .img-wrap { position: relative; overflow: hidden; background: var(--bg-elevated); height: 200px; }
         .product-card .img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform var(--duration-medium); }
@@ -263,12 +255,12 @@
         .qty-btn:hover { color: var(--gold-core); background: rgba(255,255,255,0.04); }
         .qty-val { width: 50px; text-align: center; font-family: var(--font-mono); font-weight: 600; color: var(--text-primary); font-size: 0.95rem; }
 
-        /* ===== SUMMARY ===== */
+        /* SUMMARY */
         .summary-card { position: sticky; top: 100px; }
         .summary-item { display: flex; justify-content: space-between; padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.03); font-size: 0.9rem; }
         .summary-total { font-family: var(--font-mono); font-size: 1.4rem; font-weight: 700; color: var(--gold-core); text-align: right; margin-top: 16px; padding-top: 12px; border-top: 1px solid var(--gold-border-subtle); }
 
-        /* ===== BUTTONS ===== */
+        /* BUTTONS */
         .btn-primary {
             display: inline-flex;
             align-items: center;
@@ -309,7 +301,7 @@
         }
         .btn-secondary:hover { background: var(--gold-glow-subtle); transform: translateY(-2px); border-color: var(--gold-border-bright); }
 
-        /* ===== TOAST ===== */
+        /* TOAST */
         .toast {
             position: fixed;
             bottom: 30px;
@@ -334,7 +326,7 @@
         .toast.success { border-color: var(--success); }
         .toast.error { border-color: var(--danger); }
 
-        /* ===== LOADING ===== */
+        /* LOADING */
         .loading-spinner {
             width: 40px;
             height: 40px;
@@ -346,7 +338,7 @@
         }
         @keyframes spin { to { transform: rotate(360deg); } }
 
-        /* ===== MODAL ===== */
+        /* MODAL */
         .modal-overlay {
             position: fixed;
             inset: 0;
@@ -379,7 +371,7 @@
         .modal-input:focus, .modal-textarea:focus { border-color: var(--gold-border-bright); box-shadow: 0 0 0 3px var(--gold-glow-subtle); }
         .modal-textarea { resize: vertical; min-height: 80px; }
 
-        /* ===== LIVE INDICATOR ===== */
+        /* LIVE INDICATOR */
         .live-dot {
             display: inline-block;
             width: 8px;
@@ -394,7 +386,7 @@
             50% { opacity: 0.3; transform: scale(0.8); }
         }
 
-        /* ===== FOOTER ===== */
+        /* FOOTER */
         .site-footer { background: var(--bg-elevated); border-top: 1px solid rgba(255,255,255,0.04); padding: 50px 0 25px; margin-top: auto; }
         .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 30px; margin-bottom: 30px; }
         .footer-grid h4 { font-family: var(--font-mono); font-size: 0.7rem; color: var(--gold-core); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 14px; }
@@ -402,7 +394,7 @@
         .footer-grid a:hover { color: var(--gold-core); }
         .footer-bottom { text-align: center; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.03); color: var(--text-muted); font-size: 0.78rem; }
 
-        /* ===== RESPONSIVE ===== */
+        /* RESPONSIVE */
         @media(max-width: 968px) { .summary-card { position: static; } }
         @media(max-width: 768px) {
             .container { padding: 0 16px; }
@@ -446,10 +438,9 @@
 </head>
 <body>
 
-<!-- ==================== TOAST ==================== -->
 <div class="toast" id="toast"></div>
 
-<!-- ==================== ACCESS GATE ==================== -->
+<!-- ACCESS GATE -->
 <div class="access-gate-overlay" id="accessGate">
     <div class="gate-card">
         <div class="gate-icon"><i class="fas fa-fingerprint"></i></div>
@@ -458,15 +449,15 @@
         <input type="text" id="wholesaleCode" class="gate-input" placeholder="Enter Wholesale Code" autocomplete="off" autofocus>
         <div class="gate-error" id="gateError"></div>
         <div class="gate-success" id="gateSuccess"></div>
-        <button class="btn-primary" id="verifyCodeBtn" style="margin-bottom:10px;"><i class="fas fa-key"></i> Verify & Enter</button>
-        <button class="btn-secondary" id="requestAccessBtn"><i class="fas fa-file-invoice"></i> Request Wholesale Access</button>
+        <button type="button" class="btn-primary" id="verifyCodeBtn" style="margin-bottom:10px;"><i class="fas fa-key"></i> Verify &amp; Enter</button>
+        <button type="button" class="btn-secondary" id="requestAccessBtn"><i class="fas fa-file-invoice"></i> Request Wholesale Access</button>
         <p style="color:var(--text-muted);font-size:0.7rem;margin-top:12px;font-family:var(--font-mono);">
             <span class="live-dot"></span> Secured by PrimeShieldHub · RC 9283954
         </p>
     </div>
 </div>
 
-<!-- ==================== HEADER ==================== -->
+<!-- HEADER -->
 <header class="page-header">
     <div class="header-inner">
         <a href="/" class="header-brand">
@@ -485,9 +476,7 @@
 </header>
 
 <main>
-    <!-- ==================== WHOLESALE CONTENT ==================== -->
     <div id="wholesaleContent" style="display:none;">
-        <!-- Hero -->
         <section class="wholesale-hero">
             <div class="hero-orb"></div>
             <div class="container">
@@ -495,19 +484,17 @@
                 <h1 class="section-title">Bulk <span class="gold">Pricing</span> &amp; Reseller <span class="gold">Rates</span></h1>
                 <p class="section-subtitle">Exclusive wholesale pricing for authorized resellers. The more you buy, the more you save. All products 100% authentic with full warranty.</p>
                 <div style="margin-top:16px; font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
-                    <span id="discountDisplay">¡ Your discount: 10%</span>
+                    <span id="discountDisplay">Your discount: 10%</span>
                 </div>
             </div>
         </section>
 
-        <!-- Pricing Tiers -->
         <section style="padding-bottom:40px;">
             <div class="container">
                 <div class="grid-4" id="tiersGrid"></div>
             </div>
         </section>
 
-        <!-- Products + Summary -->
         <section class="section" style="background:var(--bg-primary);padding-top:50px;">
             <div class="container">
                 <div class="section-header">
@@ -526,10 +513,10 @@
                         <p style="color:var(--text-muted);font-size:0.78rem;margin-bottom:16px;">Discounts applied at checkout</p>
                         <div id="bulkSummaryItems"><p style="color:var(--text-muted);font-size:0.85rem;">No items added yet. Use the + button on products to add them.</p></div>
                         <div class="summary-total" id="bulkTotal">₦0</div>
-                        <button class="btn-primary" id="checkoutBtn" style="margin-top:16px;" disabled onclick="window.checkout()">
+                        <button type="button" class="btn-primary" id="checkoutBtn" style="margin-top:16px;" disabled>
                             <i class="fas fa-shopping-cart"></i> Add to Cart &amp; Checkout
                         </button>
-                        <button class="btn-secondary" id="requestQuoteBtn" style="margin-top:8px;">
+                        <button type="button" class="btn-secondary" id="requestQuoteBtn" style="margin-top:8px;">
                             <i class="fas fa-file-invoice"></i> Request Custom Quote
                         </button>
                     </div>
@@ -539,7 +526,7 @@
     </div>
 </main>
 
-<!-- ==================== REQUEST ACCESS MODAL ==================== -->
+<!-- REQUEST ACCESS MODAL -->
 <div class="modal-overlay" id="requestAccessModal">
     <div class="modal-box">
         <h3>Request <span class="gold-gradient">Wholesale Access</span></h3>
@@ -555,7 +542,7 @@
     </div>
 </div>
 
-<!-- ==================== CUSTOM QUOTE MODAL ==================== -->
+<!-- CUSTOM QUOTE MODAL -->
 <div class="modal-overlay" id="quoteModal">
     <div class="modal-box">
         <h3>Request <span class="gold-gradient">Custom Quote</span></h3>
@@ -571,7 +558,7 @@
     </div>
 </div>
 
-<!-- ==================== FOOTER ==================== -->
+<!-- FOOTER -->
 <footer class="site-footer">
     <div class="container">
         <div class="footer-grid">
@@ -604,7 +591,7 @@
             </div>
         </div>
         <div class="footer-bottom">
-            ‚© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954 · TIN 2621297539968. All Rights Reserved.
+            © <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954 · TIN 2621297539968. All Rights Reserved.
             <span style="display:block; margin-top:8px; font-size:0.6rem; color:var(--text-muted);">
                 <span class="live-dot"></span> Live · Real-time pricing
             </span>
@@ -612,8 +599,7 @@
     </div>
 </footer>
 
-<!-- Auth Storage Script (for cross-site consistency) -->
-<script type="module" src="../js/auth-storage.js"></script></script>
+<script type="module" src="../js/auth-storage.js"></script>
 
 <script>
     // ================================================================ //
@@ -708,10 +694,7 @@
             }
         }
 
-        // ================================================================ //
-        // HELPERS                                                         //
-        // ================================================================ //
-
+        // ===== HELPERS =====
         function formatNGN(amount) {
             return '₦' + Number(amount).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
@@ -734,7 +717,7 @@
             localStorage.setItem('wholesale_authorized', 'true');
             localStorage.setItem('wholesale_discount', String(userDiscount));
             if (discountDisplay) {
-                discountDisplay.textContent = '¡ Your discount: ' + userDiscount + '%';
+                discountDisplay.textContent = 'Your discount: ' + userDiscount + '%';
             }
             accessGate.style.display = 'none';
             wholesaleContent.style.display = 'block';
@@ -742,10 +725,7 @@
             renderTiers();
         }
 
-        // ================================================================ //
-        // DISCOUNT LOGIC                                                   //
-        // ================================================================ //
-
+        // ===== DISCOUNT LOGIC =====
         function getDiscount(qty) {
             const baseMultiplier = (100 - userDiscount) / 100;
             if (qty >= 100) return 1 - (baseMultiplier * 0.80);
@@ -759,10 +739,7 @@
             return Math.round(product.price * (1 - discount));
         }
 
-        // ================================================================ //
-        // RENDER FUNCTIONS                                                 //
-        // ================================================================ //
-
+        // ===== RENDER FUNCTIONS =====
         function renderTiers() {
             const tiers = [
                 { min: 10, max: 49, discount: Math.round(userDiscount * 0.9), icon: 'fa-layer-group' },
@@ -798,7 +775,7 @@
 
                 return '<div class="card product-card" style="padding:0;">' +
                     '<div class="img-wrap">' +
-                    '<img src="' + (product.image_url || '/company_logo.png') + '" alt="' + product.name + '" loading="lazy" onerror="this.src=\'/company_logo.png\'">' +
+                    '<img src="' + (product.image_url || product.image || '/company_logo.png') + '" alt="' + product.name + '" loading="lazy" onerror="this.src=\'/company_logo.png\'">' +
                     (qty >= 10 ? '<span class="discount-badge">' + savingsPercent + '% OFF</span>' : '') +
                     '</div>' +
                     '<div class="product-body">' +
@@ -808,9 +785,9 @@
                     '<div class="bulk">Bulk: ' + formatNGN(bulkPrice) + '/unit</div>' +
                     (qty >= 10 ? '<div class="savings"><i class="fas fa-tag"></i> You save ' + formatNGN((product.price - bulkPrice) * qty) + '</div>' : '') +
                     '<div class="qty-row">' +
-                    '<button class="qty-btn" onclick="window.updateBulkItem(\'' + product.id + '\', ' + (qty - 1) + ')">¢Ë†"™</button>' +
+                    '<button type="button" class="qty-btn" onclick="window.updateBulkItem(\'' + product.id + '\', ' + (qty - 1) + ')">−</button>' +
                     '<span class="qty-val">' + qty + '</span>' +
-                    '<button class="qty-btn" onclick="window.updateBulkItem(\'' + product.id + '\', ' + (qty + 1) + ')">+</button>' +
+                    '<button type="button" class="qty-btn" onclick="window.updateBulkItem(\'' + product.id + '\', ' + (qty + 1) + ')">+</button>' +
                     '</div>' +
                     '</div>' +
                     '</div>';
@@ -830,19 +807,16 @@
             bulkSummaryItems.innerHTML = items.map(function(item) {
                 var itemTotal = item.bulkPrice * item.quantity;
                 total += itemTotal;
-                return '<div class="summary-item"><span>' + item.name + ' ƒ"” ' + item.quantity + '</span><span>' + formatNGN(itemTotal) + '</span></div>';
+                return '<div class="summary-item"><span>' + item.name + ' × ' + item.quantity + '</span><span>' + formatNGN(itemTotal) + '</span></div>';
             }).join('');
 
             bulkTotalEl.textContent = formatNGN(total);
             checkoutBtn.disabled = false;
         }
 
-        // ================================================================ //
-        // ACTIONS                                                          //
-        // ================================================================ //
-
+        // ===== ACTIONS =====
         window.updateBulkItem = function(productId, quantity) {
-            var product = wholesaleProducts.find(function(p) { return p.id === productId; });
+            var product = wholesaleProducts.find(function(p) { return String(p.id) === String(productId); });
             if (!product) return;
 
             if (quantity <= 0) {
@@ -854,7 +828,7 @@
                     name: product.name,
                     price: product.price,
                     quantity: quantity,
-                    image: product.image_url,
+                    image: product.image_url || product.image,
                     category: product.category,
                     bulkPrice: bulkPrice
                 };
@@ -863,19 +837,17 @@
             renderSummary();
         };
 
-        window.checkout = function() {
+        function performCheckout() {
             var items = Object.values(bulkCart).filter(function(i) { return i.quantity > 0; });
             if (items.length === 0) {
                 showToast('<i class="fas fa-exclamation-circle"></i> No items in your bulk order', 'error');
                 return;
             }
 
-            // Get existing cart
             var cart = JSON.parse(localStorage.getItem('psh_cart') || '[]');
 
-            // Add bulk items
             items.forEach(function(item) {
-                var existing = cart.findIndex(function(c) { return c.id === item.id; });
+                var existing = cart.findIndex(function(c) { return String(c.id) === String(item.id); });
                 if (existing >= 0) {
                     cart[existing].quantity += item.quantity;
                     cart[existing].price = item.bulkPrice;
@@ -894,58 +866,81 @@
 
             localStorage.setItem('psh_cart', JSON.stringify(cart));
 
-            // Dispatch cart update event
             var event = new CustomEvent('cartUpdated', {
                 detail: { cart: cart, totalItems: cart.reduce(function(s, i) { return s + i.quantity; }, 0) }
             });
             window.dispatchEvent(event);
 
-            // Clear bulk cart
             bulkCart = {};
             renderProducts();
             renderSummary();
 
             showToast('<i class="fas fa-check-circle"></i> Order added to cart! Redirecting...', 'success');
             setTimeout(function() {
-                window.location\.href\ =\ '/cart\';
+                window.location.href = '/cart';
             }, 1200);
-        };
+        }
 
-        // ================================================================ //
-        // API FUNCTIONS                                                    //
-        // ================================================================ //
-
+        // ===== API FUNCTIONS =====
         async function verifyWholesaleCode(code) {
             try {
                 // Try real API first
                 var data = await apiCall('/wholesale/verify-code', 'POST', { code: code });
-                if (data && data.valid) {
-                    return data;
+                // Backend returns {success, verified, tier, discount, description, ...}
+                if (data && (data.verified === true || data.success === true)) {
+                    return {
+                        valid: true,
+                        tier: data.tier,
+                        discount: data.discount,
+                        description: data.description,
+                        code: data.code,
+                        message: data.message
+                    };
                 }
-                return { valid: false };
+                return { valid: false, error: data.error || 'Invalid code' };
             } catch (e) {
-                console.warn('API verification failed, using fallback:', e.message);
-                // Fallback hardcoded codes (only if API fails)
-                var fallbackCodes = {
-                    'WHOLESALE2026': { valid: true, discount: 10, description: 'Standard Wholesale Access' },
-                    'PRIMEBULK': { valid: true, discount: 15, description: 'Bulk Reseller Access' },
-                    'RESELLER100': { valid: true, discount: 20, description: 'Premium Reseller Access' },
-                    'PSHWHOLESALE': { valid: true, discount: 10, description: 'General Wholesale Access' }
-                };
-                return fallbackCodes[code] || { valid: false };
+                console.error('API verification failed:', e.message);
+                return { valid: false, error: 'Could not verify code. Please try again later.' };
             }
         }
 
         async function loadProducts() {
             try {
                 var data = await apiCall('/wholesale/products');
-                wholesaleProducts = (data || []).filter(function(p) { return p.name; });
-                if (wholesaleProducts.length === 0) {
-                    throw new Error('No products found');
+
+                // Backend returns {success, products: [...], total, ...}
+                var list = [];
+                if (data && Array.isArray(data.products)) {
+                    list = data.products;
+                } else if (Array.isArray(data)) {
+                    list = data;
+                } else if (data && Array.isArray(data.items)) {
+                    list = data.items;
                 }
+
+                // Normalize: ensure each product has an `image_url` (backend sends `image`)
+                wholesaleProducts = list
+                    .filter(function(p) { return p && p.name; })
+                    .map(function(p) {
+                        return {
+                            id: p.id,
+                            name: p.name,
+                            price: Number(p.price) || 0,
+                            wholesale_price: p.wholesale_price || p.wholesalePrice || null,
+                            category: p.category || 'Gadget',
+                            image_url: p.image || p.image_url || '/company_logo.png',
+                            stock: p.stock,
+                            brand: p.brand,
+                            description: p.description
+                        };
+                    });
+
+                if (wholesaleProducts.length === 0) {
+                    throw new Error('No products returned from API');
+                }
+                console.log('[Wholesale] Loaded ' + wholesaleProducts.length + ' products from API');
             } catch (e) {
                 console.warn('Could not load from API, using fallback:', e.message);
-                // Fallback products
                 wholesaleProducts = [
                     { id: 'ws-001', name: 'iPhone 15 Pro Max 256GB', price: 1850000, category: 'Smartphones', image_url: '/company_logo.png' },
                     { id: 'ws-002', name: 'Samsung Galaxy S24 Ultra', price: 1650000, category: 'Smartphones', image_url: '/company_logo.png' },
@@ -960,10 +955,7 @@
             renderProducts();
         }
 
-        // ================================================================ //
-        // MODAL FUNCTIONS                                                  //
-        // ================================================================ //
-
+        // ===== MODAL FUNCTIONS =====
         window.closeRequestModal = function() {
             document.getElementById('requestAccessModal').classList.remove('active');
         };
@@ -984,9 +976,8 @@
             try {
                 await apiCall('/wholesale/request-access', 'POST', data);
             } catch (e) {
-                // Fallback: store locally
                 var requests = JSON.parse(localStorage.getItem('psh_wholesale_requests') || '[]');
-                requests.push({ ...data, timestamp: new Date().toISOString() });
+                requests.push(Object.assign({}, data, { timestamp: new Date().toISOString() }));
                 localStorage.setItem('psh_wholesale_requests', JSON.stringify(requests));
             }
 
@@ -1008,7 +999,7 @@
                 await apiCall('/wholesale/request-quote', 'POST', data);
             } catch (e) {
                 var quotes = JSON.parse(localStorage.getItem('psh_quote_requests') || '[]');
-                quotes.push({ ...data, timestamp: new Date().toISOString() });
+                quotes.push(Object.assign({}, data, { timestamp: new Date().toISOString() }));
                 localStorage.setItem('psh_quote_requests', JSON.stringify(quotes));
             }
 
@@ -1017,55 +1008,68 @@
             showToast('<i class="fas fa-check-circle"></i> Quote request sent! We will prepare your custom quote shortly.', 'success');
         };
 
-        // ================================================================ //
-        // EVENT HANDLERS                                                   //
-        // ================================================================ //
-
+        // ===== EVENT HANDLERS =====
         function setupEventListeners() {
-            document.getElementById('verifyCodeBtn').addEventListener('click', async function() {
-                var code = document.getElementById('wholesaleCode').value.trim().toUpperCase();
-                var errorEl = document.getElementById('gateError');
-                var successEl = document.getElementById('gateSuccess');
+            var verifyBtn = document.getElementById('verifyCodeBtn');
+            if (verifyBtn) {
+                verifyBtn.addEventListener('click', async function() {
+                    var code = document.getElementById('wholesaleCode').value.trim().toUpperCase();
+                    var errorEl = document.getElementById('gateError');
+                    var successEl = document.getElementById('gateSuccess');
 
-                if (!code) {
-                    errorEl.textContent = 'Please enter a wholesale code.';
-                    successEl.textContent = '';
-                    return;
-                }
+                    if (!code) {
+                        errorEl.textContent = 'Please enter a wholesale code.';
+                        successEl.textContent = '';
+                        return;
+                    }
 
-                errorEl.textContent = '';
-                successEl.textContent = 'Verifying...';
+                    errorEl.textContent = '';
+                    successEl.textContent = 'Verifying...';
 
-                try {
-                    var result = await verifyWholesaleCode(code);
-                    if (result && result.valid) {
-                        successEl.textContent = '¢Å“" Access granted!';
-                        showToast('<i class="fas fa-check-circle"></i> Access granted! ' + (result.description || 'Welcome to the Wholesale Portal.'), 'success');
-                        grantAccess(result.discount || 10);
-                    } else {
-                        errorEl.textContent = 'Invalid wholesale code. Please check or request access below.';
+                    try {
+                        var result = await verifyWholesaleCode(code);
+                        if (result && result.valid) {
+                            successEl.textContent = 'Access granted!';
+                            showToast('<i class="fas fa-check-circle"></i> Access granted! ' + (result.description || 'Welcome to the Wholesale Portal.'), 'success');
+                            grantAccess(result.discount || 10);
+                        } else {
+                            errorEl.textContent = (result && result.error) ? result.error : 'Invalid wholesale code. Please check or request access below.';
+                            successEl.textContent = '';
+                        }
+                    } catch (e) {
+                        errorEl.textContent = 'Verification failed. Please try again.';
                         successEl.textContent = '';
                     }
-                } catch (e) {
-                    errorEl.textContent = 'Verification failed. Please try again.';
-                    successEl.textContent = '';
-                }
-            });
+                });
+            }
 
-            // Enter key on code input
-            document.getElementById('wholesaleCode').addEventListener('keydown', function(e) {
-                if (e.key === 'Enter') {
-                    document.getElementById('verifyCodeBtn').click();
-                }
-            });
+            var codeInput = document.getElementById('wholesaleCode');
+            if (codeInput) {
+                codeInput.addEventListener('keydown', function(e) {
+                    if (e.key === 'Enter') {
+                        document.getElementById('verifyCodeBtn').click();
+                    }
+                });
+            }
 
-            document.getElementById('requestAccessBtn').addEventListener('click', function() {
-                document.getElementById('requestAccessModal').classList.add('active');
-            });
+            var accessBtn = document.getElementById('requestAccessBtn');
+            if (accessBtn) {
+                accessBtn.addEventListener('click', function() {
+                    document.getElementById('requestAccessModal').classList.add('active');
+                });
+            }
 
-            document.getElementById('requestQuoteBtn').addEventListener('click', function() {
-                document.getElementById('quoteModal').classList.add('active');
-            });
+            var quoteBtn = document.getElementById('requestQuoteBtn');
+            if (quoteBtn) {
+                quoteBtn.addEventListener('click', function() {
+                    document.getElementById('quoteModal').classList.add('active');
+                });
+            }
+
+            var checkoutBtnEl = document.getElementById('checkoutBtn');
+            if (checkoutBtnEl) {
+                checkoutBtnEl.addEventListener('click', performCheckout);
+            }
 
             // Close modals on overlay click
             document.querySelectorAll('.modal-overlay').forEach(function(overlay) {
@@ -1077,21 +1081,16 @@
             });
         }
 
-        // ================================================================ //
-        // INIT                                                             //
-        // ================================================================ //
-
+        // ===== INIT =====
         function init() {
             document.getElementById('footerYear').textContent = new Date().getFullYear();
 
-            // Check auth and access
             checkAuth();
 
-            // Check if already authorized
             if (hasAccess()) {
                 userDiscount = parseInt(localStorage.getItem('wholesale_discount') || '10');
                 if (discountDisplay) {
-                    discountDisplay.textContent = '¡ Your discount: ' + userDiscount + '%';
+                    discountDisplay.textContent = 'Your discount: ' + userDiscount + '%';
                 }
                 accessGate.style.display = 'none';
                 wholesaleContent.style.display = 'block';
@@ -1099,31 +1098,27 @@
                 renderTiers();
             }
 
-            // Setup event listeners
             setupEventListeners();
 
-            console.log('Å¡€ Wholesale Portal v2.1 ¢€" Fully Backend Synchronized');
-            console.log('"Â Authenticated:', isAuthenticated);
-            console.log('"Â¦ Products:', wholesaleProducts.length);
+            console.log('[Wholesale] Portal v2.2 initialized');
+            console.log('[Wholesale] Authenticated:', isAuthenticated);
+            console.log('[Wholesale] Products loaded:', wholesaleProducts.length);
         }
 
-        // Run on DOM ready
         if (document.readyState === 'loading') {
             document.addEventListener('DOMContentLoaded', init);
         } else {
             init();
         }
 
-        // Make functions globally available for inline onclick
-        window.updateBulkItem = updateBulkItem;
-        window.checkout = checkout;
-        window.closeRequestModal = closeRequestModal;
-        window.closeQuoteModal = closeQuoteModal;
-        window.submitAccessRequest = submitAccessRequest;
-        window.submitQuoteRequest = submitQuoteRequest;
+        // Global functions for inline onclick
+        window.checkout = performCheckout;
+        window.closeRequestModal = window.closeRequestModal;
+        window.closeQuoteModal = window.closeQuoteModal;
+        window.submitAccessRequest = window.submitAccessRequest;
+        window.submitQuoteRequest = window.submitQuoteRequest;
 
     })();
 </script>
 </body>
 </html>
-
