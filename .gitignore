@@ -46,8 +46,8 @@ dist
 .env.*.local
 
 # ------------------- Secrets & Keys (SPECIFIC ONLY) -------------------
-# Do NOT use wildcards like *key* or *secret* ÃƒÆ’Ã†"™Ãƒ"šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢"šÂ¬Ã…Â¡Ãƒ"šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢‚¬Å¡Ã‚Â¬Ãƒ"šÃ‚Â
-# they silently ignore files like keyboard-shortcuts.js
+# Do NOT use wildcards like *key* or *secret* - they silently ignore
+# files like keyboard-shortcuts.js
 gcp-key.json
 service-account-key.json
 service-account.json
@@ -160,11 +160,7 @@ assets/products
 backend/assets/products
 frontend/public/assets/products
 
-
 !assets/products/.gitkeep
-
-
-frontend/public-backup-rename
 
 # Generated signature images
 frontend/public/signature.png
@@ -172,30 +168,10 @@ frontend/public/signature.png
 # Design assets that aren't part of the deployed site
 signature.html
 
-# ------------------- Product Images (belong in R2, not Git) -------------------
-assets/products
-backend/assets/products
-frontend/public/assets/products
+# Backup folder rename staging
 frontend/public-backup-rename
-frontend/public/signature.png
-signature.html
 
 # ------------------- Additional exclusions -------------------
-backend/all-products.json
-backend/company_logo.png
-backend/products-api.json
-backend/products-backup.json
-frontend/public/articles/*.webp
-frontend/public/assets/images/founder/*.webp
-frontend/public/controller.webp
-frontend/public/ps5.webp
-frontend/public/xbox.webp
-frontend/public/switch.webp
-frontend/public/photograph.webp
-frontend/public/founder-suit.webp
-frontend/public/fonts/*.zip
-
-# ------------------- Extra exclusions -------------------
 backend/all-products.json
 backend/company_logo.png
 backend/products-api.json
@@ -218,13 +194,3 @@ frontend/public/assets/images/founder-suit.webp
 frontend/public/assets/images/photograph.webp
 frontend/public/press/photograph.webp
 frontend/public/press/founder-suit.webp
-
-# ------------------- Broad duplicate-asset exclusions -------------------
-frontend/public/assets/founder-suit.webp
-frontend/public/assets/photograph.webp
-frontend/public/assets/images/founder-suit.webp
-frontend/public/assets/images/photograph.webp
-frontend/public/press/photograph.webp
-frontend/public/press/founder-suit.webp
-
-nvm
