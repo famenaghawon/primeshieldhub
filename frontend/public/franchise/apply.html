@@ -1072,9 +1072,9 @@
     <div class="quantum-container">
       <nav class="breadcrumb" aria-label="Breadcrumb">
         <a href="/"><i class="fas fa-home"></i> Home</a>
-        <span class="separator">â€º</span>
+        <span class="separator">"º</span>
         <a href="/franchise">Franchise</a>
-        <span class="separator">â€º</span>
+        <span class="separator">"º</span>
         <span class="current">Apply</span>
       </nav>
     </div>
@@ -1090,7 +1090,7 @@
       <h1 class="hero-title">Begin Your Franchise Journey</h1>
       <p class="hero-subtitle">
         Complete this 4-stage application to be considered for a PrimeShieldHub franchise. 
-        Your progress is saved automatically â€” you can return anytime.
+        Your progress is saved automatically "” you can return anytime.
       </p>
     </div>
   </section>
@@ -1284,10 +1284,10 @@
               <select id="retailExperience" name="retailExperience" class="quantum-select" required>
                 <option value="">Select</option>
                 <option value="none">No experience</option>
-                <option value="basic">Basic â€” I've worked in retail</option>
-                <option value="intermediate">Intermediate â€” I've managed a store</option>
-                <option value="advanced">Advanced â€” I've owned retail stores</option>
-                <option value="expert">Expert â€” Multi-store owner</option>
+                <option value="basic">Basic "” I've worked in retail</option>
+                <option value="intermediate">Intermediate "” I've managed a store</option>
+                <option value="advanced">Advanced "” I've owned retail stores</option>
+                <option value="expert">Expert "” Multi-store owner</option>
               </select>
               <div class="field-error" data-for="retailExperience">Please select your experience</div>
             </div>
@@ -1335,19 +1335,19 @@
               <div class="tier-option" data-tier="starter">
                 <div class="tier-option-icon">ðŸ¥‰</div>
                 <div class="tier-option-name">Starter</div>
-                <div class="tier-option-price">â‚¦2.5M</div>
+                <div class="tier-option-price">₦2.5M</div>
                 <div class="tier-option-roi">18-22% ROI</div>
               </div>
               <div class="tier-option" data-tier="professional">
                 <div class="tier-option-icon">ðŸ¥ˆ</div>
                 <div class="tier-option-name">Professional</div>
-                <div class="tier-option-price">â‚¦5.5M</div>
+                <div class="tier-option-price">₦5.5M</div>
                 <div class="tier-option-roi">22-28% ROI</div>
               </div>
               <div class="tier-option" data-tier="elite">
                 <div class="tier-option-icon">ðŸ¥‡</div>
                 <div class="tier-option-name">Elite</div>
-                <div class="tier-option-price">â‚¦12M+</div>
+                <div class="tier-option-price">₦12M+</div>
                 <div class="tier-option-roi">28-35% ROI</div>
               </div>
             </div>
@@ -1360,10 +1360,10 @@
               <label class="form-label" for="investmentCapacity">Investment Capacity <span class="required">*</span></label>
               <select id="investmentCapacity" name="investmentCapacity" class="quantum-select" required>
                 <option value="">Select range</option>
-                <option value="2.5-5">â‚¦2.5M - â‚¦5M</option>
-                <option value="5-10">â‚¦5M - â‚¦10M</option>
-                <option value="10-20">â‚¦10M - â‚¦20M</option>
-                <option value="20+">â‚¦20M+</option>
+                <option value="2.5-5">₦2.5M - ₦5M</option>
+                <option value="5-10">₦5M - ₦10M</option>
+                <option value="10-20">₦10M - ₦20M</option>
+                <option value="20+">₦20M+</option>
               </select>
               <div class="field-error" data-for="investmentCapacity">Please select your capacity</div>
             </div>
@@ -1398,10 +1398,10 @@
               <label class="form-label" for="hasLocation">Do You Have a Location? <span class="required">*</span></label>
               <select id="hasLocation" name="hasLocation" class="quantum-select" required>
                 <option value="">Select</option>
-                <option value="yes-signed">Yes â€” already secured</option>
-                <option value="yes-identified">Yes â€” identified, not secured</option>
-                <option value="no-need-help">No â€” need help finding one</option>
-                <option value="no-open">No â€” open to suggestions</option>
+                <option value="yes-signed">Yes "” already secured</option>
+                <option value="yes-identified">Yes "” identified, not secured</option>
+                <option value="no-need-help">No "” need help finding one</option>
+                <option value="no-open">No "” open to suggestions</option>
               </select>
               <div class="field-error" data-for="hasLocation">Please select location status</div>
             </div>
@@ -1537,7 +1537,7 @@
     <div class="quantum-container">
       <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;">
         <div style="color: #7a7870; font-size: 0.8rem;">
-          Â© <span id="currentYear">2026</span> PrimeShieldHub Gadgets Limited. RC 9283954
+          © <span id="currentYear">2026</span> PrimeShieldHub Gadgets Limited. RC 9283954
         </div>
         <div style="display: flex; gap: 20px; flex-wrap: wrap;">
           <a href="/privacy" style="color: #7a7870; text-decoration: none; font-size: 0.8rem;">Privacy</a>
@@ -1736,7 +1736,7 @@
           var error = document.querySelector('.field-error[data-for="selectedTier"]');
           if (error) error.classList.remove('visible');
           
-          showToast('âœ… ' + tier.charAt(0).toUpperCase() + tier.slice(1) + ' tier selected', 'success');
+          showToast('✅ ' + tier.charAt(0).toUpperCase() + tier.slice(1) + ' tier selected', 'success');
         });
       });
 
@@ -1766,7 +1766,7 @@
             value = value + ' years';
           }
           if (key === 'investmentCapacity' && value) {
-            value = 'â‚¦' + value.replace('-', 'M - â‚¦') + 'M';
+            value = '₦' + value.replace('-', 'M - ₦') + 'M';
           }
 
           el.textContent = value || 'Not provided';
@@ -1931,8 +1931,8 @@
 
         var toast = document.createElement('div');
         toast.className = 'psh-toast ' + type;
-        var iconMap = { success: 'âœ…', error: 'âŒ', info: 'â„¹ï¸' };
-        toast.innerHTML = '<span>' + (iconMap[type] || 'â„¹ï¸') + '</span><span>' + message + '</span>';
+        var iconMap = { success: '✅', error: 'âŒ', info: 'ℹï¸' };
+        toast.innerHTML = '<span>' + (iconMap[type] || 'ℹï¸') + '</span><span>' + message + '</span>';
         document.body.appendChild(toast);
 
         setTimeout(function() {
@@ -2065,7 +2065,7 @@
                   tierOption.classList.add('selected');
                   var hiddenInput = document.getElementById('selectedTier');
                   if (hiddenInput) hiddenInput.value = tierParam;
-                  console.log('âœ¨ Auto-selected tier from URL:', tierParam);
+                  console.log('✨ Auto-selected tier from URL:', tierParam);
               }
           }
       })();
@@ -2084,7 +2084,7 @@
       style.textContent = '@keyframes shake { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(-8px); } 75% { transform: translateX(8px); } }';
       document.head.appendChild(style);
 
-      console.log('ðŸš€ PrimeShieldHub Franchise Application â€” 5D Quantum Experience Loaded');
+      console.log('ðŸš€ PrimeShieldHub Franchise Application "” 5D Quantum Experience Loaded');
       console.log('   âœ“ 4-Stage Multi-Step Form');
       console.log('   âœ“ Auto-Save Draft');
       console.log('   âœ“ Real-Time Validation');

@@ -1062,7 +1062,7 @@
         <div class="modal-info">
           <div class="product-category-tag" id="modalProductCategory">Category</div>
           <h2 class="product-title" id="modalProductTitle">Product Name</h2>
-          <div class="product-price" id="modalProductPrice">â‚¦0</div>
+          <div class="product-price" id="modalProductPrice">₦0</div>
           <p class="product-description" id="modalProductDescription">Description goes here.</p>
           <div class="product-specs" id="modalProductSpecs"></div>
           <div class="modal-actions">
@@ -1259,7 +1259,7 @@
           <div class="nexus-search-bar">
             <div class="search-wrapper">
               <input type="text" id="searchInput" placeholder="Search for gadgets... (e.g. iPhone 15, MacBook)">
-              <button class="search-clear-btn" id="searchClearBtn" aria-label="Clear search">âœ•</button>
+              <button class="search-clear-btn" id="searchClearBtn" aria-label="Clear search">✕</button>
             </div>
             <button id="searchBtn"><i class="fas fa-search"></i> Search</button>
           </div>
@@ -1270,7 +1270,7 @@
     <div class="quantum-container">
       <!-- RESULTS INFO -->
       <div class="results-info-nexus" id="resultsInfo">
-        Showing <span id="showingStart">0</span>â€“<span id="showingEnd">0</span> of <span id="totalResults">0</span> products
+        Showing <span id="showingStart">0</span>"“<span id="showingEnd">0</span> of <span id="totalResults">0</span> products
       </div>
 
       <!-- FILTER BAR -->
@@ -1290,10 +1290,10 @@
           <span class="filter-group-label">Sort</span>
           <select class="sort-select-nexus" id="sortSelect">
             <option value="default">Featured</option>
-            <option value="price-asc">Price: Low â†’ High</option>
-            <option value="price-desc">Price: High â†’ Low</option>
+            <option value="price-asc">Price: Low → High</option>
+            <option value="price-desc">Price: High → Low</option>
             <option value="rating">Top Rated</option>
-            <option value="name-asc">Name: A â†’ Z</option>
+            <option value="name-asc">Name: A → Z</option>
           </select>
         </div>
         <div class="filter-divider"></div>
@@ -1674,7 +1674,7 @@
         const imgUrl = p.images && p.images[0] ? p.images[0] : 'https://via.placeholder.com/400x400?text=No+Image';
         const isSoldOut = p.stock === 0;
         const badgeText = isSoldOut ? 'Sold Out' : (p.stock < 5 ? 'Low Stock' : '');
-        const stars = 'â˜…'.repeat(Math.floor(p.rating || 0)) + 'â˜†'.repeat(5 - Math.floor(p.rating || 0));
+        const stars = '★'.repeat(Math.floor(p.rating || 0)) + '☆'.repeat(5 - Math.floor(p.rating || 0));
         const detailUrl = `/product-detail.html?slug=${encodeURIComponent(p.slug)}&id=${encodeURIComponent(p.id)}`;
         
         return `
@@ -1687,8 +1687,8 @@
               <div class="product-category-tag">${p.category || 'General'}</div>
               <div class="product-title">${p.name}</div>
               <div class="product-price">
-                â‚¦${p.price.toLocaleString()}
-                ${p.originalPrice ? `<span class="original-price">â‚¦${p.originalPrice.toLocaleString()}</span>` : ''}
+                ₦${p.price.toLocaleString()}
+                ${p.originalPrice ? `<span class="original-price">₦${p.originalPrice.toLocaleString()}</span>` : ''}
               </div>
               <div class="product-rating">
                 ${stars} <span class="rating-count">(${p.reviewCount || 0})</span>
@@ -1777,7 +1777,7 @@
       if (startPage > 1) {
         html += `<button class="page-btn" data-page="1">1</button>`;
         if (startPage > 2) {
-          html += `<span class="page-dots">â€¦</span>`;
+          html += `<span class="page-dots">"¦</span>`;
         }
       }
 
@@ -1787,7 +1787,7 @@
 
       if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
-          html += `<span class="page-dots">â€¦</span>`;
+          html += `<span class="page-dots">"¦</span>`;
         }
         html += `<button class="page-btn" data-page="${totalPages}">${totalPages}</button>`;
       }
@@ -1863,7 +1863,7 @@
       modalImage.src = product.images && product.images[0] ? product.images[0] : 'https://via.placeholder.com/400x400';
       modalCategory.textContent = product.category || 'General';
       modalTitle.textContent = product.name;
-      modalPrice.textContent = `â‚¦${product.price.toLocaleString()}`;
+      modalPrice.textContent = `₦${product.price.toLocaleString()}`;
       modalDesc.textContent = product.description || 'No description available.';
       
       const specs = product.specifications || {};
@@ -1927,7 +1927,7 @@
       }
       localStorage.setItem('psh_cart', JSON.stringify(cart));
       updateCartCount();
-      showToast(`âœ… Added ${product.name} to cart!`);
+      showToast(`✅ Added ${product.name} to cart!`);
       
       // Play sound if not muted
       if (localStorage.getItem('psh_sound_muted') !== 'true') {
@@ -1992,7 +1992,7 @@
           <div class="ai-product-card" data-id="${p.id}" data-slug="${p.slug}">
             <img src="${p.images && p.images[0] ? p.images[0] : 'https://via.placeholder.com/200'}" alt="${p.name}" loading="lazy">
             <div class="ai-name">${p.name}</div>
-            <div class="ai-price">â‚¦${p.price.toLocaleString()}</div>
+            <div class="ai-price">₦${p.price.toLocaleString()}</div>
             <span class="ai-tag"><i class="fas fa-brain"></i> AI Pick</span>
           </div>
         `).join('');
@@ -2113,7 +2113,7 @@
     // Load products
     fetchProducts();
 
-    console.log('ðŸš€ Quantum Nexus v13.6 â€” Fixed Pagination & Sound Toggle');
+    console.log('ðŸš€ Quantum Nexus v13.6 "” Fixed Pagination & Sound Toggle');
     console.log(`ðŸ“¦ Loaded ${allProducts.length} products`);
   </script>
 </body>

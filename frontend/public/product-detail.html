@@ -523,7 +523,7 @@
       <div class="product-info">
         <div class="product-category" id="productCategory">--</div>
         <h1 class="product-title" id="productTitle">Loading...</h1>
-        <div class="product-price" id="productPrice">â‚¦0</div>
+        <div class="product-price" id="productPrice">₦0</div>
         <div class="stock-badge" id="stockBadge">--</div>
         <div class="product-description" id="productDescription"></div>
         
@@ -561,7 +561,7 @@
     </div>
   </div>
 
-  <div class="toast" id="toast">âœ¨ Added to cart</div>
+  <div class="toast" id="toast">✨ Added to cart</div>
 
   <script type="module">
     import * as THREE from 'three';
@@ -764,13 +764,13 @@
       
       productCategory.textContent = p.category || 'Uncategorized';
       productTitle.textContent = p.name;
-      productPrice.textContent = `â‚¦ ${p.price.toLocaleString()}`;
+      productPrice.textContent = `₦ ${p.price.toLocaleString()}`;
       productDescription.textContent = p.description || 'No description available.';
       
       // Stock status
       const stock = p.stock || 0;
       if (stock > 10) {
-        stockBadge.textContent = 'âœ… In Stock';
+        stockBadge.textContent = '✅ In Stock';
         stockBadge.className = 'stock-badge in-stock';
         addToCartBtn.disabled = false;
       } else if (stock > 0) {
@@ -891,7 +891,7 @@
           <div class="related-card" data-id="${p.id || p._id}" data-slug="${p.slug || ''}">
             <img src="${p.images?.[0] || p.image_url || 'https://placehold.co/200/1a1a2e/00f7ff?text=Product'}" alt="${p.name}">
             <h4>${p.name}</h4>
-            <div class="price">â‚¦ ${(p.price || 0).toLocaleString()}</div>
+            <div class="price">₦ ${(p.price || 0).toLocaleString()}</div>
           </div>
         `).join('');
         
@@ -958,7 +958,7 @@
       // Dispatch event for cart count update
       window.dispatchEvent(new CustomEvent('cartUpdated'));
       
-      showToast(`âœ… ${quantity} Ã— ${currentProduct.name} added to cart!`);
+      showToast(`✅ ${quantity} × ${currentProduct.name} added to cart!`);
       
       // Button feedback animation
       addToCartBtn.innerHTML = '<i class="fas fa-check"></i> Added!';
@@ -975,7 +975,7 @@
       
       const shareData = {
         title: currentProduct.name,
-        text: `${currentProduct.name} - â‚¦${currentProduct.price.toLocaleString()}`,
+        text: `${currentProduct.name} - ₦${currentProduct.price.toLocaleString()}`,
         url: window.location.href
       };
       
@@ -1122,10 +1122,10 @@
     // ================================================================
     loadProduct();
 
-    console.log('ðŸš€ Quantum Product Detail v2.0 â€” REST API (No Firebase)');
-    console.log('âœ… API Base: ' + API_BASE);
-    console.log('âœ… Cart key: ' + CART_KEY);
-    console.log('âœ… Matches your Cloudflare Worker + D1 setup');
+    console.log('ðŸš€ Quantum Product Detail v2.0 "” REST API (No Firebase)');
+    console.log('✅ API Base: ' + API_BASE);
+    console.log('✅ Cart key: ' + CART_KEY);
+    console.log('✅ Matches your Cloudflare Worker + D1 setup');
   </script>
 </body>
 </html>

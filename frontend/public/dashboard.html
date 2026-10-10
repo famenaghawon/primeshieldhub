@@ -452,7 +452,7 @@
       <div class="grid-4" id="statsGrid">
         <div class="glass-card stat-card">
           <div class="stat-icon"><i class="fas fa-chart-line"></i></div>
-          <div class="stat-value" id="statTotalSpent">Ã¢â€šÂ¦0</div>
+          <div class="stat-value" id="statTotalSpent">₦0</div>
           <div class="stat-label">Total Spent</div>
           <span class="stat-change" id="statSpentChange" style="display:none;"></span>
         </div>
@@ -466,7 +466,7 @@
           <div class="stat-icon"><i class="fas fa-star"></i></div>
           <div class="stat-value" id="statPoints">0</div>
           <div class="stat-label">Quantum Points</div>
-          <span class="stat-change" id="statPointsChange" style="color:var(--gold-core);">Ã¢Å“Â¨ Active</span>
+          <span class="stat-change" id="statPointsChange" style="color:var(--gold-core);">✨ Active</span>
         </div>
         <div class="glass-card stat-card">
           <div class="stat-icon"><i class="fas fa-calendar-alt"></i></div>
@@ -611,7 +611,7 @@
 <footer class="site-footer">
   <div class="container">
     <div class="footer-inner">
-      <div class="copyright">Ã‚Â© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
+      <div class="copyright">‚© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
       <div class="footer-links">
         <a href="/privacy">Privacy</a>
         <a href="/terms">Terms</a>
@@ -750,7 +750,7 @@
     }
 
     function formatCurrency(amount) {
-      return 'Ã¢â€šÂ¦' + Number(amount).toLocaleString('en-NG');
+      return '₦' + Number(amount).toLocaleString('en-NG');
     }
 
     // ===== SYNC WITH PROFILE =====
@@ -769,7 +769,7 @@
       }
       
       if (userData.phone) {
-        userPhoneDisplay.textContent = 'Ã°Å¸â€œÂ± ' + userData.phone;
+        userPhoneDisplay.textContent = '"Â± ' + userData.phone;
       }
       
       const existingProfile = JSON.parse(localStorage.getItem('psh_user_profile') || '{}');
@@ -808,7 +808,7 @@
           userAvatar.textContent = profileData.name.charAt(0).toUpperCase();
         }
         if (profileData.phone) {
-          userPhoneDisplay.textContent = 'Ã°Å¸â€œÂ± ' + profileData.phone;
+          userPhoneDisplay.textContent = '"Â± ' + profileData.phone;
         }
       } catch(e) {}
       
@@ -1088,7 +1088,7 @@
           maintainAspectRatio: false,
           plugins: { legend: { labels: { color: '#b8b7ad', font: { family: 'JetBrains Mono' } } } },
           scales: {
-            y: { ticks: { color: '#7a7970', callback: function(v) { return 'Ã¢â€šÂ¦' + v.toLocaleString(); } }, grid: { color: 'rgba(255,255,255,0.03)' } },
+            y: { ticks: { color: '#7a7970', callback: function(v) { return '₦' + v.toLocaleString(); } }, grid: { color: 'rgba(255,255,255,0.03)' } },
             x: { ticks: { color: '#7a7970' }, grid: { color: 'rgba(255,255,255,0.03)' } }
           }
         }
@@ -1146,7 +1146,7 @@
           userAvatar.textContent = profileData.name.charAt(0).toUpperCase();
         }
         if (profileData.phone) {
-          userPhoneDisplay.textContent = 'Ã°Å¸â€œÂ± ' + profileData.phone;
+          userPhoneDisplay.textContent = '"Â± ' + profileData.phone;
         }
       } catch(e) {}
     }
@@ -1258,7 +1258,7 @@
         showLoading(false);
       }
 
-      console.log('Ã°Å¸Å¡â‚¬ Quantum Dashboard v3.0 Ã¢â‚¬â€ 100% Dynamic, No Fake Data');
+      console.log('Å¡€ Quantum Dashboard v3.0 ¢€" 100% Dynamic, No Fake Data');
     }
 
     // ===== EXPOSE GLOBALLY =====

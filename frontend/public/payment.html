@@ -378,7 +378,7 @@
       <h2>Order Summary</h2>
       <div id="cartItemsContainer" class="cart-items"></div>
       <div class="cart-total" style="margin-top: 1rem; font-size: 1.2rem; text-align: right;">
-        <strong>Total: </strong><span id="cartTotal">Ã¢â€šÂ¦0</span>
+        <strong>Total: </strong><span id="cartTotal">₦0</span>
       </div>
     </div>
 
@@ -394,7 +394,7 @@
         <div class="payment-icon"><i class="fas fa-bolt"></i></div>
         <h3>Paystack Pro</h3>
         <p>Cards, USSD, Bank Transfer</p>
-        <div class="stat-value" style="font-size: 0.8rem;">1.5% fee Ã¢â‚¬Â¢ 2s settlement</div>
+        <div class="stat-value" style="font-size: 0.8rem;">1.5% fee "¢ 2s settlement</div>
       </div>
       <div class="payment-method-card crypto" onclick="showCryptoModal()">
         <div class="payment-icon"><i class="fab fa-bitcoin"></i></div>
@@ -406,20 +406,20 @@
         <div class="payment-icon"><i class="fas fa-university"></i></div>
         <h3>Bank Transfer</h3>
         <p>All Nigerian Banks</p>
-        <div class="stat-value" style="font-size: 0.8rem;">No fees Ã¢â‚¬Â¢ Instant</div>
+        <div class="stat-value" style="font-size: 0.8rem;">No fees "¢ Instant</div>
       </div>
       <div class="payment-method-card whatsapp" onclick="initiateWhatsAppPayment()">
         <div class="payment-icon"><i class="fab fa-whatsapp"></i></div>
         <h3>WhatsApp Pay</h3>
         <p>Chat & Pay with AI</p>
-        <div class="stat-value" style="font-size: 0.8rem;">1% fee Ã¢â‚¬Â¢ 24/7 support</div>
+        <div class="stat-value" style="font-size: 0.8rem;">1% fee "¢ 24/7 support</div>
       </div>
     </div>
 
     <div class="glass-card calculator">
       <h3>Quantum Payment Calculator</h3>
       <div class="input-group">
-        <label>Amount (Ã¢â€šÂ¦)</label>
+        <label>Amount (₦)</label>
         <input type="number" id="calcAmount" value="50000" step="1000">
       </div>
       <div class="input-group">
@@ -471,7 +471,7 @@
           isKeyLoaded = true;
           keyStatus.className = 'key-status valid';
           keyStatus.innerHTML = '<i class="fas fa-check-circle"></i> Paystack configured';
-          console.log('Ã¢Å“â€¦ Paystack key loaded from meta tag');
+          console.log('¢Å“"¦ Paystack key loaded from meta tag');
           return;
         }
 
@@ -486,13 +486,13 @@
             isKeyLoaded = true;
             keyStatus.className = 'key-status valid';
             keyStatus.innerHTML = '<i class="fas fa-check-circle"></i> Paystack configured';
-            console.log('Ã¢Å“â€¦ Paystack key loaded from API');
+            console.log('¢Å“"¦ Paystack key loaded from API');
             return;
           }
         }
 
         // Fallback - for development only
-        console.warn('Ã¢Å¡Â Ã¯Â¸Â No Paystack key found. Using fallback (development only).');
+        console.warn(' ¯Â¸Â No Paystack key found. Using fallback (development only).');
         // DO NOT use hardcoded keys in production
         PAYSTACK_PUBLIC_KEY = 'pk_test_...'; // Replace with your test key for development
         if (PAYSTACK_PUBLIC_KEY === 'pk_test_...') {
@@ -574,17 +574,17 @@
       if (!cartItemsContainer) return;
       if (currentCart.length === 0) {
         cartItemsContainer.innerHTML = '<p style="color: var(--text-secondary);">Your cart is empty.</p>';
-        cartTotalSpan.textContent = 'Ã¢â€šÂ¦0';
+        cartTotalSpan.textContent = '₦0';
         return;
       }
       let html = ''; let total = 0;
       currentCart.forEach(item => {
         const itemTotal = (item.price || 0) * (item.quantity || 1);
         total += itemTotal;
-        html += `<div class="cart-item"><div class="item-name">${escapeHtml(item.name || 'Product')} x ${item.quantity || 1}</div><div class="item-price">Ã¢â€šÂ¦${itemTotal.toLocaleString()}</div></div>`;
+        html += `<div class="cart-item"><div class="item-name">${escapeHtml(item.name || 'Product')} x ${item.quantity || 1}</div><div class="item-price">₦${itemTotal.toLocaleString()}</div></div>`;
       });
       cartItemsContainer.innerHTML = html;
-      cartTotalSpan.textContent = `Ã¢â€šÂ¦${total.toLocaleString()}`;
+      cartTotalSpan.textContent = `₦${total.toLocaleString()}`;
       return total;
     }
     function getCartTotal() {
@@ -620,9 +620,9 @@
       const total = amount + fee;
       document.getElementById('calcResults').innerHTML = `
         <div style="margin-top:1rem; padding:1rem; background:rgba(0,200,136,0.1); border-radius:1rem; border:1px solid rgba(0,200,136,0.2);">
-          <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Amount:</span><span>Ã¢â€šÂ¦${amount.toLocaleString()}</span></div>
-          <div style="display:flex; justify-content:space-between; padding:4px 0; color:var(--text-secondary);"><span>Processing Fee (${feeText}):</span><span>Ã¢â€šÂ¦${fee.toLocaleString()}</span></div>
-          <div style="display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid rgba(255,255,255,0.1); margin-top:4px; font-size:1.2rem; font-weight:bold; color:var(--neon-cyan);"><span>Total:</span><span>Ã¢â€šÂ¦${total.toLocaleString()}</span></div>
+          <div style="display:flex; justify-content:space-between; padding:4px 0;"><span>Amount:</span><span>₦${amount.toLocaleString()}</span></div>
+          <div style="display:flex; justify-content:space-between; padding:4px 0; color:var(--text-secondary);"><span>Processing Fee (${feeText}):</span><span>₦${fee.toLocaleString()}</span></div>
+          <div style="display:flex; justify-content:space-between; padding:8px 0; border-top:1px solid rgba(255,255,255,0.1); margin-top:4px; font-size:1.2rem; font-weight:bold; color:var(--neon-cyan);"><span>Total:</span><span>₦${total.toLocaleString()}</span></div>
         </div>
       `;
     };
@@ -689,7 +689,7 @@
         showLoading(false);
 
         // ===== FIX: Use the loaded Paystack key =====
-        console.log('Ã°Å¸â€â€˜ Using Paystack key:', PAYSTACK_PUBLIC_KEY.substring(0, 15) + '...');
+        console.log('""˜ Using Paystack key:', PAYSTACK_PUBLIC_KEY.substring(0, 15) + '...');
 
         const handler = PaystackPop.setup({
           key: PAYSTACK_PUBLIC_KEY,
@@ -712,7 +712,7 @@
               const verifyData = await verifyResponse.json();
               if (verifyData.success) {
                 localStorage.removeItem(CART_KEY);
-                showToast('Ã¢Å“â€¦ Payment successful! Order placed.', 'success');
+                showToast('¢Å“"¦ Payment successful! Order placed.', 'success');
                 setTimeout(() => {
                   window.location.href = `/payment-success?reference=${response.reference}`;
                 }, 1500);
@@ -756,11 +756,11 @@
       const email = user?.email || '';
 
       const itemsList = currentCart.map(item => 
-        `- ${item.name || 'Product'} x${item.quantity || 1} = Ã¢â€šÂ¦${((item.price || 0) * (item.quantity || 1)).toLocaleString()}`
+        `- ${item.name || 'Product'} x${item.quantity || 1} = ₦${((item.price || 0) * (item.quantity || 1)).toLocaleString()}`
       ).join('\n');
 
       const message = encodeURIComponent(
-        `Ã°Å¸â€ºâ€™ *New Order from PrimeShieldHub*\n\nÃ°Å¸â€˜Â¤ *Customer:* ${name}\nÃ°Å¸â€œÅ¾ *Phone:* ${phone || 'Not provided'}\nÃ°Å¸â€œÂ§ *Email:* ${email || 'Not provided'}\n\nÃ°Å¸â€œÂ¦ *Order Items:*\n${itemsList}\n\nÃ°Å¸â€™Â° *Total: Ã¢â€šÂ¦${amountToPay.toLocaleString()}*\nÃ°Å¸â€™Â³ *Payment Method:* WhatsApp Pay\n\nPlease confirm this order by replying "CONFIRM".\n_This is an automated order request._`
+        `"º"™ *New Order from PrimeShieldHub*\n\n"˜Â¤ *Customer:* ${name}\n"Å¾ *Phone:* ${phone || 'Not provided'}\n"Â§ *Email:* ${email || 'Not provided'}\n\n"Â¦ *Order Items:*\n${itemsList}\n\n"™° *Total: ₦${amountToPay.toLocaleString()}*\n"™³ *Payment Method:* WhatsApp Pay\n\nPlease confirm this order by replying "CONFIRM".\n_This is an automated order request._`
       );
 
       window.open(`https://wa.me/2348103535978?text=${message}`, '_blank');
@@ -809,7 +809,7 @@
             </button>
           </div>
           <p style="font-size:0.85rem; color:var(--text-secondary);">
-            Send exact amount <strong style="color:var(--neon-cyan);">Ã¢â€šÂ¦${amount.toLocaleString()}</strong> equivalent in selected crypto.
+            Send exact amount <strong style="color:var(--neon-cyan);">₦${amount.toLocaleString()}</strong> equivalent in selected crypto.
           </p>
           <button class="quantum-btn" onclick="this.closest('.modal-overlay').remove()" style="margin-top:1rem; width:100%; justify-content:center;">
             <i class="fas fa-times"></i> Close
@@ -887,7 +887,7 @@
     window.copyToClipboard = function(text) {
       if (navigator.clipboard) {
         navigator.clipboard.writeText(text).then(() => {
-          showToast('Ã°Å¸â€œâ€¹ Copied to clipboard!', 'success');
+          showToast('""¹ Copied to clipboard!', 'success');
         }).catch(() => fallbackCopy(text));
       } else { fallbackCopy(text); }
     };
@@ -900,7 +900,7 @@
       textarea.select();
       try {
         document.execCommand('copy');
-        showToast('Ã°Å¸â€œâ€¹ Copied to clipboard!', 'success');
+        showToast('""¹ Copied to clipboard!', 'success');
       } catch (err) {
         showToast('Failed to copy. Please copy manually.', 'error');
       }
@@ -998,10 +998,10 @@
       loadCart();
       setTimeout(() => calculatePayment(), 500);
       
-      console.log('Ã°Å¸Å¡â‚¬ Quantum Payment Gateway v2.0 Ã¢â‚¬â€ REST API');
-      console.log('Ã¢Å“â€¦ API Base: ' + API_BASE);
-      console.log('Ã¢Å“â€¦ Cart key: ' + CART_KEY);
-      console.log('Ã¢Å“â€¦ Paystack key loaded: ' + (isKeyLoaded ? 'YES' : 'NO'));
+      console.log('Å¡€ Quantum Payment Gateway v2.0 ¢€" REST API');
+      console.log('¢Å“"¦ API Base: ' + API_BASE);
+      console.log('¢Å“"¦ Cart key: ' + CART_KEY);
+      console.log('¢Å“"¦ Paystack key loaded: ' + (isKeyLoaded ? 'YES' : 'NO'));
     });
   </script>
 </body>

@@ -372,7 +372,7 @@
           <div class="stat-label">Total Orders</div>
         </div>
         <div class="glass-card stat-card">
-          <div class="stat-value" id="totalSpent">â‚¦0</div>
+          <div class="stat-value" id="totalSpent">₦0</div>
           <div class="stat-label">Total Spent</div>
         </div>
         <div class="glass-card stat-card">
@@ -446,7 +446,7 @@
 <footer class="site-footer">
   <div class="container">
     <div class="footer-inner">
-      <div class="copyright">Â© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
+      <div class="copyright">© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
       <div class="footer-links">
         <a href="/account">Account</a>
         <a href="/profile">Profile</a>
@@ -572,7 +572,7 @@
     }
 
     function formatCurrency(amount) {
-      return 'â‚¦' + Number(amount).toLocaleString('en-NG');
+      return '₦' + Number(amount).toLocaleString('en-NG');
     }
 
     function formatDate(dateStr) {
@@ -705,10 +705,10 @@
             ).join(', ');
             if (items.length > 2) itemsHtml += ' +' + (items.length - 2) + ' more';
           } else {
-            itemsHtml = 'â€”';
+            itemsHtml = '"”';
           }
         } catch(e) {
-          itemsHtml = 'â€”';
+          itemsHtml = '"”';
         }
 
         return '<tr>' +
@@ -799,7 +799,7 @@
         showLoading(false);
       }
 
-      console.log('ðŸš€ Quantum Orders v1.0 â€” 100% Dynamic, No Fake Data');
+      console.log('ðŸš€ Quantum Orders v1.0 "” 100% Dynamic, No Fake Data');
     }
 
     // ===== START =====

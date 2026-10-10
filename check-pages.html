@@ -788,11 +788,11 @@
     
     <div style="background:rgba(0,240,160,0.06); border:1px solid rgba(0,240,160,0.15); border-radius:var(--radius-sm); padding:14px 18px; margin-bottom:20px;">
       <div style="font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono); text-transform:uppercase;">Available Balance</div>
-      <div style="font-size:1.5rem; font-weight:800; color:var(--success); font-family:var(--font-mono); margin-top:4px;" id="payoutBalance">Ã¢â€šÂ¦0</div>
+      <div style="font-size:1.5rem; font-weight:800; color:var(--success); font-family:var(--font-mono); margin-top:4px;" id="payoutBalance">₦0</div>
     </div>
     
     <div style="margin-bottom:16px;">
-      <label class="modal-label">Amount (Ã¢â€šÂ¦) *</label>
+      <label class="modal-label">Amount (₦) *</label>
       <input type="number" class="modal-input" id="payoutAmount" placeholder="5000" min="5000">
     </div>
     
@@ -1278,7 +1278,7 @@
   }
 
   function formatCurrency(amount) {
-    return 'Ã¢â€šÂ¦' + Number(amount || 0).toLocaleString('en-NG');
+    return '₦' + Number(amount || 0).toLocaleString('en-NG');
   }
 
   // ===== LOAD RESELLER DATA =====

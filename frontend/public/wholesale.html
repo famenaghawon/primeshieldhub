@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes, viewport-fit=cover">
-    <meta name="description" content="PrimeShieldHub Wholesale Portal Ã¢â‚¬â€ Exclusive bulk pricing for authorized resellers. Access premium gadgets at wholesale rates with verified wholesale codes.">
+    <meta name="description" content="PrimeShieldHub Wholesale Portal ¢€" Exclusive bulk pricing for authorized resellers. Access premium gadgets at wholesale rates with verified wholesale codes.">
     <meta name="keywords" content="PrimeShieldHub Wholesale, Bulk Gadgets Nigeria, Reseller Pricing, Wholesale Electronics Nigeria, PrimeShieldHub Reseller, Wholesale Smartphones Nigeria">
     <meta name="author" content="Freedom Evbakoe Amenaghawon">
     <meta name="robots" content="index, follow">
@@ -461,7 +461,7 @@
         <button class="btn-primary" id="verifyCodeBtn" style="margin-bottom:10px;"><i class="fas fa-key"></i> Verify & Enter</button>
         <button class="btn-secondary" id="requestAccessBtn"><i class="fas fa-file-invoice"></i> Request Wholesale Access</button>
         <p style="color:var(--text-muted);font-size:0.7rem;margin-top:12px;font-family:var(--font-mono);">
-            <span class="live-dot"></span> Secured by PrimeShieldHub Ã‚Â· RC 9283954
+            <span class="live-dot"></span> Secured by PrimeShieldHub · RC 9283954
         </p>
     </div>
 </div>
@@ -495,7 +495,7 @@
                 <h1 class="section-title">Bulk <span class="gold">Pricing</span> &amp; Reseller <span class="gold">Rates</span></h1>
                 <p class="section-subtitle">Exclusive wholesale pricing for authorized resellers. The more you buy, the more you save. All products 100% authentic with full warranty.</p>
                 <div style="margin-top:16px; font-size:0.75rem; color:var(--text-muted); font-family:var(--font-mono);">
-                    <span id="discountDisplay">Ã¢Å¡Â¡ Your discount: 10%</span>
+                    <span id="discountDisplay">¡ Your discount: 10%</span>
                 </div>
             </div>
         </section>
@@ -525,7 +525,7 @@
                         <h3 style="font-family:var(--font-serif);font-size:1.3rem;margin-bottom:8px;">Bulk <span style="color:var(--gold-core);">Order Summary</span></h3>
                         <p style="color:var(--text-muted);font-size:0.78rem;margin-bottom:16px;">Discounts applied at checkout</p>
                         <div id="bulkSummaryItems"><p style="color:var(--text-muted);font-size:0.85rem;">No items added yet. Use the + button on products to add them.</p></div>
-                        <div class="summary-total" id="bulkTotal">Ã¢â€šÂ¦0</div>
+                        <div class="summary-total" id="bulkTotal">₦0</div>
                         <button class="btn-primary" id="checkoutBtn" style="margin-top:16px;" disabled onclick="window.checkout()">
                             <i class="fas fa-shopping-cart"></i> Add to Cart &amp; Checkout
                         </button>
@@ -604,9 +604,9 @@
             </div>
         </div>
         <div class="footer-bottom">
-            Ã‚Â© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954 Ã‚Â· TIN 2621297539968. All Rights Reserved.
+            ‚© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954 · TIN 2621297539968. All Rights Reserved.
             <span style="display:block; margin-top:8px; font-size:0.6rem; color:var(--text-muted);">
-                <span class="live-dot"></span> Live Ã‚Â· Real-time pricing
+                <span class="live-dot"></span> Live · Real-time pricing
             </span>
         </div>
     </div>
@@ -713,7 +713,7 @@
         // ================================================================ //
 
         function formatNGN(amount) {
-            return 'Ã¢â€šÂ¦' + Number(amount).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+            return '₦' + Number(amount).toLocaleString('en-NG', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
         function showToast(message, type = '') {
@@ -734,7 +734,7 @@
             localStorage.setItem('wholesale_authorized', 'true');
             localStorage.setItem('wholesale_discount', String(userDiscount));
             if (discountDisplay) {
-                discountDisplay.textContent = 'Ã¢Å¡Â¡ Your discount: ' + userDiscount + '%';
+                discountDisplay.textContent = '¡ Your discount: ' + userDiscount + '%';
             }
             accessGate.style.display = 'none';
             wholesaleContent.style.display = 'block';
@@ -767,12 +767,12 @@
             const tiers = [
                 { min: 10, max: 49, discount: Math.round(userDiscount * 0.9), icon: 'fa-layer-group' },
                 { min: 50, max: 99, discount: Math.round(userDiscount * 1.5), icon: 'fa-cubes' },
-                { min: 100, max: 'Ã¢Ë†Å¾', discount: Math.round(userDiscount * 2), icon: 'fa-warehouse' }
+                { min: 100, max: '∞', discount: Math.round(userDiscount * 2), icon: 'fa-warehouse' }
             ];
             tiersGrid.innerHTML = tiers.map(function(t) {
                 return '<div class="card tier-card">' +
                     '<div class="tier-icon"><i class="fas ' + t.icon + '"></i></div>' +
-                    '<div class="tier-qty">' + t.min + '-' + (t.max === 'Ã¢Ë†Å¾' ? '+' : t.max) + '</div>' +
+                    '<div class="tier-qty">' + t.min + '-' + (t.max === '∞' ? '+' : t.max) + '</div>' +
                     '<div class="tier-discount">Up to ' + t.discount + '% OFF</div>' +
                     '<div class="tier-label">Applied automatically at checkout</div>' +
                     '</div>';
@@ -808,7 +808,7 @@
                     '<div class="bulk">Bulk: ' + formatNGN(bulkPrice) + '/unit</div>' +
                     (qty >= 10 ? '<div class="savings"><i class="fas fa-tag"></i> You save ' + formatNGN((product.price - bulkPrice) * qty) + '</div>' : '') +
                     '<div class="qty-row">' +
-                    '<button class="qty-btn" onclick="window.updateBulkItem(\'' + product.id + '\', ' + (qty - 1) + ')">Ã¢Ë†â€™</button>' +
+                    '<button class="qty-btn" onclick="window.updateBulkItem(\'' + product.id + '\', ' + (qty - 1) + ')">¢Ë†"™</button>' +
                     '<span class="qty-val">' + qty + '</span>' +
                     '<button class="qty-btn" onclick="window.updateBulkItem(\'' + product.id + '\', ' + (qty + 1) + ')">+</button>' +
                     '</div>' +
@@ -821,7 +821,7 @@
             var items = Object.values(bulkCart).filter(function(i) { return i.quantity > 0; });
             if (items.length === 0) {
                 bulkSummaryItems.innerHTML = '<p style="color:var(--text-muted);font-size:0.85rem;">No items added yet. Use the + button on products to add them.</p>';
-                bulkTotalEl.textContent = 'Ã¢â€šÂ¦0';
+                bulkTotalEl.textContent = '₦0';
                 checkoutBtn.disabled = true;
                 return;
             }
@@ -830,7 +830,7 @@
             bulkSummaryItems.innerHTML = items.map(function(item) {
                 var itemTotal = item.bulkPrice * item.quantity;
                 total += itemTotal;
-                return '<div class="summary-item"><span>' + item.name + ' Ãƒâ€” ' + item.quantity + '</span><span>' + formatNGN(itemTotal) + '</span></div>';
+                return '<div class="summary-item"><span>' + item.name + ' ƒ"” ' + item.quantity + '</span><span>' + formatNGN(itemTotal) + '</span></div>';
             }).join('');
 
             bulkTotalEl.textContent = formatNGN(total);
@@ -1039,7 +1039,7 @@
                 try {
                     var result = await verifyWholesaleCode(code);
                     if (result && result.valid) {
-                        successEl.textContent = 'Ã¢Å“â€œ Access granted!';
+                        successEl.textContent = '¢Å“" Access granted!';
                         showToast('<i class="fas fa-check-circle"></i> Access granted! ' + (result.description || 'Welcome to the Wholesale Portal.'), 'success');
                         grantAccess(result.discount || 10);
                     } else {
@@ -1091,7 +1091,7 @@
             if (hasAccess()) {
                 userDiscount = parseInt(localStorage.getItem('wholesale_discount') || '10');
                 if (discountDisplay) {
-                    discountDisplay.textContent = 'Ã¢Å¡Â¡ Your discount: ' + userDiscount + '%';
+                    discountDisplay.textContent = '¡ Your discount: ' + userDiscount + '%';
                 }
                 accessGate.style.display = 'none';
                 wholesaleContent.style.display = 'block';
@@ -1102,9 +1102,9 @@
             // Setup event listeners
             setupEventListeners();
 
-            console.log('Ã°Å¸Å¡â‚¬ Wholesale Portal v2.1 Ã¢â‚¬â€ Fully Backend Synchronized');
-            console.log('Ã°Å¸â€Â Authenticated:', isAuthenticated);
-            console.log('Ã°Å¸â€œÂ¦ Products:', wholesaleProducts.length);
+            console.log('Å¡€ Wholesale Portal v2.1 ¢€" Fully Backend Synchronized');
+            console.log('"Â Authenticated:', isAuthenticated);
+            console.log('"Â¦ Products:', wholesaleProducts.length);
         }
 
         // Run on DOM ready
