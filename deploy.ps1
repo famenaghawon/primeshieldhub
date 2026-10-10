@@ -1,6 +1,6 @@
 # deploy.ps1 - Deploy frontend to Cloudflare Pages + purge cache
 # Requires: Wrangler OAuth login, $env:PSH_CACHE_TOKEN
-# v2: Added automatic retry with exponential backoff for 429 rate limits
+# v3: Fixed missing $ variables, spacing, and error handling
 
 [Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 $OutputEncoding = [System.Text.Encoding]::UTF8
@@ -13,9 +13,9 @@ $FrontendDir = Join-Path $PSScriptRoot "frontend"
 # ============================================================
 # RETRY CONFIG
 # ============================================================
-$MaxRetries   = 5              # Total attempts
-$InitialWait  = 30             # Seconds before 1st retry (doubles each time)
-$MaxWait      = 300            # Cap per retry at 5 minutes
+$MaxRetries   = 5
+$InitialWait  = 30
+$MaxWait      = 300
 
 # ============================================================
 # [1/2] FRONTEND DEPLOY
@@ -42,12 +42,12 @@ try {
     while ($attempt -lt $MaxRetries -and -not $deploySuccess) {
         $attempt++
 
-        # --- Wait between retries (exponential backoff) ---
         if ($attempt -gt 1) {
             $waitSeconds = [Math]::Min($InitialWait * [Math]::Pow(2, $attempt - 2), $MaxWait)
+            $retryAt = (Get-Date).AddSeconds($waitSeconds).ToString('HH:mm:ss')
             Write-Host ""
             Write-Host "   [WAIT] Rate limit detected. Sleeping $waitSeconds s before retry $attempt/$MaxRetries..." -ForegroundColor Yellow
-            Write-Host "          (started at $(Get-Date -Format 'HH:mm:ss'), will retry at $((Get-Date).AddSeconds($waitSeconds).ToString('HH:mm:ss')))" -ForegroundColor DarkGray
+            Write-Host "          (started at $(Get-Date -Format 'HH:mm:ss'), will retry at $retryAt)" -ForegroundColor DarkGray
             Start-Sleep -Seconds $waitSeconds
             Write-Host "   [WAIT] Resuming now." -ForegroundColor DarkGray
             Write-Host ""
@@ -55,14 +55,13 @@ try {
 
         Write-Host "   [TRY ] Attempt $attempt of $MaxRetries..." -ForegroundColor DarkGray
 
-        # --- Run wrangler and capture ALL output ---
+        # Run wrangler and capture ALL output (note the spaces between args!)
         $output = & npx wrangler pages deploy public --project-name=$ProjectName --commit-dirty=true 2>&1
         $exitCode = $LASTEXITCODE
 
         # Echo the output so the user sees it
         $output | ForEach-Object { Write-Host $_ }
 
-        # --- Analyze result ---
         $outputText = ($output | Out-String)
 
         if ($exitCode -eq 0) {
@@ -74,16 +73,13 @@ try {
             $lastError = "Rate limited by Cloudflare (HTTP 429)"
             Write-Host ""
             Write-Host "   [429 ] Cloudflare rate limit hit." -ForegroundColor Yellow
-            # Loop will retry with backoff
         }
         elseif ($outputText -match "malformed response") {
             $lastError = "Malformed response from Cloudflare API (likely 429 under the hood)"
             Write-Host ""
-            Write-Host "   [WARN] Malformed response — treating as possible rate limit." -ForegroundColor Yellow
-            # Loop will retry
+            Write-Host "   [WARN] Malformed response - treating as possible rate limit." -ForegroundColor Yellow
         }
         else {
-            # Non-retryable error — bail out immediately
             Write-Host ""
             Write-Host "   [FAIL] Deploy failed with a non-retryable error (exit $exitCode)." -ForegroundColor Red
             throw "wrangler pages deploy failed with exit code $exitCode"

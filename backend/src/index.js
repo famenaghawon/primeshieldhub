@@ -4567,6 +4567,27 @@ export default {
     }
 
     // ======================================================================
+    // WHOLESALE PRODUCTS - Returns products with wholesale pricing
+    // ======================================================================
+    if (routePath === "/api/wholesale/products" && request.method === "GET") {
+      return await handleWholesaleProducts(request, env, corsHeaders, { routePath });
+    }
+
+    // ======================================================================
+    // WHOLESALE REQUEST ACCESS - Reseller access request form
+    // ======================================================================
+    if (routePath === "/api/wholesale/request-access" && request.method === "POST") {
+      return await handleWholesaleRequestAccess(request, env, corsHeaders);
+    }
+
+    // ======================================================================
+    // WHOLESALE REQUEST QUOTE - Custom bulk quote request
+    // ======================================================================
+    if (routePath === "/api/wholesale/request-quote" && request.method === "POST") {
+      return await handleWholesaleRequestQuote(request, env, corsHeaders);
+    }
+
+    // ======================================================================
     // RESELLER CODES
     // ======================================================================
     if (routePath === "/api/reseller-codes" && request.method === "GET") {

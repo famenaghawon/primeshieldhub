@@ -391,20 +391,20 @@ export async function handleWholesaleProducts(request, env, corsHeaders, request
         let isWholesale = false;
         let wholesaleTier = null;
 
+        // Try to get user but don't fail if not authenticated
         try {
             user = await requireAuth(request, env, ['user', 'admin', 'staff']);
             if (user && user.id) {
                 const userData = await env.DB.prepare(
                     `SELECT wholesale_tier FROM users WHERE id = ?`
                 ).bind(user.id).first();
-                
                 if (userData && userData.wholesale_tier && userData.wholesale_tier !== 'standard') {
                     isWholesale = true;
                     wholesaleTier = userData.wholesale_tier;
                 }
             }
         } catch (e) {
-            // User not authenticated - return public products only
+            // Anonymous visitor — return public wholesale products
         }
 
         // Build query using actual product schema
