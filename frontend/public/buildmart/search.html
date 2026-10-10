@@ -1285,7 +1285,7 @@
                 type: 'knowledge', 
                 title: 'Concrete Mix Guide: 1m³ Formula', 
                 desc: 'Complete guide to concrete mixing ratios, water-cement ratio, and strength testing for construction projects.',
-                meta: ['ðŸ“„ 8 min read', 'ðŸ“… Updated 2026', 'ðŸ“Š 1,245 reads'],
+                meta: ['ðŸ“„ 8 min read', 'ðŸ“… Updated 2026', '<i class="fas fa-chart-bar"></i> 1,245 reads'],
                 tag: 'Popular',
                 tagClass: 'knowledge',
                 actions: ['Read', 'Download PDF', 'Save'],
@@ -1296,7 +1296,7 @@
                 type: 'contractor', 
                 title: 'ABC Construction Ltd', 
                 desc: 'Specialized in residential and commercial concrete work. 12 years experience. Completed 150+ projects.',
-                meta: ['⭐ 4.8/5', 'ðŸ“ Lagos & Ogun', 'ðŸ“ž Available now'],
+                meta: ['⭐ 4.8/5', 'ðŸ“ Lagos & Ogun', '<i class="fas fa-phone"></i> Available now'],
                 tag: 'Top Rated',
                 tagClass: 'contractor',
                 actions: ['Contact', 'View Projects', 'Request Quote'],
@@ -1307,7 +1307,7 @@
                 type: 'calculator', 
                 title: 'Concrete Volume Calculator', 
                 desc: 'Calculate exact concrete volume for slabs, columns, and foundations. Includes material estimation.',
-                meta: ['âš¡ 3-step calculation', 'ðŸ“Š 2,340 uses'],
+                meta: ['<i class="fas fa-bolt"></i> 3-step calculation', '<i class="fas fa-chart-bar"></i> 2,340 uses'],
                 tag: 'Popular',
                 tagClass: 'calculator',
                 actions: ['Launch Calculator', 'Save Result'],
@@ -1318,7 +1318,7 @@
                 type: 'category', 
                 title: 'Cement & Concrete', 
                 desc: 'Explore all cement products, brands, and concrete solutions available through BuildMart.',
-                meta: ['ðŸ“¦ 24 products', 'ðŸ·ï¸ 6 brands'],
+                meta: ['<i class="fas fa-box"></i>24 products', 'ðŸ·ï¸ 6 brands'],
                 tag: 'Category',
                 tagClass: 'category',
                 actions: ['Browse', 'Compare']
@@ -1360,7 +1360,7 @@
                 type: 'knowledge', 
                 title: 'Steel Reinforcement Guide', 
                 desc: 'Complete guide to steel reinforcement types, grades, and applications in construction.',
-                meta: ['ðŸ“„ 12 min read', 'ðŸ“… Updated 2026', 'ðŸ“Š 987 reads'],
+                meta: ['ðŸ“„ 12 min read', 'ðŸ“… Updated 2026', '<i class="fas fa-chart-bar"></i> 987 reads'],
                 tag: 'Updated',
                 tagClass: 'knowledge',
                 actions: ['Read', 'Download PDF'],
@@ -1371,7 +1371,7 @@
                 type: 'contractor', 
                 title: 'Prime Structures Ltd', 
                 desc: 'Full-service construction company specializing in commercial and industrial projects across Nigeria.',
-                meta: ['⭐ 4.9/5', 'ðŸ“ Nationwide', 'ðŸ“ž 24/7 support'],
+                meta: ['⭐ 4.9/5', 'ðŸ“ Nationwide', '<i class="fas fa-phone"></i> 24/7 support'],
                 tag: 'Premium',
                 tagClass: 'contractor',
                 actions: ['Contact', 'View Projects'],
@@ -1517,7 +1517,7 @@
                         ${r.author ? `<span class="meta-tag">âœï¸ ${r.author}</span>` : ''}
                         ${r.price ? `<span class="meta-tag" style="color:var(--gold);">${r.price}</span>` : ''}
                         ${r.projects ? `<span class="meta-tag">ðŸ—ï¸ ${r.projects}</span>` : ''}
-                        ${r.uses ? `<span class="meta-tag">ðŸ“Š ${r.uses}</span>` : ''}
+                        ${r.uses ? `<span class="meta-tag"><i class="fas fa-chart-bar"></i> ${r.uses}</span>` : ''}
                         ${r.views ? `<span class="meta-tag">ðŸ‘€ ${r.views}</span>` : ''}
                     </div>
                     ${r.actions ? `
@@ -1901,10 +1901,10 @@
     // 13. INITIALIZATION
     // =========================================================================
     function init() {
-        console.log('ðŸ” BuildMart · Enterprise Search');
-        console.log('ðŸ“Š Search across 2,184 products, 146 brands, 318 guides, 37 calculators, 84 contractors');
-        console.log('ðŸ¤– AI-powered search with BOQ upload');
-        console.log('âŒ¨ï¸ Shortcuts: âŒ˜+K / Ctrl+K for command palette · Esc to close');
+        console.log('<i class="fas fa-search"></i> BuildMart · Enterprise Search');
+        console.log('<i class="fas fa-chart-bar"></i> Search across 2,184 products, 146 brands, 318 guides, 37 calculators, 84 contractors');
+        console.log('<i class="fas fa-robot"></i> AI-powered search with BOQ upload');
+        console.log('<i class="fas fa-sparkles"></i>ï¸ Shortcuts: âŒ˜+K / Ctrl+K for command palette · Esc to close');
         
         renderPrompts();
         renderRecentSearches();
@@ -1916,7 +1916,7 @@
         }, 500);
 
         setTimeout(() => {
-            showToast('ðŸ” Enterprise Search', 'Search products, contractors, knowledge, and more.');
+            showToast('<i class="fas fa-search"></i> Enterprise Search', 'Search products, contractors, knowledge, and more.');
         }, 1500);
     }
 

@@ -10,7 +10,7 @@
     
     <link rel="canonical" href="https://primeshieldhub.com/admin/analytics">
     <link rel="icon" href="/company_logo.png">
-    <title>ðŸ“Š Conversation Analytics | PrimeShieldHub "¢ Quantum Insights</title>
+    <title><i class="fas fa-chart-bar"></i> Conversation Analytics | PrimeShieldHub "¢ Quantum Insights</title>
     
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Inter:opsz,wght@14..32,300;400;500;600;700;800;900&family=JetBrains+Mono:wght@300;400;500;600;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -1067,7 +1067,7 @@
         conversations.forEach(conv => {
             const sentimentClass = conv.sentiment || 'neutral';
             const urgencyClass = conv.urgency ? 'urgent' : 'normal';
-            const urgencyLabel = conv.urgency ? 'âš¡ Urgent' : 'Normal';
+            const urgencyLabel = conv.urgency ? '<i class="fas fa-bolt"></i> Urgent' : 'Normal';
             const userLabel = conv.user_id || (conv.fingerprint ? conv.fingerprint.slice(0, 8) : 'Guest');
 
             html += `
@@ -1250,9 +1250,9 @@
     // Auto-refresh every 60 seconds
     setInterval(loadDashboard, 60000);
 
-    console.log('ðŸ“Š Conversation Analytics Dashboard v2.0 initialized');
-    console.log('âŒ¨ï¸  Ctrl+R to refresh | Ctrl+Shift+E to export | Ctrl+Shift+D for AI Dashboard');
-    console.log('ðŸ”„ Auto-refresh every 60 seconds');
+    console.log('<i class="fas fa-chart-bar"></i> Conversation Analytics Dashboard v2.0 initialized');
+    console.log('<i class="fas fa-sparkles"></i>ï¸  Ctrl+R to refresh | Ctrl+Shift+E to export | Ctrl+Shift+D for AI Dashboard');
+    console.log('<i class="fas fa-search"></i>„ Auto-refresh every 60 seconds');
 </script>
 </body>
 </html>

@@ -786,7 +786,7 @@
     <div class="messages-container" id="messagesContainer">
         <!-- Welcome Screen -->
         <div class="welcome-center" id="welcomeScreen">
-            <div class="welcome-icon">ðŸ¤–</div>
+            <div class="welcome-icon"><i class="fas fa-robot"></i></div>
             <h1 class="welcome-title">Hello, I'm PrimeAI</h1>
             <p class="welcome-subtitle">
                 Your personal shopping assistant powered by <strong>Google Gemini</strong>. 
@@ -1366,11 +1366,11 @@
                 'neutral': 'ðŸ˜'
             };
             const emoji = sentimentMap[analytics.sentiment] || '';
-            const urgency = analytics.urgency ? 'âš¡' : '';
+            const urgency = analytics.urgency ? '<i class="fas fa-bolt"></i>' : '';
             if (emoji || urgency) {
                 html += `<div class="analytics-badge">
                     ${emoji ? `<span>Sentiment: ${analytics.sentiment}</span>` : ''}
-                    ${urgency ? `<span>âš¡ Quick response</span>` : ''}
+                    ${urgency ? `<span><i class="fas fa-bolt"></i> Quick response</span>` : ''}
                     <span>Model: ${analytics.model || 'Gemini'}</span>
                 </div>`;
             }
@@ -1502,10 +1502,11 @@
         if (productMatches.length > 0) {
             const match = productMatches[0];
             let response = `<p>Based on your question about <strong>${match.name}</strong>, here's what I know:</p>`;
-            response += `<p>ðŸ“¦ <strong>Category:</strong> ${match.info.category}<br>`;
+            response += `<p><i class="fas fa-box"></i><strong>Category:</strong> ${match.info.category}<br>`;
             response += `ðŸ’° <strong>Price Range:</strong> ${match.info.price_range}</p>`;
             if (match.correction) {
-                response += `<p style="font-size:0.8rem;color:var(--text-muted);">ðŸ’¡ Did you mean "${match.name}"? (from "${match.correction}")</p>`;
+                response += `<p style="font-size:0.8rem;color:var(--text-muted);"> <i class="fas fa-lightbulb"></i>
+ Did you mean "${match.name}"? (from "${match.correction}")</p>`;
             }
             response += `<p>For exact pricing and stock availability, please contact our support team on <strong>WhatsApp: +234 810 353 5978</strong> or visit our <a href="/products" style="color:var(--accent-cyan);">products page</a>.</p>`;
             return response;
@@ -1514,43 +1515,43 @@
         // Product-specific fallbacks
         if (lower.includes('iphone') || lower.includes('15') || lower.includes('apple phone')) {
             return `<p>Great question! ðŸ˜Š Here are our <strong>current iPhone prices</strong>:</p>
-            <p>ðŸ“± <strong>iPhone 15 Pro Max</strong> "” <strong style="color:var(--gold-bright);">₦1,450,000</strong><br>
-            ðŸ“± <strong>iPhone 15 Pro</strong> "” <strong style="color:var(--gold-bright);">₦1,300,000</strong><br>
-            ðŸ“± <strong>iPhone 15</strong> "” <strong style="color:var(--gold-bright);">₦1,100,000</strong></p>
+            <p><i class="fas fa-mobile-alt"></i> <strong>iPhone 15 Pro Max</strong> "” <strong style="color:var(--gold-bright);">₦1,450,000</strong><br>
+            <i class="fas fa-mobile-alt"></i> <strong>iPhone 15 Pro</strong> "” <strong style="color:var(--gold-bright);">₦1,300,000</strong><br>
+            <i class="fas fa-mobile-alt"></i> <strong>iPhone 15</strong> "” <strong style="color:var(--gold-bright);">₦1,100,000</strong></p>
             <p>All are <strong>100% authentic</strong> with 1-year warranty and come in sealed boxes.</p>
             <p>Would you like me to help you place an order?</p>`;
         }
         
         if (lower.includes('samsung') || lower.includes('s24') || lower.includes('galaxy')) {
             return `<p>Absolutely! Here are our <strong>Samsung Galaxy S24 series</strong> prices:</p>
-            <p>ðŸ“± <strong>S24 Ultra</strong> "” <strong style="color:var(--gold-bright);">₦1,350,000</strong><br>
-            ðŸ“± <strong>S24+</strong> "” <strong style="color:var(--gold-bright);">₦1,100,000</strong><br>
-            ðŸ“± <strong>S24</strong> "” <strong style="color:var(--gold-bright);">₦950,000</strong></p>
+            <p><i class="fas fa-mobile-alt"></i> <strong>S24 Ultra</strong> "” <strong style="color:var(--gold-bright);">₦1,350,000</strong><br>
+            <i class="fas fa-mobile-alt"></i> <strong>S24+</strong> "” <strong style="color:var(--gold-bright);">₦1,100,000</strong><br>
+            <i class="fas fa-mobile-alt"></i> <strong>S24</strong> "” <strong style="color:var(--gold-bright);">₦950,000</strong></p>
             <p>All are <strong>original with Samsung Nigeria warranty</strong>.</p>`;
         }
         
         if (lower.includes('oraimo') || lower.includes('power bank') || lower.includes('powerbank')) {
             return `<p>Yes! We have <strong>Oraimo PowerBanks</strong> in various capacities:</p>
-            <p>ðŸ”‹ <strong>Oraimo 10,000mAh</strong> "” <strong style="color:var(--gold-bright);">₦25,000</strong><br>
-            ðŸ”‹ <strong>Oraimo 20,000mAh</strong> "” <strong style="color:var(--gold-bright);">₦45,000</strong><br>
-            ðŸ”‹ <strong>Oraimo 30,000mAh</strong> "” <strong style="color:var(--gold-bright);">₦65,000</strong></p>
+            <p><i class="fas fa-search"></i>‹ <strong>Oraimo 10,000mAh</strong> "” <strong style="color:var(--gold-bright);">₦25,000</strong><br>
+            <i class="fas fa-search"></i>‹ <strong>Oraimo 20,000mAh</strong> "” <strong style="color:var(--gold-bright);">₦45,000</strong><br>
+            <i class="fas fa-search"></i>‹ <strong>Oraimo 30,000mAh</strong> "” <strong style="color:var(--gold-bright);">₦65,000</strong></p>
             <p>All are <strong>authentic with fast charging</strong> support.</p>`;
         }
         
         if (lower.includes('itel')) {
             return `<p>Yes! We have <strong>Itel smartphones</strong> at great prices:</p>
-            <p>ðŸ“± <strong>Itel A70</strong> "” <strong style="color:var(--gold-bright);">₦120,000</strong><br>
-            ðŸ“± <strong>Itel S23</strong> "” <strong style="color:var(--gold-bright);">₦180,000</strong><br>
-            ðŸ“± <strong>Itel P40</strong> "” <strong style="color:var(--gold-bright);">₦95,000</strong></p>`;
+            <p><i class="fas fa-mobile-alt"></i> <strong>Itel A70</strong> "” <strong style="color:var(--gold-bright);">₦120,000</strong><br>
+            <i class="fas fa-mobile-alt"></i> <strong>Itel S23</strong> "” <strong style="color:var(--gold-bright);">₦180,000</strong><br>
+            <i class="fas fa-mobile-alt"></i> <strong>Itel P40</strong> "” <strong style="color:var(--gold-bright);">₦95,000</strong></p>`;
         }
         
         // Default
         return `<p>Thanks for reaching out! ðŸ˜Š I'm <strong>PrimeAI</strong>, your personal assistant at PrimeShieldHub.</p>
         <p>I can help you with:</p>
-        <p>ðŸ“± <strong>Product recommendations</strong> and current pricing<br>
+        <p><i class="fas fa-mobile-alt"></i> <strong>Product recommendations</strong> and current pricing<br>
         ðŸ’° <strong>Reseller program</strong> details and wholesale pricing<br>
         ðŸšš <strong>Shipping information</strong> and delivery timelines<br>
-        ðŸ’³ <strong>Payment options</strong> including cryptocurrency</p>
+        <i class="fas fa-credit-card"></i> <strong>Payment options</strong> including cryptocurrency</p>
         <p>What can I help you with today?</p>`;
     }
 
@@ -1914,11 +1915,11 @@
 
     // ==================== INITIALIZATION ====================
     async function init() {
-        console.log('ðŸ¤– Initializing PrimeShieldHub Quantum AI Assistant v12.0');
+        console.log('<i class="fas fa-robot"></i> Initializing PrimeShieldHub Quantum AI Assistant v12.0');
         console.log('ðŸ“ API:', CONFIG.API_BASE);
         console.log('ðŸ§  Model: Gemini 2.5 Flash');
-        console.log('ðŸ” Spell Correction: ENABLED');
-        console.log('ðŸ“š Knowledge Base: ' + Object.keys(CONFIG.PRODUCT_KNOWLEDGE).length + ' products');
+        console.log('<i class="fas fa-search"></i> Spell Correction: ENABLED');
+        console.log('<i class="fas fa-chart-bar"></i> Knowledge Base: ' + Object.keys(CONFIG.PRODUCT_KNOWLEDGE).length + ' products');
         
         setupEventListeners();
         setupVoiceInput();
@@ -1936,7 +1937,7 @@
         }
         
         console.log('✅ AI Assistant ready with enhanced intelligence');
-        console.log('ðŸ‘¤ User:', State.user?.name || 'Guest');
+        console.log('<i class="fas fa-user"></i> User:', State.user?.name || 'Guest');
         console.log('ðŸ’¬ Conversations:', State.conversations.length);
         console.log('ðŸŽ­ Persona:', State.persona);
     }

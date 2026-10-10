@@ -1187,7 +1187,7 @@
             // Customer Info
             document.getElementById('displayCustomer').textContent = tracking.customerName || tracking.customer_name || '---';
             document.getElementById('displayAmount').textContent = formatCurrency(tracking.total || tracking.amount || 0);
-            var pmLabels = { 'paystack': 'ðŸ’³ Paystack', 'bank': 'ðŸ¦ Bank Transfer', 'crypto': '₺ Crypto', 'whatsapp': 'ðŸ“± WhatsApp' };
+            var pmLabels = { 'paystack': '<i class="fas fa-credit-card"></i> Paystack', 'bank': 'ðŸ¦ Bank Transfer', 'crypto': '₺ Crypto', 'whatsapp': '<i class="fas fa-mobile-alt"></i> WhatsApp' };
             document.getElementById('displayPaymentMethod').textContent = pmLabels[tracking.paymentMethod] || tracking.paymentMethod || '---';
             document.getElementById('displayEstDelivery').textContent = formatDate(tracking.estimatedDelivery || tracking.estimated_delivery);
 
@@ -1495,7 +1495,7 @@
             showQuantumNotification('Live Tracking Active. Enter your tracking ID to check your order status.', 'info');
         }, 1500);
 
-        console.log('ðŸš€ PrimeShieldHub Shipping v2.2 "” Fully Backend Synchronized');
+        console.log('<i class="fas fa-rocket"></i><i class="fas fa-rocket"></i> PrimeShieldHub Shipping v2.2 "” Fully Backend Synchronized');
         console.log('✅ Free Express threshold: ₦' + FREE_EXPRESS_THRESHOLD.toLocaleString());
         console.log('✅ Free Standard threshold: ₦' + FREE_SHIPPING_THRESHOLD.toLocaleString());
         console.log('✅ Free Economy threshold: ₦' + FREE_ECONOMY_THRESHOLD.toLocaleString());

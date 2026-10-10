@@ -960,7 +960,7 @@
                     </div>
 
                     <!-- ================================================================ -->
-                    <!-- ðŸ”¥ DISCOUNT CODE SECTION - UPDATED WITH NEW CODES               -->
+                    <!-- <i class="fas fa-fire"></i> DISCOUNT CODE SECTION - UPDATED WITH NEW CODES               -->
                     <!-- ================================================================ -->
                     <div class="form-group" style="margin-top:16px;">
                         <label class="form-label"><i class="fas fa-tag"></i> Promo Code</label>
@@ -1012,7 +1012,7 @@
                     </div>
 
                     <!-- ================================================================ -->
-                    <!-- ðŸ”¥ WHOLESALE/RESELLER SECTION - VERIFICATION REQUIRED             -->
+                    <!-- <i class="fas fa-fire"></i> WHOLESALE/RESELLER SECTION - VERIFICATION REQUIRED             -->
                     <!-- ================================================================ -->
                     <div class="wholesale-section" id="wholesaleSection">
                         <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:8px;">
@@ -1043,7 +1043,7 @@
                         <label class="form-label"><i class="fas fa-credit-card"></i> Payment Method</label>
                         <div class="payment-methods">
                             <div class="payment-method selected" data-method="paystack" onclick="selectPaymentMethod(this)">
-                                <span class="pm-icon">ðŸ’³</span>
+                                <span class="pm-icon"><i class="fas fa-credit-card"></i></span>
                                 <span class="pm-name">Card</span>
                             </div>
                             <div class="payment-method" data-method="bank" onclick="selectPaymentMethod(this)">
@@ -1194,7 +1194,7 @@
                     this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
                     this.buffer = await this.generateSound();
                     this.isInitialized = true;
-                    console.log('ðŸ”Š Premium notification sound initialized (Checkout)');
+                    console.log('<i class="fas fa-search"></i>Š Premium notification sound initialized (Checkout)');
                 } catch (e) {
                     console.warn('âš ï¸ Audio initialization failed:', e);
                 }
@@ -1265,7 +1265,7 @@
                     source.connect(this.audioContext.destination);
                     source.start();
                 } catch (e) {
-                    console.debug('ðŸ”‡ Sound playback failed:', e);
+                    console.debug('<i class="fas fa-search"></i>‡ Sound playback failed:', e);
                 }
             }
 
@@ -2240,8 +2240,8 @@
                         'ðŸ¢ Name: PrimeShieldHub Gadgets Limited\n' +
                         'ðŸ’° Amount: ' + formatCurrency(totals.total) + '\n\n' +
                         'ðŸ“ Reference: ' + reference + '\n\n' +
-                        'ðŸ“ž After payment, confirm via WhatsApp or email.\n' +
-                        'ðŸ“§ primeshieldhub@gmail.com | ðŸ“± +234 810 353 5978',
+                        '<i class="fas fa-phone"></i> After payment, confirm via WhatsApp or email.\n' +
+                        '<i class="fas fa-envelope"></i> primeshieldhub@gmail.com | <i class="fas fa-mobile-alt"></i> +234 810 353 5978',
                         'info'
                     );
                     showToast('Bank transfer details sent', 'success');
@@ -2258,11 +2258,11 @@
                     
                     const message = encodeURIComponent(
                         'Hello PrimeShieldHub,\n\n' +
-                        'ðŸ›’ I want to place an order:\n' +
+                        '<i class="fas fa-shopping-cart"></i> I want to place an order:\n' +
                         'ðŸ“ Order Reference: ' + reference + '\n' +
                         'ðŸ’° Total: ' + formatCurrency(totals.total) + '\n' +
-                        'ðŸ‘¤ Name: ' + name + '\n' +
-                        'ðŸ“± Phone: ' + phone + '\n' +
+                        '<i class="fas fa-user"></i> Name: ' + name + '\n' +
+                        '<i class="fas fa-mobile-alt"></i> Phone: ' + phone + '\n' +
                         'ðŸ“ Address: ' + address + ', ' + city + ', ' + state + '\n' +
                         (appliedDiscount ? 'ðŸ·ï¸ Promo: ' + appliedDiscount.code + '\n' : '') +
                         (totals.wholesaleSavings > 0 ? 'ðŸ’Ž Wholesale Savings: ' + formatCurrency(totals.wholesaleSavings) + '\n' : '') +
@@ -2286,14 +2286,14 @@
                     
                     showMessage(checkoutMessage, 
                         '✅ Order confirmed for Pay on Delivery!\n\n' +
-                        'ðŸ“¦ We\'ll deliver to:\n' +
+                        '<i class="fas fa-box"></i>We\'ll deliver to:\n' +
                         address + ', ' + city + ', ' + state + '\n\n' +
                         'ðŸšš Delivery: ' + totals.shippingLabel + ' (' + totals.shippingDays + ' days)\n' +
                         'ðŸ’° Total: ' + formatCurrency(totals.total) + ' (pay on delivery)\n\n' +
                         'ðŸ“ Reference: ' + reference + '\n\n' +
                         (totals.loyaltyPoints > 0 ? '⭐ You\'ll earn ' + totals.loyaltyPoints + ' loyalty points (' + totals.loyaltyTier + ' tier)\n\n' : '') +
-                        'ðŸ“ž We\'ll contact you before delivery.\n' +
-                        'ðŸ“± +234 810 353 5978',
+                        '<i class="fas fa-phone"></i> We\'ll contact you before delivery.\n' +
+                        '<i class="fas fa-mobile-alt"></i> +234 810 353 5978',
                         'success'
                     );
                     showToast('Order placed! Pay on delivery.', 'success');
@@ -2400,7 +2400,7 @@
                     e.preventDefault();
                     e.stopPropagation();
                     const muted = window.notificationSound.toggle();
-                    showToast(muted ? 'ðŸ”‡ Sound muted' : 'ðŸ”Š Sound enabled', 'info');
+                    showToast(muted ? '<i class="fas fa-search"></i>‡ Sound muted' : '<i class="fas fa-search"></i>Š Sound enabled', 'info');
                 });
             }
         });
@@ -2489,7 +2489,7 @@
             loadCartItems();
             document.getElementById('footerYear').textContent = new Date().getFullYear();
 
-            console.log('ðŸš€ Quantum Checkout v7.0 "” With New Rewards Structure');
+            console.log('<i class="fas fa-rocket"></i><i class="fas fa-rocket"></i> Quantum Checkout v7.0 "” With New Rewards Structure');
             console.log('✅ Free shipping threshold: ₦' + FREE_SHIPPING_THRESHOLD.toLocaleString());
             console.log('✅ Mid shipping: ₦' + MID_SHIPPING_THRESHOLD.toLocaleString() + ' - ₦' + MID_SHIPPING_MAX.toLocaleString());
             console.log('✅ Wholesale min quantity: ' + WHOLESALE_MIN_QUANTITY);
@@ -2497,7 +2497,7 @@
             console.log('✅ POD zones: ' + POD_ALLOWED_ZONES.join(', '));
             console.log('✅ Public promo codes: NEW5, SAVE10, BULK15, FREESHIP, ACCESSORY5');
             console.log('✅ Loyalty tiers: Bronze(1x), Silver(3x), Gold(5x), Platinum(10x)');
-            console.log('ðŸ”Š Premium notification sound loaded');
+            console.log('<i class="fas fa-search"></i>Š Premium notification sound loaded');
         }
 
         document.addEventListener('DOMContentLoaded', init);

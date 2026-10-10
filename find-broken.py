@@ -17,7 +17,7 @@ for dirpath, dirnames, filenames in os.walk(root_folder):
         
         # Find any sequence starting with the mojibake prefix characters
         # These are the "tell" characters that indicate corruption
-        matches = re.findall(r'[ÃÂÂ£â€°Â°Å¾Å½Å¡Å“Â®Â©Â¿Â½][^\s<>"\'`=,;:()\[\]{}]{0,8}', content)
+        matches = re.findall(r'[ÃÂ£"°Â°Å¾Å½Å¡Å“®©Â¿Â½][^\s<>"\'`=,;:()\[\]{}]{0,8}', content)
         for m in matches:
             found.setdefault(m, set()).add(filepath)
 

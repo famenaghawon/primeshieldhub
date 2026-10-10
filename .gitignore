@@ -46,7 +46,7 @@ dist
 .env.*.local
 
 # ------------------- Secrets & Keys (SPECIFIC ONLY) -------------------
-# Do NOT use wildcards like *key* or *secret* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â
+# Do NOT use wildcards like *key* or *secret* ÃƒÆ’Ã†"™Ãƒ"šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢"šÂ¬Ã…Â¡Ãƒ"šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢‚¬Å¡Ã‚Â¬Ãƒ"šÃ‚Â
 # they silently ignore files like keyboard-shortcuts.js
 gcp-key.json
 service-account-key.json
