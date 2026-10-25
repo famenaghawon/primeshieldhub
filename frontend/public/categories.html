@@ -58,7 +58,7 @@
         "@type": "CollectionPage",
         "@id": "https://primeshieldhub.com/categories/#collection",
         "name": "Quantum Categories | PrimeShieldHub",
-        "description": "Advanced category browsing with 3D product grids, gold gradient design, AI-powered filtering, and Apple-level sophistication. Shop smartphones, laptops, AirPods, and accessories.",
+        "description": "Advanced category browsing with 3D product grids, gold gradient design, AI-powered filtering, and polished, responsive product browsing. Shop smartphones, laptops, AirPods, and accessories.",
         "url": "https://primeshieldhub.com/categories",
         "breadcrumb": {
           "@id": "https://primeshieldhub.com/categories/#breadcrumb"
@@ -794,7 +794,7 @@
     }
     
     .color-swatch.selected::after {
-      content: '¢Å“"';
+      content: 'Â¢Ã…â€œ"';
       position: absolute;
       top: 50%;
       left: 50%;
@@ -1923,7 +1923,7 @@
       <span class="mono">QUANTUM CATEGORY BROWSING</span>
     </div>
     <h1 class="hero-title gold-text">Explore <br>Premium Categories</h1>
-    <p class="hero-subtitle">Advanced 3D product grids, AI-powered filtering, and Apple-level sophistication. Discover smartphones, laptops, AirPods, and accessories.</p>
+    <p class="hero-subtitle">Advanced 3D product grids, AI-powered filtering, and polished, responsive product browsing. Discover smartphones, laptops, AirPods, and accessories.</p>
   </div>
 </section>
 
@@ -1967,8 +1967,8 @@
         <div class="price-range">
           <input type="range" id="priceSlider" class="price-slider" min="0" max="3000000" step="50000" value="3000000">
           <div class="price-values">
-            <span id="minPriceLabel">₦0</span>
-            <span id="maxPriceLabel">₦3,000,000</span>
+            <span id="minPriceLabel">â‚¦0</span>
+            <span id="maxPriceLabel">â‚¦3,000,000</span>
           </div>
         </div>
       </div>
@@ -2023,12 +2023,12 @@
           <strong id="activeCategoryName">All Categories</strong>
         </div>
         <select id="sortSelect" class="sort-select">
-          <option value="price_asc">"™° Price: Low to High</option>
-          <option value="price_desc">"™° Price: High to Low</option>
-          <option value="name_asc">"Â Name: A to Z</option>
-          <option value="name_desc">"Â Name: Z to A</option>
-          <option value="newest">✨ Newest First</option>
-          <option value="popular">⭐ Most Popular</option>
+          <option value="price_asc">"â„¢Â° Price: Low to High</option>
+          <option value="price_desc">"â„¢Â° Price: High to Low</option>
+          <option value="name_asc">"Ã‚Â Name: A to Z</option>
+          <option value="name_desc">"Ã‚Â Name: Z to A</option>
+          <option value="newest">âœ¨ Newest First</option>
+          <option value="popular">â­Â Most Popular</option>
         </select>
       </div>
       
@@ -2041,7 +2041,7 @@
       <!-- ============================================================ -->
       <div class="pagination-wrapper">
         <div class="pagination-info" id="paginationInfo">
-          Showing <strong id="showingStart">0</strong>¢€"<strong id="showingEnd">0</strong> of <strong id="totalResults">0</strong> products
+          Showing <strong id="showingStart">0</strong>Â¢â‚¬"<strong id="showingEnd">0</strong> of <strong id="totalResults">0</strong> products
         </div>
         
         <div class="pagination-controls">
@@ -2132,7 +2132,7 @@
     
     <div class="footer-bottom">
       <div class="copyright">
-        ‚© <span id="currentYear"></span> PrimeShieldHub Gadgets Limited. All rights reserved.
+        â€šÂ© <span id="currentYear"></span> PrimeShieldHub Gadgets Limited. All rights reserved.
       </div>
       <div class="copyright mono">
         <i class="fas fa-shield-alt"></i> Quantum Security | Gold Standard
@@ -2305,7 +2305,7 @@
             description: p.description || ''
           }));
          
-          console.log(`¢Å“"¦ Loaded ${allProducts.length} products from backend`);
+          console.log(`Â¢Ã…â€œ"Â¦ Loaded ${allProducts.length} products from backend`);
           return allProducts;
         }
         if (data && Array.isArray(data)) {
@@ -2327,7 +2327,7 @@
             active: p.active !== 0,
             description: p.description || ''
           }));
-          console.log(`¢Å“"¦ Loaded ${allProducts.length} products from backend (array format)`);
+          console.log(`Â¢Ã…â€œ"Â¦ Loaded ${allProducts.length} products from backend (array format)`);
           return allProducts;
         }
         console.warn('Unexpected API response format:', data);
@@ -2343,12 +2343,12 @@
         const data = await apiCall('/categories');
         if (data && data.categories && Array.isArray(data.categories)) {
           categoriesData = data.categories;
-          console.log(`¢Å“"¦ Loaded ${categoriesData.length} categories from backend`);
+          console.log(`Â¢Ã…â€œ"Â¦ Loaded ${categoriesData.length} categories from backend`);
           return categoriesData;
         }
         if (data && Array.isArray(data)) {
           categoriesData = data;
-          console.log(`¢Å“"¦ Loaded ${categoriesData.length} categories from backend (array format)`);
+          console.log(`Â¢Ã…â€œ"Â¦ Loaded ${categoriesData.length} categories from backend (array format)`);
           return categoriesData;
         }
         console.warn('Unexpected categories response format:', data);
@@ -2502,10 +2502,10 @@
     // ================================================================ //
     
     function formatCurrency(amount) {
-      if (amount === null || amount === undefined) return '₦';
+      if (amount === null || amount === undefined) return 'â‚¦';
       const num = Number(amount);
-      if (isNaN(num)) return '₦';
-      return '₦' + num.toLocaleString('en-NG');
+      if (isNaN(num)) return 'â‚¦';
+      return 'â‚¦' + num.toLocaleString('en-NG');
     }
     
     function showToast(message, type = 'success') {
@@ -2646,7 +2646,7 @@
       stockFilters.innerHTML = `
         <label class="filter-option"><input type="radio" name="stock" value="all" checked> <span class="filter-label">All Items</span></label>
         <label class="filter-option"><input type="radio" name="stock" value="inStock"> <span class="filter-label">In Stock</span></label>
-        <label class="filter-option"><input type="radio" name="stock" value="lowStock"> <span class="filter-label">Low Stock (¢"°Â¤5)</span></label>
+        <label class="filter-option"><input type="radio" name="stock" value="lowStock"> <span class="filter-label">Low Stock (Â¢"Â°Ã‚Â¤5)</span></label>
       `;
      
       const brandFiltersEl = document.getElementById('brandFilters');
@@ -2799,7 +2799,7 @@
             <div class="product-image">
               <img src="${product.image}" alt="${product.name}" loading="lazy" onerror="this.src='/company_logo.png'">
               ${product.isNew ? '<span class="product-badge new">NEW</span>' : ''}
-              ${product.isBestseller && !product.isNew ? '<span class="product-badge bestseller">⭐ BESTSELLER</span>' : ''}
+              ${product.isBestseller && !product.isNew ? '<span class="product-badge bestseller">â­Â BESTSELLER</span>' : ''}
               ${outOfStock ? '<span class="product-badge out-of-stock">OUT OF STOCK</span>' : ''}
             </div>
             <div class="product-info">
@@ -2884,7 +2884,7 @@
       if (startPage > 1) {
         html += `<button class="page-btn" onclick="window.changePage(1)">1</button>`;
         if (startPage > 2) {
-          html += `<span class="page-dots">"¦</span>`;
+          html += `<span class="page-dots">"Â¦</span>`;
         }
       }
       
@@ -2895,7 +2895,7 @@
       
       if (endPage < totalPages) {
         if (endPage < totalPages - 1) {
-          html += `<span class="page-dots">"¦</span>`;
+          html += `<span class="page-dots">"Â¦</span>`;
         }
         html += `<button class="page-btn" onclick="window.changePage(${totalPages})">${totalPages}</button>`;
       }
@@ -2994,7 +2994,7 @@
             </div>
             <div class="comparison-row">
               <div class="comparison-label">Rating</div>
-              ${compareProducts.map(p => `<div class="comparison-cell">${p.rating ? '¢Ëœ"¦'.repeat(Math.floor(p.rating)) + (p.rating % 1 ? '‚½' : '') + ' (' + p.rating + ')' : 'N/A'}</div>`).join('')}
+              ${compareProducts.map(p => `<div class="comparison-cell">${p.rating ? 'Â¢Ã‹Å“"Â¦'.repeat(Math.floor(p.rating)) + (p.rating % 1 ? 'â€šÂ½' : '') + ' (' + p.rating + ')' : 'N/A'}</div>`).join('')}
             </div>
             <div class="comparison-row">
               <div class="comparison-label">Actions</div>
@@ -3095,7 +3095,7 @@
       maxPrice = 3000000;
       stockFilter = 'all';
       priceSlider.value = '3000000';
-      maxPriceLabel.textContent = '₦3,000,000';
+      maxPriceLabel.textContent = 'â‚¦3,000,000';
       
       document.querySelectorAll('.brand-filter').forEach(cb => cb.checked = false);
       document.querySelectorAll('.feature-filter').forEach(cb => cb.checked = false);
@@ -3174,10 +3174,10 @@
       if (isAuthenticated && userData) {
         showToast(`Welcome back, ${userData.name || 'Customer'}!`, 'success');
       } else {
-        showToast('✨ Sign in for wholesale pricing!', 'info');
+        showToast('âœ¨ Sign in for wholesale pricing!', 'info');
       }
       
-      console.log('Å¡€ PrimeShieldHub Categories v3.2 ¢€" Fixed Pagination');
+      console.log('Ã…Â¡â‚¬ PrimeShieldHub Categories v3.2 Â¢â‚¬"Â Fixed Pagination');
     }
     
     // ================================================================ //

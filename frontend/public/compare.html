@@ -7,7 +7,7 @@
   <!-- Canonical URL (Clean URL - no .html) -->
   <link rel="canonical" href="https://primeshieldhub.com/compare">
   
-  <title>2026 Product Comparison Tool | PrimeShieldHub — Nigeria's Premier Gadget Supplier</title>
+  <title>2026 Product Comparison Tool | PrimeShieldHub â€” Nigeria's Premier Gadget Supplier</title>
   <meta name="description" content="Compare 2026 premium gadgets side-by-side with our AI-powered comparison tool. Analyze specifications, prices, and features of iPhone 17, Galaxy S25, AirPods Pro 3 and more.">
   <meta name="theme-color" content="#0b0b0d">
   
@@ -24,7 +24,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 
   <!-- Favicon -->
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚖️</text></svg>">
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>âš–ï¸</text></svg>">
 
   <style>
     /* === CINEMATIC DARK THEME WITH ORIGINAL GOLD === */
@@ -544,7 +544,7 @@
     }
 
     .winner-cell::after {
-      content: '✓';
+      content: 'âœ“';
       position: absolute;
       right: 10px;
       color: var(--success);
@@ -729,7 +729,7 @@
     }
 
     .ai-points li::before {
-      content: '→';
+      content: 'â†’';
       position: absolute;
       left: 0;
       color: var(--gold);
@@ -953,7 +953,7 @@
           <div class="shield-logo"></div>
           <div class="brand-text">
             <div class="brand-name">PRIMESHIELDHUB</div>
-            <div class="brand-tagline">2026 Premium Gadgets • Wholesale & Retail</div>
+            <div class="brand-tagline">2026 Premium Gadgets â€¢ Wholesale & Retail</div>
           </div>
         </a>
         
@@ -1205,7 +1205,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <div class="footer-logo">PRIMESHIELDHUB</div>
-          <p class="footer-description">Nigeria's premier 2026 premium gadget supplier with blockchain verification, AI-powered support, and nationwide delivery across all 36 states.</p>
+          <p class="footer-description">Nigeria's premier 2026 premium gadget supplier with verified product data and AI-assisted support, and nationwide delivery across all 36 states.</p>
           <div class="social-links">
             <a href="https://wa.me/2348103535978" target="_blank" class="social-link"><i class="fab fa-whatsapp"></i></a>
             <a href="https://instagram.com/primeshieldhub" target="_blank" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -1247,7 +1247,7 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <div class="copyright">© <span id="currentYear">2026</span> PrimeShieldHub. All rights reserved. | 2026 Premium Gadgets Supplier</div>
+        <div class="copyright">Â© <span id="currentYear">2026</span> PrimeShieldHub. All rights reserved. | 2026 Premium Gadgets Supplier</div>
         <div class="copyright"><a href="/privacy" style="color: var(--muted); text-decoration: none; margin-right: 16px;">Privacy Policy</a><a href="/terms" style="color: var(--muted); text-decoration: none;">Terms of Service</a></div>
       </div>
     </div>
@@ -1480,8 +1480,8 @@
 
     // Utility Functions
     const formatCurrency = (amount) => {
-      if (!amount) return '₦0';
-      return '₦' + amount.toLocaleString('en-NG');
+      if (!amount) return 'â‚¦0';
+      return 'â‚¦' + amount.toLocaleString('en-NG');
     };
 
     const showNotification = (message, type = 'info') => {
@@ -1665,7 +1665,7 @@
       
       allSpecs.forEach(spec => {
         const row = document.createElement('tr');
-        const values = state.comparisonData.map(product => product.specs[spec] || '—');
+        const values = state.comparisonData.map(product => product.specs[spec] || 'â€”');
         
         let bestValue = null;
         if (spec.includes('Score') || spec.includes('%') || spec.includes('Performance') || spec.includes('Battery')) {
@@ -1988,7 +1988,7 @@
       allSpecs.forEach(spec => {
         const row = [spec];
         state.comparisonData.forEach(product => {
-          row.push(product.specs[spec] || '—');
+          row.push(product.specs[spec] || 'â€”');
         });
         csvData.push(row);
       });

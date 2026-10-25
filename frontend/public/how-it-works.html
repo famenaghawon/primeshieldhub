@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How PrimeShieldHub Works | Architecture & Infrastructure</title>
+    <meta name="description" content="The technical infrastructure behind PrimeShieldHub: Cloudflare Workers, D1, R2, fraud engines, and payment integrations.">
+    <link rel="canonical" href="https://primeshieldhub.com/how-it-works.html">
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; line-height: 1.7; color: #1a1a1a; max-width: 900px; margin: 0 auto; padding: 2rem; }
+        h1 { font-size: 2.5rem; margin-bottom: 1rem; }
+        h2 { font-size: 1.75rem; margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #e0e0e0; }
+        h3 { font-size: 1.25rem; margin-top: 2rem; color: #333; }
+        p { margin: 1rem 0; color: #444; }
+        ul { margin: 1rem 0; padding-left: 1.5rem; }
+        li { margin: 0.5rem 0; color: #444; }
+        code { background: #f4f4f4; padding: 0.15rem 0.4rem; border-radius: 3px; font-size: 0.9em; }
+        .tagline { font-size: 1.1rem; color: #666; margin-bottom: 2rem; }
+        .card { background: #f9f9f9; padding: 1.5rem; border-radius: 8px; margin: 1.5rem 0; border-left: 4px solid #0066cc; }
+        .honest { background: #fff8e1; padding: 1rem 1.5rem; border-radius: 8px; margin: 2rem 0; border-left: 4px solid #f9a825; }
+        a { color: #0066cc; }
+    </style>
+</head>
+<body>
+    <h1>How PrimeShieldHub Works</h1>
+    <p class="tagline">The infrastructure, integrations, and safeguards behind every transaction. This page describes what we actually built — no more, no less.</p>
+
+    <div class="honest">
+        <strong>Our commitment:</strong> Every technical claim on this website can be verified by the details on this page. If a specific feature or integration isn't listed here, it isn't something we offer.
+    </div>
+
+    <h2>Platform Architecture</h2>
+    <p>PrimeShieldHub is built entirely on Cloudflare's global edge network. This means:</p>
+    <ul>
+        <li><strong>Zero origin servers.</strong> Every request is handled on Cloudflare's edge (300+ cities), reducing latency globally.</li>
+        <li><strong>Cloudflare Workers</strong> handle API routing, authentication, and business logic using V8 isolates.</li>
+        <li><strong>Cloudflare Pages</strong> serves the static frontend with global CDN caching.</li>
+        <li><strong>Cloudflare D1</strong> (SQLite-compatible) stores all relational data: products, orders, users, staff, reviews.</li>
+        <li><strong>Cloudflare R2</strong> hosts product images and receipt PDFs (zero egress fees).</li>
+        <li><strong>Cloudflare KV</strong> caches high-read data like product lists and rate-limit counters.</li>
+    </ul>
+
+    <h2>The Engines</h2>
+
+    <h3>Price Guard (Fraud Prevention)</h3>
+    <p>Before any payment is initialized, the <code>priceGuard</code> engine re-validates every line item in the cart against the product catalog in D1. If any price has been manipulated, the checkout is rejected with HTTP 403. This prevents cart-manipulation attacks where a user alters prices in the browser.</p>
+
+    <h3>FX Engine (Currency)</h3>
+    <p>Prices are normalized across currencies using the <code>fxEngine</code>. All prices are stored and displayed in Nigerian Naira (₦) by default. Multi-currency conversion uses live rates fetched from the FX engine at checkout time.</p>
+
+    <h3>Logistics Engine</h3>
+    <p>Shipping calculations use the <code>logisticsEngine</code>, which computes delivery cost based on weight, dimensions, and destination region. Delivery regions are stored in the <code>delivery_regions</code> table.</p>
+
+    <h2>Payment Integrations</h2>
+    <ul>
+        <li><strong>Paystack</strong> — Primary payment gateway for NGN card, bank transfer, USSD.</li>
+        <li><strong>Coinbase Commerce</strong> — Cryptocurrency payments (BTC, ETH, USDC, and others). Handled entirely by Coinbase; we do not run our own blockchain node.</li>
+        <li><strong>Webhook verification</strong> — All payment webhooks are verified using HMAC-SHA256 signatures before processing.</li>
+    </ul>
+
+    <h2>Security</h2>
+    <ul>
+        <li><strong>Authentication:</strong> JWT tokens signed with HMAC-SHA256, stored in HttpOnly cookies with CSRF protection.</li>
+        <li><strong>Password hashing:</strong> Secure password hashing with per-user salts.</li>
+        <li><strong>Rate limiting:</strong> Cloudflare KV-backed rate limiter prevents brute-force attacks.</li>
+        <li><strong>Session security:</strong> All traffic uses TLS 1.3 (enforced by Cloudflare).</li>
+        <li><strong>Audit logging:</strong> All sensitive operations are logged to the <code>PAYMENT_LOGS_DB</code> D1 database for fraud analysis.</li>
+        <li><strong>Two-factor authentication:</strong> TOTP-based 2FA available for staff and admin accounts.</li>
+    </ul>
+
+    <h2>Real-Time Features</h2>
+    <ul>
+        <li><strong>Chat:</strong> Live customer-to-staff chat powered by Cloudflare Durable Objects (WebSocket).</li>
+        <li><strong>Notifications:</strong> Email (Resend), SMS (Telegram bot), and browser push notifications.</li>
+        <li><strong>Order tracking:</strong> Real-time order status updates via courier API integration. Updates are pushed as your package moves through the delivery stages.</li>
+    </ul>
+
+    <h2>Automated Background Operations</h2>
+    <p>Every 6 hours, a scheduled Cloudflare Worker runs maintenance tasks:</p>
+    <ul>
+        <li>Checks for stale orders (orders without status updates).</li>
+        <li>Sends reminder emails to staff about pending approvals.</li>
+        <li>Recalculates product stock alert thresholds.</li>
+        <li>Logs anomaly events to the security audit log.</li>
+    </ul>
+    <p>These operations are automated — meaning they run on a schedule without human intervention — but they are <strong>rule-based</strong>, not AI-powered. The logic is deterministic and auditable.</p>
+
+    <h2>AI-Assisted Features</h2>
+    <p>We use OpenAI's API for the following features (which are clearly labeled as AI-assisted in the interface):</p>
+    <ul>
+        <li><strong>Product recommendations</strong> based on browsing history.</li>
+        <li><strong>Chat assistant</strong> that answers common questions and escalates to human staff.</li>
+        <li><strong>Admin insights</strong> that summarize sales and inventory trends.</li>
+    </ul>
+    <p>We do <strong>not</strong> use AI for: payment processing, fraud decisions, KYC verification, or order fulfillment. Those are deterministic, rule-based processes that are fully auditable.</p>
+
+    <h2>What We Don't Claim</h2>
+    <ul>
+        <li>We do not use blockchain technology. Reseller codes are securely generated random tokens, not blockchain assets.</li>
+        <li>We do not use quantum computing or quantum-resistant cryptography (we use standard TLS 1.3 and HMAC-SHA256).</li>
+        <li>We do not use satellite or IoT sensors for delivery tracking (we use courier API integrations).</li>
+        <li>We do not use neural networks or deep learning for inventory management.</li>
+        <li>We do not use smart contracts (reseller agreements are signed electronically and stored as PDFs).</li>
+    </ul>
+
+    <h2>Questions?</h2>
+    <p>If you need to verify any specific claim on our website, or would like to see a technical walkthrough of the architecture, contact us at <a href="/contact.html">our contact page</a>. We're happy to answer specific technical questions.</p>
+
+    <p style="margin-top: 3rem; padding-top: 1rem; border-top: 1px solid #e0e0e0; color: #666; font-size: 0.9em;">
+        Last updated: October 2026. This page is maintained as part of our commitment to honest technical communication.
+    </p>
+</body>
+</html>

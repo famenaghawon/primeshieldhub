@@ -16,7 +16,7 @@
 
   <style>
     /* ================================================================ */
-    /* QUANTUM ADDRESSES - WORLD-CLASS DESIGN                          */
+    /* QUANTUM ADDRESSES - CLEAN, TESTED ADDRESS MANAGEMENT                          */
     /* ================================================================ */
 
     :root {
@@ -882,7 +882,7 @@
           <div class="stat-label">Total Addresses</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="defaultAddress">"”</div>
+          <div class="stat-value" id="defaultAddress">"â€</div>
           <div class="stat-label">Default Address</div>
         </div>
         <div class="stat-card">
@@ -890,7 +890,7 @@
           <div class="stat-label">Address Types</div>
         </div>
         <div class="stat-card">
-          <div class="stat-value" id="lastAdded">"”</div>
+          <div class="stat-value" id="lastAdded">"â€</div>
           <div class="stat-label">Last Added</div>
         </div>
       </div>
@@ -924,7 +924,7 @@
 <footer class="site-footer">
   <div class="container">
     <div class="footer-inner">
-      <div class="copyright">© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
+      <div class="copyright">Â© <span id="footerYear"></span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
       <div class="footer-links">
         <a href="/account">Account</a>
         <a href="/profile">Profile</a>
@@ -953,8 +953,8 @@
       <div class="form-group">
         <label>Address Type <span class="required">*</span></label>
         <select id="addressType" required>
-          <option value="home">ðŸ  Home</option>
-          <option value="office">ðŸ¢ Office</option>
+          <option value="home">Ã°Å¸ÂÂ  Home</option>
+          <option value="office">Ã°Å¸ÂÂ¢ Office</option>
           <option value="other"><i class="fas fa-box"></i>Other</option>
         </select>
       </div>
@@ -1147,12 +1147,12 @@
     }
 
     function formatDate(dateStr) {
-      if (!dateStr) return '"”';
+      if (!dateStr) return '"â€';
       try {
         const d = new Date(dateStr);
         return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
       } catch(e) {
-        return '"”';
+        return '"â€';
       }
     }
 
@@ -1292,13 +1292,13 @@
       totalAddresses.textContent = addresses.length;
       
       const defaultAddr = addresses.find(a => a.is_default || a.default);
-      defaultAddress.textContent = defaultAddr ? defaultAddr.type || 'Home' : '"”';
+      defaultAddress.textContent = defaultAddr ? defaultAddr.type || 'Home' : '"â€';
       
       const types = new Set(addresses.map(a => a.type).filter(Boolean));
       addressTypes.textContent = types.size;
       
       const last = addresses.length > 0 ? addresses[addresses.length - 1] : null;
-      lastAdded.textContent = last && last.created_at ? formatDate(last.created_at) : '"”';
+      lastAdded.textContent = last && last.created_at ? formatDate(last.created_at) : '"â€';
     }
 
     // ===== ESCAPE HTML =====
@@ -1557,7 +1557,7 @@
         showLoading(false);
       }
 
-      console.log('<i class="fas fa-rocket"></i><i class="fas fa-rocket"></i> Quantum Addresses v1.0 "” 100% Dynamic');
+      console.log('<i class="fas fa-rocket"></i><i class="fas fa-rocket"></i> Quantum Addresses v1.0 "â€ 100% Dynamic');
     }
 
     document.addEventListener('DOMContentLoaded', init);
