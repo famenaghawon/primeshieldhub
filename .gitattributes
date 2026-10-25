@@ -1,4 +1,4 @@
-# Normalize line endings — avoids CRLF/LF warnings on Windows
+# Normalize line endings - avoids CRLF/LF issues on Windows
 * text=auto eol=lf
 
 # Binary files should not be touched
@@ -21,11 +21,15 @@
 *.dll binary
 *.so binary
 
-# Scripts should always use LF (they run on Unix-like systems)
-*.sh text eol=lf
-*.ps1 text eol=crlf
+# Scripts should use OS-native line endings
+*.sh   text eol=lf
+*.ps1  text eol=crlf
+*.cmd  text eol=crlf
+*.bat  text eol=crlf
 
 # Config files should use LF
-*.json text eol=lf
-*.yml text eol=lf
-*.yaml text eol=lf
+*.json  text eol=lf
+*.yml   text eol=lf
+*.yaml  text eol=lf
+*.md    text eol=lf
+*.sql   text eol=lf
