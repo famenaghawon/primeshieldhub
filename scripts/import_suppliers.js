@@ -1,12 +1,12 @@
-// ============================================================================
+﻿// ============================================================================
 // importer-modular.ts - Modular product importer for Cloudflare D1 + R2
 // Uses separate engine modules for FX, logistics, and pricing
 // ============================================================================
 
 import { readFileSync } from 'fs';
 import { parse } from 'csv-parse/sync';
-import { convertToNaira } from '../engines/fxEngine';
-import { calculateLogistics } from '../engines/logisticsEngine';
+import { convertToNaira } from '../backend/src/engines/fxEngine';
+import { calculateLogistics } from '../backend/src/engines/logisticsEngine';
 import { calculateSellingPrice } from '../engines/pricingEngine';
 
 // Configuration
@@ -173,11 +173,11 @@ function sanitizeFileName(name: string): string {
 
 // ------------------------------ Main Import Function -------------------------
 async function importSupplierProducts(csvPath: string): Promise<void> {
-  console.log('🚀 MODULAR SUPPLIER IMPORT STARTED');
-  console.log(`📁 Reading CSV: ${csvPath}`);
+  console.log('ðŸš€ MODULAR SUPPLIER IMPORT STARTED');
+  console.log(`ðŸ“ Reading CSV: ${csvPath}`);
 
   const rows = parseCSV(csvPath);
-  console.log(`📊 Found ${rows.length} products`);
+  console.log(`ðŸ“Š Found ${rows.length} products`);
 
   let successCount = 0;
   let failCount = 0;
@@ -208,25 +208,25 @@ async function importSupplierProducts(csvPath: string): Promise<void> {
       const sku = item.sku || null;
       const exists = await productExists(sku, productName);
       if (exists) {
-        console.log(`⏭️ Skipping duplicate: ${productName}`);
+        console.log(`â­ï¸ Skipping duplicate: ${productName}`);
         duplicateCount++;
         continue;
       }
 
       // 1. Convert foreign currency to NGN
       const nairaValue = await convertToNaira(priceForeign, currency);
-      console.log(`  💱 ${productName}: ${priceForeign} ${currency} → ₦${nairaValue.toLocaleString()}`);
+      console.log(`  ðŸ’± ${productName}: ${priceForeign} ${currency} â†’ â‚¦${nairaValue.toLocaleString()}`);
 
       // 2. Calculate logistics cost based on weight
       const logistics = await calculateLogistics(weight);
-      console.log(`  📦 Logistics (${weight}kg): ₦${logistics.toLocaleString()}`);
+      console.log(`  ðŸ“¦ Logistics (${weight}kg): â‚¦${logistics.toLocaleString()}`);
 
       // 3. Calculate landed cost
       const landedCost = nairaValue + logistics;
 
       // 4. Calculate selling prices (retail + wholesale)
       const selling = await calculateSellingPrice(landedCost, category);
-      console.log(`  💰 Prices: Retail: ₦${selling.retail.toLocaleString()} | Wholesale: ₦${selling.wholesale.toLocaleString()}`);
+      console.log(`  ðŸ’° Prices: Retail: â‚¦${selling.retail.toLocaleString()} | Wholesale: â‚¦${selling.wholesale.toLocaleString()}`);
 
       // 5. Upload image if available
       let uploadedImageUrl: string | null = null;
@@ -256,18 +256,18 @@ async function importSupplierProducts(csvPath: string): Promise<void> {
       await insertPendingProduct(pendingProduct);
       successCount++;
       
-      console.log(`✅ [${successCount}] Imported: ${productName}`);
+      console.log(`âœ… [${successCount}] Imported: ${productName}`);
     } catch (err) {
-      console.error(`❌ Failed to import: ${item.name}`, err);
+      console.error(`âŒ Failed to import: ${item.name}`, err);
       failCount++;
     }
   }
 
-  console.log('\n📊 IMPORT SUMMARY');
-  console.log(`✅ Successful: ${successCount}`);
-  console.log(`❌ Failed: ${failCount}`);
-  console.log(`⏭️ Duplicates skipped: ${duplicateCount}`);
-  console.log('🎉 IMPORT COMPLETE → pending_products table');
+  console.log('\nðŸ“Š IMPORT SUMMARY');
+  console.log(`âœ… Successful: ${successCount}`);
+  console.log(`âŒ Failed: ${failCount}`);
+  console.log(`â­ï¸ Duplicates skipped: ${duplicateCount}`);
+  console.log('ðŸŽ‰ IMPORT COMPLETE â†’ pending_products table');
 }
 
 // ------------------------------ Schema Setup ---------------------------------
@@ -306,7 +306,7 @@ CREATE TRIGGER IF NOT EXISTS update_pending_products_updated_at
 `;
 
 async function setupSchema(): Promise<void> {
-  console.log('🔧 Setting up pending_products table...');
+  console.log('ðŸ”§ Setting up pending_products table...');
   
   const response = await fetch(D1_API, {
     method: 'POST',
@@ -322,7 +322,7 @@ async function setupSchema(): Promise<void> {
     throw new Error(`Schema setup failed: ${error}`);
   }
 
-  console.log('✅ Database schema ready');
+  console.log('âœ… Database schema ready');
 }
 
 // ------------------------------ Run Script -----------------------------------
@@ -338,7 +338,7 @@ if (require.main === module) {
   
   const missing = requiredEnv.filter(env => !process.env[env]);
   if (missing.length > 0) {
-    console.error('❌ Missing environment variables:', missing.join(', '));
+    console.error('âŒ Missing environment variables:', missing.join(', '));
     console.error('\nPlease set:');
     console.error('  export CLOUDFLARE_ACCOUNT_ID="your-account-id"');
     console.error('  export CLOUDFLARE_API_TOKEN="your-api-token"');
@@ -352,11 +352,13 @@ if (require.main === module) {
       await setupSchema();
       await importSupplierProducts(csvPath);
     } catch (err) {
-      console.error('❌ Import failed:', err);
+      console.error('âŒ Import failed:', err);
       process.exit(1);
     }
   })();
 }
 
 export { importSupplierProducts, insertPendingProduct, productExists };
+
+
 
