@@ -178,3 +178,12 @@ git grep -inE 'sk_live_[A-Za-z0-9]{20,}|r8_[A-Za-z0-9]{30,}' -- . ':(exclude)*.m
 
 **Proprietary & Confidential.** 
 All rights reserved. This software and its associated documentation are the confidential property of PrimeShieldHub. Unauthorized copying, modification, distribution, or use is strictly prohibited.
+
+## Documentation
+
+For detailed technical guides, please see:
+
+- **[Architecture](docs/architecture.md)** - Explore the system design, engines, and data flow.
+- **[API Reference](docs/api.md)** - Documentation for Worker endpoints and payloads.
+- **[Operations Runbook](docs/operations.md)** - Deployment, D1 backups, and secret management.
+- **[Contributing](CONTRIBUTING.md)** - Internal guidelines for commits and PRs.
