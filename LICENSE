@@ -1,0 +1,66 @@
+PROPRIETARY AND CONFIDENTIAL
+Copyright (c) 2026 PrimeShieldHub. All Rights Reserved.
+
+================================================================================
+1. PROPRIETARY RIGHTS AND CONFIDENTIALITY
+================================================================================
+This software, including its source code, object code, architecture, database 
+schemas, API structures, business logic, and associated documentation 
+(collectively, the "Software"), is the exclusive proprietary property of 
+PrimeShieldHub and its licensors. 
+
+The Software contains valuable trade secrets and confidential information. 
+You are strictly prohibited from disclosing, publishing, or making the Software 
+available to any third party without the prior express written consent of 
+PrimeShieldHub.
+
+================================================================================
+2. LICENSE GRANT AND RESTRICTIONS
+================================================================================
+This Software is provided solely for the internal business operations of 
+PrimeShieldHub and its explicitly authorized developers and contractors.
+
+Under this license, you may NOT:
+  a. Copy, reproduce, distribute, sublicense, or sell the Software.
+  b. Modify, reverse engineer, decompile, or disassemble the Software, except 
+     as expressly permitted by applicable law.
+  c. Use the Software to create derivative works, competing platforms, or 
+     commercial products.
+  d. Remove, alter, or obscure any proprietary notices, copyright statements, 
+     or watermarks contained within the Software.
+  e. Use the Software for any purpose other than the operation and maintenance 
+     of the PrimeShieldHub e-commerce and fraud-detection systems.
+
+================================================================================
+3. SECURITY AND FRAUD PREVENTION CLAUSE
+================================================================================
+Given the financial nature of the Software, any unauthorized access, cloning, 
+or exploitation of the Software, its APIs, or its database schemas constitutes 
+a direct violation of this License and will be pursued to the fullest extent of 
+civil and criminal law, including but not limited to the Computer Fraud and 
+Abuse Act (CFAA) and international cybercrime statutes.
+
+================================================================================
+4. INTELLECTUAL PROPERTY
+================================================================================
+All title, ownership rights, and intellectual property rights in and to the 
+Software (including but not limited to the core engines: fxEngine, 
+logisticsEngine, and priceGuard) shall remain the sole property of PrimeShieldHub.
+
+================================================================================
+5. NO WARRANTY
+================================================================================
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR 
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, 
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE 
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER 
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, 
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE 
+SOFTWARE.
+
+================================================================================
+6. GOVERNING LAW
+================================================================================
+This License shall be governed by and construed in accordance with the laws of 
+the jurisdiction in which PrimeShieldHub operates, without regard to its 
+conflict of law provisions.

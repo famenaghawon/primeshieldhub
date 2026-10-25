@@ -1,0 +1,4 @@
+functions
+nvm
+frontend/public/assets/products
+frontend/public/assets/images/founder
