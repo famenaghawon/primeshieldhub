@@ -1,4 +1,4 @@
-﻿-- PrimeShieldHub D1 schema (primeshieldhub-db)
+-- PrimeShieldHub D1 schema (primeshieldhub-db)
 -- Exported 2026-10-25 from sqlite_master
 -- Note: D1 extensions (uuid()) present; local sqlite3 CLI may error — expected.
 
@@ -1487,17 +1487,4 @@ CREATE INDEX IF NOT EXISTS idx_reviews_created ON reviews(created_at DESC);
 -- ============================================================
 -- Reviews (added 2026-10-25, standardized)
 -- ============================================================
-CREATE TABLE IF NOT EXISTS reviews (
-    id TEXT PRIMARY KEY,
-    product_id TEXT NOT NULL,
-    user_id TEXT NOT NULL,
-    rating INTEGER NOT NULL CHECK (rating BETWEEN 1 AND 5),
-    text TEXT NOT NULL,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE,
-    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
-);
 
-CREATE INDEX IF NOT EXISTS idx_reviews_product ON reviews(product_id);
-CREATE INDEX IF NOT EXISTS idx_reviews_user ON reviews(user_id);
-CREATE INDEX IF NOT EXISTS idx_reviews_created ON reviews(created_at DESC);
