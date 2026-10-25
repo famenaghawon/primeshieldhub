@@ -183,3 +183,4 @@ if total < len(products):
     print(f"\nâš ï¸  {len(products) - total} images still needed.")
     print(f"   Run the script again to get remaining ones.")
 
+

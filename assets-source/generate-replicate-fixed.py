@@ -182,3 +182,4 @@ print(f"  â±ï¸  Time: {elapsed/60:.1f} min")
 print(f"  ðŸ’° Cost: ~${success_count * 0.002:.2f}")
 print(f"{'=' * 60}")
 
+
