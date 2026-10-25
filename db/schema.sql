@@ -71,8 +71,6 @@ CREATE TABLE charges (
   created_at DATETIME DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE sqlite_sequence(name,seq);
-
 CREATE TABLE charging_sessions (
   id INTEGER PRIMARY KEY AUTOINCREMENT,
   customer_name TEXT,
@@ -1465,3 +1463,5 @@ CREATE INDEX idx_franchises_user_id ON franchises(user_id);
 CREATE INDEX idx_franchises_status ON franchises(status);
 
 CREATE INDEX idx_franchises_email ON franchises(email);
+
+
