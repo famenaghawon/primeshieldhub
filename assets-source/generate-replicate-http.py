@@ -1,4 +1,4 @@
-import requests
+﻿import requests
 import csv
 import os
 import time
@@ -134,7 +134,7 @@ def generate_image(prompt, filename, product_name):
                 
                 # Show progress dot every 5 seconds
                 if attempt % 5 == 0:
-                    print(f"  ⏳ Waiting... ({attempt}s)", end="\r")
+                    print(f"  â³ Waiting... ({attempt}s)", end="\r")
             
             return False, "Timeout after 60 seconds"
         else:
@@ -163,10 +163,10 @@ for i, product in enumerate(remaining):
     
     if success:
         file_size = result
-        print(f"  ✅ Saved ({file_size:.0f} KB)")
+        print(f"  âœ… Saved ({file_size:.0f} KB)")
         success_count += 1
     else:
-        print(f"  ❌ {result}")
+        print(f"  âŒ {result}")
         fail_count += 1
     
     # Progress update
@@ -174,7 +174,7 @@ for i, product in enumerate(remaining):
     completed = i + 1
     rate = completed / elapsed if elapsed > 0 else 0
     eta = (len(remaining) - completed) / rate if rate > 0 else 0
-    print(f"  📊 {success_count} ok, {fail_count} fail | {rate:.1f}/sec | ETA: {eta/60:.0f} min")
+    print(f"  ðŸ“Š {success_count} ok, {fail_count} fail | {rate:.1f}/sec | ETA: {eta/60:.0f} min")
 
 # ============================================================
 # SUMMARY
@@ -185,13 +185,13 @@ elapsed = time.time() - start_time
 final_count = len([f for f in os.listdir(OUTPUT_DIR) if f.endswith('.jpg')])
 
 print(f"\n{'=' * 60}")
-print(f"🎉 GENERATION COMPLETE!")
-print(f"   ✅ Successful this run: {success_count}")
-print(f"   ❌ Failed this run: {fail_count}")
-print(f"   📁 Total images in folder: {final_count}")
-print(f"   ⏱️  Time: {elapsed/60:.1f} minutes")
-print(f"   💰 Estimated cost: ${success_count * 0.002:.2f} USD")
-print(f"   📁 Output: {OUTPUT_DIR}/")
+print(f"ðŸŽ‰ GENERATION COMPLETE!")
+print(f"   âœ… Successful this run: {success_count}")
+print(f"   âŒ Failed this run: {fail_count}")
+print(f"   ðŸ“ Total images in folder: {final_count}")
+print(f"   â±ï¸  Time: {elapsed/60:.1f} minutes")
+print(f"   ðŸ’° Estimated cost: ${success_count * 0.002:.2f} USD")
+print(f"   ðŸ“ Output: {OUTPUT_DIR}/")
 print(f"{'=' * 60}")
 
 # Show remaining
@@ -202,7 +202,8 @@ for p in products:
         still_remaining.append(p['filename'])
 
 if still_remaining:
-    print(f"\n⚠️  {len(still_remaining)} products still need images.")
+    print(f"\nâš ï¸  {len(still_remaining)} products still need images.")
     print(f"   Run the script again to retry failed items.")
 else:
-    print(f"\n🎯 ALL {len(products)} IMAGES GENERATED SUCCESSFULLY!")
+    print(f"\nðŸŽ¯ ALL {len(products)} IMAGES GENERATED SUCCESSFULLY!")
+

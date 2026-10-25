@@ -1,4 +1,4 @@
-import requests, os, time
+﻿import requests, os, time
 from PIL import Image
 from io import BytesIO
 
@@ -38,10 +38,11 @@ if r.status_code == 201:
                 img = Image.open(BytesIO(requests.get(url).content)).convert("RGB")
                 path = "assets/products/apple-magsafe-duo-charger.webp"
                 img.save(path, "WEBP", quality=85, method=6)
-                print(f"✅ Saved: {path} ({os.path.getsize(path)/1024:.0f}KB)")
+                print(f"âœ… Saved: {path} ({os.path.getsize(path)/1024:.0f}KB)")
                 break
             elif status == "failed":
-                print(f"❌ Failed: {d.get('error')}")
+                print(f"âŒ Failed: {d.get('error')}")
                 break
 else:
-    print(f"❌ API Error: {r.status_code}")
+    print(f"âŒ API Error: {r.status_code}")
+

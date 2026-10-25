@@ -1,4 +1,4 @@
-import requests, csv, os, time
+﻿import requests, csv, os, time
 from PIL import Image
 from io import BytesIO
 
@@ -111,3 +111,4 @@ for i, p in enumerate(remaining):
 elapsed = time.time() - t0
 total = len([f for f in os.listdir(OUTPUT_DIR) if f.endswith('.webp')])
 print(f"\n\nDONE! Generated {ok} | Failed {fail} | Total webp: {total}/{len(products)} | {elapsed/60:.0f}min | ~${ok*0.005:.2f}")
+

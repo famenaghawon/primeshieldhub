@@ -1,4 +1,4 @@
-import replicate
+﻿import replicate
 import requests
 import csv
 import os
@@ -93,20 +93,20 @@ for i, product in enumerate(remaining):
                 f.write(img_response.content)
             
             file_size = os.path.getsize(filepath) / 1024
-            print(f"  ✅ Saved ({file_size:.0f} KB)")
+            print(f"  âœ… Saved ({file_size:.0f} KB)")
             success_count += 1
         else:
-            print(f"  ❌ Download failed: HTTP {img_response.status_code}")
+            print(f"  âŒ Download failed: HTTP {img_response.status_code}")
             fail_count += 1
         
         # Progress update
         elapsed = time.time() - start_time
         rate = (i + 1) / elapsed if elapsed > 0 else 0
         eta = (len(remaining) - i - 1) / rate if rate > 0 else 0
-        print(f"  📊 Progress: {success_count} ok, {fail_count} fail | Rate: {rate:.1f}/sec | ETA: {eta/60:.0f} min")
+        print(f"  ðŸ“Š Progress: {success_count} ok, {fail_count} fail | Rate: {rate:.1f}/sec | ETA: {eta/60:.0f} min")
         
     except Exception as e:
-        print(f"  ❌ Error: {str(e)[:200]}")
+        print(f"  âŒ Error: {str(e)[:200]}")
         fail_count += 1
         time.sleep(2)  # Brief pause on error
 
@@ -115,12 +115,12 @@ for i, product in enumerate(remaining):
 # ============================================================
 elapsed = time.time() - start_time
 print(f"\n{'=' * 60}")
-print(f"🎉 GENERATION COMPLETE!")
-print(f"   ✅ Successful: {success_count}")
-print(f"   ❌ Failed: {fail_count}")
-print(f"   ⏱️  Time: {elapsed/60:.1f} minutes")
-print(f"   💰 Estimated cost: ${success_count * 0.002:.2f} USD")
-print(f"   📁 Output: {OUTPUT_DIR}/")
+print(f"ðŸŽ‰ GENERATION COMPLETE!")
+print(f"   âœ… Successful: {success_count}")
+print(f"   âŒ Failed: {fail_count}")
+print(f"   â±ï¸  Time: {elapsed/60:.1f} minutes")
+print(f"   ðŸ’° Estimated cost: ${success_count * 0.002:.2f} USD")
+print(f"   ðŸ“ Output: {OUTPUT_DIR}/")
 print(f"{'=' * 60}")
 
 # Show remaining
@@ -131,9 +131,10 @@ for p in products:
         still_remaining.append(p['filename'])
 
 if still_remaining:
-    print(f"\n⚠️  {len(still_remaining)} products still need images:")
+    print(f"\nâš ï¸  {len(still_remaining)} products still need images:")
     for f in still_remaining[:10]:
         print(f"   - {f}")
     if len(still_remaining) > 10:
         print(f"   ... and {len(still_remaining) - 10} more")
     print(f"\n   Run the script again to retry failed items.")
+

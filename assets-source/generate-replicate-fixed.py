@@ -1,4 +1,4 @@
-import requests
+﻿import requests
 import csv
 import os
 import time
@@ -69,7 +69,7 @@ for i, product in enumerate(remaining):
         elapsed = time.time() - minute_start
         if elapsed < 60:
             wait_time = 60 - elapsed + 1
-            print(f"\n  ⏳ Rate limit: waiting {wait_time:.0f}s...")
+            print(f"\n  â³ Rate limit: waiting {wait_time:.0f}s...")
             time.sleep(wait_time)
         requests_this_minute = 0
         minute_start = time.time()
@@ -127,36 +127,36 @@ for i, product in enumerate(remaining):
                             with open(filepath, "wb") as f:
                                 f.write(img.content)
                             size = os.path.getsize(filepath) / 1024
-                            print(f"  ✅ Saved ({size:.0f} KB)")
+                            print(f"  âœ… Saved ({size:.0f} KB)")
                             success_count += 1
                         break
                     
                     elif status == "failed":
-                        print(f"  ❌ Failed: {data.get('error', '')[:150]}")
+                        print(f"  âŒ Failed: {data.get('error', '')[:150]}")
                         fail_count += 1
                         break
                     
                     elif status == "canceled":
-                        print(f"  ⚠️  Canceled")
+                        print(f"  âš ï¸  Canceled")
                         fail_count += 1
                         break
                     
                     elif attempt % 5 == 0:
-                        print(f"  ⏳ Generating... ({attempt}s)", end="\r")
+                        print(f"  â³ Generating... ({attempt}s)", end="\r")
         
         elif response.status_code == 429:
-            print(f"  ⚠️  Rate limited. Waiting 70 seconds...")
+            print(f"  âš ï¸  Rate limited. Waiting 70 seconds...")
             time.sleep(70)
             requests_this_minute = 0
             minute_start = time.time()
             fail_count += 1
         
         else:
-            print(f"  ❌ HTTP {response.status_code}: {response.text[:150]}")
+            print(f"  âŒ HTTP {response.status_code}: {response.text[:150]}")
             fail_count += 1
     
     except Exception as e:
-        print(f"  ❌ Error: {str(e)[:150]}")
+        print(f"  âŒ Error: {str(e)[:150]}")
         fail_count += 1
     
     # Progress
@@ -165,7 +165,7 @@ for i, product in enumerate(remaining):
     if completed > 0:
         rate = completed / elapsed
         eta = (len(remaining) - i - 1) / rate if rate > 0 else 0
-        print(f"  📊 {success_count} ok, {fail_count} fail | ETA: {eta/60:.0f} min")
+        print(f"  ðŸ“Š {success_count} ok, {fail_count} fail | ETA: {eta/60:.0f} min")
 
 # ============================================================
 # SUMMARY
@@ -175,9 +175,10 @@ total_images = len([f for f in os.listdir(OUTPUT_DIR) if f.endswith('.jpg')])
 
 print(f"\n{'=' * 60}")
 print(f"DONE!")
-print(f"  ✅ Generated this run: {success_count}")
-print(f"  ❌ Failed this run: {fail_count}")
-print(f"  📁 Total images: {total_images}")
-print(f"  ⏱️  Time: {elapsed/60:.1f} min")
-print(f"  💰 Cost: ~${success_count * 0.002:.2f}")
+print(f"  âœ… Generated this run: {success_count}")
+print(f"  âŒ Failed this run: {fail_count}")
+print(f"  ðŸ“ Total images: {total_images}")
+print(f"  â±ï¸  Time: {elapsed/60:.1f} min")
+print(f"  ðŸ’° Cost: ~${success_count * 0.002:.2f}")
 print(f"{'=' * 60}")
+
