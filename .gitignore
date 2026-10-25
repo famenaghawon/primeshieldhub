@@ -168,3 +168,7 @@ auth-token.txt
 # Product images belong in R2, not Git
 frontend/public/assets/products/
 frontend/public/assets/images/founder/
+
+# Filter-repo temp files
+strip-*.txt
+replacements.txt
