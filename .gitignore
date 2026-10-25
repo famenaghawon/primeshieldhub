@@ -1,53 +1,17 @@
 # ============================================================================
-# PrimeShieldHub .gitignore (Cloudflare Native v10.0)
+# PrimeShieldHub .gitignore
 # ============================================================================
 
-# ------------------- Terraform (GCP - being migrated away) -------------------
-terraform/.terraform
-terraform/*.tfstate
-terraform/*.tfstate.*
-terraform/terraform-key.json
-terraform/backup-*.tfstate
-terraform/versions.tf.backup
-
-# ------------------- Node.js -------------------
-node_modules
-functions/node_modules
-yarn.lock
-pnpm-lock.yaml
-bun.lockb
-
-# ------------------- Cloudflare -------------------
-.wrangler
-.dev.vars
-*.dev.vars
-/.pages
-/__pages__
-.r2
-
-# ------------------- Worker build outputs -------------------
-# NOTE: Keep dist/ and lib/ only if you actually generate them
-dist
-*.tsbuildinfo
-
-# ------------------- D1 local database -------------------
-*.db
-*.db-journal
-*.sqlite
-*.sqlite3
-*.backup.sql
-
-# ------------------- Environment Files (CRITICAL) -------------------
+# --- Environment / secrets ---
 .env
 .env.*
 !.env.example
 *.env
-.env.local
-.env.*.local
+.dev.vars
+*.dev.vars
+!.dev.vars.example
 
-# ------------------- Secrets & Keys (SPECIFIC ONLY) -------------------
-# Do NOT use wildcards like *key* or *secret* - they silently ignore
-# files like keyboard-shortcuts.js
+# Specific key files (no wildcards that could catch source code)
 gcp-key.json
 service-account-key.json
 service-account.json
@@ -55,47 +19,44 @@ credentials.json
 api-keys.json
 apikeys.txt
 secrets.json
-*.key
-*.secret
-*.pem
-*.crt
-*.pfx
-secrets
+secrets/
 id_rsa
 id_ed25519
+*.pem
+*.pfx
+*.crt
+*.key
 
-# ------------------- IDE -------------------
-.vscode
-.idea
-*.swp
-*.swo
-*~
-.code-workspace
+# --- Node.js ---
+node_modules/
+functions/node_modules/
+yarn.lock
+pnpm-lock.yaml
+bun.lockb
 
-# ------------------- Logs -------------------
-*.log
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-wrangler.log
-wrangler-*.log
+# --- Cloudflare ---
+.wrangler/
+.pages/
+/__pages__/
+.r2/
 
-# ------------------- Build Outputs -------------------
-build
-out
+# --- Builds ---
+dist/
+build/
+out/
+*.tsbuildinfo
 *.js.map
 *.d.ts.map
-.cache
+.cache/
 
-# ------------------- Coverage & Testing -------------------
-coverage
-.nyc_output
-.vitest
-*.lcov
-test-results
+# --- D1 local DB ---
+*.db
+*.db-journal
+*.sqlite
+*.sqlite3
+*.backup.sql
 
-# ------------------- OS Generated -------------------
+# --- OS / IDE ---
 .DS_Store
 .DS_Store?
 ._*
@@ -104,8 +65,41 @@ test-results
 ehthumbs.db
 Thumbs.db
 desktop.ini
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.code-workspace
 
-# ------------------- Application Specific -------------------
+# --- Logs ---
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+wrangler.log
+wrangler-*.log
+
+# --- Testing / coverage ---
+coverage/
+.nyc_output/
+.vitest/
+*.lcov
+test-results/
+
+# --- NVM (local Windows Node install) ---
+nvm/
+
+# --- Terraform (migrated away) ---
+terraform/.terraform/
+terraform/*.tfstate
+terraform/*.tfstate.*
+terraform/terraform-key.json
+terraform/backup-*.tfstate
+terraform/versions.tf.backup
+
+# --- Application-specific data dumps ---
 psh_cart_backup.json
 users.json
 products.json
@@ -114,38 +108,56 @@ reseller_codes.json
 settings.json
 exports/*.json
 !exports/.gitkeep
-/public/uploads
-/public/files
-/storage
-contracts
-*.contract.txt
-*.sql
-!schema.sql
-!migrations/*.sql
-!init.sql
-backups
-*.backup
-*.backup.sql
-db-exports
+backend/all-products.json
+backend/products-api.json
+backend/products-backup.json
+db/_schema_raw.json
 
-# ------------------- Deploy Scripts -------------------
-.temp
+# --- One-off SQL fix artifacts (canonical schema lives at db/schema.sql, db/seed/*) ---
+/*.sql
+!schema.sql
+
+# --- Backups / temp ---
+backups/
+*.bak
+*.backup
+db-exports/
+.temp/
 *.tmp
 deploy-*.json
 
-# ------------------- Authentication & Session -------------------
-*.session
-*.jwt
-auth-token.txt
+# --- Large images (belong in R2, not Git) ---
+frontend/public/founder-suit.webp
+frontend/public/photograph.webp
+frontend/public/ps5.webp
+frontend/public/xbox.webp
+frontend/public/controller.webp
+frontend/public/switch.webp
+frontend/public/cac.webp
+frontend/public/signature.png
+frontend/public/company_logo.png
+frontend/public/assets/founder-suit.webp
+frontend/public/assets/photograph.webp
+frontend/public/assets/images/founder/*.webp
+frontend/public/articles/*.webp
+frontend/public/fonts/*.zip
+frontend/public-backup-rename/
+backend/company_logo.png
+backend/receipt.png
 
-# ------------------- AI & ML -------------------
+# --- AI / ML model files ---
 *.onnx
 *.bin
 *.pt
 *.h5
 *.pkl
 
-# ------------------- Keep Examples & Templates -------------------
+# --- Session files ---
+*.session
+*.jwt
+auth-token.txt
+
+# --- Keep placeholders ---
 !.env.example
 !.dev.vars.example
 !exports/.gitkeep
@@ -153,49 +165,3 @@ auth-token.txt
 !backups/.gitkeep
 !migrations/.gitkeep
 !scripts/.gitkeep
-
-# ------------------- Product Images (belong in R2, not Git) -------------------
-# These are managed separately and served from CDN/R2
-assets/products
-backend/assets/products
-frontend/public/assets/products
-
-!assets/products/.gitkeep
-
-# Generated signature images
-frontend/public/signature.png
-
-# Design assets that aren't part of the deployed site
-signature.html
-
-# Backup folder rename staging
-frontend/public-backup-rename
-
-# ------------------- Additional exclusions -------------------
-backend/all-products.json
-backend/company_logo.png
-backend/products-api.json
-backend/products-backup.json
-frontend/public/articles/*.webp
-frontend/public/assets/images/founder/*.webp
-frontend/public/controller.webp
-frontend/public/ps5.webp
-frontend/public/xbox.webp
-frontend/public/switch.webp
-frontend/public/photograph.webp
-frontend/public/founder-suit.webp
-frontend/public/fonts/*.zip
-
-# ------------------- Broad duplicate-asset exclusions -------------------
-# Duplicate founder photos and hero images scattered across folders
-frontend/public/assets/founder-suit.webp
-frontend/public/assets/photograph.webp
-frontend/public/assets/images/founder-suit.webp
-frontend/public/assets/images/photograph.webp
-frontend/public/press/photograph.webp
-frontend/public/press/founder-suit.webp
-nvm/
-
-db/_schema_raw.json
-
-db/_schema_raw.json
