@@ -1,4 +1,4 @@
-﻿# Normalize line endings — avoids CRLF/LF warnings on Windows
+# Normalize line endings — avoids CRLF/LF warnings on Windows
 * text=auto eol=lf
 
 # Binary files should not be touched
