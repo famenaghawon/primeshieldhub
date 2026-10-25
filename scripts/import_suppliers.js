@@ -7,7 +7,7 @@ import { readFileSync } from 'fs';
 import { parse } from 'csv-parse/sync';
 import { convertToNaira } from '../backend/src/engines/fxEngine';
 import { calculateLogistics } from '../backend/src/engines/logisticsEngine';
-import { calculateSellingPrice } from '../engines/pricingEngine';
+import { calculateSellingPrice } from './pricing_engine';
 
 // Configuration
 const CLOUDFLARE_ACCOUNT_ID = process.env.CLOUDFLARE_ACCOUNT_ID!;
@@ -359,6 +359,7 @@ if (require.main === module) {
 }
 
 export { importSupplierProducts, insertPendingProduct, productExists };
+
 
 
 
