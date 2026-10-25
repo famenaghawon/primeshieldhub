@@ -165,3 +165,6 @@ auth-token.txt
 !backups/.gitkeep
 !migrations/.gitkeep
 !scripts/.gitkeep
+# Product images belong in R2, not Git
+frontend/public/assets/products/
+frontend/public/assets/images/founder/
