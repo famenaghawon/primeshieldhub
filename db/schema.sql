@@ -1,7 +1,7 @@
 ﻿-- PrimeShieldHub D1 schema (primeshieldhub-db)
--- Exported from production D1 via sqlite_master on 2026-10-25
--- Note: contains D1-specific extensions (e.g. uuid()). Standard sqlite3 CLI may error locally;
---       this is expected. D1 accepts the schema as-is.
+-- Exported 2026-10-25 from sqlite_master
+-- Note: D1 extensions (uuid()) present; local sqlite3 CLI may error — expected.
+
 CREATE TABLE _cf_KV (
         key TEXT PRIMARY KEY,
         value BLOB
