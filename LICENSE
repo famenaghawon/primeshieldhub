@@ -1,5 +1,9 @@
 PROPRIETARY AND CONFIDENTIAL
-Copyright (c) 2026 PrimeShieldHub. All Rights Reserved.
+Copyright (c) 2026 PrimeShieldHub Gadgets Limited (RC: 9283954). 
+All Rights Reserved.
+TIN: 2621297539968
+
+PrimeShieldHub is a flagship product of PrimeShieldHub Gadgets Limited.
 
 ================================================================================
 1. PROPRIETARY RIGHTS AND CONFIDENTIALITY
@@ -7,18 +11,18 @@ Copyright (c) 2026 PrimeShieldHub. All Rights Reserved.
 This software, including its source code, object code, architecture, database 
 schemas, API structures, business logic, and associated documentation 
 (collectively, the "Software"), is the exclusive proprietary property of 
-PrimeShieldHub and its licensors. 
+PrimeShieldHub Gadgets Limited ("the Company") and its licensors. 
 
 The Software contains valuable trade secrets and confidential information. 
 You are strictly prohibited from disclosing, publishing, or making the Software 
 available to any third party without the prior express written consent of 
-PrimeShieldHub.
+the Company.
 
 ================================================================================
 2. LICENSE GRANT AND RESTRICTIONS
 ================================================================================
 This Software is provided solely for the internal business operations of 
-PrimeShieldHub and its explicitly authorized developers and contractors.
+the Company and its explicitly authorized developers and contractors.
 
 Under this license, you may NOT:
   a. Copy, reproduce, distribute, sublicense, or sell the Software.
@@ -38,14 +42,16 @@ Given the financial nature of the Software, any unauthorized access, cloning,
 or exploitation of the Software, its APIs, or its database schemas constitutes 
 a direct violation of this License and will be pursued to the fullest extent of 
 civil and criminal law, including but not limited to the Computer Fraud and 
-Abuse Act (CFAA) and international cybercrime statutes.
+Abuse Act (CFAA), the Cybercrimes (Prohibition, Prevention, etc.) Act of Nigeria, 
+and international cybercrime statutes.
 
 ================================================================================
 4. INTELLECTUAL PROPERTY
 ================================================================================
 All title, ownership rights, and intellectual property rights in and to the 
 Software (including but not limited to the core engines: fxEngine, 
-logisticsEngine, and priceGuard) shall remain the sole property of PrimeShieldHub.
+logisticsEngine, and priceGuard) shall remain the sole property of 
+PrimeShieldHub Gadgets Limited.
 
 ================================================================================
 5. NO WARRANTY
@@ -62,5 +68,6 @@ SOFTWARE.
 6. GOVERNING LAW
 ================================================================================
 This License shall be governed by and construed in accordance with the laws of 
-the jurisdiction in which PrimeShieldHub operates, without regard to its 
-conflict of law provisions.
+the Federal Republic of Nigeria, without regard to its conflict of law provisions. 
+Any disputes arising under this License shall be subject to the exclusive 
+jurisdiction of the courts of Nigeria.
