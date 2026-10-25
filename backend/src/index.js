@@ -85,6 +85,13 @@ import {
   handleAdminSendPaymentLink
 } from './handlers/admin-unified.js';
 
+// ===== REVIEW HANDLERS =====
+import {
+  handleGetReviews,
+  handleCreateReview,
+  handleDeleteReview
+} from './handlers/reviews.js';
+
 // ===== STAFF HANDLERS =====
 import {
   handleStaffMe, 
@@ -567,12 +574,12 @@ async function updateSignatureCache(env) {
   try {
     if (env.PRODUCTS_CACHE) {
       await env.PRODUCTS_CACHE.delete('signature_products');
-      console.log('✅ Signature products cache cleared');
+      console.log('âœ… Signature products cache cleared');
     } else {
-      console.log('⚠️ PRODUCTS_CACHE not available, skipping cache clear');
+      console.log('âš ï¸ PRODUCTS_CACHE not available, skipping cache clear');
     }
   } catch (e) {
-    console.error('❌ Failed to clear signature cache:', e);
+    console.error('âŒ Failed to clear signature cache:', e);
   }
 }
 
@@ -618,7 +625,7 @@ async function validateDiscount(env, userId, email, code, subtotal) {
     if (discount.min_amount && discount.min_amount > 0 && subtotal < discount.min_amount) {
       return { 
         valid: false, 
-        error: `Minimum order amount of ₦${discount.min_amount.toLocaleString()} required for this code` 
+        error: `Minimum order amount of â‚¦${discount.min_amount.toLocaleString()} required for this code` 
       };
     }
 
@@ -673,7 +680,7 @@ async function validateDiscount(env, userId, email, code, subtotal) {
       }
     };
   } catch (error) {
-    console.error('❌ Discount validation error:', error);
+    console.error('âŒ Discount validation error:', error);
     return { valid: false, error: 'Error validating discount code' };
   }
 }
@@ -689,7 +696,7 @@ async function recordDiscountUsage(env, userId, code, orderId) {
     ).bind(id, userId, code.toUpperCase(), orderId).run();
     return { success: true };
   } catch (error) {
-    console.error('❌ Error recording discount usage:', error);
+    console.error('âŒ Error recording discount usage:', error);
     return { success: false, error: error.message };
   }
 }
@@ -702,7 +709,7 @@ async function applyAutomaticRules(env, subtotal, email, userId) {
   let discount = 0;
   let discountLabel = '';
   
-  // Free shipping over ₦50,000
+  // Free shipping over â‚¦50,000
   if (subtotal >= 50000) {
     shipping = 0;
   }
@@ -765,13 +772,13 @@ async function requireAuth(request, env, allowedRoles = []) {
         
         return { id: payload.id, role: payload.role, email: payload.email };
     } catch (e) {
-        console.error('❌ requireAuth error:', e);
+        console.error('âŒ requireAuth error:', e);
         return null;
     }
 }
 
 // ======================================================================
-// FRANCHISE AUTH — server-side gate + scope resolver
+// FRANCHISE AUTH â€” server-side gate + scope resolver
 // ======================================================================
 // A franchisee is identified by:
 //   1. A valid JWT (from cookie __Host-franchise-auth OR Authorization: Bearer)
@@ -846,7 +853,7 @@ async function requireFranchise(request, env) {
       mustChangePassword: user.must_change_password === 1,
     };
   } catch (e) {
-    console.error('❌ requireFranchise error:', e);
+    console.error('âŒ requireFranchise error:', e);
     return null;
   }
 }
@@ -1364,7 +1371,7 @@ export default {
             });
           }
 
-          console.log(`📊 Analytics: ${eventsArray.length} events from ${sessionId || 'anonymous'}`);
+          console.log(`ðŸ“Š Analytics: ${eventsArray.length} events from ${sessionId || 'anonymous'}`);
 
           if (env.DB) {
             try {
@@ -1494,7 +1501,7 @@ export default {
     }
 
     // ======================================================================
-    // FRANCHISE HTML GATE — block /franchise/* unless authenticated
+    // FRANCHISE HTML GATE â€” block /franchise/* unless authenticated
     // ======================================================================
     // Public franchise routes (no auth required):
     const FRANCHISE_PUBLIC = new Set([
@@ -1514,7 +1521,7 @@ export default {
     if (routePath.startsWith('/franchise') && !FRANCHISE_PUBLIC.has(routePath)) {
       const franchise = await requireFranchise(request, env);
       if (!franchise) {
-        // Not authenticated → redirect to login
+        // Not authenticated â†’ redirect to login
         return Response.redirect(SITE_URL + '/franchise/login', 302);
       }
 
@@ -1525,7 +1532,7 @@ export default {
         return Response.redirect(SITE_URL + '/franchise/change-password', 302);
       }
 
-      // Authenticated — continue to HTML_ROUTES serve below
+      // Authenticated â€” continue to HTML_ROUTES serve below
     }
 
     // ======================================================================
@@ -1711,7 +1718,7 @@ export default {
     }
 
     // ======================================================================
-    // ✅ FIXED: /api/config/public - Returns ALL public config including VAPID
+    // âœ… FIXED: /api/config/public - Returns ALL public config including VAPID
     // ======================================================================
     if (routePath === "/api/config/public" && request.method === "GET") {
       // Get the VAPID public key from environment secrets
@@ -1742,7 +1749,7 @@ export default {
     }
 
     // ======================================================================
-    // ✅ NEW: /api/config/paystack - REQUIRED FOR CHECKOUT.HTML
+    // âœ… NEW: /api/config/paystack - REQUIRED FOR CHECKOUT.HTML
     // ======================================================================
     if (routePath === "/api/config/paystack" && request.method === "GET") {
       return new Response(JSON.stringify({
@@ -1757,7 +1764,7 @@ export default {
     }
 
     // ======================================================================
-    // ✅ SHIPPING STATS ENDPOINT - FIXED CORS
+    // âœ… SHIPPING STATS ENDPOINT - FIXED CORS
     // ======================================================================
     if (routePath === "/api/shipping/stats" && request.method === "GET") {
       return await handleShippingStatsEndpoint(request, env, corsHeaders);
@@ -1786,10 +1793,10 @@ export default {
     }
      
     // ======================================================================
-    // FRANCHISE PUBLIC API — apply, login, me, logout
+    // FRANCHISE PUBLIC API â€” apply, login, me, logout
     // ======================================================================
 
-    // --- POST /api/franchise/apply — submit a franchise application ---
+    // --- POST /api/franchise/apply â€” submit a franchise application ---
     if (routePath === '/api/franchise/apply' && request.method === 'POST') {
       try {
         const body = await request.json();
@@ -1888,7 +1895,7 @@ export default {
       }
     }
 
-    // --- POST /api/franchise/login — login as a franchisee ---
+    // --- POST /api/franchise/login â€” login as a franchisee ---
     if (routePath === '/api/franchise/login' && request.method === 'POST') {
       try {
         const body = await request.json();
@@ -2018,7 +2025,7 @@ export default {
       }
     }
 
-    // --- POST /api/franchise/change-password — set a new password (first-login flow) ---
+    // --- POST /api/franchise/change-password â€” set a new password (first-login flow) ---
     if (routePath === '/api/franchise/change-password' && request.method === 'POST') {
       const franchise = await requireFranchise(request, env);
       if (!franchise) {
@@ -2139,7 +2146,7 @@ export default {
     }
 
 
-    // --- GET /api/franchise/me — who am I? ---
+    // --- GET /api/franchise/me â€” who am I? ---
     if (routePath === '/api/franchise/me' && request.method === 'GET') {
       const franchise = await requireFranchise(request, env);
       if (!franchise) {
@@ -2169,7 +2176,7 @@ export default {
       });
     }
 
-    // --- POST /api/franchise/logout — clear the cookie ---
+    // --- POST /api/franchise/logout â€” clear the cookie ---
     if (routePath === '/api/franchise/logout' && request.method === 'POST') {
       return new Response(JSON.stringify({ success: true }), {
         status: 200,
@@ -2182,7 +2189,7 @@ export default {
     }
 
     // ======================================================================
-    // FRANCHISE ADMIN API — list, approve, reject applications
+    // FRANCHISE ADMIN API â€” list, approve, reject applications
     // ======================================================================
 
     // --- GET /api/admin/franchise/applications ---
@@ -2336,13 +2343,13 @@ export default {
                 <div style="padding: 40px 32px;">
                   <div style="text-align: center; margin-bottom: 28px;">
                     <span style="display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 8px 20px; border-radius: 50px; font-weight: 600; font-size: 13px;">
-                      ✓ Application Approved
+                      âœ“ Application Approved
                     </span>
                   </div>
 
                   <h2 style="color: #12122a; font-size: 20px; margin: 0 0 12px 0;">Welcome, ${app.owner_name}!</h2>
                   <p style="color: #555; font-size: 15px; line-height: 1.6; margin-bottom: 24px;">
-                    Congratulations — your franchise application has been approved. Your PrimeShieldHub partner account is now active.
+                    Congratulations â€” your franchise application has been approved. Your PrimeShieldHub partner account is now active.
                   </p>
 
                   <div style="background: #f8f8fc; border-left: 4px solid #d6b25e; padding: 16px 20px; border-radius: 8px; margin-bottom: 24px;">
@@ -2382,7 +2389,7 @@ export default {
 
                 <div style="background: #f8f8fc; padding: 20px; text-align: center; border-top: 1px solid #eee;">
                   <p style="color: #999; font-size: 11px; margin: 0;">
-                    © 2026 PrimeShieldHub · 108 Ekhorutomwen Street, Uselu, Benin City, Edo State
+                    Â© 2026 PrimeShieldHub Â· 108 Ekhorutomwen Street, Uselu, Benin City, Edo State
                   </p>
                 </div>
               </div>
@@ -2392,7 +2399,7 @@ export default {
 
           await sendEmail(
             app.email.toLowerCase(),
-            `Welcome to PrimeShieldHub Franchise — Your Login Credentials`,
+            `Welcome to PrimeShieldHub Franchise â€” Your Login Credentials`,
             html,
             env
           );
@@ -2415,7 +2422,7 @@ export default {
           emailError: emailSent ? undefined : emailError,
           message: emailSent
             ? 'Franchise approved. Credentials emailed to applicant.'
-            : 'Franchise approved. Email delivery failed — share credentials manually.',
+            : 'Franchise approved. Email delivery failed â€” share credentials manually.',
         }), {
           status: 200,
           headers: { 'Content-Type': 'application/json', ...corsHeaders },
@@ -2487,7 +2494,7 @@ export default {
     }
 
     // ======================================================================
-    // FRANCHISE SCOPED API — every query filtered by authenticated franchise
+    // FRANCHISE SCOPED API â€” every query filtered by authenticated franchise
     // ======================================================================
 
     // --- GET /api/franchise/orders ---
@@ -2649,7 +2656,7 @@ export default {
         !routePath.startsWith("/assets") &&
         !routePath.startsWith("/articles") &&
         !routePath.startsWith("/franchise")) {
-      // Only redirect if this isn't a known page — return 404 instead of looping
+      // Only redirect if this isn't a known page â€” return 404 instead of looping
       const knownPages = [
         '/', '/index.html', '/products.html', '/products', '/cart.html', '/cart',
         '/wishlist.html', '/wishlist', '/profile.html', '/profile',
@@ -2662,7 +2669,7 @@ export default {
       if (!knownPages.includes(routePath)) {
         return errorResponse("Page not found", 404, corsHeaders, routePath);
       }
-      // Otherwise, don't redirect — let the HTML_ROUTES block above handle it
+      // Otherwise, don't redirect â€” let the HTML_ROUTES block above handle it
     }
 
     // ======================================================================
@@ -3137,22 +3144,22 @@ export default {
         // Map events to notifications
         const eventMap = {
           'order_placed': {
-            title: '🛒 New Order!',
+            title: 'ðŸ›’ New Order!',
             message: `Order #${data?.orderId} has been placed successfully.`,
             url: '/admin/orders'
           },
           'low_stock': {
-            title: '⚠️ Low Stock Alert',
+            title: 'âš ï¸ Low Stock Alert',
             message: `Product "${data?.productName}" is running low (${data?.stock} left).`,
             url: '/admin/products'
           },
           'new_review': {
-            title: '⭐ New Review',
-            message: `${data?.customerName} left a ${data?.rating}★ review.`,
+            title: 'â­ New Review',
+            message: `${data?.customerName} left a ${data?.rating}â˜… review.`,
             url: '/admin/reviews'
           },
           'staff_verified': {
-            title: '✅ Staff Verified',
+            title: 'âœ… Staff Verified',
             message: `${data?.staffName} has been verified.`,
             url: '/admin/staff'
           }
@@ -4256,7 +4263,7 @@ export default {
         try {
           await sendEmail(
             staff.email,
-            `Password Reset Code: ${resetCode} — PrimeShieldHub`,
+            `Password Reset Code: ${resetCode} â€” PrimeShieldHub`,
             `
             <!DOCTYPE html>
             <html>
@@ -4560,7 +4567,7 @@ export default {
     }
 
     // ======================================================================
-    // ✅ NEW: /api/wholesale/verify-code - REQUIRED FOR CHECKOUT.HTML
+    // âœ… NEW: /api/wholesale/verify-code - REQUIRED FOR CHECKOUT.HTML
     // ======================================================================
     if (routePath === "/api/wholesale/verify-code" && request.method === "POST") {
       return await handleWholesaleVerifyCode(request, env, corsHeaders);
@@ -5083,7 +5090,7 @@ export default {
             </body>
             </html>
           `;
-          await sendEmail(email, "Application Received — PrimeShieldHub Reseller Program", applicantEmailHtml, env);
+          await sendEmail(email, "Application Received â€” PrimeShieldHub Reseller Program", applicantEmailHtml, env);
         } catch (emailErr) {
           console.error('[Reseller Apply] Applicant email failed:', emailErr);
         }
@@ -5160,7 +5167,7 @@ export default {
       }
     }
 
-    // ===== UPDATE RESELLER (Admin Only) — Handles Approval + Welcome Email =====
+    // ===== UPDATE RESELLER (Admin Only) â€” Handles Approval + Welcome Email =====
     if (routePath.match(/^\/api\/resellers\/[^\/]+$/) && request.method === "PUT") {
       const user = await requireAuth(request, env, ["admin"]);
       if (!user) return errorResponse("Unauthorized", 401, corsHeaders, routePath);
@@ -5226,7 +5233,7 @@ export default {
                   <div style="padding: 40px 32px;">
                     <div style="text-align: center; margin-bottom: 28px;">
                       <span style="display: inline-block; background: #e8f5e9; color: #2e7d32; padding: 8px 20px; border-radius: 50px; font-weight: 600; font-size: 13px;">
-                        ✓ Application Approved
+                        âœ“ Application Approved
                       </span>
                     </div>
 
@@ -5271,7 +5278,7 @@ export default {
 
                   <!-- Footer -->
                   <div style="background: #f8f8fc; padding: 20px; text-align: center; border-top: 1px solid #eee;">
-                    <p style="color: #999; font-size: 11px; margin: 0;">© 2026 PrimeShieldHub · 108 Ekhorutomwen Street, Uselu, Benin City, Edo State</p>
+                    <p style="color: #999; font-size: 11px; margin: 0;">Â© 2026 PrimeShieldHub Â· 108 Ekhorutomwen Street, Uselu, Benin City, Edo State</p>
                   </div>
                 </div>
               </body>
@@ -5280,7 +5287,7 @@ export default {
             
             await sendEmail(
               reseller.email, 
-              `🎉 Congratulations! You're Now a PrimeShieldHub Reseller`, 
+              `ðŸŽ‰ Congratulations! You're Now a PrimeShieldHub Reseller`, 
               welcomeEmailHtml, 
               env
             );
@@ -5326,7 +5333,7 @@ export default {
       }
     }
 
-    // ===== RESELLER DASHBOARD — Get my profile =====
+    // ===== RESELLER DASHBOARD â€” Get my profile =====
     if (routePath === "/api/reseller/me" && request.method === "GET") {
       const user = await requireAuth(request, env, null);
       if (!user) return errorResponse("Unauthorized", 401, corsHeaders, routePath);
@@ -5374,7 +5381,7 @@ export default {
       }
     }
 
-    // ===== RESELLER DASHBOARD — Get my sales =====
+    // ===== RESELLER DASHBOARD â€” Get my sales =====
     if (routePath === "/api/reseller/sales" && request.method === "GET") {
       const user = await requireAuth(request, env, null);
       if (!user) return errorResponse("Unauthorized", 401, corsHeaders, routePath);
@@ -5416,7 +5423,7 @@ export default {
       }
     }
 
-    // ===== RESELLER DASHBOARD — Full aggregated data (single endpoint) =====
+    // ===== RESELLER DASHBOARD â€” Full aggregated data (single endpoint) =====
     if (routePath === "/api/reseller/dashboard" && request.method === "GET") {
       const user = await requireAuth(request, env, null);
       if (!user) return errorResponse("Unauthorized", 401, corsHeaders, routePath);
@@ -5950,7 +5957,7 @@ export default {
       }
     }
     
-    // ===== RESELLER PAYOUT — Request withdrawal (CORRECTED) =====
+    // ===== RESELLER PAYOUT â€” Request withdrawal (CORRECTED) =====
     if (routePath === "/api/reseller/request-payout" && request.method === "POST") {
       const user = await requireAuth(request, env, null);
       if (!user) return errorResponse("Unauthorized", 401, corsHeaders, routePath);
@@ -5960,7 +5967,7 @@ export default {
         const { amount, bankName, accountNumber, accountName } = body || {};
         
         if (!amount || amount < 5000) {
-          return new Response(JSON.stringify({ success: false, error: "Minimum payout is ₦5,000" }), {
+          return new Response(JSON.stringify({ success: false, error: "Minimum payout is â‚¦5,000" }), {
             status: 400, 
             headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Credentials": "true", ...corsHeaders }
           });
@@ -5978,7 +5985,7 @@ export default {
         if ((reseller.total_earnings || 0) < amount) {
           return new Response(JSON.stringify({ 
             success: false, 
-            error: `Insufficient balance. Your available earnings: ₦${(reseller.total_earnings || 0).toLocaleString()}` 
+            error: `Insufficient balance. Your available earnings: â‚¦${(reseller.total_earnings || 0).toLocaleString()}` 
           }), {
             status: 400,
             headers: { "Content-Type": "application/json", "Access-Control-Allow-Origin": "*", "Access-Control-Allow-Credentials": "true", ...corsHeaders }
@@ -6006,7 +6013,7 @@ export default {
           accountName
         ).run();
         
-        await logEvent(env, "RESELLER_PAYOUT_REQUESTED", `Reseller ${reseller.id} requested payout of ₦${amount}`, user.id);
+        await logEvent(env, "RESELLER_PAYOUT_REQUESTED", `Reseller ${reseller.id} requested payout of â‚¦${amount}`, user.id);
         
         return new Response(JSON.stringify({
           success: true,
@@ -6422,7 +6429,7 @@ export default {
         try {
           await sendEmail(
             email,
-            `Application Received: ${job.title} — PrimeShieldHub`,
+            `Application Received: ${job.title} â€” PrimeShieldHub`,
             `
             <!DOCTYPE html>
             <html>
@@ -6443,7 +6450,7 @@ export default {
                 <!-- Success Badge -->
                 <div style="text-align: center; margin-bottom: 28px;">
                   <span style="display: inline-block; background: rgba(16, 185, 129, 0.15); border: 1px solid rgba(16, 185, 129, 0.4); color: #10b981; padding: 8px 20px; border-radius: 50px; font-weight: 600; font-size: 13px;">
-                    ✅ APPLICATION RECEIVED
+                    âœ… APPLICATION RECEIVED
                   </span>
                 </div>
 
@@ -6471,7 +6478,7 @@ export default {
                   </p>
                   <a href="https://primeshieldhub.com/careers/apply/status/track.html?token=${tracking_token}" 
                      style="display: inline-block; background: linear-gradient(135deg, #b8943c, #d6b25e); color: #060608; padding: 12px 28px; border-radius: 50px; text-decoration: none; font-weight: 700; font-size: 14px;">
-                    📋 Track Your Application
+                    ðŸ“‹ Track Your Application
                   </a>
                 </div>
 
@@ -6481,13 +6488,13 @@ export default {
                 <!-- Footer -->
                 <div style="text-align: center;">
                   <p style="color: #666; font-size: 12px; margin: 0 0 8px;">
-                    PrimeShieldHub · Nigeria's Leading Tech Hub
+                    PrimeShieldHub Â· Nigeria's Leading Tech Hub
                   </p>
                   <p style="color: #555; font-size: 11px; margin: 0;">
-                    📍 108 Ekhorutomwen Street, Uselu, Benin City, Edo State
+                    ðŸ“ 108 Ekhorutomwen Street, Uselu, Benin City, Edo State
                   </p>
                   <p style="color: #555; font-size: 11px; margin: 4px 0;">
-                    📧 primeshieldhub@gmail.com · 📱 +234 810 353 5978
+                    ðŸ“§ primeshieldhub@gmail.com Â· ðŸ“± +234 810 353 5978
                   </p>
                 </div>
 
@@ -8715,6 +8722,19 @@ export default {
         });
       }
     }
+    // Reviews
+    if (path === '/api/reviews' && request.method === 'GET') {
+        return await handleGetReviews(request, env, ctx);
+    }
+    if (path === '/api/reviews' && request.method === 'POST') {
+        return await handleCreateReview(request, env, ctx);
+    }
+    if (path.startsWith('/api/reviews/') && request.method === 'DELETE') {
+        const reviewId = path.slice('/api/reviews/'.length);
+        if (reviewId && !reviewId.includes('/')) {
+            return await handleDeleteReview(request, env, ctx, reviewId);
+        }
+    }
 
     // ======================================================================
     // 404 HANDLING - MUST BE LAST
@@ -8729,8 +8749,8 @@ export default {
     // Clean up expired OTP codes
     try { 
       await env.DB.prepare("DELETE FROM otp_codes WHERE expires_at < ?").bind(Date.now()).run(); 
-      console.log('✅ Cleaned up expired OTP codes');
-    } catch (e) { console.error('❌ OTP cleanup failed:', e.message); }
+      console.log('âœ… Cleaned up expired OTP codes');
+    } catch (e) { console.error('âŒ OTP cleanup failed:', e.message); }
     
     // Clean up abandoned charging sessions
     try {
@@ -8743,39 +8763,39 @@ export default {
         ).bind(s.id).run(); 
       }
       if (oldSessions.results?.length > 0) {
-        console.log(`✅ Marked ${oldSessions.results.length} abandoned charging sessions`);
+        console.log(`âœ… Marked ${oldSessions.results.length} abandoned charging sessions`);
       }
-    } catch (e) { console.error('❌ Charging sessions cleanup failed:', e.message); }
+    } catch (e) { console.error('âŒ Charging sessions cleanup failed:', e.message); }
     
     // Clean up old audit logs
     try { 
       const result = await env.DB.prepare("DELETE FROM audit_logs WHERE timestamp < datetime('now', '-90 days')").run();
-      if (result.changes > 0) console.log(`✅ Cleaned up ${result.changes} old audit logs`);
-    } catch (e) { console.error('❌ Audit logs cleanup failed:', e.message); }
+      if (result.changes > 0) console.log(`âœ… Cleaned up ${result.changes} old audit logs`);
+    } catch (e) { console.error('âŒ Audit logs cleanup failed:', e.message); }
     
     // Clean up old notifications
     try { 
       const result = await env.DB.prepare("DELETE FROM notifications WHERE created_at < datetime('now', '-30 days')").run();
-      if (result.changes > 0) console.log(`✅ Cleaned up ${result.changes} old notifications`);
-    } catch (e) { console.error('❌ Notifications cleanup failed:', e.message); }
+      if (result.changes > 0) console.log(`âœ… Cleaned up ${result.changes} old notifications`);
+    } catch (e) { console.error('âŒ Notifications cleanup failed:', e.message); }
     
     // Clean up expired password resets
     try { 
       const result = await env.DB.prepare("DELETE FROM staff_password_resets WHERE expires_at < ?").bind(Date.now()).run();
-      if (result.changes > 0) console.log(`✅ Cleaned up ${result.changes} expired password resets`);
-    } catch (e) { console.error('❌ Password resets cleanup failed:', e.message); }
+      if (result.changes > 0) console.log(`âœ… Cleaned up ${result.changes} expired password resets`);
+    } catch (e) { console.error('âŒ Password resets cleanup failed:', e.message); }
     
     // Clean up old draft quotes
     try { 
       const result = await env.DB.prepare("DELETE FROM quotes WHERE status = 'draft' AND created_at < datetime('now', '-7 days')").run();
-      if (result.changes > 0) console.log(`✅ Cleaned up ${result.changes} old draft quotes`);
-    } catch (e) { console.error('❌ Quotes cleanup failed:', e.message); }
+      if (result.changes > 0) console.log(`âœ… Cleaned up ${result.changes} old draft quotes`);
+    } catch (e) { console.error('âŒ Quotes cleanup failed:', e.message); }
     
     // ===== CLEAR SIGNATURE PRODUCTS CACHE =====
     try {
       await updateSignatureCache(env);
     } catch (e) {
-      console.error('❌ Failed to clear signature cache in scheduled job:', e.message);
+      console.error('âŒ Failed to clear signature cache in scheduled job:', e.message);
     }
     
     // ===== CLEAN UP OLD PUSH SUBSCRIPTIONS =====
@@ -8784,10 +8804,10 @@ export default {
         "DELETE FROM push_subscriptions WHERE created_at < datetime('now', '-90 days')"
       ).run();
       if (result.changes > 0) {
-        console.log(`✅ Cleaned up ${result.changes} old push subscriptions`);
+        console.log(`âœ… Cleaned up ${result.changes} old push subscriptions`);
       }
     } catch (e) {
-      console.error('❌ Push subscriptions cleanup failed:', e.message);
+      console.error('âŒ Push subscriptions cleanup failed:', e.message);
     }
   }
 };
