@@ -1,4 +1,4 @@
-name: CI
+﻿name: CI
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
   validate:
-    name: Validate schema & secrets
+    name: Validate schema, secrets, repo hygiene
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -16,20 +16,32 @@ jobs:
 
       - name: Validate db/schema.sql parses
         run: |
-          # D1 uses uuid() which standard sqlite3 doesn't have — neutralize it
-          # so we can validate syntax without a live D1 connection
+          # 1. Neutralize D1-specific uuid() — standard sqlite3 has no uuid
           sed -E 's/DEFAULT \(?uuid\(\)\)?/DEFAULT NULL/g; s/DEFAULT uuid\(\)/DEFAULT NULL/g' \
-            db/schema.sql > /tmp/schema.sql
+            db/schema.sql > /tmp/schema-raw.sql
+
+          # 2. Strip SQLite-internal tables that D1 dumps but vanilla SQLite
+          #    refuses to CREATE (sqlite_sequence, sqlite_stat1, etc.)
+          awk '
+            /^CREATE TABLE sqlite_/                                    { next }
+            /^CREATE (UNIQUE )?INDEX [^(]+ ON sqlite_sequence/         { next }
+            /^CREATE (UNIQUE )?INDEX [^(]+ ON sqlite_stat/             { next }
+            { print }
+          ' /tmp/schema-raw.sql > /tmp/schema.sql
+
+          # 3. Sanity check
           if [ ! -s /tmp/schema.sql ]; then
             echo "ERROR: schema.sql is empty or missing"
             exit 1
           fi
+          echo "Schema lines after stripping D1-internal tables: $(wc -l < /tmp/schema.sql)"
+
+          # 4. Validate with sqlite3 in-memory
           sqlite3 :memory: < /tmp/schema.sql
           echo "✅ schema.sql is valid SQL"
 
       - name: Check for hardcoded secrets
         run: |
-          # Fail if any live-looking token appears in tracked files
           MATCHES=$(git grep -inE \
             'r8_[A-Za-z0-9]{30,}|sk_live_[A-Za-z0-9]{20,}|sk_test_[A-Za-z0-9]{20,}|FLWSECK[_-][A-Za-z0-9]{20,}' \
             -- . ':(exclude)*.md' ':(exclude)*.example' \
@@ -44,7 +56,7 @@ jobs:
       - name: Check for nvm/ regressions
         run: |
           if git ls-files | grep -q '^nvm/'; then
-            echo "❌ nvm/ has reappeared in git. This should never be tracked."
+            echo "❌ nvm/ has reappeared in git."
             git ls-files | grep '^nvm/' | head -5
             exit 1
           fi
@@ -52,12 +64,13 @@ jobs:
 
       - name: Check repo size sanity
         run: |
-          SIZE_MB=$(git count-objects -vH | grep size-pack | awk '{print $2}' | sed 's/MiB//')
-          echo "Pack size: ${SIZE_MB} MiB"
-          if [ "${SIZE_MB%.*}" -gt 100 ]; then
-            echo "❌ Repo pack size exceeded 100 MB (${SIZE_MB} MiB)"
-            echo "Investigate large files in history:"
-            git rev-list --objects --all | git cat-file --batch-check='%(objectsize) %(rest)' | sort -rn | head -10
+          SIZE=$(git count-objects -vH | grep size-pack | awk '{print $2}' | sed 's/MiB//')
+          echo "Pack size: ${SIZE} MiB"
+          if [ "${SIZE%.*}" -gt 100 ]; then
+            echo "❌ Repo pack size exceeded 100 MB"
+            git rev-list --objects --all | \
+              git cat-file --batch-check='%(objectsize) %(rest)' | \
+              sort -rn | head -10
             exit 1
           fi
           echo "✅ Repo pack size OK"
