@@ -248,11 +248,12 @@
     .quantum-header {
       position: sticky;
       top: 0;
-      z-index: 1000;
-      background: rgba(3, 3, 5, 0.92);
+      z-index: 1000; /* Header stays on top */
+      background: rgba(3, 3, 5, 0.98); /* Make background solid so text doesn't bleed through */
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
       border-bottom: 1px solid rgba(214, 178, 94, 0.15);
+      padding-bottom: 4px; /* Give the sticky header a solid bottom edge */
     }
     
     .quantum-container { max-width: 1400px; margin: 0 auto; padding: 0 32px; }
@@ -288,15 +289,18 @@
     /* ===== DESKTOP NAVIGATION ===== */
     .quantum-nav {
       display: flex;
-      gap: 6px;
+      gap: 16px; /* Increased gap for better spacing */
       align-items: center;
       flex-wrap: nowrap;
       position: relative;
       z-index: 1002;
     }
-    
-    .nav-item { position: relative; }
-    
+
+    .nav-item { 
+      position: relative;
+      flex-shrink: 0; /* Prevents items from shrinking and overlapping */
+    }
+
     .nav-item > a {
       color: #b8b6ad;
       text-decoration: none;
@@ -305,7 +309,7 @@
       transition: color 0.3s ease;
       font-family: 'JetBrains Mono', monospace;
       padding: 8px 4px;
-      display: inline-flex;
+      display: flex; /* Changed from inline-flex to flex for better control */
       align-items: center;
       gap: 5px;
       cursor: pointer;
@@ -1397,11 +1401,11 @@
     
     @media (max-width: 768px) {
       .products-filter .filter-btn:nth-child(n+9) { display: none; }
-      .products-filter .filter-btn:nth-child(8)::after { content: 'Ã¢â‚¬Â¦'; margin-left: 2px; }
+      .products-filter .filter-btn:nth-child(8)::after { content: '...'; margin-left: 2px; }
     }
     @media (max-width: 480px) {
       .products-filter .filter-btn:nth-child(n+6) { display: none; }
-      .products-filter .filter-btn:nth-child(5)::after { content: 'Ã¢â‚¬Â¦'; margin-left: 2px; }
+      .products-filter .filter-btn:nth-child(5)::after { content: '...'; margin-left: 2px; }
     }
     
     .products-grid {
@@ -2283,8 +2287,11 @@
     /* ===== BREADCRUMB STYLES ===== */
     .breadcrumb-section {
       padding: 16px 0;
-      background: rgba(255,255,255,0.01);
-      border-bottom: 1px solid rgba(255,255,255,0.03);
+      background: #060608; /* Match body background to hide anything behind it */
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      position: relative;
+      z-index: 998; /* Ensure it sits below the main header (which is 1000) */
+      margin-top: 10px; /* Add a little space below the header */
     }
     .breadcrumb {
       display: flex;
@@ -2437,7 +2444,7 @@
   <div id="quantumSplashScreen">
     <div class="splash-content">
       <div class="splash-logo">
-        <img src="company_logo.png" alt="PrimeShieldHub Logo" loading="eager">
+        <img src="https://primeshieldhub.com/company_logo.png" alt="PrimeShieldHub Logo" loading="eager">
         <div class="splash-orbits"><div class="splash-orbit"></div><div class="splash-orbit"></div><div class="splash-orbit"></div><div class="splash-orbit"></div></div>
       </div>
       <div class="loading-progress"><div class="progress-bar"></div><div class="loading-text">INITIALIZING 5D QUANTUM CORE...</div></div>
@@ -2541,7 +2548,7 @@
   
   <div id="pwaInstallPrompt" style="display:none; position:fixed; bottom:100px; left:50%; transform:translateX(-50%); z-index:99998; background:linear-gradient(135deg,#12122a,#1a2045); border:1px solid rgba(214,178,94,0.2); border-radius:16px; padding:20px 24px; max-width:400px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.6); backdrop-filter:blur(20px);">
     <div style="display:flex; align-items:flex-start; gap:16px;">
-      <div style="font-size:32px;">Ã°Å¸â€œÂ±</div>
+      <div style="font-size:32px;">📱</div>
       <div style="flex:1;">
         <h4 style="color:#d6b25e; margin-bottom:4px; font-size:1rem;">Install PrimeShieldHub</h4>
         <p style="color:#9aa3d4; font-size:0.8rem; margin-bottom:12px;">Get the app for faster checkout and offline access.</p>
@@ -2558,7 +2565,7 @@
   
   <div id="staffPwaInstallPrompt" style="display:none; position:fixed; bottom:170px; left:50%; transform:translateX(-50%); z-index:99997; background:linear-gradient(135deg,#12122a,#1a2045); border:1px solid rgba(214,178,94,0.2); border-radius:16px; padding:20px 24px; max-width:400px; width:90%; box-shadow:0 20px 60px rgba(0,0,0,0.6); backdrop-filter:blur(20px);">
     <div style="display:flex; align-items:flex-start; gap:16px;">
-      <div style="font-size:32px;">Ã°Å¸â€˜â€</div>
+      <div style="font-size:32px;">👔</div>
       <div style="flex:1;">
         <h4 style="color:#d6b25e; margin-bottom:4px; font-size:1rem;">Install Staff Portal</h4>
         <p style="color:#9aa3d4; font-size:0.8rem; margin-bottom:12px;">Access staff dashboard, manage orders, and track activity.</p>
@@ -2577,7 +2584,7 @@
     <div class="quantum-container">
       <div class="header-container">
         <a href="/" class="quantum-brand">
-          <img src="company_logo.png" alt="PrimeShieldHub Logo" class="shield-logo" loading="eager">
+          <img src="https://primeshieldhub.com/company_logo.png" alt="PrimeShieldHub Logo" class="shield-logo" loading="eager">
           <div class="brand-text">
             <div class="brand-name">PRIMESHIELDHUB</div>
             <div class="brand-tagline">5D QUANTUM SUPPLY CHAIN</div>
@@ -2743,7 +2750,7 @@
     <div class="quantum-container">
       <div class="breadcrumb">
         <a href="/"><i class="fas fa-home"></i> Home</a>
-        <span class="separator">Ã¢â‚¬Âº</span>
+        <span class="separator">&rsaquo;</span>
         <span class="current">Premium Gadgets</span>
       </div>
     </div>
@@ -2751,7 +2758,7 @@
 
   <!-- ===== PUSH NOTIFICATION BUTTON ===== -->
   <button id="enablePushBtn" class="push-btn" style="display:none; z-index: 10000; position: fixed; bottom: 100px; right: 30px;">
-      <span class="icon">Ã°Å¸â€â€</span>
+      <span class="icon">🔔</span>
       <span class="btn-text">Enable Notifications</span>
   </button>
 
@@ -2783,7 +2790,7 @@
         <div class="hero-content-wrapper">
           <div class="hero-grid">
             <div class="hero-content">
-              <div class="hero-badge">NIGERIA'S TRUSTED TECHNOLOGY MARKETPLACE Ã‚Â· EST. 2026</div>
+              <div class="hero-badge">NIGERIA'S TRUSTED TECHNOLOGY MARKETPLACE &middot; EST. 2026</div>
               <h1 class="hero-title">Buy Phones, Bluetooth Headsets & Accessories in Nigeria</h1>
               <p class="hero-subtitle">PrimeShieldHub - Premium gadgets and accessories. Authentic phones, laptops, audio devices. Nationwide delivery across 36 states, certified reseller program with wholesale pricing. Nigerian company founded 2026.</p>
               <div class="hero-features">
@@ -2803,7 +2810,7 @@
                 <button class="quantum-btn quantum-btn-secondary" id="heroResellerAccess"><i class="fas fa-user-tie"></i> Join Reseller Program</button>
                 <a href="#reviews" class="quantum-btn quantum-btn-secondary"><i class="fas fa-star"></i> Read Reviews</a>
               </div>
-              <div class="hero-image-wrapper"><img src="/assets/hero-premium-gadgets.webp" alt="Premium gadgets" class="hero-image" loading="eager"></div>
+              <div class="hero-image-wrapper"><img src="https://primeshieldhub.com/assets/hero-premium-gadgets.webp" alt="Premium gadgets" class="hero-image" loading="eager"></div>
             </div>
             <div class="quantum-sidebar">
               <div class="sidebar-section">
@@ -2843,7 +2850,7 @@
       <div class="quantum-container">
         <div class="founder-authority-card">
           <div class="founder-grid">
-            <div class="founder-image"><img src="/photograph.webp" alt="Freedom Evbakoe Amenaghawon Founder and CEO" loading="lazy"></div>
+            <div class="founder-image"><img src="https://primeshieldhub.com/photograph.webp" alt="Freedom Evbakoe Amenaghawon Founder and CEO" loading="lazy"></div>
             <div class="founder-content">
               <div class="founder-label">FOUNDER & CHIEF EXECUTIVE OFFICER</div>
               <h2>Freedom Evbakoe Amenaghawon</h2>
@@ -2908,7 +2915,7 @@
               <input 
                 type="text" 
                 id="searchInput" 
-                placeholder="Ã°Å¸â€Â Search products... (e.g., Samsung, iPhone, Laptop)" 
+                placeholder="🔍 Search products... (e.g., Samsung, iPhone, Laptop)" 
                 style="
                   width:100%;
                   padding:12px 20px;
@@ -2924,7 +2931,7 @@
                 onfocus="this.style.borderColor='#d6b25e';this.style.boxShadow='0 0 0 3px rgba(214,178,94,0.1)';"
                 onblur="this.style.borderColor='rgba(255,255,255,0.1)';this.style.boxShadow='none';"
               >
-              <span id="searchClear" onclick="document.getElementById('searchInput').value='';performSearch();" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);color:#7a7870;font-size:0.8rem;cursor:pointer;display:none;">Ã¢Å“â€¢</span>
+              <span id="searchClear" onclick="document.getElementById('searchInput').value='';performSearch();" style="position:absolute;right:16px;top:50%;transform:translateY(-50%);color:#7a7870;font-size:0.8rem;cursor:pointer;display:none;">✕</span>
             </div>
             <button onclick="performSearch()" style="
               padding:12px 28px;
@@ -2974,17 +2981,17 @@
         <!-- Filter Buttons -->
         <div class="products-filter">
           <button class="filter-btn active" data-filter="all">All (<span id="filterAllCount">1,046+</span>)</button>
-          <button class="filter-btn" data-filter="smartphones">Ã°Å¸â€œÂ± Phones</button>
-          <button class="filter-btn" data-filter="laptops">Ã°Å¸â€™Â» Laptops</button>
-          <button class="filter-btn" data-filter="tablets">Ã°Å¸â€œÂ± Tablets</button>
-          <button class="filter-btn" data-filter="audio">Ã°Å¸Å½Â§ Audio</button>
-          <button class="filter-btn" data-filter="wearables">Ã¢Å’Å¡ Wearables</button>
-          <button class="filter-btn" data-filter="accessories">Ã°Å¸â€Å’ Accessories</button>
-          <button class="filter-btn" data-filter="gaming">Ã°Å¸Å½Â® Gaming</button>
-          <button class="filter-btn" data-filter="cameras">Ã°Å¸â€œÂ· Cameras</button>
-          <button class="filter-btn" data-filter="power">Ã¢Å¡Â¡ Power</button>
-          <button class="filter-btn" data-filter="drones">Ã°Å¸Å¡Â Drones</button>
-          <button class="filter-btn" data-filter="smart-home">Ã°Å¸ÂÂ  Smart Home</button>
+          <button class="filter-btn" data-filter="smartphones">📱 Phones</button>
+          <button class="filter-btn" data-filter="laptops">💻 Laptops</button>
+          <button class="filter-btn" data-filter="tablets">📱 Tablets</button>
+          <button class="filter-btn" data-filter="audio">🎧 Audio</button>
+          <button class="filter-btn" data-filter="wearables">⌚ Wearables</button>
+          <button class="filter-btn" data-filter="accessories">🔌 Accessories</button>
+          <button class="filter-btn" data-filter="gaming">🎮 Gaming</button>
+          <button class="filter-btn" data-filter="cameras">📷 Cameras</button>
+          <button class="filter-btn" data-filter="power">⚡ Power</button>
+          <button class="filter-btn" data-filter="drones">🚁 Drones</button>
+          <button class="filter-btn" data-filter="smart-home">🏠 Smart Home</button>
           <a href="/categories" style="flex-shrink:0;padding:6px 14px;color:#d6b25e;text-decoration:none;font-size:0.7rem;font-weight:600;border:1px solid rgba(214,178,94,0.2);border-radius:50px;background:rgba(214,178,94,0.05);white-space:nowrap;display:inline-flex;align-items:center;gap:4px;">
             <i class="fas fa-th-large"></i> All 38 <i class="fas fa-arrow-right"></i>
           </a>
@@ -2997,7 +3004,7 @@
         <div class="pagination-wrapper" style="display:flex;flex-direction:column;align-items:center;gap:16px;margin-top:40px;">
           <!-- Results info -->
           <div id="resultsInfo" style="color:#7a7870;font-size:0.85rem;">
-            Showing <span id="showingStart">0</span>Ã¢â‚¬â€œ<span id="showingEnd">0</span> of <span id="totalResults">0</span> products
+            Showing <span id="showingStart">0</span>&ndash;<span id="showingEnd">0</span> of <span id="totalResults">0</span> products
           </div>
           
           <!-- Pagination controls -->
@@ -3153,7 +3160,7 @@
       <div class="footer-grid">
         <div class="footer-brand">
           <div class="footer-logo">PRIMESHIELDHUB 5D</div>
-          <p class="footer-description">PrimeShieldHub Gadgets Limited is a Nigerian technology and commerce company founded by Freedom Evbakoe Amenaghawon Ã¢â‚¬â€ a full-stack engineer and technology executive. The company specializes in premium gadgets, technology products, reseller commerce, digital innovation and enterprise solutions.</p>
+          <p class="footer-description">PrimeShieldHub Gadgets Limited is a Nigerian technology and commerce company founded by Freedom Evbakoe Amenaghawon — a full-stack engineer and technology executive. The company specializes in premium gadgets, technology products, reseller commerce, digital innovation and enterprise solutions.</p>
           <div class="social-links">
             <a href="https://wa.me/2348103535978" target="_blank" rel="noopener" class="social-link"><i class="fab fa-whatsapp"></i></a>
             <a href="https://instagram.com/primeshieldhub" target="_blank" rel="noopener" class="social-link"><i class="fab fa-instagram"></i></a>
@@ -3163,10 +3170,10 @@
             <a href="https://github.com/famenaghawon" target="_blank" rel="noopener" class="social-link"><i class="fab fa-github"></i></a>
             <a href="https://www.upwork.com/freelancers/~012164868a9c4eaab3" target="_blank" rel="noopener" class="social-link"><i class="fab fa-upwork"></i></a>
           </div>
-          <div style="margin-top:24px;"><img src="/cac.webp" alt="CAC Registered" style="height:40px;border-radius:8px;" loading="lazy"></div>
+          <div style="margin-top:24px;"><img src="https://primeshieldhub.com/cac.webp" alt="CAC Registered" style="height:40px;border-radius:8px;" loading="lazy"></div>
         </div>
         <div><h3 class="footer-heading">Quantum</h3><ul class="footer-links"><li><a href="#home">Home</a></li><li><a href="#products">All Products</a></li><li><a href="/reseller">Reseller Program</a></li><li><a href="/investor-hub">Investor Hub</a></li><li><a href="/investment-form">Investment Application</a></li><li><a href="#reviews">Reviews</a></li><li><a href="/track-order">Track Order</a></li></ul></div>
-        <div><h3 class="footer-heading">Top Categories</h3><ul class="footer-links"><li><a href="#products" data-filter="smartphones">Smartphones</a></li><li><a href="#products" data-filter="laptops">Laptops</a></li><li><a href="#products" data-filter="audio">Audio</a></li><li><a href="#products" data-filter="gaming">Gaming</a></li><li><a href="#products" data-filter="wearables">Wearables</a></li><li><a href="#products" data-filter="accessories">Accessories</a></li><li><a href="#products" data-filter="tablets">Tablets</a></li><li><a href="/categories" style="color:#d6b25e;font-weight:600;">All 38 Categories Ã¢â€ â€™</a></li></ul></div>
+        <div><h3 class="footer-heading">Top Categories</h3><ul class="footer-links"><li><a href="#products" data-filter="smartphones">Smartphones</a></li><li><a href="#products" data-filter="laptops">Laptops</a></li><li><a href="#products" data-filter="audio">Audio</a></li><li><a href="#products" data-filter="gaming">Gaming</a></li><li><a href="#products" data-filter="wearables">Wearables</a></li><li><a href="#products" data-filter="accessories">Accessories</a></li><li><a href="#products" data-filter="tablets">Tablets</a></li><li><a href="/categories" style="color:#d6b25e;font-weight:600;">All 38 Categories &rarr;</a></li></ul></div>
         <div><h3 class="footer-heading">Founder</h3><ul class="footer-links"><li><a href="/founder">Freedom Evbakoe Amenaghawon</a></li><li>Founder & CEO</li><li>Full-Stack Engineer</li><li><a href="/leadership">Leadership</a></li><li><a href="/company">Corporate</a></li><li><a href="/articles">Insights</a></li><li><a href="/biography">Biography</a></li></ul></div>
         <div><h3 class="footer-heading">Invest</h3><ul class="footer-links"><li><a href="/investor-hub">Investor Hub</a></li><li><a href="/investment-form">Apply to Invest</a></li><li><a href="/equity">Equity Investment</a></li><li><a href="/loan">Loan Options</a></li></ul></div>
         <div><h3 class="footer-heading">Support</h3><ul class="footer-links"><li><a href="tel:+2348103535978">+234 810 353 5978</a></li><li><a href="mailto:ceo@primeshieldhub.com">ceo@primeshieldhub.com</a></li><li><a href="https://wa.me/2348103535978" target="_blank" rel="noopener">WhatsApp</a></li><li>Benin City, Edo State</li><li>24/7 Support</li></ul></div>
@@ -3180,10 +3187,10 @@
       </div>
       <div class="footer-bottom">
         <div>&copy; <span id="currentYear">2026</span> PrimeShieldHub Gadgets Limited. RC 9283954</div>
-        <div class="footer-links-horizontal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/returns">Returns</a><a href="/shipping">Shipping</a><a href="/payment-methods">Payment</a><a href="/sitemap.xml">Sitemap</a></div>
+        <div class="footer-links-horizontal"><a href="/privacy">Privacy</a><a href="/terms">Terms</a><a href="/returns">Returns</a><a href="/shipping">Shipping</a><a href="/payment-methods">Payment</a><a href="/sitemap.xml">Sitemap</a> | <a href="/how-it-works.html">How It Works</a></div>
       </div>
     </div>
-   | <a href="/how-it-works.html">How It Works</a></footer>
+  </footer>
 
   <!-- ===== ENTITY REINFORCEMENT ===== -->
   <div class="entity-reinforcement">
@@ -3358,14 +3365,14 @@
               };
               
               var icons = {
-                  success: 'Ã¢Å“â€œ',
-                  error: 'Ã¢Å“â€¢',
-                  info: 'Ã¢â€žÂ¹',
-                  warning: 'Ã¢Å¡Â '
+                  success: '✓',
+                  error: '✕',
+                  info: 'ℹ',
+                  warning: '⚠'
               };
               
               var color = colors[type] || '#ffd700';
-              var icon = icons[type] || 'Ã¢â€žÂ¹';
+              var icon = icons[type] || 'ℹ';
               
               var toast = document.createElement('div');
               toast.className = 'psh-toast';
@@ -3513,7 +3520,7 @@
               var productName = product.name || 'Product';
               var price = product.price || product.sale_price || 0;
               var msg = 'Added to cart: ' + productName;
-              if (price > 0) msg += ' (Ã¢â€šÂ¦' + price.toLocaleString() + ')';
+              if (price > 0) msg += ' (₦' + price.toLocaleString() + ')';
               
               if (typeof window.showToast === 'function') {
                   window.showToast(msg, 'success', 3500);
@@ -4637,13 +4644,13 @@
           html += '    <div class="card-front">';
           html += '      <img src="' + imageUrl + '" alt="' + product.name + '" loading="lazy" onerror="this.src=\'/company_logo.png\'">';
           html += '      <div class="floating-product-name">' + product.name + '</div>';
-          html += '      <div class="floating-product-price">Ã¢â€šÂ¦' + price.toLocaleString() + '</div>';
+          html += '      <div class="floating-product-price">₦' + price.toLocaleString() + '</div>';
           html += '    </div>';
           html += '    <div class="card-back">';
           html += '      <div style="font-size:11px;font-weight:700;color:#d6b25e;margin-bottom:8px;">' + (product.category || 'General') + '</div>';
           html += '      <div style="font-size:9px;color:#b0b0b0;text-align:center;line-height:1.4;margin-bottom:4px;">';
           featureList.slice(0, 3).forEach(function(f) {
-            html += 'Ã¢â‚¬Â¢ ' + f + '<br>';
+            html += '&bull; ' + f + '<br>';
           });
           html += '      </div>';
           html += '      <div style="font-size:8px;color:#666;margin-top:4px;">Click to view</div>';
@@ -4710,7 +4717,7 @@
       }
       
       // 7. Generate device particles
-      var devices = ['Ã°Å¸â€œÂ±', 'Ã°Å¸â€™Â»', 'Ã°Å¸Å½Â§', 'Ã¢Å’Å¡', 'Ã°Å¸â€œÂ·', 'Ã°Å¸Å½Â®', 'Ã°Å¸â€Å’', 'Ã°Å¸â€œÂ±', 'Ã°Å¸â€“Â¥Ã¯Â¸Â', 'Ã°Å¸Å½Âµ', 'Ã°Å¸â€“Â¥Ã¯Â¸Â', 'Ã°Å¸â€œÂ¡', 'Ã°Å¸Å½Â¯', 'Ã¢Å¡Â¡', 'Ã°Å¸â€™Å½'];
+      var devices = ['📱', '💻', '🎧', '⌚', '📷', '🎮', '🔌', '📱', '🖥️', '🎵', '🖥️', '📡', '🎯', '⚡', '💎'];
       var particleContainer = document.getElementById('deviceParticles');
       
       if (particleContainer) {
@@ -4864,9 +4871,9 @@
           var fullStars = Math.floor(rating);
           var halfStar = rating % 1 >= 0.5 ? 1 : 0;
           for (var i = 0; i < 5; i++) {
-            if (i < fullStars) stars += 'Ã¢Ëœâ€¦';
-            else if (i === fullStars && halfStar) stars += 'Ã¢Â¯Â¨';
-            else stars += 'Ã¢Ëœâ€ ';
+            if (i < fullStars) stars += '★';
+            else if (i === fullStars && halfStar) stars += '½';
+            else stars += '☆';
           }
           
           var imageUrl = p.image || p.image_url || p.thumbnail || (p.images && p.images[0]) || '/company_logo.png';
@@ -4885,7 +4892,7 @@
               '</div>' +
               '<img src="' + imageUrl + '" alt="' + (p.name || 'Product') + '" class="product-image" onerror="this.src=\'/company_logo.png\'" loading="lazy">' +
               '<div class="product-title">' + (p.name || 'Unnamed Product') + '</div>' +
-              '<div class="product-price">Ã¢â€šÂ¦' + price.toLocaleString() + '</div>' +
+              '<div class="product-price">₦' + price.toLocaleString() + '</div>' +
               '<div class="product-rating">' + stars + ' (' + rating.toFixed(1) + ')</div>' +
               '<button class="product-btn" onclick="event.stopPropagation(); window.addToCart(\'' + productId + '\')"><i class="fas fa-cart-plus"></i> Add to Cart</button>' +
               '<a href="/product-detail.html?id=' + encodeURIComponent(productId) + '" class="product-btn" style="margin-top:6px;background:rgba(214,178,94,0.15);color:#d6b25e;text-decoration:none;display:inline-block;text-align:center;border:1px solid rgba(214,178,94,0.2);" onclick="event.stopPropagation();">View Details</a>' +
@@ -4936,7 +4943,7 @@
         // First page
         if (startPage > 1) {
           html += '<button class="page-btn" data-page="1">1</button>';
-          if (startPage > 2) html += '<span style="color:#7a7870;padding:0 4px;">Ã¢â‚¬Â¦</span>';
+          if (startPage > 2) html += '<span style="color:#7a7870;padding:0 4px;">…</span>';
         }
 
         for (var i = startPage; i <= endPage; i++) {
@@ -4944,7 +4951,7 @@
         }
 
         if (endPage < totalPages) {
-          if (endPage < totalPages - 1) html += '<span style="color:#7a7870;padding:0 4px;">Ã¢â‚¬Â¦</span>';
+          if (endPage < totalPages - 1) html += '<span style="color:#7a7870;padding:0 4px;">…</span>';
           html += '<button class="page-btn" data-page="' + totalPages + '">' + totalPages + '</button>';
         }
 
@@ -5223,92 +5230,51 @@
       'use strict';
       
       // Add to Cart function
-      window.addToCart = function(productId) { console.log("[Cart] Adding product to cart:", productId); if (window.notificationSound && typeof window.notificationSound.play === "function") { try { window.notificationSound.play(); } catch(e) {} } if (typeof window.showToast === "function") { window.showToast("Item added to cart!", "success", 2000); } else { var toast=document.createElement("div"); toast.textContent="Item added to cart!"; toast.style.cssText="position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#12122a;color:#fff;padding:14px 28px;border-radius:12px;border-left:4px solid #00e5ff;z-index:999999;font-size:14px;animation:slideUp 0.3s ease;box-shadow:0 8px 30px rgba(0,0,0,0.5);font-family:Inter,sans-serif;"; document.body.appendChild(toast); setTimeout(function() { if (toast.parentNode) toast.remove(); }, 2000); } try { var product=null; var products=window._apiProducts||[]; for(var i=0;i<products.length;i++){var p=products[i];var pId=p.id||p._id||"";if(String(pId)===String(productId)){product=p;break}} if(!product){product={id:productId,name:"Product",price:0,quantity:1}} var cart=[]; try{var cartData=localStorage.getItem("psh_cart");if(cartData){cart=JSON.parse(cartData);if(!Array.isArray(cart))cart=[]}}catch(e){cart=[]} var existingIndex=-1; for(var j=0;j<cart.length;j++){var itemId=cart[j].id||cart[j].productId||"";if(String(itemId)===String(productId)){existingIndex=j;break}} if(existingIndex>-1){cart[existingIndex].quantity=(cart[existingIndex].quantity||0)+1}else{cart.push({id:productId,productId:productId,name:product.name||"Product",price:product.price||product.sale_price||0,quantity:1,image:product.image||product.image_url||null})} localStorage.setItem("psh_cart",JSON.stringify(cart)); updateCartCount(); return true } catch(e){console.error("[Cart] Error:",e); return false } }
-          
-          // If not found, use a fallback product
-          if (!product) {
-            product = {
-              id: productId,
-              name: 'Product',
-              price: 0,
-              quantity: 1
-            };
-          }
-          
-          // Get current cart
-          var cart = [];
-          try {
-            var cartData = localStorage.getItem('psh_cart');
-            if (cartData) {
-              cart = JSON.parse(cartData);
-              if (!Array.isArray(cart)) cart = [];
-            }
-          } catch(e) {
-            cart = [];
-          }
-          
-          // Check if product already in cart
-          var existingIndex = -1;
-          for (var j = 0; j < cart.length; j++) {
-            var itemId = cart[j].id || cart[j].productId || '';
-            if (String(itemId) === String(productId)) {
-              existingIndex = j;
-              break;
-            }
-          }
-          
-          if (existingIndex > -1) {
-            // Increment quantity
-            cart[existingIndex].quantity = (cart[existingIndex].quantity || 0) + 1;
-          } else {
-            // Add new product
-            cart.push({
-              id: productId,
-              productId: productId,
-              name: product.name || 'Product',
-              price: product.price || product.sale_price || 0,
-              quantity: 1,
-              image: product.image || product.image_url || null
-            });
-          }
-          
-          // Save cart
-          localStorage.setItem('psh_cart', JSON.stringify(cart));
-          
-          // Update cart count
-          updateCartCount();
-          
-          // Show notification
-          var productName = product.name || 'Product';
-          var price = product.price || product.sale_price || 0;
-          
-          if (typeof showToastWithSound === 'function') {
-            showToastWithSound('Added to cart: ' + productName + ' (Ã¢â€šÂ¦' + price.toLocaleString() + ')', 'success');
-          } else if (typeof showToast === 'function') {
-            showToast('Added to cart: ' + productName, 'success');
-          } else {
-            // Fallback notification
-            var toast = document.createElement('div');
-            toast.style.cssText = 'position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#12122a;color:#fff;padding:14px 28px;border-radius:12px;border-left:4px solid #00e5ff;box-shadow:0 8px 30px rgba(0,0,0,0.5);z-index:99999;font-family:Inter,sans-serif;font-size:14px;max-width:90%;backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,0.05);';
-            toast.textContent = 'Added to cart: ' + productName;
-            document.body.appendChild(toast);
-            setTimeout(function() {
-              toast.style.opacity = '0';
-              toast.style.transition = 'opacity 0.3s ease';
-              setTimeout(function() { toast.remove(); }, 300);
-            }, 3000);
-          }
-          
-          // Play notification sound
-          if (window.notificationSound && typeof window.notificationSound.play === 'function') {
-            window.notificationSound.play();
-          }
-          
-          return true;
-        } catch(e) {
-          console.error('[Cart] Error adding to cart:', e);
-          return false;
-        }
+      window.addToCart = function(productId) { 
+          console.log("[Cart] Adding product to cart:", productId); 
+          if (window.notificationSound && typeof window.notificationSound.play === "function") { 
+              try { window.notificationSound.play(); } catch(e) {} 
+          } 
+          if (typeof window.showToast === "function") { 
+              window.showToast("Item added to cart!", "success", 2000); 
+          } else { 
+              var toast=document.createElement("div"); 
+              toast.textContent="Item added to cart!"; 
+              toast.style.cssText="position:fixed;bottom:100px;left:50%;transform:translateX(-50%);background:#12122a;color:#fff;padding:14px 28px;border-radius:12px;border-left:4px solid #00e5ff;z-index:999999;font-size:14px;animation:slideUp 0.3s ease;box-shadow:0 8px 30px rgba(0,0,0,0.5);font-family:Inter,sans-serif;"; 
+              document.body.appendChild(toast); 
+              setTimeout(function() { if (toast.parentNode) toast.remove(); }, 2000); 
+          } 
+          try { 
+              var product=null; 
+              var products=window._apiProducts||[]; 
+              for(var i=0;i<products.length;i++){
+                  var p=products[i];
+                  var pId=p.id||p._id||"";
+                  if(String(pId)===String(productId)){product=p;break}
+              } 
+              if(!product){product={id:productId,name:"Product",price:0,quantity:1}} 
+              var cart=[]; 
+              try{
+                  var cartData=localStorage.getItem("psh_cart");
+                  if(cartData){cart=JSON.parse(cartData);if(!Array.isArray(cart))cart=[]}
+              }catch(e){cart=[]} 
+              var existingIndex=-1; 
+              for(var j=0;j<cart.length;j++){
+                  var itemId=cart[j].id||cart[j].productId||"";
+                  if(String(itemId)===String(productId)){existingIndex=j;break}
+              } 
+              if(existingIndex>-1){
+                  cart[existingIndex].quantity=(cart[existingIndex].quantity||0)+1
+              }else{
+                  cart.push({id:productId,productId:productId,name:product.name||"Product",price:product.price||product.sale_price||0,quantity:1,image:product.image||product.image_url||null})
+              } 
+              localStorage.setItem("psh_cart",JSON.stringify(cart)); 
+              updateCartCount(); 
+              return true 
+          } catch(e){
+              console.error("[Cart] Error:",e); 
+              return false 
+          } 
       };
       
       // Update cart count
