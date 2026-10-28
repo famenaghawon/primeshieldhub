@@ -1,6 +1,8 @@
-﻿// Thin router - auth + payment modular, everything else falls back to legacy
+﻿// Thin router - auth + payment + cart + orders modular
 import { handleAuthRoutes } from './routes/auth.routes.js';
 import { handlePaymentRoutes } from './routes/payment.routes.js';
+import { handleCartRoutes } from './routes/cart.routes.js';
+import { handleOrdersRoutes } from './routes/orders.routes.js';
 import { getCorsHeaders } from './middleware/cors.js';
 
 export async function routeRequest(request, env, ctx) {
@@ -25,6 +27,12 @@ export async function routeRequest(request, env, ctx) {
 
   const paymentResult = await handlePaymentRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (paymentResult) return paymentResult;
+
+  const cartResult = await handleCartRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (cartResult) return cartResult;
+
+  const ordersResult = await handleOrdersRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (ordersResult) return ordersResult;
 
   // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
