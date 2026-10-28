@@ -18,6 +18,8 @@ import { handleAnomaliesRoutes } from './routes/anomalies.routes.js';
 import { handleCustomerRoutes } from './routes/customer.routes.js';
 import { handleProfileRoutes } from './routes/profile.routes.js';
 import { getCorsHeaders } from './middleware/cors.js';
+import { handleFingerprintRoutes } from './routes/fingerprint.routes.js';
+import { handleReceiptEmailRoutes } from './routes/receipt-email.routes.js';
 
 export async function routeRequest(request, env, ctx) {
   const url = new URL(request.url);
@@ -89,6 +91,11 @@ export async function routeRequest(request, env, ctx) {
 
   const profileResult = await handleProfileRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (profileResult) return profileResult;
+   const fingerprintResult = await handleFingerprintRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (fingerprintResult) return fingerprintResult;
+
+  const receiptEmailResult = await handleReceiptEmailRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (receiptEmailResult) return receiptEmailResult;
 
   // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
