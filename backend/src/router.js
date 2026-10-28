@@ -1,4 +1,4 @@
-﻿// Thin router - auth + payment + cart + orders + reviews + staff + admin + wholesale + notifications + products modular
+﻿// Thin router - all major domains modular (auth through charging)
 import { handleAuthRoutes } from './routes/auth.routes.js';
 import { handlePaymentRoutes } from './routes/payment.routes.js';
 import { handleCartRoutes } from './routes/cart.routes.js';
@@ -9,6 +9,8 @@ import { handleAdminRoutes } from './routes/admin.routes.js';
 import { handleWholesaleRoutes } from './routes/wholesale.routes.js';
 import { handleNotificationsRoutes } from './routes/notifications.routes.js';
 import { handleProductsRoutes } from './routes/products.routes.js';
+import { handleChatRoutes } from './routes/chat.routes.js';
+import { handleChargingRoutes } from './routes/charging.routes.js';
 import { getCorsHeaders } from './middleware/cors.js';
 
 export async function routeRequest(request, env, ctx) {
@@ -57,6 +59,12 @@ export async function routeRequest(request, env, ctx) {
 
   const productsResult = await handleProductsRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (productsResult) return productsResult;
+
+  const chatResult = await handleChatRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (chatResult) return chatResult;
+
+  const chargingResult = await handleChargingRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (chargingResult) return chargingResult;
 
   // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
