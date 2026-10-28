@@ -1,5 +1,6 @@
-﻿// Thin router that extracts routes while preserving all existing behavior
+﻿// Thin router - auth + payment modular, everything else falls back to legacy
 import { handleAuthRoutes } from './routes/auth.routes.js';
+import { handlePaymentRoutes } from './routes/payment.routes.js';
 import { getCorsHeaders } from './middleware/cors.js';
 
 export async function routeRequest(request, env, ctx) {
@@ -18,11 +19,14 @@ export async function routeRequest(request, env, ctx) {
     fingerprint,
   };
 
-  // Modular auth routes first
+  // Modular routes first
   const authResult = await handleAuthRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (authResult) return authResult;
 
-  // Fall back to the original monolithic handler for everything else
+  const paymentResult = await handlePaymentRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (paymentResult) return paymentResult;
+
+  // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
   return handleRequest(request, env, ctx);
 }
