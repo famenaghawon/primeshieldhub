@@ -22,6 +22,9 @@ import { handleFingerprintRoutes } from './routes/fingerprint.routes.js';
 import { handleReceiptEmailRoutes } from './routes/receipt-email.routes.js';
 import { handleReceiptsRoutes } from './routes/receipts.routes.js';
 import { handleReceiptSmsRoutes } from './routes/receipt-sms.routes.js';
+import { handleDashboardRoutes } from './routes/dashboard.routes.js';
+import { handleStatsRoutes } from './routes/stats.routes.js';
+
 
 export async function routeRequest(request, env, ctx) {
   const url = new URL(request.url);
@@ -103,6 +106,11 @@ export async function routeRequest(request, env, ctx) {
 
   const receiptSmsResult = await handleReceiptSmsRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (receiptSmsResult) return receiptSmsResult;
+  const dashboardResult = await handleDashboardRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (dashboardResult) return dashboardResult;
+
+  const statsResult = await handleStatsRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (statsResult) return statsResult;
 
   // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
