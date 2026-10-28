@@ -13,6 +13,8 @@ import { handleChatRoutes } from './routes/chat.routes.js';
 import { handleChargingRoutes } from './routes/charging.routes.js';
 import { handleCategoriesRoutes } from './routes/categories.routes.js';
 import { handleWishlistRoutes } from './routes/wishlist.routes.js';
+import { handleSecurityRoutes } from './routes/security.routes.js';
+import { handleAnomaliesRoutes } from './routes/anomalies.routes.js';
 import { getCorsHeaders } from './middleware/cors.js';
 
 export async function routeRequest(request, env, ctx) {
@@ -73,6 +75,12 @@ export async function routeRequest(request, env, ctx) {
 
   const wishlistResult = await handleWishlistRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (wishlistResult) return wishlistResult;
+
+  const securityResult = await handleSecurityRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (securityResult) return securityResult;
+
+  const anomaliesResult = await handleAnomaliesRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (anomaliesResult) return anomaliesResult;
 
   // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
