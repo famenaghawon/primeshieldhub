@@ -1,4 +1,4 @@
-﻿// Thin router - auth + payment + cart + orders + reviews + staff + admin modular
+﻿// Thin router - auth + payment + cart + orders + reviews + staff + admin + wholesale modular
 import { handleAuthRoutes } from './routes/auth.routes.js';
 import { handlePaymentRoutes } from './routes/payment.routes.js';
 import { handleCartRoutes } from './routes/cart.routes.js';
@@ -6,6 +6,7 @@ import { handleOrdersRoutes } from './routes/orders.routes.js';
 import { handleReviewsRoutes } from './routes/reviews.routes.js';
 import { handleStaffRoutes } from './routes/staff.routes.js';
 import { handleAdminRoutes } from './routes/admin.routes.js';
+import { handleWholesaleRoutes } from './routes/wholesale.routes.js';
 import { getCorsHeaders } from './middleware/cors.js';
 
 export async function routeRequest(request, env, ctx) {
@@ -45,6 +46,9 @@ export async function routeRequest(request, env, ctx) {
 
   const adminResult = await handleAdminRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (adminResult) return adminResult;
+
+  const wholesaleResult = await handleWholesaleRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (wholesaleResult) return wholesaleResult;
 
   // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
