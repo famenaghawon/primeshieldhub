@@ -1,4 +1,4 @@
-﻿// Thin router - all major domains modular (auth through charging)
+﻿// Thin router - all major domains modular
 import { handleAuthRoutes } from './routes/auth.routes.js';
 import { handlePaymentRoutes } from './routes/payment.routes.js';
 import { handleCartRoutes } from './routes/cart.routes.js';
@@ -11,6 +11,8 @@ import { handleNotificationsRoutes } from './routes/notifications.routes.js';
 import { handleProductsRoutes } from './routes/products.routes.js';
 import { handleChatRoutes } from './routes/chat.routes.js';
 import { handleChargingRoutes } from './routes/charging.routes.js';
+import { handleCategoriesRoutes } from './routes/categories.routes.js';
+import { handleWishlistRoutes } from './routes/wishlist.routes.js';
 import { getCorsHeaders } from './middleware/cors.js';
 
 export async function routeRequest(request, env, ctx) {
@@ -65,6 +67,12 @@ export async function routeRequest(request, env, ctx) {
 
   const chargingResult = await handleChargingRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (chargingResult) return chargingResult;
+
+  const categoriesResult = await handleCategoriesRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (categoriesResult) return categoriesResult;
+
+  const wishlistResult = await handleWishlistRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (wishlistResult) return wishlistResult;
 
   // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
