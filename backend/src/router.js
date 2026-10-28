@@ -26,6 +26,8 @@ import { handleDashboardRoutes } from './routes/dashboard.routes.js';
 import { handleStatsRoutes } from './routes/stats.routes.js';
 import { handleReceiptWhatsappRoutes } from './routes/receipt-whatsapp.routes.js';
 import { handleBranchRoutes } from './routes/branch.routes.js';
+import { handleInvestorRoutes } from './routes/investor.routes.js';
+import { handleVerifyChallengeRoutes } from './routes/verify-challenge.routes.js';
 
 
 export async function routeRequest(request, env, ctx) {
@@ -118,6 +120,11 @@ export async function routeRequest(request, env, ctx) {
 
   const branchResult = await handleBranchRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (branchResult) return branchResult;
+  const investorResult = await handleInvestorRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (investorResult) return investorResult;
+
+  const verifyChallengeResult = await handleVerifyChallengeRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (verifyChallengeResult) return verifyChallengeResult;
 
   // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
