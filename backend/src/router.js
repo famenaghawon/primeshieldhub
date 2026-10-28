@@ -15,6 +15,8 @@ import { handleCategoriesRoutes } from './routes/categories.routes.js';
 import { handleWishlistRoutes } from './routes/wishlist.routes.js';
 import { handleSecurityRoutes } from './routes/security.routes.js';
 import { handleAnomaliesRoutes } from './routes/anomalies.routes.js';
+import { handleCustomerRoutes } from './routes/customer.routes.js';
+import { handleProfileRoutes } from './routes/profile.routes.js';
 import { getCorsHeaders } from './middleware/cors.js';
 
 export async function routeRequest(request, env, ctx) {
@@ -81,6 +83,12 @@ export async function routeRequest(request, env, ctx) {
 
   const anomaliesResult = await handleAnomaliesRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (anomaliesResult) return anomaliesResult;
+
+  const customerResult = await handleCustomerRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (customerResult) return customerResult;
+
+  const profileResult = await handleProfileRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (profileResult) return profileResult;
 
   // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
