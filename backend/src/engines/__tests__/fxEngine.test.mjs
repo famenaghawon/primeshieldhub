@@ -1,16 +1,16 @@
 ﻿import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { convertToNaira } from '../fxEngine.js';
+import { convertToNaira } from '../fxEngine.mjs';
 
 // Mock that mimics the old Firebase-style call
 function createMockDb(rates) {
   return {
-    collection() {
+    prepare() {
       return {
-        doc() {
+        bind() {
           return {
-            async get() {
-              return { data: () => rates };
+            async first() {
+              return { value: JSON.stringify(rates) };
             }
           };
         }

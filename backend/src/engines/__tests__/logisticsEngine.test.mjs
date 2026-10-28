@@ -1,16 +1,16 @@
 ﻿import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { calculateLogistics } from '../logisticsEngine.js';
+import { calculateLogistics } from '../logisticsEngine.mjs';
 
 // Mock that mimics the old Firebase-style call
 function createMockDb(config) {
   return {
-    collection() {
+    prepare() {
       return {
-        doc() {
+        bind() {
           return {
-            async get() {
-              return { data: () => config };
+            async first() {
+              return { value: JSON.stringify(config) };
             }
           };
         }
