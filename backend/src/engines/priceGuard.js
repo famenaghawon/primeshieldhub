@@ -34,8 +34,16 @@ const CONFIG_CACHE_TTL = 300; // 5 minutes cache
  * @returns {Promise<Object>} Protection configuration
  */
 async function getProtectionConfig(db, env) {
+  // Guard: no database binding provided (unit tests, local dry-run, etc.)
+  if (!db || typeof db.prepare !== 'function') {
+    return {
+      ...DEFAULT_CONFIG,
+      _fromCache: false,
+      _timestamp: Date.now()
+    };
+  }
+
   try {
-    // Try to get config from database
     const result = await db
       .prepare('SELECT * FROM settings WHERE key = ?')
       .bind('protection_config')
@@ -65,6 +73,7 @@ async function getProtectionConfig(db, env) {
     _timestamp: Date.now()
   };
 }
+
 
 /**
  * Save protection config to D1 database
