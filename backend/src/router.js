@@ -1,4 +1,4 @@
-﻿// Thin router that starts extracting routes while preserving all existing behavior
+﻿// Thin router that extracts routes while preserving all existing behavior
 import { handleAuthRoutes } from './routes/auth.routes.js';
 import { getCorsHeaders } from './middleware/cors.js';
 
@@ -18,7 +18,7 @@ export async function routeRequest(request, env, ctx) {
     fingerprint,
   };
 
-  // Try modular routes first
+  // Modular auth routes first
   const authResult = await handleAuthRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (authResult) return authResult;
 
