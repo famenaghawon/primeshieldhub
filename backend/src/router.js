@@ -1,8 +1,9 @@
-﻿// Thin router - auth + payment + cart + orders modular
+﻿// Thin router - auth + payment + cart + orders + reviews modular
 import { handleAuthRoutes } from './routes/auth.routes.js';
 import { handlePaymentRoutes } from './routes/payment.routes.js';
 import { handleCartRoutes } from './routes/cart.routes.js';
 import { handleOrdersRoutes } from './routes/orders.routes.js';
+import { handleReviewsRoutes } from './routes/reviews.routes.js';
 import { getCorsHeaders } from './middleware/cors.js';
 
 export async function routeRequest(request, env, ctx) {
@@ -33,6 +34,9 @@ export async function routeRequest(request, env, ctx) {
 
   const ordersResult = await handleOrdersRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
   if (ordersResult) return ordersResult;
+
+  const reviewsResult = await handleReviewsRoutes(request, env, ctx, routePath, corsHeaders, ip, fingerprint, requestInfo);
+  if (reviewsResult) return reviewsResult;
 
   // Fall back to legacy handler for all remaining routes
   const { handleRequest } = await import('./legacy-handler.js');
